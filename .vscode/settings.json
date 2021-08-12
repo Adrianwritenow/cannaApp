@@ -1,4 +1,5 @@
 {
+  "source.fixAll": true,
   "yaml.customTags": [
     "!And",
     "!And sequence",

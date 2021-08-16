@@ -4,10 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "start": "craco start",
-    "build": "craco build",
-    "test": "craco test",
-    "lint": "next lint"
+    "start": "next start",
+    "build": "next build",
+    "lint": "next lint",
+    "export": "next build && next export"
   },
   "dependencies": {
     "@craco/craco": "^6.2.0",

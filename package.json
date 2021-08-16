@@ -10,7 +10,6 @@
     "export": "next build && next export"
   },
   "dependencies": {
-    "@craco/craco": "^6.2.0",
     "@headlessui/react": "^1.4.0",
     "@heroicons/react": "^1.0.3",
     "@reduxjs/toolkit": "^1.6.1",

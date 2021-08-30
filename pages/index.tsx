@@ -1,86 +1,87 @@
-import Head from "next/head";
 import Image from "next/image";
-import styles from "../styles/Home.module.scss";
 
+const incentives = [
+  {
+    name: "Free shipping",
+    imageSrc:
+      "https://tailwindui.com/img/ecommerce/icons/icon-shipping-simple.svg",
+    description:
+      "It's not actually free we just price it into the products. Someone's paying for it, and it's not us.",
+  },
+  {
+    name: "10-year warranty",
+    imageSrc:
+      "https://tailwindui.com/img/ecommerce/icons/icon-warranty-simple.svg",
+    description:
+      "If it breaks in the first 10 years we'll replace it. After that you're on your own though.",
+  },
+  {
+    name: "Exchanges",
+    imageSrc:
+      "https://tailwindui.com/img/ecommerce/icons/icon-exchange-simple.svg",
+    description:
+      "If you don't like it, trade it to one of your friends for something of theirs. Don't send it here though.",
+  },
+];
 export default function Home() {
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Next.js TailwindCSS</title>
-        <link rel="icon" href="/favicon.ico" />
-        <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
-      </Head>
-
-      <main className={`${styles.main} heading--primary`}>
-        <h1 className={styles.title}>Main Heading</h1>
-
-        <p className={`${styles.description} heading--secondary`}>
-          Get started by editing{" "}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h2>Learn &rarr;</h2>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h2>Examples &rarr;</h2>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h2>Deploy &rarr;</h2>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <div className="bg-indigo-700">
-        <div className="max-w-2xl mx-auto text-center py-16 px-4 sm:py-20 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
-            <span className="block">Boost your productivity.</span>
-            <span className="block">Start using Workflow today.</span>
-          </h2>
-          <p className="mt-4 text-lg leading-6 text-indigo-200">
-            Ac euismod vel sit maecenas id pellentesque eu sed consectetur.
-            Malesuada adipiscing sagittis vel nulla nec.
-          </p>
-          <a
-            href="#"
-            className="mt-8 w-full inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-indigo-50 sm:w-auto"
-          >
-            Sign up for free
-          </a>
+    <div className="mx-auto sm:py-24">
+      {/* Hero section */}
+      <div className="relative ">
+        <div className="absolute inset-x-0 bottom-0 bg-gray-100" />
+        <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+          <div className="relative h-96 shadow-xl sm:rounded-2xl sm:overflow-hidden">
+            <div className="absolute inset-0">
+              <Image
+                className={"h-full w-full object-cover"}
+                src={
+                  "https://images.unsplash.com/photo-1597266028990-0d03b2e9a2a0?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2503&q=80"
+                }
+                alt="Marijuana Bud"
+                layout="fill"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-green-800 to-green-700 mix-blend-multiply" />
+            </div>
+          </div>
         </div>
       </div>
 
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{" "}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer>
+      {/* Feature Section */}
+      <div className="mx-auto ">
+        <div className="bg-gray-100 py-16 ">
+          <div className="max-w-7xl mx-auto px-6 lg:px-8">
+            <div className="text-center">
+              <h2 className="text-2xl font-extrabold tracking-tight text-gray-900">
+                We built our business on customer service
+              </h2>
+            </div>
+            <div className="mt-12 max-w-7xl mx-auto grid grid-cols-1 gap-y-10 gap-x-8  lg:grid-cols-3">
+              {incentives.map((incentive) => (
+                <div
+                  key={incentive.name}
+                  className="text-center sm:flex sm:text-left lg:block lg:text-center"
+                >
+                  <div className="sm:flex-shrink-0">
+                    <div className="flow-root">
+                      <div className="w-16 h-16 mx-auto relative ">
+                        <Image src={incentive.imageSrc} layout="fill" />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mt-3 sm:mt-0 sm:ml-6 lg:mt-6 lg:ml-0">
+                    <h3 className="text-sm font-medium text-gray-900">
+                      {incentive.name}
+                    </h3>
+                    <p className="mt-2 text-sm text-gray-500">
+                      {incentive.description}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwindcss /line-clamp
+@import "breakpoints";
+@import "colors";
+@import "fonts";
+
+// INITIAL STYLES
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: "Open-Sans";
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.bg-color--main {
+  background-color: $color-primary;
+}
+
+.pb-full {
+  padding-bottom: 100%;
+}

@@ -1,0 +1,25 @@
+// FONTS
+@font-face {
+  font-family: "Bebas";
+  src: url("../../public/assets/fonts/BebasNeue-Regular.ttf");
+}
+
+@font-face {
+  font-family: "Open Sans";
+  src: url("../../public/assets/fonts/OpenSans-Regular.ttf");
+}
+
+.heading--primary {
+  font-family: "Bebas";
+  color: $color-primary;
+}
+
+.heading--secondary {
+  font-family: "Open Sans";
+}
+
+.heading--tertiary {
+}
+
+.copy {
+}

@@ -1,4 +1,4 @@
-import "../src/scss/main.scss";
+import "../src/styles/main.scss";
 import "tailwindcss/tailwind.css";
 
 import type { AppProps } from "next/app";
@@ -9,7 +9,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <div>
       <Header />
-      <div className="bg-gray-100">
+      <div className="bg-white">
         <Component {...pageProps} />
       </div>
       <Footer />

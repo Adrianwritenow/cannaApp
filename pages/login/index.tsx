@@ -14,7 +14,7 @@ export default function Register() {
           <Image src={Logo} alt="CannaPages" layout={"responsive"} />
         </div>
 
-        <a className="flex justify-end items-center col-span-5 font-normal text-gray-500">
+        <span className="flex justify-end items-center col-span-5 font-normal text-gray-500">
           No account yet?
           <Link href="/login">
             <a>
@@ -23,7 +23,7 @@ export default function Register() {
               </span>
             </a>
           </Link>
-        </a>
+        </span>
       </div>
       <div className="max-w-md mr-auto">
         <h2 className="mt-6 text-3xl font-extrabold text-gray-900">Log in</h2>

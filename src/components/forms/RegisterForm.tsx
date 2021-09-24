@@ -83,28 +83,6 @@ export default function RegisterForm() {
               />
             </div>
 
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <input
-                  id="remember-me"
-                  name="remember-me"
-                  type="checkbox"
-                  className="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
-                />
-                <label
-                  htmlFor="remember-me"
-                  className="ml-2 block text-sm text-gray-900"
-                >
-                  Remember me
-                </label>
-              </div>
-
-              <div className="text-sm">
-                <a href="#" className="font-medium text-green">
-                  Forgot your password?
-                </a>
-              </div>
-            </div>
             {errorCount ? (
               <div className="grid grid-cols-6  bg-red-50 block w-full rounded-md  sm:text-sm py-5 ">
                 <div className="col-span-1 flex justify-center">
@@ -135,7 +113,7 @@ export default function RegisterForm() {
               type="submit"
               className="w-full bg-green text-white hover:bg-green-600 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-default"
             >
-              Log in
+              Sign up
             </button>
           </form>
         );

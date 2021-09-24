@@ -1,11 +1,10 @@
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
 
 import { Disclosure } from "@headlessui/react";
+import { HeaderRoutes } from "../../helpers/routes";
 import Image from "next/image";
 import Link from "next/link";
 import Logo from "../../../public/assets/logos/logo-text.svg";
-import MobileLogo from "../../../public/assets/logos/logo.svg";
-import { Routes } from "../../helpers/routes";
 import { SearchIcon } from "@heroicons/react/solid";
 import { ShoppingCartIcon } from "@heroicons/react/outline";
 
@@ -17,37 +16,17 @@ export default function Header() {
           <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
             <div className="relative flex items-center justify-between h-16">
               <div className="flex items-center px-2 lg:px-0">
-                <div className="flex-shrink-0 block lg:hidden">
-                  <Link href={"/"}>
-                    <a>
-                      <Image
-                        className=" h-auto w-auto"
-                        src={MobileLogo}
-                        alt="CannaPages"
-                      />
-                    </a>
-                  </Link>
-                </div>
-                <div className=" lg:hidden ml-4">
-                  <Link href="/cart">
-                    <a className="text-gray-500">
-                      <ShoppingCartIcon
-                        className="h-6 w-6 text-gray-400"
-                        aria-hidden="true"
-                      />
-                    </a>
-                  </Link>
-                </div>
-                <div className="flex-shrink-0 hidden lg:block h-8 w-auto">
+                <div className="flex-shrink-0  h-8 w-auto">
                   <Link href={"/"}>
                     <a>
                       <Image className="" src={Logo} alt="CannaPages" />
                     </a>
                   </Link>
                 </div>
+
                 <div className="hidden lg:block lg:ml-6">
                   <div className="flex space-x-4 text-sm">
-                    {Object.entries(Routes).map(([key, value], index) => {
+                    {Object.entries(HeaderRoutes).map(([key, value], index) => {
                       const href = value.href;
                       return (
                         <Link href={href} as={href} key={index}>
@@ -120,7 +99,7 @@ export default function Header() {
 
           <Disclosure.Panel className="lg:hidden ">
             <div className="pt-2 pb-3 space-y-1">
-              {Object.entries(Routes).map(([key, value], index) => {
+              {Object.entries(HeaderRoutes).map(([key, value], index) => {
                 const href = value.href;
                 return (
                   <Link href={href} as={href} key={index}>

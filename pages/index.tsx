@@ -25,7 +25,7 @@ const incentives = [
 ];
 export default function Home() {
   return (
-    <div className="mx-auto sm:py-24">
+    <div className="mx-auto sm:py-24 ">
       {/* Hero section */}
       <div className="relative ">
         <div className="absolute inset-x-0 bottom-0 bg-gray-100" />
@@ -64,7 +64,11 @@ export default function Home() {
                   <div className="sm:flex-shrink-0">
                     <div className="flow-root">
                       <div className="w-16 h-16 mx-auto relative ">
-                        <Image src={incentive.imageSrc} layout="fill" />
+                        <Image
+                          src={incentive.imageSrc}
+                          layout="fill"
+                          alt="incentive"
+                        />
                       </div>
                     </div>
                   </div>

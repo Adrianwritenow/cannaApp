@@ -23,10 +23,14 @@ a {
   box-sizing: border-box;
 }
 
-.bg-color--main {
-  background-color: $color-primary;
-}
-
 .pb-full {
   padding-bottom: 100%;
+}
+
+@font-face {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local("Roboto"), url(/fonts/roboto.woff2) format("woff2");
 }

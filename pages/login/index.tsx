@@ -16,7 +16,9 @@ export default function Login() {
         <a className="flex justify-end items-center col-span-5 font-normal	text-gray-500">
           No Account yet?
           <Link href="/register">
-            <span className="canna-link pl-2 font-medium">Sign up</span>
+            <a>
+              <span className="canna-link pl-2 font-medium">Sign up</span>
+            </a>
           </Link>
         </a>
       </div>

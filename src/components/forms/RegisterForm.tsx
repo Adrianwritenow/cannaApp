@@ -4,7 +4,7 @@ import { Field, Formik } from "formik";
 
 import { InputField } from "./fields/InputField";
 import React from "react";
-import styles from "./form.module.scss";
+import styles from "./Form.module.scss";
 import { useRouter } from "next/router";
 
 export default function RegisterForm() {
@@ -27,9 +27,6 @@ export default function RegisterForm() {
   };
 
   function handleSubmit(values: any) {
-    console.log("=============================");
-    console.log("REGISTER:::=>", values);
-    console.log("=============================");
     router.push("/register/complete");
   }
 

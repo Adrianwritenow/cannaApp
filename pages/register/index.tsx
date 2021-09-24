@@ -17,9 +17,11 @@ export default function Register() {
         <a className="flex justify-end items-center col-span-5 font-normal text-gray-500">
           Got an account?
           <Link href="/login">
-            <span className="text-green hover:text-green-700 pl-2 font-medium">
-              Log in
-            </span>
+            <a>
+              <span className="text-green hover:text-green-700 pl-2 font-medium">
+                Log in
+              </span>
+            </a>
           </Link>
         </a>
       </div>

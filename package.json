@@ -43,6 +43,7 @@
     "jest": "^27.0.6",
     "jest-css-modules-transform": "^4.3.0",
     "postcss": "^8.3.6",
+    "sass": "^1.42.1",
     "tailwindcss": "^2.2.7",
     "ts-jest": "^27.0.4",
     "ts-node": "^10.2.0",

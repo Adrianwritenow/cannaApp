@@ -11,9 +11,9 @@ export const BusinessMenu = React.forwardRef(
   (props, ref: React.ForwardedRef<any>) => (
     <Menu.Items
       ref={ref}
-      className="origin-top-right w-full absolute right-0 top-0 z-50  w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none py-4 divide-y divide-gray-200"
+      className="origin-top-right w-full absolute right-0 top-0 z-50  w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none pt-6 pb-5 divide-y divide-gray-200"
     >
-      <div className="px-4">
+      <div className="px-4  grid grid-flow-row auto-rows-max gap-5 pb-5">
         <div className="grid grid-cols-2 w-full">
           <div className="flex relative justify-start relative h-6 w-auto">
             <Image
@@ -32,7 +32,7 @@ export const BusinessMenu = React.forwardRef(
         </div>
         <Menu.Item>
           {({ active }) => (
-            <div className="flex items-center pt-6">
+            <div className="flex items-center">
               <AvatarIcon className="w-8 h-8" />
               <div className="pl-3">
                 <span className="text-base flex items-center">CANNABIZ</span>
@@ -47,9 +47,7 @@ export const BusinessMenu = React.forwardRef(
         <Menu.Item>
           {({ active }) => (
             <Link href="#">
-              <a
-                className={"text-gray-900 block w-full text-left text-sm py-6"}
-              >
+              <a className={"text-gray-900 block w-full text-left text-sm "}>
                 Edit business profile
               </a>
             </Link>
@@ -58,9 +56,7 @@ export const BusinessMenu = React.forwardRef(
         <Menu.Item>
           {({ active }) => (
             <Link href="#">
-              <a
-                className={"text-gray-900 block w-full text-left text-sm pb-6"}
-              >
+              <a className={"text-gray-900 block w-full text-left text-sm 0"}>
                 Sponsorships
               </a>
             </Link>
@@ -69,9 +65,7 @@ export const BusinessMenu = React.forwardRef(
         <Menu.Item>
           {({ active }) => (
             <Link href="#">
-              <a
-                className={"text-gray-900 block w-full text-left text-sm pb-6"}
-              >
+              <a className={"text-gray-900 block w-full text-left text-sm "}>
                 Manage inventory
               </a>
             </Link>
@@ -80,9 +74,7 @@ export const BusinessMenu = React.forwardRef(
         <Menu.Item>
           {({ active }) => (
             <Link href="#">
-              <a
-                className={"text-gray-900 block w-full text-left text-sm pb-6"}
-              >
+              <a className={"text-gray-900 block w-full text-left text-sm "}>
                 Business settings
               </a>
             </Link>
@@ -91,7 +83,7 @@ export const BusinessMenu = React.forwardRef(
         <Menu.Item>
           {({ active }) => (
             <Link href="#">
-              <a className={"text-gray-900 flex justify-between text-sm pb-6"}>
+              <a className={"text-gray-900 flex justify-between text-sm "}>
                 Switch businesses
                 <ChevronRightIcon className="text-gray-500 w-4 h-4" />
               </a>
@@ -99,10 +91,10 @@ export const BusinessMenu = React.forwardRef(
           )}
         </Menu.Item>
       </div>
-      <div className="px-6 ">
+      <div className="px-4  grid grid-flow-row auto-rows-max gap-5 pt-3">
         <Menu.Item>
           {({ active }) => (
-            <div className="flex items-center pt-3">
+            <div className="flex items-center ">
               <AvatarIcon className="w-8 h-8" />
               <div className="pl-3">
                 <span className="text-base flex items-center">
@@ -118,9 +110,7 @@ export const BusinessMenu = React.forwardRef(
         <Menu.Item>
           {({ active }) => (
             <Link href="#">
-              <a
-                className={"text-gray-900 block w-full text-left text-sm py-6"}
-              >
+              <a className={"text-gray-900 block w-full text-left text-sm"}>
                 My stash
               </a>
             </Link>
@@ -129,7 +119,7 @@ export const BusinessMenu = React.forwardRef(
         <Menu.Item>
           {({ active }) => (
             <Link href="#">
-              <a className={"text-gray-900 block text-sm pb-6"}>
+              <a className={"text-gray-900 block text-sm "}>
                 Account & Profile
               </a>
             </Link>

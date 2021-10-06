@@ -10,9 +10,9 @@ export const UserMenu = React.forwardRef(
   (props, ref: React.ForwardedRef<any>) => (
     <Menu.Items
       ref={ref}
-      className="origin-top-right w-full absolute right-0 top-0 z-50  w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none py-4 divide-y divide-gray-200"
+      className="origin-top-right w-full absolute right-0 top-0 z-50  w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none pt-6 pb-5 divide-y divide-gray-200"
     >
-      <div className="px-4">
+      <div className="px-4  grid grid-flow-row auto-rows-max gap-5 pb-5">
         <div className="grid grid-cols-2 w-full">
           <div className="flex relative justify-start relative h-6 w-auto">
             <Image
@@ -31,7 +31,7 @@ export const UserMenu = React.forwardRef(
         </div>
         <Menu.Item>
           {({ active }) => (
-            <div className="flex pt-6">
+            <div className="flex">
               <AvatarIcon className="w-8 h-8" />
               <span className="pl-3 text-sm flex items-center text-gray-500">
                 dwight@schrute.farm
@@ -42,9 +42,7 @@ export const UserMenu = React.forwardRef(
         <Menu.Item>
           {({ active }) => (
             <Link href="#">
-              <a
-                className={"text-gray-900 block w-full text-left text-sm py-4"}
-              >
+              <a className={"text-gray-900 block w-full text-left text-sm "}>
                 My stash
               </a>
             </Link>
@@ -53,9 +51,7 @@ export const UserMenu = React.forwardRef(
         <Menu.Item>
           {({ active }) => (
             <Link href="#">
-              <a
-                className={"text-gray-900 block w-full text-left text-sm pb-6"}
-              >
+              <a className={"text-gray-900 block w-full text-left text-sm"}>
                 Account and profile
               </a>
             </Link>
@@ -64,22 +60,18 @@ export const UserMenu = React.forwardRef(
         <Menu.Item>
           {({ active }) => (
             <Link href="#">
-              <a
-                className={"text-gray-900 block w-full text-left text-sm pb-6"}
-              >
+              <a className={"text-gray-900 block w-full text-left text-sm"}>
                 Sign out
               </a>
             </Link>
           )}
         </Menu.Item>
       </div>
-      <div className="px-6 ">
+      <div className="px-4  grid grid-flow-row auto-rows-max gap-5 pt-5">
         <Menu.Item>
           {({ active }) => (
             <Link href="#">
-              <a
-                className={"text-gray-900 block w-full text-left text-sm py-6"}
-              >
+              <a className={"text-gray-900 block w-full text-left text-sm"}>
                 Claim your business
               </a>
             </Link>
@@ -88,7 +80,7 @@ export const UserMenu = React.forwardRef(
         <Menu.Item>
           {({ active }) => (
             <Link href="#">
-              <a className={"text-gray-900 block text-sm py-6"}>
+              <a className={"text-gray-900 block text-sm "}>
                 Advertise with us
               </a>
             </Link>

@@ -19,9 +19,9 @@ import { XIcon } from "@heroicons/react/solid";
 export default function NavBar() {
   const [focus, setFocus] = useState({ location: false, search: false });
   const [view, setView] = useState("list");
-  const [loggedIn, setUser] = useState(true);
+  const [loggedIn, setUser] = useState(false);
 
-  const [searchOptions, setSearch] = useState([
+  const [searchData, setSearchData] = useState([
     {
       value: "Sour Diesel",
       type: "strain",
@@ -54,7 +54,7 @@ export default function NavBar() {
     },
   ]);
 
-  const [locationOptions, setSearchLocation] = useState([
+  const [locationData, setSearchLocationData] = useState([
     {
       value: "Colorado Springs",
       area: "CO",
@@ -80,25 +80,40 @@ export default function NavBar() {
     search: "",
     location: "",
   };
+
   // Ref to toggle focus
   const otherRef = React.createRef<FieldAttributes<any>>();
 
+  // Trigger Focus state for layout changes
   function handleFocus(id: string, value: boolean) {
     const focusUpdate: any = { ...focus };
     Object.keys(focusUpdate).forEach((id: string) => (focusUpdate[id] = false));
     focusUpdate[id] = value;
     setFocus(focusUpdate);
-
-    console.log("FOCUS", focus);
   }
 
+  // Trigger Focus state for layout changes for location pin interaction
   function focusOnLocation() {
     otherRef.current.focus();
     handleFocus("location", true);
   }
-  useEffect(() => {}, [focus, loggedIn]);
+  useEffect(() => {
+    // After data is collected add a initial value for location
+    const locationOptions = [...locationData];
 
-  function handleSubmit(values: any) {}
+    if (locationOptions[0].value != "use my current location") {
+      locationOptions.unshift({
+        value: "use my current location",
+        area: "",
+      });
+
+      setSearchLocationData(locationOptions);
+    }
+  }, [focus, loggedIn]);
+
+  function handleSubmit(values: any) {
+    console.log("SUBMIT");
+  }
 
   return (
     <>
@@ -163,7 +178,7 @@ export default function NavBar() {
                           <div className="col-start-10 col-span-2 flex justify-end align-center  ">
                             {!hasValue ? (
                               !loggedIn ? (
-                                <Link href={"/register"}>
+                                <Link href={"/login"}>
                                   <a
                                     onClick={() => {
                                       console.log("LOGIN");
@@ -199,7 +214,7 @@ export default function NavBar() {
                               <Field
                                 name={"search"}
                                 component={SearchField}
-                                options={searchOptions}
+                                options={searchData}
                                 id={"search"}
                                 handleFocus={handleFocus}
                                 onChange={handleChange}
@@ -241,7 +256,7 @@ export default function NavBar() {
                               innerRef={otherRef}
                               name={"location"}
                               component={SearchField}
-                              options={locationOptions}
+                              options={locationData}
                               id={"location"}
                               handleFocus={handleFocus}
                               onChange={handleChange}

@@ -1,7 +1,5 @@
 import {
-  ActionMeta,
   ControlProps,
-  MultiValue,
   OptionProps,
   SingleValue,
   components,
@@ -9,6 +7,7 @@ import {
 import React, { Ref } from "react";
 
 import CreatableSelect from "react-select/creatable";
+import LocationIcon from "../../../../public/assets/icons/iconComponents/Location";
 import styles from "./Fields.module.scss";
 
 interface SelectOption {
@@ -39,11 +38,12 @@ interface Props {
 
 // Custom control for react-select
 const Control = ({ children, ...props }: ControlProps<any, false>) => {
-  const { icon, searchHelper }: any = props.selectProps;
+  const { icon, searchHelper, value }: any = props.selectProps;
+  const isEmpty = Object.keys(value).length === 0;
 
   return (
     <components.Control {...props}>
-      {!props.isFocused ? (
+      {!props.isFocused && isEmpty ? (
         <span className="pl-1 h-5 w-5 text-gray-400 " aria-hidden="true">
           {icon}
         </span>
@@ -69,7 +69,7 @@ const Option = (props: OptionProps<any>) => {
   );
 };
 
-export const SearchField = (props: Props) => {
+export const SearchField = (SearchFieldpProps: Props) => {
   const {
     id,
     handleFocus,
@@ -82,7 +82,7 @@ export const SearchField = (props: Props) => {
     placeholder,
     handleSearch,
     ...rest
-  } = props;
+  } = SearchFieldpProps;
 
   // Custom option label for react-select
 
@@ -98,22 +98,27 @@ export const SearchField = (props: Props) => {
 
   // Custom option label for locations for react-select
 
-  const locationOptionLabel = ({ value, area }: any) => (
-    <div className="flex w-full ">
-      <p className="text-sm">
-        {value}
-        {area ? (
-          <span className="ml-1 text-gray-400 font-bold">{area}</span>
-        ) : (
-          ""
-        )}
-      </p>
-    </div>
-  );
+  const locationOptionLabel = ({ value, area }: any) =>
+    value !== "use my current location" ? (
+      <div className="flex w-full ">
+        <p className="text-sm">
+          {value}
+          {area ? (
+            <span className="ml-1 text-gray-400 font-bold">{area}</span>
+          ) : (
+            ""
+          )}
+        </p>
+      </div>
+    ) : (
+      <div className="flex w-full text-green items-center">
+        <p className="text-sm font-bold pr-2">{value}</p>
+        <LocationIcon />
+      </div>
+    );
 
   const blurHandler = (event: React.FocusEvent<HTMLInputElement>) => {
     handleFocus(id, false);
-    console.log("Blur");
   };
 
   const focusHandler = (event: React.FocusEvent<HTMLInputElement>) => {
@@ -139,7 +144,7 @@ export const SearchField = (props: Props) => {
 
   return (
     <CreatableSelect
-      {...props}
+      {...SearchFieldpProps}
       ref={innerRef}
       className={`w-full ${styles.input} ${focus ? styles.isFocused : ""}`}
       onBlur={blurHandler}
@@ -155,7 +160,7 @@ export const SearchField = (props: Props) => {
       formatOptionLabel={
         id === "search" ? searchOptionLabel : locationOptionLabel
       }
-      options={props.options}
+      options={SearchFieldpProps.options}
       components={{
         Control,
         DropdownIndicator: () => null,

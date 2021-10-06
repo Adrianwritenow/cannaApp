@@ -15,7 +15,9 @@ function MyApp({ Component, pageProps, router }: AppProps) {
         <Navigation>
           <Component {...pageProps} />
         </Navigation>
-        <Footer />
+        <div className="pb-6">
+          <Footer />
+        </div>
       </>
     );
   } else {

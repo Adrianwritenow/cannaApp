@@ -2,8 +2,8 @@ import { Menu, Transition } from "@headlessui/react";
 import React, { Fragment, useState } from "react";
 
 import AvatarIcon from "../../../public/assets/icons/iconComponents/Avatar";
-import { BusinessMenu } from "./BusinessMenu";
-import { UserMenu } from "./UserMenu";
+import BusinessMenu from "./BusinessMenu";
+import UserMenu from "./UserMenu";
 
 export default function AvatarMenu() {
   const ref = React.createRef();

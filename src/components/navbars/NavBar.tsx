@@ -109,7 +109,7 @@ export default function NavBar() {
 
       setSearchLocationData(locationOptions);
     }
-  }, [focus, loggedIn]);
+  }, [focus, loggedIn, locationData]);
 
   function handleSubmit(values: any) {
     console.log("SUBMIT");

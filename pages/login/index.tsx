@@ -8,7 +8,7 @@ import React from "react";
 
 export default function Register() {
   return (
-    <div className="min-h-screen flex flex-col justify-center max-w-5xl mx-auto py-12 bg-white px-4">
+    <div className="flex flex-col justify-start max-w-5xl mx-auto py-12 bg-white px-4">
       <div className="grid grid-cols-6 gap-0">
         <div className="h-12 w-12 relative col-span-1">
           <Image src={Logo} alt="CannaPages" layout={"responsive"} />
@@ -16,7 +16,7 @@ export default function Register() {
 
         <span className="flex justify-end items-center col-span-5 font-normal text-gray-500">
           No account yet?
-          <Link href="/login">
+          <Link href="/register">
             <a>
               <span className="text-green hover:text-green-700 pl-2 font-medium">
                 Sign up
@@ -32,7 +32,7 @@ export default function Register() {
         </p>
       </div>
 
-      <div className="py-8 ">
+      <div className="pt-8 ">
         <p className="text-sm font-medium	text-gray-900 py-1">Log in with</p>
         <div className="grid grid-cols-2 gap-3">
           <Link href="#">

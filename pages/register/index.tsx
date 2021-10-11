@@ -8,7 +8,7 @@ import RegisterForm from "../../src/components/forms/RegisterForm";
 
 export default function Register() {
   return (
-    <div className="min-h-screen flex flex-col justify-center max-w-5xl mx-auto py-12 bg-white px-4">
+    <div className="flex flex-col justify-center max-w-5xl mx-auto py-12 bg-white px-4">
       <div className="grid grid-cols-6 gap-0">
         <div className="h-12 w-12 relative col-span-1">
           <Image src={Logo} alt="CannaPages" layout={"responsive"} />
@@ -35,7 +35,7 @@ export default function Register() {
         </p>
       </div>
 
-      <div className="py-8 ">
+      <div className="pt-8 ">
         <p className="text-sm font-medium	text-gray-900 py-1">Sign up with</p>
         <div className="grid grid-cols-2 gap-3">
           <Link href="#">

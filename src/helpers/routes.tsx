@@ -1,3 +1,10 @@
+import {
+  Deals,
+  Menu,
+  Products,
+  Shops,
+  Strains,
+} from "../../public/assets/icons/iconComponents";
 export interface Route {
   label: String;
   href: String;
@@ -82,3 +89,36 @@ export const FooterRoutes = {
     },
   ],
 };
+
+export const BottomNavRoutes = [
+  {
+    label: "Shops",
+    icon: <Shops className="w-7 h-7" />,
+    href: "#shops",
+    id: "shops",
+  },
+  {
+    label: "Deals",
+    icon: <Deals className="w-7 h-7" />,
+    href: "#deals",
+    id: "deals",
+  },
+  {
+    label: "Strains",
+    icon: <Strains className="w-7 h-7" />,
+    href: "#strains",
+    id: "strains",
+  },
+  {
+    label: "Products",
+    icon: <Products className="w-7 h-7" />,
+    href: "#products",
+    id: "products",
+  },
+  {
+    label: "More",
+    icon: <Menu className="w-7 h-7" />,
+    href: "#more",
+    id: "more",
+  },
+];

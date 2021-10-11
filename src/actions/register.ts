@@ -1,10 +1,8 @@
-import qs from "qs";
-
 const API_URL = "https://dev-cannapages.pantheonsite.io";
 var axios = require("axios");
 
 export const register = (email: string, password: string) => {
-  const data = qs.stringify({
+  const data = JSON.stringify({
     name: {
       value: email,
     },
@@ -16,18 +14,22 @@ export const register = (email: string, password: string) => {
     },
   });
   const config = {
-    method: "POST",
+    method: "post",
     url: `${API_URL}/user/register?_format=json`,
     headers: {
       "Content-Type": "application/json",
     },
     data: data,
   };
+
+  console.log("DATA:::", data);
+
   return axios(config)
     .then(function (response: { data: any }) {
-      console.log(JSON.stringify(response.data));
+      console.log(response);
     })
     .catch(function (error: any) {
+      console.log("ERR");
       console.log(error);
     });
 };

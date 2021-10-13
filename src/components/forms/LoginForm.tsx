@@ -5,12 +5,12 @@ import { Field, Form, Formik } from "formik";
 import React, { useContext, useState } from "react";
 
 import { InputField } from "./fields/InputField";
+import React from "react";
+import { signIn } from "next-auth/client";
 import styles from "./Form.module.scss";
 import { useRouter } from "next/router";
 
-export default function LoginForm() {
-  const authState = useContext(AuthContext);
-  const [apiError, setApiError] = useState("");
+export default function LoginForm(csrfToken: any) {
   const router = useRouter();
   const schema = Yup.object().shape({
     email: Yup.string()
@@ -24,22 +24,22 @@ export default function LoginForm() {
     password: "",
   };
 
-  const handleSubmit = async (values: any) => {
-    setApiError("");
+  function handleSubmit(values: any) {
+    const response = signIn("credentials", {
+      email: values.email,
+      password: values.password,
+      callbackUrl: `${window.location.origin}/`,
+    });
 
-    const response = await login(authState, values.email, values.password);
-    const error = response.data.error;
-
-    if (error) {
-      setApiError(response.data.message);
-    }
-  };
+    console.log(response);
+  }
 
   return (
     <Formik
       validationSchema={schema}
       initialValues={initialValues}
       onSubmit={handleSubmit}
+      validateOnChange={true}
       validateOnBlur={true}
     >
       {({ handleSubmit, errors, values }) => {
@@ -51,8 +51,10 @@ export default function LoginForm() {
         ));
 
         return (
-          <Form className="space-y-6" method="POST" onSubmit={handleSubmit}>
-            <div>
+          <form className="space-y-6" method="POST" onSubmit={handleSubmit}>
+            <Field name="csrfToken" type="hidden" defaultValue={csrfToken} />
+
+            <div className="mt-1">
               <Field
                 label="Email Address"
                 id="email"

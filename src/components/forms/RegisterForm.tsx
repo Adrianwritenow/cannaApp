@@ -24,15 +24,9 @@ export default function RegisterForm() {
     emailSubscribed: false,
   };
 
-
-
-  async function handleSubmit(values: any) {
-    const response = await register(values.email, values.password);
-    if (response.status === 422) {
-      setApiError("Email is already in use.");
-    } else {
-      router.push("/register/complete");
-    }
+  function handleSubmit(values: any) {
+    const response = register(values.email, values.password);
+    router.push("/register/complete");
   }
 
   return (

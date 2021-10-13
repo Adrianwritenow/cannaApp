@@ -20,6 +20,8 @@ const UserMenu = React.forwardRef(
       ref={ref}
       className="origin-top-right w-full absolute right-0 top-0 z-50  w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none pt-6 pb-5 divide-y divide-gray-200"
     >
+      {console.log(props.user)}
+
       <div className="px-4  grid grid-flow-row auto-rows-max gap-5 pb-5">
         <div className="grid grid-cols-2 w-full">
           <div className="flex relative justify-start relative h-6 w-auto">
@@ -39,36 +41,30 @@ const UserMenu = React.forwardRef(
         </div>
         <Menu.Item>
           {({ active }) => (
-            <Menu.Button>
-              <div className="flex">
-                <AvatarIcon className="w-8 h-8" />
-                <span className="pl-3 text-sm flex items-center text-gray-500">
-                  {props.user?.name}
-                </span>
-              </div>
-            </Menu.Button>
+            <div className="flex">
+              <AvatarIcon className="w-8 h-8" />
+              <span className="pl-3 text-sm flex items-center text-gray-500">
+                {props.user?.name}
+              </span>
+            </div>
           )}
         </Menu.Item>
         <Menu.Item>
           {({ active }) => (
-            <Menu.Button>
-              <Link href="#">
-                <a className={"text-gray-900 block w-full text-left text-sm "}>
-                  My stash
-                </a>
-              </Link>
-            </Menu.Button>
+            <Link href="#">
+              <a className={"text-gray-900 block w-full text-left text-sm "}>
+                My stash
+              </a>
+            </Link>
           )}
         </Menu.Item>
         <Menu.Item>
           {({ active }) => (
-            <Menu.Button>
-              <Link href="/user">
-                <a className={"text-gray-900 block w-full text-left text-sm"}>
-                  Account and profile
-                </a>
-              </Link>
-            </Menu.Button>
+            <Link href="#">
+              <a className={"text-gray-900 block w-full text-left text-sm"}>
+                Account and profile
+              </a>
+            </Link>
           )}
         </Menu.Item>
         <Menu.Item>
@@ -85,24 +81,20 @@ const UserMenu = React.forwardRef(
       <div className="px-4  grid grid-flow-row auto-rows-max gap-5 pt-5">
         <Menu.Item>
           {({ active }) => (
-            <Menu.Button>
-              <Link href="#">
-                <a className={"text-gray-900 block w-full text-left text-sm"}>
-                  Claim your business
-                </a>
-              </Link>
-            </Menu.Button>
+            <Link href="#">
+              <a className={"text-gray-900 block w-full text-left text-sm"}>
+                Claim your business
+              </a>
+            </Link>
           )}
         </Menu.Item>
         <Menu.Item>
           {({ active }) => (
-            <Menu.Button>
-              <Link href="#">
-                <a className={"text-gray-900 block text-sm text-left"}>
-                  Advertise with us
-                </a>
-              </Link>
-            </Menu.Button>
+            <Link href="#">
+              <a className={"text-gray-900 block text-sm "}>
+                Advertise with us
+              </a>
+            </Link>
           )}
         </Menu.Item>
       </div>

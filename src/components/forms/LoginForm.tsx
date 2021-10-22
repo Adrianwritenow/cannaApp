@@ -29,6 +29,7 @@ export default function LoginForm(csrfToken: any) {
       email: values.email,
       password: values.password,
       callbackUrl: `${window.location.origin}/`,
+      redirect: false,
     });
 
     console.log(response);

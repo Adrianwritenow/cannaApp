@@ -2,9 +2,10 @@ import { NextApiRequest, NextApiResponse } from "next-auth/internals/utils";
 
 import NextAuth from "next-auth";
 import Providers from "next-auth/providers";
-import { login } from "../../../src/actions/login";
+import login from "../../../src/actions/login";
 
 // Configure one or more authentication providers
+
 const options = {
   providers: [
     Providers.Google({
@@ -18,20 +19,18 @@ const options = {
 
     Providers.Credentials({
       name: "Credentials",
-      async authorize(credentials, req) {
-        const user = await login(credentials.email, credentials.password);
-        const userProfile = await login(
-          credentials.email,
-          credentials.password
-        );
-
-        console.log("user:", user);
-
-        if (user) {
-          //   window.localStorage.setItem("access_token", user.csrf_token);
-          return user;
-        } else {
-          return null;
+      authorize: async (credentials, req) => {
+        try {
+          const authorize = login(credentials.email, credentials.password);
+          if (authorize) {
+            return Promise.resolve(authorize);
+          }
+        } catch (error) {
+          if (error) {
+            Promise.reject(
+              new Error("Invalid Username  and Password combination")
+            );
+          }
         }
       },
     }),
@@ -44,24 +43,23 @@ const options = {
     jwt: true,
     // maxAge: 30 * 24 * 60 * 60,  30 days
   },
+  jwt: {
+    secret: process.env.NEXTAUTH_SECRET,
+  },
 
   callbacks: {
-    jwt: async (
-      token: { jwt: any; user: any },
-      user: { csrf_token: any; current_user: any }
-    ) => {
-      if (user) {
-        token.jwt = user.csrf_token;
-        token.user = user.current_user;
-      }
+    jwt: async (token: any, user: any) => {
+      user && (token.user = user);
       return Promise.resolve(token);
     },
+
     session: async (
-      session: { jwt: any; user: any },
-      token: { jwt: any; user: any }
+      session: { user: any; token: any },
+      user: { user: { current_user: any } }
     ) => {
-      session.jwt = token.jwt;
-      session.user = token.user;
+      session.token = user.user;
+      //   const currentUser = getUser(session.token);
+      console.log("CU:::=>", session);
       return Promise.resolve(session);
     },
   },

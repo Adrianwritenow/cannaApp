@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next-auth/internals/utils";
 
 import NextAuth from "next-auth";
 import Providers from "next-auth/providers";
+import { getCurrentUser } from "../../../src/actions/user";
 import login from "../../../src/actions/login";
 
 // Configure one or more authentication providers
@@ -58,7 +59,7 @@ const options = {
       user: { user: { current_user: any } }
     ) => {
       session.token = user.user;
-      //   const currentUser = getUser(session.token);
+      const currentUser = await getCurrentUser(session.token);
       console.log("CU:::=>", session);
       return Promise.resolve(session);
     },

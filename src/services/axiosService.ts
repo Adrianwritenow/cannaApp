@@ -1,15 +1,21 @@
 import axios, { AxiosRequestConfig } from "axios";
+import { getSession, useSession } from "next-auth/client";
 
 const secret = process.env.NEXTAUTH_SECRET;
 
 const axiosInstance = axios.create({
-  baseURL: process.env.API_URL,
+  baseURL: "https://dev-cannapages.pantheonsite.io/",
 });
 
 axiosInstance.interceptors.request.use(
   async (config: AxiosRequestConfig<any>) => {
-    config.params = config.params || {};
-    config.params["auth"];
+    // if (config.headers) {
+    //   config.headers.Authoization = `Bearer ${token}`;
+    // }
+    // config.params = config.params || {};
+    // config.params["auth"];
+
+    // console.log(config);
 
     return config;
   }

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import AuthContext from "../../stores/authContext";
+import { AuthContext } from "../../src/authentication/authContext";
 import FacebookIcon from "../../public/assets/icons/icon-facebook.svg";
 import GoogleIcon from "../../public/assets/icons/icon-google.svg";
 import Image from "next/image";
@@ -20,9 +20,9 @@ export default function Login() {
       setAccessToken(`${access_token}`);
     }
     if (authState.state.session.access_token) {
-      router.push("/");
+      // router.push("/");
     }
-  }, [access_token, authState]);
+  }, [access_token, authState, router]);
 
   return (
     <div className="flex flex-col justify-start max-w-5xl mx-auto py-12 bg-white px-4">

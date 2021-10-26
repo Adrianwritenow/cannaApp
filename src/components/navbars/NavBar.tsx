@@ -3,7 +3,7 @@ import * as Yup from "yup";
 import { Field, FieldAttributes, Form, Formik } from "formik";
 import React, { useContext, useEffect, useState } from "react";
 
-import AuthContext from "../../../stores/authContext";
+import { AuthContext } from "../../authentication/authContext";
 import AvatarMenu from "../menus/AvatarMenu";
 import { Disclosure } from "@headlessui/react";
 import { HeaderRoutes } from "../../helpers/routes";
@@ -12,16 +12,19 @@ import Link from "next/link";
 import { LocationMarkerIcon as LocationMarkerIconOutline } from "@heroicons/react/outline";
 import { LocationMarkerIcon as LocationMarkerIconSolid } from "@heroicons/react/solid";
 import Logo from "../../../public/assets/logos/logo-text.png";
+import { RootState } from "../../reducers";
 import { SearchField } from "../forms/fields/SearchField";
 import { SearchIcon } from "@heroicons/react/solid";
 import { XIcon } from "@heroicons/react/solid";
 import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
 
 export default function NavBar() {
   const [focus, setFocus] = useState({ location: false, search: false });
   const [view, setView] = useState("list");
   const router = useRouter();
   const authState = useContext(AuthContext);
+  const { currentUser } = useSelector((root: RootState) => root.user);
   const [token, setAccessToken] = useState<string | null>(null);
 
   useEffect(() => {

@@ -1,15 +1,18 @@
-import AuthContext, { logout } from "../../../stores/authContext";
+import { AuthContext, logout } from "../../authentication/authContext";
 import { Menu, Transition } from "@headlessui/react";
 import React, { Fragment, useContext, useState } from "react";
 
 import AvatarIcon from "../../../public/assets/icons/iconComponents/Avatar";
 import BusinessMenu from "./BusinessMenu";
+import { RootState } from "../../reducers";
 import UserMenu from "./UserMenu";
 import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
 
 export default function AvatarMenu() {
   const authState = useContext(AuthContext);
   const router = useRouter();
+  const { currentUser } = useSelector((root: RootState) => root.user);
 
   const ref = React.createRef();
   const [menuType, setMenuType] = useState("user");
@@ -43,8 +46,8 @@ export default function AvatarMenu() {
             ref={ref}
             handleSignOut={handleSignOut}
             user={{
-              name: "Bill",
-              uid: "1234",
+              name: currentUser.preferred_username,
+              uid: currentUser.sub,
             }}
           />
         )}

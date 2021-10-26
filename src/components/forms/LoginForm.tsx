@@ -1,11 +1,12 @@
 import * as Yup from "yup";
 
-import AuthContext, { login } from "../../../stores/authContext";
+import { AuthContext, login } from "../../authentication/authContext";
 import { Field, Form, Formik } from "formik";
 import React, { useContext, useState } from "react";
 
 import { InputField } from "./fields/InputField";
 import styles from "./Form.module.scss";
+import { useCurrentUser } from "../../hooks/user";
 import { useRouter } from "next/router";
 
 export default function LoginForm(csrfToken: any) {
@@ -28,9 +29,8 @@ export default function LoginForm(csrfToken: any) {
     setApiError("");
 
     const response = await login(authState, values.email, values.password);
-    const error = response.data.error;
 
-    if (error) {
+    if (response.status !== 200) {
       setApiError(response.data.message);
     }
   };

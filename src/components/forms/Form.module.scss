@@ -1,0 +1,18 @@
+.errorList {
+  li {
+    list-style: none;
+    position: relative;
+    list-style-position: inside;
+
+    &:before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      display: inline-block;
+      vertical-align: middle;
+      background-color: #b91c1c;
+      border-radius: 100%;
+      margin-right: 7px;
+    }
+  }
+}

@@ -1,0 +1,285 @@
+import * as Yup from "yup";
+
+import { Field, Form, Formik } from "formik";
+import React, { useState } from "react";
+
+import AddImageIcon from "../../../../public/assets/icons/iconComponents/AddImage";
+import AvatarIcon from "../../../../public/assets/icons/iconComponents/Avatar";
+import Image from "next/image";
+import { InputAddOnField } from "../fields/InputAddOnField";
+import { getUser } from "../../../actions/getUser";
+import { useSession } from "next-auth/client";
+
+interface ProfileImages {
+  profilePhoto: string | null;
+  coverPhoto: string | null;
+}
+
+export default function UpdateProfileForm() {
+  const [session, loading] = useSession();
+  console.log("Session:::", session);
+
+  const schema = Yup.object().shape({
+    username: Yup.string().required("Username address is required"),
+    about: Yup.string(),
+    profilePhoto: Yup.mixed()
+      .test("imageType", "Must be an image format", (file) => {
+        if (file) {
+          return (
+            (file && file.type === "image/jpeg") ||
+            (file && file.type === "image/jpg") ||
+            (file && file.type === "image/png")
+          );
+        } else {
+          return true;
+        }
+      })
+      .test("fileSize", "File is too large", (file) => {
+        if (file) {
+          return file && file.size <= 10000000;
+        } else {
+          return true;
+        }
+      }),
+    coverPhoto: Yup.mixed()
+      .test("imageType", "Must be an image format", (file) => {
+        if (file) {
+          return (
+            (file && file.type === "image/jpeg") ||
+            (file && file.type === "image/jpg") ||
+            (file && file.type === "image/png")
+          );
+        } else {
+          return true;
+        }
+      })
+      .test("fileSize", "File is too large", (file) => {
+        if (file) {
+          return file && file.size <= 10000000;
+        } else {
+          return true;
+        }
+      }),
+  });
+
+  const [selectedFile, setSelectedFile] = useState<ProfileImages>({
+    profilePhoto: null,
+    coverPhoto: null,
+  });
+
+  const initialValues = {
+    username: "",
+    about: "",
+    profilePhoto: "",
+    coverPhoto: "",
+  };
+
+  const onSelectFile = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    setFieldValue: {
+      (field: string, value: any, shouldValidate?: boolean | undefined): void;
+    }
+  ) => {
+    if (event.target.files) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setSelectedFile({
+          ...selectedFile,
+          [event.target.id]: reader.result as string,
+        });
+        if (event.target.files)
+          setFieldValue(event.target.id, event.target.files[0]);
+      };
+      reader.readAsDataURL(event.target.files[0]);
+    } else {
+      setSelectedFile({
+        ...selectedFile,
+        [event.target.id]: null,
+      });
+      setFieldValue(event.target.id, null);
+    }
+  };
+
+  function handleSubmit(values: any) {
+    console.log(values);
+  }
+
+  return (
+    <Formik
+      validationSchema={schema}
+      initialValues={initialValues}
+      onSubmit={(values) => handleSubmit(values)}
+      validateOnChange={true}
+      validateOnBlur={true}
+    >
+      {({ handleSubmit, setFieldValue, errors, values }) => {
+        return (
+          <Form className="space-y-8 bg-white shadow">
+            <div className="grid grid-cols-1 gap-y-6 sm:grid-cols-6 sm:gap-x-6 py-10 px-4 sm:px-6 lg:py-12 lg:px-8">
+              <div className="sm:col-span-6">
+                <h2 className="text-xl font-medium text-gray-900">
+                  CANNAcadet Profile
+                </h2>
+                <p className="mt-1 text-sm text-gray-500">
+                  This is your public CANNAPAGES account profile, and how you
+                  look to other CANNAcadets.
+                </p>
+              </div>
+              <div className="sm:col-span-3">
+                <div className="mt-1 flex rounded-md shadow-sm">
+                  <Field
+                    label="Username"
+                    id="username"
+                    name="username"
+                    type="text"
+                    component={InputAddOnField}
+                  />
+                </div>
+              </div>
+
+              <div className="sm:col-span-3">
+                <label
+                  htmlFor={"about"}
+                  className={"block text-sm font-medium text-gray-700"}
+                >
+                  About
+                </label>
+                <Field
+                  label="About"
+                  id="about"
+                  name="about"
+                  type="text"
+                  as={"textarea"}
+                  className={
+                    "text-base max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md px-3 py-2 h-20"
+                  }
+                />
+                <p className="mt-2 text-sm text-gray-500">
+                  Brief description for your profile. URLs will be hyperlinked.
+                </p>
+              </div>
+
+              <div className="sm:col-span-6">
+                <label
+                  htmlFor="profilePhoto"
+                  className="block text-sm font-medium text-gray-900"
+                >
+                  Photo
+                </label>
+                <div className="mt-1 flex items-center">
+                  <div className="inline-block h-12 w-12 rounded-full overflow-hidden	relative">
+                    {selectedFile.profilePhoto ? (
+                      <div className="w-12 h-12 rounded-full overflow-hidden">
+                        <Image
+                          src={selectedFile.profilePhoto}
+                          alt="Profile Photo"
+                          layout="fill"
+                          objectFit="cover"
+                        />
+                      </div>
+                    ) : (
+                      <AvatarIcon className="w-12 h-12" />
+                    )}
+                  </div>
+                  <div className="ml-4 flex">
+                    <div className="relative bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm flex items-center cursor-pointer hover:bg-gray-50 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-50 focus-within:ring-green">
+                      <label
+                        htmlFor="profilePhoto"
+                        className="relative text-sm font-medium text-gray-900 pointer-events-none"
+                      >
+                        <span>Change</span>
+                        <span className="sr-only"> user photo</span>
+                      </label>
+                      <input
+                        id="profilePhoto"
+                        name="profilePhoto"
+                        type="file"
+                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer border-gray-300 rounded-md"
+                        onChange={(event) => onSelectFile(event, setFieldValue)}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="sm:col-span-6">
+                <label
+                  htmlFor="coverPhoto"
+                  className="block text-sm font-medium text-gray-900"
+                >
+                  Cover Photo
+                </label>
+                <div className="mt-1 sm:mt-0 sm:col-span-2">
+                  {selectedFile.coverPhoto ? (
+                    <div className="w-full flex justify-center px-6 pt-5 pb-6 h-36 rounded-md overflow-hidden relative">
+                      <Image
+                        src={selectedFile.coverPhoto}
+                        alt="Cover Photo"
+                        layout="fill"
+                        objectFit="cover"
+                      />
+
+                      <div className="absolute bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm flex items-center cursor-pointer hover:bg-gray-50 focus-within:outline-none bottom-0 right-0 mr-2 mb-2 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-50 focus-within:ring-green">
+                        <label
+                          htmlFor="coverPhoto"
+                          className="relative text-sm font-medium text-gray-900 pointer-events-none"
+                        >
+                          <span>Change</span>
+                          <span className="sr-only">cover photo</span>
+                        </label>
+                        <input
+                          id="coverPhoto"
+                          name="coverPhoto"
+                          type="file"
+                          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer border-gray-300 rounded-md"
+                          onChange={(event) =>
+                            onSelectFile(event, setFieldValue)
+                          }
+                        />
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="w-full flex justify-center px-6 pt-5 h-36 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                      <div className="space-y-1 text-center">
+                        <AddImageIcon className="h-12 w-12 text-gray-400 ml-auto mr-auto" />
+                        <div className="flex text-sm text-gray-600">
+                          <label
+                            htmlFor="coverPhoto"
+                            className="relative cursor-pointer rounded-md font-medium text-green hover:text-green-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-green"
+                          >
+                            <span>Upload a file</span>
+                            <input
+                              id="coverPhoto"
+                              name="coverPhoto"
+                              type="file"
+                              className="sr-only"
+                              onChange={(event) =>
+                                onSelectFile(event, setFieldValue)
+                              }
+                            />
+                          </label>
+                          <p className="pl-1">or drag and drop</p>
+                        </div>
+                        <p className="text-xs text-gray-500">
+                          PNG, JPG, GIF up to 10MB
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+            <div className=" bg-gray-50  py-3 flex justify-end pr-4">
+              <button
+                type="submit"
+                className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green"
+              >
+                Save
+              </button>
+            </div>
+          </Form>
+        );
+      }}
+    </Formik>
+  );
+}

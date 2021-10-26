@@ -1,3 +1,6 @@
+import MaskedInput from "react-maskedinput";
+import React from "react";
+
 interface FormikForm {
   getFieldMeta(name: string): any;
 }
@@ -8,7 +11,6 @@ interface FormikField extends React.InputHTMLAttributes<HTMLInputElement> {
 
 interface FieldProps extends React.HTMLAttributes<HTMLInputElement> {
   id: string;
-  wrapperClassname?: React.HTMLAttributes<HTMLDivElement>["className"];
   autoComplete: React.InputHTMLAttributes<HTMLInputElement>["autoComplete"];
   disabled?: React.InputHTMLAttributes<HTMLInputElement>["disabled"];
   type?: React.InputHTMLAttributes<HTMLInputElement>["type"];
@@ -27,7 +29,6 @@ interface FieldProps extends React.HTMLAttributes<HTMLInputElement> {
 export function InputField(props: FieldProps) {
   const {
     id,
-    wrapperClassname,
     autoComplete,
     disabled,
     field,
@@ -61,19 +62,31 @@ export function InputField(props: FieldProps) {
   }
 
   return (
-    <div {...rest} className={wrapperClassname}>
+    <div {...rest} className={"w-full"}>
       <label htmlFor={id} className={labelClasses}>
         {label}
       </label>
-      <div className="relative rounded-md shadow-sm">
-        <input
-          type={type}
-          className={inputClass}
-          placeholder={placeholder}
-          autoComplete={autoComplete}
-          disabled={disabled}
-          {...field}
-        />
+      <div className="relative rounded-md shadow-sm ">
+        {mask ? (
+          <MaskedInput
+            mask={mask}
+            className={inputClass}
+            placeholder={placeholder}
+            autoComplete={autoComplete}
+            disabled={disabled}
+            onChange={handleChange}
+            {...field}
+          />
+        ) : (
+          <input
+            type={type}
+            className={inputClass}
+            placeholder={placeholder}
+            autoComplete={autoComplete}
+            disabled={disabled}
+            {...field}
+          />
+        )}
         {meta && meta.touched && meta.error && (
           <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
             <svg

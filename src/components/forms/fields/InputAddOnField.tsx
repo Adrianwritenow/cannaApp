@@ -54,10 +54,10 @@ export function InputAddOnField(props: FieldProps) {
   }
 
   let inputClass =
-    "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-green focus:border-green sm:text-sm disabled:bg-gray-300 disabled:text-gray-500";
+    "placeholder-gray-400  focus:ring-green focus:border-green  disabled:bg-gray-300 disabled:text-gray-500";
   if (meta && meta.touched && meta.error) {
     inputClass =
-      "block w-full px-3 py-2 border rounded-md shadow-sm border-red-300 text-red-900 placeholder-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm ";
+      "border-red-300 text-red-900 placeholder-red-900 focus:ring-red-500 focus:border-red-500 ";
   }
 
   return (
@@ -65,10 +65,13 @@ export function InputAddOnField(props: FieldProps) {
       <label htmlFor={id} className={labelClasses}>
         {label}
       </label>
-      <div className="relative rounded-md shadow-sm">
+      <div className="mt-1 flex rounded-md shadow-sm relative">
+        <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
+          cannapages.com/
+        </span>
         <input
           type={type}
-          className={inputClass}
+          className={`block w-full px-3 py-2 border border-gray-300 shadow-sm rounded-r-md focus:outline-none sm:text-sm ${inputClass}`}
           placeholder={placeholder}
           autoComplete={autoComplete}
           disabled={disabled}

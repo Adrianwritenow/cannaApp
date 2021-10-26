@@ -1,5 +1,4 @@
 import axios, { AxiosRequestConfig } from "axios";
-import { getSession, useSession } from "next-auth/client";
 
 const secret = process.env.NEXTAUTH_SECRET;
 

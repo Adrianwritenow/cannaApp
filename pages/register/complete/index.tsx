@@ -1,4 +1,4 @@
-import BusinessIcon from "../../../public/assets/icons/business.svg";
+import BusinessIcon from "../../../public/assets/icons/iconComponents/Business";
 import Image from "next/image";
 import Link from "next/link";
 import Logo from "../../../public/assets/logos/logo.png";
@@ -35,13 +35,7 @@ export default function RegisterComplete() {
         <div className=" bg-green-50 bg-opacity-40 mt-8  border border-green block w-full rounded-md py-5 ">
           <div className="justify-center p-8">
             <div className="flex">
-              <Image
-                className="iconGreen"
-                alt="Business"
-                width={28}
-                height={28}
-                src={BusinessIcon}
-              />
+              <BusinessIcon className="iconGreen" width={28} height={28} />
               <h3 className="text-green font-bold text-xl ml-2">Shop Owners</h3>
             </div>
             <p className="text-base text-gray-900 font-normal">

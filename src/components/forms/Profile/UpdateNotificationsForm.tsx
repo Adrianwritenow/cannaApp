@@ -42,7 +42,7 @@ export default function UpdateNotificationsForm() {
                     Notifications
                   </h2>
                   <p className="mt-1 text-sm text-gray-500">
-                    Decide which communications you'd like to receive.
+                    Decide which communications you&apos;d like to receive.
                   </p>
                 </div>
                 <legend className="text-base font-medium text-gray-900">

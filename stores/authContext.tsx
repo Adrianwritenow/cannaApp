@@ -1,7 +1,7 @@
-import axios, { AxiosError, AxiosResponse } from "axios";
 import { createContext, useEffect, useReducer } from "react";
 import { getInitialState, persistState } from "../src/helpers/persist-state";
 
+import axios from "axios";
 import qs from "qs";
 
 const STORAGE_KEY = "authState";
@@ -74,8 +74,6 @@ export const login = (
   password: string
 ) => {
   const { dispatch } = context;
-
-  console.log("BPOOM", API_URL);
 
   return axios({
     method: "POST",

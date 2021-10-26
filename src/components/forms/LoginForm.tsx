@@ -1,8 +1,8 @@
 import * as Yup from "yup";
 
 import AuthContext, { login } from "../../../stores/authContext";
-import { Field, Formik } from "formik";
-import React, { useContext } from "react";
+import { Field, Form, Formik } from "formik";
+import React, { useContext, useState } from "react";
 
 import { InputField } from "./fields/InputField";
 import styles from "./Form.module.scss";
@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 
 export default function LoginForm(csrfToken: any) {
   const authState = useContext(AuthContext);
+  const [apiError, setApiError] = useState("");
   const router = useRouter();
   const schema = Yup.object().shape({
     email: Yup.string()
@@ -24,11 +25,14 @@ export default function LoginForm(csrfToken: any) {
   };
 
   const handleSubmit = async (values: any) => {
+    setApiError("");
+
     const response = await login(authState, values.email, values.password);
+    const error = response.data.error;
 
-    console.log("RES:::", response);
-
-    console.log("AUTHSTATE", authState);
+    if (error) {
+      setApiError(response.data.message);
+    }
   };
 
   return (
@@ -36,7 +40,6 @@ export default function LoginForm(csrfToken: any) {
       validationSchema={schema}
       initialValues={initialValues}
       onSubmit={handleSubmit}
-      validateOnChange={true}
       validateOnBlur={true}
     >
       {({ handleSubmit, errors, values }) => {
@@ -48,10 +51,8 @@ export default function LoginForm(csrfToken: any) {
         ));
 
         return (
-          <form className="space-y-6" method="POST" onSubmit={handleSubmit}>
-            <Field name="csrfToken" type="hidden" defaultValue={csrfToken} />
-
-            <div className="mt-1">
+          <Form className="space-y-6" method="POST" onSubmit={handleSubmit}>
+            <div>
               <Field
                 label="Email Address"
                 id="email"

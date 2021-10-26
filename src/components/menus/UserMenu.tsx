@@ -41,30 +41,36 @@ const UserMenu = React.forwardRef(
         </div>
         <Menu.Item>
           {({ active }) => (
-            <div className="flex">
-              <AvatarIcon className="w-8 h-8" />
-              <span className="pl-3 text-sm flex items-center text-gray-500">
-                {props.user?.name}
-              </span>
-            </div>
+            <Menu.Button>
+              <div className="flex">
+                <AvatarIcon className="w-8 h-8" />
+                <span className="pl-3 text-sm flex items-center text-gray-500">
+                  {props.user?.name}
+                </span>
+              </div>
+            </Menu.Button>
           )}
         </Menu.Item>
         <Menu.Item>
           {({ active }) => (
-            <Link href="#">
-              <a className={"text-gray-900 block w-full text-left text-sm "}>
-                My stash
-              </a>
-            </Link>
+            <Menu.Button>
+              <Link href="#">
+                <a className={"text-gray-900 block w-full text-left text-sm "}>
+                  My stash
+                </a>
+              </Link>
+            </Menu.Button>
           )}
         </Menu.Item>
         <Menu.Item>
           {({ active }) => (
-            <Link href="#">
-              <a className={"text-gray-900 block w-full text-left text-sm"}>
-                Account and profile
-              </a>
-            </Link>
+            <Menu.Button>
+              <Link href="/user">
+                <a className={"text-gray-900 block w-full text-left text-sm"}>
+                  Account and profile
+                </a>
+              </Link>
+            </Menu.Button>
           )}
         </Menu.Item>
         <Menu.Item>
@@ -81,20 +87,24 @@ const UserMenu = React.forwardRef(
       <div className="px-4  grid grid-flow-row auto-rows-max gap-5 pt-5">
         <Menu.Item>
           {({ active }) => (
-            <Link href="#">
-              <a className={"text-gray-900 block w-full text-left text-sm"}>
-                Claim your business
-              </a>
-            </Link>
+            <Menu.Button>
+              <Link href="#">
+                <a className={"text-gray-900 block w-full text-left text-sm"}>
+                  Claim your business
+                </a>
+              </Link>
+            </Menu.Button>
           )}
         </Menu.Item>
         <Menu.Item>
           {({ active }) => (
-            <Link href="#">
-              <a className={"text-gray-900 block text-sm "}>
-                Advertise with us
-              </a>
-            </Link>
+            <Menu.Button>
+              <Link href="#">
+                <a className={"text-gray-900 block text-sm "}>
+                  Advertise with us
+                </a>
+              </Link>
+            </Menu.Button>
           )}
         </Menu.Item>
       </div>

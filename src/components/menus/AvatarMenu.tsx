@@ -5,15 +5,18 @@ import React, { Fragment, useContext, useState } from "react";
 import AvatarIcon from "../../../public/assets/icons/iconComponents/Avatar";
 import BusinessMenu from "./BusinessMenu";
 import UserMenu from "./UserMenu";
+import { useRouter } from "next/router";
 
 export default function AvatarMenu() {
   const authState = useContext(AuthContext);
+  const router = useRouter();
 
   const ref = React.createRef();
   const [menuType, setMenuType] = useState("user");
 
   function handleSignOut() {
     logout(authState);
+    router.push("/login");
   }
 
   return (

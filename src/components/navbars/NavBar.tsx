@@ -22,18 +22,15 @@ export default function NavBar() {
   const [view, setView] = useState("list");
   const router = useRouter();
   const authState = useContext(AuthContext);
-  const [access_token, setAccessToken] = useState("");
+  const [token, setAccessToken] = useState<string | null>(null);
 
   useEffect(() => {
     if (authState) {
+      console.log("YES");
       const access_token = authState.state.session.access_token;
-      setAccessToken(`${access_token}`);
+      if (access_token) setAccessToken(`${access_token}`);
     }
-
-    if (!authState.state.session.access_token) {
-      router.push("/login");
-    }
-  }, [access_token, authState]);
+  }, [token, authState]);
 
   const [searchData, setSearchData] = useState([
     {
@@ -128,6 +125,8 @@ export default function NavBar() {
 
   function handleSubmit(values: any) {}
 
+  console.log("TK", typeof token);
+
   return (
     <Disclosure as="nav" className="shadow">
       {({ open }) => (
@@ -190,7 +189,7 @@ export default function NavBar() {
                           </div>
                           <div className="col-start-10 col-span-2 flex justify-end align-center  ">
                             {!hasValue ? (
-                              !access_token ? (
+                              !token ? (
                                 <Link href={"/login"}>
                                   <a>
                                     <button className="w-full bg-green text-white hover:bg-green-600 flex justify-center py-1 px-2 border border-transparent rounded-md shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green">

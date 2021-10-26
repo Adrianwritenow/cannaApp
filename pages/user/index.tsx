@@ -2,12 +2,22 @@ import { useContext, useEffect, useState } from "react";
 
 import AuthContext from "../../stores/authContext";
 import Image from "next/image";
-import { useSession } from "next-auth/client";
+import { useRouter } from "next/router";
 
 export default function UserProfile() {
-  const [session, loading] = useSession();
-  console.log("status:::", session);
+  const authState = useContext(AuthContext);
+  const [access_token, setAccessToken] = useState("");
+  const router = useRouter();
 
+  useEffect(() => {
+    if (authState) {
+      const access_token = authState.state.session.access_token;
+      setAccessToken(`${access_token}`);
+    }
+    if (!authState.state.session.access_token) {
+      router.push("/");
+    }
+  }, [access_token, authState]);
   return (
     <div className="flex-1 xl:overflow-y-auto bg-gray-100">
       <div className="max-w-7xl mx-auto  mx-auto py-10 px-4 sm:px-6 lg:py-12 lg:px-8">

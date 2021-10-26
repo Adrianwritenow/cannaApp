@@ -10,10 +10,6 @@ interface FormikField extends React.InputHTMLAttributes<HTMLInputElement> {
 
 interface FieldProps extends React.HTMLAttributes<HTMLInputElement> {
   id: string;
-<<<<<<< HEAD
-  labelStyles: string;
-=======
->>>>>>> fix/import maskring library
   autoComplete: React.InputHTMLAttributes<HTMLInputElement>["autoComplete"];
   disabled?: React.InputHTMLAttributes<HTMLInputElement>["disabled"];
   type?: React.InputHTMLAttributes<HTMLInputElement>["type"];
@@ -36,10 +32,6 @@ export function InputCheckboxField(props: FieldProps) {
     form,
     label,
     labelHidden,
-<<<<<<< HEAD
-    labelStyles,
-=======
->>>>>>> fix/import maskring library
     handleBlur,
     handleChange,
     setFieldValue,
@@ -51,18 +43,6 @@ export function InputCheckboxField(props: FieldProps) {
   const { name } = field;
   const meta = form.getFieldMeta(name);
 
-<<<<<<< HEAD
-  let labelClasses = labelStyles ? labelStyles : "text-sm font-normal text-gray-700 leading-6 ";
-  if (labelHidden) {
-    labelClasses += " sr-only ";
-  }
-
-  return (
-    <div {...rest} className={"flex w-full border-none h-auto"}>
-      <input
-        type="checkbox"
-        className="focus:ring-green-500 h-4 w-4 mt-1 p-2 text-green border-gray-300 rounded"
-=======
   let labelClasses = "block text-sm font-medium text-gray-700 ";
   if (labelHidden) {
     labelClasses += " sr-only";
@@ -73,7 +53,6 @@ export function InputCheckboxField(props: FieldProps) {
       <input
         type="checkbox"
         className="focus:ring-green-500 h-4 w-4 mt-1 text-green border-gray-300 rounded"
->>>>>>> fix/import maskring library
         disabled={disabled}
         onChange={field.onChange}
         onBlur={field.onBlur}

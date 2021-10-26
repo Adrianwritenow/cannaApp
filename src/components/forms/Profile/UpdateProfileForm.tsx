@@ -7,8 +7,6 @@ import AddImageIcon from "../../../../public/assets/icons/iconComponents/AddImag
 import AvatarIcon from "../../../../public/assets/icons/iconComponents/Avatar";
 import Image from "next/image";
 import { InputAddOnField } from "../fields/InputAddOnField";
-import { getUser } from "../../../actions/getUser";
-import { useSession } from "next-auth/client";
 
 interface ProfileImages {
   profilePhoto: string | null;
@@ -16,9 +14,6 @@ interface ProfileImages {
 }
 
 export default function UpdateProfileForm() {
-  const [session, loading] = useSession();
-  console.log("Session:::", session);
-
   const schema = Yup.object().shape({
     username: Yup.string().required("Username address is required"),
     about: Yup.string(),

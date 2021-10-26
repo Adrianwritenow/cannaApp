@@ -1,8 +1,7 @@
 import { createContext, useEffect, useReducer } from "react";
-import { getInitialState, persistState } from "../helpers/persist-state";
+import { getInitialState, persistState } from "../src/helpers/persist-state";
 
 import qs from "qs";
-import { useCurrentUser } from "../hooks/user";
 
 const STORAGE_KEY = "authState";
 const API_URL = process.env.API_URL;

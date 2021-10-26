@@ -5,22 +5,16 @@ import React, { Fragment, useContext, useState } from "react";
 import AvatarIcon from "../../../public/assets/icons/iconComponents/Avatar";
 import BusinessMenu from "./BusinessMenu";
 import UserMenu from "./UserMenu";
-import { signOut } from "next-auth/client";
-import { useSession } from "next-auth/client";
 
 export default function AvatarMenu() {
-  const [session] = useSession();
+  const authState = useContext(AuthContext);
 
   const ref = React.createRef();
   const [menuType, setMenuType] = useState("user");
 
   function handleSignOut() {
-    signOut({
-      callbackUrl: `${window.location.origin}/login`,
-    });
+    logout(authState);
   }
-
-  console.log("SESS", session);
 
   return (
     <Menu as="div" className="inline-block text-left">
@@ -45,7 +39,10 @@ export default function AvatarMenu() {
           <UserMenu
             ref={ref}
             handleSignOut={handleSignOut}
-            user={session?.user}
+            user={{
+              name: "Bill",
+              uid: "1234",
+            }}
           />
         )}
       </Transition>

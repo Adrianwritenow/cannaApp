@@ -9,13 +9,10 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   async (config: AxiosRequestConfig<any>) => {
-    // if (config.headers) {
-    //   config.headers.Authoization = `Bearer ${token}`;
-    // }
-    // config.params = config.params || {};
-    // config.params["auth"];
+    config.params = config.params || {};
+    config.params["auth"];
 
-    // console.log(config);
+    console.log("CONFIG:::", config);
 
     return config;
   }

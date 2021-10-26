@@ -1,7 +1,7 @@
+import axios, { AxiosError, AxiosResponse } from "axios";
 import { createContext, useEffect, useReducer } from "react";
 import { getInitialState, persistState } from "../src/helpers/persist-state";
 
-import axios from "axios";
 import qs from "qs";
 
 const STORAGE_KEY = "authState";
@@ -75,6 +75,8 @@ export const login = (
 ) => {
   const { dispatch } = context;
 
+  console.log("BPOOM", API_URL);
+
   return axios({
     method: "POST",
     url: `${API_URL}/oauth/token`,
@@ -86,7 +88,7 @@ export const login = (
       username,
       password,
       grant_type: "password",
-      client_id: process.env.CLIENT_ID,
+      client_id: "ec881dc6-d3c8-4475-abe1-fd9605f6cfba",
       client_secret: "secret",
     }),
   })

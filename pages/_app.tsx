@@ -5,12 +5,11 @@ import type { AppProps } from "next/app";
 import { AuthContextProvider } from "../stores/authContext";
 import Footer from "../src/components/footer/Footer";
 import { Navigation } from "../src/components/layouts/Navigation";
-import { Provider } from "next-auth/client";
-import { useState } from "react";
+import React from "react";
 
-function MyApp({ Component, pageProps, router }: AppProps) {
+export default function MyApp({ Component, pageProps, router }: AppProps) {
   return (
-    <Provider session={pageProps.session}>
+    <AuthContextProvider>
       {!router.pathname.startsWith("/login") &&
       !router.pathname.startsWith("/register") ? (
         <>
@@ -27,6 +26,6 @@ function MyApp({ Component, pageProps, router }: AppProps) {
           <Footer />
         </>
       )}
-    </Provider>
+    </AuthContextProvider>
   );
 }

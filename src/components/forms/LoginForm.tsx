@@ -1,16 +1,15 @@
 import * as Yup from "yup";
 
 import AuthContext, { login } from "../../../stores/authContext";
-import { Field, Form, Formik } from "formik";
-import React, { useContext, useState } from "react";
+import { Field, Formik } from "formik";
+import React, { useContext } from "react";
 
 import { InputField } from "./fields/InputField";
-import React from "react";
-import { signIn } from "next-auth/client";
 import styles from "./Form.module.scss";
 import { useRouter } from "next/router";
 
 export default function LoginForm(csrfToken: any) {
+  const authState = useContext(AuthContext);
   const router = useRouter();
   const schema = Yup.object().shape({
     email: Yup.string()
@@ -24,16 +23,13 @@ export default function LoginForm(csrfToken: any) {
     password: "",
   };
 
-  function handleSubmit(values: any) {
-    const response = signIn("credentials", {
-      email: values.email,
-      password: values.password,
-      callbackUrl: `${window.location.origin}/`,
-      redirect: false,
-    });
+  const handleSubmit = async (values: any) => {
+    const response = await login(authState, values.email, values.password);
 
-    console.log(response);
-  }
+    console.log("RES:::", response);
+
+    console.log("AUTHSTATE", authState);
+  };
 
   return (
     <Formik

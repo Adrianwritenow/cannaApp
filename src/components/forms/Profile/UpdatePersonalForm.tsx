@@ -136,7 +136,7 @@ export default function UpdatePersonalForm() {
                     handleBlur={handleBlur}
                     handleChange={handleChange}
                     value={values.phone}
-                    mask="(111) 111-1111"
+                    mask="(###) ###-####"
                     type="text"
                     component={InputField}
                   />

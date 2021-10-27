@@ -12,19 +12,16 @@ import Link from "next/link";
 import { LocationMarkerIcon as LocationMarkerIconOutline } from "@heroicons/react/outline";
 import { LocationMarkerIcon as LocationMarkerIconSolid } from "@heroicons/react/solid";
 import Logo from "../../../public/assets/logos/logo-text.png";
-import { RootState } from "../../reducers";
 import { SearchField } from "../forms/fields/SearchField";
 import { SearchIcon } from "@heroicons/react/solid";
 import { XIcon } from "@heroicons/react/solid";
 import { useRouter } from "next/router";
-import { useSelector } from "react-redux";
 
 export default function NavBar() {
   const [focus, setFocus] = useState({ location: false, search: false });
   const [view, setView] = useState("list");
   const router = useRouter();
   const authState = useContext(AuthContext);
-  const { currentUser } = useSelector((root: RootState) => root.user);
   const [token, setAccessToken] = useState<string | null>(null);
 
   useEffect(() => {

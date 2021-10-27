@@ -14,6 +14,8 @@ export default function AvatarMenu() {
   const router = useRouter();
   const { currentUser } = useSelector((root: RootState) => root.user);
 
+  console.log("CU:::", currentUser);
+
   const ref = React.createRef();
   const [menuType, setMenuType] = useState("user");
 

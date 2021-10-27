@@ -1,4 +1,4 @@
-import MaskedInput from "react-maskedinput";
+import NumberFormat from "react-number-format";
 import React from "react";
 
 interface FormikForm {
@@ -68,14 +68,15 @@ export function InputField(props: FieldProps) {
       </label>
       <div className="relative rounded-md shadow-sm ">
         {mask ? (
-          <MaskedInput
-            mask={mask}
+          <NumberFormat
+            format={mask}
             className={inputClass}
+            id={id}
             placeholder={placeholder}
             autoComplete={autoComplete}
             disabled={disabled}
             onChange={handleChange}
-            {...field}
+            // {...field}
           />
         ) : (
           <input

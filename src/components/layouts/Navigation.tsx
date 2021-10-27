@@ -1,7 +1,6 @@
 import BottomNavBar from "../navbars/bottomNavBar";
 import NavBar from "../navbars/NavBar";
 import React from "react";
-import { useCurrentUser } from "../../hooks/user";
 
 export const Navigation = ({ children }: any) => {
   return (

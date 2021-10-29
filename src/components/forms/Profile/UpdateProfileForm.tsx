@@ -1,23 +1,60 @@
 import * as Yup from "yup";
 
 import { Field, Form, Formik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import AddImageIcon from "../../../../public/assets/icons/iconComponents/AddImage";
 import AvatarIcon from "../../../../public/assets/icons/iconComponents/Avatar";
 import Image from "next/image";
 import { InputAddOnField } from "../fields/InputAddOnField";
+import { updateUser } from "../../../actions/user";
+import { useAxios } from "../../../hooks/useAxios";
+import { useCurrentUser } from "../../../hooks/user";
 
 interface ProfileImages {
-  profilePhoto: string | null;
+  user_picture: string | null;
   coverPhoto: string | null;
 }
 
 export default function UpdateProfileForm() {
+  const [currentUser] = useCurrentUser();
+  const [savedValues, setSavedValues] = useState({});
+  const [dispatchAxios, { loading }] = useAxios();
+
+  const [selectedFile, setSelectedFile] = useState<ProfileImages>({
+    user_picture: null,
+    coverPhoto: null,
+  });
+
+  const initialValues = {
+    name: "",
+    about: "",
+    user_picture: "",
+    coverPhoto: "",
+  };
+
+  useEffect(() => {
+    if (
+      Object.keys(currentUser).length !== 0 &&
+      Object.keys(savedValues).length === 0
+    ) {
+      setSavedValues({
+        name: currentUser.name[0].value,
+        about: "",
+        user_picture: currentUser.user_picture[0]?.value,
+        coverPhoto: "",
+      });
+      setSelectedFile({
+        ...selectedFile,
+        user_picture: currentUser.user_picture[0]?.value,
+      });
+    }
+  }, [savedValues, currentUser]);
+
   const schema = Yup.object().shape({
-    username: Yup.string().required("Username address is required"),
+    name: Yup.string().required("name address is required"),
     about: Yup.string(),
-    profilePhoto: Yup.mixed()
+    user_picture: Yup.mixed()
       .test("imageType", "Must be an image format", (file) => {
         if (file) {
           return (
@@ -57,18 +94,6 @@ export default function UpdateProfileForm() {
       }),
   });
 
-  const [selectedFile, setSelectedFile] = useState<ProfileImages>({
-    profilePhoto: null,
-    coverPhoto: null,
-  });
-
-  const initialValues = {
-    username: "",
-    about: "",
-    profilePhoto: "",
-    coverPhoto: "",
-  };
-
   const onSelectFile = (
     event: React.ChangeEvent<HTMLInputElement>,
     setFieldValue: {
@@ -82,6 +107,7 @@ export default function UpdateProfileForm() {
           ...selectedFile,
           [event.target.id]: reader.result as string,
         });
+
         if (event.target.files)
           setFieldValue(event.target.id, event.target.files[0]);
       };
@@ -96,15 +122,18 @@ export default function UpdateProfileForm() {
   };
 
   function handleSubmit(values: any) {
-    console.log(values);
+    dispatchAxios(updateUser(currentUser.uid[0].value, values));
   }
 
   return (
     <Formik
       validationSchema={schema}
-      initialValues={initialValues}
+      initialValues={
+        Object.keys(savedValues).length > 0 ? savedValues : initialValues
+      }
       onSubmit={(values) => handleSubmit(values)}
       validateOnChange={true}
+      enableReinitialize
       validateOnBlur={true}
     >
       {({ handleSubmit, setFieldValue, errors, values }) => {
@@ -123,9 +152,9 @@ export default function UpdateProfileForm() {
               <div className="sm:col-span-3">
                 <div className="mt-1 flex rounded-md shadow-sm">
                   <Field
-                    label="Username"
-                    id="username"
-                    name="username"
+                    label="name"
+                    id="name"
+                    name="name"
                     type="text"
                     component={InputAddOnField}
                   />
@@ -156,17 +185,17 @@ export default function UpdateProfileForm() {
 
               <div className="sm:col-span-6">
                 <label
-                  htmlFor="profilePhoto"
+                  htmlFor="user_picture"
                   className="block text-sm font-medium text-gray-900"
                 >
                   Photo
                 </label>
                 <div className="mt-1 flex items-center">
                   <div className="inline-block h-12 w-12 rounded-full overflow-hidden	relative">
-                    {selectedFile.profilePhoto ? (
+                    {selectedFile.user_picture ? (
                       <div className="w-12 h-12 rounded-full overflow-hidden">
                         <Image
-                          src={selectedFile.profilePhoto}
+                          src={selectedFile.user_picture}
                           alt="Profile Photo"
                           layout="fill"
                           objectFit="cover"
@@ -179,15 +208,15 @@ export default function UpdateProfileForm() {
                   <div className="ml-4 flex">
                     <div className="relative bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm flex items-center cursor-pointer hover:bg-gray-50 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-50 focus-within:ring-green">
                       <label
-                        htmlFor="profilePhoto"
+                        htmlFor="user_picture"
                         className="relative text-sm font-medium text-gray-900 pointer-events-none"
                       >
                         <span>Change</span>
                         <span className="sr-only"> user photo</span>
                       </label>
                       <input
-                        id="profilePhoto"
-                        name="profilePhoto"
+                        id="user_picture"
+                        name="user_picture"
                         type="file"
                         className="absolute inset-0 w-full h-full opacity-0 cursor-pointer border-gray-300 rounded-md"
                         onChange={(event) => onSelectFile(event, setFieldValue)}

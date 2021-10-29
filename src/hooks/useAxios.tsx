@@ -1,7 +1,6 @@
 import { AuthContext, getClient } from "../authentication/authContext";
 import { AxiosError, AxiosResponse } from "axios";
 import { IAxiosAction, IAxiosState } from "../interfaces/axios";
-// @todo: Implement some kind of caching.
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 
 import { useDispatch } from "react-redux";
@@ -26,6 +25,8 @@ export function useAxios(): [DispatchAxios, IAxiosState] {
         type: params.type,
         config: params.config,
       };
+
+      params.config.url += "?_format=json";
 
       if (params.data) {
         action.data = params.data;

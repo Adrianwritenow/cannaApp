@@ -2,7 +2,6 @@ import { createContext, useEffect, useReducer } from "react";
 import { getInitialState, persistState } from "../helpers/persist-state";
 
 import qs from "qs";
-import { useCurrentUser } from "../hooks/user";
 
 const STORAGE_KEY = "authState";
 const API_URL = process.env.API_URL;
@@ -99,8 +98,11 @@ export const login = (
   password: string
 ) => {
   const { dispatch } = context;
+  const axiosLogin = axios.create({});
 
-  return axios({
+  console.log("HAMMER");
+
+  return axiosLogin({
     method: "POST",
     url: `${API_URL}/oauth/token`,
     headers: {
@@ -116,6 +118,7 @@ export const login = (
     }),
   })
     .then((response: any) => {
+      console.log("FIRE");
       if (response.data && response.data.access_token) {
         dispatch({ type: "UPDATE_SESSION", payload: response.data });
         return response;
@@ -131,21 +134,20 @@ export const login = (
 // Logout by wiping session state.
 export const logout = (context: IAuthProviderValue) => {
   const { dispatch } = context;
-
+  const axiosLogout = axios.create({});
   if (
     typeof context.state.session.access_token !== "undefined" &&
     context.state
   ) {
-    axios({
+    axiosLogout({
       method: "POST",
-      url: `${API_URL}/logout`,
+      url: `${API_URL}/oauth/token/revoke`,
       headers: {
         Authorization: `Bearer ${context.state.session.access_token}`,
         accept: "application/json",
       },
     })
       .then((response: any) => {
-        dispatch({ type: "LOGOUT", payload: {} });
         dispatch({ type: "UPDATE_SESSION", payload: {} });
         return true;
       })
@@ -161,12 +163,14 @@ export const logout = (context: IAuthProviderValue) => {
 export function getClient(context: IAuthProviderValue) {
   const { dispatch, state } = context;
   const tokenRefreshUrl = `${API_URL}/oauth/token`;
+  const axiosClient = axios.create({});
 
   if (state.session.access_token) {
-    axios.defaults.headers.Authorization = `Bearer ${state.session.access_token}`;
+    axiosClient.defaults.headers.Authorization = `Bearer ${state.session.access_token}`;
+    axiosClient.defaults.headers["Content-Type"] = "application/json";
   }
 
-  axios.interceptors.response.use(
+  axiosClient.interceptors.response.use(
     (response: any) => {
       return response;
     },
@@ -185,8 +189,8 @@ export function getClient(context: IAuthProviderValue) {
             failedQueue.push({ resolve, reject });
           })
             .then((token) => {
-              originalReq.headers.Authorization = `Bearer ${token}`;
-              return axios(originalReq);
+              originalReq.headers["Authorization"] = `Bearer ${token}`;
+              return axiosClient(originalReq);
             })
             .catch((err) => {
               return Promise.reject(err);
@@ -197,26 +201,26 @@ export function getClient(context: IAuthProviderValue) {
         isRefreshing = true;
 
         return new Promise((resolve, reject) => {
-          axios({
+          axiosClient({
             method: "POST",
             url: tokenRefreshUrl,
             headers: {
               "Content-Type": "application/x-www-form-urlencoded",
-              accept: "application/json",
             },
             data: qs.stringify({
               grant_type: "refresh_token",
-              client_id: "default_client_id",
-              scope: "full",
+              client_id: "ec881dc6-d3c8-4475-abe1-fd9605f6cfba",
+              client_secret: "secret",
+              scope: "regular_user",
               refresh_token: state.session.refresh_token,
             }),
           })
             .then(({ data }: any) => {
               dispatch({ type: "UPDATE_SESSION", payload: data });
-              axios.defaults.headers.common.Authorization = `Bearer ${data.access_token}`;
+              axiosClient.defaults.headers.common.Authorization = `Bearer ${data.access_token}`;
               originalReq.headers.Authorization = `Bearer ${data.access_token}`;
               processQueue(null, data.access_token);
-              resolve(axios(originalReq));
+              resolve(axiosClient(originalReq));
             })
             .catch((err: any) => {
               processQueue(err, null);
@@ -232,5 +236,5 @@ export function getClient(context: IAuthProviderValue) {
     }
   );
 
-  return axios;
+  return axiosClient;
 }

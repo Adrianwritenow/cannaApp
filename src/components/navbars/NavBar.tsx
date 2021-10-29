@@ -15,6 +15,7 @@ import Logo from "../../../public/assets/logos/logo-text.png";
 import { SearchField } from "../forms/fields/SearchField";
 import { SearchIcon } from "@heroicons/react/solid";
 import { XIcon } from "@heroicons/react/solid";
+import { useCurrentUser } from "../../hooks/user";
 import { useRouter } from "next/router";
 
 export default function NavBar() {
@@ -122,8 +123,14 @@ export default function NavBar() {
     }
   }, [focus, locationData]);
 
+<<<<<<< HEAD
   function handleSubmit(values: any) {}
 
+=======
+  function handleSubmit(values: any) {
+    console.log("SUBMIT");
+  }
+>>>>>>> [feat]:Add protected routes wrapper and axios interceptor instances
   return (
     <Disclosure as="nav" className="shadow">
       {({ open }) => (

@@ -52,7 +52,7 @@ export function InputCheckboxField(props: FieldProps) {
     <div {...rest} className={"flex w-full"}>
       <input
         type="checkbox"
-        className="focus:ring-green-500 h-4 w-4 mt-1 text-green border-gray-300 rounded"
+        className="focus:ring-green-500 h-4 w-4 mt-1 p-2 text-green border-gray-300 rounded"
         disabled={disabled}
         onChange={field.onChange}
         onBlur={field.onBlur}

@@ -1,10 +1,9 @@
-import React, { ForwardRefRenderFunction } from "react";
-
 import AvatarIcon from "../../../public/assets/icons/iconComponents/Avatar";
 import Image from "next/image";
 import Link from "next/link";
 import Logo from "../../../public/assets/logos/logo-text.png";
 import { Menu } from "@headlessui/react";
+import React from "react";
 import { XIcon } from "@heroicons/react/solid";
 
 interface User {
@@ -98,7 +97,11 @@ const UserMenu = React.forwardRef(
           {({ active }) => (
             <Menu.Button>
               <Link href="#">
+<<<<<<< HEAD
                 <a className={"text-gray-900 block text-sm text-left"}>
+=======
+                <a className={"text-gray-900 block text-sm text-left "}>
+>>>>>>> [feat]:Add protected routes wrapper and axios interceptor instances
                   Advertise with us
                 </a>
               </Link>

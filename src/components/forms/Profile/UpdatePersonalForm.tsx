@@ -1,35 +1,36 @@
 import * as Yup from "yup";
 
 import { Field, Form, Formik } from "formik";
+import React, { useEffect, useState } from "react";
 
 import { InputField } from "../fields/InputField";
-import React from "react";
 import SelectDropdown from "../fields/SelectDropdown";
-import { useRouter } from "next/router";
+import { updateUser } from "../../../actions/user";
+import { useAxios } from "../../../hooks/useAxios";
+import { useCurrentUser } from "../../../hooks/user";
 
 export default function UpdatePersonalForm() {
-  const router = useRouter();
+  const [currentUser] = useCurrentUser(true);
+  const [savedValues, setSavedValues] = useState({});
+  const [dispatchAxios, { loading }] = useAxios();
+
   const schema = Yup.object().shape({
-    firstName: Yup.string(),
-    lastName: Yup.string(),
-    email: Yup.string().required("Email is required"),
+    field_first_name: Yup.string(),
+    field_last_name: Yup.string(),
+    mail: Yup.string(),
     country: Yup.string(),
-    state: Yup.string(),
+    field_state: Yup.string(),
     phone: Yup.string(),
   });
 
   const initialValues = {
-    firstName: "",
-    lastName: "",
-    email: "",
+    field_first_name: "",
+    field_last_name: "",
+    mail: "",
     country: "",
-    state: "",
+    field_state: "",
     phone: "",
   };
-
-  function handleSubmit(values: any) {
-    console.log(values);
-  }
 
   const countries = [
     { id: "US", label: "United States" },
@@ -38,20 +39,50 @@ export default function UpdatePersonalForm() {
   ];
 
   const states = [
+    { id: "00", label: "Select state" },
     { id: "FL", label: "Florida" },
     { id: "NY", label: "New York" },
     { id: "CA", label: "California" },
   ];
 
+  useEffect(() => {
+    console.log("EFFECT", savedValues);
+    if (
+      Object.keys(currentUser).length !== 0 &&
+      Object.keys(savedValues).length === 0
+    ) {
+      setSavedValues({
+        field_first_name: currentUser.field_first_name[0]?.value || "",
+        field_last_name: currentUser.field_last_name[0]?.value || "",
+        mail: "" || "",
+        country: "" || "",
+        field_state: currentUser.field_state[0]?.value || "",
+        phone: "" || "",
+      });
+    } else {
+    }
+  }, [savedValues, currentUser]);
+
+  console.log("SAVED", savedValues);
+  console.log("CU:::", currentUser);
+
+  function handleSubmit(values: any) {
+    console.log(values);
+    dispatchAxios(updateUser(currentUser.uid[0].value, values));
+  }
+
   return (
     <Formik
       validationSchema={schema}
-      initialValues={initialValues}
+      initialValues={
+        Object.keys(savedValues).length > 0 ? savedValues : initialValues
+      }
       onSubmit={handleSubmit}
       validateOnChange={true}
+      enableReinitialize
       validateOnBlur={true}
     >
-      {({ handleSubmit, errors, values, handleBlur, handleChange }) => {
+      {({ values, handleBlur, handleChange, setFieldValue }) => {
         return (
           <Form className="space-y-8 bg-white shadow">
             <div className="grid grid-cols-1 gap-y-6 sm:grid-cols-6 sm:gap-x-6 py-10 px-4 sm:px-6 lg:py-12 lg:px-8">
@@ -69,8 +100,8 @@ export default function UpdatePersonalForm() {
                 <div className="mt-1 flex rounded-md shadow-sm">
                   <Field
                     label="First name"
-                    id="firstName"
-                    name="firstName"
+                    id="field_first_name"
+                    name="field_first_name"
                     type="text"
                     component={InputField}
                   />
@@ -81,8 +112,8 @@ export default function UpdatePersonalForm() {
                 <div className="mt-1 flex rounded-md shadow-sm">
                   <Field
                     label="Last name"
-                    id="lastName"
-                    name="lastName"
+                    id="field_last_name"
+                    name="field_last_name"
                     type="text"
                     component={InputField}
                   />
@@ -93,9 +124,9 @@ export default function UpdatePersonalForm() {
                 <div className="mt-1 flex rounded-md shadow-sm w-full">
                   <Field
                     label="Email"
-                    id="email"
-                    name="email"
-                    type="email"
+                    id="mail"
+                    name="mail"
+                    type="mail"
                     component={InputField}
                   />
                 </div>
@@ -109,6 +140,7 @@ export default function UpdatePersonalForm() {
                     name="country"
                     type="text"
                     options={countries}
+                    setFieldValue={setFieldValue}
                     component={SelectDropdown}
                   />
                 </div>
@@ -118,10 +150,11 @@ export default function UpdatePersonalForm() {
                 <div className="mt-1 flex rounded-md shadow-sm">
                   <Field
                     label="State / Province"
-                    id="state"
-                    name="state"
+                    id="field_state"
+                    name="field_state"
                     type="text"
                     options={states}
+                    setFieldValue={setFieldValue}
                     component={SelectDropdown}
                   />
                 </div>
@@ -135,7 +168,6 @@ export default function UpdatePersonalForm() {
                     name="phone"
                     handleBlur={handleBlur}
                     handleChange={handleChange}
-                    value={values.phone}
                     mask="(###) ###-####"
                     type="text"
                     component={InputField}

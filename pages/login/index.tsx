@@ -15,12 +15,13 @@ export default function Login() {
   const router = useRouter();
 
   useEffect(() => {
-    if (authState) {
+    if (authState.state.session.access_token) {
       const access_token = authState.state.session.access_token;
       setAccessToken(`${access_token}`);
     }
-    if (authState.state.session.access_token) {
-      // router.push("/");
+
+    if (access_token) {
+      router.push("/");
     }
   }, [access_token, authState, router]);
 

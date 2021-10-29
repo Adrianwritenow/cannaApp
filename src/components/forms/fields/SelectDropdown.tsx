@@ -1,6 +1,7 @@
-import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
+
+import { SelectorIcon } from "@heroicons/react/solid";
 
 interface FormikForm {
   getFieldMeta(name: string): any;
@@ -24,8 +25,7 @@ interface FieldProps extends React.HTMLAttributes<HTMLInputElement> {
   field: FormikField;
   mask: string;
   handleBlur: (event: React.SyntheticEvent) => void;
-  handleChange: (event: React.SyntheticEvent) => void;
-  setFieldValue: any;
+  setFieldValue: Function;
   value: string;
   maskPlaceholder: string;
 }
@@ -45,14 +45,13 @@ export default function SelectDropdown(props: FieldProps) {
     label,
     labelHidden,
     handleBlur,
-    handleChange,
     setFieldValue,
     value,
     maskPlaceholder,
     ...rest
   } = props;
 
-  const [selected, setSelected] = useState(options[1]);
+  const [selected, setSelected] = useState(options[0]);
 
   let labelClasses = "block text-sm font-medium text-gray-700";
   if (labelHidden) {
@@ -60,13 +59,15 @@ export default function SelectDropdown(props: FieldProps) {
   }
 
   const { name } = field;
-  const meta = form.getFieldMeta(name);
 
-  useEffect(() => {}, [selected]);
+  function handleChange(value: Options) {
+    setFieldValue(id, value.id);
+    setSelected(value);
+  }
 
   return (
     <div className="w-full">
-      <Listbox value={selected} onChange={setSelected}>
+      <Listbox value={selected} onChange={handleChange}>
         <label htmlFor={id} className={labelClasses}>
           {label}
         </label>

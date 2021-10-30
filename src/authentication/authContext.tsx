@@ -100,8 +100,6 @@ export const login = (
   const { dispatch } = context;
   const axiosLogin = axios.create({});
 
-  console.log("HAMMER");
-
   return axiosLogin({
     method: "POST",
     url: `${API_URL}/oauth/token`,
@@ -118,7 +116,6 @@ export const login = (
     }),
   })
     .then((response: any) => {
-      console.log("FIRE");
       if (response.data && response.data.access_token) {
         dispatch({ type: "UPDATE_SESSION", payload: response.data });
         return response;
@@ -201,6 +198,8 @@ export function getClient(context: IAuthProviderValue) {
         isRefreshing = true;
 
         return new Promise((resolve, reject) => {
+          // Remove bearer token if token refresh
+          delete axiosClient.defaults.headers.Authorization;
           axiosClient({
             method: "POST",
             url: tokenRefreshUrl,
@@ -231,7 +230,6 @@ export function getClient(context: IAuthProviderValue) {
             });
         });
       }
-
       return Promise.reject(err);
     }
   );

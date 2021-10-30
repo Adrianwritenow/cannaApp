@@ -10,13 +10,14 @@ import { InputAddOnField } from "../fields/InputAddOnField";
 import { updateUser } from "../../../actions/user";
 import { useAxios } from "../../../hooks/useAxios";
 import { useCurrentUser } from "../../../hooks/user";
+import { UpdateFormProps } from "../../../../pages/user";
 
 interface ProfileImages {
   user_picture: string | null;
   coverPhoto: string | null;
 }
 
-export default function UpdateProfileForm() {
+export default function UpdateProfileForm(props: UpdateFormProps) {
   const [currentUser] = useCurrentUser();
   const [savedValues, setSavedValues] = useState({});
   const [dispatchAxios, { loading }] = useAxios();
@@ -33,26 +34,8 @@ export default function UpdateProfileForm() {
     coverPhoto: "",
   };
 
-  useEffect(() => {
-    if (
-      Object.keys(currentUser).length !== 0 &&
-      Object.keys(savedValues).length === 0
-    ) {
-      setSavedValues({
-        name: currentUser.name[0].value,
-        about: "",
-        user_picture: currentUser.user_picture[0]?.value,
-        coverPhoto: "",
-      });
-      setSelectedFile({
-        ...selectedFile,
-        user_picture: currentUser.user_picture[0]?.value,
-      });
-    }
-  }, [savedValues, currentUser]);
-
   const schema = Yup.object().shape({
-    name: Yup.string().required("name address is required"),
+    name: Yup.string().required("Username is required"),
     about: Yup.string(),
     user_picture: Yup.mixed()
       .test("imageType", "Must be an image format", (file) => {
@@ -121,8 +104,26 @@ export default function UpdateProfileForm() {
     }
   };
 
-  function handleSubmit(values: any) {
-    dispatchAxios(updateUser(currentUser.uid[0].value, values));
+  useEffect(() => {
+    if (Object.keys(savedValues).length === 0 || props.loading) {
+      setSavedValues({
+        name: currentUser.name[0].value,
+        about: "",
+        user_picture: currentUser.user_picture[0]?.value,
+        coverPhoto: "",
+      });
+      setSelectedFile({
+        ...selectedFile,
+        user_picture: currentUser.user_picture[0]?.value,
+      });
+    }
+  }, [savedValues, props.loading, currentUser, selectedFile]);
+
+  async function handleSubmit(values: any) {
+    console.log("VALS:::", values);
+    const response = await dispatchAxios(
+      updateUser(currentUser.uid[0].value, values)
+    );
   }
 
   return (
@@ -152,7 +153,7 @@ export default function UpdateProfileForm() {
               <div className="sm:col-span-3">
                 <div className="mt-1 flex rounded-md shadow-sm">
                   <Field
-                    label="name"
+                    label="Username"
                     id="name"
                     name="name"
                     type="text"

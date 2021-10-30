@@ -15,7 +15,6 @@ import Logo from "../../../public/assets/logos/logo-text.png";
 import { SearchField } from "../forms/fields/SearchField";
 import { SearchIcon } from "@heroicons/react/solid";
 import { XIcon } from "@heroicons/react/solid";
-import { useCurrentUser } from "../../hooks/user";
 import { useRouter } from "next/router";
 
 export default function NavBar() {
@@ -23,14 +22,6 @@ export default function NavBar() {
   const [view, setView] = useState("list");
   const router = useRouter();
   const authState = useContext(AuthContext);
-  const [token, setAccessToken] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (authState) {
-      const access_token = authState.state.session.access_token;
-      if (access_token) setAccessToken(`${access_token}`);
-    }
-  }, [token, authState]);
 
   const [searchData, setSearchData] = useState([
     {
@@ -108,9 +99,9 @@ export default function NavBar() {
     otherRef.current.focus();
     handleFocus("location", true);
   }
+
   useEffect(() => {
     // After data is collected add a initial value for location
-
     const locationOptions = [...locationData];
 
     if (locationOptions[0].value != "use my current location") {
@@ -121,7 +112,7 @@ export default function NavBar() {
 
       setSearchLocationData(locationOptions);
     }
-  }, [focus, locationData]);
+  }, [focus, locationData, authState]);
 
 <<<<<<< HEAD
   function handleSubmit(values: any) {}
@@ -130,7 +121,11 @@ export default function NavBar() {
   function handleSubmit(values: any) {
     console.log("SUBMIT");
   }
+<<<<<<< HEAD
 >>>>>>> [feat]:Add protected routes wrapper and axios interceptor instances
+=======
+
+>>>>>>> [fix]:(ui) State for login button and axios instances
   return (
     <Disclosure as="nav" className="shadow">
       {({ open }) => (
@@ -193,7 +188,7 @@ export default function NavBar() {
                           </div>
                           <div className="col-start-10 col-span-2 flex justify-end align-center  ">
                             {!hasValue ? (
-                              !token ? (
+                              !authState.state.session.access_token ? (
                                 <Link href={"/login"}>
                                   <a>
                                     <button className="w-full bg-green text-white hover:bg-green-600 flex justify-center py-1 px-2 border border-transparent rounded-md shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green">

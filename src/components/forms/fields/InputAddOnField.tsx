@@ -71,10 +71,8 @@ export function InputAddOnField(props: FieldProps) {
         </span>
         <input
           type={type}
+          id={id}
           className={`block w-full px-3 py-2 border border-gray-300 shadow-sm rounded-r-md focus:outline-none sm:text-sm ${inputClass}`}
-          placeholder={placeholder}
-          autoComplete={autoComplete}
-          disabled={disabled}
           {...field}
         />
         {meta && meta.touched && meta.error && (

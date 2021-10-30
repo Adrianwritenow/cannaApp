@@ -41,8 +41,11 @@ export function updateUser(id: string, values: any): IAxiosAction {
   const payload: any = {};
 
   Object.keys(values).map(function (key, index) {
-    payload[`${key}`] = [{ value: values[`${key}`] }];
+    if (values[`${key}`]) {
+      payload[`${key}`] = [{ value: values[`${key}`] }];
+    }
   });
+  console.log("PAY", payload);
 
   const data = JSON.stringify(payload);
   return {

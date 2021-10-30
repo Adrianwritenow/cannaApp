@@ -6,7 +6,9 @@ import { InputCheckboxField } from "../fields/InputCheckboxField";
 import React from "react";
 import { useRouter } from "next/router";
 
-export default function UpdateNotificationsForm() {
+import { UpdateFormProps } from "../../../../pages/user";
+
+export default function UpdateNotificationsForm(props: UpdateFormProps) {
   const router = useRouter();
   const schema = Yup.object().shape({
     comments: Yup.boolean(),

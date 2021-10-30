@@ -7,12 +7,14 @@ import { InputField } from "../fields/InputField";
 import SelectDropdown from "../fields/SelectDropdown";
 import { updateUser } from "../../../actions/user";
 import { useAxios } from "../../../hooks/useAxios";
-import { useCurrentUser } from "../../../hooks/user";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../reducers";
+import { UpdateFormProps } from "../../../../pages/user";
 
-export default function UpdatePersonalForm() {
-  const [currentUser] = useCurrentUser(true);
+export default function UpdatePersonalForm(props: UpdateFormProps) {
   const [savedValues, setSavedValues] = useState({});
   const [dispatchAxios, { loading }] = useAxios();
+  const { currentUser } = useSelector((root: RootState) => root.user);
 
   const schema = Yup.object().shape({
     field_first_name: Yup.string(),
@@ -39,18 +41,14 @@ export default function UpdatePersonalForm() {
   ];
 
   const states = [
-    { id: "00", label: "Select state" },
+    { id: "", label: "Select state" },
     { id: "FL", label: "Florida" },
     { id: "NY", label: "New York" },
     { id: "CA", label: "California" },
   ];
 
   useEffect(() => {
-    console.log("EFFECT", savedValues);
-    if (
-      Object.keys(currentUser).length !== 0 &&
-      Object.keys(savedValues).length === 0
-    ) {
+    if (Object.keys(savedValues).length === 0 || props.loading) {
       setSavedValues({
         field_first_name: currentUser.field_first_name[0]?.value || "",
         field_last_name: currentUser.field_last_name[0]?.value || "",
@@ -59,16 +57,13 @@ export default function UpdatePersonalForm() {
         field_state: currentUser.field_state[0]?.value || "",
         phone: "" || "",
       });
-    } else {
     }
-  }, [savedValues, currentUser]);
+  }, [savedValues, props.loading, currentUser]);
 
-  console.log("SAVED", savedValues);
-  console.log("CU:::", currentUser);
-
-  function handleSubmit(values: any) {
-    console.log(values);
-    dispatchAxios(updateUser(currentUser.uid[0].value, values));
+  async function handleSubmit(values: any) {
+    const response = await dispatchAxios(
+      updateUser(currentUser.uid[0].value, values)
+    );
   }
 
   return (

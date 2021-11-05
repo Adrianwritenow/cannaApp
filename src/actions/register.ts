@@ -22,14 +22,11 @@ export const register = (email: string, password: string) => {
     data: data,
   };
 
-  console.log("DATA:::", data);
-
   return axios(config)
     .then(function (response: { data: any }) {
-      console.log(response);
+      return response;
     })
-    .catch(function (error: any) {
-      console.log("ERR");
-      console.log(error);
+    .catch(function (error: { response: any }) {
+      return error.response;
     });
 };

@@ -3,7 +3,7 @@ import axios, { AxiosRequestConfig } from "axios";
 const secret = process.env.NEXTAUTH_SECRET;
 
 const axiosInstance = axios.create({
-  baseURL: "https://dev-cannapages.pantheonsite.io/",
+  baseURL: process.env.API_URL,
 });
 
 axiosInstance.interceptors.request.use(

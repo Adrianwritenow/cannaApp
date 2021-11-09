@@ -15,7 +15,7 @@ interface IAuthState {
 export default function getCurrentUser(token: IAuthState) {
   const data = qs.stringify({
     grant_type: "password",
-    client_id: "ec881dc6-d3c8-4475-abe1-fd9605f6cfba",
+    client_id: process.env.CLIENT_ID,
     client_secret: "secret",
   });
 

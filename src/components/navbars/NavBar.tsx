@@ -114,18 +114,8 @@ export default function NavBar() {
     }
   }, [focus, locationData, authState]);
 
-<<<<<<< HEAD
   function handleSubmit(values: any) {}
 
-=======
-  function handleSubmit(values: any) {
-    console.log("SUBMIT");
-  }
-<<<<<<< HEAD
->>>>>>> [feat]:Add protected routes wrapper and axios interceptor instances
-=======
-
->>>>>>> [fix]:(ui) State for login button and axios instances
   return (
     <Disclosure as="nav" className="shadow">
       {({ open }) => (

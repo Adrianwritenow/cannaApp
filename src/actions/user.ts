@@ -5,8 +5,12 @@ var axios = require("axios");
 const API_URL = process.env.API_URL;
 =======
 import qs from "qs";
+<<<<<<< HEAD
 const API_URL = "https://dev-cannapages.pantheonsite.io";
 >>>>>>> [feat]:Add protected routes wrapper and axios interceptor instances
+=======
+const API_URL = process.env.API_URL;
+>>>>>>> fix:remove console.logs and use processENV
 
 export const USER_REQUEST_GET = "user/get";
 export const USER_REQUEST_GET_CURRENT = "user/getCurrent";
@@ -45,7 +49,6 @@ export function updateUser(id: string, values: any): IAxiosAction {
       payload[`${key}`] = [{ value: values[`${key}`] }];
     }
   });
-  console.log("PAY", payload);
 
   const data = JSON.stringify(payload);
   return {

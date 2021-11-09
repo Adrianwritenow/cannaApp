@@ -4,9 +4,8 @@ import { Field, Form, Formik } from "formik";
 
 import { InputCheckboxField } from "../fields/InputCheckboxField";
 import React from "react";
-import { useRouter } from "next/router";
-
 import { UpdateFormProps } from "../../../../pages/user";
+import { useRouter } from "next/router";
 
 export default function UpdateNotificationsForm(props: UpdateFormProps) {
   const router = useRouter();
@@ -22,9 +21,7 @@ export default function UpdateNotificationsForm(props: UpdateFormProps) {
     newsletter: false,
   };
 
-  function handleSubmit(values: any) {
-    console.log(values);
-  }
+  function handleSubmit(values: any) {}
 
   return (
     <Formik

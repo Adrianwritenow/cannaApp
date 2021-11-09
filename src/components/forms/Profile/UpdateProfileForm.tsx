@@ -7,10 +7,10 @@ import AddImageIcon from "../../../../public/assets/icons/iconComponents/AddImag
 import AvatarIcon from "../../../../public/assets/icons/iconComponents/Avatar";
 import Image from "next/image";
 import { InputAddOnField } from "../fields/InputAddOnField";
+import { UpdateFormProps } from "../../../../pages/user";
 import { updateUser } from "../../../actions/user";
 import { useAxios } from "../../../hooks/useAxios";
 import { useCurrentUser } from "../../../hooks/user";
-import { UpdateFormProps } from "../../../../pages/user";
 
 interface ProfileImages {
   user_picture: string | null;
@@ -120,7 +120,6 @@ export default function UpdateProfileForm(props: UpdateFormProps) {
   }, [savedValues, props.loading, currentUser, selectedFile]);
 
   async function handleSubmit(values: any) {
-    console.log("VALS:::", values);
     const response = await dispatchAxios(
       updateUser(currentUser.uid[0].value, values)
     );

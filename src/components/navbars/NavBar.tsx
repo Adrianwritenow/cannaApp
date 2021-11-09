@@ -26,7 +26,6 @@ export default function NavBar() {
 
   useEffect(() => {
     if (authState) {
-      console.log("YES");
       const access_token = authState.state.session.access_token;
       if (access_token) setAccessToken(`${access_token}`);
     }
@@ -124,8 +123,6 @@ export default function NavBar() {
   }, [focus, locationData]);
 
   function handleSubmit(values: any) {}
-
-  console.log("TK", typeof token);
 
   return (
     <Disclosure as="nav" className="shadow">

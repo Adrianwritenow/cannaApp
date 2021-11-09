@@ -35,7 +35,6 @@ export default function getCurrentUser(token: IAuthState) {
       return response.data;
     })
     .catch(function (error: AxiosError) {
-      console.log("ERR");
       return error.response;
     });
 }

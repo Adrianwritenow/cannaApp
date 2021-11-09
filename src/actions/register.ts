@@ -26,7 +26,12 @@ export const register = (email: string, password: string) => {
     .then(function (response: { data: any }) {
       return response;
     })
+<<<<<<< HEAD
     .catch(function (error: { response: any }) {
       return error.response;
+=======
+    .catch(function (error: any) {
+      return error;
+>>>>>>> fix:remove console.logs and use processENV
     });
 };

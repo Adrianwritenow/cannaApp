@@ -56,7 +56,7 @@ export default function Login() {
             <a>
               <span className="sr-only">Sign in with Google</span>
               <button
-                onClick={() => console.log("GOOGLE")}
+                onClick={() => {}}
                 className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 focus:outline-none focus:ring-green focus:border-green"
               >
                 <Image src={GoogleIcon} alt="Google" width={20} height={20} />
@@ -67,7 +67,7 @@ export default function Login() {
             <a>
               <span className="sr-only">Sign in with Facebook</span>
               <button
-                onClick={() => console.log("FACEBOOK")}
+                onClick={() => {}}
                 className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 focus:outline-none focus:ring-green focus:border-green"
               >
                 <Image

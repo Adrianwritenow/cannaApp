@@ -11,8 +11,6 @@ axiosInstance.interceptors.request.use(
     config.params = config.params || {};
     config.params["auth"];
 
-    console.log("CONFIG:::", config);
-
     return config;
   }
 );

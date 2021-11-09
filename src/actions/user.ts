@@ -3,6 +3,7 @@ import { Axios, AxiosError, AxiosResponse } from "axios";
 import qs from "qs";
 
 var axios = require("axios");
+
 const API_URL = process.env.API_URL;
 
 interface IAuthState {

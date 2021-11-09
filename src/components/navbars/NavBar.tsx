@@ -293,7 +293,8 @@ export default function NavBar() {
                           ""
                         )}
                       </div>
-                      {!router.pathname.startsWith("/user") ? (
+                      {!router.pathname.startsWith("/user") &&
+                      !router.pathname.startsWith("/search") ? (
                         <div className="grid grid-cols-3 w-full pt-3">
                           <div className="text-green-500 text-sm flex items-center justify-start pl-2">
                             <FilterMenu />

@@ -17,7 +17,8 @@ export default function UserProfile() {
     if (!authState.state.session.access_token) {
       router.push("/");
     }
-  }, [access_token, authState]);
+  }, [access_token, authState, router]);
+
   return (
     <div className="flex-1 xl:overflow-y-auto bg-gray-100">
       <div className="max-w-7xl mx-auto  mx-auto py-10 px-4 sm:px-6 lg:py-12 lg:px-8">

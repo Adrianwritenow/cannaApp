@@ -22,8 +22,9 @@ export default function Login() {
     if (authState.state.session.access_token) {
       router.push("/");
     }
-  }, [access_token, authState]);
 
+  }, [access_token, authState]);
+  
   return (
     <div className="flex flex-col justify-start max-w-5xl mx-auto py-12 bg-white px-4">
       <div className="grid grid-cols-6 gap-0">

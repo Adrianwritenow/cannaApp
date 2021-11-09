@@ -28,6 +28,7 @@ export default function RegisterForm() {
     confirmPassword: "",
   };
 
+
   async function handleSubmit(values: any) {
     const response = await register(values.email, values.password);
     if (response.status === 422) {

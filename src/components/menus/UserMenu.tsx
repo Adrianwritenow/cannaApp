@@ -97,11 +97,7 @@ const UserMenu = React.forwardRef(
           {({ active }) => (
             <Menu.Button>
               <Link href="#">
-<<<<<<< HEAD
-                <a className={"text-gray-900 block text-sm text-left"}>
-=======
                 <a className={"text-gray-900 block text-sm text-left "}>
->>>>>>> [feat]:Add protected routes wrapper and axios interceptor instances
                   Advertise with us
                 </a>
               </Link>

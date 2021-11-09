@@ -3,7 +3,7 @@ import { Axios, AxiosError, AxiosResponse } from "axios";
 import qs from "qs";
 
 var axios = require("axios");
-const API_URL = "https://dev-cannapages.pantheonsite.io";
+const API_URL = process.env.API_URL;
 
 interface IAuthState {
   token_type?: string;

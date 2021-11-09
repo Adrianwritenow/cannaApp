@@ -1,4 +1,4 @@
-const API_URL = "https://dev-cannapages.pantheonsite.io";
+const API_URL = process.env.API_URL;
 var axios = require("axios");
 
 export const register = (email: string, password: string) => {

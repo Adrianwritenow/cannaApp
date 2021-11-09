@@ -1,9 +1,26 @@
+import { useContext, useEffect, useState } from "react";
+
+import AuthContext from "../../stores/authContext";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 export default function UserProfile() {
+  const authState = useContext(AuthContext);
+  const [access_token, setAccessToken] = useState("");
+  const router = useRouter();
+
+  useEffect(() => {
+    if (authState) {
+      const access_token = authState.state.session.access_token;
+      setAccessToken(`${access_token}`);
+    }
+    if (!authState.state.session.access_token) {
+      router.push("/");
+    }
+  }, [access_token, authState]);
   return (
-    <div className="flex-1 xl:overflow-y-auto">
-      <div className="max-w-7xl mx-auto py-24mx-auto py-10 px-4 sm:px-6 lg:py-12 lg:px-8">
+    <div className="flex-1 xl:overflow-y-auto bg-gray-100">
+      <div className="max-w-7xl mx-auto  mx-auto py-10 px-4 sm:px-6 lg:py-12 lg:px-8">
         <h1 className="text-3xl font-extrabold text-blue-gray-900">Account</h1>
         <form className="mt-6 space-y-8 divide-y divide-y-blue-gray-200">
           <div className="grid grid-cols-1 gap-y-6 sm:grid-cols-6 sm:gap-x-6">

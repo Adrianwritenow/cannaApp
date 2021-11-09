@@ -1,5 +1,4 @@
 import BottomNavBar from "../navbars/bottomNavBar";
-import Footer from "../footer/Footer";
 import NavBar from "../navbars/NavBar";
 import React from "react";
 

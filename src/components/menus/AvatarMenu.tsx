@@ -1,13 +1,23 @@
+import AuthContext, { logout } from "../../../stores/authContext";
 import { Menu, Transition } from "@headlessui/react";
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useContext, useState } from "react";
 
 import AvatarIcon from "../../../public/assets/icons/iconComponents/Avatar";
 import BusinessMenu from "./BusinessMenu";
 import UserMenu from "./UserMenu";
+import { useRouter } from "next/router";
 
 export default function AvatarMenu() {
+  const authState = useContext(AuthContext);
+  const router = useRouter();
+
   const ref = React.createRef();
-  const [menuType, setMenuType] = useState("business");
+  const [menuType, setMenuType] = useState("user");
+
+  function handleSignOut() {
+    logout(authState);
+    router.push("/login");
+  }
 
   return (
     <Menu as="div" className="inline-block text-left">
@@ -27,9 +37,16 @@ export default function AvatarMenu() {
         leaveTo="transform opacity-0 scale-95"
       >
         {menuType === "business" ? (
-          <BusinessMenu ref={ref} />
+          <BusinessMenu ref={ref} handleSignOut={handleSignOut} />
         ) : (
-          <UserMenu ref={ref} />
+          <UserMenu
+            ref={ref}
+            handleSignOut={handleSignOut}
+            user={{
+              name: "Bill",
+              uid: "1234",
+            }}
+          />
         )}
       </Transition>
     </Menu>

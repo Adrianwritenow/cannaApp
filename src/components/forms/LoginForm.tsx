@@ -1,13 +1,16 @@
 import * as Yup from "yup";
 
-import { Field, Formik } from "formik";
+import AuthContext, { login } from "../../../stores/authContext";
+import { Field, Form, Formik } from "formik";
+import React, { useContext, useState } from "react";
 
 import { InputField } from "./fields/InputField";
-import React from "react";
 import styles from "./Form.module.scss";
 import { useRouter } from "next/router";
 
-export default function LoginForm() {
+export default function LoginForm(csrfToken: any) {
+  const authState = useContext(AuthContext);
+  const [apiError, setApiError] = useState("");
   const router = useRouter();
   const schema = Yup.object().shape({
     email: Yup.string()
@@ -21,19 +24,25 @@ export default function LoginForm() {
     password: "",
   };
 
-  function handleSubmit(values: any) {
-    router.push("/");
-  }
+  const handleSubmit = async (values: any) => {
+    setApiError("");
+
+    const response = await login(authState, values.email, values.password);
+    const error = response.data.error;
+
+    if (error) {
+      setApiError(response.data.message);
+    }
+  };
 
   return (
     <Formik
       validationSchema={schema}
       initialValues={initialValues}
       onSubmit={handleSubmit}
-      validateOnChange={false}
       validateOnBlur={true}
     >
-      {({ handleSubmit, errors }) => {
+      {({ handleSubmit, errors, values }) => {
         const errorCount = Object.keys(errors).length;
         const errorList = Object.values(errors).map((error, i) => (
           <li className="text-red-700 font-normal" key={i}>
@@ -42,13 +51,8 @@ export default function LoginForm() {
         ));
 
         return (
-          <form
-            className="space-y-6"
-            action="#"
-            method="POST"
-            onSubmit={handleSubmit}
-          >
-            <div className="mt-1">
+          <Form className="space-y-6" method="POST" onSubmit={handleSubmit}>
+            <div>
               <Field
                 label="Email Address"
                 id="email"
@@ -90,7 +94,7 @@ export default function LoginForm() {
                 </a>
               </div>
             </div>
-            {errorCount ? (
+            {errorCount || apiError ? (
               <div className="grid grid-cols-6  bg-red-50 block w-full rounded-md  sm:text-sm py-5 ">
                 <div className="col-span-1 flex justify-center">
                   <svg
@@ -105,11 +109,18 @@ export default function LoginForm() {
                     />
                   </svg>
                 </div>
+
                 <div className="col-span-5">
-                  <p className="text-red-800 font-medium">
-                    There were {errorCount} errors with your submission
-                  </p>
-                  <ul className={styles.errorList}>{errorList}</ul>
+                  {errorCount ? (
+                    <>
+                      <p className="text-red-800 font-medium">
+                        There were {errorCount} errors with your submission
+                      </p>
+                      <ul className={styles.errorList}>{errorList}</ul>
+                    </>
+                  ) : (
+                    <p className="text-red-800 font-medium mr-4">{apiError}</p>
+                  )}
                 </div>
               </div>
             ) : (
@@ -122,7 +133,7 @@ export default function LoginForm() {
             >
               Log in
             </button>
-          </form>
+          </Form>
         );
       }}
     </Formik>

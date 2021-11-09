@@ -1,12 +1,29 @@
+import React, { useContext, useEffect, useState } from "react";
+
+import AuthContext from "../../stores/authContext";
 import FacebookIcon from "../../public/assets/icons/icon-facebook.svg";
 import GoogleIcon from "../../public/assets/icons/icon-google.svg";
 import Image from "next/image";
 import Link from "next/link";
 import LoginForm from "../../src/components/forms/LoginForm";
 import Logo from "../../public/assets/logos/logo.png";
-import React from "react";
+import { useRouter } from "next/router";
 
-export default function Register() {
+export default function Login() {
+  const authState = useContext(AuthContext);
+  const [access_token, setAccessToken] = useState("");
+  const router = useRouter();
+
+  useEffect(() => {
+    if (authState) {
+      const access_token = authState.state.session.access_token;
+      setAccessToken(`${access_token}`);
+    }
+    if (authState.state.session.access_token) {
+      router.push("/");
+    }
+  }, [access_token, authState]);
+
   return (
     <div className="flex flex-col justify-start max-w-5xl mx-auto py-12 bg-white px-4">
       <div className="grid grid-cols-6 gap-0">
@@ -38,7 +55,10 @@ export default function Register() {
           <Link href="#">
             <a>
               <span className="sr-only">Sign in with Google</span>
-              <button className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 focus:outline-none focus:ring-green focus:border-green">
+              <button
+                onClick={() => {}}
+                className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 focus:outline-none focus:ring-green focus:border-green"
+              >
                 <Image src={GoogleIcon} alt="Google" width={20} height={20} />
               </button>
             </a>
@@ -46,7 +66,10 @@ export default function Register() {
           <Link href="#">
             <a>
               <span className="sr-only">Sign in with Facebook</span>
-              <button className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 focus:outline-none focus:ring-green focus:border-green">
+              <button
+                onClick={() => {}}
+                className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 focus:outline-none focus:ring-green focus:border-green"
+              >
                 <Image
                   src={FacebookIcon}
                   alt="Facebook"

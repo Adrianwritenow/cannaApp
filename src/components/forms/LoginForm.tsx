@@ -8,7 +8,7 @@ import { InputField } from "./fields/InputField";
 import styles from "./Form.module.scss";
 import { useRouter } from "next/router";
 
-export default function LoginForm(csrfToken: any) {
+export default function LoginForm() {
   const authState = useContext(AuthContext);
   const [apiError, setApiError] = useState("");
   const router = useRouter();

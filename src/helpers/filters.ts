@@ -1,0 +1,21 @@
+export const StrainFilters = {
+  types: ["Indica", "Sativa", "Hybrid"],
+  feelings: [
+    "Aroused",
+    "Creative",
+    "Energetic",
+    "Euphoric",
+    "Focused",
+    "Giggly",
+    "Happy",
+    "Hungry",
+    "Relaxed",
+    "Sleepy",
+    "Talkative",
+    "Tingly",
+    "Uplifted",
+  ],
+  flavors: ["Sweet", "Savory", "Earthy"],
+  armoas: ["Smokey", "Nutty", "Funky"],
+  helps: ["Anxiety", "Apetite", "Sleep"],
+};

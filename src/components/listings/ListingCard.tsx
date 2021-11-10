@@ -30,7 +30,7 @@ export default function ListingCard(data: ListingProps) {
           </div>
           <div className="pt-2.5 text-left text-sm w-full">
             <div className="flex flex-wrap justify-between">
-              <h3 className="text-lg font-semobold text-gray-700">
+              <h3 className="text-lg font-semi-bold text-gray-700">
                 {listing.name}
               </h3>
               <BookmarkIcon className="w-6" />

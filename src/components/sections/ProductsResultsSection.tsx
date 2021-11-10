@@ -28,8 +28,9 @@ export default function ProductResultsSection(results: Products) {
         Shop %Query%
       </h2>
       <div className="grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-6 ">
-        {products.map((product: Product) => (
-          <ProductCard product={product} key={product.id} />
+        {products.map((product: Product, index) => (
+          <ProductCard product={product} key={`pc-${index}`} />
+
         ))}
       </div>
       <div className="px-4 ">

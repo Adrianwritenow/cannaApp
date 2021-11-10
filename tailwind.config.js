@@ -7,6 +7,12 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
+      padding: {
+        full: "100%",
+      },
+      minWidth: {
+        36: "9rem",
+      },
       colors: {
         green: {
           DEFAULT: "#22A259",
@@ -34,5 +40,6 @@ module.exports = {
   plugins: [
     require("@tailwindcss/typography"),
     require("@tailwindcss/line-clamp"),
+    require("@tailwindcss/forms"),
   ],
 };

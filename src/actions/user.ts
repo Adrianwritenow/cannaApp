@@ -1,5 +1,4 @@
-import { Axios, AxiosError, AxiosResponse } from "axios";
-
+import { AxiosError, AxiosResponse } from "axios";
 import qs from "qs";
 
 var axios = require("axios");

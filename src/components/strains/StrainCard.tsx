@@ -1,7 +1,8 @@
-import { Strain } from "../../interfaces/strain";
 import Image from "next/image";
 import React from "react";
 import { StarIcon } from "@heroicons/react/solid";
+import { Strain } from "../../interfaces/strain";
+import styles from "./StrainCard.module.scss";
 
 interface StrainProps {
   strain: Strain;
@@ -12,18 +13,20 @@ export default function StrainCard(data: StrainProps) {
   return (
     <div
       key={strain.id}
-      className="relative w-36 flex flex-wrap"
+      className="relative w-full flex flex-wrap min-w-36"
       id={`strain-${strain.id}`}
     >
-      <div className="rounded-lg overflow-hidden w-36 h-36 relative">
+      <div className="rounded-lg overflow-hidden relative w-full pb-full">
+
         <Image
           src={strain.images[0]}
           alt={strain.title}
           layout="fill"
           objectFit={"cover"}
+          className={"w-full h-full"}
         />
       </div>
-      <div className="pt-2 pb-6 text-left text-sm w-36">
+      <div className="pt-2 pb-6 text-left text-sm">
         <h3 className="text-sm font-normal text-gray-700">{strain.title}</h3>
         <div className="flex flex-col items-start">
           <p className="sr-only">{strain.rating} out of 5 stars</p>
@@ -42,6 +45,7 @@ export default function StrainCard(data: StrainProps) {
             ))}
             <p className="font-normal text-gray-500">({strain.reviewCount})</p>
           </div>
+          <p className="text-sm text-gray-500">{strain.type}</p>
         </div>
       </div>
     </div>

@@ -10,6 +10,7 @@ axiosInstance.interceptors.request.use(
   async (config: AxiosRequestConfig<any>) => {
     config.params = config.params || {};
     config.params["auth"];
+
     return config;
   }
 );

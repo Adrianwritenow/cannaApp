@@ -3,51 +3,50 @@ import { BookmarkIcon } from "@heroicons/react/outline";
 
 import React from "react";
 import Image from "next/image";
-import { Listing } from "../../interfaces/listing";
 import { Disclosure } from "@headlessui/react";
-interface ListingProps {
-  listing: Listing;
+import { Strain } from "../../interfaces/strain";
+interface StrainProps {
+  strain: Strain;
 }
-export default function ListingCardSmall(data: ListingProps) {
-  const { listing } = data;
+export default function StrainCardSmall(data: StrainProps) {
+  const { strain } = data;
 
   return (
     <Disclosure
       as="div"
-      key={listing.id}
+      key={strain.id}
       className="relative w-full flex flex-wrap p-4"
-      id={`listing-${listing.id}`}
+      id={`strain-${strain.id}`}
     >
       {({ open }) => (
         <>
           <Disclosure.Button className="w-full flex">
-            <div className="rounded-lg overflow-hidden w-20 h-20 relative flex-shrink-0 mr-3">
+            <div className="rounded-lg overflow-hidden w-12 h-12 relative flex-shrink-0 mr-3">
               <Image
-                src={listing.image}
-                alt={listing.name}
+                src={strain.images[0]}
+                alt={strain.title}
                 layout="fill"
                 objectFit={"cover"}
               />
             </div>
             <div className="text-left text-sm w-full">
               <div className="flex flex-wrap justify-between">
-                <h3 className="text-lg font-semobold text-gray-700">
-                  {listing.name}
+                <h3 className="text-sm text-gray-500 font-normal">
+                  {strain.title}
                 </h3>
-                <BookmarkIcon className="w-6" />
               </div>
               <div className="flex flex-col items-start">
-                <p className="sr-only">{listing.rating} out of 5 stars</p>
+                <p className="sr-only">{strain.rating} out of 5 stars</p>
                 <div className="flex items-center">
                   <span className="font-normal text-gray-500">
-                    {listing.rating}
+                    {strain.rating}
                   </span>
 
                   {[0, 1, 2, 3, 4].map((rating) => (
                     <StarIcon
                       key={rating}
                       className={`    ${
-                        listing.rating > rating
+                        strain.rating > rating
                           ? "text-yellow-400"
                           : "text-gray-200"
                       }
@@ -56,11 +55,11 @@ export default function ListingCardSmall(data: ListingProps) {
                     />
                   ))}
                   <p className="font-normal text-gray-500">
-                    ({listing.reviewCount})
+                    ({strain.reviewCount})
                   </p>
                 </div>
                 <p className="text-sm text-gray-500 font-normal">
-                  {listing.category}
+                  {strain.type}
                 </p>
               </div>
             </div>

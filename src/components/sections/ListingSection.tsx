@@ -12,9 +12,10 @@ export default function ProductResultsSection(results: Listings) {
   const { listings } = results;
   const { sponsored } = results;
   return (
-    <section id="shop-section">
+    <section id="listing-section">
       {sponsored ? (
-        <div className="flex flex-wrap items-center px-4 py-2">
+        <div className="flex flex-wrap items-center px-4 py-3 pb-0">
+
           <h5 className="text-xs text-gray-500 font-semibold pr-1">
             Sponsored Result
           </h5>
@@ -29,9 +30,20 @@ export default function ProductResultsSection(results: Listings) {
       <div className="grid grid-flow-row auto-rows-max gap-1">
         {listings.map((listing: Listing, index) => {
           if (index <= 4) {
-            return <ListingCard listing={listing} key={listing.id} />;
+            return (
+              <ListingCard
+                listing={listing}
+                key={`lc-${listing.id}-${index}`}
+              />
+            );
           } else {
-            return <ListingCardSmall listing={listing} key={listing.id} />;
+            return (
+              <ListingCardSmall
+                listing={listing}
+                key={`lcs-${listing.id}-${index}`}
+              />
+            );
+
           }
         })}
       </div>

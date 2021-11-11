@@ -1,25 +1,40 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+
 import SearchAll from "../../src/views/search/SearchAll";
 import SearchDispensary from "../../src/views/search/SearchDispensary";
 import SearchStrain from "../../src/views/search/SearchStrain";
 import { Tab } from "@headlessui/react";
+import { useRouter } from "next/router";
 
 export default function Search() {
-  const tabs = [
-    { name: "All" },
+  const router = useRouter();
+  const [view, setView] = useState(0);
 
-    { name: "Dispensaries", href: "#", current: false },
-    { name: "Strains", href: "#", current: false },
-    { name: "Restauraunts", href: "#", current: false },
-    { name: "Shops", href: "#", current: false },
+  const query = router.query;
+
+  const tabs = [
+    { name: "All", href: "/search?type=all", current: false },
+    { name: "Dispensaries", href: "/search?type=dispensaries", current: false },
+    { name: "Strains", href: "/search?type=strains", current: false },
+    { name: "Restauraunts", href: "/search?type=restuaurant", current: false },
+    { name: "Shops", href: "/search?type=shops", current: false },
   ];
+
+  useEffect(() => {
+    const index = tabs.map((tab, index) => {
+      const currentPath = tab.href.includes(`${query.type}`);
+      if (currentPath) {
+        setView(index);
+      }
+    });
+  }, [view]);
 
   return (
     <div className="bg-gray-50 ">
       <div className="overflow-visible overflow-scroll border-b border-gray-200 bg-white ">
-        <Tab.Group>
+        <Tab.Group defaultIndex={view}>
           <Tab.List className="w-full overflow-visible overflow-x-scroll border-b border-gray-200 flex">
-            {tabs.map((tab) => (
+            {tabs.map((tab, index) => (
               <Tab
                 key={tab.name}
                 className={({ selected }) =>

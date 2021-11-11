@@ -240,29 +240,25 @@ export default function StrainFilter(props: FilterProps) {
             </button>
           </div>
           <div className="flex">
-            {filterTabs.length > 0 ? (
-              <div className="flex">
-                {/* Initial Filters for views and sort type */}
+            <div className="flex">
+              {/* Initial Filters for views and sort type */}
+              <DropdownFilter
+                setter={sort.update}
+                options={["relevance", "distance", "rating"]}
+                current={sort.value}
+                label={"Sort by"}
+              />
+              {/* If view is passed render it */}
+              {view && (
                 <DropdownFilter
-                  setter={sort.update}
-                  options={["relevance", "distance", "rating"]}
-                  current={sort.value}
-                  label={"Sort by"}
+                  setter={view?.update}
+                  options={["list", "grid"]}
+                  preface={"View:"}
+                  current={view?.value}
+                  label={"View"}
                 />
-                {/* If view is passed render it */}
-                {view && (
-                  <DropdownFilter
-                    setter={view?.update}
-                    options={["list", "grid"]}
-                    preface={"View:"}
-                    current={view?.value}
-                    label={"Sort by"}
-                  />
-                )}
-              </div>
-            ) : (
-              ""
-            )}
+              )}
+            </div>
             <div className="flex">
               {/* Tab filters rendered */}
               {filterTabs.map((filter: string) => (

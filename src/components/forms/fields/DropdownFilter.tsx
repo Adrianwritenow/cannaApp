@@ -1,5 +1,5 @@
-import { CheckIcon, ChevronDownIcon, XIcon } from "@heroicons/react/solid";
-import { Dialog, Menu, Transition } from "@headlessui/react";
+import { ChevronDownIcon, XIcon } from "@heroicons/react/solid";
+import { Dialog, Transition } from "@headlessui/react";
 import React, { Fragment, useState } from "react";
 
 interface DropdownFilter {
@@ -78,25 +78,31 @@ export default function DropdownFilter(data: DropdownFilter) {
                 </div>
                 <div className="divide-y divide-gray-200">
                   {options.map((option: string) => (
-                    <div
-                      className="flex items-center py-4"
+                    <button
+                      className="w-full focus:outline-none"
+                      onClick={() => {
+                        console.log("BANG");
+                        setter(option);
+                      }}
                       key={`sort-method-${option}`}
                     >
-                      <label
-                        htmlFor={`sort-method-${option}`}
-                        className="block text-sm font-normal text-gray-900 capitalize"
-                      >
-                        {option}
-                      </label>
-                      <input
-                        id={`sort-method-${option}`}
-                        name={`sort-method`}
-                        type="radio"
-                        defaultChecked={current === option}
-                        onClick={() => setter(option)}
-                        className="focus:ring-green h-4 w-4 text-green border-gray-300 ml-auto"
-                      />
-                    </div>
+                      <div className="flex items-center py-4">
+                        <label
+                          htmlFor={`sort-method-${option}`}
+                          className="block text-sm font-normal text-gray-900 capitalize"
+                        >
+                          {option}
+                        </label>
+                        <input
+                          id={`sort-method-${option}`}
+                          name={`sort-method`}
+                          type="radio"
+                          readOnly
+                          checked={current === option}
+                          className="focus:ring-green h-4 w-4 text-green border-gray-300 ml-auto"
+                        />
+                      </div>
+                    </button>
                   ))}
                 </div>
               </div>

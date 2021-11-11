@@ -94,31 +94,31 @@ export const BottomNavRoutes = [
   {
     label: "Shops",
     icon: <Shops className="w-7 h-7" />,
-    href: "#shops",
+    href: "/search",
     id: "shops",
   },
   {
     label: "Deals",
     icon: <Deals className="w-7 h-7" />,
-    href: "#deals",
+    href: "/search",
     id: "deals",
   },
   {
     label: "Strains",
     icon: <Strains className="w-7 h-7" />,
-    href: "#strains",
+    href: "/search",
     id: "strains",
   },
   {
     label: "Products",
     icon: <Products className="w-7 h-7" />,
-    href: "#products",
+    href: "/search",
     id: "products",
   },
   {
     label: "More",
     icon: <Menu className="w-7 h-7" />,
-    href: "#more",
+    href: "/more",
     id: "more",
   },
 ];

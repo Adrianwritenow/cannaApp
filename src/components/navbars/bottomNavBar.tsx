@@ -10,7 +10,10 @@ export default function BottomNavBar() {
     <div className="fixed w-full bg-white p-2 bottom-0 grid grid-cols-5">
       {BottomNavRoutes.map((element, i) => {
         return (
-          <Link href={element.href} key={i}>
+          <Link
+            href={{ pathname: element.href, query: { type: element.id } }}
+            key={i}
+          >
             <a onClick={() => setActiveTab(element.id)}>
               <div
                 className={`${

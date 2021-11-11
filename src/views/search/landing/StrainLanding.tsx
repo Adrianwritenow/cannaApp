@@ -319,7 +319,7 @@ export default function StrainLanding() {
         </h2>
         <div className="w-full overflow-x-scroll">
           <div className="w-min">
-            <div className="grid grid-rows-4 grid-flow-col auto-rows-max w-full gap-1">
+            <div className="grid grid-flow-col auto-cols-max grid-rows-4 w-full gap-1">
               {popularStrains.map((strain: Strain, index) => (
                 <div className="w-60" key={`${strain}-${index}`}>
                   <StrainCardSmall strain={strain} />
@@ -378,7 +378,7 @@ export default function StrainLanding() {
 
         <div className="w-full overflow-x-scroll">
           <div className="w-min">
-            <div className="grid grid-rows-4 grid-flow-col auto-rows-max w-full gap-4 ">
+            <div className="grid grid-flow-col auto-cols-max grid-rows-4 w-full gap-4 ">
               {Feelings.map((feeling: Feeling, index) => {
                 return (
                   <div
@@ -414,7 +414,7 @@ export default function StrainLanding() {
 
         <div className="w-full overflow-x-scroll">
           <div className="w-min">
-            <div className="grid grid-rows-3 grid-flow-col auto-rows-max w-full gap-4 ">
+            <div className="grid grid-flow-col auto-cols-max grid-rows-3 w-full gap-4 ">
               {Flavors.map((flavor: Flavor, index) => {
                 return (
                   <div
@@ -422,7 +422,7 @@ export default function StrainLanding() {
                     key={`${flavor.label}-${index}`}
                   >
                     <div
-                      className={`w-2 h-full bg-${flavor.color} left-0 top-0 absolute`}
+                      className={`w-2 h-full ${flavor.color} left-0 top-0 absolute`}
                     ></div>
                     <p className="w-full text-center">{flavor.label}</p>
                   </div>
@@ -450,7 +450,7 @@ export default function StrainLanding() {
 
         <div className="w-full overflow-x-scroll">
           <div className="w-min">
-            <div className="grid grid-rows-3 grid-flow-col auto-rows-max w-full gap-4 ">
+            <div className="grid grid-flow-col auto-cols-max grid-rows-3 w-full gap-4 ">
               {Terpenes.map((terpene: Terpene, index) => {
                 return (
                   <div
@@ -458,7 +458,7 @@ export default function StrainLanding() {
                     key={`${terpene.label}-${index}`}
                   >
                     <div
-                      className={`w-2 h-full bg-${terpene.color} left-0 top-0 absolute`}
+                      className={`w-2 h-full ${terpene.color} left-0 top-0 absolute`}
                     ></div>
                     <p className="w-full text-center">{terpene.label}</p>
                   </div>

@@ -1,38 +1,38 @@
 export const Flavors = [
   {
     label: "Citrus",
-    color: "yellow-400",
+    color: "bg-yellow-400",
   },
   {
     label: "Mango",
-    color: "yellow-600",
+    color: "bg-yellow-600",
   },
   {
     label: "Mint",
-    color: "og-400",
+    color: "bg-og-400",
   },
   {
     label: "Diesel",
-    color: "gray-700",
+    color: "bg-gray-700",
   },
   {
     label: "Sweet",
-    color: "red-500",
+    color: "bg-red-500",
   },
   {
     label: "Nutty",
-    color: "pink-800",
+    color: "bg-pink-800",
   },
   {
     label: "Honey",
-    color: "yellow-600",
+    color: "bg-yellow-600",
   },
   {
     label: "Earthy",
-    color: "yellow-800",
+    color: "bg-yellow-800",
   },
   {
     label: "Lavender",
-    color: "purple-500",
+    color: "bg-purple-500",
   },
 ];

@@ -20,10 +20,11 @@ interface SortViewProps {
 interface FilterProps {
   sort: SortViewProps;
   view?: SortViewProps;
+  handleResults: Function;
 }
 
 export default function StrainFilter(props: FilterProps) {
-  const { sort, view } = props;
+  const { sort, view, handleResults } = props;
   const [open, setOpen] = useState(false);
   const initialValues = {
     filters: {
@@ -44,9 +45,6 @@ export default function StrainFilter(props: FilterProps) {
     },
   });
   const [filterTabs, setFilterTabs]: any = useState([]);
-  // const [sort, setSort]: any = useState("relevance");
-  // const [view, setView]: any = useState("list");
-
   const values = savedValues.filters;
 
   // Check values to see if they are empty
@@ -96,6 +94,7 @@ export default function StrainFilter(props: FilterProps) {
     }, []);
 
     setFilterTabs(filter_array);
+    handleResults(filter_array);
   }, [savedValues]);
 
   return (
@@ -240,39 +239,47 @@ export default function StrainFilter(props: FilterProps) {
               <AdjustmentsIcon className="w-6 h-6 transform rotate-90" />
             </button>
           </div>
-          <div className="flex ">
-            {/* Initial Filters for views and sort type */}
-            <DropdownFilter
-              setter={sort.update}
-              options={["relevance", "distance", "rating"]}
-              current={sort.value}
-              label={"Sort by"}
-            />
-            {/* If view is passed render it */}
-            {view && (
-              <DropdownFilter
-                setter={view?.update}
-                options={["list", "grid"]}
-                preface={"View:"}
-                current={view?.value}
-                label={"Sort by"}
-              />
+          <div className="flex">
+            {filterTabs.length > 0 ? (
+              <div className="flex">
+                {/* Initial Filters for views and sort type */}
+                <DropdownFilter
+                  setter={sort.update}
+                  options={["relevance", "distance", "rating"]}
+                  current={sort.value}
+                  label={"Sort by"}
+                />
+                {/* If view is passed render it */}
+                {view && (
+                  <DropdownFilter
+                    setter={view?.update}
+                    options={["list", "grid"]}
+                    preface={"View:"}
+                    current={view?.value}
+                    label={"Sort by"}
+                  />
+                )}
+              </div>
+            ) : (
+              ""
             )}
-            {/* Tab filters rendered */}
-            {filterTabs.map((filter: string) => (
-              <button
-                type="button"
-                key={filter}
-                onClick={() => {
-                  removeFilter(filter);
-                }}
-                className="flex rounded-full border border-gray-200 items-center px-4 py-2   text-sm font-medium bg-white text-gray-900 mx-1"
-              >
-                <span>{filter}</span>
+            <div className="flex">
+              {/* Tab filters rendered */}
+              {filterTabs.map((filter: string) => (
+                <button
+                  type="button"
+                  key={filter}
+                  onClick={() => {
+                    removeFilter(filter);
+                  }}
+                  className="flex rounded-full border border-gray-200 items-center px-4 py-2   text-sm font-medium bg-white text-gray-900 mx-1"
+                >
+                  <span>{filter}</span>
 
-                <span className="sr-only">Remove filter for label</span>
-              </button>
-            ))}
+                  <span className="sr-only">Remove filter for label</span>
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </div>

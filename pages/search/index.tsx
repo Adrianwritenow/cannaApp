@@ -54,7 +54,6 @@ export default function Search() {
           </Tab.Panels>
         </Tab.Group>
       </div>
-
     </div>
   );
 }

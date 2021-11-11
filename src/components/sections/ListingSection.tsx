@@ -1,21 +1,20 @@
 import { InformationCircleIcon } from "@heroicons/react/outline";
-import React from "react";
 import { Listing } from "../../interfaces/listing";
 import ListingCard from "../listings/ListingCard";
 import ListingCardSmall from "../listings/ListingCardSmall";
+import React from "react";
 
 interface Listings {
   listings: Array<Listing>;
   sponsored?: boolean;
 }
-export default function ProductResultsSection(results: Listings) {
+export default function ListingSection(results: Listings) {
   const { listings } = results;
   const { sponsored } = results;
   return (
     <section id="listing-section">
       {sponsored ? (
         <div className="flex flex-wrap items-center px-4 py-3 pb-0">
-
           <h5 className="text-xs text-gray-500 font-semibold pr-1">
             Sponsored Result
           </h5>
@@ -43,7 +42,6 @@ export default function ProductResultsSection(results: Listings) {
                 key={`lcs-${listing.id}-${index}`}
               />
             );
-
           }
         })}
       </div>

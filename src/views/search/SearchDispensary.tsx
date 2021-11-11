@@ -1,7 +1,8 @@
-import React from "react";
+import { Listing } from "../../interfaces/listing";
 import ListingCard from "../../components/listings/ListingCard";
 import ListingSection from "../../components/sections/ListingSection";
-import { Listing } from "../../interfaces/listing";
+import React from "react";
+
 
 export default function SearchStrain() {
   const listings: Array<Listing> = [

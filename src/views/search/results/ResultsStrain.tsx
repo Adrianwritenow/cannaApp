@@ -1,13 +1,16 @@
-import LearnSection from "../../components/sections/LearnSection";
-import { Listing } from "../../interfaces/listing";
-import ListingSection from "../../components/sections/ListingSection";
-import { Product } from "../../interfaces/product";
-import ProductResultsSection from "../../components/sections/ProductsResultsSection";
+import { Product } from "../../../interfaces/product";
+import ProductResultsSection from "../../../components/sections/ProductsResultsSection";
 import React from "react";
-import RelatedStrainsSection from "../../components/sections/RelatedStrainsSection";
-import { Strain } from "../../interfaces/strain";
+import { Strain } from "../../../interfaces/strain";
+import StrainCard from "../../../components/strains/StrainCard";
+import StrainCardSmall from "../../../components/strains/StrainCardSmall";
 
-export default function SearchAll() {
+interface ResultsProps {
+  view: string;
+}
+
+export default function ResultsStrain(data: ResultsProps) {
+  const { view } = data;
   const products: Array<Product> = [
     {
       id: 1,
@@ -174,132 +177,37 @@ export default function SearchAll() {
     },
   ];
 
-  const listings: Array<Listing> = [
-    {
-      id: "l23",
-      image:
-        "https://images.unsplash.com/photo-1514933651103-005eec06c04b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1674&q=80",
-      distance: "8mi",
-      openTime: "12pm",
-      closeTime: "8pm",
-      amenities: ["Amenity", "Amenity", "Amenity"],
-      category: "Listing Category",
-      href: "#",
-      name: "Listing Name",
-      rating: 4,
-      reviewCount: 90,
-    },
-    {
-      id: "l24",
-      image:
-        "https://images.unsplash.com/photo-1457573557536-6b4b6ca9a05e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80",
-      distance: "8mi",
-      openTime: "12pm",
-      closeTime: "8pm",
-      amenities: ["Amenity", "Amenity", "Amenity"],
-      category: "Listing Category",
-      href: "#",
-      name: "Listing Name",
-      rating: 4,
-      reviewCount: 90,
-    },
-    {
-      id: "l25",
-      image:
-        "https://images.unsplash.com/photo-1514933651103-005eec06c04b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1674&q=80",
-      distance: "8mi",
-      openTime: "12pm",
-      closeTime: "8pm",
-      amenities: ["Amenity", "Amenity", "Amenity"],
-      category: "Listing Category",
-      href: "#",
-      name: "Listing Name",
-      rating: 4,
-      reviewCount: 90,
-    },
-    {
-      id: "l26",
-      image:
-        "https://images.unsplash.com/photo-1457573557536-6b4b6ca9a05e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80",
-      distance: "8mi",
-      openTime: "12pm",
-      closeTime: "8pm",
-      amenities: ["Amenity", "Amenity", "Amenity"],
-      category: "Listing Category",
-      href: "#",
-      name: "Listing Name",
-      rating: 4,
-      reviewCount: 90,
-    },
-    {
-      id: "l29",
-      image:
-        "https://images.unsplash.com/photo-1457573557536-6b4b6ca9a05e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80",
-      distance: "8mi",
-      openTime: "12pm",
-      closeTime: "8pm",
-      amenities: ["Amenity", "Amenity", "Amenity"],
-      category: "Listing Category",
-      href: "#",
-      name: "Listing Name",
-      rating: 4,
-      reviewCount: 90,
-    },
-    {
-      id: "l2t7",
-      image:
-        "https://images.unsplash.com/photo-1457573557536-6b4b6ca9a05e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80",
-      distance: "8mi",
-      openTime: "12pm",
-      closeTime: "8pm",
-      amenities: ["Amenity", "Amenity", "Amenity"],
-      category: "Listing Category",
-      href: "#",
-      name: "Listing Name",
-      rating: 4,
-      reviewCount: 90,
-    },
-    {
-      id: "l456",
-      image:
-        "https://images.unsplash.com/photo-1457573557536-6b4b6ca9a05e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80",
-      distance: "8mi",
-      openTime: "12pm",
-      closeTime: "8pm",
-      amenities: ["Amenity", "Amenity", "Amenity"],
-      category: "Listing Category",
-      href: "#",
-      name: "Listing Name",
-      rating: 4,
-      reviewCount: 90,
-    },
-    {
-      id: "l2w3",
-      image:
-        "https://images.unsplash.com/photo-1457573557536-6b4b6ca9a05e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80",
-      distance: "8mi",
-      openTime: "12pm",
-      closeTime: "8pm",
-      amenities: ["Amenity", "Amenity", "Amenity"],
-      category: "Listing Category",
-      href: "#",
-      name: "Listing Name",
-      rating: 4,
-      reviewCount: 90,
-    },
-  ];
   return (
-    <div className="bg-gray-50">
-      {/* Shop Query Section */}
+    <div>
       <ProductResultsSection products={products} sponsored={true} />
-      {/* Learn Query Section */}
-      <LearnSection strain={strains[0]} />
-      {/* Related Strains Secrtion */}
-      <RelatedStrainsSection strains={strains} />
       {/* Sponsered Listings Section */}
-      <ListingSection listings={[listings[0], listings[1]]} sponsored={true} />
-      {/* Listings Section */}
-      <ListingSection listings={listings} />
+
+      <div>
+        <h2 className="text-xl text-gray-700 font-semibold p-4">
+          % Results for %Query%
+        </h2>
+        {view === "list" ? (
+          <div className=" grid grid-flow-row auto-rows-max">
+            {strains.map((strain: Strain) => (
+              <StrainCardSmall
+                strain={strain}
+                key={`strain-card-${strain.id}`}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className=" grid grid-cols-2 px-4 gap-4">
+            {strains.map((strain: Strain) => (
+              <StrainCard strain={strain} key={`strain-card-${strain.id}`} />
+            ))}
+          </div>
+        )}
+        <div className="px-4 ">
+          <button className="py-4 w-full uppercase text-gray-700 text-xs font-bold border-t border-gray-200 tracking-widest">
+            See more
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

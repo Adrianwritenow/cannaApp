@@ -293,52 +293,6 @@ export default function NavBar() {
                           ""
                         )}
                       </div>
-                      {!router.pathname.startsWith("/user") &&
-                      !router.pathname.startsWith("/search") ? (
-                        <div className="grid grid-cols-3 w-full pt-3">
-                          <div className="text-green-500 text-sm flex items-center justify-start pl-2">
-                            <FilterMenu />
-                          </div>
-                          <div className="flex items-center justify-center">
-                            <span className="relative z-0 inline-flex shadow-sm rounded-full">
-                              <button
-                                type="button"
-                                onClick={() => setView("list")}
-                                className={`${
-                                  view === "list"
-                                    ? "bg-green text-white"
-                                    : "bg-white text-gray-500"
-                                } relative inline-flex items-center px-2 py-2  flex justify-center w-16 rounded-l-full text-sm font-medium focus:z-10 focus:outline-none`}
-                              >
-                                <span className="sr-only">List</span>
-                                List
-                              </button>
-                              <button
-                                type="button"
-                                onClick={() => setView("map")}
-                                className={`${
-                                  view === "map"
-                                    ? "bg-green text-white"
-                                    : "bg-white text-gray-500"
-                                } -ml-px relative inline-flex items-center w-16 flex justify-center  px-2 py-2 rounded-r-full  text-sm font-medium focus:z-10 focus:outline-none`}
-                              >
-                                <span className="sr-only">Map</span>
-                                Map
-                              </button>
-                            </span>
-                          </div>
-                          <div className="flex items-center justify-end pr-2">
-                            <button
-                              type="button"
-                              className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-green bg-white focus:outline-none focus:ring-2 focus:ring-offset-2"
-                            >
-                              Filter
-                            </button>
-                          </div>
-                        </div>
-                      ) : (
-                        ""
-                      )}
                     </div>
                   </>
                 );

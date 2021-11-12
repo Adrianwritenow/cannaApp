@@ -36,10 +36,13 @@ export function updateUser(id: string, values: any): IAxiosAction {
   const payload: any = {};
 
   Object.keys(values).map(function (key, index) {
-    payload[`${key}`] = [{ value: values[`${key}`] }];
+    if (values[key]) {
+      payload[`${key}`] = [{ value: values[key] }];
+    }
   });
 
   const data = JSON.stringify(payload);
+
   return {
     type: USER_REQUEST_UPDATE,
     config: {

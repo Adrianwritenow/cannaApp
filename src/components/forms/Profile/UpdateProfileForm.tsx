@@ -19,7 +19,13 @@ interface ProfileImages {
 
 export default function UpdateProfileForm(props: UpdateFormProps) {
   const [currentUser] = useCurrentUser();
-  const [savedValues, setSavedValues] = useState({});
+  const [savedValues, setSavedValues] = useState({
+    name: "",
+    about: "",
+    user_picture: "",
+    coverPhoto: "",
+  });
+
   const [dispatchAxios, { loading }] = useAxios();
 
   const [selectedFile, setSelectedFile] = useState<ProfileImages>({
@@ -85,6 +91,7 @@ export default function UpdateProfileForm(props: UpdateFormProps) {
   ) => {
     if (event.target.files) {
       const reader = new FileReader();
+
       reader.onloadend = () => {
         setSelectedFile({
           ...selectedFile,
@@ -105,19 +112,23 @@ export default function UpdateProfileForm(props: UpdateFormProps) {
   };
 
   useEffect(() => {
-    if (Object.keys(savedValues).length === 0 || props.loading) {
+    const isEmpty = Object.values(savedValues).every((value) => {
+      value === null || value === "";
+    });
+    if (isEmpty || props.loading) {
+      const currentPhoto = currentUser.user_picture[0]?.value;
       setSavedValues({
-        name: currentUser.name[0].value,
+        name: currentUser.name[0].value || "",
         about: "",
         user_picture: currentUser.user_picture[0]?.value,
         coverPhoto: "",
       });
       setSelectedFile({
         ...selectedFile,
-        user_picture: currentUser.user_picture[0]?.value,
+        user_picture: currentPhoto,
       });
     }
-  }, [savedValues, props.loading, currentUser, selectedFile]);
+  }, [savedValues, props.loading]);
 
   async function handleSubmit(values: any) {
     const response = await dispatchAxios(
@@ -128,9 +139,7 @@ export default function UpdateProfileForm(props: UpdateFormProps) {
   return (
     <Formik
       validationSchema={schema}
-      initialValues={
-        Object.keys(savedValues).length > 0 ? savedValues : initialValues
-      }
+      initialValues={savedValues}
       onSubmit={(values) => handleSubmit(values)}
       validateOnChange={true}
       enableReinitialize

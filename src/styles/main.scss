@@ -34,3 +34,13 @@ a {
   font-display: swap;
   src: local("Roboto"), url(/fonts/roboto.woff2) format("woff2");
 }
+
+// Swiper
+
+.swiper-pagination-bullet {
+  background-color: #9ca3af !important;
+  opacity: 100% !important;
+  &.swiper-pagination-bullet-active {
+    background-color: white !important;
+  }
+}

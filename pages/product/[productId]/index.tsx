@@ -1,268 +1,175 @@
-import { Disclosure, RadioGroup, Tab } from "@headlessui/react";
-import { HeartIcon, MinusSmIcon, PlusSmIcon } from "@heroicons/react/outline";
+import { ArrowRightIcon, StarIcon } from "@heroicons/react/solid";
+import React, { useState } from "react";
+import { listings, products } from "../../../src/helpers/mockData";
 
-import Image from "next/image";
-import { StarIcon } from "@heroicons/react/solid";
-import { useState } from "react";
-
-const product = {
-  name: "Zip Tote Basket",
-  price: "$140",
-  rating: 4,
-  images: [
-    {
-      id: 1,
-      name: "Angled view",
-      src: "https://tailwindui.com/img/ecommerce-images/product-page-03-product-01.jpg",
-      alt: "Angled front view with bag zipped and handles upright.",
-    },
-  ],
-  colors: [
-    {
-      name: "Washed Black",
-      bgColor: "bg-gray-700",
-      selectedColor: "ring-gray-700",
-    },
-    { name: "White", bgColor: "bg-white", selectedColor: "ring-gray-400" },
-    {
-      name: "Washed Gray",
-      bgColor: "bg-gray-500",
-      selectedColor: "ring-gray-500",
-    },
-  ],
-  description: `
-    <p>The Zip Tote Basket is the perfect midpoint between shopping tote and comfy backpack. With convertible straps, you can hand carry, should sling, or backpack this convenient and spacious bag. The zip top and durable canvas construction keeps your goods protected for all-day use.</p>
-  `,
-  details: [
-    {
-      name: "Features",
-      items: [
-        "Multiple strap configurations",
-        "Spacious interior with top zip",
-        "Leather handle and tabs",
-        "Interior dividers",
-        "Stainless strap loops",
-        "Double stitched construction",
-        "Water-resistant",
-      ],
-    },
-  ],
-};
+import DropdownFilter from "../../../src/components/forms/fields/DropdownFilter";
+import ImageSlider from "../../../src/components/slider/ImageSlider";
+import Link from "next/link";
+import ProductResultsSection from "../../../src/components/sections/ProductsResultsSection";
+import { Vendor } from "../../../src/interfaces/vendor";
+import VendorCard from "../../../src/components/vendor/VendorCard";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Product() {
-  const [selectedColor, setSelectedColor] = useState(product.colors[0]);
+const product = products[0];
+
+export default function ProductDetail() {
+  const [sort, setSort]: any = useState("relevance");
 
   return (
-    <div className="max-w-7xl mx-auto py-24 px-6 lg:px-8">
+    <div className="max-w-7xl mx-auto bg-white">
       {/* Product */}
-      <div className="lg:grid lg:grid-cols-2 lg:gap-x-8 lg:items-start">
+      <div className="">
         {/* Image gallery */}
-        <Tab.Group as="div" className="flex flex-col-reverse">
-          {/* Image selector */}
-          <div className="hidden mt-6 w-full max-w-2xl mx-auto sm:block lg:max-w-none">
-            <Tab.List className="grid grid-cols-4 gap-6">
-              {product.images.map((image) => (
-                <Tab
-                  key={image.id}
-                  className="relative h-24 bg-white rounded-md flex items-center justify-center text-sm font-medium uppercase text-gray-900 cursor-pointer hover:bg-gray-50 focus:outline-none focus:ring focus:ring-offset-4 focus:ring-opacity-50"
-                >
-                  {({ selected }) => (
-                    <>
-                      <span className="sr-only">{image.name}</span>
-                      <span className="absolute inset-0 rounded-md overflow-hidden">
-                        <div className="w-full h-full relative">
-                          <Image src={image.src} layout="fill" alt="Product" />
-                        </div>
-                      </span>
-                      <span
-                        className={classNames(
-                          selected ? "ring-green-500" : "ring-transparent",
-                          "absolute inset-0 rounded-md ring-2 ring-offset-2 pointer-events-none"
-                        )}
-                        aria-hidden="true"
-                      />
-                    </>
-                  )}
-                </Tab>
-              ))}
-            </Tab.List>
-          </div>
-
-          <Tab.Panels className="w-full h-full aspect-w-1 aspect-h-1">
-            {product.images.map((image) => (
-              <Tab.Panel
-                key={image.id}
-                className="relative pb-full w-full h-full sm:rounded-lg overflow-hidden"
-              >
-                <Image layout="fill" src={image.src} alt={image.alt} />
-              </Tab.Panel>
-            ))}
-          </Tab.Panels>
-        </Tab.Group>
+        <ImageSlider images={product.images} />
 
         {/* Product info */}
-        <div className="mt-10 px-4 sm:px-0 sm:mt-16 lg:mt-0">
-          <h1 className="text-3xl font-extrabold tracking-tight text-gray-900">
-            {product.name}
-          </h1>
 
-          <div className="mt-3">
-            <h2 className="sr-only">Product information</h2>
-            <p className="text-3xl text-gray-900">{product.price}</p>
-          </div>
+        <div className="mt-4 px-4 space-y-4">
+          <section>
+            <div>
+              <h2 className="sr-only">Product information</h2>
+            </div>
+            <p className="text-sm text-blue-500">{product.brand}</p>
+            <h1 className="text-lg font-normal tracking-tight text-gray-900">
+              {product.name}
+            </h1>
 
-          {/* Reviews */}
-          <div className="mt-3">
+            {/* Reviews */}
             <h3 className="sr-only">Reviews</h3>
             <div className="flex items-center">
               <div className="flex items-center">
+                <span className="font-normal text-gray-500 mr-1">
+                  {product.rating}
+                </span>
                 {[0, 1, 2, 3, 4].map((rating) => (
                   <StarIcon
                     key={rating}
                     className={classNames(
                       product.rating > rating
-                        ? "text-green-500"
-                        : "text-gray-300",
-                      "h-5 w-5 flex-shrink-0"
+                        ? "text-gray-900"
+                        : "text-gray-200",
+                      "h-3.5 w-3.5 flex-shrink-0"
                     )}
                     aria-hidden="true"
                   />
                 ))}
+                <span className="font-normal text-gray-500">
+                  ({product.reviewCount})
+                </span>
               </div>
               <p className="sr-only">{product.rating} out of 5 stars</p>
             </div>
-          </div>
+          </section>
 
-          <div className="mt-6">
-            <h3 className="sr-only">Description</h3>
-
-            <div
-              className="text-base text-gray-700 space-y-6"
-              dangerouslySetInnerHTML={{ __html: product.description }}
-            />
-          </div>
-
-          <form className="mt-6">
-            {/* Colors */}
-            <div>
-              <h3 className="text-sm text-gray-600">Color</h3>
-
-              <RadioGroup
-                value={selectedColor}
-                onChange={setSelectedColor}
-                className="mt-2"
-              >
-                <RadioGroup.Label className="sr-only">
-                  Choose a color
-                </RadioGroup.Label>
-                <div className="flex items-center space-x-3">
-                  {product.colors.map((color) => (
-                    <RadioGroup.Option
-                      key={color.name}
-                      value={color}
-                      className={({ active, checked }) =>
-                        classNames(
-                          color.selectedColor,
-                          active && checked ? "ring ring-offset-1" : "",
-                          !active && checked ? "ring-2" : "",
-                          "-m-0.5 relative p-0.5 rounded-full flex items-center justify-center cursor-pointer focus:outline-none"
-                        )
-                      }
-                    >
-                      <RadioGroup.Label as="p" className="sr-only">
-                        {color.name}
-                      </RadioGroup.Label>
-                      <span
-                        aria-hidden="true"
-                        className={classNames(
-                          color.bgColor,
-                          "h-8 w-8 border border-black border-opacity-10 rounded-full"
-                        )}
-                      />
-                    </RadioGroup.Option>
-                  ))}
-                </div>
-              </RadioGroup>
-            </div>
-
-            <div className="mt-10 flex sm:flex-col1">
-              <button
-                type="submit"
-                className="max-w-xs flex-1 bg-green-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-green-500 sm:w-full"
-              >
-                Add to bag
-              </button>
-
-              <button
-                type="button"
-                className="ml-4 py-3 px-3 rounded-md flex items-center justify-center text-gray-400 hover:bg-gray-100 hover:text-gray-500"
-              >
-                <HeartIcon
-                  className="h-6 w-6 flex-shrink-0"
-                  aria-hidden="true"
-                />
-                <span className="sr-only">Add to favorites</span>
-              </button>
-            </div>
-          </form>
-
-          <section aria-labelledby="details-heading" className="mt-12">
-            <h2 id="details-heading" className="sr-only">
-              Additional details
+          <section aria-labelledby="vendors-heading">
+            <h2 id="vendors-heading" className="sr-only">
+              Vendors with this product
             </h2>
+            <div className="mt-4 py-3 border-t border-b border-gray-200 flex items-center justify-between">
+              <p className="text-sm">Buying Options</p>
+              <DropdownFilter
+                setter={setSort}
+                options={["relevance", "distance"]}
+                current={sort}
+                label={"Sort By"}
+              />
+            </div>
+            {listings.map((listing, index) => {
+              const vendorProduct: Vendor = {
+                listing: listing,
+                product: products[0],
+              };
+              return <VendorCard vendor={vendorProduct} key={index} />;
+            })}
+          </section>
+        </div>
+        <div className="space-y-6 px-4">
+          <section aria-labelledby="details-heading ">
+            <h2 id="details-heading" className="sr-only">
+              Product details
+            </h2>
+            <div className="pt-6">
+              <h2 className="text-gray-700 text-lg font-semibold">
+                {product.name}
+              </h2>
+              <div className="text-sm text-gray-500 pt-2">
+                <p>
+                  <span className="text-black">Type:</span> {product.type}
+                </p>
+                <p>
+                  <span className="text-black">Category:</span>{" "}
+                  {product.category}
+                </p>
+                <div className="flex">
+                  <p className="text-black">Cannabanoids:&nbsp;</p>
+                  <p>
+                    THC&nbsp;
+                    {product.cannabanoids &&
+                      Math.round(product.cannabanoids?.thc * 100)}
+                    %
+                  </p>
+                  <>&nbsp;</>
+                  <p>
+                    CBD&nbsp;
+                    {product.cannabanoids &&
+                      Math.round(product.cannabanoids?.cbd * 100)}
+                    %
+                  </p>
+                </div>
+              </div>
+              <div className="pt-2">
+                <p className="text-sm text-gray-500">{product.about}</p>
+                <Link href="#" passHref>
+                  <a className="text-green mt-1 text-sm font-medium flex items-center">
+                    Learn more &nbsp;
+                    <ArrowRightIcon className="w-4 h-4" />
+                  </a>
+                </Link>
+              </div>
+            </div>
+          </section>
 
-            <div className="border-t divide-y divide-gray-200">
-              {product.details.map((detail) => (
-                <Disclosure as="div" key={detail.name}>
-                  {({ open }) => (
-                    <>
-                      <h3>
-                        <Disclosure.Button className="group relative w-full py-6 flex justify-between items-center text-left">
-                          <span
-                            className={classNames(
-                              open ? "text-green-600" : "text-gray-900",
-                              "text-sm font-medium"
-                            )}
-                          >
-                            {detail.name}
-                          </span>
-                          <span className="ml-6 flex items-center">
-                            {open ? (
-                              <MinusSmIcon
-                                className="block h-6 w-6 text-green-400 group-hover:text-green-500"
-                                aria-hidden="true"
-                              />
-                            ) : (
-                              <PlusSmIcon
-                                className="block h-6 w-6 text-gray-400 group-hover:text-gray-500"
-                                aria-hidden="true"
-                              />
-                            )}
-                          </span>
-                        </Disclosure.Button>
-                      </h3>
-                      <Disclosure.Panel
-                        as="div"
-                        className="pb-6 prose prose-sm"
-                      >
-                        <ul role="list">
-                          {detail.items.map((item) => (
-                            <li key={item}>{item}</li>
-                          ))}
-                        </ul>
-                      </Disclosure.Panel>
-                    </>
-                  )}
-                </Disclosure>
-              ))}
+          <section aria-labelledby="specifications-heading">
+            <h2 id="specifications-heading" className="sr-only">
+              Specifications
+            </h2>
+            <h2 className="text-gray-700 text-lg font-semibold">
+              Specifications
+            </h2>
+            <div>
+              <ul className="text-sm text-gray-700">
+                {product.specifications.map((spec, index) => {
+                  return (
+                    <li
+                      key={index}
+                      className={`${
+                        index % 2 === 0 ? "bg-white" : "bg-green-50"
+                      } flex py-3 px-2`}
+                    >
+                      <p className="font-semibold">{spec.label}</p>
+                      <p className="ml-auto">{spec.value}</p>
+                    </li>
+                  );
+                })}
+              </ul>
             </div>
           </section>
         </div>
       </div>
+
+      <ProductResultsSection
+        products={products}
+        sponsored={false}
+        label="Related Items"
+      />
+      <ProductResultsSection
+        products={products}
+        sponsored={false}
+        label="Recently Viewed Items"
+      />
     </div>
   );
 }

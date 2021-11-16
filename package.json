@@ -19,7 +19,7 @@
     "@tailwindcss/typography": "^0.4.1",
     "axios": "^0.22.0",
     "formik": "^2.2.9",
-    "next": "11.0.1",
+    "next": "12",
     "postcss-import": "^14.0.2",
     "postcss-preset-env": "^6.7.0",
     "qs": "^6.10.1",
@@ -28,6 +28,7 @@
     "react-redux": "^7.2.4",
     "react-select": "^5.0.0",
     "react-sticky-box": "^0.9.3",
+    "swiper": "^7.2.0",
     "yup": "^0.32.9"
   },
   "devDependencies": {

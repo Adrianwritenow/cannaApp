@@ -1,10 +1,11 @@
 import { CheckIcon, StarIcon } from "@heroicons/react/solid";
-import { BookmarkIcon } from "@heroicons/react/outline";
 
-import React from "react";
+import { BookmarkIcon } from "@heroicons/react/outline";
+import { Disclosure } from "@headlessui/react";
 import Image from "next/image";
 import { Listing } from "../../interfaces/listing";
-import { Disclosure } from "@headlessui/react";
+import React from "react";
+
 interface ListingProps {
   listing: Listing;
 }
@@ -69,7 +70,7 @@ export default function ListingCardSmall(data: ListingProps) {
           <Disclosure.Panel as="div" className="w-full pt-4">
             <button
               type="button"
-              className="flex text-center justify-center py-2 border border-transparent text-sm font-medium w-full rounded shadow-sm text-white bg-green-600 hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 w-full"
+              className="flex text-center justify-center py-2 border border-transparent text-sm font-medium w-full rounded shadow-sm text-white bg-green hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 w-full"
             >
               Pickup Avaliable
             </button>

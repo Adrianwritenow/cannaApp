@@ -1,16 +1,16 @@
 import { InformationCircleIcon } from "@heroicons/react/outline";
-import React from "react";
 import { Product } from "../../interfaces/product";
 import ProductCard from "../products/ProductCard";
+import React from "react";
 
 interface Products {
   products: Array<Product>;
   sponsored: boolean;
+  label: string;
 }
 
 export default function ProductResultsSection(results: Products) {
-  const { products } = results;
-  const { sponsored } = results;
+  const { products, sponsored, label } = results;
 
   return (
     <section id="shop-section">
@@ -24,13 +24,10 @@ export default function ProductResultsSection(results: Products) {
       ) : (
         ""
       )}
-      <h2 className="text-xl  text-gray-700 font-semibold p-4 pt-0">
-        Shop %Query%
-      </h2>
+      <h2 className="text-xl  text-gray-700 font-semibold p-4 pt-0">{label}</h2>
       <div className="grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-6 ">
         {products.map((product: Product, index) => (
           <ProductCard product={product} key={`pc-${index}`} />
-
         ))}
       </div>
       <div className="px-4 ">

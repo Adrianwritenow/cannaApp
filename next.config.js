@@ -2,6 +2,7 @@ const path = require("path");
 
 module.exports = {
   reactStrictMode: true,
+  experimental: { esmExternals: true },
   images: {
     domains: ["images.unsplash.com", "tailwindui.com", "unsplash.com"],
   },

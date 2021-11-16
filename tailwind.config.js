@@ -11,6 +11,9 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
+      spacing: {
+        25: "6.5rem",
+      },
       padding: {
         full: "100%",
       },
@@ -20,7 +23,7 @@ module.exports = {
       colors: {
         green: {
           DEFAULT: "#2F603D",
-          50: "#84C396",
+          50: "#E8F1EB",
           100: "#76BC8A",
           200: "#5BAF73",
           300: "#4A9760",

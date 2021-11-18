@@ -88,7 +88,7 @@ export const SearchField = (SearchFieldpProps: Props) => {
 
   const searchOptionLabel = ({ value, type, category }: any) => (
     <div className="flex w-full ">
-      <p className="text-sm">
+      <p className="text-sm focus:outline-none ">
         {value}
         {type ? <span className="text-gray-400"> in {type}</span> : ""}
         <span className="ml-1 text-green font-bold">{category}</span>
@@ -146,7 +146,9 @@ export const SearchField = (SearchFieldpProps: Props) => {
     <CreatableSelect
       {...SearchFieldpProps}
       ref={innerRef}
-      className={`w-full ${styles.input} ${focus ? styles.isFocused : ""}`}
+      className={`w-full hover:border-0 ${styles.input} ${
+        focus ? styles.isFocused : ""
+      }`}
       onBlur={blurHandler}
       onFocus={focusHandler}
       styles={style}

@@ -1,222 +1,120 @@
+import { ArrowLeftIcon, StarIcon } from "@heroicons/react/solid";
+import React, { useState } from "react";
+
+import BusinessAbout from "../../../src/views/business/BusinessAbout";
+import BusinessMenu from "../../../src/views/business/BusinessMenu";
+import BusinessOverview from "../../../src/views/business/BusinessOverview";
+import BusinessReviews from "../../../src/views/business/BusinessReviews";
 import Image from "next/image";
+import { Tab } from "@headlessui/react";
+import { listings } from "../../../src/helpers/mockData";
 import { useRouter } from "next/router";
 
-export default function BusinessProfile() {
+export default function StrainDetail() {
+  const listing = listings[0];
+  const [view, setView] = useState(0);
   const router = useRouter();
-  const bid = router.query.bid;
+
+  const tabs = [
+    { name: "Overview", current: false },
+    {
+      name: "Menu",
+      current: false,
+    },
+    { name: "Reviews", current: false },
+    { name: "About", current: false },
+  ];
 
   return (
-    <div className="flex-1 max-w-7xl mx-auto py-24">
-      <div className="mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-3xl font-extrabold text-blue-gray-900">Account</h1>
-
-        <form className="mt-6 space-y-8 divide-y divide-y-blue-gray-200">
-          <div className="grid grid-cols-1 gap-y-6 sm:grid-cols-6 sm:gap-x-6">
-            <div className="sm:col-span-6">
-              <h2 className="text-xl font-medium text-blue-gray-900">
-                Business Profile
-              </h2>
-              <p className="mt-1 text-sm text-blue-gray-500">
-                This information will be displayed publicly so be careful what
-                you share.
-              </p>
-            </div>
-            <div className="sm:col-span-6">
-              <label
-                htmlFor="username"
-                className="block text-sm font-medium text-blue-gray-900"
-              >
-                Business Name
-              </label>
-              <div className="mt-1 flex rounded-md shadow-sm">
-                <input
-                  type="text"
-                  name="username"
-                  id="username"
-                  autoComplete="username"
-                  defaultValue={`Business ${bid}`}
-                  className="flex-1 block w-full min-w-0 border-blue-gray-300 rounded-none rounded-r-md text-blue-gray-900 sm:text-sm focus:ring-blue-500 focus:border-blue-500"
-                />
-              </div>
-            </div>
-
-            <div className="sm:col-span-6">
-              <label
-                htmlFor="photo"
-                className="block text-sm font-medium text-blue-gray-900"
-              >
-                Photo
-              </label>
-              <div className="mt-1 flex items-center">
-                <div className="inline-block h-12 w-12 rounded-full relative overflow-hidden">
-                  <Image
-                    src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2.5&w=256&h=256&q=80"
-                    layout="fill"
-                    alt="User"
-                  />
-                </div>
-                <div className="ml-4 flex">
-                  <div className="relative bg-white py-2 px-3 border border-blue-gray-300 rounded-md shadow-sm flex items-center cursor-pointer hover:bg-blue-gray-50 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-blue-gray-50 focus-within:ring-blue-500">
-                    <label
-                      htmlFor="user-photo"
-                      className="relative text-sm font-medium text-blue-gray-900 pointer-events-none"
-                    >
-                      <span>Change</span>
-                      <span className="sr-only"> user photo</span>
-                    </label>
-                    <input
-                      id="user-photo"
-                      name="user-photo"
-                      type="file"
-                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer border-gray-300 rounded-md"
-                    />
-                  </div>
-                  <button
-                    type="button"
-                    className="ml-3 bg-transparent py-2 px-3 border border-transparent rounded-md text-sm font-medium text-blue-gray-900 hover:text-blue-gray-700 focus:outline-none focus:border-blue-gray-300 focus:ring-2 focus:ring-offset-2 focus:ring-offset-blue-gray-50 focus:ring-blue-500"
-                  >
-                    Remove
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <div className="sm:col-span-6">
-              <label
-                htmlFor="description"
-                className="block text-sm font-medium text-blue-gray-900"
-              >
-                Description
-              </label>
-              <div className="mt-1">
-                <textarea
-                  id="description"
-                  name="description"
-                  rows={4}
-                  className="block w-full border border-blue-gray-300 rounded-md shadow-sm sm:text-sm focus:ring-blue-500 focus:border-blue-500"
-                  defaultValue={""}
-                />
-              </div>
-              <p className="mt-3 text-sm text-blue-gray-500">
-                Brief description for your profile. URLs are hyperlinked.
-              </p>
-            </div>
-
-            <div className="sm:col-span-6">
-              <label
-                htmlFor="url"
-                className="block text-sm font-medium text-blue-gray-900"
-              >
-                URL
-              </label>
-              <input
-                type="text"
-                name="url"
-                id="url"
-                className="mt-1 block w-full border-blue-gray-300 rounded-md shadow-sm text-blue-gray-900 sm:text-sm focus:ring-blue-500 focus:border-blue-500"
-              />
-            </div>
-          </div>
-
-          <div className="pt-8 grid grid-cols-1 gap-y-6 sm:grid-cols-6 sm:gap-x-6">
-            <div className="sm:col-span-6">
-              <h2 className="text-xl font-medium text-blue-gray-900">
-                Personal Information
-              </h2>
-              <p className="mt-1 text-sm text-blue-gray-500">
-                This information will be displayed publicly so be careful what
-                you share.
-              </p>
-            </div>
-
-            <div className="sm:col-span-3">
-              <label
-                htmlFor="email-address"
-                className="block text-sm font-medium text-blue-gray-900"
-              >
-                Email address
-              </label>
-              <input
-                type="text"
-                name="email-address"
-                id="email-address"
-                autoComplete="email"
-                className="mt-1 block w-full border-blue-gray-300 rounded-md shadow-sm text-blue-gray-900 sm:text-sm focus:ring-blue-500 focus:border-blue-500"
-              />
-            </div>
-
-            <div className="sm:col-span-3">
-              <label
-                htmlFor="phone-number"
-                className="block text-sm font-medium text-blue-gray-900"
-              >
-                Phone number
-              </label>
-              <input
-                type="text"
-                name="phone-number"
-                id="phone-number"
-                autoComplete="tel"
-                className="mt-1 block w-full border-blue-gray-300 rounded-md shadow-sm text-blue-gray-900 sm:text-sm focus:ring-blue-500 focus:border-blue-500"
-              />
-            </div>
-
-            <div className="sm:col-span-3">
-              <label
-                htmlFor="country"
-                className="block text-sm font-medium text-blue-gray-900"
-              >
-                Country
-              </label>
-              <input
-                type="text"
-                name="country"
-                id="country"
-                autoComplete="country"
-                className="mt-1 block w-full border-blue-gray-300 rounded-md shadow-sm text-blue-gray-900 sm:text-sm focus:ring-blue-500 focus:border-blue-500"
-              />
-            </div>
-
-            <div className="sm:col-span-3">
-              <label
-                htmlFor="language"
-                className="block text-sm font-medium text-blue-gray-900"
-              >
-                Language
-              </label>
-              <input
-                type="text"
-                name="language"
-                id="language"
-                className="mt-1 block w-full border-blue-gray-300 rounded-md shadow-sm text-blue-gray-900 sm:text-sm focus:ring-blue-500 focus:border-blue-500"
-              />
-            </div>
-
-            <p className="text-sm text-blue-gray-500 sm:col-span-6">
-              This account was created on{" "}
-              <time dateTime="2017-01-05T20:35:40">
-                January 5, 2017, 8:35:40 PM
-              </time>
-              .
-            </p>
-          </div>
-
-          <div className="pt-8 flex justify-end">
-            <button
-              type="button"
-              className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-blue-gray-900 hover:bg-blue-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-            >
-              Save
-            </button>
-          </div>
-        </form>
+    <div className="bg-white">
+      <div className="w-full h-64 relative">
+        <Image src={listing.image} layout="fill" objectFit={"cover"} />
+        <button
+          onClick={() => router.back()}
+          className="bg-white rounded-full shadow-sm absolute w-10 h-10 flex items-center justify-center left-0 top-0 z-30 m-4"
+        >
+          <ArrowLeftIcon className="text-gray-700 w-4" />
+        </button>
       </div>
+      <div className="p-4 pb-0">
+        <section aria-labelledby="business-heading">
+          <h2 id="business-heading" className="sr-only">
+            {listing.name}
+          </h2>
+          <h2 className="text-gray-700 text-2xl font-semibold">
+            {listing.name}
+          </h2>
+          <div className="grid gap-2 grid-flow-row auto-rows-max text-sm text-gray-500 pt-2">
+            <div className="flex items-center ">
+              <StarIcon
+                className={`flex-shrink-0 h-5 w-5 text-yellow-400`}
+                aria-hidden="true"
+              />
+              <p className="p">
+                <span>{listing.rating.toFixed(1)}</span> ({listing.reviewCount})
+                Reviews
+              </p>
+            </div>
+            <div className="flex">
+              <p>{listing.category}</p>
+              <span className="px-1 text-normal">&#8226;</span>
+              <p>{listing.distance}</p>
+              <span className="px-1 text-normal">&#8226;</span>
+              <p>$$$</p>
+            </div>
+            <div className="flex">
+              <p className="text-normal text-blue-500">Open</p>
+              <span className="px-1 text-normal">&#8226;</span>
+              <p>Closes {listing.closeTime}</p>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      {/* Tab Navigation */}
+      <section>
+        <Tab.Group defaultIndex={view}>
+          <Tab.List className="w-full overflow-visible shadow-md overflow-x-scroll border-b border-gray-200 flex">
+            {tabs.map((tab, index) => (
+              <Tab
+                key={tab.name}
+                className={({ selected }) =>
+                  `${
+                    selected
+                      ? "border-green text-green"
+                      : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                  }  whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm w-auto focus:outline-none`
+                }
+              >
+                <span className="px-4">{tab.name}</span>
+              </Tab>
+            ))}
+          </Tab.List>
+          {/* Panels that control the view by index */}
+          <Tab.Panels className="focus:outline-none">
+            <Tab.Panel className="focus:outline-none">
+              {/* Overview */}
+              <BusinessOverview business={listing} />
+              {/* Overview */}
+            </Tab.Panel>
+            <Tab.Panel className="focus:outline-none">
+              {/* Menu */}
+              <BusinessMenu business={listing} />
+              {/* Menu */}
+            </Tab.Panel>
+            <Tab.Panel className="focus:outline-none">
+              {/* Reviews */}
+              <BusinessReviews business={listing} />
+              {/* Reviews */}
+            </Tab.Panel>
+            <Tab.Panel className="focus:outline-none">
+              {/* About */}
+              <BusinessAbout business={listing} />
+              {/* ABout */}
+            </Tab.Panel>
+          </Tab.Panels>
+        </Tab.Group>
+      </section>
     </div>
   );
 }

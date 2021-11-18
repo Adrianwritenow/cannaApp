@@ -191,6 +191,14 @@ export const listings: Array<Listing> = [
     image:
       "https://images.unsplash.com/photo-1514933651103-005eec06c04b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1674&q=80",
     distance: "8mi",
+    socials: {
+      facebook: "facebook.com/#",
+      instagram: "instagram.com/#",
+      twitter: "twitter.com/#",
+    },
+    about:
+      "Lectus vel sit nibh ante sagittis, ullamcorper amet lobortis. Tortor volutpat venenatis vitae purus sed commodo, odio a eleifend. Donec lobortis proin dictum. Sodales praesent purus convallis vulputate. Quam commodo, blandit maecenas sed enim nullam sed. In orci metus pharetra mauris. Amet, sagittis sollicitudin tincidunt adipiscing tellus. Ultrices arcu, mollis odio semper mi.  ",
+
     openTime: "12pm",
     closeTime: "8pm",
     amenities: ["Amenity", "Amenity", "Amenity"],
@@ -199,12 +207,50 @@ export const listings: Array<Listing> = [
     name: "Listing Name",
     rating: 4,
     reviewCount: 90,
+    reviews: [
+      {
+        recommended: true,
+        by: "Jon Doe",
+        caption: "Caption",
+        review:
+          "Vestibulum id diam ornare, pulvinar sapien sit amet, porttitor nisl. Duis at pharetra quam, et cursus sapien. Class aptent taciti sociosqu ad litora torquent per.Vestibulum id diam ornare, pulvinar sapien sit amet, porttitor nisl. Duis at pharetra quam, et cursus sapien. Class aptent taciti sociosqu ad litora torquent per.",
+        time: "6:00am",
+        date: "Jan 1st, 2022",
+      },
+      {
+        recommended: false,
+        by: "Jon Doe",
+        caption: "Caption",
+        review:
+          "Vestibulum id diam ornare, pulvinar sapien sit amet, porttitor nisl. Duis at pharetra quam, et cursus sapien. Class aptent taciti sociosqu ad litora torquent per.Vestibulum id diam ornare, pulvinar sapien sit amet, porttitor nisl. Duis at pharetra quam, et cursus sapien. Class aptent taciti sociosqu ad litora torquent per.",
+        time: "6:00am",
+        date: "Jan 1st, 2022",
+      },
+      {
+        recommended: true,
+        by: "Jon Doe",
+        caption: "Caption",
+        review:
+          "Vestibulum id diam ornare, pulvinar sapien sit amet, porttitor nisl. Duis at pharetra quam, et cursus sapien. Class aptent taciti sociosqu ad litora torquent per.Vestibulum id diam ornare, pulvinar sapien sit amet, porttitor nisl. Duis at pharetra quam, et cursus sapien. Class aptent taciti sociosqu ad litora torquent per.",
+        time: "6:00am",
+        date: "Jan 1st, 2022",
+      },
+    ],
+    address: "8502 Preston Rd. Inglewood, Maine 98380",
+
   },
   {
     id: "l24",
     image:
       "https://images.unsplash.com/photo-1457573557536-6b4b6ca9a05e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80",
     distance: "8mi",
+    socials: {
+      facebook: "facebook.com/#",
+      instagram: "instagram.com/#",
+      twitter: "twitter.com/#",
+    },
+    about:
+      "Lectus vel sit nibh ante sagittis, ullamcorper amet lobortis. Tortor volutpat venenatis vitae purus sed commodo, odio a eleifend. Donec lobortis proin dictum. Sodales praesent purus convallis vulputate. Quam commodo, blandit maecenas sed enim nullam sed. In orci metus pharetra mauris. Amet, sagittis sollicitudin tincidunt adipiscing tellus. Ultrices arcu, mollis odio semper mi.  ",
     openTime: "12pm",
     closeTime: "8pm",
     amenities: ["Amenity", "Amenity", "Amenity"],
@@ -213,12 +259,50 @@ export const listings: Array<Listing> = [
     name: "Listing Name",
     rating: 4,
     reviewCount: 90,
+    reviews: [
+      {
+        recommended: true,
+        by: "Jon Doe",
+        caption: "Caption",
+        review:
+          "Vestibulum id diam ornare, pulvinar sapien sit amet, porttitor nisl. Duis at pharetra quam, et cursus sapien. Class aptent taciti sociosqu ad litora torquent per.Vestibulum id diam ornare, pulvinar sapien sit amet, porttitor nisl. Duis at pharetra quam, et cursus sapien. Class aptent taciti sociosqu ad litora torquent per.",
+        time: "6:00am",
+        date: "Jan 1st, 2022",
+      },
+      {
+        recommended: false,
+        by: "Jon Doe",
+        caption: "Caption",
+        review:
+          "Vestibulum id diam ornare, pulvinar sapien sit amet, porttitor nisl. Duis at pharetra quam, et cursus sapien. Class aptent taciti sociosqu ad litora torquent per.Vestibulum id diam ornare, pulvinar sapien sit amet, porttitor nisl. Duis at pharetra quam, et cursus sapien. Class aptent taciti sociosqu ad litora torquent per.",
+        time: "6:00am",
+        date: "Jan 1st, 2022",
+      },
+      {
+        recommended: true,
+        by: "Jon Doe",
+        caption: "Caption",
+        review:
+          "Vestibulum id diam ornare, pulvinar sapien sit amet, porttitor nisl. Duis at pharetra quam, et cursus sapien. Class aptent taciti sociosqu ad litora torquent per.Vestibulum id diam ornare, pulvinar sapien sit amet, porttitor nisl. Duis at pharetra quam, et cursus sapien. Class aptent taciti sociosqu ad litora torquent per.",
+        time: "6:00am",
+        date: "Jan 1st, 2022",
+      },
+    ],
+    address: "8502 Preston Rd. Inglewood, Maine 98380",
   },
   {
     id: "l25",
     image:
       "https://images.unsplash.com/photo-1514933651103-005eec06c04b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1674&q=80",
     distance: "8mi",
+    socials: {
+      facebook: "facebook.com/#",
+      instagram: "instagram.com/#",
+      twitter: "twitter.com/#",
+    },
+    about:
+      "Lectus vel sit nibh ante sagittis, ullamcorper amet lobortis. Tortor volutpat venenatis vitae purus sed commodo, odio a eleifend. Donec lobortis proin dictum. Sodales praesent purus convallis vulputate. Quam commodo, blandit maecenas sed enim nullam sed. In orci metus pharetra mauris. Amet, sagittis sollicitudin tincidunt adipiscing tellus. Ultrices arcu, mollis odio semper mi.  ",
+
     openTime: "12pm",
     closeTime: "8pm",
     amenities: ["Amenity", "Amenity", "Amenity"],
@@ -227,12 +311,49 @@ export const listings: Array<Listing> = [
     name: "Listing Name",
     rating: 4,
     reviewCount: 90,
+    reviews: [
+      {
+        recommended: true,
+        by: "Jon Doe",
+        caption: "Caption",
+        review:
+          "Vestibulum id diam ornare, pulvinar sapien sit amet, porttitor nisl. Duis at pharetra quam, et cursus sapien. Class aptent taciti sociosqu ad litora torquent per.Vestibulum id diam ornare, pulvinar sapien sit amet, porttitor nisl. Duis at pharetra quam, et cursus sapien. Class aptent taciti sociosqu ad litora torquent per.",
+        time: "6:00am",
+        date: "Jan 1st, 2022",
+      },
+      {
+        recommended: false,
+        by: "Jon Doe",
+        caption: "Caption",
+        review:
+          "Vestibulum id diam ornare, pulvinar sapien sit amet, porttitor nisl. Duis at pharetra quam, et cursus sapien. Class aptent taciti sociosqu ad litora torquent per.Vestibulum id diam ornare, pulvinar sapien sit amet, porttitor nisl. Duis at pharetra quam, et cursus sapien. Class aptent taciti sociosqu ad litora torquent per.",
+        time: "6:00am",
+        date: "Jan 1st, 2022",
+      },
+      {
+        recommended: true,
+        by: "Jon Doe",
+        caption: "Caption",
+        review:
+          "Vestibulum id diam ornare, pulvinar sapien sit amet, porttitor nisl. Duis at pharetra quam, et cursus sapien. Class aptent taciti sociosqu ad litora torquent per.Vestibulum id diam ornare, pulvinar sapien sit amet, porttitor nisl. Duis at pharetra quam, et cursus sapien. Class aptent taciti sociosqu ad litora torquent per.",
+        time: "6:00am",
+        date: "Jan 1st, 2022",
+      },
+    ],
+    address: "8502 Preston Rd. Inglewood, Maine 98380",
   },
   {
     id: "l26",
     image:
       "https://images.unsplash.com/photo-1457573557536-6b4b6ca9a05e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80",
     distance: "8mi",
+    socials: {
+      facebook: "facebook.com/#",
+      instagram: "instagram.com/#",
+      twitter: "twitter.com/#",
+    },
+    about:
+      "Lectus vel sit nibh ante sagittis, ullamcorper amet lobortis. Tortor volutpat venenatis vitae purus sed commodo, odio a eleifend. Donec lobortis proin dictum. Sodales praesent purus convallis vulputate. Quam commodo, blandit maecenas sed enim nullam sed. In orci metus pharetra mauris. Amet, sagittis sollicitudin tincidunt adipiscing tellus. Ultrices arcu, mollis odio semper mi.  ",
     openTime: "12pm",
     closeTime: "8pm",
     amenities: ["Amenity", "Amenity", "Amenity"],
@@ -241,12 +362,50 @@ export const listings: Array<Listing> = [
     name: "Listing Name",
     rating: 4,
     reviewCount: 90,
+    reviews: [
+      {
+        recommended: true,
+        by: "Jon Doe",
+        caption: "Caption",
+        review:
+          "Vestibulum id diam ornare, pulvinar sapien sit amet, porttitor nisl. Duis at pharetra quam, et cursus sapien. Class aptent taciti sociosqu ad litora torquent per.Vestibulum id diam ornare, pulvinar sapien sit amet, porttitor nisl. Duis at pharetra quam, et cursus sapien. Class aptent taciti sociosqu ad litora torquent per.",
+        time: "6:00am",
+        date: "Jan 1st, 2022",
+      },
+      {
+        recommended: false,
+        by: "Jon Doe",
+        caption: "Caption",
+        review:
+          "Vestibulum id diam ornare, pulvinar sapien sit amet, porttitor nisl. Duis at pharetra quam, et cursus sapien. Class aptent taciti sociosqu ad litora torquent per.Vestibulum id diam ornare, pulvinar sapien sit amet, porttitor nisl. Duis at pharetra quam, et cursus sapien. Class aptent taciti sociosqu ad litora torquent per.",
+        time: "6:00am",
+        date: "Jan 1st, 2022",
+      },
+      {
+        recommended: true,
+        by: "Jon Doe",
+        caption: "Caption",
+        review:
+          "Vestibulum id diam ornare, pulvinar sapien sit amet, porttitor nisl. Duis at pharetra quam, et cursus sapien. Class aptent taciti sociosqu ad litora torquent per.Vestibulum id diam ornare, pulvinar sapien sit amet, porttitor nisl. Duis at pharetra quam, et cursus sapien. Class aptent taciti sociosqu ad litora torquent per.",
+        time: "6:00am",
+        date: "Jan 1st, 2022",
+      },
+    ],
+    address: "8502 Preston Rd. Inglewood, Maine 98380",
   },
   {
     id: "l29",
     image:
       "https://images.unsplash.com/photo-1457573557536-6b4b6ca9a05e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80",
     distance: "8mi",
+    socials: {
+      facebook: "facebook.com/#",
+      instagram: "instagram.com/#",
+      twitter: "twitter.com/#",
+    },
+    about:
+      "Lectus vel sit nibh ante sagittis, ullamcorper amet lobortis. Tortor volutpat venenatis vitae purus sed commodo, odio a eleifend. Donec lobortis proin dictum. Sodales praesent purus convallis vulputate. Quam commodo, blandit maecenas sed enim nullam sed. In orci metus pharetra mauris. Amet, sagittis sollicitudin tincidunt adipiscing tellus. Ultrices arcu, mollis odio semper mi.  ",
+
     openTime: "12pm",
     closeTime: "8pm",
     amenities: ["Amenity", "Amenity", "Amenity"],
@@ -255,12 +414,49 @@ export const listings: Array<Listing> = [
     name: "Listing Name",
     rating: 4,
     reviewCount: 90,
+    reviews: [
+      {
+        recommended: true,
+        by: "Jon Doe",
+        caption: "Caption",
+        review:
+          "Vestibulum id diam ornare, pulvinar sapien sit amet, porttitor nisl. Duis at pharetra quam, et cursus sapien. Class aptent taciti sociosqu ad litora torquent per.Vestibulum id diam ornare, pulvinar sapien sit amet, porttitor nisl. Duis at pharetra quam, et cursus sapien. Class aptent taciti sociosqu ad litora torquent per.",
+        time: "6:00am",
+        date: "Jan 1st, 2022",
+      },
+      {
+        recommended: false,
+        by: "Jon Doe",
+        caption: "Caption",
+        review:
+          "Vestibulum id diam ornare, pulvinar sapien sit amet, porttitor nisl. Duis at pharetra quam, et cursus sapien. Class aptent taciti sociosqu ad litora torquent per.Vestibulum id diam ornare, pulvinar sapien sit amet, porttitor nisl. Duis at pharetra quam, et cursus sapien. Class aptent taciti sociosqu ad litora torquent per.",
+        time: "6:00am",
+        date: "Jan 1st, 2022",
+      },
+      {
+        recommended: true,
+        by: "Jon Doe",
+        caption: "Caption",
+        review:
+          "Vestibulum id diam ornare, pulvinar sapien sit amet, porttitor nisl. Duis at pharetra quam, et cursus sapien. Class aptent taciti sociosqu ad litora torquent per.Vestibulum id diam ornare, pulvinar sapien sit amet, porttitor nisl. Duis at pharetra quam, et cursus sapien. Class aptent taciti sociosqu ad litora torquent per.",
+        time: "6:00am",
+        date: "Jan 1st, 2022",
+      },
+    ],
+    address: "8502 Preston Rd. Inglewood, Maine 98380",
   },
   {
     id: "l2t7",
     image:
       "https://images.unsplash.com/photo-1457573557536-6b4b6ca9a05e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80",
     distance: "8mi",
+    socials: {
+      facebook: "facebook.com/#",
+      instagram: "instagram.com/#",
+      twitter: "twitter.com/#",
+    },
+    about:
+      "Lectus vel sit nibh ante sagittis, ullamcorper amet lobortis. Tortor volutpat venenatis vitae purus sed commodo, odio a eleifend. Donec lobortis proin dictum. Sodales praesent purus convallis vulputate. Quam commodo, blandit maecenas sed enim nullam sed. In orci metus pharetra mauris. Amet, sagittis sollicitudin tincidunt adipiscing tellus. Ultrices arcu, mollis odio semper mi.  ",
     openTime: "12pm",
     closeTime: "8pm",
     amenities: ["Amenity", "Amenity", "Amenity"],
@@ -269,12 +465,49 @@ export const listings: Array<Listing> = [
     name: "Listing Name",
     rating: 4,
     reviewCount: 90,
+    reviews: [
+      {
+        recommended: true,
+        by: "Jon Doe",
+        caption: "Caption",
+        review:
+          "Vestibulum id diam ornare, pulvinar sapien sit amet, porttitor nisl. Duis at pharetra quam, et cursus sapien. Class aptent taciti sociosqu ad litora torquent per.Vestibulum id diam ornare, pulvinar sapien sit amet, porttitor nisl. Duis at pharetra quam, et cursus sapien. Class aptent taciti sociosqu ad litora torquent per.",
+        time: "6:00am",
+        date: "Jan 1st, 2022",
+      },
+      {
+        recommended: false,
+        by: "Jon Doe",
+        caption: "Caption",
+        review:
+          "Vestibulum id diam ornare, pulvinar sapien sit amet, porttitor nisl. Duis at pharetra quam, et cursus sapien. Class aptent taciti sociosqu ad litora torquent per.Vestibulum id diam ornare, pulvinar sapien sit amet, porttitor nisl. Duis at pharetra quam, et cursus sapien. Class aptent taciti sociosqu ad litora torquent per.",
+        time: "6:00am",
+        date: "Jan 1st, 2022",
+      },
+      {
+        recommended: true,
+        by: "Jon Doe",
+        caption: "Caption",
+        review:
+          "Vestibulum id diam ornare, pulvinar sapien sit amet, porttitor nisl. Duis at pharetra quam, et cursus sapien. Class aptent taciti sociosqu ad litora torquent per.Vestibulum id diam ornare, pulvinar sapien sit amet, porttitor nisl. Duis at pharetra quam, et cursus sapien. Class aptent taciti sociosqu ad litora torquent per.",
+        time: "6:00am",
+        date: "Jan 1st, 2022",
+      },
+    ],
+    address: "8502 Preston Rd. Inglewood, Maine 98380",
   },
   {
     id: "l456",
     image:
       "https://images.unsplash.com/photo-1457573557536-6b4b6ca9a05e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80",
     distance: "8mi",
+    socials: {
+      facebook: "facebook.com/#",
+      instagram: "instagram.com/#",
+      twitter: "twitter.com/#",
+    },
+    about:
+      "Lectus vel sit nibh ante sagittis, ullamcorper amet lobortis. Tortor volutpat venenatis vitae purus sed commodo, odio a eleifend. Donec lobortis proin dictum. Sodales praesent purus convallis vulputate. Quam commodo, blandit maecenas sed enim nullam sed. In orci metus pharetra mauris. Amet, sagittis sollicitudin tincidunt adipiscing tellus. Ultrices arcu, mollis odio semper mi.  ",
     openTime: "12pm",
     closeTime: "8pm",
     amenities: ["Amenity", "Amenity", "Amenity"],
@@ -283,12 +516,50 @@ export const listings: Array<Listing> = [
     name: "Listing Name",
     rating: 4,
     reviewCount: 90,
+    reviews: [
+      {
+        recommended: true,
+        by: "Jon Doe",
+        caption: "Caption",
+        review:
+          "Vestibulum id diam ornare, pulvinar sapien sit amet, porttitor nisl. Duis at pharetra quam, et cursus sapien. Class aptent taciti sociosqu ad litora torquent per.Vestibulum id diam ornare, pulvinar sapien sit amet, porttitor nisl. Duis at pharetra quam, et cursus sapien. Class aptent taciti sociosqu ad litora torquent per.",
+        time: "6:00am",
+        date: "Jan 1st, 2022",
+      },
+      {
+        recommended: false,
+        by: "Jon Doe",
+        caption: "Caption",
+        review:
+          "Vestibulum id diam ornare, pulvinar sapien sit amet, porttitor nisl. Duis at pharetra quam, et cursus sapien. Class aptent taciti sociosqu ad litora torquent per.Vestibulum id diam ornare, pulvinar sapien sit amet, porttitor nisl. Duis at pharetra quam, et cursus sapien. Class aptent taciti sociosqu ad litora torquent per.",
+        time: "6:00am",
+        date: "Jan 1st, 2022",
+      },
+      {
+        recommended: true,
+        by: "Jon Doe",
+        caption: "Caption",
+        review:
+          "Vestibulum id diam ornare, pulvinar sapien sit amet, porttitor nisl. Duis at pharetra quam, et cursus sapien. Class aptent taciti sociosqu ad litora torquent per.Vestibulum id diam ornare, pulvinar sapien sit amet, porttitor nisl. Duis at pharetra quam, et cursus sapien. Class aptent taciti sociosqu ad litora torquent per.",
+        time: "6:00am",
+        date: "Jan 1st, 2022",
+      },
+    ],
+    address: "8502 Preston Rd. Inglewood, Maine 98380",
   },
   {
     id: "l2w3",
     image:
       "https://images.unsplash.com/photo-1457573557536-6b4b6ca9a05e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80",
     distance: "8mi",
+    socials: {
+      facebook: "facebook.com/#",
+      instagram: "instagram.com/#",
+      twitter: "twitter.com/#",
+    },
+    about:
+      "Lectus vel sit nibh ante sagittis, ullamcorper amet lobortis. Tortor volutpat venenatis vitae purus sed commodo, odio a eleifend. Donec lobortis proin dictum. Sodales praesent purus convallis vulputate. Quam commodo, blandit maecenas sed enim nullam sed. In orci metus pharetra mauris. Amet, sagittis sollicitudin tincidunt adipiscing tellus. Ultrices arcu, mollis odio semper mi.  ",
+
     openTime: "12pm",
     closeTime: "8pm",
     amenities: ["Amenity", "Amenity", "Amenity"],
@@ -297,6 +568,36 @@ export const listings: Array<Listing> = [
     name: "Listing Name",
     rating: 4,
     reviewCount: 90,
+    reviews: [
+      {
+        recommended: true,
+        by: "Jon Doe",
+        caption: "Caption",
+        review:
+          "Vestibulum id diam ornare, pulvinar sapien sit amet, porttitor nisl. Duis at pharetra quam, et cursus sapien. Class aptent taciti sociosqu ad litora torquent per.Vestibulum id diam ornare, pulvinar sapien sit amet, porttitor nisl. Duis at pharetra quam, et cursus sapien. Class aptent taciti sociosqu ad litora torquent per.",
+        time: "6:00am",
+        date: "Jan 1st, 2022",
+      },
+      {
+        recommended: false,
+        by: "Jon Doe",
+        caption: "Caption",
+        review:
+          "Vestibulum id diam ornare, pulvinar sapien sit amet, porttitor nisl. Duis at pharetra quam, et cursus sapien. Class aptent taciti sociosqu ad litora torquent per.Vestibulum id diam ornare, pulvinar sapien sit amet, porttitor nisl. Duis at pharetra quam, et cursus sapien. Class aptent taciti sociosqu ad litora torquent per.",
+        time: "6:00am",
+        date: "Jan 1st, 2022",
+      },
+      {
+        recommended: true,
+        by: "Jon Doe",
+        caption: "Caption",
+        review:
+          "Vestibulum id diam ornare, pulvinar sapien sit amet, porttitor nisl. Duis at pharetra quam, et cursus sapien. Class aptent taciti sociosqu ad litora torquent per.Vestibulum id diam ornare, pulvinar sapien sit amet, porttitor nisl. Duis at pharetra quam, et cursus sapien. Class aptent taciti sociosqu ad litora torquent per.",
+        time: "6:00am",
+        date: "Jan 1st, 2022",
+      },
+    ],
+    address: "8502 Preston Rd. Inglewood, Maine 98380",
   },
 ];
 

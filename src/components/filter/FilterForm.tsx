@@ -17,8 +17,7 @@ interface Filters {
 }
 
 export default function FilterForm(data: Filters) {
-  const { filters, label, id, handleFilter, setFieldValue } = data;
-  const values = data.values;
+  const { filters, label, id, handleFilter, setFieldValue, values } = data;
   const [open, setOpen] = useState(false);
 
   return (
@@ -33,7 +32,7 @@ export default function FilterForm(data: Filters) {
         <ChevronRightIcon className="w-6 h-6 ml-auto text-gray-400 ml-auto" />
       </button>
       <Transition.Root show={open} as={Fragment}>
-        <div className="absolute w-full h-full inset-0 overflow-hidden">
+        <div className="absolute w-full h-full inset-0 overflow-hidden z-50">
           <div className="inset-y-0 right-0 max-w-full h-full flex">
             <Transition.Child
               as={Fragment}

@@ -33,6 +33,7 @@ export default function ListingSection(results: Listings) {
               <ListingCard
                 listing={listing}
                 key={`lc-${listing.id}-${index}`}
+                classNames="p-4 pb-0"
               />
             );
           } else {

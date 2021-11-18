@@ -19,3 +19,10 @@ export const StrainFilters = {
   armoas: ["Smokey", "Nutty", "Funky"],
   helps: ["Anxiety", "Apetite", "Sleep"],
 };
+
+export const Filters = {
+  strains: ["Indica", "Sativa", "Hybrid"],
+  reviews: ["Most Reviewed", "Top Rated", "Lowest Rated"],
+  pricing: ["Most Expensive", "Least Expensive", "On Sale"],
+  type: ["Cartridge", "Flower", "Clothing", "Edible"],
+};

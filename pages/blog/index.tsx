@@ -111,7 +111,7 @@ export default function BlogsPage() {
                   </p>
                   <div className="flex space-x-1 text-sm text-gray-500">
                     <time dateTime={post.datetime}>{post.date}</time>
-                    <span aria-hidden="true">&middot;</span>
+                    <span aria-hidden="true">&#8226;</span>
                     <span>{post.readingTime} read</span>
                   </div>
                 </div>

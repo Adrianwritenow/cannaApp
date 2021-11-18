@@ -23,7 +23,7 @@ export default function DropdownFilter(data: DropdownFilter) {
       >
         <span className={"capitalize text-gray-600"}>
           {preface && <span>{preface}&nbsp;</span>}
-          {current}
+          {current ? current : label}
         </span>
 
         <ChevronDownIcon

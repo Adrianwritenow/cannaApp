@@ -8,7 +8,7 @@ import { Form, Formik } from "formik";
 import React, { FormEvent, Fragment, useEffect, useState } from "react";
 
 import DropdownFilter from "../../forms/fields/DropdownFilter";
-import FilterForm from "./FilterForm";
+import FilterForm from "../FilterForm";
 import { StrainFilters } from "../../../helpers/filters";
 import StrainsIcon from "../../../../public/assets/icons/iconComponents/Strains";
 
@@ -271,7 +271,6 @@ export default function StrainFilter(props: FilterProps) {
                   className="flex rounded-full border-2 border-gray-200 items-center px-4 py-2   text-sm font-medium bg-white text-gray-900 mx-1"
                 >
                   <span>{filter}</span>
-
                   <span className="sr-only">Remove filter for label</span>
                 </button>
               ))}

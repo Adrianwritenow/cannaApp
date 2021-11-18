@@ -2,10 +2,8 @@ import React, { useState } from "react";
 import { products, strain } from "../../../src/helpers/mockData";
 
 import Image from "next/image";
-import { Product } from "../../../src/interfaces/product";
 import ProductResultsSection from "../../../src/components/sections/ProductsResultsSection";
 import { StarIcon } from "@heroicons/react/solid";
-import { Strain } from "../../../src/interfaces/strain";
 
 export default function StrainDetail() {
   const [myRating, setMyRating] = useState(0);

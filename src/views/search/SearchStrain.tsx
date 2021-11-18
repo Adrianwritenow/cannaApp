@@ -9,11 +9,9 @@ import StrainFilter from "../../components/filter/Strain/StrainFilter";
 import StrainLanding from "./landing/StrainLanding";
 
 export default function SearchStrain() {
-  const [sort, setSort]: any = useState("relevance");
-  const [view, setView]: [string, Dispatch<SetStateAction<string>>] =
-    useState("list");
+  const [sort, setSort] = useState("relevance");
+  const [view, setView] = useState("list");
   const [results, setResults]: any = useState([]);
-
 
   const sortState = {
     value: sort,

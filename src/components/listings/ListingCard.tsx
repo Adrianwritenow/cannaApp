@@ -1,21 +1,25 @@
 import { CheckIcon, StarIcon } from "@heroicons/react/solid";
-import { BookmarkIcon } from "@heroicons/react/outline";
 
-import React from "react";
-import Image from "next/image";
-import { Listing } from "../../interfaces/listing";
+import { BookmarkIcon } from "@heroicons/react/outline";
 import { Disclosure } from "@headlessui/react";
+import Image from "next/image";
+import Link from "next/link";
+import { Listing } from "../../interfaces/listing";
+import React from "react";
+
 interface ListingProps {
   listing: Listing;
+  amenities?: boolean;
+  classNames?: string;
 }
 export default function ListingCard(data: ListingProps) {
-  const { listing } = data;
+  const { listing, amenities, classNames } = data;
 
   return (
     <Disclosure
       as="div"
       key={listing.id}
-      className="relative w-full flex flex-wrap p-4 pb-0"
+      className={`relative w-full flex flex-wrap ${classNames}`}
       id={`listing-${listing.id}`}
     >
       {({ open }) => (
@@ -67,28 +71,34 @@ export default function ListingCard(data: ListingProps) {
                 <span className="text-normal text-blue-500">Open </span>
                 until {listing.closeTime}
               </p>
-              <div className="grid grid-flow-col auto-cols-max gap-2">
-                {listing.amenities.map((amenity, index) => (
-                  <p
-                    className="flex flex-wrap items-center text-gray-500"
-                    key={`amenity-${index}`}
-                  >
-                    <span className="text-blue-500">
-                      <CheckIcon className="w-6 px-1 py-2" />
-                    </span>
-                    {amenity}
-                  </p>
-                ))}
-              </div>
+              {amenities && (
+                <div className="grid grid-flow-col auto-cols-max gap-2">
+                  {listing.amenities.map((amenity, index) => (
+                    <p
+                      className="flex flex-wrap items-center text-gray-500"
+                      key={`amenity-${index}`}
+                    >
+                      <span className="text-blue-500">
+                        <CheckIcon className="w-6 px-1 py-2" />
+                      </span>
+                      {amenity}
+                    </p>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
           <Disclosure.Panel as="div">
-            <button
-              type="button"
-              className="flex text-center justify-center py-2 border border-transparent text-sm font-medium w-full rounded shadow-sm text-white bg-green-600 hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >
-              Start Your Order
-            </button>
+            <Link href={`/business/1`} passHref>
+              <a>
+                <button
+                  type="button"
+                  className="flex text-center justify-center py-2 border border-transparent text-sm font-medium w-full rounded shadow-sm text-white bg-green-600 hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                  Start Your Order
+                </button>
+              </a>
+            </Link>
           </Disclosure.Panel>
         </Disclosure.Button>
       )}

@@ -7,10 +7,12 @@ import React, { useContext, useState } from "react";
 import { InputField } from "./fields/InputField";
 import styles from "./Form.module.scss";
 import { useRouter } from "next/router";
+import { EyeIcon, EyeOffIcon } from "@heroicons/react/outline";
 
 export default function LoginForm() {
   const authState = useContext(AuthContext);
   const [apiError, setApiError] = useState("");
+  const [passwordVisible, setPasswordVisible] = useState(false);
   const router = useRouter();
   const schema = Yup.object().shape({
     email: Yup.string()
@@ -22,6 +24,10 @@ export default function LoginForm() {
   const initialValues = {
     email: "",
     password: "",
+  };
+
+  const togglePasswordVisible = () => {
+    setPasswordVisible(!passwordVisible);
   };
 
   const handleSubmit = async (values: any) => {
@@ -44,8 +50,9 @@ export default function LoginForm() {
     >
       {({ handleSubmit, errors, values }) => {
         const errorCount = Object.keys(errors).length;
+        const passwordError = Object.keys(errors).includes("password");
         const errorList = Object.values(errors).map((error, i) => (
-          <li className="text-red-700 font-normal" key={i}>
+          <li className="text-red-900 font-normal" key={i}>
             {error}
           </li>
         ));
@@ -62,14 +69,35 @@ export default function LoginForm() {
               />
             </div>
 
-            <div className="mt-1">
+            <div className="mt-1 relative">
               <Field
                 label="Password"
                 id="password"
                 name="password"
-                type="password"
+                type={passwordVisible ? "text" : "password"}
                 component={InputField}
               />
+              <button
+                role="switch"
+                type="button"
+                aria-pressed={passwordVisible ? "true" : "false"}
+                onClick={togglePasswordVisible}
+                className={`cursor-default text-gray-500 w-6 absolute bottom-2 right-${
+                  passwordError ? "9" : "3"
+                }`}
+              >
+                {!passwordVisible ? (
+                  <>
+                    <span className="sr-only">Show Password</span>
+                    <EyeIcon aria-hidden="true" />
+                  </>
+                ) : (
+                  <>
+                    <span className="sr-only">Hide Password</span>
+                    <EyeOffIcon aria-hidden="true" />
+                  </>
+                )}
+              </button>
             </div>
 
             <div className="flex items-center justify-between">
@@ -95,11 +123,11 @@ export default function LoginForm() {
               </div>
             </div>
             {errorCount || apiError ? (
-              <div className="grid grid-cols-6  bg-red-50 block w-full rounded-md  sm:text-sm py-5 ">
+              <div className="grid grid-cols-6  bg-red-100 block w-full rounded-md  sm:text-sm py-5 ">
                 <div className="col-span-1 flex justify-center">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 fill-current text-red-400 mt-1"
+                    className="h-5 w-5 fill-current text-red-900 mt-1"
                     viewBox="0 0 20 20"
                   >
                     <path
@@ -113,13 +141,13 @@ export default function LoginForm() {
                 <div className="col-span-5">
                   {errorCount ? (
                     <>
-                      <p className="text-red-800 font-medium">
+                      <p className="text-red-900 font-medium">
                         There were {errorCount} errors with your submission
                       </p>
                       <ul className={styles.errorList}>{errorList}</ul>
                     </>
                   ) : (
-                    <p className="text-red-800 font-medium mr-4">{apiError}</p>
+                    <p className="text-red-900 font-medium mr-4">{apiError}</p>
                   )}
                 </div>
               </div>

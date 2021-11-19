@@ -4,15 +4,22 @@ import { Field, Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 
 import { InputField } from "../fields/InputField";
+import { RootState } from "../../../reducers";
 import SelectDropdown from "../fields/SelectDropdown";
+import { UpdateFormProps } from "../../../../pages/user";
 import { updateUser } from "../../../actions/user";
 import { useAxios } from "../../../hooks/useAxios";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../reducers";
-import { UpdateFormProps } from "../../../../pages/user";
 
 export default function UpdatePersonalForm(props: UpdateFormProps) {
-  const [savedValues, setSavedValues] = useState({});
+  const [savedValues, setSavedValues] = useState({
+    field_first_name: "",
+    field_last_name: "",
+    mail: "",
+    country: "",
+    field_state: "",
+    phone: "",
+  });
   const [dispatchAxios, { loading }] = useAxios();
   const { currentUser } = useSelector((root: RootState) => root.user);
 
@@ -41,7 +48,6 @@ export default function UpdatePersonalForm(props: UpdateFormProps) {
   ];
 
   const states = [
-    { id: "", label: "Select state" },
     { id: "FL", label: "Florida" },
     { id: "NY", label: "New York" },
     { id: "CA", label: "California" },
@@ -135,6 +141,7 @@ export default function UpdatePersonalForm(props: UpdateFormProps) {
                     name="country"
                     type="text"
                     options={countries}
+                    value={values.field_state}
                     setFieldValue={setFieldValue}
                     component={SelectDropdown}
                   />
@@ -149,6 +156,7 @@ export default function UpdatePersonalForm(props: UpdateFormProps) {
                     name="field_state"
                     type="text"
                     options={states}
+                    value={values.field_state}
                     setFieldValue={setFieldValue}
                     component={SelectDropdown}
                   />

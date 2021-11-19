@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 
 import { SelectorIcon } from "@heroicons/react/solid";
@@ -10,7 +10,7 @@ interface FormikForm {
 interface FormikField extends React.InputHTMLAttributes<HTMLInputElement> {
   name: string;
 }
-interface Options {
+interface Option {
   id: string;
   label: string;
 }
@@ -20,7 +20,7 @@ interface FieldProps extends React.HTMLAttributes<HTMLInputElement> {
   disabled?: React.InputHTMLAttributes<HTMLInputElement>["disabled"];
   label: React.ReactNode;
   labelHidden: boolean;
-  options: Options[];
+  options: Array<Option>;
   form: FormikForm;
   field: FormikField;
   mask: string;
@@ -51,19 +51,30 @@ export default function SelectDropdown(props: FieldProps) {
     ...rest
   } = props;
 
-  const [selected, setSelected] = useState(options[0]);
+  const initialSelect: Option = {
+    id: "",
+    label: `Please Select ${label}`,
+  };
+  const [selected, setSelected] = useState<Option>(initialSelect);
 
   let labelClasses = "block text-sm font-medium text-gray-700";
   if (labelHidden) {
     labelClasses += " sr-only";
   }
 
-  const { name } = field;
-
-  function handleChange(value: Options) {
+  function handleChange(value: Option) {
     setFieldValue(id, value.id);
     setSelected(value);
   }
+
+  useEffect(() => {
+    var currentValue = options.find((option) => {
+      return option.label === value;
+    });
+    if (currentValue) {
+      setSelected(currentValue);
+    }
+  }, [selected, value]);
 
   return (
     <div className="w-full">

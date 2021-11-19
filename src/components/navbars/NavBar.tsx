@@ -6,6 +6,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../authentication/authContext";
 import AvatarMenu from "../menus/AvatarMenu";
 import { Disclosure } from "@headlessui/react";
+import FilterMenu from "../filter/FilterMenu";
 import { HeaderRoutes } from "../../helpers/routes";
 import Image from "next/image";
 import Link from "next/link";
@@ -284,7 +285,7 @@ export default function NavBar() {
                           ""
                         )}
                       </div>
-                      {!router.pathname.startsWith("/user") ? (
+                      {!router.pathname ? (
                         <div className="grid grid-cols-3 w-full pt-3">
                           <div className="text-green-500 text-sm flex items-center justify-start pl-2">
                             <FilterMenu />

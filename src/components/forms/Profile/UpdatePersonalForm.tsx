@@ -85,7 +85,7 @@ export default function UpdatePersonalForm(props: UpdateFormProps) {
     >
       {({ values, handleBlur, handleChange, setFieldValue }) => {
         return (
-          <Form className="space-y-8 bg-white shadow">
+          <Form className="bg-white shadow">
             <div className="grid grid-cols-1 gap-y-6 sm:grid-cols-6 sm:gap-x-6 py-10 px-4 sm:px-6 lg:py-12 lg:px-8">
               <div className="sm:col-span-6">
                 <h2 className="text-xl font-medium text-gray-900">
@@ -177,15 +177,14 @@ export default function UpdatePersonalForm(props: UpdateFormProps) {
                   />
                 </div>
               </div>
-
-              <div className=" bg-gray-50  py-3 flex justify-end pr-4">
-                <button
-                  type="submit"
-                  className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green"
-                >
-                  Save
-                </button>
-              </div>
+            </div>
+            <div className=" bg-gray-50  py-3 flex justify-end pr-4">
+              <button
+                type="submit"
+                className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green"
+              >
+                Save
+              </button>
             </div>
           </Form>
         );

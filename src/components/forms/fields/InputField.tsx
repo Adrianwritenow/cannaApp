@@ -76,7 +76,6 @@ export function InputField(props: FieldProps) {
             autoComplete={autoComplete}
             disabled={disabled}
             onChange={handleChange}
-            // {...field}
           />
         ) : (
           <input

@@ -147,7 +147,7 @@ export default function UpdateProfileForm(props: UpdateFormProps) {
     >
       {({ handleSubmit, setFieldValue, errors, values }) => {
         return (
-          <Form className="space-y-8 bg-white shadow">
+          <Form className="bg-white shadow">
             <div className="grid grid-cols-1 gap-y-6 sm:grid-cols-6 sm:gap-x-6 py-10 px-4 sm:px-6 lg:py-12 lg:px-8">
               <div className="sm:col-span-6">
                 <h2 className="text-xl font-medium text-gray-900">

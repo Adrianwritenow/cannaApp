@@ -1,6 +1,10 @@
 import * as Yup from "yup";
 
 import { Field, FieldAttributes, Form, Formik } from "formik";
+import {
+  LocationMarkerIcon as LocationMarkerIconSolid,
+  MenuIcon,
+} from "@heroicons/react/solid";
 import React, { useContext, useEffect, useState } from "react";
 
 import { AuthContext } from "../../authentication/authContext";
@@ -11,15 +15,14 @@ import { HeaderRoutes } from "../../helpers/routes";
 import Image from "next/image";
 import Link from "next/link";
 import { LocationMarkerIcon as LocationMarkerIconOutline } from "@heroicons/react/outline";
-import { LocationMarkerIcon as LocationMarkerIconSolid } from "@heroicons/react/solid";
 import Logo from "../../../public/assets/logos/logo-text.png";
 import { SearchField } from "../forms/fields/SearchField";
 import { SearchIcon } from "@heroicons/react/solid";
+import { SearchSlideOver } from "../forms/fields/SearchSlideOver";
 import { XIcon } from "@heroicons/react/solid";
 import { useRouter } from "next/router";
 
 export default function NavBar() {
-  const [focus, setFocus] = useState({ location: false, search: false });
   const [view, setView] = useState("list");
   const router = useRouter();
   const authState = useContext(AuthContext);
@@ -87,34 +90,6 @@ export default function NavBar() {
   // Ref to toggle focus
   const otherRef = React.createRef<FieldAttributes<any>>();
 
-  // Trigger Focus state for layout changes
-  function handleFocus(id: string, value: boolean) {
-    const focusUpdate: any = { ...focus };
-    Object.keys(focusUpdate).forEach((id: string) => (focusUpdate[id] = false));
-    focusUpdate[id] = value;
-    setFocus(focusUpdate);
-  }
-
-  // Trigger Focus state for layout changes for location pin interaction
-  function focusOnLocation() {
-    otherRef.current.focus();
-    handleFocus("location", true);
-  }
-
-  useEffect(() => {
-    // After data is collected add a initial value for location
-    const locationOptions = [...locationData];
-
-    if (locationOptions[0].value != "use my current location") {
-      locationOptions.unshift({
-        value: "use my current location",
-        area: "",
-      });
-
-      setSearchLocationData(locationOptions);
-    }
-  }, [focus, locationData, authState]);
-
   function handleSubmit(values: any) {}
 
   return (
@@ -136,155 +111,95 @@ export default function NavBar() {
                 handleChange,
                 setFieldValue,
               }) => {
-                const toggleForm =
-                  focus.location ||
-                  focus.search ||
-                  values.location ||
-                  values.search;
-
                 const hasValue = values.location || values.search;
 
                 return (
                   <>
-                    <div>
-                      <div className="bg-white p-2">
-                        <div className="grid grid-cols-11 px-2 relative">
-                          <div className="col-span-4 flex items-center">
-                            <Link href={"/"}>
-                              <a className="flex items-center relative  h-6 w-auto">
-                                <Image
-                                  layout="intrinsic"
-                                  src={Logo}
-                                  alt="CannaPages"
-                                />
-                              </a>
-                            </Link>
+                    <div className="bg-white p-4 w-full relative">
+                      <div className="flex justify-center items-center w-full">
+                        <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                          <span className="sr-only">Open main menu</span>
+                          {open ? (
+                            <XIcon
+                              className="block h-6 w-6"
+                              aria-hidden="true"
+                            />
+                          ) : (
+                            <MenuIcon
+                              className="block h-6 w-6"
+                              aria-hidden="true"
+                            />
+                          )}
+                        </Disclosure.Button>
+                        <div className="w-25 absolute ml-auto mr-auto right-0 left-0">
+                          <Link href={"/"}>
+                            <a className="flex items-center relative  h-6 w-auto">
+                              <Image
+                                layout="intrinsic"
+                                src={Logo}
+                                alt="CannaPages"
+                              />
+                            </a>
+                          </Link>
+                        </div>
 
-                            <div className="hidden lg:block lg:ml-6">
-                              <div className="flex space-x-4 text-sm">
-                                {Object.entries(HeaderRoutes).map(
-                                  ([key, value], index) => {
-                                    const href = value.href;
-                                    return (
-                                      <Link href={href} as={href} key={index}>
-                                        <a className="text-gray-400 hover:text-green-500">
-                                          {value.label}
-                                        </a>
-                                      </Link>
-                                    );
-                                  }
-                                )}
-                              </div>
-                            </div>
-                          </div>
-                          <div className="col-start-10 col-span-2 flex justify-end align-center  ">
-                            {!hasValue ? (
-                              !authState.state.session.access_token ? (
-                                <Link href={"/login"}>
-                                  <a>
-                                    <button className="w-full bg-green text-white hover:bg-green-600 flex justify-center py-1 px-2 border border-transparent rounded-md shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green">
-                                      Log in
-                                    </button>
-                                  </a>
-                                </Link>
-                              ) : (
-                                <AvatarMenu />
-                              )
-                            ) : (
-                              <button
-                                className="h-6 w-6"
-                                onClick={(event) => {
-                                  resetForm();
-                                }}
-                              >
-                                <XIcon className=" text-gray-500 h-6 w-6" />
-                              </button>
+                        <div className="hidden lg:block lg:ml-6">
+                          <div className="flex space-x-4 text-sm">
+                            {Object.entries(HeaderRoutes).map(
+                              ([key, value], index) => {
+                                const href = value.href;
+                                return (
+                                  <Link href={href} as={href} key={index}>
+                                    <a className="text-gray-400 hover:text-green-500">
+                                      {value.label}
+                                    </a>
+                                  </Link>
+                                );
+                              }
                             )}
                           </div>
                         </div>
-                        {!router.pathname.startsWith("/user") ? (
-                          <Form className={"w-full"} onSubmit={handleSubmit}>
-                            <div className="grid grid-cols-7 gap-1 pt-2">
-                              <div
-                                className={`${
-                                  !toggleForm ? "col-span-5" : "col-span-7 "
-                                }`}
-                              >
-                                <Field
-                                  name={"search"}
-                                  component={SearchField}
-                                  options={searchData}
-                                  id={"search"}
-                                  handleFocus={handleFocus}
-                                  onChange={handleChange}
-                                  setFieldValue={setFieldValue}
-                                  value={values.search}
-                                  focus={focus.search}
-                                  placeholder="dispensaries, strains..."
-                                  icon={
-                                    <SearchIcon
-                                      className="h-5 w-5 text-gray-400"
-                                      aria-hidden="true"
-                                    />
-                                  }
-                                  searchHelper="Find"
-                                />
-                              </div>
-                              <div
-                                className={`${
-                                  !toggleForm ? "flex" : "hidden"
-                                } items-center col-span-2 justify-center`}
-                                onClick={() => {
-                                  handleFocus("location", true);
-                                  focusOnLocation();
-                                }}
-                              >
-                                <LocationMarkerIconSolid className="text-green h-4 w-4" />
-                                <span className="text-sm pl-1 font-semibold	 text-green">
-                                  Denver, CO
-                                </span>
-                              </div>
-                            </div>
-                            <div
-                              // innerRef={otherRef}
-                              className={`pt-2 w-full ${
-                                focus.location || hasValue ? "flex" : "hidden"
-                              }`}
-                            >
+                        <div className="flex justify-end align-center ml-auto">
+                          {!token ? (
+                            <Link href={"/login"}>
+                              <a>
+                                <button className="w-full bg-green text-white hover:bg-green-600 flex justify-center py-1 px-2 border border-transparent rounded-md shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green">
+                                  Sign in
+                                </button>
+                              </a>
+                            </Link>
+                          ) : (
+                            <AvatarMenu />
+                          )}
+                        </div>
+                      </div>
+                      {!router.pathname.startsWith("/user") ? (
+                        <Form className={"w-full"} onSubmit={handleSubmit}>
+                          <div className="grid grid-cols-7 gap-1 pt-2">
+                            <div className={"col-span-7"}>
                               <Field
-                                innerRef={otherRef}
-                                name={"location"}
-                                component={SearchField}
-                                options={locationData}
-                                id={"location"}
-                                handleFocus={handleFocus}
+                                name={"search"}
+                                component={SearchSlideOver}
+                                options={searchData}
+                                id={"search"}
                                 onChange={handleChange}
                                 setFieldValue={setFieldValue}
+                                value={values.search}
+                                placeholder="Search"
                                 icon={
-                                  <LocationMarkerIconOutline
+                                  <SearchIcon
                                     className="h-5 w-5 text-gray-400"
                                     aria-hidden="true"
                                   />
                                 }
-                                searchHelper="Near"
-                                focus={focus.location}
-                                value={values.location}
-                                placeholder="City, Street..."
+                                searchHelper="Find"
                               />
                             </div>
-                            <button
-                              type="submit"
-                              className={`${
-                                toggleForm ? "flex" : "hidden"
-                              } mt-2 w-full bg-green text-white hover:bg-green-600 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green`}
-                            >
-                              Search
-                            </button>
-                          </Form>
-                        ) : (
-                          ""
-                        )}
-                      </div>
+                          </div>
+                        </Form>
+                      ) : (
+                        ""
+                      )}
                     </div>
                   </>
                 );
@@ -293,7 +208,7 @@ export default function NavBar() {
           </div>
 
           <Disclosure.Panel className="lg:hidden ">
-            <div className="pt-2 pb-3 space-y-1">
+            <div className="pt-2 pb-3 space-y-1 bg-white">
               {Object.entries(HeaderRoutes).map(([key, value], index) => {
                 const href = value.href;
                 return (

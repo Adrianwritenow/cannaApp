@@ -80,11 +80,10 @@ export default function LoginForm() {
               <button
                 role="switch"
                 type="button"
+                style={{ position: "absolute", bottom: "7.6px", right: passwordError ? "35px" : "9.5px" }}
                 aria-pressed={passwordVisible ? "true" : "false"}
                 onClick={togglePasswordVisible}
-                className={`cursor-default text-gray-500 w-6 absolute bottom-2 right-${
-                  passwordError ? "9" : "3"
-                }`}
+                className={`cursor-default text-gray-500 w-6`}
               >
                 {!passwordVisible ? (
                   <>

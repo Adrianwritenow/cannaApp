@@ -1,26 +1,7 @@
-import {
-  ControlProps,
-  OptionProps,
-  SingleValue,
-  components,
-} from "react-select";
+import { ArrowLeftIcon, XIcon } from "@heroicons/react/solid";
 import { Dialog, Transition } from "@headlessui/react";
+import { Field, Form, Formik } from "formik";
 import React, { Fragment, Ref, useState } from "react";
-
-import CreatableSelect from "react-select/creatable";
-import { XIcon } from "@heroicons/react/solid";
-import styles from "./Fields.module.scss";
-
-interface SelectOption {
-  value: string;
-  type: string;
-  category: string;
-}
-
-interface LocationOption {
-  value: string;
-  area: string;
-}
 
 interface Props {
   options: any;
@@ -30,45 +11,11 @@ interface Props {
   handleFocus?: Function;
   setFieldValue: Function;
   handleSearch: Function;
-  value: SelectOption | LocationOption;
   searchHelper?: string;
   focus?: boolean;
   icon?: React.ComponentProps<any>;
   placeholder: string;
 }
-
-// Custom control for react-select
-const Control = ({ children, ...props }: ControlProps<any, false>) => {
-  const { icon, searchHelper, value }: any = props.selectProps;
-  const isEmpty = Object.keys(value).length === 0;
-
-  return (
-    <components.Control {...props}>
-      {!props.isFocused && isEmpty ? (
-        <span className="pl-1 h-5 w-5 text-gray-400 " aria-hidden="true">
-          {icon}
-        </span>
-      ) : (
-        <span className="pl-3 text-base text-gray-500 font-bold">
-          {searchHelper}
-        </span>
-      )}
-      {children}
-    </components.Control>
-  );
-};
-
-// Custom option for react-select
-const Option = (props: OptionProps<any>) => {
-  return (
-    <components.Option
-      className={`${styles.option} ${props.isFocused ? styles.isFocused : ""} ${
-        props.isSelected ? styles.isSelected : ""
-      }`}
-      {...props}
-    />
-  );
-};
 
 export const SearchSlideOver = (SearchFieldpProps: Props) => {
   const [open, setOpen] = useState(false);
@@ -78,7 +25,6 @@ export const SearchSlideOver = (SearchFieldpProps: Props) => {
     handleFocus,
     innerRef,
     setFieldValue,
-    value,
     icon,
     focus,
     searchHelper,
@@ -87,52 +33,24 @@ export const SearchSlideOver = (SearchFieldpProps: Props) => {
     ...rest
   } = SearchFieldpProps;
 
-  // Custom option label for react-select
-
-  const searchOptionLabel = ({ value, type, category }: any) => (
-    <div className="flex w-full ">
-      <p className="text-sm focus:outline-none ">
-        {value}
-        {type ? <span className="text-gray-400"> in {type}</span> : ""}
-        <span className="ml-1 text-green font-bold">{category}</span>
-      </p>
-    </div>
-  );
-
-  // Custom option label for locations for react-select
-
-  // Handle change in value
-  const changeHandler = (
-    newValue: SingleValue<SelectOption> | SingleValue<LocationOption>
-  ) => {
-    if (newValue?.value) {
-      setFieldValue(id, { value: newValue.value, label: newValue.value });
-    }
-  };
-
-  const style = {
-    control: (base: any, state: any) => ({
-      ...base,
-      border: "none",
-      boxShadow: "none",
-    }),
+  const initialValues = {
+    search: "",
   };
 
   return (
     <div>
       <div className="w-full relative">
-        <input
-          type="text"
+        <button
+          type="button"
           placeholder="search"
-          className="w-full border-gray-400 indent-sm rounded-md focus:outline-none focus:ring-0 focus:border-0 focus:border-gray-400 shadow-sm"
+          className="w-full items-center border-solid border border-gray-400 indent-sm rounded-md focus:outline-none focus:ring-0 shadow-sm flex px-4 py-2 text-gray-500"
           onClick={() => {
-            console.log("FOCUS");
             setOpen(true);
           }}
-        />
-        <div className="absolute flex items-center left-0 top-0 bottom-0 mt-auto mb-auto ">
-          <span className="mx-4">{icon}</span>
-        </div>
+        >
+          {icon}
+          Search
+        </button>
       </div>
       <Transition.Root show={open} as={Fragment}>
         <Dialog
@@ -154,56 +72,62 @@ export const SearchSlideOver = (SearchFieldpProps: Props) => {
                 leaveTo="translate-x-full"
               >
                 <div className="w-screen max-w-md">
-                  <div className="h-full flex flex-col py-6 bg-white shadow-xl overflow-y-scroll">
-                    <div className="px-4 sm:px-6">
-                      <div className="flex items-start justify-between">
-                        <Dialog.Title className="text-lg font-medium text-gray-900">
-                          Panel title
-                        </Dialog.Title>
-                        <div className="ml-3 h-7 flex items-center">
-                          <button
-                            type="button"
-                            className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                            onClick={() => setOpen(false)}
+                  <div className="h-full flex flex-col py-3 bg-white shadow-xl overflow-y-scroll">
+                    <div className="mt-6 relative flex-1">
+                      <div className="absolute inset-0">
+                        <div className="h-full" aria-hidden="true">
+                          <Formik
+                            initialValues={initialValues}
+                            onSubmit={() => {}}
+                            validateOnChange={false}
+                            validateOnBlur={true}
                           >
-                            <span className="sr-only">Close panel</span>
-                            <XIcon className="h-6 w-6" aria-hidden="true" />
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="mt-6 relative flex-1 px-4 sm:px-6">
-                      {/* Replace with your content */}
-                      <div className="absolute inset-0 px-4 sm:px-6">
-                        <div
-                          className="h-full border-2 border-dashed border-gray-200"
-                          aria-hidden="true"
-                        >
-                          <CreatableSelect
-                            {...SearchFieldpProps}
-                            ref={innerRef}
-                            className={`w-full hover:border-0 ${styles.input} ${
-                              focus ? styles.isFocused : ""
-                            }`}
-                            styles={style}
-                            // @ts-ignore
-                            icon={icon ? icon : ""}
-                            focus={true}
-                            menuIsOpen={focus}
-                            instanceId={id}
-                            placeholder={placeholder}
-                            searchHelper={searchHelper}
-                            formatOptionLabel={searchOptionLabel}
-                            options={SearchFieldpProps.options}
-                            components={{
-                              Control,
-                              DropdownIndicator: () => null,
-                              IndicatorSeparator: () => null,
-                              Option,
+                            {({
+                              handleSubmit,
+                              values,
+                              resetForm,
+                              handleChange,
+                              setFieldValue,
+                            }) => {
+                              return (
+                                <Form className="border-b">
+                                  <div className="flex mx-4">
+                                    <button
+                                      type="button"
+                                      className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-transparent"
+                                      onClick={() => setOpen(false)}
+                                    >
+                                      <span className="sr-only">Back</span>
+                                      <ArrowLeftIcon
+                                        className="h-6 w-6"
+                                        aria-hidden="true"
+                                      />
+                                    </button>
+                                    <Field
+                                      type="text"
+                                      id="search"
+                                      name="search"
+                                      className="w-full border-none px-4"
+                                      placeholder="Search..."
+                                    />
+                                    <button
+                                      type="button"
+                                      className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-transparent"
+                                      onClick={() => setOpen(false)}
+                                    >
+                                      <span className="sr-only">
+                                        Close panel
+                                      </span>
+                                      <XIcon
+                                        className="h-6 w-6"
+                                        aria-hidden="true"
+                                      />
+                                    </button>
+                                  </div>
+                                </Form>
+                              );
                             }}
-                            onChange={changeHandler}
-                            value={value}
-                          />
+                          </Formik>
                         </div>
                       </div>
                       {/* /End replace */}

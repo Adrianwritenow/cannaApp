@@ -92,8 +92,10 @@ export default function NavBar() {
   };
 
   function handleSubmit(values: any) {
-    console.log(values);
     dispatchAxios(searchQuery(values));
+  }
+  function handleChange(values: any) {
+    handleSubmit(values);
   }
 
   return (
@@ -108,13 +110,7 @@ export default function NavBar() {
               validateOnChange={false}
               validateOnBlur={true}
             >
-              {({
-                handleSubmit,
-                values,
-                handleChange,
-                setFieldValue,
-                submitForm,
-              }) => {
+              {({ handleSubmit, values, setFieldValue, submitForm }) => {
                 return (
                   <>
                     <div className="bg-white p-4 w-full relative">
@@ -184,7 +180,7 @@ export default function NavBar() {
                                 component={SearchSlideOver}
                                 options={searchData}
                                 id={"search"}
-                                onChange={console.log(values)}
+                                onChange={handleChange(values)}
                                 setFieldValue={handleSubmit}
                                 value={values.search}
                                 placeholder="Search..."

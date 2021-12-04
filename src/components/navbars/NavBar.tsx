@@ -1,10 +1,6 @@
 import * as Yup from "yup";
 
-import { Field, FieldAttributes, Form, Formik } from "formik";
-import {
-  LocationMarkerIcon as LocationMarkerIconSolid,
-  MenuIcon,
-} from "@heroicons/react/solid";
+import { Field, Form, Formik } from "formik";
 import React, { useContext, useEffect, useState } from "react";
 
 import { AuthContext } from "../../authentication/authContext";
@@ -15,13 +11,13 @@ import { HeaderRoutes } from "../../helpers/routes";
 import Image from "next/image";
 import Link from "next/link";
 import Logo from "../../../public/assets/logos/logo-text.png";
+import { MenuIcon } from "@heroicons/react/solid";
 import { SearchIcon } from "@heroicons/react/solid";
 import { SearchSlideOver } from "../forms/fields/SearchSlideOver";
 import { XIcon } from "@heroicons/react/solid";
 import { useRouter } from "next/router";
 
 export default function NavBar() {
-  const [view, setView] = useState("list");
   const router = useRouter();
   const authState = useContext(AuthContext);
 
@@ -77,18 +73,16 @@ export default function NavBar() {
 
   const schema = Yup.object().shape({
     search: Yup.object(),
-    location: Yup.object(),
   });
 
   const initialValues = {
     search: "",
-    location: "",
   };
 
-  // Ref to toggle focus
-  const otherRef = React.createRef<FieldAttributes<any>>();
-
-  function handleSubmit(values: any) {}
+  function handleSubmit(values: any) {
+    console.log(values);
+    dispa;
+  }
 
   return (
     <Disclosure as="nav" className="shadow">
@@ -105,12 +99,10 @@ export default function NavBar() {
               {({
                 handleSubmit,
                 values,
-                resetForm,
                 handleChange,
                 setFieldValue,
+                submitForm,
               }) => {
-                const hasValue = values.location || values.search;
-
                 return (
                   <>
                     <div className="bg-white p-4 w-full relative">
@@ -180,17 +172,16 @@ export default function NavBar() {
                                 component={SearchSlideOver}
                                 options={searchData}
                                 id={"search"}
-                                onChange={handleChange}
-                                setFieldValue={setFieldValue}
+                                onChange={console.log(values)}
+                                setFieldValue={handleSubmit}
                                 value={values.search}
-                                placeholder="Search"
+                                placeholder="Search..."
                                 icon={
                                   <SearchIcon
                                     className="h-5 w-5 text-gray-400"
                                     aria-hidden="true"
                                   />
                                 }
-                                searchHelper="Find"
                               />
                             </div>
                           </div>

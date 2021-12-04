@@ -1,7 +1,10 @@
 import { ArrowLeftIcon, XIcon } from "@heroicons/react/solid";
 import { Dialog, Transition } from "@headlessui/react";
-import { Field, Form, Formik } from "formik";
 import React, { Fragment, Ref, useState } from "react";
+
+interface FormikField extends React.InputHTMLAttributes<HTMLInputElement> {
+  name: string;
+}
 
 interface Props {
   options: any;
@@ -13,6 +16,7 @@ interface Props {
   handleSearch: Function;
   searchHelper?: string;
   focus?: boolean;
+  field: FormikField;
   icon?: React.ComponentProps<any>;
   placeholder: string;
 }
@@ -26,6 +30,7 @@ export const SearchSlideOver = (SearchFieldpProps: Props) => {
     innerRef,
     setFieldValue,
     icon,
+    field,
     focus,
     searchHelper,
     placeholder,
@@ -38,7 +43,7 @@ export const SearchSlideOver = (SearchFieldpProps: Props) => {
   };
 
   return (
-    <div>
+    <div {...rest}>
       <div className="w-full relative">
         <button
           type="button"
@@ -76,58 +81,33 @@ export const SearchSlideOver = (SearchFieldpProps: Props) => {
                     <div className="mt-6 relative flex-1">
                       <div className="absolute inset-0">
                         <div className="h-full" aria-hidden="true">
-                          <Formik
-                            initialValues={initialValues}
-                            onSubmit={() => {}}
-                            validateOnChange={false}
-                            validateOnBlur={true}
-                          >
-                            {({
-                              handleSubmit,
-                              values,
-                              resetForm,
-                              handleChange,
-                              setFieldValue,
-                            }) => {
-                              return (
-                                <Form className="border-b">
-                                  <div className="flex mx-4">
-                                    <button
-                                      type="button"
-                                      className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-transparent"
-                                      onClick={() => setOpen(false)}
-                                    >
-                                      <span className="sr-only">Back</span>
-                                      <ArrowLeftIcon
-                                        className="h-6 w-6"
-                                        aria-hidden="true"
-                                      />
-                                    </button>
-                                    <Field
-                                      type="text"
-                                      id="search"
-                                      name="search"
-                                      className="w-full border-none px-4"
-                                      placeholder="Search..."
-                                    />
-                                    <button
-                                      type="button"
-                                      className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-transparent"
-                                      onClick={() => setOpen(false)}
-                                    >
-                                      <span className="sr-only">
-                                        Close panel
-                                      </span>
-                                      <XIcon
-                                        className="h-6 w-6"
-                                        aria-hidden="true"
-                                      />
-                                    </button>
-                                  </div>
-                                </Form>
-                              );
-                            }}
-                          </Formik>
+                          <div className="flex mx-4">
+                            <button
+                              type="button"
+                              className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-transparent"
+                              onClick={() => setOpen(false)}
+                            >
+                              <span className="sr-only">Back</span>
+                              <ArrowLeftIcon
+                                className="h-6 w-6"
+                                aria-hidden="true"
+                              />
+                            </button>
+                            <input
+                              type="text"
+                              className="w-full border-none px-4 focus:border-0 focus:outline-none focus:ring-transparent"
+                              placeholder={placeholder}
+                              {...field}
+                            />
+                            <button
+                              type="button"
+                              className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-transparent"
+                              onClick={() => setOpen(false)}
+                            >
+                              <span className="sr-only">Close panel</span>
+                              <XIcon className="h-6 w-6" aria-hidden="true" />
+                            </button>
+                          </div>
                         </div>
                       </div>
                       {/* /End replace */}

@@ -15,11 +15,22 @@ import { MenuIcon } from "@heroicons/react/solid";
 import { SearchIcon } from "@heroicons/react/solid";
 import { SearchSlideOver } from "../forms/fields/SearchSlideOver";
 import { XIcon } from "@heroicons/react/solid";
+import { searchQuery } from "../../actions/search";
 import { useRouter } from "next/router";
 
 export default function NavBar() {
   const router = useRouter();
   const authState = useContext(AuthContext);
+  // const [dispatchAxios, { loading }] = useAxios();
+
+  const [token, setAccessToken] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (authState) {
+      const access_token = authState.state.session.access_token;
+      if (access_token) setAccessToken(`${access_token}`);
+    }
+  }, [token, authState]);
 
   const [searchData, setSearchData] = useState([
     {
@@ -81,7 +92,7 @@ export default function NavBar() {
 
   function handleSubmit(values: any) {
     console.log(values);
-    dispa;
+    dispatchAxios(searchQuery(values));
   }
 
   return (

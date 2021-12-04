@@ -1,4 +1,4 @@
-import { AuthContext, logout } from "../../authentication/authContext";
+import { AuthContext, logout } from "../../../src/authentication/authContext";
 import { Menu, Transition } from "@headlessui/react";
 import React, { Fragment, useContext, useEffect, useState } from "react";
 

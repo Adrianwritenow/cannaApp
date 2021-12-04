@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 
 import { AuthContext } from "../authentication/authContext";
-import { RootState } from "../reducers";
+import { RootState } from "../reducers/reducers";
 import { getCurrentUser } from "../actions/user";
 import jwt_decode from "jwt-decode";
 import { useAxios } from "../hooks/useAxios";

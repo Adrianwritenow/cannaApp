@@ -3,7 +3,7 @@ import * as Yup from "yup";
 import { Field, Form, Formik } from "formik";
 import React, { useContext, useEffect, useState } from "react";
 
-import { AuthContext } from "../../authentication/authContext";
+import { AuthContext } from "../../../src/authentication/authContext";
 import AvatarMenu from "../menus/AvatarMenu";
 import { Disclosure } from "@headlessui/react";
 import FilterMenu from "../filter/FilterMenu";
@@ -16,12 +16,13 @@ import { SearchIcon } from "@heroicons/react/solid";
 import { SearchSlideOver } from "../forms/fields/SearchSlideOver";
 import { XIcon } from "@heroicons/react/solid";
 import { searchQuery } from "../../actions/search";
+import { useAxios } from "../../hooks/useAxios";
 import { useRouter } from "next/router";
 
 export default function NavBar() {
   const router = useRouter();
   const authState = useContext(AuthContext);
-  // const [dispatchAxios, { loading }] = useAxios();
+  const [dispatchAxios, { loading }] = useAxios();
 
   const [token, setAccessToken] = useState<string | null>(null);
 

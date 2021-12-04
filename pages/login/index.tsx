@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 
 import { AuthContext } from "../../src/authentication/authContext";
-import FacebookIcon from "../../public/assets/icons/iconComponents/IconFacebook";
-import GoogleIcon from "../../public/assets/icons/iconComponents/IconGoogle";
+import FacebookIcon from "../../public/assets/icons/icon-facebook.svg";
+import GoogleIcon from "../../public/assets/icons/icon-google.svg";
 import Image from "next/image";
 import Link from "next/link";
 import LoginForm from "../../src/components/forms/LoginForm";

@@ -192,7 +192,7 @@ export default function UpdateProfileForm(props: UpdateFormProps) {
                 </p>
               </div>
 
-              <div className="sm:col-span-6">
+              {/* <div className="sm:col-span-6">
                 <label
                   htmlFor="user_picture"
                   className="block text-sm font-medium text-gray-900"
@@ -233,9 +233,9 @@ export default function UpdateProfileForm(props: UpdateFormProps) {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
 
-              <div className="sm:col-span-6">
+              {/* <div className="sm:col-span-6">
                 <label
                   htmlFor="coverPhoto"
                   className="block text-sm font-medium text-gray-900"
@@ -300,7 +300,7 @@ export default function UpdateProfileForm(props: UpdateFormProps) {
                     </div>
                   )}
                 </div>
-              </div>
+              </div> */}
             </div>
             <div className=" bg-gray-50  py-3 flex justify-end pr-4">
               <button

@@ -3,9 +3,6 @@ import * as Yup from "yup";
 import { Field, Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 
-import AddImageIcon from "../../../../public/assets/icons/iconComponents/AddImage";
-import AvatarIcon from "../../../../public/assets/icons/iconComponents/Avatar";
-import Image from "next/image";
 import { InputAddOnField } from "../fields/InputAddOnField";
 import { UpdateFormProps } from "../../../../pages/user";
 import { updateUser } from "../../../actions/user";

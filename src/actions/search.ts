@@ -16,10 +16,9 @@ export function searchQuery(value: string): IAxiosAction {
   return {
     type: SEARCH_POST,
     config: {
-      method: "POST",
+      method: "GET",
       url: `${SEARCH_URL}/`,
       headers: {
-        "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json",
       },
       data: data,

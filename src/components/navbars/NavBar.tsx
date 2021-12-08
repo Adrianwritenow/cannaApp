@@ -95,7 +95,12 @@ export default function NavBar() {
     dispatchAxios(searchQuery(values));
   }
   function handleChange(values: any) {
-    handleSubmit(values);
+    const isEmpty = Object.values(values).every((x) => x === null || x === "");
+
+    if (!isEmpty && !loading) {
+      console.log("BBO");
+      handleSubmit(values);
+    }
   }
 
   return (
@@ -180,7 +185,7 @@ export default function NavBar() {
                                 component={SearchSlideOver}
                                 options={searchData}
                                 id={"search"}
-                                onChange={handleChange(values)}
+                                onChange={() => handleChange(values)}
                                 setFieldValue={handleSubmit}
                                 value={values.search}
                                 placeholder="Search..."

@@ -26,7 +26,7 @@ export function useAxios(): [DispatchAxios, IAxiosState] {
         config: params.config,
       };
 
-      params.config.url += "?_format=json";
+      // params.config.url += "?_format=json";
 
       if (params.data) {
         action.data = params.data;

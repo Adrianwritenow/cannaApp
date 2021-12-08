@@ -7,7 +7,6 @@ import { A11y, Navigation, Pagination, Scrollbar } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import Image from "next/image";
-import styles from "./ImageSlider.module.scss";
 
 export default function ImageSlider(props: any) {
   const { images } = props;

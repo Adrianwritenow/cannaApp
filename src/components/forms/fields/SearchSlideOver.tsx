@@ -1,49 +1,68 @@
-import { ArrowLeftIcon, XIcon } from "@heroicons/react/solid";
+import { ArrowLeftIcon, SearchIcon, XIcon } from "@heroicons/react/solid";
 import { Dialog, Transition } from "@headlessui/react";
+import { Field, Form, Formik } from "formik";
 import React, { Fragment, Ref, useState } from "react";
 
-interface FormikField extends React.InputHTMLAttributes<HTMLInputElement> {
-  name: string;
-}
+import schema from "yup/lib/schema";
+import { searchQuery } from "../../../actions/search";
+import { useAxios } from "../../../hooks/useAxios";
 
-interface Props {
-  options: any;
-  id: string;
-  innerRef: Ref<any>;
-  onChange: any;
-  handleFocus?: Function;
-  setFieldValue: Function;
-  handleSearch: Function;
-  searchHelper?: string;
-  focus?: boolean;
-  field: FormikField;
-  icon?: React.ComponentProps<any>;
-  placeholder: string;
-}
-
-export const SearchSlideOver = (SearchFieldpProps: Props) => {
+export default function SearchSlideOver() {
   const [open, setOpen] = useState(false);
-
-  const {
-    id,
-    handleFocus,
-    innerRef,
-    setFieldValue,
-    icon,
-    field,
-    focus,
-    searchHelper,
-    placeholder,
-    handleSearch,
-    ...rest
-  } = SearchFieldpProps;
+  const [dispatchAxios, { loading }] = useAxios();
 
   const initialValues = {
     search: "",
+    location: "",
   };
 
+  const [searchData, setSearchData] = useState([
+    {
+      value: "Sour Diesel",
+      type: "strain",
+      category: "Strain",
+    },
+    {
+      value: "Sour O.G.",
+      type: "strain",
+      category: "Strain",
+    },
+    {
+      value: "Sour Tangie",
+      type: "strain",
+      category: "Strain",
+    },
+    {
+      value: "Sour Jack",
+      type: "strain",
+      category: "Strain",
+    },
+    {
+      value: "Sour",
+      type: "flavor",
+      category: "Strain",
+    },
+    {
+      value: "Sour Jack’s Ganja Shack",
+      type: "dispensary",
+      category: "Shops",
+    },
+  ]);
+
+  function handleSubmit(values: any) {
+    dispatchAxios(searchQuery(values));
+  }
+  function handleChange(values: any) {
+    const isEmpty = Object.values(values).every((x) => x === null || x === "");
+
+    if (!isEmpty && !loading) {
+      console.log("BBO");
+      handleSubmit(values);
+    }
+  }
+
   return (
-    <div {...rest}>
+    <div>
       <div className="w-full relative">
         <button
           type="button"
@@ -53,7 +72,7 @@ export const SearchSlideOver = (SearchFieldpProps: Props) => {
             setOpen(true);
           }}
         >
-          {icon}
+          <SearchIcon className="w-5 h-5" />
           Search
         </button>
       </div>
@@ -93,12 +112,56 @@ export const SearchSlideOver = (SearchFieldpProps: Props) => {
                                 aria-hidden="true"
                               />
                             </button>
-                            <input
+                            <Formik
+                              initialValues={initialValues}
+                              onSubmit={handleSubmit}
+                              validateOnChange={false}
+                              validateOnBlur={true}
+                            >
+                              {({
+                                handleSubmit,
+                                values,
+                                setFieldValue,
+                                submitForm,
+                              }) => {
+                                return (
+                                  <Form
+                                    className={"w-full"}
+                                    onSubmit={handleSubmit}
+                                  >
+                                    <div className="grid grid-cols-7 gap-1 pt-2">
+                                      <div className={"col-span-7"}>
+                                        <Field
+                                          name={"search"}
+                                          type={"text"}
+                                          id={"search"}
+                                          className="w-full border-none px-4 focus:border-0 focus:outline-none focus:ring-transparent"
+                                          onChange={() => handleChange(values)}
+                                          value={values.search}
+                                          placeholder="Search..."
+                                        />
+                                        <Field
+                                          name={"location"}
+                                          type={"text"}
+                                          id={"location"}
+                                          className="w-full border-none px-4 focus:border-0 focus:outline-none focus:ring-transparent"
+                                          onChange={() => {}}
+                                          value={values.location}
+                                          placeholder="Location..."
+                                        />
+                                      </div>
+                                    </div>
+                                  </Form>
+                                );
+                              }}
+                            </Formik>
+
+                            {/* <input
                               type="text"
                               className="w-full border-none px-4 focus:border-0 focus:outline-none focus:ring-transparent"
                               placeholder={placeholder}
                               {...field}
-                            />
+                            /> */}
                             <button
                               type="button"
                               className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-transparent"
@@ -121,4 +184,4 @@ export const SearchSlideOver = (SearchFieldpProps: Props) => {
       </Transition.Root>
     </div>
   );
-};
+}

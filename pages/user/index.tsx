@@ -84,7 +84,7 @@ export default function UserProfile() {
       <div className="max-w-7xl mx-auto grid grid-flow-row gap-6 pb-6">
         <UpdateProfileForm loading={loading} />
         <UpdatePersonalForm loading={loading} />
-        <UpdateNotificationsForm />
+        {/* <UpdateNotificationsForm /> */}
       </div>
     </div>
   );

@@ -1,20 +1,25 @@
+import { KeyIcon, MailIcon } from "@heroicons/react/outline";
+import { RadioGroup, Tab } from "@headlessui/react";
 import React, { useState } from "react";
 
-import { KeyIcon } from "@heroicons/react/outline";
-import { RadioGroup } from "@headlessui/react";
+import AccountSettingsForm from "../../src/components/forms/Profile/AccountSettingsForm";
 import UpdateNotificationsForm from "../../src/components/forms/Profile/UpdateNotificationsForm";
 import UpdatePersonalForm from "../../src/components/forms/Profile/UpdatePersonalForm";
 import UpdateProfileForm from "../../src/components/forms/Profile/UpdateProfileForm";
 import { UserCircleIcon } from "@heroicons/react/outline";
 import { useCurrentUser } from "../../src/hooks/user";
 
-const edits = [
+const tabs = [
   {
     name: "Edit my profile",
     icon: <UserCircleIcon />,
   },
   {
-    name: "Update my password",
+    name: "Account Settings",
+    icon: <MailIcon />,
+  },
+  {
+    name: "Password",
     icon: <KeyIcon />,
   },
 ];
@@ -24,7 +29,7 @@ export interface UpdateFormProps {
 }
 
 export default function UserProfile() {
-  const [selected, setSelected] = useState(edits[0]);
+  // const [selected, setSelected] = useState(edits[0]);
   const [currentUser, loading] = useCurrentUser(true);
 
   function classNames(...classes: string[]) {
@@ -32,60 +37,48 @@ export default function UserProfile() {
   }
 
   return (
-    <div className="bg-gray-100">
-      <RadioGroup
-        value={selected}
-        className="px-2 py-12"
-        onChange={setSelected}
-      >
-        <RadioGroup.Label className="sr-only">
-          Edit Profile or Password
-        </RadioGroup.Label>
-        <div className="space-y-4">
-          {edits.map((edit) => (
-            <RadioGroup.Option
-              key={edit.name}
-              value={edit}
-              className={({ checked }) =>
-                classNames(
-                  checked ? "text-green bg-white " : "",
-                  "relative block rounded-lg bg-transparent p-2  cursor-pointer  sm:flex sm:justify-between focus:outline-none"
-                )
+    <div className="bg-gray-100 ">
+      <Tab.Group defaultIndex={0}>
+        <Tab.List className="w-full overflow-visible shadow-md flex flex-wrap shadow-none space-y-1 p-4">
+          {tabs.map((tab, index) => (
+            <Tab
+              key={tab.name}
+              className={({ selected }) =>
+                `${selected ? "text-green bg-white " : "text-gray-700"},
+                   relative block rounded-lg bg-transparent p-3  w-full cursor-pointer  sm:justify-between focus:outline-none flex items-center`
               }
             >
-              {({ checked }) => (
-                <>
-                  <div className="flex items-center">
-                    <div className="text-sm">
-                      <RadioGroup.Label className="font-medium flex items-center	">
-                        <div
-                          className={`w-6 h-6 mr-3 ${
-                            checked ? "text-green" : "text-gray-400"
-                          }`}
-                        >
-                          {edit.icon}
-                        </div>
-                        {edit.name}
-                      </RadioGroup.Label>
-                    </div>
-                  </div>
+              {({ selected }) => (
+                <div className="w-full flex items-center">
                   <div
-                    className={classNames(
-                      "absolute -inset-px rounded-lg  pointer-events-none"
-                    )}
-                    aria-hidden="true"
-                  />
-                </>
+                    className={`${
+                      selected ? "text-green" : "text-gray-500"
+                    }  mr-3 w-6 h-6`}
+                  >
+                    {tab.icon}
+                  </div>
+                  <span className="px-4">{tab.name}</span>
+                </div>
               )}
-            </RadioGroup.Option>
+            </Tab>
           ))}
-        </div>
-      </RadioGroup>
-      <div className="max-w-7xl mx-auto grid grid-flow-row gap-6 pb-6">
-        <UpdateProfileForm loading={loading} />
-        <UpdatePersonalForm loading={loading} />
-        <UpdateNotificationsForm loading={loading} />
-      </div>
+        </Tab.List>
+        {/* Panels that control the view by index */}
+        <Tab.Panels className="focus:outline-none">
+          <Tab.Panel className="focus:outline-none">
+            <div className="max-w-7xl mx-auto grid grid-flow-row gap-6 pb-6">
+              <UpdateProfileForm loading={loading} />
+              <UpdatePersonalForm loading={loading} />
+              <UpdateNotificationsForm loading={loading} />
+            </div>
+          </Tab.Panel>
+          <Tab.Panel className="focus:outline-none">
+            <div className="max-w-7xl mx-auto grid grid-flow-row gap-6 pb-6">
+              <AccountSettingsForm loading={loading} />
+            </div>
+          </Tab.Panel>
+        </Tab.Panels>
+      </Tab.Group>
     </div>
   );
 }

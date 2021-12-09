@@ -35,7 +35,12 @@ export default function StrainDetail() {
   return (
     <div className="bg-white">
       <div className="w-full h-64 relative">
-        <Image src={listing.image} layout="fill" objectFit={"cover"} />
+        <Image
+          src={listing.image}
+          layout="fill"
+          objectFit={"cover"}
+          alt={listing.name}
+        />
         <button
           onClick={() => router.back()}
           className="bg-white rounded-full shadow-sm absolute w-10 h-10 flex items-center justify-center left-0 top-0 z-30 m-4"
@@ -131,7 +136,7 @@ export default function StrainDetail() {
           <h2 className="sr-only">Location</h2>
 
           <div className="w-full h-48 relative rounded-lg overflow-hidden">
-            <Image src={Map} layout="fill" objectFit={"cover"} />
+            <Image src={Map} layout="fill" objectFit={"cover"} alt={"Map"} />
           </div>
 
           <div className="text-lg text-gray-500 w-60 grid grid-flow-row auto-rows-max gap-2">

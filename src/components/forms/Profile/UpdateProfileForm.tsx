@@ -3,8 +3,6 @@ import * as Yup from "yup";
 import { Field, Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 
-import { InputAddOnField } from "../fields/InputAddOnField";
-import { UpdateFormProps } from "../../../../pages/user";
 import { updateUser } from "../../../actions/user";
 import { useAxios } from "../../../hooks/useAxios";
 import { useCurrentUser } from "../../../hooks/user";
@@ -14,12 +12,11 @@ interface ProfileImages {
   coverPhoto: string | null;
 }
 
-export default function UpdateProfileForm(props: UpdateFormProps) {
+export default function UpdateProfileForm() {
   const [currentUser] = useCurrentUser();
   const [dispatchAxios, { loading }] = useAxios();
 
   const [initialValues, setInitialValues] = useState({
-    name: "",
     about: "",
     user_picture: "",
     coverPhoto: "",
@@ -106,13 +103,9 @@ export default function UpdateProfileForm(props: UpdateFormProps) {
       (x) => x === null || x === ""
     );
 
-    console.log("IS EMPTY?", isEmpty, initialValues);
-    console.log("IS CU?", currentUser);
-
-    if (isEmpty || props.loading) {
+    if (isEmpty) {
       const currentPhoto = currentUser.user_picture[0]?.value;
       setInitialValues({
-        name: currentUser.name[0].value || "",
         about: "",
         user_picture: currentUser.user_picture[0]?.value,
         coverPhoto: "",
@@ -122,12 +115,10 @@ export default function UpdateProfileForm(props: UpdateFormProps) {
         user_picture: currentPhoto,
       });
     }
-  }, [initialValues, props.loading, currentUser]);
+  }, [initialValues, currentUser]);
 
   async function handleSubmit(values: any) {
-    const response = await dispatchAxios(
-      updateUser(currentUser.uid[0].value, values)
-    );
+    dispatchAxios(updateUser(currentUser.uid[0].value, values));
   }
 
   return (
@@ -142,7 +133,7 @@ export default function UpdateProfileForm(props: UpdateFormProps) {
       {({ handleSubmit, setFieldValue, errors, values }) => {
         return (
           <Form className="bg-white shadow">
-            <div className="grid grid-cols-1 gap-y-6 sm:grid-cols-6 sm:gap-x-6 py-10 px-4 sm:px-6 lg:py-12 lg:px-8">
+            <div className="grid grid-cols-1 gap-y-6 sm:grid-cols-6 sm:gap-x-6 py-6 px-4 sm:px-6 lg:py-12 lg:px-8">
               <div className="sm:col-span-6">
                 <h2 className="text-xl font-medium text-gray-900">
                   CANNAcadet Profile
@@ -151,17 +142,6 @@ export default function UpdateProfileForm(props: UpdateFormProps) {
                   This is your public CANNAPAGES account profile, and how you
                   look to other CANNAcadets.
                 </p>
-              </div>
-              <div className="sm:col-span-3">
-                <div className="mt-1 flex rounded-md shadow-sm">
-                  <Field
-                    label="Username"
-                    id="name"
-                    name="name"
-                    type="text"
-                    component={InputAddOnField}
-                  />
-                </div>
               </div>
 
               <div className="sm:col-span-3">

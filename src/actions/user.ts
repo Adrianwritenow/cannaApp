@@ -49,11 +49,11 @@ export function updateUser(
     payload.password = password;
   }
 
-  console.log("payload", payload);
+  // console.log("payload", payload);
 
   const data = JSON.stringify(payload);
 
-  console.log("data", data);
+  // console.log("data", data);
 
   return {
     type: USER_REQUEST_UPDATE,

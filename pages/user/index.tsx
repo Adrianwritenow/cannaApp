@@ -1,8 +1,9 @@
 import { KeyIcon, MailIcon } from "@heroicons/react/outline";
-import { RadioGroup, Tab } from "@headlessui/react";
-import React, { useState } from "react";
 
 import AccountSettingsForm from "../../src/components/forms/Profile/AccountSettingsForm";
+import ChangePasswordForm from "../../src/components/forms/Profile/ChangePasswordForm";
+import React from "react";
+import { Tab } from "@headlessui/react";
 import UpdateNotificationsForm from "../../src/components/forms/Profile/UpdateNotificationsForm";
 import UpdatePersonalForm from "../../src/components/forms/Profile/UpdatePersonalForm";
 import UpdateProfileForm from "../../src/components/forms/Profile/UpdateProfileForm";
@@ -11,7 +12,7 @@ import { useCurrentUser } from "../../src/hooks/user";
 
 const tabs = [
   {
-    name: "Edit my profile",
+    name: "Profile",
     icon: <UserCircleIcon />,
   },
   {
@@ -24,17 +25,8 @@ const tabs = [
   },
 ];
 
-export interface UpdateFormProps {
-  loading: boolean;
-}
-
 export default function UserProfile() {
-  // const [selected, setSelected] = useState(edits[0]);
   const [currentUser, loading] = useCurrentUser(true);
-
-  function classNames(...classes: string[]) {
-    return classes.filter(Boolean).join(" ");
-  }
 
   return (
     <div className="bg-gray-100 ">
@@ -67,14 +59,19 @@ export default function UserProfile() {
         <Tab.Panels className="focus:outline-none">
           <Tab.Panel className="focus:outline-none">
             <div className="max-w-7xl mx-auto grid grid-flow-row gap-6 pb-6">
-              <UpdateProfileForm loading={loading} />
-              <UpdatePersonalForm loading={loading} />
-              <UpdateNotificationsForm loading={loading} />
+              <UpdateProfileForm />
+              <UpdatePersonalForm />
+              <UpdateNotificationsForm />
             </div>
           </Tab.Panel>
           <Tab.Panel className="focus:outline-none">
             <div className="max-w-7xl mx-auto grid grid-flow-row gap-6 pb-6">
-              <AccountSettingsForm loading={loading} />
+              <AccountSettingsForm />
+            </div>
+          </Tab.Panel>
+          <Tab.Panel className="focus:outline-none">
+            <div className="max-w-7xl mx-auto grid grid-flow-row gap-6 pb-6">
+              <ChangePasswordForm />
             </div>
           </Tab.Panel>
         </Tab.Panels>

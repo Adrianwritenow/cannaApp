@@ -1,56 +1,41 @@
 import * as Yup from "yup";
 
+import { CheckIcon, XIcon } from "@heroicons/react/outline";
 import { Field, Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 
-import { CheckIcon } from "@heroicons/react/solid";
 import Errors from "../../error/errors";
 import { InputField } from "../fields/InputField";
 import { RootState } from "../../../reducers";
-import { XIcon } from "@heroicons/react/outline";
 import { updateUser } from "../../../actions/user";
 import { useAxios } from "../../../hooks/useAxios";
 import { useSelector } from "react-redux";
 
-export default function AccountSettingsForm() {
+export default function ChangePasswordForm() {
   const [dispatchAxios, { loading, error, success }] = useAxios();
   const { currentUser } = useSelector((root: RootState) => root.user);
   const [apiError, setApiError] = useState("");
   const [status, setStatus] = useState(false);
 
   const [initialValues, setInitialValues] = useState({
-    name: "",
-    mail: "",
     password: "",
+    newPassword: "",
   });
 
   const schema = Yup.object().shape({
-    name: Yup.string(),
-    mail: Yup.string(),
-    password: Yup.string().required(),
+    password: Yup.string().required("Password is required"),
+    newPassword: Yup.string().required("New Password is required"),
   });
 
   useEffect(() => {
-    const isEmpty = Object.values(initialValues).every(
-      (x) => x === null || x === ""
-    );
-    if (isEmpty) {
-      setInitialValues({
-        name: currentUser.name[0]?.value || "",
-        mail: currentUser.mail[0]?.value || "",
-        password: "",
-      });
-    }
-
     if (error && !loading) {
       setApiError(error.response.data);
     }
-  }, [initialValues, currentUser, apiError, error, status]);
+  }, [initialValues, currentUser, apiError, error]);
 
   async function handleSubmit(values: any) {
     setApiError("");
     dispatchAxios(updateUser(currentUser.uid[0].value, values));
-
     setStatus(true);
   }
 
@@ -59,9 +44,9 @@ export default function AccountSettingsForm() {
       validationSchema={schema}
       initialValues={initialValues}
       onSubmit={handleSubmit}
-      validateOnChange={true}
+      validateOnChange={false}
       enableReinitialize
-      validateOnBlur={true}
+      validateOnBlur={false}
     >
       {({ values, handleBlur, handleChange, setFieldValue, errors }) => {
         const errorCount = Object.keys(errors).length;
@@ -74,30 +59,21 @@ export default function AccountSettingsForm() {
           <Form className="bg-white shadow">
             <div className="grid grid-cols-1 gap-y-6 sm:grid-cols-6 sm:gap-x-6 py-6 px-4 sm:px-6 lg:py-12 lg:px-8">
               <div className="sm:col-span-6">
-                <p className="text-sm text-gray-500">
-                  You can update your e-mail. You must use your current password
-                  to save any changes.
+                <h2 className="text-xl font-medium text-gray-900">
+                  Change Your Password
+                </h2>
+                <p className="mt-1 text-sm text-gray-500">
+                  You must use your current password to save any changes.
                 </p>
-              </div>
-              <div className="sm:col-span-6">
-                <div className="mt-1 flex rounded-md shadow-sm">
-                  <Field
-                    label="User Name"
-                    id="name"
-                    name="name"
-                    type="text"
-                    component={InputField}
-                  />
-                </div>
               </div>
 
               <div className="sm:col-span-6">
                 <div className="mt-1 flex rounded-md shadow-sm">
                   <Field
-                    label="E-mail"
-                    id="mail"
-                    name="mail"
-                    type="mail"
+                    label="Current Password *"
+                    id="password"
+                    name="password"
+                    type="password"
                     component={InputField}
                   />
                 </div>
@@ -106,9 +82,9 @@ export default function AccountSettingsForm() {
               <div className="sm:col-span-6">
                 <div className="mt-1 flex rounded-md shadow-sm w-full">
                   <Field
-                    label="Current Password *"
-                    id="password"
-                    name="password"
+                    label="New Password "
+                    id="newPassword"
+                    name="newPassword"
                     type="password"
                     component={InputField}
                   />
@@ -131,7 +107,7 @@ export default function AccountSettingsForm() {
                 <>
                   {(error || errorCount) && (
                     <button
-                      type="button"
+                      type={"button"}
                       onClick={(e) => {
                         e.preventDefault();
                         setStatus(false);
@@ -143,7 +119,7 @@ export default function AccountSettingsForm() {
                   )}
                   {success && (
                     <button
-                      type="button"
+                      type={"button"}
                       onClick={(e) => {
                         e.preventDefault();
                         setStatus(false);

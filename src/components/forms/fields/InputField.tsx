@@ -63,7 +63,7 @@ export function InputField(props: FieldProps) {
 
   return (
     <div {...rest} className={"w-full"}>
-      <label htmlFor={id} className={labelClasses}>
+      <label htmlFor={id} className={`${labelClasses} mb-1`}>
         {label}
       </label>
       <div className="relative rounded-md shadow-sm ">

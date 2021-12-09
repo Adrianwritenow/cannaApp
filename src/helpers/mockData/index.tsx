@@ -203,6 +203,26 @@ export const listings: Array<Listing> = [
     closeTime: "8pm",
     amenities: ["Amenity", "Amenity", "Amenity"],
     category: "Listing Category",
+    faqs: [
+      {
+        id: 1,
+        question: "What's the best thing about Switzerland?",
+        answer:
+          "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
+      },
+      {
+        id: 2,
+        question: "What's the best thing about Switzerland?",
+        answer:
+          "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
+      },
+      {
+        id: 3,
+        question: "What's the best thing about Switzerland?",
+        answer:
+          "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
+      },
+    ],
     href: "#",
     name: "Listing Name",
     rating: 4,
@@ -237,7 +257,6 @@ export const listings: Array<Listing> = [
       },
     ],
     address: "8502 Preston Rd. Inglewood, Maine 98380",
-
   },
   {
     id: "l24",
@@ -255,6 +274,26 @@ export const listings: Array<Listing> = [
     closeTime: "8pm",
     amenities: ["Amenity", "Amenity", "Amenity"],
     category: "Listing Category",
+    faqs: [
+      {
+        id: 1,
+        question: "What's the best thing about Switzerland?",
+        answer:
+          "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
+      },
+      {
+        id: 2,
+        question: "What's the best thing about Switzerland?",
+        answer:
+          "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
+      },
+      {
+        id: 3,
+        question: "What's the best thing about Switzerland?",
+        answer:
+          "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
+      },
+    ],
     href: "#",
     name: "Listing Name",
     rating: 4,
@@ -307,6 +346,26 @@ export const listings: Array<Listing> = [
     closeTime: "8pm",
     amenities: ["Amenity", "Amenity", "Amenity"],
     category: "Listing Category",
+    faqs: [
+      {
+        id: 1,
+        question: "What's the best thing about Switzerland?",
+        answer:
+          "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
+      },
+      {
+        id: 2,
+        question: "What's the best thing about Switzerland?",
+        answer:
+          "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
+      },
+      {
+        id: 3,
+        question: "What's the best thing about Switzerland?",
+        answer:
+          "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
+      },
+    ],
     href: "#",
     name: "Listing Name",
     rating: 4,
@@ -358,6 +417,26 @@ export const listings: Array<Listing> = [
     closeTime: "8pm",
     amenities: ["Amenity", "Amenity", "Amenity"],
     category: "Listing Category",
+    faqs: [
+      {
+        id: 1,
+        question: "What's the best thing about Switzerland?",
+        answer:
+          "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
+      },
+      {
+        id: 2,
+        question: "What's the best thing about Switzerland?",
+        answer:
+          "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
+      },
+      {
+        id: 3,
+        question: "What's the best thing about Switzerland?",
+        answer:
+          "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
+      },
+    ],
     href: "#",
     name: "Listing Name",
     rating: 4,
@@ -410,6 +489,26 @@ export const listings: Array<Listing> = [
     closeTime: "8pm",
     amenities: ["Amenity", "Amenity", "Amenity"],
     category: "Listing Category",
+    faqs: [
+      {
+        id: 1,
+        question: "What's the best thing about Switzerland?",
+        answer:
+          "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
+      },
+      {
+        id: 2,
+        question: "What's the best thing about Switzerland?",
+        answer:
+          "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
+      },
+      {
+        id: 3,
+        question: "What's the best thing about Switzerland?",
+        answer:
+          "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
+      },
+    ],
     href: "#",
     name: "Listing Name",
     rating: 4,
@@ -461,6 +560,26 @@ export const listings: Array<Listing> = [
     closeTime: "8pm",
     amenities: ["Amenity", "Amenity", "Amenity"],
     category: "Listing Category",
+    faqs: [
+      {
+        id: 1,
+        question: "What's the best thing about Switzerland?",
+        answer:
+          "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
+      },
+      {
+        id: 2,
+        question: "What's the best thing about Switzerland?",
+        answer:
+          "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
+      },
+      {
+        id: 3,
+        question: "What's the best thing about Switzerland?",
+        answer:
+          "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
+      },
+    ],
     href: "#",
     name: "Listing Name",
     rating: 4,
@@ -512,6 +631,26 @@ export const listings: Array<Listing> = [
     closeTime: "8pm",
     amenities: ["Amenity", "Amenity", "Amenity"],
     category: "Listing Category",
+    faqs: [
+      {
+        id: 1,
+        question: "What's the best thing about Switzerland?",
+        answer:
+          "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
+      },
+      {
+        id: 2,
+        question: "What's the best thing about Switzerland?",
+        answer:
+          "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
+      },
+      {
+        id: 3,
+        question: "What's the best thing about Switzerland?",
+        answer:
+          "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
+      },
+    ],
     href: "#",
     name: "Listing Name",
     rating: 4,
@@ -564,6 +703,26 @@ export const listings: Array<Listing> = [
     closeTime: "8pm",
     amenities: ["Amenity", "Amenity", "Amenity"],
     category: "Listing Category",
+    faqs: [
+      {
+        id: 1,
+        question: "What's the best thing about Switzerland?",
+        answer:
+          "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
+      },
+      {
+        id: 2,
+        question: "What's the best thing about Switzerland?",
+        answer:
+          "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
+      },
+      {
+        id: 3,
+        question: "What's the best thing about Switzerland?",
+        answer:
+          "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
+      },
+    ],
     href: "#",
     name: "Listing Name",
     rating: 4,

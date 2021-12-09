@@ -7,10 +7,12 @@ interface Products {
   products: Array<Product>;
   sponsored: boolean;
   label: string;
+  buttonLabel?: string;
+  stateFunction?: Function;
 }
 
 export default function ProductResultsSection(results: Products) {
-  const { products, sponsored, label } = results;
+  const { products, sponsored, label, buttonLabel, stateFunction } = results;
 
   return (
     <section id="shop-section">
@@ -31,8 +33,15 @@ export default function ProductResultsSection(results: Products) {
         ))}
       </div>
       <div className="px-4 ">
-        <button className="py-4 w-full uppercase text-gray-700 text-xs font-bold border-t border-gray-200 tracking-widest">
-          See more
+        <button
+          className="py-4 w-full uppercase text-green-500 text-xs font-semibold border-t border-gray-200 tracking-widest"
+          onClick={() => {
+            if (stateFunction) {
+              stateFunction(true);
+            }
+          }}
+        >
+          {buttonLabel ? buttonLabel : <span>See more</span>}
         </button>
       </div>
     </section>

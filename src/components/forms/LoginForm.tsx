@@ -7,10 +7,12 @@ import React, { useContext, useState } from "react";
 import Errors from "../error/errors";
 import { InputField } from "./fields/InputField";
 import { useRouter } from "next/router";
+import { EyeIcon, EyeOffIcon } from "@heroicons/react/outline";
 
 export default function LoginForm() {
   const authState = useContext(AuthContext);
   const [apiError, setApiError] = useState("");
+  const [passwordVisible, setPasswordVisible] = useState(false);
   const router = useRouter();
   const schema = Yup.object().shape({
     email: Yup.string()
@@ -22,6 +24,10 @@ export default function LoginForm() {
   const initialValues = {
     email: "",
     password: "",
+  };
+
+  const togglePasswordVisible = () => {
+    setPasswordVisible(!passwordVisible);
   };
 
   const handleSubmit = async (values: any) => {
@@ -43,8 +49,9 @@ export default function LoginForm() {
     >
       {({ handleSubmit, errors, values }) => {
         const errorCount = Object.keys(errors).length;
+        const passwordError = Object.keys(errors).includes("password");
         const errorList = Object.values(errors).map((error, i) => (
-          <li className="text-red-700 font-normal" key={i}>
+          <li className="text-red-900 font-normal" key={i}>
             {error}
           </li>
         ));
@@ -61,14 +68,34 @@ export default function LoginForm() {
               />
             </div>
 
-            <div className="mt-1">
+            <div className="mt-1 relative">
               <Field
                 label="Password"
                 id="password"
                 name="password"
-                type="password"
+                type={passwordVisible ? "text" : "password"}
                 component={InputField}
               />
+              <button
+                role="switch"
+                type="button"
+                style={{ position: "absolute", bottom: "7.6px", right: passwordError ? "35px" : "9.5px" }}
+                aria-pressed={passwordVisible ? "true" : "false"}
+                onClick={togglePasswordVisible}
+                className={`cursor-default text-gray-500 w-6`}
+              >
+                {!passwordVisible ? (
+                  <>
+                    <span className="sr-only">Show Password</span>
+                    <EyeIcon aria-hidden="true" />
+                  </>
+                ) : (
+                  <>
+                    <span className="sr-only">Hide Password</span>
+                    <EyeOffIcon aria-hidden="true" />
+                  </>
+                )}
+              </button>
             </div>
 
             <div className="flex items-center justify-between">
@@ -99,6 +126,7 @@ export default function LoginForm() {
                 errorCount={errorCount}
                 errorList={errorList}
               />
+
             ) : (
               ""
             )}

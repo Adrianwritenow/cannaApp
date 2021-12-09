@@ -37,6 +37,7 @@ export function updateUser(
   values: any,
   password?: string
 ): IAxiosAction {
+
   const payload: any = {};
 
   Object.keys(values).map(function (key, index) {

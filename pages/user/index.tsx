@@ -76,6 +76,7 @@ export default function UserProfile() {
           </Tab.Panel>
         </Tab.Panels>
       </Tab.Group>
+
     </div>
   );
 }

@@ -6,6 +6,7 @@ import { InputCheckboxField } from "../fields/InputCheckboxField";
 import React from "react";
 
 export default function UpdateNotificationsForm() {
+
   const schema = Yup.object().shape({
     comments: Yup.boolean(),
     events: Yup.boolean(),

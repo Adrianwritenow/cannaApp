@@ -6,12 +6,14 @@ import React, { useEffect, useState } from "react";
 import { InputField } from "../fields/InputField";
 import { RootState } from "../../../reducers";
 import SelectDropdown from "../fields/SelectDropdown";
+
 import { updateUser } from "../../../actions/user";
 import { useAxios } from "../../../hooks/useAxios";
 import { useSelector } from "react-redux";
 
 export default function UpdatePersonalForm() {
   const [initialValues, setInitialValues] = useState({
+
     field_first_name: "",
     field_last_name: "",
     mail: "",
@@ -61,6 +63,7 @@ export default function UpdatePersonalForm() {
 
   async function handleSubmit(values: any) {
     dispatchAxios(updateUser(currentUser.uid[0].value, values));
+
   }
 
   return (

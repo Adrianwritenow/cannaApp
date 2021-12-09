@@ -27,6 +27,7 @@ export default function UpdateProfileForm() {
     coverPhoto: null,
   });
 
+
   const schema = Yup.object().shape({
     name: Yup.string().required("Username is required"),
     about: Yup.string(),
@@ -106,6 +107,7 @@ export default function UpdateProfileForm() {
     if (isEmpty) {
       const currentPhoto = currentUser.user_picture[0]?.value;
       setInitialValues({
+
         about: "",
         user_picture: currentUser.user_picture[0]?.value,
         coverPhoto: "",
@@ -119,6 +121,7 @@ export default function UpdateProfileForm() {
 
   async function handleSubmit(values: any) {
     dispatchAxios(updateUser(currentUser.uid[0].value, values));
+
   }
 
   return (
@@ -143,7 +146,6 @@ export default function UpdateProfileForm() {
                   look to other CANNAcadets.
                 </p>
               </div>
-
               <div className="sm:col-span-3">
                 <label
                   htmlFor={"about"}

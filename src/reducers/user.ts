@@ -41,7 +41,6 @@ const user = (state = defaultState, action: any) => {
         ...state,
         currentUser: action.response ? action.response.data : state.currentUser,
       };
-
     default:
       return state;
   }

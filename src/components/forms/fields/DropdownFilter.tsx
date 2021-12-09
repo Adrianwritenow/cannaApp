@@ -21,7 +21,7 @@ export default function DropdownFilter(data: DropdownFilter) {
         className="mx-1 flex rounded-full border-2 border-gray-200 items-center px-4 py-2 text-sm font-medium bg-white text-gray-900 whitespace-pre"
         onClick={() => setOpen(true)}
       >
-        <span className={"capitalize text-gray-600"}>
+        <span className={"capitalize text-gray-600 text-sm"}>
           {preface && <span>{preface}&nbsp;</span>}
           {current ? current : label}
         </span>

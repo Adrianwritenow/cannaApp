@@ -14,3 +14,4 @@ export { default as Sativa } from "./Sativa";
 export { default as Shops } from "./Shops";
 export { default as Strains } from "./Strains";
 export { default as UserCircle } from "./UserCircle";
+export { default as IconInsta } from "./IconInsta";

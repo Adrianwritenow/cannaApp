@@ -1,3 +1,4 @@
+import { Faq } from "./faq";
 import { Review } from "./review";
 
 export interface Listing {
@@ -20,4 +21,5 @@ export interface Listing {
   rating: number;
   reviewCount: number;
   reviews: Array<Review>;
+  faqs: Array<Faq>;
 }

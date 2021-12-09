@@ -5,7 +5,7 @@ interface ErrorsProps {
   errorCount: number;
   apiError: string;
 }
-export default function Errors(props: ErrorsProps) {
+export default function ErrorsDisplay(props: ErrorsProps) {
   const { errorList, errorCount, apiError } = props;
 
   return (

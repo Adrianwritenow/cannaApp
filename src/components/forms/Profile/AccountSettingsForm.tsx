@@ -4,7 +4,7 @@ import { Field, Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 
 import { CheckIcon } from "@heroicons/react/solid";
-import Errors from "../../error/errors";
+import ErrorsDisplay from "../../error/ErrorsDisplay";
 import { InputField } from "../fields/InputField";
 import { RootState } from "../../../reducers";
 import { XIcon } from "@heroicons/react/outline";
@@ -117,7 +117,7 @@ export default function AccountSettingsForm() {
             </div>
             {errorCount || apiError ? (
               <div className="px-4">
-                <Errors
+                <ErrorsDisplay
                   apiError={apiError}
                   errorCount={errorCount}
                   errorList={errorList}

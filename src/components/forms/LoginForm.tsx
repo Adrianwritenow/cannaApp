@@ -1,13 +1,13 @@
 import * as Yup from "yup";
 
 import { AuthContext, login } from "../../authentication/authContext";
+import { EyeIcon, EyeOffIcon } from "@heroicons/react/outline";
 import { Field, Form, Formik } from "formik";
 import React, { useContext, useState } from "react";
 
-import Errors from "../error/errors";
+import ErrorsDisplay from "../error/ErrorsDisplay";
 import { InputField } from "./fields/InputField";
 import { useRouter } from "next/router";
-import { EyeIcon, EyeOffIcon } from "@heroicons/react/outline";
 
 export default function LoginForm() {
   const authState = useContext(AuthContext);
@@ -79,7 +79,11 @@ export default function LoginForm() {
               <button
                 role="switch"
                 type="button"
-                style={{ position: "absolute", bottom: "7.6px", right: passwordError ? "35px" : "9.5px" }}
+                style={{
+                  position: "absolute",
+                  bottom: "7.6px",
+                  right: passwordError ? "35px" : "9.5px",
+                }}
                 aria-pressed={passwordVisible ? "true" : "false"}
                 onClick={togglePasswordVisible}
                 className={`cursor-default text-gray-500 w-6`}
@@ -121,12 +125,11 @@ export default function LoginForm() {
               </div>
             </div>
             {errorCount || apiError ? (
-              <Errors
+              <ErrorsDisplay
                 apiError={apiError}
                 errorCount={errorCount}
                 errorList={errorList}
               />
-
             ) : (
               ""
             )}

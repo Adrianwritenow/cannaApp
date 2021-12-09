@@ -4,7 +4,7 @@ import { CheckIcon, XIcon } from "@heroicons/react/outline";
 import { Field, Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 
-import Errors from "../../error/errors";
+import ErrorsDisplay from "../../error/ErrorsDisplay";
 import { InputField } from "../fields/InputField";
 import { RootState } from "../../../reducers";
 import { updateUser } from "../../../actions/user";
@@ -93,7 +93,7 @@ export default function ChangePasswordForm() {
             </div>
             {errorCount || apiError ? (
               <div className="px-4">
-                <Errors
+                <ErrorsDisplay
                   apiError={apiError}
                   errorCount={errorCount}
                   errorList={errorList}

@@ -74,7 +74,7 @@ export default function SelectDropdown(props: FieldProps) {
     if (currentValue) {
       setSelected(currentValue);
     }
-  }, [selected, value]);
+  }, [selected, value, options]);
 
   return (
     <div className="w-full">

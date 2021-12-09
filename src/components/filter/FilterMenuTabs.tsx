@@ -61,7 +61,7 @@ export default function FilterMenuTabs(props: FilterMenuTabsProps) {
     }, []);
 
     setFilterTabs(filter_array);
-  }, [savedValues, open]);
+  }, [savedValues, open, values]);
 
   return (
     <div>

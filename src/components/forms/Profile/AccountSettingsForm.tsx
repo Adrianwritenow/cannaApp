@@ -42,7 +42,7 @@ export default function AccountSettingsForm() {
       });
     }
 
-    if (error && !loading) {
+    if (error) {
       setApiError(error.response.data);
     }
   }, [initialValues, currentUser, apiError, error, status]);

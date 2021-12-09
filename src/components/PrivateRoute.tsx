@@ -16,7 +16,7 @@ export default function PrivateRoute({ children }: any) {
       // Redirect route, you can point this to /login
       router.push("/");
     }
-  }, [authState, pathIsProtected]);
+  }, [authState, pathIsProtected, router]);
 
   return children;
 }

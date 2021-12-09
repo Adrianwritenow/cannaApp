@@ -28,7 +28,7 @@ export default function ChangePasswordForm() {
   });
 
   useEffect(() => {
-    if (error && !loading) {
+    if (error) {
       setApiError(error.response.data);
     }
   }, [initialValues, currentUser, apiError, error]);

@@ -21,7 +21,7 @@ export default function Search() {
   ];
 
   useEffect(() => {
-    const index = tabs.map((tab, index) => {
+    tabs.map((tab, index) => {
       const currentPath = tab.href.includes(`${query.type}`);
       if (currentPath) {
         setView(index);

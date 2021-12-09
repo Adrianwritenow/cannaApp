@@ -13,7 +13,6 @@ export default function SearchSlideOver() {
 
   const initialValues = {
     search: "",
-    location: "",
   };
 
   const [searchData, setSearchData] = useState([
@@ -52,7 +51,7 @@ export default function SearchSlideOver() {
   function handleSubmit(values: any) {
     dispatchAxios(searchQuery(values));
   }
-  function handleChange(values: any) {
+  function handleSearch(values: any) {
     const isEmpty = Object.values(values).every((x) => x === null || x === "");
 
     if (!isEmpty && !loading) {
@@ -122,6 +121,7 @@ export default function SearchSlideOver() {
                                 handleSubmit,
                                 values,
                                 setFieldValue,
+                                handleChange,
                                 submitForm,
                               }) => {
                                 return (
@@ -136,11 +136,14 @@ export default function SearchSlideOver() {
                                           type={"text"}
                                           id={"search"}
                                           className="w-full border-none px-4 focus:border-0 focus:outline-none focus:ring-transparent"
-                                          onChange={() => handleChange(values)}
+                                          onChange={(e: any) => {
+                                            handleChange(e);
+                                            handleSearch(values);
+                                          }}
                                           value={values.search}
                                           placeholder="Search..."
                                         />
-                                        <Field
+                                        {/* <Field
                                           name={"location"}
                                           type={"text"}
                                           id={"location"}
@@ -148,7 +151,7 @@ export default function SearchSlideOver() {
                                           onChange={() => {}}
                                           value={values.location}
                                           placeholder="Location..."
-                                        />
+                                        /> */}
                                       </div>
                                     </div>
                                   </Form>

@@ -23,20 +23,8 @@ export default function AccountSettingsForm(props: UpdateFormProps) {
   const schema = Yup.object().shape({
     name: Yup.string(),
     mail: Yup.string(),
-    password: Yup.string(),
+    password: Yup.string().required(),
   });
-
-  const countries = [
-    { id: "US", label: "United States" },
-    { id: "MX", label: "Mexico" },
-    { id: "CA", label: "Canada" },
-  ];
-
-  const states = [
-    { id: "FL", label: "Florida" },
-    { id: "NY", label: "New York" },
-    { id: "CA", label: "California" },
-  ];
 
   useEffect(() => {
     const isEmpty = Object.values(initialValues).every(
@@ -107,7 +95,7 @@ export default function AccountSettingsForm(props: UpdateFormProps) {
               <div className="sm:col-span-6">
                 <div className="mt-1 flex rounded-md shadow-sm w-full">
                   <Field
-                    label="Password"
+                    label="Current Password *"
                     id="password"
                     name="password"
                     type="password"

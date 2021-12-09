@@ -16,26 +16,19 @@ interface ProfileImages {
 
 export default function UpdateProfileForm(props: UpdateFormProps) {
   const [currentUser] = useCurrentUser();
-  const [savedValues, setSavedValues] = useState({
+  const [dispatchAxios, { loading }] = useAxios();
+
+  const [initialValues, setInitialValues] = useState({
     name: "",
     about: "",
     user_picture: "",
     coverPhoto: "",
   });
-
-  const [dispatchAxios, { loading }] = useAxios();
 
   const [selectedFile, setSelectedFile] = useState<ProfileImages>({
     user_picture: null,
     coverPhoto: null,
   });
-
-  const initialValues = {
-    name: "",
-    about: "",
-    user_picture: "",
-    coverPhoto: "",
-  };
 
   const schema = Yup.object().shape({
     name: Yup.string().required("Username is required"),
@@ -109,12 +102,16 @@ export default function UpdateProfileForm(props: UpdateFormProps) {
   };
 
   useEffect(() => {
-    const isEmpty = Object.values(savedValues).every((value) => {
-      value === null || value === "";
-    });
+    const isEmpty = Object.values(initialValues).every(
+      (x) => x === null || x === ""
+    );
+
+    console.log("IS EMPTY?", isEmpty, initialValues);
+    console.log("IS CU?", currentUser);
+
     if (isEmpty || props.loading) {
       const currentPhoto = currentUser.user_picture[0]?.value;
-      setSavedValues({
+      setInitialValues({
         name: currentUser.name[0].value || "",
         about: "",
         user_picture: currentUser.user_picture[0]?.value,
@@ -125,7 +122,7 @@ export default function UpdateProfileForm(props: UpdateFormProps) {
         user_picture: currentPhoto,
       });
     }
-  }, [savedValues, props.loading]);
+  }, [initialValues, props.loading, currentUser]);
 
   async function handleSubmit(values: any) {
     const response = await dispatchAxios(
@@ -136,7 +133,7 @@ export default function UpdateProfileForm(props: UpdateFormProps) {
   return (
     <Formik
       validationSchema={schema}
-      initialValues={savedValues}
+      initialValues={initialValues}
       onSubmit={(values) => handleSubmit(values)}
       validateOnChange={true}
       enableReinitialize

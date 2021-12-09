@@ -12,7 +12,7 @@ import { useAxios } from "../../../hooks/useAxios";
 import { useSelector } from "react-redux";
 
 export default function UpdatePersonalForm(props: UpdateFormProps) {
-  const [savedValues, setSavedValues] = useState({
+  const [initialValues, setInitialValues] = useState({
     field_first_name: "",
     field_last_name: "",
     mail: "",
@@ -32,15 +32,6 @@ export default function UpdatePersonalForm(props: UpdateFormProps) {
     phone: Yup.string(),
   });
 
-  const initialValues = {
-    field_first_name: "",
-    field_last_name: "",
-    mail: "",
-    country: "",
-    field_state: "",
-    phone: "",
-  };
-
   const countries = [
     { id: "US", label: "United States" },
     { id: "MX", label: "Mexico" },
@@ -54,8 +45,11 @@ export default function UpdatePersonalForm(props: UpdateFormProps) {
   ];
 
   useEffect(() => {
-    if (Object.keys(savedValues).length === 0 || props.loading) {
-      setSavedValues({
+    const isEmpty = Object.values(initialValues).every(
+      (x) => x === null || x === ""
+    );
+    if (isEmpty || props.loading) {
+      setInitialValues({
         field_first_name: currentUser.field_first_name[0]?.value || "",
         field_last_name: currentUser.field_last_name[0]?.value || "",
         mail: "" || "",
@@ -64,7 +58,7 @@ export default function UpdatePersonalForm(props: UpdateFormProps) {
         phone: "" || "",
       });
     }
-  }, [savedValues, props.loading, currentUser]);
+  }, [initialValues, props.loading, currentUser]);
 
   async function handleSubmit(values: any) {
     const response = await dispatchAxios(
@@ -75,9 +69,7 @@ export default function UpdatePersonalForm(props: UpdateFormProps) {
   return (
     <Formik
       validationSchema={schema}
-      initialValues={
-        Object.keys(savedValues).length > 0 ? savedValues : initialValues
-      }
+      initialValues={initialValues}
       onSubmit={handleSubmit}
       validateOnChange={true}
       enableReinitialize

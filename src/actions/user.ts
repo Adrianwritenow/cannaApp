@@ -32,7 +32,11 @@ export function getCurrentUser(id: string): IAxiosAction {
   };
 }
 
-export function updateUser(id: string, values: any): IAxiosAction {
+export function updateUser(
+  id: string,
+  values: any,
+  password?: string
+): IAxiosAction {
   const payload: any = {};
 
   Object.keys(values).map(function (key, index) {
@@ -41,7 +45,15 @@ export function updateUser(id: string, values: any): IAxiosAction {
     }
   });
 
+  if (password) {
+    payload.password = password;
+  }
+
+  console.log("payload", payload);
+
   const data = JSON.stringify(payload);
+
+  console.log("data", data);
 
   return {
     type: USER_REQUEST_UPDATE,

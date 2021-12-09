@@ -1,40 +1,54 @@
-import { AxiosError, AxiosResponse } from "axios";
-import qs from "qs";
+import { IAxiosAction } from "../interfaces/axios";
 
 var axios = require("axios");
-
 const API_URL = process.env.API_URL;
 
-interface IAuthState {
-  token_type?: string;
-  access_token?: string;
-  refresh_token?: string;
-  expires_in?: number;
+export const USER_REQUEST_GET = "user/get";
+export const USER_REQUEST_GET_CURRENT = "user/getCurrent";
+export const USER_REQUEST_UPDATE = "user/update";
+export const USER_REQUEST_PASSWORD_RESET = "user/password";
+
+export interface UpdateUser {
+  field_favorite_strains?: string;
+  field_first_name?: string;
+  field_guest_list?: string;
+  field_last_name?: string;
+  field_state?: string;
+  langcode?: string;
+  mail?: string;
+  name?: string;
+  preferred_langcode?: string;
+  timezone?: string;
+  user_picture?: File;
 }
 
-export default function getCurrentUser(token: IAuthState) {
-  const data = qs.stringify({
-    grant_type: "password",
-    client_id: process.env.CLIENT_ID,
-    client_secret: "secret",
+export function getCurrentUser(id: string): IAxiosAction {
+  return {
+    type: USER_REQUEST_GET_CURRENT,
+    config: {
+      method: "GET",
+      url: `${API_URL}/user/${id}`,
+    },
+  };
+}
+
+export function updateUser(id: string, values: any): IAxiosAction {
+  const payload: any = {};
+
+  Object.keys(values).map(function (key, index) {
+    if (values[key]) {
+      payload[`${key}`] = [{ value: values[key] }];
+    }
   });
 
-  const config = {
-    method: "get",
-    url: `${API_URL}/oauth/userinfo`,
-    headers: {
-      Authorization: `Bearer ${token.access_token}`,
-      "Content-Type": "application/x-www-form-urlencoded",
-      accept: "application/json",
-    },
-    data: data,
-  };
+  const data = JSON.stringify(payload);
 
-  return axios(config)
-    .then(function (response: AxiosResponse) {
-      return response.data;
-    })
-    .catch(function (error: AxiosError) {
-      return error.response;
-    });
+  return {
+    type: USER_REQUEST_UPDATE,
+    config: {
+      method: "patch",
+      url: `${API_URL}/user/${id}`,
+      data: data,
+    },
+  };
 }

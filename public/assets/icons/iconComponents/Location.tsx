@@ -11,7 +11,7 @@ function SvgLocation(props: React.SVGProps<SVGSVGElement>) {
       {...props}
     >
       <path
-        d="M2 7.33331L14.6667 1.33331L8.66667 14L7.33333 8.66665L2 7.33331Z"
+        d="M2 7.333l12.667-6-6 12.667-1.334-5.333L2 7.333z"
         fill="#22A259"
       />
     </svg>

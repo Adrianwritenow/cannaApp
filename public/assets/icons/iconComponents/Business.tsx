@@ -10,11 +10,7 @@ function SvgBusiness(props: React.SVGProps<SVGSVGElement>) {
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
-      <g
-        clipPath="url(#business_svg__clip0)"
-        fill="currentColor"
-        stroke="currentColor"
-      >
+      <g clipPath="url(#business_svg__clip0)" fill="#22A259" stroke="#22A259">
         <path
           d="M3.842 24.11l-.021-.001a.405.405 0 01-.385-.427c.201-3.848.13-7.705-.213-11.543a.407.407 0 01.81-.073c.346 3.877.417 7.772.214 11.659a.406.406 0 01-.405.385z"
           strokeWidth={0.5}

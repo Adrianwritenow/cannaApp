@@ -3,9 +3,10 @@ import * as Yup from "yup";
 import { Field, FieldAttributes, Form, Formik } from "formik";
 import React, { useContext, useEffect, useState } from "react";
 
-import AuthContext from "../../../stores/authContext";
+import { AuthContext } from "../../authentication/authContext";
 import AvatarMenu from "../menus/AvatarMenu";
 import { Disclosure } from "@headlessui/react";
+import FilterMenu from "../filter/FilterMenu";
 import { HeaderRoutes } from "../../helpers/routes";
 import Image from "next/image";
 import Link from "next/link";
@@ -22,14 +23,6 @@ export default function NavBar() {
   const [view, setView] = useState("list");
   const router = useRouter();
   const authState = useContext(AuthContext);
-  const [token, setAccessToken] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (authState) {
-      const access_token = authState.state.session.access_token;
-      if (access_token) setAccessToken(`${access_token}`);
-    }
-  }, [token, authState]);
 
   const [searchData, setSearchData] = useState([
     {
@@ -107,9 +100,9 @@ export default function NavBar() {
     otherRef.current.focus();
     handleFocus("location", true);
   }
+
   useEffect(() => {
     // After data is collected add a initial value for location
-
     const locationOptions = [...locationData];
 
     if (locationOptions[0].value != "use my current location") {
@@ -120,12 +113,12 @@ export default function NavBar() {
 
       setSearchLocationData(locationOptions);
     }
-  }, [focus, locationData]);
+  }, [focus, locationData, authState]);
 
   function handleSubmit(values: any) {}
 
   return (
-    <Disclosure as="nav">
+    <Disclosure as="nav" className="shadow">
       {({ open }) => (
         <div className="max-w-7xl mx-auto">
           <div className="relative flex items-center flex-wrap justify-between">
@@ -186,7 +179,7 @@ export default function NavBar() {
                           </div>
                           <div className="col-start-10 col-span-2 flex justify-end align-center  ">
                             {!hasValue ? (
-                              !token ? (
+                              !authState.state.session.access_token ? (
                                 <Link href={"/login"}>
                                   <a>
                                     <button className="w-full bg-green text-white hover:bg-green-600 flex justify-center py-1 px-2 border border-transparent rounded-md shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green">
@@ -292,6 +285,51 @@ export default function NavBar() {
                           ""
                         )}
                       </div>
+                      {!router.pathname ? (
+                        <div className="grid grid-cols-3 w-full pt-3">
+                          <div className="text-green-500 text-sm flex items-center justify-start pl-2">
+                            <FilterMenu />
+                          </div>
+                          <div className="flex items-center justify-center">
+                            <span className="relative z-0 inline-flex shadow-sm rounded-full">
+                              <button
+                                type="button"
+                                onClick={() => setView("list")}
+                                className={`${
+                                  view === "list"
+                                    ? "bg-green text-white"
+                                    : "bg-white text-gray-500"
+                                } relative inline-flex items-center px-2 py-2  flex justify-center w-16 rounded-l-full text-sm font-medium focus:z-10 focus:outline-none`}
+                              >
+                                <span className="sr-only">List</span>
+                                List
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => setView("map")}
+                                className={`${
+                                  view === "map"
+                                    ? "bg-green text-white"
+                                    : "bg-white text-gray-500"
+                                } -ml-px relative inline-flex items-center w-16 flex justify-center  px-2 py-2 rounded-r-full  text-sm font-medium focus:z-10 focus:outline-none`}
+                              >
+                                <span className="sr-only">Map</span>
+                                Map
+                              </button>
+                            </span>
+                          </div>
+                          <div className="flex items-center justify-end pr-2">
+                            <button
+                              type="button"
+                              className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-green bg-white focus:outline-none focus:ring-2 focus:ring-offset-2"
+                            >
+                              Filter
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        ""
+                      )}
                     </div>
                   </>
                 );

@@ -12,8 +12,8 @@ function SvgShops(props: React.SVGProps<SVGSVGElement>) {
     >
       <g
         clipPath="url(#shops_svg__clip0)"
-        fill="currentColor"
-        stroke="currentColor"
+        fill="#9CA3AF"
+        stroke="#9CA3AF"
         strokeWidth={0.5}
       >
         <path d="M4.342 24.44h-.021a.407.407 0 01-.385-.428c.201-3.848.13-7.705-.213-11.543a.406.406 0 01.81-.072 82.6 82.6 0 01.214 11.658.406.406 0 01-.405.385zM24.773 24.307h-.003a.407.407 0 01-.403-.409l.073-12.362a.406.406 0 01.406-.404h.003a.407.407 0 01.404.408l-.074 12.363a.406.406 0 01-.406.404z" />

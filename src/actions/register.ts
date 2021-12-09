@@ -26,7 +26,7 @@ export const register = (email: string, password: string) => {
     .then(function (response: { data: any }) {
       return response;
     })
-    .catch(function (error: { response: any }) {
-      return error.response;
+    .catch(function (error: any) {
+      return error;
     });
 };

@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import AuthContext from "../../stores/authContext";
-import FacebookIcon from "../../public/assets/icons/icon-facebook.svg";
-import GoogleIcon from "../../public/assets/icons/icon-google.svg";
+import { AuthContext } from "../../src/authentication/authContext";
+import FacebookIcon from "../../public/assets/icons/iconComponents/IconFacebook";
+import GoogleIcon from "../../public/assets/icons/iconComponents/IconGoogle";
 import Image from "next/image";
 import Link from "next/link";
 import LoginForm from "../../src/components/forms/LoginForm";
@@ -15,15 +15,15 @@ export default function Login() {
   const router = useRouter();
 
   useEffect(() => {
-    if (authState) {
+    if (authState.state.session.access_token) {
       const access_token = authState.state.session.access_token;
       setAccessToken(`${access_token}`);
     }
-    if (authState.state.session.access_token) {
+
+    if (access_token) {
       router.push("/");
     }
   }, [access_token, authState, router]);
-
 
   return (
     <div className="flex flex-col justify-start max-w-5xl mx-auto py-12 bg-white px-4">
@@ -60,7 +60,7 @@ export default function Login() {
                 onClick={() => {}}
                 className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 focus:outline-none focus:ring-green focus:border-green"
               >
-                <Image src={GoogleIcon} alt="Google" width={20} height={20} />
+                <GoogleIcon width={20} height={20} />
               </button>
             </a>
           </Link>
@@ -71,12 +71,7 @@ export default function Login() {
                 onClick={() => {}}
                 className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 focus:outline-none focus:ring-green focus:border-green"
               >
-                <Image
-                  src={FacebookIcon}
-                  alt="Facebook"
-                  width={20}
-                  height={20}
-                />
+                <FacebookIcon width={20} height={20} />
               </button>
             </a>
           </Link>

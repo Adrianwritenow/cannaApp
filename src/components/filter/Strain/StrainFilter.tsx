@@ -95,7 +95,7 @@ export default function StrainFilter(props: FilterProps) {
 
     setFilterTabs(filter_array);
     handleResults(filter_array);
-  }, [savedValues]);
+  }, [savedValues, values]);
 
   return (
     <div>

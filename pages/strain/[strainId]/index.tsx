@@ -11,7 +11,12 @@ export default function StrainDetail() {
   return (
     <div className="bg-white">
       <div className="w-full h-64 relative">
-        <Image src={strain.images[0]} layout="fill" objectFit={"cover"} />
+        <Image
+          src={strain.images[0]}
+          layout="fill"
+          objectFit={"cover"}
+          alt={strain.title}
+        />
       </div>
       <div className="p-4">
         <section

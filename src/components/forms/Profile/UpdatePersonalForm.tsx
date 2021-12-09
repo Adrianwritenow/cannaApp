@@ -6,13 +6,14 @@ import React, { useEffect, useState } from "react";
 import { InputField } from "../fields/InputField";
 import { RootState } from "../../../reducers";
 import SelectDropdown from "../fields/SelectDropdown";
-import { UpdateFormProps } from "../../../../pages/user";
+
 import { updateUser } from "../../../actions/user";
 import { useAxios } from "../../../hooks/useAxios";
 import { useSelector } from "react-redux";
 
-export default function UpdatePersonalForm(props: UpdateFormProps) {
-  const [savedValues, setSavedValues] = useState({
+export default function UpdatePersonalForm() {
+  const [initialValues, setInitialValues] = useState({
+
     field_first_name: "",
     field_last_name: "",
     mail: "",
@@ -32,15 +33,6 @@ export default function UpdatePersonalForm(props: UpdateFormProps) {
     phone: Yup.string(),
   });
 
-  const initialValues = {
-    field_first_name: "",
-    field_last_name: "",
-    mail: "",
-    country: "",
-    field_state: "",
-    phone: "",
-  };
-
   const countries = [
     { id: "US", label: "United States" },
     { id: "MX", label: "Mexico" },
@@ -54,8 +46,11 @@ export default function UpdatePersonalForm(props: UpdateFormProps) {
   ];
 
   useEffect(() => {
-    if (Object.keys(savedValues).length === 0 || props.loading) {
-      setSavedValues({
+    const isEmpty = Object.values(initialValues).every(
+      (x) => x === null || x === ""
+    );
+    if (isEmpty) {
+      setInitialValues({
         field_first_name: currentUser.field_first_name[0]?.value || "",
         field_last_name: currentUser.field_last_name[0]?.value || "",
         mail: "" || "",
@@ -64,20 +59,17 @@ export default function UpdatePersonalForm(props: UpdateFormProps) {
         phone: "" || "",
       });
     }
-  }, [savedValues, props.loading, currentUser]);
+  }, [initialValues, currentUser]);
 
   async function handleSubmit(values: any) {
-    const response = await dispatchAxios(
-      updateUser(currentUser.uid[0].value, values)
-    );
+    dispatchAxios(updateUser(currentUser.uid[0].value, values));
+
   }
 
   return (
     <Formik
       validationSchema={schema}
-      initialValues={
-        Object.keys(savedValues).length > 0 ? savedValues : initialValues
-      }
+      initialValues={initialValues}
       onSubmit={handleSubmit}
       validateOnChange={true}
       enableReinitialize
@@ -86,7 +78,7 @@ export default function UpdatePersonalForm(props: UpdateFormProps) {
       {({ values, handleBlur, handleChange, setFieldValue }) => {
         return (
           <Form className="bg-white shadow">
-            <div className="grid grid-cols-1 gap-y-6 sm:grid-cols-6 sm:gap-x-6 py-10 px-4 sm:px-6 lg:py-12 lg:px-8">
+            <div className="grid grid-cols-1 gap-y-6 sm:grid-cols-6 sm:gap-x-6 py-6 px-4 sm:px-6 lg:py-12 lg:px-8">
               <div className="sm:col-span-6">
                 <h2 className="text-xl font-medium text-gray-900">
                   Personal info

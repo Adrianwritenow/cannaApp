@@ -36,6 +36,11 @@ const user = (state = defaultState, action: any) => {
         currentUser: action.response ? action.response.data : state.currentUser,
       };
 
+    case USER_REQUEST_UPDATE:
+      return {
+        ...state,
+        currentUser: action.response ? action.response.data : state.currentUser,
+      };
     default:
       return state;
   }

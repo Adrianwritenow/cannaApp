@@ -4,11 +4,9 @@ import { Field, Form, Formik } from "formik";
 
 import { InputCheckboxField } from "../fields/InputCheckboxField";
 import React from "react";
-import { UpdateFormProps } from "../../../../pages/user";
-import { useRouter } from "next/router";
 
-export default function UpdateNotificationsForm(props: UpdateFormProps) {
-  const router = useRouter();
+export default function UpdateNotificationsForm() {
+
   const schema = Yup.object().shape({
     comments: Yup.boolean(),
     events: Yup.boolean(),

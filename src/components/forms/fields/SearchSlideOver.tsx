@@ -1,8 +1,10 @@
 import { ArrowLeftIcon, SearchIcon, XIcon } from "@heroicons/react/solid";
 import { Dialog, Transition } from "@headlessui/react";
 import { Field, Form, Formik } from "formik";
-import React, { Fragment, Ref, useState } from "react";
+import React, { Fragment, Ref, useEffect, useState } from "react";
 
+import { SearchHits } from "../../../interfaces/searchHits";
+import SearchProductCard from "../../search/SearchProductCard";
 import schema from "yup/lib/schema";
 import { searchQuery } from "../../../actions/search";
 import { useAxios } from "../../../hooks/useAxios";
@@ -10,55 +12,20 @@ import { useAxios } from "../../../hooks/useAxios";
 export default function SearchSlideOver() {
   const [open, setOpen] = useState(false);
   const [dispatchAxios, { loading }] = useAxios();
+  const [results, setResults]: any = useState([]);
+  const [initialValues, setInitialValues] = useState({ search: "" });
 
-  const initialValues = {
-    search: "",
-  };
-
-  const [searchData, setSearchData] = useState([
-    {
-      value: "Sour Diesel",
-      type: "strain",
-      category: "Strain",
-    },
-    {
-      value: "Sour O.G.",
-      type: "strain",
-      category: "Strain",
-    },
-    {
-      value: "Sour Tangie",
-      type: "strain",
-      category: "Strain",
-    },
-    {
-      value: "Sour Jack",
-      type: "strain",
-      category: "Strain",
-    },
-    {
-      value: "Sour",
-      type: "flavor",
-      category: "Strain",
-    },
-    {
-      value: "Sour Jack’s Ganja Shack",
-      type: "dispensary",
-      category: "Shops",
-    },
-  ]);
-
-  function handleSubmit(values: any) {
-    dispatchAxios(searchQuery(values));
+  async function handleSubmit(search: any) {
+    const hits: SearchHits = await searchQuery(search);
+    setResults(hits.hits.hits);
   }
-  function handleSearch(values: any) {
-    const isEmpty = Object.values(values).every((x) => x === null || x === "");
-
-    if (!isEmpty && !loading) {
-      console.log("BBO");
-      handleSubmit(values);
-    }
+  function handleSearch(search: any) {
+    handleSubmit(search);
   }
+
+  useEffect(() => {
+    console.log("RESULTS:::", results);
+  }, [initialValues, results]);
 
   return (
     <div>
@@ -95,11 +62,11 @@ export default function SearchSlideOver() {
                 leaveTo="translate-x-full"
               >
                 <div className="w-screen max-w-md">
-                  <div className="h-full flex flex-col py-3 bg-white shadow-xl overflow-y-scroll">
-                    <div className="mt-6 relative flex-1">
-                      <div className="absolute inset-0">
-                        <div className="h-full" aria-hidden="true">
-                          <div className="flex mx-4">
+                  <div className="h-full flex flex-col bg-white shadow-xl overflow-y-scroll">
+                    <div className="">
+                      <div className="inset-0">
+                        <div className="shadow-md" aria-hidden="true">
+                          <div className="flex mx-4 items-center">
                             <button
                               type="button"
                               className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-transparent"
@@ -113,7 +80,8 @@ export default function SearchSlideOver() {
                             </button>
                             <Formik
                               initialValues={initialValues}
-                              onSubmit={handleSubmit}
+                              enableReinitialize
+                              onSubmit={() => {}}
                               validateOnChange={false}
                               validateOnBlur={true}
                             >
@@ -123,24 +91,26 @@ export default function SearchSlideOver() {
                                 setFieldValue,
                                 handleChange,
                                 submitForm,
+                                resetForm,
                               }) => {
                                 return (
                                   <Form
-                                    className={"w-full"}
+                                    className={"w-full flex items-center"}
                                     onSubmit={handleSubmit}
                                   >
-                                    <div className="grid grid-cols-7 gap-1 pt-2">
+                                    <div className="grid grid-cols-7 gap-1 w-full">
                                       <div className={"col-span-7"}>
                                         <Field
                                           name={"search"}
                                           type={"text"}
                                           id={"search"}
-                                          className="w-full border-none px-4 focus:border-0 focus:outline-none focus:ring-transparent"
-                                          onChange={(e: any) => {
+                                          className="w-full border-none p-4 focus:border-0 focus:outline-none focus:ring-transparent"
+                                          onChange={(
+                                            e: React.ChangeEvent<HTMLInputElement>
+                                          ) => {
                                             handleChange(e);
-                                            handleSearch(values);
+                                            handleSearch(e.target.value);
                                           }}
-                                          value={values.search}
                                           placeholder="Search..."
                                         />
                                         {/* <Field
@@ -154,6 +124,22 @@ export default function SearchSlideOver() {
                                         /> */}
                                       </div>
                                     </div>
+                                    <button
+                                      type="button"
+                                      className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-transparent"
+                                      onClick={() => {
+                                        resetForm;
+                                        setOpen(false);
+                                      }}
+                                    >
+                                      <span className="sr-only">
+                                        Close panel
+                                      </span>
+                                      <XIcon
+                                        className="h-6 w-6"
+                                        aria-hidden="true"
+                                      />
+                                    </button>
                                   </Form>
                                 );
                               }}
@@ -165,19 +151,23 @@ export default function SearchSlideOver() {
                               placeholder={placeholder}
                               {...field}
                             /> */}
-                            <button
-                              type="button"
-                              className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-transparent"
-                              onClick={() => setOpen(false)}
-                            >
-                              <span className="sr-only">Close panel</span>
-                              <XIcon className="h-6 w-6" aria-hidden="true" />
-                            </button>
                           </div>
                         </div>
                       </div>
-                      {/* /End replace */}
                     </div>
+                    {results.length ? (
+                      <ul className="px-4 ">
+                        {results.map((result: any, index: number) => {
+                          return (
+                            <li key={`result-${index}`}>
+                              <SearchProductCard data={result} />
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    ) : (
+                      ""
+                    )}
                   </div>
                 </div>
               </Transition.Child>

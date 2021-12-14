@@ -52,7 +52,7 @@ export default function AvatarMenu() {
                 ref={ref}
                 handleSignOut={handleSignOut}
                 user={{
-                  name: currentUser.name[0].value || "",
+                  name: currentUser.name ? currentUser.name[0].value : "",
                   uid: "",
                 }}
               />

@@ -1,8 +1,10 @@
+import {
+  IconFacebook,
+  IconGoogle,
+} from "../../public/assets/icons/iconComponents";
 import React, { useContext, useEffect, useState } from "react";
 
 import { AuthContext } from "../../src/authentication/authContext";
-import FacebookIcon from "../../public/assets/icons/icon-facebook.svg";
-import GoogleIcon from "../../public/assets/icons/icon-google.svg";
 import Image from "next/image";
 import Link from "next/link";
 import LoginForm from "../../src/components/forms/LoginForm";
@@ -60,7 +62,7 @@ export default function Login() {
                 onClick={() => {}}
                 className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 focus:outline-none focus:ring-green focus:border-green"
               >
-                <GoogleIcon width={20} height={20} />
+                <IconGoogle width={20} height={20} />
               </button>
             </a>
           </Link>
@@ -71,7 +73,7 @@ export default function Login() {
                 onClick={() => {}}
                 className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 focus:outline-none focus:ring-green focus:border-green"
               >
-                <FacebookIcon width={20} height={20} />
+                <IconFacebook width={20} height={20} />
               </button>
             </a>
           </Link>

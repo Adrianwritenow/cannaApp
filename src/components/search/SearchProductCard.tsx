@@ -8,6 +8,7 @@ interface SearchProductProps {
 }
 export default function SearchProductCard(props: SearchProductProps) {
   const { data } = props;
+  console.log("ZZZ:::", data);
 
   return (
     <Link href={`/product/${encodeURIComponent(data._id as string)}`} passHref>
@@ -20,9 +21,7 @@ export default function SearchProductCard(props: SearchProductProps) {
             <p className="w-full overflow-hidden flex flex-wrap text-gray-700 pr-4">
               {data._source.name_1}
             </p>
-            <span className="text-gray-500 text-sm w-full">
-              {data._source.category[0]}
-            </span>
+            <span className="text-gray-500 text-sm w-full">Product</span>
           </div>
           <div className="col-span-2 ">
             <div className="flex items-center h-full ml-auto">

@@ -14,24 +14,25 @@ export function searchQuery(search: string) {
     .build();
 
   const data = JSON.stringify(body);
-  console.log(data);
+  // console.log(data);
 
-  // const results = axios
-  //   .get(`${SEARCH_URL}/_search?`, { params: { q: search } })
-  //   .then((res: AxiosResponse) => {
-  //     return res.data;
-  //   });
+  const results = axios
+    .get(`${SEARCH_URL}/_search?`, { params: { q: search } })
+    .then((res: AxiosResponse) => {
+      console.log("XXX:::", res);
+      return res.data;
+    });
 
-  const results = axios({
-    url: `${SEARCH_URL}_search`,
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    data: data,
-  }).then((res: AxiosResponse) => {
-    return res.data;
-  });
+  // const results = axios({
+  //   url: `${SEARCH_URL}_search`,
+  //   method: "POST",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  //   data: data,
+  // }).then((res: AxiosResponse) => {
+  //   return res.data;
+  // });
 
   // const results = axios
   //   .get(`${SEARCH_URL}`, {

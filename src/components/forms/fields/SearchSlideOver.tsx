@@ -5,7 +5,6 @@ import React, { Fragment, Ref, useEffect, useState } from "react";
 
 import { SearchHits } from "../../../interfaces/searchHits";
 import SearchProductCard from "../../search/SearchProductCard";
-import schema from "yup/lib/schema";
 import { searchQuery } from "../../../actions/search";
 import { useAxios } from "../../../hooks/useAxios";
 
@@ -23,9 +22,7 @@ export default function SearchSlideOver() {
     handleSubmit(search);
   }
 
-  useEffect(() => {
-    console.log("RESULTS:::", results);
-  }, [initialValues, results]);
+  useEffect(() => {}, [initialValues, results]);
 
   return (
     <div>

@@ -7,6 +7,9 @@ This is a [Next.js](https://nextjs.org/) project.
 First, run the development server:
 
 ```bash
+
+cp -a .env.example .env
+
 make up
 
 make yarn (as needed)

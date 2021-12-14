@@ -12,7 +12,7 @@ jobs:
       - uses: actions/setup-node@v2
       - run: |
           yarn install --frozen-lockfile
-          yarn build
+          yarn export
         env:
           API_URL: ${{ secrets.DEV_API_URL }}
       - name: Deploy to S3

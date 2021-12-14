@@ -9,6 +9,7 @@ import PrivateRoute from "../src/components/PrivateRoute";
 import { Provider } from "react-redux";
 import React from "react";
 import { store } from "../src/store";
+import CookieDisclaimer from "../src/components/cookieConsent";
 
 export default function MyApp({ Component, pageProps, router }: AppProps) {
   return (
@@ -33,6 +34,7 @@ export default function MyApp({ Component, pageProps, router }: AppProps) {
           </>
         )}
       </AuthContextProvider>
+      <CookieDisclaimer />
     </Provider>
   );
 }

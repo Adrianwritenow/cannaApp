@@ -3,8 +3,10 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Field, Form, Formik } from "formik";
 import React, { Fragment, Ref, useEffect, useState } from "react";
 
+import SearchDispensaryCard from "../../search/SearchDispensaryCard";
 import { SearchHits } from "../../../interfaces/searchHits";
 import SearchProductCard from "../../search/SearchProductCard";
+import SearchStrainCard from "../../search/SearchStrainCard";
 import { searchQuery } from "../../../actions/search";
 import { useAxios } from "../../../hooks/useAxios";
 
@@ -17,6 +19,7 @@ export default function SearchSlideOver() {
   async function handleSubmit(search: any) {
     const hits: SearchHits = await searchQuery(search);
     setResults(hits.hits.hits);
+    console.log(results);
   }
   function handleSearch(search: any) {
     handleSubmit(search);
@@ -155,11 +158,26 @@ export default function SearchSlideOver() {
                     {results.length ? (
                       <ul className="px-4 ">
                         {results.map((result: any, index: number) => {
-                          return (
-                            <li key={`result-${index}`}>
-                              <SearchProductCard data={result} />
-                            </li>
-                          );
+                          switch (true) {
+                            case result._id.includes("strain_entity"):
+                              return (
+                                <li key={`result-${index}`}>
+                                  <SearchStrainCard data={result} />
+                                </li>
+                              );
+                            case result._id.includes("product_entity"):
+                              return (
+                                <li key={`result-${index}`}>
+                                  <SearchProductCard data={result} />
+                                </li>
+                              );
+                            case result._id.includes("dispensary_entity"):
+                              return (
+                                <li key={`result-${index}`}>
+                                  <SearchDispensaryCard data={result} />
+                                </li>
+                              );
+                          }
                         })}
                       </ul>
                     ) : (

@@ -1,4 +1,5 @@
 import { AxiosResponse } from "axios";
+import qs from "qs";
 
 var axios = require("axios");
 
@@ -8,23 +9,19 @@ export const SEARCH_POST = "search/post";
 var bodybuilder = require("bodybuilder");
 
 export function searchQuery(search: string) {
-  var body = bodybuilder()
-    .query("query_string", "query", search)
-    .sort()
-    .build();
+  var body = bodybuilder().query("match", "name", "query", search).build();
 
   const data = JSON.stringify(body);
-  // console.log(data);
+  console.log(data);
 
   const results = axios
     .get(`${SEARCH_URL}/_search?`, { params: { q: search } })
     .then((res: AxiosResponse) => {
-      console.log("XXX:::", res);
       return res.data;
     });
 
   // const results = axios({
-  //   url: `${SEARCH_URL}_search`,
+  //   url: `${SEARCH_URL}/_search`,
   //   method: "POST",
   //   headers: {
   //     "Content-Type": "application/json",

@@ -1,12 +1,12 @@
 import { ArrowRightIcon } from "@heroicons/react/solid";
 import Link from "next/link";
-import { Product } from "../../interfaces/searchProduct";
+import { Strain } from "../../interfaces/SearchStrain";
 import SvgSativa from "../../../public/assets/icons/iconComponents/Sativa";
 
 interface SearchProductProps {
-  data: Product;
+  data: Strain;
 }
-export default function SearchProductCard(props: SearchProductProps) {
+export default function SearchStrainCard(props: SearchProductProps) {
   const { data } = props;
 
   return (
@@ -18,9 +18,9 @@ export default function SearchProductCard(props: SearchProductProps) {
           </div>
           <div className="ml-2 w-full flex flex-wrap col-span-9 ">
             <p className="w-full overflow-hidden flex flex-wrap text-gray-700 pr-4">
-              {data._source.name_1}
+              {data._source.name_2}
             </p>
-            <span className="text-gray-500 text-sm w-full">Product</span>
+            <span className="text-gray-500 text-sm w-full">Strain</span>
           </div>
           <div className="col-span-2 ">
             <div className="flex items-center h-full ml-auto">

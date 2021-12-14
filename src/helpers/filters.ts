@@ -25,4 +25,23 @@ export const Filters = {
   reviews: ["Most Reviewed", "Top Rated", "Lowest Rated"],
   pricing: ["Most Expensive", "Least Expensive", "On Sale"],
   type: ["Cartridge", "Flower", "Clothing", "Edible"],
+  sort: ["Relevance", "Price: Low to High", "Price: High to Low"],
+  price: ["$", "$$", "$$$"],
+  concentrates: [
+    "Budder",
+    "Crumble",
+    "Crystalline",
+    "Ingestibles",
+    "Solvent",
+    "Solventless",
+    "Terpenes",
+  ],
+  edibles: ["Candy", "Beverages", "Syrups, Sugars & Sweeteners"],
+  topicals: [
+    "Fragrances",
+    "Hair Care",
+    "Skin Care",
+    "Bath & Bathing Accessories",
+    "Transdermal Patches",
+  ],
 };

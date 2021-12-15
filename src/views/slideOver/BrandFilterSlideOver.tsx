@@ -15,14 +15,13 @@ export default function BrandFilterSlideOver(props: BusinessSlideoverProps) {
   const tabs = ["Deals", "Flower", "Concentrates", "Edibles", "Topicals"];
   const initialValues = {
     filters: {
-      types: [],
       strains: [],
-      sort: [],
-      price: [],
-      concentrates: [],
-      edibles: [],
-      topicals: [],
+      price: "",
+      concentrates: "",
+      edibles: "",
+      topicals: "",
     },
+    sort: "",
     range: {
       min_price: "",
       max_price: "",
@@ -31,14 +30,14 @@ export default function BrandFilterSlideOver(props: BusinessSlideoverProps) {
   };
   const [savedValues, setSavedValues]: any = useState({
     filters: {
-      types: [],
       strains: [],
-      sort: [],
-      price: [],
-      concentrates: [],
-      edibles: [],
-      topicals: [],
+      price: "",
+      concentrates: "",
+      edibles: "",
+      topicals: "",
     },
+    sort: "",
+
     range: {
       min_price: "",
       max_price: "",
@@ -131,10 +130,10 @@ export default function BrandFilterSlideOver(props: BusinessSlideoverProps) {
                       </div>
                       <div className="flex">
                         {/* Tab filters rendered */}
-                        {filterTabs.map((filter: string) => (
+                        {filterTabs.map((filter: string, index: any) => (
                           <button
                             type="button"
-                            key={filter}
+                            key={`${filter}_${index}`}
                             onClick={() => {
                               removeFilter(filter);
                             }}

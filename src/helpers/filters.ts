@@ -1,3 +1,5 @@
+import { Filter } from "../interfaces/filter";
+
 export const StrainFilters = {
   types: ["Indica", "Sativa", "Hybrid"],
   feelings: [
@@ -20,28 +22,201 @@ export const StrainFilters = {
   helps: ["Anxiety", "Apetite", "Sleep"],
 };
 
-export const Filters = {
-  strains: ["Indica", "Sativa", "Hybrid"],
-  reviews: ["Most Reviewed", "Top Rated", "Lowest Rated"],
-  pricing: ["Most Expensive", "Least Expensive", "On Sale"],
-  type: ["Cartridge", "Flower", "Clothing", "Edible"],
-  sort: ["Relevance", "Price: Low to High", "Price: High to Low"],
-  price: ["$", "$$", "$$$"],
-  concentrates: [
-    "Budder",
-    "Crumble",
-    "Crystalline",
-    "Ingestibles",
-    "Solvent",
-    "Solventless",
-    "Terpenes",
-  ],
-  edibles: ["Candy", "Beverages", "Syrups, Sugars & Sweeteners"],
-  topicals: [
-    "Fragrances",
-    "Hair Care",
-    "Skin Care",
-    "Bath & Bathing Accessories",
-    "Transdermal Patches",
-  ],
+export const Filters: Record<string, Filter> = {
+  strains: {
+    value: "Strains",
+    list: [{ value: "Indica" }, { value: "Sativa" }, { value: "Hybrid" }],
+  },
+  reviews: {
+    value: "Reviews",
+    list: [
+      { value: "Most Reviewed" },
+      { value: "Top Rated" },
+      { value: "Lowest Rated" },
+    ],
+  },
+  type: {
+    value: "Type",
+    list: [
+      { value: "Cartridge" },
+      { value: "Flower" },
+      { value: "Clothing" },
+      { value: "Edible" },
+    ],
+  },
+  sort: {
+    value: "Sort By",
+    list: [
+      { value: "Relevance" },
+      { value: "Price: Low to High" },
+      { value: "Price: Hight to Low" },
+    ],
+  },
+  price: {
+    value: "Price",
+    list: [{ value: "$" }, { value: "$$" }, { value: "$$$" }],
+  },
+  concentrates: {
+    value: "Concentrates",
+    list: [
+      { value: "Budder" },
+      { value: "Crumble" },
+      { value: "Crystalline" },
+      { value: "Ingestibles" },
+      { value: "Solvent" },
+      { value: "Solventless" },
+      { value: "Terpenes" },
+    ],
+  },
+  edibles: {
+    value: "Edibles",
+    list: [
+      {
+        value: "Candy",
+        subList: [
+          { value: "Brittle, Caramel & Toffee" },
+          { value: "Candied & Chocolate Covered Snacks" },
+          { value: "Chocolate & Fudge" },
+          { value: "Candy & Chocolate Bars" },
+          { value: "Chewing Gum & Bubblegum" },
+          { value: "Ginger Candy" },
+          { value: "Hard Candy & Lollipops" },
+          { value: "Halva" },
+          { value: "Jelly Beans & Gummy Candy" },
+          { value: "Marshmallows" },
+          { value: "Mints" },
+          { value: "Sour Candy" },
+          { value: "Wagashi" },
+        ],
+      },
+      {
+        value: "Beverages",
+        subList: [
+          { value: "Soft Drinks" },
+          { value: "Energy" },
+          { value: "Powdered Drink Mixes & Flavorings" },
+          { value: "Juices" },
+          {
+            value: "Drinking Water",
+            list: [
+              { value: "Flavored Drinking Water" },
+              { value: "Seltzer Drinking Water" },
+              { value: "Sparkling Drinking Water" },
+            ],
+          },
+        ],
+      },
+      {
+        value: "Syrups, Sugars & Sweeteners",
+        subList: [
+          { value: "Agave Nectar & Syrup" },
+          { value: "Honey" },
+          { value: "Maple Syrup" },
+          { value: "Molasses" },
+          { value: "Simple Syrups" },
+          { value: "Sugar Substitutes" },
+          { value: "Sugars" },
+        ],
+      },
+    ],
+  },
+  topicals: {
+    value: "Topicals",
+    list: [
+      {
+        value: "Fragrances",
+        subList: [
+          { value: "Body Sprays" },
+          { value: "Cologne" },
+          { value: "Dusting Powders" },
+          { value: "Eau Fraiche" },
+          { value: "Eau de Parfum" },
+          { value: "Eau de Toilette" },
+        ],
+      },
+      {
+        value: "Hair Care",
+        subList: [{ value: "Shampoos & Conditioner" }],
+      },
+
+      {
+        value: "Skin Care",
+        subList: [
+          {
+            value: "Sun Skin Care",
+            list: [
+              { value: "After Sun Skin Care" },
+              { value: "Self-Tanners" },
+              { value: "Skin Sun Protection" },
+              { value: "Tanning Oils & Lotions" },
+            ],
+          },
+          {
+            value: "Lip Care",
+            list: [
+              { value: "Lip Balms & Moisturizers" },
+              { value: "Lip Butters Butters" },
+              { value: "Lip Scrubs" },
+            ],
+          },
+          {
+            value: "Eyes",
+            list: [
+              { value: "Eye Treatment Creams" },
+              { value: "Eye Treatment Gels" },
+              { value: "Eye Masks" },
+            ],
+          },
+          {
+            value: "Face",
+            list: [
+              { value: "Creams & Moisturizers" },
+              { value: "Cleansers" },
+              { value: "Treatments &  Masks" },
+            ],
+          },
+          {
+            value: "Body",
+            list: [{ value: "Cleansers" }, { value: "Moisturizers" }],
+          },
+        ],
+      },
+      {
+        value: "Bath & Bathing Accessories",
+        subList: [
+          {
+            value: "Bath",
+            list: [
+              { value: "Bath Bombs" },
+              { value: "Minerals & Salts" },
+              { value: "Oils" },
+            ],
+          },
+        ],
+      },
+    ],
+  },
 };
+
+// reviews: {["Most Reviewed", "Top Rated", "Lowest Rated"]},
+//   pricing: {["Most Expensive", "Least Expensive", "On Sale"]},
+//   value: {["Cartridge", "Flower", "Clothing", "Edible"]},
+//   sort: {["Relevance", "Price: Low to High", "Price: High to Low"]},
+//   price: {["$", "$$", "$$$"]},
+//   concentrates: {[
+//     "Budder",
+//     "Crumble",
+//     "Crystalline",
+//     "Ingestibles",
+//     "Solvent",
+//     "Solventless",
+//     "Terpenes",
+//   ]},
+//   edibles: {["Candy", "Beverages", "Syrups, Sugars & Sweeteners"]},
+//   topicals: {[
+//     "Fragrances",
+//     "Hair Care",
+//     "Skin Care",
+//     "Bath & Bathing Accessories",
+//     "Transdermal Patches",
+//   ]},

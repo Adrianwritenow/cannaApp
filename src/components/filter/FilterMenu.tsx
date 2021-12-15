@@ -31,18 +31,17 @@ export default function FilterMenu(props: FilterMenuProps) {
 
   const initialValues = {
     filters: {
-      types: [],
       strains: [],
-      sort: [],
-      price: [],
-      concentrates: [],
-      edibles: [],
-      topicals: [],
+      price: "",
+      concentrates: "",
+      edibles: "",
+      topicals: "",
     },
     range: {
       min_price: "",
       max_price: "",
     },
+    sort: "",
     search: "",
   };
 
@@ -57,17 +56,18 @@ export default function FilterMenu(props: FilterMenuProps) {
     const currentFilters = savedValues;
     const filterField = currentFilters.filters[`${id}`];
 
-    if (filterField.includes(value)) {
-      filterField.splice(filterField.indexOf(value), 1);
-    } else {
-      filterField.push(value);
-    }
+    // if (filterField.includes(value)) {
+    //   filterField.splice(filterField.indexOf(value), 1);
+    // } else {
+    //   filterField.push(value);
+    // }
 
     setSavedValues((prevState: any) => {
-      return { ...prevState, [`${id}`]: filterField };
+      return { ...prevState, [`${id}`]: value };
     });
 
     setFieldValue("filters", savedValues.filters);
+    console.log("AAA", savedValues);
   }
 
   return (
@@ -115,53 +115,55 @@ export default function FilterMenu(props: FilterMenuProps) {
                   <div className="mt-6 relative flex-1">
                     {/* Body content */}
                     <div className="relative w-full h-full inset-0 flex flex-wrap content-between bg-gray-50">
-                      <div className="grid w-full grid-flow-row auto-rows-max  px-4 pb-2">
-                        {/* // Form Popover sets based on type of filter */}
+                      <div className="grid w-full grid-flow-row auto-rows-max  px-4 pb-2 pt-12">
+                        {/* // Field sets based on type of filter */}
                         <FilterForm
-                          filters={Filters.sort}
+                          filters={Filters.sort.list}
                           label={"Sort By"}
                           id={"sort"}
-                          values={values.filters.sort}
+                          type="radio"
+                          value={values.filters.sort}
                           handleFilter={handleFilter}
                           setFieldValue={setFieldValue}
                         />
                         <FilterForm
-                          filters={Filters.price}
+                          filters={Filters.price.list}
                           label={"Price"}
                           id={"price"}
-                          values={values.filters.price}
+                          value={values.filters.price.list}
                           handleFilter={handleFilter}
                           setFieldValue={setFieldValue}
                         />
+
                         <FilterForm
-                          filters={Filters.strains}
+                          filters={Filters.strains.list}
                           label={"Strain Type"}
                           id={"strains"}
-                          values={values.filters.strains}
+                          value={values.filters.strains.list}
                           handleFilter={handleFilter}
                           setFieldValue={setFieldValue}
                         />
                         <FilterForm
-                          filters={Filters.concentrates}
+                          filters={Filters.concentrates.list}
                           label={"Concentrates"}
                           id={"concentrates"}
-                          values={values.filters.concentrates}
+                          value={values.filters.concentrates}
                           handleFilter={handleFilter}
                           setFieldValue={setFieldValue}
                         />
                         <FilterForm
-                          filters={Filters.edibles}
+                          filters={Filters.edibles.list}
                           label={"Edibles"}
                           id={"edibles"}
-                          values={values.filters.edibles}
+                          value={values.filters.edibles}
                           handleFilter={handleFilter}
                           setFieldValue={setFieldValue}
                         />
                         <FilterForm
-                          filters={Filters.topicals}
+                          filters={Filters.topicals.list}
                           label={"Topicals"}
                           id={"topicals"}
-                          values={values.filters.topicals}
+                          value={values.filters.topicals}
                           handleFilter={handleFilter}
                           setFieldValue={setFieldValue}
                         />

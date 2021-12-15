@@ -18,6 +18,7 @@ interface FieldProps extends React.HTMLAttributes<HTMLInputElement> {
   labelHidden: boolean;
   form: FormikForm;
   field: FormikField;
+  styles: string;
   mask: string;
   handleBlur: (event: React.SyntheticEvent) => void;
   handleChange: (event: React.SyntheticEvent) => void;
@@ -38,6 +39,7 @@ export function InputField(props: FieldProps) {
     label,
     labelHidden,
     mask,
+    styles,
     handleBlur,
     handleChange,
     setFieldValue,
@@ -70,7 +72,7 @@ export function InputField(props: FieldProps) {
         {mask ? (
           <NumberFormat
             format={mask}
-            className={inputClass}
+            className={inputClass + " " + styles}
             id={id}
             placeholder={placeholder}
             autoComplete={autoComplete}

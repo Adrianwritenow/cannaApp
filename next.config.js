@@ -5,8 +5,8 @@ module.exports = {
   experimental: { esmExternals: true },
   images: {
     domains: ["images.unsplash.com", "tailwindui.com", "unsplash.com"],
-    loader: "imgix",
-    path: "https://noop/",
+    loader: "akamai",
+    path: "",
   },
   sassOptions: {
     includePaths: [path.join(__dirname, "styles")],

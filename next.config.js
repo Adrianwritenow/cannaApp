@@ -5,6 +5,8 @@ module.exports = {
   experimental: { esmExternals: true },
   images: {
     domains: ["images.unsplash.com", "tailwindui.com", "unsplash.com"],
+    loader: "imgix", // this is a hack until the bug is fixed
+    path: "",
   },
   sassOptions: {
     includePaths: [path.join(__dirname, "styles")],

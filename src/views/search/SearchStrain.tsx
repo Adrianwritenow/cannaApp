@@ -1,7 +1,3 @@
-import {
-  Dispatch,
-  SetStateAction,
-} from "react-redux/node_modules/@types/react";
 import React, { useState } from "react";
 
 import ResultsStrain from "./results/ResultsStrain";

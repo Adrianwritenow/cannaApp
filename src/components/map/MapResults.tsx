@@ -27,7 +27,6 @@ function MapResults({ data }: any) {
 
   const handleEntrance = (entries: any) => {
     entries.forEach((entry: any) => {
-      console.log(entry.isIntersecting, entry.target.id);
       if (entry.isIntersecting) {
         const activeRef = items.find(
           (item: any) => item.current.id === entry.target.id

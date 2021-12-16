@@ -160,31 +160,26 @@ export default function StrainFilter(props: FilterProps) {
                                     filters={Filters.strains.list}
                                     label={"Strain Type"}
                                     id={"types"}
-                                    value={values.filters.types}
                                   />
                                   <FilterGroup
                                     filters={Filters.flavors.list}
                                     label={"Flavors"}
                                     id={"flavors"}
-                                    value={values.filters.flavors}
                                   />
                                   <FilterGroup
                                     filters={Filters.armoas.list}
                                     label={"Aromas"}
                                     id={"aromas"}
-                                    value={values.filters.aromas}
                                   />
                                   <FilterGroup
                                     filters={Filters.feelings.list}
                                     label={"Desired Feeling"}
                                     id={"feelings"}
-                                    value={values.filters.feelings}
                                   />
                                   <FilterGroup
                                     filters={Filters.helps.list}
                                     label={"May Help With"}
                                     id={"helps"}
-                                    value={values.filters.helps}
                                   />
                                 </Form>
                               );

@@ -22,7 +22,6 @@ export default function FilterMenu(props: FilterMenuProps) {
   // Add filters to list to be rendered and update the form state values
 
   useEffect(() => {
-    console.log("AAA", values);
     setSavedValues(values);
   }, [values]);
 
@@ -78,7 +77,6 @@ export default function FilterMenu(props: FilterMenuProps) {
                           label={"Sort By"}
                           id={"sort"}
                           type="radio"
-                          value={values.filters.sort}
                         />
                         <FilterGroupPrice
                           filters={Filters.price.list}
@@ -87,26 +85,22 @@ export default function FilterMenu(props: FilterMenuProps) {
                           type="radio"
                           minName="min_price"
                           maxName="max_price"
-                          value={values.price.cost}
                         />
                         <FilterGroup
                           filters={Filters.strains.list}
                           label={"Strain Type"}
-                          id={"filters.strains"}
-                          value={values.filters.strains.list}
+                          id={"strains"}
                         />
                         <FilterGroup
                           filters={Filters.concentrates.list}
                           label={"Concentrates"}
-                          id={"filters.category"}
+                          id={"category"}
                           type="radio"
-                          value={values.filters.concentrates}
                         />
                         <FilterGroup
                           filters={Filters.edibles.list}
                           label={"Edibles"}
                           id={"filters.category"}
-                          value={values.filters.edibles}
                           type="radio"
                         />
                         <FilterGroup
@@ -114,7 +108,6 @@ export default function FilterMenu(props: FilterMenuProps) {
                           label={"Topicals"}
                           id={"filters.category"}
                           type="radio"
-                          value={values.filters.topicals}
                         />
                       </div>
                     </div>

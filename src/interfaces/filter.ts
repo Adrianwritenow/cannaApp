@@ -16,7 +16,6 @@ export interface Filter {
 export interface Filters {
   filters: Array<FilterItem>;
   label: string;
-  value: any;
   type?: string;
   id: string;
 }

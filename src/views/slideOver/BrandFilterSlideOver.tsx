@@ -10,12 +10,13 @@ export default function BrandFilterSlideOver(props: BusinessSlideoverProps) {
   const [open, setOpen] = useState(false);
   const [rated, setRated] = useState("Top Rated");
   const [pricing, setPricing] = useState("On Sale");
+  const [filterTabs, setFilterTabs]: any = useState({});
+  const [filterList, setFilterList]: any = useState([]);
 
-  const initialValues = {
-    filters: {
-      strains: [],
-      category: "",
-    },
+  const initialValues: any = {
+    strains: [],
+    filters: {},
+    category: "",
     sort: "",
     price: {
       cost: "",
@@ -25,10 +26,9 @@ export default function BrandFilterSlideOver(props: BusinessSlideoverProps) {
     search: "",
   };
   const [savedValues, setSavedValues]: any = useState({
-    filters: {
-      strains: [],
-      category: "",
-    },
+    strains: [],
+    category: "",
+    filters: {},
     sort: "",
     price: {
       cost: "",
@@ -38,25 +38,20 @@ export default function BrandFilterSlideOver(props: BusinessSlideoverProps) {
     search: "",
   });
 
-  const [filterTabs, setFilterTabs]: any = useState([]);
-
   // Remove filters from list to be rendered and update the form state values
 
   function removeFilter(filter: string) {
-    Object.keys(savedValues).map((key) => {
-      const currentArray = savedValues[key];
-      if (currentArray.includes(filter)) {
-        currentArray.splice(currentArray.indexOf(filter), 1);
-      }
-      setSavedValues({ ...savedValues, currentArray });
-    });
+    let stateCopy = Object.assign({}, savedValues);
+    stateCopy[filter] = initialValues[filter];
+
+    setSavedValues(stateCopy);
   }
 
   useEffect(() => {
     const price = savedValues.price;
     const filters: any = {
-      strains: savedValues.filters.strains,
-      category: [savedValues.filters.category],
+      strains: savedValues.strains,
+      category: [savedValues.category],
       price: [savedValues.price.cost],
       price_range: [
         `${price.min_price ? "$" + price.min_price : ""}${
@@ -73,15 +68,14 @@ export default function BrandFilterSlideOver(props: BusinessSlideoverProps) {
     },
     []);
 
-    console.log("XXX", filters);
     const filter_array = filter_data.filter(function (entry: string) {
       return entry.trim() != "";
     });
 
     var is_same =
-      filter_array.length == filterTabs.length &&
+      filter_array.length == filterList.length &&
       filter_array.every(function (element, index) {
-        return element === filterTabs[index];
+        return element === filterList[index];
       });
 
     if (!is_same) {
@@ -93,7 +87,9 @@ export default function BrandFilterSlideOver(props: BusinessSlideoverProps) {
 
     console.log("SAVED::", savedValues);
 
-    setFilterTabs(filter_array);
+    setFilterList(filter_array);
+
+    console.log("TABS", filterList);
   }, [savedValues]);
 
   return (
@@ -152,21 +148,30 @@ export default function BrandFilterSlideOver(props: BusinessSlideoverProps) {
                       </div>
                       <div className="flex">
                         {/* Tab filters rendered */}
-                        {filterTabs.map((filter: string, index: any) => (
-                          <button
-                            type="button"
-                            key={`${filter}_${index}`}
-                            onClick={() => {
-                              removeFilter(filter);
-                            }}
-                            className="flex rounded-full border-2 border-gray-200 items-center px-4 py-2   text-sm font-medium bg-white text-gray-900 mx-1 w-max"
-                          >
-                            <span>{filter}</span>
-                            <span className="sr-only">
-                              Remove filter for label
-                            </span>
-                          </button>
-                        ))}
+                        {Object.keys(savedValues.filters).map((keyName, i) =>
+                          savedValues.filters[keyName].map(
+                            (filter: string, index: any) => {
+                              console.log(savedValues.filters[keyName][index]);
+                              if (savedValues.filters[keyName][index] !== "") {
+                                return (
+                                  <button
+                                    type="button"
+                                    key={`${keyName}_${index}`}
+                                    onClick={() => {
+                                      removeFilter(keyName);
+                                    }}
+                                    className="flex rounded-full border-2 border-gray-200 items-center px-4 py-2   text-sm font-medium bg-white text-gray-900 mx-1 w-max"
+                                  >
+                                    <span>{filter}</span>
+                                    <span className="sr-only">
+                                      Remove filter for label
+                                    </span>
+                                  </button>
+                                );
+                              }
+                            }
+                          )
+                        )}
                       </div>
                     </div>
                   </div>

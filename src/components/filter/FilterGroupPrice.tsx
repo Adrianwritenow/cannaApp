@@ -9,7 +9,6 @@ import React from "react";
 interface Filters {
   filters: Array<FilterItem>;
   label: string;
-  value: any;
   type?: string;
   minName: string;
   maxName: string;

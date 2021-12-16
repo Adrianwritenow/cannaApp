@@ -70,14 +70,16 @@ export function InputField(props: FieldProps) {
       </label>
       <div className="relative rounded-md shadow-sm ">
         {mask ? (
-          <NumberFormat
-            format={mask}
+          <input
+            // format={mask}
+            type="number"
             className={inputClass + " " + styles}
             id={id}
             placeholder={placeholder}
             autoComplete={autoComplete}
             disabled={disabled}
             onChange={handleChange}
+            {...field}
           />
         ) : (
           <input

@@ -1,74 +1,30 @@
 import { Dialog, Transition } from "@headlessui/react";
 import React, { FormEvent, Fragment, useEffect, useState } from "react";
 
-import FilterForm from "./FilterForm";
+import FilterGroup from "./FilterGroup";
+import FilterGroupPrice from "./FilterGroupPrice";
 import { Filters } from "../../helpers/filters";
 import StrainsIcon from "../../../public/assets/icons/iconComponents/Strains";
 import { XIcon } from "@heroicons/react/solid";
 
 interface FilterMenuProps {
   open: boolean;
-  setFieldValue: Function;
   values: any;
   setOpen: Function;
   setSavedValues: Function;
-  savedValues: any;
   icon?: boolean;
   label?: string;
 }
 
 export default function FilterMenu(props: FilterMenuProps) {
-  const {
-    setFieldValue,
-    open,
-    values,
-    setOpen,
-    setSavedValues,
-    savedValues,
-    icon,
-    label,
-  } = props;
-
-  const initialValues = {
-    filters: {
-      strains: [],
-      price: "",
-      concentrates: "",
-      edibles: "",
-      topicals: "",
-    },
-    range: {
-      min_price: "",
-      max_price: "",
-    },
-    sort: "",
-    search: "",
-  };
+  const { open, values, setOpen, icon, label, setSavedValues } = props;
 
   // Add filters to list to be rendered and update the form state values
-  function handleFilter(
-    event: FormEvent<HTMLFormElement>,
-    id: string,
-    setFieldValue: Function
-  ) {
-    const element = event.target as HTMLFormElement;
-    const value = element.value;
-    const currentFilters = savedValues;
-    const filterField = currentFilters.filters[`${id}`];
 
-    // if (filterField.includes(value)) {
-    //   filterField.splice(filterField.indexOf(value), 1);
-    // } else {
-    //   filterField.push(value);
-    // }
-
-    setSavedValues((prevState: any) => {
-      return { ...prevState, [`${id}`]: value };
-    });
-
-    setFieldValue("filters", savedValues.filters);
-    console.log("AAA", savedValues);
-  }
+  useEffect(() => {
+    console.log("AAA", values);
+    setSavedValues(values);
+  }, [values]);
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -117,55 +73,48 @@ export default function FilterMenu(props: FilterMenuProps) {
                     <div className="relative w-full h-full inset-0 flex flex-wrap content-between bg-gray-50">
                       <div className="grid w-full grid-flow-row auto-rows-max  px-4 pb-2 pt-12">
                         {/* // Field sets based on type of filter */}
-                        <FilterForm
+                        <FilterGroup
                           filters={Filters.sort.list}
                           label={"Sort By"}
                           id={"sort"}
                           type="radio"
                           value={values.filters.sort}
-                          handleFilter={handleFilter}
-                          setFieldValue={setFieldValue}
                         />
-                        <FilterForm
+                        <FilterGroupPrice
                           filters={Filters.price.list}
                           label={"Price"}
                           id={"price"}
-                          value={values.filters.price.list}
-                          handleFilter={handleFilter}
-                          setFieldValue={setFieldValue}
+                          type="radio"
+                          minName="min_price"
+                          maxName="max_price"
+                          value={values.price.cost}
                         />
-
-                        <FilterForm
+                        <FilterGroup
                           filters={Filters.strains.list}
                           label={"Strain Type"}
-                          id={"strains"}
+                          id={"filters.strains"}
                           value={values.filters.strains.list}
-                          handleFilter={handleFilter}
-                          setFieldValue={setFieldValue}
                         />
-                        <FilterForm
+                        <FilterGroup
                           filters={Filters.concentrates.list}
                           label={"Concentrates"}
-                          id={"concentrates"}
+                          id={"filters.category"}
+                          type="radio"
                           value={values.filters.concentrates}
-                          handleFilter={handleFilter}
-                          setFieldValue={setFieldValue}
                         />
-                        <FilterForm
+                        <FilterGroup
                           filters={Filters.edibles.list}
                           label={"Edibles"}
-                          id={"edibles"}
+                          id={"filters.category"}
                           value={values.filters.edibles}
-                          handleFilter={handleFilter}
-                          setFieldValue={setFieldValue}
+                          type="radio"
                         />
-                        <FilterForm
+                        <FilterGroup
                           filters={Filters.topicals.list}
                           label={"Topicals"}
-                          id={"topicals"}
+                          id={"filters.category"}
+                          type="radio"
                           value={values.filters.topicals}
-                          handleFilter={handleFilter}
-                          setFieldValue={setFieldValue}
                         />
                       </div>
                     </div>

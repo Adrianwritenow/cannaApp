@@ -10,19 +10,15 @@ export default function BrandFilterSlideOver(props: BusinessSlideoverProps) {
   const [open, setOpen] = useState(false);
   const [rated, setRated] = useState("Top Rated");
   const [pricing, setPricing] = useState("On Sale");
-  const [view, setView] = useState(0);
 
-  const tabs = ["Deals", "Flower", "Concentrates", "Edibles", "Topicals"];
   const initialValues = {
     filters: {
       strains: [],
-      price: "",
-      concentrates: "",
-      edibles: "",
-      topicals: "",
+      category: "",
     },
     sort: "",
-    range: {
+    price: {
+      cost: "",
       min_price: "",
       max_price: "",
     },
@@ -31,32 +27,24 @@ export default function BrandFilterSlideOver(props: BusinessSlideoverProps) {
   const [savedValues, setSavedValues]: any = useState({
     filters: {
       strains: [],
-      price: "",
-      concentrates: "",
-      edibles: "",
-      topicals: "",
+      category: "",
     },
     sort: "",
-
-    range: {
+    price: {
+      cost: "",
       min_price: "",
       max_price: "",
     },
     search: "",
   });
-  const [filterTabs, setFilterTabs]: any = useState([]);
-  const values = savedValues.filters;
 
-  // Check values to see if they are empty
-  const allEmpty = Object.keys(savedValues).every(function (key) {
-    return savedValues[key].length === 0;
-  });
+  const [filterTabs, setFilterTabs]: any = useState([]);
 
   // Remove filters from list to be rendered and update the form state values
 
   function removeFilter(filter: string) {
-    Object.keys(values).map((key) => {
-      const currentArray = values[key];
+    Object.keys(savedValues).map((key) => {
+      const currentArray = savedValues[key];
       if (currentArray.includes(filter)) {
         currentArray.splice(currentArray.indexOf(filter), 1);
       }
@@ -65,32 +53,66 @@ export default function BrandFilterSlideOver(props: BusinessSlideoverProps) {
   }
 
   useEffect(() => {
-    const filter_array = Object.keys(values).reduce(function (res, key) {
-      return res.concat(values[key]);
-    }, []);
+    const price = savedValues.price;
+    const filters: any = {
+      strains: savedValues.filters.strains,
+      category: [savedValues.filters.category],
+      price: [savedValues.price.cost],
+      price_range: [
+        `${price.min_price ? "$" + price.min_price : ""}${
+          price.min_price && price.max_price ? " - " : ""
+        }${price.max_price ? "$" + price.max_price : ""}`,
+      ],
+    };
+
+    const filter_data: string[] = Object.keys(filters).reduce(function (
+      res,
+      key
+    ) {
+      return res.concat(filters[key]);
+    },
+    []);
+
+    console.log("XXX", filters);
+    const filter_array = filter_data.filter(function (entry: string) {
+      return entry.trim() != "";
+    });
+
+    var is_same =
+      filter_array.length == filterTabs.length &&
+      filter_array.every(function (element, index) {
+        return element === filterTabs[index];
+      });
+
+    if (!is_same) {
+      setSavedValues((prevState: any) => ({
+        ...prevState,
+        filters,
+      }));
+    }
+
+    console.log("SAVED::", savedValues);
 
     setFilterTabs(filter_array);
-  }, [savedValues, open, values]);
+  }, [savedValues]);
 
   return (
     <div>
       <Formik
-        initialValues={!allEmpty ? savedValues : initialValues}
+        initialValues={savedValues}
         onSubmit={() => {}}
         enableReinitialize={true}
       >
-        {({ values, setFieldValue }) => {
+        {({ values, errors, setFieldValue, handleChange }) => {
           return (
             <Form>
               <div>
                 <FilterMenu
                   open={open}
-                  setFieldValue={setFieldValue}
                   values={values}
                   setOpen={setOpen}
-                  setSavedValues={setSavedValues}
-                  savedValues={savedValues}
                   label="Filters"
+                  setSavedValues={setSavedValues}
                 />
                 {/* Filter Tabs list */}
                 <div className="flex items-center py-3.5 relative overflow-x-scroll">

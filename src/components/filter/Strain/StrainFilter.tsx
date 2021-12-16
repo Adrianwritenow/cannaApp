@@ -8,8 +8,8 @@ import { Form, Formik } from "formik";
 import React, { FormEvent, Fragment, useEffect, useState } from "react";
 
 import DropdownFilter from "../../forms/fields/DropdownFilter";
-import FilterForm from "../FilterForm";
-import { StrainFilters } from "../../../helpers/filters";
+import FilterGroup from "../FilterGroup";
+import { Filters } from "../../../helpers/filters";
 import StrainsIcon from "../../../../public/assets/icons/iconComponents/Strains";
 
 interface SortViewProps {
@@ -156,45 +156,35 @@ export default function StrainFilter(props: FilterProps) {
                               return (
                                 // Form Popover sets based on type of filter
                                 <Form className=" divide-y divide-gray-200 ">
-                                  <FilterForm
-                                    filters={StrainFilters.types}
+                                  <FilterGroup
+                                    filters={Filters.strains.list}
                                     label={"Strain Type"}
                                     id={"types"}
-                                    values={values.filters.types}
-                                    handleFilter={handleFilter}
-                                    setFieldValue={setFieldValue}
+                                    value={values.filters.types}
                                   />
-                                  <FilterForm
-                                    filters={StrainFilters.flavors}
+                                  <FilterGroup
+                                    filters={Filters.flavors.list}
                                     label={"Flavors"}
                                     id={"flavors"}
-                                    values={values.filters.flavors}
-                                    handleFilter={handleFilter}
-                                    setFieldValue={setFieldValue}
+                                    value={values.filters.flavors}
                                   />
-                                  <FilterForm
-                                    filters={StrainFilters.armoas}
+                                  <FilterGroup
+                                    filters={Filters.armoas.list}
                                     label={"Aromas"}
                                     id={"aromas"}
-                                    values={values.filters.aromas}
-                                    handleFilter={handleFilter}
-                                    setFieldValue={setFieldValue}
+                                    value={values.filters.aromas}
                                   />
-                                  <FilterForm
-                                    filters={StrainFilters.feelings}
+                                  <FilterGroup
+                                    filters={Filters.feelings.list}
                                     label={"Desired Feeling"}
                                     id={"feelings"}
-                                    values={values.filters.feelings}
-                                    handleFilter={handleFilter}
-                                    setFieldValue={setFieldValue}
+                                    value={values.filters.feelings}
                                   />
-                                  <FilterForm
-                                    filters={StrainFilters.helps}
+                                  <FilterGroup
+                                    filters={Filters.helps.list}
                                     label={"May Help With"}
                                     id={"helps"}
-                                    values={values.filters.helps}
-                                    handleFilter={handleFilter}
-                                    setFieldValue={setFieldValue}
+                                    value={values.filters.helps}
                                   />
                                 </Form>
                               );

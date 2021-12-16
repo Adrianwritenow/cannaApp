@@ -1,27 +1,5 @@
 import { Filter } from "../interfaces/filter";
 
-export const StrainFilters = {
-  types: ["Indica", "Sativa", "Hybrid"],
-  feelings: [
-    "Aroused",
-    "Creative",
-    "Energetic",
-    "Euphoric",
-    "Focused",
-    "Giggly",
-    "Happy",
-    "Hungry",
-    "Relaxed",
-    "Sleepy",
-    "Talkative",
-    "Tingly",
-    "Uplifted",
-  ],
-  flavors: ["Sweet", "Savory", "Earthy"],
-  armoas: ["Smokey", "Nutty", "Funky"],
-  helps: ["Anxiety", "Apetite", "Sleep"],
-};
-
 export const Filters: Record<string, Filter> = {
   strains: {
     value: "Strains",
@@ -196,27 +174,34 @@ export const Filters: Record<string, Filter> = {
       },
     ],
   },
+  feelings: {
+    value: "Feelings",
+    list: [
+      { value: "Aroused" },
+      { value: "Creative" },
+      { value: "Energetic" },
+      { value: "Euphoric" },
+      { value: "Focused" },
+      { value: "Giggly" },
+      { value: "Happy" },
+      { value: "Hungry" },
+      { value: "Relaxed" },
+      { value: "Sleepy" },
+      { value: "Talkative" },
+      { value: "Tingly" },
+      { value: "Uplifted" },
+    ],
+  },
+  flavors: {
+    value: "",
+    list: [{ value: "Sweet" }, { value: "Savory" }, { value: "Earthy" }],
+  },
+  armoas: {
+    value: "",
+    list: [{ value: "Smokey" }, { value: "Nutty" }, { value: "Funky" }],
+  },
+  helps: {
+    value: "",
+    list: [{ value: "Anxiety" }, { value: "Apetite" }, { value: "Sleep" }],
+  },
 };
-
-// reviews: {["Most Reviewed", "Top Rated", "Lowest Rated"]},
-//   pricing: {["Most Expensive", "Least Expensive", "On Sale"]},
-//   value: {["Cartridge", "Flower", "Clothing", "Edible"]},
-//   sort: {["Relevance", "Price: Low to High", "Price: High to Low"]},
-//   price: {["$", "$$", "$$$"]},
-//   concentrates: {[
-//     "Budder",
-//     "Crumble",
-//     "Crystalline",
-//     "Ingestibles",
-//     "Solvent",
-//     "Solventless",
-//     "Terpenes",
-//   ]},
-//   edibles: {["Candy", "Beverages", "Syrups, Sugars & Sweeteners"]},
-//   topicals: {[
-//     "Fragrances",
-//     "Hair Care",
-//     "Skin Care",
-//     "Bath & Bathing Accessories",
-//     "Transdermal Patches",
-//   ]},

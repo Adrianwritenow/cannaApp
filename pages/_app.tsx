@@ -2,6 +2,7 @@ import "../src/styles/main.scss";
 import "tailwindcss/tailwind.css";
 
 import type { AppProps } from "next/app";
+import { SessionProvider } from "next-auth/react"
 import { AuthContextProvider } from "../src/authentication/authContext";
 import Footer from "../src/components/footer/Footer";
 import { Navigation } from "../src/components/layouts/Navigation";
@@ -11,30 +12,36 @@ import React from "react";
 import { store } from "../src/store";
 import CookieDisclaimer from "../src/components/cookieConsent";
 
-export default function MyApp({ Component, pageProps, router }: AppProps) {
+export default function MyApp({
+  Component,
+  pageProps: { session, ...pageProps },
+  router
+}: AppProps) {
   return (
-    <Provider store={store}>
-      <AuthContextProvider>
-        {!router.pathname.startsWith("/login") &&
-        !router.pathname.startsWith("/register") ? (
-          <>
-            <Navigation>
-              <PrivateRoute>
-                <Component {...pageProps} />
-              </PrivateRoute>
-            </Navigation>
-            <div className="pb-6">
+    <SessionProvider session={session}>
+      <Provider store={store}>
+        <AuthContextProvider>
+          {!router.pathname.startsWith("/login") &&
+          !router.pathname.startsWith("/register") ? (
+            <>
+              <Navigation>
+                <PrivateRoute>
+                  <Component {...pageProps} />
+                </PrivateRoute>
+              </Navigation>
+              <div className="pb-6">
+                <Footer />
+              </div>
+            </>
+          ) : (
+            <>
+              <Component {...pageProps} />
               <Footer />
-            </div>
-          </>
-        ) : (
-          <>
-            <Component {...pageProps} />
-            <Footer />
-          </>
-        )}
-      </AuthContextProvider>
-      <CookieDisclaimer />
-    </Provider>
+            </>
+          )}
+        </AuthContextProvider>
+        <CookieDisclaimer />
+      </Provider>
+    </SessionProvider>
   );
 }

@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import { useSession, signIn } from "next-auth/react"
 
 import { AuthContext } from "../../src/authentication/authContext";
 import FacebookIcon from "../../public/assets/icons/iconComponents/IconFacebook";
@@ -13,6 +14,9 @@ export default function Login() {
   const authState = useContext(AuthContext);
   const [access_token, setAccessToken] = useState("");
   const router = useRouter();
+  const { data: session } = useSession();
+
+  console.log(session);
 
   useEffect(() => {
     if (authState.state.session.access_token) {
@@ -68,7 +72,7 @@ export default function Login() {
             <a>
               <span className="sr-only">Sign in with Facebook</span>
               <button
-                onClick={() => {}}
+                onClick={() => signIn('facebook')}
                 className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 focus:outline-none focus:ring-green focus:border-green"
               >
                 <FacebookIcon width={20} height={20} />

@@ -6,6 +6,10 @@ export interface Listing {
   image: string;
   address: string;
   distance: string;
+  coords?: {
+    lat?: number;
+    lng?: number;
+  }
   socials: {
     facebook: string;
     instagram: string;

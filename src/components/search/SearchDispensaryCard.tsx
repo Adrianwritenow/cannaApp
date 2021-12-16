@@ -8,7 +8,6 @@ interface SearchProductProps {
 }
 export default function SearchDispensaryCard(props: SearchProductProps) {
   const { data } = props;
-  console.log("ZZZ:::", data);
 
   return (
     <Link href={`/business/${encodeURIComponent(data._id as string)}`} passHref>

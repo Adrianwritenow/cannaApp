@@ -9,27 +9,26 @@ export const SEARCH_POST = "search/post";
 var bodybuilder = require("bodybuilder");
 
 export function searchQuery(search: string) {
-  var body = bodybuilder().query("match", "name", "query", search).build();
+  var body = bodybuilder().query("query_string", "query", search).build();
 
   const data = JSON.stringify(body);
-  console.log(data);
 
-  const results = axios
-    .get(`${SEARCH_URL}/_search?`, { params: { q: search } })
-    .then((res: AxiosResponse) => {
-      return res.data;
-    });
+  const results = axios({
+    url: `${SEARCH_URL}/_search`,
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data: data,
+  }).then((res: AxiosResponse) => {
+    return res.data;
+  });
 
-  // const results = axios({
-  //   url: `${SEARCH_URL}/_search`,
-  //   method: "POST",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  //   data: data,
-  // }).then((res: AxiosResponse) => {
-  //   return res.data;
-  // });
+  // const results = axios
+  //   .get(`${SEARCH_URL}/_search?`, { params: { q: search } })
+  //   .then((res: AxiosResponse) => {
+  //     return res.data;
+  //   });
 
   // const results = axios
   //   .get(`${SEARCH_URL}`, {

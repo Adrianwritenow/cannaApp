@@ -104,11 +104,9 @@ export default function FilterMenuTabs(props: FilterMenuTabsProps) {
 
                   <FilterMenu
                     open={open}
-                    setFieldValue={setFieldValue}
                     values={values}
                     setOpen={setOpen}
                     setSavedValues={setSavedValues}
-                    savedValues={savedValues}
                   />
                   {/* Filter Tabs list */}
                   <div className="flex items-center py-3.5 relative overflow-x-scroll">

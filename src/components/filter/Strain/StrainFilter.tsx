@@ -144,7 +144,7 @@ export default function StrainFilter(props: FilterProps) {
                     <div className="mt-6 relative flex-1">
                       {/* Body content */}
                       <div className="relative w-full h-full inset-0 flex flex-wrap content-between">
-                        <div className="grid w-full grid-flow-row auto-rows-max border-t border-b">
+                        <div className="w-full bg-gray-50 h-full">
                           <Formik
                             initialValues={
                               !allEmpty ? savedValues : initialValues
@@ -152,36 +152,37 @@ export default function StrainFilter(props: FilterProps) {
                             onSubmit={() => {}}
                             enableReinitialize={true}
                           >
-                            {({ values, setFieldValue }) => {
+                            {({}) => {
                               return (
-                                // Form Popover sets based on type of filter
-                                <Form className=" divide-y divide-gray-200 ">
-                                  <FilterGroup
-                                    filters={Filters.strains.list}
-                                    label={"Strain Type"}
-                                    id={"types"}
-                                  />
-                                  <FilterGroup
-                                    filters={Filters.flavors.list}
-                                    label={"Flavors"}
-                                    id={"flavors"}
-                                  />
-                                  <FilterGroup
-                                    filters={Filters.armoas.list}
-                                    label={"Aromas"}
-                                    id={"aromas"}
-                                  />
-                                  <FilterGroup
-                                    filters={Filters.feelings.list}
-                                    label={"Desired Feeling"}
-                                    id={"feelings"}
-                                  />
-                                  <FilterGroup
-                                    filters={Filters.helps.list}
-                                    label={"May Help With"}
-                                    id={"helps"}
-                                  />
-                                </Form>
+                                <div className="relative w-full h-full inset-0 flex flex-wrap content-between ">
+                                  <Form className="grid w-full h-full grid-flow-row auto-rows-max  px-4 pb-2 pt-12 ">
+                                    <FilterGroup
+                                      filters={Filters.strains.list}
+                                      label={"Strain Type"}
+                                      id={"types"}
+                                    />
+                                    <FilterGroup
+                                      filters={Filters.flavors.list}
+                                      label={"Flavors"}
+                                      id={"flavors"}
+                                    />
+                                    <FilterGroup
+                                      filters={Filters.armoas.list}
+                                      label={"Aromas"}
+                                      id={"aromas"}
+                                    />
+                                    <FilterGroup
+                                      filters={Filters.feelings.list}
+                                      label={"Desired Feeling"}
+                                      id={"feelings"}
+                                    />
+                                    <FilterGroup
+                                      filters={Filters.helps.list}
+                                      label={"May Help With"}
+                                      id={"helps"}
+                                    />
+                                  </Form>
+                                </div>
                               );
                             }}
                           </Formik>

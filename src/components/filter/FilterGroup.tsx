@@ -5,7 +5,8 @@ import { Filters } from "../../interfaces/filter";
 import React from "react";
 
 export default function FilterGroup(data: Filters) {
-  const { filters, label, id, type } = data;
+  const { filters, label, id, type, values, setFieldValue } = data;
+
   return (
     <Disclosure>
       {({ open }) => (
@@ -46,84 +47,141 @@ export default function FilterGroup(data: Filters) {
                           {({ open }) => (
                             <div className="w-full">
                               <div className="flex items-center">
-                                <Disclosure.Button className="flex justify-start focus:outline-none  ">
-                                  <Field
-                                    id={`${id}_${index}`}
-                                    name={id}
-                                    value={`${filter.value}`}
-                                    type={type ? type : "checkbox"}
-                                    className={`focus:ring-green h-4 w-4 text-green border-gray-300 ${
-                                      type ? "rounded-full" : "rounded-md"
-                                    } `}
-                                  />
-                                </Disclosure.Button>
-                                <div className="ml-2 text-base">
+                                {type ? (
                                   <label
-                                    htmlFor="comments"
-                                    className=" text-sm text-gray-900"
+                                    className=" text-sm text-gray-900 w-full flex items-center"
+                                    onClick={() => {
+                                      if (setFieldValue) {
+                                        setFieldValue(id, filter.value);
+                                      }
+                                    }}
                                   >
-                                    {filter.value}
+                                    <Disclosure.Button
+                                      className="flex items-center w-full focus:outline-none  "
+                                      id={id}
+                                    >
+                                      <Field
+                                        id={`${id}_${index}`}
+                                        name={id}
+                                        value={`${filter.value}`}
+                                        checked={values?.includes(filter.value)}
+                                        type={type}
+                                        className={
+                                          "focus:ring-green h-4 w-4 text-green border-gray-300 rounded-full"
+                                        }
+                                      />
+                                      <span className="ml-2">
+                                        {filter.value}
+                                      </span>
+                                    </Disclosure.Button>
                                   </label>
-                                </div>
+                                ) : (
+                                  <Disclosure.Button
+                                    className="flex items-center w-full focus:outline-none  "
+                                    id={id}
+                                  >
+                                    <label
+                                      className=" text-sm text-gray-900 w-full flex items-center"
+                                      onClick={() => {
+                                        if (setFieldValue) {
+                                          setFieldValue(id, filter.value);
+                                        }
+                                      }}
+                                    >
+                                      <Field
+                                        id={`${id}_${index}`}
+                                        name={id}
+                                        value={`${filter.value}`}
+                                        checked={values?.includes(filter.value)}
+                                        type={"checkbox"}
+                                        className={
+                                          "focus:ring-green h-4 w-4 text-green border-gray-300 rounded-md"
+                                        }
+                                      />
+                                      <span className="ml-2">
+                                        {filter.value}
+                                      </span>
+                                    </label>
+                                  </Disclosure.Button>
+                                )}
                               </div>
 
                               {filter.subList && (
                                 <Disclosure.Panel className="grid grid-flow-row auto-rows-max gap-4 w-full pt-4">
                                   {filter.subList.map((subFilter, index) => (
                                     <Disclosure key={`${id}_sub_${index}`}>
-                                      <div className="w-full">
-                                        <div className="flex items-center ml-4 ">
-                                          <Disclosure.Button className="flex justify-start focus:outline-none  ">
-                                            <Field
-                                              id={`${id}_sub_${index}`}
-                                              name={id}
-                                              value={`${subFilter.value}`}
-                                              type={type ? type : "checkbox"}
-                                              className="focus:ring-green h-4 w-4 text-green border-gray-300 rounded-full"
-                                            />
-                                          </Disclosure.Button>
-
-                                          <div className="ml-2 text-base">
+                                      {({ open: sub_open }) => (
+                                        <div className="w-full">
+                                          <div className="flex items-center ml-4 ">
                                             <label
-                                              htmlFor="comments"
-                                              className=" text-sm text-gray-900"
+                                              className=" text-sm text-gray-900 w-full flex items-center"
+                                              onClick={() => {
+                                                if (setFieldValue) {
+                                                  setFieldValue(
+                                                    id,
+                                                    subFilter.value
+                                                  );
+                                                }
+                                              }}
                                             >
-                                              {subFilter.value}
+                                              <Disclosure.Button className="flex justify-start focus:outline-none w-full flex ">
+                                                <Field
+                                                  id={`${id}_sub_${index}`}
+                                                  name={id}
+                                                  checked={values?.includes(
+                                                    subFilter.value
+                                                  )}
+                                                  value={`${subFilter.value}`}
+                                                  type={
+                                                    type ? type : "checkbox"
+                                                  }
+                                                  className="focus:ring-green h-4 w-4 text-green border-gray-300 rounded-full"
+                                                />
+                                                <span className="ml-2">
+                                                  {subFilter.value}
+                                                </span>
+                                              </Disclosure.Button>
                                             </label>
                                           </div>
-                                        </div>
-                                        {subFilter.list && (
-                                          <Disclosure.Panel className="grid grid-flow-row auto-rows-max gap-4 w-full pt-4">
-                                            {subFilter.list.map(
-                                              (tertiaryFilter, index) => (
-                                                <div
-                                                  key={`${id}_tert_${index}`}
-                                                >
-                                                  <div className="flex items-center ml-8">
-                                                    <Field
-                                                      id={`${id}_tert_${index}`}
-                                                      name={id}
-                                                      value={`${tertiaryFilter.value}`}
-                                                      type={
-                                                        type ? type : "checkbox"
-                                                      }
-                                                      className="focus:ring-green h-4 w-4 text-green border-gray-300 rounded-full"
-                                                    />
-                                                    <div className="ml-2 text-base">
-                                                      <label
-                                                        htmlFor="comments"
-                                                        className=" text-sm text-gray-900"
-                                                      >
-                                                        {tertiaryFilter.value}
-                                                      </label>
+                                          {subFilter.list && (
+                                            <Disclosure.Panel className="grid grid-flow-row auto-rows-max gap-4 w-full pt-4">
+                                              {subFilter.list.map(
+                                                (tertiaryFilter, index) => (
+                                                  <div
+                                                    key={`${id}_tert_${index}`}
+                                                  >
+                                                    <div className="flex items-center ml-8">
+                                                      <button className="flex justify-start focus:outline-none w-full flex">
+                                                        <label className=" text-sm text-gray-900">
+                                                          <Field
+                                                            id={`${id}_tert_${index}`}
+                                                            name={id}
+                                                            value={`${tertiaryFilter.value}`}
+                                                            checked={values?.includes(
+                                                              tertiaryFilter.value
+                                                            )}
+                                                            type={
+                                                              type
+                                                                ? type
+                                                                : "checkbox"
+                                                            }
+                                                            className="focus:ring-green h-4 w-4 text-green border-gray-300 rounded-full"
+                                                          />
+                                                          <span className="ml-2">
+                                                            {
+                                                              tertiaryFilter.value
+                                                            }
+                                                          </span>
+                                                        </label>
+                                                      </button>
                                                     </div>
                                                   </div>
-                                                </div>
-                                              )
-                                            )}
-                                          </Disclosure.Panel>
-                                        )}
-                                      </div>
+                                                )
+                                              )}
+                                            </Disclosure.Panel>
+                                          )}
+                                        </div>
+                                      )}
                                     </Disclosure>
                                   ))}
                                 </Disclosure.Panel>

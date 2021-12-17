@@ -14,13 +14,14 @@ interface FilterMenuProps {
   setSavedValues: Function;
   icon?: boolean;
   label?: string;
+  setFieldValue: Function;
 }
 
 export default function FilterMenu(props: FilterMenuProps) {
-  const { open, values, setOpen, icon, label, setSavedValues } = props;
+  const { open, values, setOpen, icon, label, setSavedValues, setFieldValue } =
+    props;
 
   // Add filters to list to be rendered and update the form state values
-
   useEffect(() => {
     setSavedValues(values);
   }, [values]);
@@ -71,43 +72,53 @@ export default function FilterMenu(props: FilterMenuProps) {
                     {/* Body content */}
                     <div className="relative w-full h-full inset-0 flex flex-wrap content-between bg-gray-50">
                       <div className="grid w-full grid-flow-row auto-rows-max  px-4 pb-2 pt-12">
-                        {/* // Field sets based on type of filter */}
+                        {/* // Field sets based on type of filter  if multiple nested filters then pass setFieldValue*/}
+                        {/* Pass the filters ket of values to set Checked */}
                         <FilterGroup
                           filters={Filters.sort.list}
                           label={"Sort By"}
                           id={"sort"}
                           type="radio"
+                          values={values.filters.sort}
+                          setFieldValue={setFieldValue}
                         />
                         <FilterGroupPrice
                           filters={Filters.price.list}
                           label={"Price"}
                           id={"price"}
                           type="radio"
-                          minName="min_price"
-                          maxName="max_price"
+                          minName="range.min_price"
+                          maxName="range.max_price"
                         />
                         <FilterGroup
                           filters={Filters.strains.list}
                           label={"Strain Type"}
                           id={"strains"}
+                          values={values.filters.strains}
                         />
                         <FilterGroup
                           filters={Filters.concentrates.list}
                           label={"Concentrates"}
                           id={"category"}
                           type="radio"
+                          values={values.filters.category}
+                          setFieldValue={setFieldValue}
                         />
                         <FilterGroup
                           filters={Filters.edibles.list}
                           label={"Edibles"}
-                          id={"filters.category"}
+                          id={"category"}
                           type="radio"
+                          values={values.filters.category}
+                          setFieldValue={setFieldValue}
                         />
                         <FilterGroup
                           filters={Filters.topicals.list}
                           label={"Topicals"}
-                          id={"filters.category"}
+                          id={"category"}
                           type="radio"
+                          values={values.filters.category}
+                          setFieldValue={setFieldValue}
                         />
                       </div>
                     </div>

@@ -55,23 +55,21 @@ export default function FilterGroup(data: Filters) {
                     {filters.map((filter, index) => {
                       return (
                         <div className="w-full" key={`${filter}-${index}`}>
-                          <div className="flex items-center">
-                            <Field
-                              id={`${id}_${index}`}
-                              name={`${id}.cost`}
-                              value={`${filter.value}`}
-                              type={type ? type : "checkbox"}
-                              className="focus:ring-green h-4 w-4 text-green border-gray-300 rounded-full"
-                            />
-                            <div className="ml-2 text-base">
-                              <label
-                                htmlFor="comments"
-                                className=" text-sm text-gray-900"
-                              >
+                          <button className="flex items-center w-full">
+                            <label className=" text-sm text-gray-900 w-full flex items-center">
+                              <Field
+                                id={`${id}_${index}`}
+                                name={`${id}`}
+                                value={`${filter.value}`}
+                                type={type ? type : "checkbox"}
+                                className="focus:ring-green h-4 w-4 text-green border-gray-300 rounded-full"
+                              />
+
+                              <span className="ml-2 text-base">
                                 {filter.value}
-                              </label>
-                            </div>
-                          </div>
+                              </span>
+                            </label>
+                          </button>
                         </div>
                       );
                     })}
@@ -81,7 +79,7 @@ export default function FilterGroup(data: Filters) {
                           id="min_price"
                           placeholder="Min"
                           type="text"
-                          name={`${id}.${minName}`}
+                          name={`${minName}`}
                           styles="rounded-md w-full pl-10 focus:ring-green focus:border-green  "
                           mask="$######"
                           component={InputField}
@@ -93,7 +91,7 @@ export default function FilterGroup(data: Filters) {
                           id="max_price"
                           placeholder="Max"
                           type="text"
-                          name={`${id}.${maxName}`}
+                          name={`${maxName}`}
                           styles="rounded-md w-full pl-10 focus:ring-green focus:border-green  "
                           mask="$######"
                           component={InputField}

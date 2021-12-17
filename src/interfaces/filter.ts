@@ -18,4 +18,6 @@ export interface Filters {
   label: string;
   type?: string;
   id: string;
+  values?: string[];
+  setFieldValue?: Function;
 }

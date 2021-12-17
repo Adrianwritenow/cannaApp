@@ -19,7 +19,6 @@ export default function DropdownFilter(data: DropdownFilter) {
   const [selected, setSelected] = useState(current);
 
   useEffect(() => {
-    console.log(current);
     setSelected(current);
   }, [current]);
 

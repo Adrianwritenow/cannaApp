@@ -12,6 +12,12 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
+      gridTemplateColumns: {
+        "carousel": 'repeat(12, 200px)'
+      },
+      gridTemplateRows: {
+        "carousel": '200px'
+      },
       spacing: {
         25: "6.5rem",
       },

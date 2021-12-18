@@ -25,6 +25,7 @@ export default function SearchStrain() {
   return (
     <div className="bg-gray-50">
       <MapContainer data={data} />
+      
       <div className="px-4 flex">
         <button onClick={() => setResultSet(prev => prev - 1)} className="py-4 w-full uppercase text-gray-700 text-xs font-bold border-t border-gray-200 tracking-widest">
           <p>Prev</p>

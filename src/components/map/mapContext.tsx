@@ -2,10 +2,7 @@ import { createContext, useRef, useState } from "react";
 export const Context = createContext<any>(null);
 
 export const MapContext = ({ children }: any) => {
-  const [activeCard, setActiveCard] = useState<any>({
-    ref: null,
-    id: null,
-  });
+  const [activeCard, setActiveCard] = useState<any>(0);
   const ref0 = useRef(null);
   const ref1 = useRef(null);
   const ref2 = useRef(null);
@@ -16,6 +13,7 @@ export const MapContext = ({ children }: any) => {
   const ref7 = useRef(null);
   const ref8 = useRef(null);
   const ref9 = useRef(null);
+  const [swiper, setSwiper] = useState<any>(null);
   return (
     <Context.Provider
       value={{
@@ -31,6 +29,8 @@ export const MapContext = ({ children }: any) => {
         ref9,
         activeCard,
         setActiveCard,
+        swiper,
+        setSwiper
       }}
     >
       {children}

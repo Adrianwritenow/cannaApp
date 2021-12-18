@@ -4,10 +4,11 @@ import React, { useRef, useState } from "react";
 import { Map } from "./Map";
 import MapResults from "./MapResults";
 import { MapContext } from "./mapContext";
+import { useCurrentWidth } from "./useCurrentWidth";
 
 function MapContainer({ data }: any) {
   const [mapShowing, setMapShowing] = useState(true);
-
+  const width = useCurrentWidth();
   return (
     <MapContext>
       {!mapShowing && (
@@ -22,30 +23,29 @@ function MapContainer({ data }: any) {
       )}
       <Transition
         show={mapShowing}
-        enter="all"
-        enterFrom="opacity-0"
-        enterTo="opacity-100 h-full"
-        leave="transition-opacity duration-400"
-        leaveFrom="opacity-100"
-        leaveTo="opacity-0"
+        enter="transition ease-out duration-300"
+        enterFrom="transform opacity-0 scale-95"
+        enterTo=" transform opacity-100 scale-100"
+        leave="transition-opacity duration-400 "
+        leaveFrom="transform opacity-100 scale-100"
+        leaveTo="transform opacity-0 scale-95"
       >
         <section className=" relative w-screen">
-          {!!data && (
-            <>
-              <Map data={data} />
-              <div className="absolute bottom-72 w-screen flex justify-center">
-                <button
-                  className=" flex justify-around items-center z-10 px-5 py-4 h-10  w-28 rounded-3xl  text-white bg-green-400"
-                  onClick={() => setMapShowing(!mapShowing)}
-                >
-                  List
-                  <MenuIcon className=" w-8" />
-                </button>
-              </div>
-
+          <>
+            <Map data={data} currentViewport={width}></Map>
+            <div className="absolute bottom-64 w-screen flex justify-center">
+              <button
+                className=" flex  justify-around items-center z-10 px-5 py-4 h-10  w-28 rounded-3xl  text-white bg-green-400"
+                onClick={() => setMapShowing(!mapShowing)}
+              >
+                List
+                <MenuIcon className=" w-8" />
+              </button>
+            </div>
+            <div className="">
               <MapResults data={data} />
-            </>
-          )}
+            </div>
+          </>
         </section>
       </Transition>
     </MapContext>

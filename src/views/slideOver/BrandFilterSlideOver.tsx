@@ -5,78 +5,119 @@ import { AdjustmentsIcon } from "@heroicons/react/solid";
 import { BusinessSlideoverProps } from "../../interfaces/props/businessSlideOverProps";
 import DropdownFilter from "../../components/forms/fields/DropdownFilter";
 import FilterMenu from "../../components/filter/FilterMenu";
+import { Filters } from "../../helpers/filters";
 
 export default function BrandFilterSlideOver(props: BusinessSlideoverProps) {
   const [open, setOpen] = useState(false);
   const [rated, setRated] = useState("Top Rated");
-  const [pricing, setPricing] = useState("On Sale");
-  const [view, setView] = useState(0);
-
-  const tabs = ["Deals", "Flower", "Concentrates", "Edibles", "Topicals"];
-  const initialValues = {
-    filters: {
-      types: [],
-      strains: [],
-      sort: [],
-      price: [],
-      concentrates: [],
-      edibles: [],
-      topicals: [],
+  const [savedValues, setSavedValues]: any = useState({
+    strains: [],
+    category: "",
+    filters: {},
+    sort: "",
+    price: "",
+    range: {
+      min_price: "",
+      max_price: "",
     },
+    search: "",
+  });
+  const [sortPricing, setSortPricing] = useState(savedValues.sort);
+  const [filterList, setFilterList]: any = useState([]);
+
+  const initialValues: any = {
+    strains: [],
+    filters: {},
+    category: "",
+    sort: "",
+    price: "",
     range: {
       min_price: "",
       max_price: "",
     },
     search: "",
   };
-  const [savedValues, setSavedValues]: any = useState({
-    filters: {
-      types: [],
-      strains: [],
-      sort: [],
-      price: [],
-      concentrates: [],
-      edibles: [],
-      topicals: [],
-    },
-    range: {
-      min_price: "",
-      max_price: "",
-    },
-    search: "",
-  });
-  const [filterTabs, setFilterTabs]: any = useState([]);
-  const values = savedValues.filters;
-
-  // Check values to see if they are empty
-  const allEmpty = Object.keys(savedValues).every(function (key) {
-    return savedValues[key].length === 0;
-  });
 
   // Remove filters from list to be rendered and update the form state values
 
-  function removeFilter(filter: string) {
-    Object.keys(values).map((key) => {
-      const currentArray = values[key];
-      if (currentArray.includes(filter)) {
-        currentArray.splice(currentArray.indexOf(filter), 1);
+  function removeFilter(keyName: string, filter: string) {
+    let stateCopy = Object.assign({}, savedValues);
+    let listCopy = filterList;
+    const isArray =
+      Object.prototype.toString.call(initialValues[keyName]).indexOf("Array") >
+      1;
+
+    if (isArray) {
+      stateCopy[keyName].splice(stateCopy[keyName].indexOf(filter), 1);
+    } else {
+      stateCopy[keyName] = initialValues[keyName];
+      stateCopy.filters[keyName] = [""];
+      if (keyName === "range") {
+        stateCopy.filters[keyName] = [""];
       }
-      setSavedValues({ ...savedValues, currentArray });
-    });
+    }
+
+    listCopy.splice(listCopy.indexOf(filter), 1);
+
+    setFilterList(listCopy);
+    setSavedValues(stateCopy);
   }
 
   useEffect(() => {
-    const filter_array = Object.keys(values).reduce(function (res, key) {
-      return res.concat(values[key]);
-    }, []);
+    // Force values to array in order to check if they exist in case of multiple values
+    const filters: any = {
+      sort: [savedValues.sort],
+      strains: savedValues.strains,
+      category: [savedValues.category],
+      price: [savedValues.price],
+      range: [
+        `${
+          savedValues.range.min_price ? "$" + savedValues.range.min_price : ""
+        }${
+          savedValues.range.min_price && savedValues.range.max_price
+            ? " - "
+            : ""
+        }${
+          savedValues.range.max_price ? "$" + savedValues.range.max_price : ""
+        }`,
+      ],
+    };
 
-    setFilterTabs(filter_array);
-  }, [savedValues, open, values]);
+    const filter_data: string[] = Object.keys(filters).reduce(function (
+      res,
+      key
+    ) {
+      return res.concat(filters[key]);
+    },
+    []);
+
+    // Remove initial empty values
+    const filterArray = filter_data.filter(function (entry: string) {
+      return entry.trim() != "";
+    });
+    setFilterList(filterArray);
+
+    // Check to see if value is unique if not update
+    const is_same =
+      filterArray.length == filterList.length &&
+      filterArray.every(function (element, index) {
+        return element === filterList[index];
+      });
+
+    if (!is_same) {
+      setSavedValues((prevState: any) => ({
+        ...prevState,
+        filters,
+      }));
+    }
+    // update sort
+    setSortPricing(savedValues.sort);
+  }, [savedValues]);
 
   return (
     <div>
       <Formik
-        initialValues={!allEmpty ? savedValues : initialValues}
+        initialValues={savedValues}
         onSubmit={() => {}}
         enableReinitialize={true}
       >
@@ -86,12 +127,11 @@ export default function BrandFilterSlideOver(props: BusinessSlideoverProps) {
               <div>
                 <FilterMenu
                   open={open}
-                  setFieldValue={setFieldValue}
                   values={values}
                   setOpen={setOpen}
-                  setSavedValues={setSavedValues}
-                  savedValues={savedValues}
                   label="Filters"
+                  setSavedValues={setSavedValues}
+                  setFieldValue={setFieldValue}
                 />
                 {/* Filter Tabs list */}
                 <div className="flex items-center py-3.5 relative overflow-x-scroll">
@@ -109,14 +149,14 @@ export default function BrandFilterSlideOver(props: BusinessSlideoverProps) {
                     <div className="flex">
                       <div className="flex">
                         <DropdownFilter
-                          setter={setPricing}
-                          options={[
-                            "Most Expensive",
-                            "Least Expensive",
-                            "On Sale",
-                          ]}
-                          current={pricing}
+                          setter={setSortPricing}
+                          id={"sort"}
+                          options={Filters.sort.list.map((filter) => {
+                            return filter.value;
+                          })}
+                          current={sortPricing}
                           label={"Sort by"}
+                          setFieldValue={setFieldValue}
                         />
                         <DropdownFilter
                           setter={setRated}
@@ -131,21 +171,32 @@ export default function BrandFilterSlideOver(props: BusinessSlideoverProps) {
                       </div>
                       <div className="flex">
                         {/* Tab filters rendered */}
-                        {filterTabs.map((filter: string) => (
-                          <button
-                            type="button"
-                            key={filter}
-                            onClick={() => {
-                              removeFilter(filter);
-                            }}
-                            className="flex rounded-full border-2 border-gray-200 items-center px-4 py-2   text-sm font-medium bg-white text-gray-900 mx-1 w-max"
-                          >
-                            <span>{filter}</span>
-                            <span className="sr-only">
-                              Remove filter for label
-                            </span>
-                          </button>
-                        ))}
+                        {Object.keys(savedValues.filters).map((keyName, i) =>
+                          savedValues.filters[keyName].map(
+                            (filter: string, index: any) => {
+                              if (
+                                savedValues.filters[keyName][index] !== "" &&
+                                keyName !== "sort"
+                              ) {
+                                return (
+                                  <button
+                                    type="button"
+                                    key={`${keyName}_${index}`}
+                                    onClick={() => {
+                                      removeFilter(keyName, filter);
+                                    }}
+                                    className="flex rounded-full border-2 border-gray-200 items-center px-4 py-2   text-sm font-medium bg-white text-gray-900 mx-1 w-max"
+                                  >
+                                    <span>{filter}</span>
+                                    <span className="sr-only">
+                                      Remove filter for label
+                                    </span>
+                                  </button>
+                                );
+                              }
+                            }
+                          )
+                        )}
                       </div>
                     </div>
                   </div>

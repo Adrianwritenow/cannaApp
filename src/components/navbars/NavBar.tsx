@@ -6,7 +6,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../authentication/authContext";
 import AvatarMenu from "../menus/AvatarMenu";
 import { Disclosure } from "@headlessui/react";
-import FilterMenu from "../filter/FilterMenu";
 import { HeaderRoutes } from "../../helpers/routes";
 import Image from "next/image";
 import Link from "next/link";

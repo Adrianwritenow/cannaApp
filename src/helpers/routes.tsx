@@ -1,14 +1,17 @@
 import {
-  Deals,
-  Menu,
-  Products,
-  Shops,
-  Strains,
-} from "../../public/assets/icons/iconComponents";
+  BookmarkIcon,
+  NewspaperIcon,
+  SearchIcon,
+  UserCircleIcon,
+} from "@heroicons/react/outline";
+
 export interface Route {
   label: String;
   href: String;
+  icon?: JSX.Element;
+  id?: string;
 }
+
 export const HeaderRoutes = {
   listings: { label: "Listings", href: "/listings" },
   dispatches: { label: "Dispatches", href: "/dispatches" },
@@ -90,35 +93,35 @@ export const FooterRoutes = {
   ],
 };
 
-export const BottomNavRoutes = [
+export const BottomNavRoutes: Route[] = [
   {
-    label: "Shops",
-    icon: <Shops className="w-7 h-7" />,
-    href: "/search",
-    id: "shops",
+    label: "Articles",
+    icon: <NewspaperIcon className="w-6 h-6 stroke-1" />,
+    href: "#",
+    id: "articles",
   },
   {
-    label: "Deals",
-    icon: <Deals className="w-7 h-7" />,
+    label: "Explore",
+    icon: <SearchIcon className="w-6 h-6 stroke-1" />,
     href: "/search",
-    id: "deals",
+    id: "explore",
   },
   {
-    label: "Strains",
-    icon: <Strains className="w-7 h-7" />,
-    href: "/search",
-    id: "strains",
+    label: "Stash",
+    icon: <BookmarkIcon className="w-6 h-6 stroke-1" />,
+    href: "#",
+    id: "stash",
   },
   {
-    label: "Products",
-    icon: <Products className="w-7 h-7" />,
-    href: "/search",
-    id: "products",
+    label: "Profile",
+    icon: <UserCircleIcon className="w-6 h-6 stroke-1" />,
+    href: "/user",
+    id: "user",
   },
   {
-    label: "More",
-    icon: <Menu className="w-7 h-7" />,
-    href: "/more",
-    id: "more",
+    label: "Login",
+    icon: <UserCircleIcon strokeWidth={1} className="w-6 h-6 stroke-1" />,
+    href: "/login",
+    id: "login",
   },
 ];

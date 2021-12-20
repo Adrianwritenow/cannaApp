@@ -35,15 +35,12 @@ export default function LoginForm() {
     const response = await signIn('credentials', {
       email: values.email,
       password: values.password,
-      callbackUrl: `${window.location.origin}/`,
       redirect: false,
     });
 
-    console.log(response);
-    //
-    // if (response.status !== 200) {
-    //   setApiError(response.data.message);
-    // }
+    if (response.error) {
+      setApiError(response.error);
+    }
   };
 
   return (

@@ -1,15 +1,23 @@
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 import { useSession, signIn } from 'next-auth/react';
-
-import FacebookIcon from '../../public/assets/icons/iconComponents/IconFacebook';
-import GoogleIcon from '../../public/assets/icons/iconComponents/IconGoogle';
 import Image from 'next/image';
 import Link from 'next/link';
-import LoginForm from '../../src/components/forms/LoginForm';
-import Logo from '../../public/assets/logos/logo.png';
+
+import LoginForm from '@/components/forms/LoginForm';
+import Logo from '@/public/assets/logos/logo.png';
+import FacebookIcon from '@/public/assets/icons/iconComponents/IconFacebook';
+import GoogleIcon from '@/public/assets/icons/iconComponents/IconGoogle';
 
 export default function Login() {
-  const { data: session } = useSession();
-  console.log(session);
+  const router = useRouter();
+  const { data: session, status } = useSession();
+
+  useEffect(() => {
+    if (session?.accessToken) {
+      router.push('/');
+    }
+  }, [session, router]);
 
   return (
     <div className="flex flex-col justify-start max-w-5xl mx-auto py-12 bg-white px-4">

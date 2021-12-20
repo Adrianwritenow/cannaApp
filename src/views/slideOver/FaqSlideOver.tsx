@@ -29,7 +29,7 @@ export default function FaqSlideOver(props: BusinessSlideoverProps) {
         onClick={() => setOpen(true)}
         className="py-4 w-full uppercase text-green-500 text-xs font-semibold border-t border-gray-200 tracking-widest"
       >
-        Learn more
+        {`See all ${business.faqs.length} Answers`}
       </button>
       <Transition.Root show={open} as={Fragment}>
         <Dialog

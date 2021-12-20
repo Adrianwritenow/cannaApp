@@ -1,6 +1,6 @@
 import { ChevronDownIcon, XIcon } from "@heroicons/react/solid";
 import { Dialog, Transition } from "@headlessui/react";
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 
 interface DropdownFilter {
   setter: Function;
@@ -8,11 +8,19 @@ interface DropdownFilter {
   options: string[];
   label: string;
   preface?: string;
+  id?: string;
+  setFieldValue?: Function;
 }
 
 export default function DropdownFilter(data: DropdownFilter) {
+  const { setter, current, options, label, preface, setFieldValue, id } = data;
+
   const [open, setOpen] = useState(false);
-  const { setter, current, options, label, preface } = data;
+  const [selected, setSelected] = useState(current);
+
+  useEffect(() => {
+    setSelected(current);
+  }, [current]);
 
   return (
     <>
@@ -84,6 +92,10 @@ export default function DropdownFilter(data: DropdownFilter) {
                       className="w-full focus:outline-none"
                       onClick={() => {
                         setter(option);
+
+                        if (setFieldValue) {
+                          setFieldValue(id, option);
+                        }
                       }}
                       key={`sort-method-${option}`}
                     >

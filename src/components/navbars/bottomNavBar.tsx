@@ -13,25 +13,18 @@ export default function BottomNavBar() {
 
   useEffect(() => {
     if (!routes.length) {
-      console.log("no routes");
-
       if (!authState.state.session.access_token) {
         sessionRoutes = BottomNavRoutes.filter(function (obj) {
           return obj.id !== "user" && obj.id !== "stash";
         });
-
-        console.log("BOOM", sessionRoutes);
       } else {
         sessionRoutes = BottomNavRoutes.filter(function (obj) {
           return obj.id !== "login";
         });
-        console.log("POW", sessionRoutes);
       }
       console.log(sessionRoutes);
       setRoutes(sessionRoutes);
     }
-
-    console.log("ROUTES", routes);
   }, [routes]);
 
   return (

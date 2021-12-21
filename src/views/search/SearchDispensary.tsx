@@ -44,7 +44,7 @@ export default function SearchStrain() {
         <h2 className="text-xl text-gray-700 font-semibold p-4 pb-0">
           Dispensaries near %Location%
         </h2>
-        <div className="grid grid-flow-row auto-rows-max gap-1">
+        <div className="grid grid-flow-row auto-rows-max gap-1 px-4">
           {listings.map((listing: Listing, index) => (
             <ListingCardDropdown listing={listing} key={`sd-${index}`} />
           ))}

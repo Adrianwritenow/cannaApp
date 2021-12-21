@@ -1,13 +1,13 @@
 import axios from 'axios';
 import { JWT } from 'next-auth/jwt';
 import sureThing from '@/helpers/sureThing';
-import { ITokenRequest, ITokenResponse } from '@/interfaces/token';
+import { ITokenRequest } from '@/interfaces/token';
 
 export default async function tokenRequest(
-  token: {},
+  token: JWT,
   url: string,
   params: ITokenRequest
-): JWT {
+) {
   const response = await sureThing(
     axios.post(url, new URLSearchParams(params), {
       headers: {
@@ -18,8 +18,9 @@ export default async function tokenRequest(
 
   if (!response.ok) {
     return {
-      ...token,
+      accessToken: '',
       error: params.errorType ?? 'AccessTokenError',
+      ...token,
     };
   }
 
@@ -32,6 +33,5 @@ export default async function tokenRequest(
     accessTokenExpires: Date.now() + tokenData.expires_in * 1000,
     // Fall back to old refresh token.
     refreshToken: tokenData.refresh_token ?? token.refreshToken,
-    error: null,
   };
 }

@@ -1,6 +1,6 @@
 import { JWT } from 'next-auth/jwt';
 
-export interface ITokenRequest {
+export type ITokenRequest = {
   client_id: string;
   client_secret: string;
   grant_type: string;
@@ -9,4 +9,4 @@ export interface ITokenRequest {
   password?: string;
   refresh_token?: string;
   errorType?: string;
-}
+};

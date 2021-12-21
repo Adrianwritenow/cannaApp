@@ -19,7 +19,7 @@ export interface UpdateUser {
   user_picture?: File;
 }
 
-export function getCurrentUser(id: string): IAxiosAction {
+export function getCurrentUser(id: number | string): IAxiosAction {
   const url = id === 'me' ? `/rest/me` : `/user/${id}`;
 
   return {

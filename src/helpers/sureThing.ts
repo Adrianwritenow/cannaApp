@@ -3,8 +3,8 @@
  * @param {promise} promise - The initial promise
  * @return {promise} A resolved promise with data or an error.
  */
-export default function sureThing(promise: Promise) {
+export default function sureThing(promise: Promise<any>) {
   return promise
-    .then(result => ({ ok: true, result }))
-    .catch(error => Promise.resolve({ ok: false, error }));
+    .then(result => ({ ok: true, result, error: undefined }))
+    .catch(error => Promise.resolve({ ok: false, error, result: undefined }));
 }

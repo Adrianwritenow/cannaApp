@@ -41,7 +41,7 @@ export default function LoginForm() {
       })
     );
 
-    if (!response.ok) {
+    if (response.error) {
       setApiError(response.error.toString());
     }
   };

@@ -34,19 +34,23 @@ export default NextAuth({
       },
       async authorize(credentials) {
         // Get access token.
-        const token = tokenRequest({}, `${process.env.API_URL}/oauth/token`, {
-          username: credentials?.email || '',
-          password: credentials?.password || '',
-          grant_type: 'password',
-          client_id: process.env.CLIENT_ID || '',
-          client_secret: process.env.CLIENT_SECRET || '',
-        });
+        const token = await tokenRequest(
+          {},
+          `${process.env.API_URL}/oauth/token`,
+          {
+            username: credentials?.email || '',
+            password: credentials?.password || '',
+            grant_type: 'password',
+            client_id: process.env.CLIENT_ID || '',
+            client_secret: process.env.CLIENT_SECRET || '',
+          }
+        );
 
         if (token.error) {
           return null;
         }
 
-        const decoded = jwtDecode<JwtPayload>(token.accessToken || '');
+        const decoded = jwtDecode<JwtPayload>(token?.accessToken || '');
 
         return {
           ...token,
@@ -87,34 +91,45 @@ export default NextAuth({
       // Access token has expired, try to update it for each provider type.
       switch (token.provider) {
         case 'social_auth_google':
-          token = tokenRequest(token, 'https://oauth2.googleapis.com/token', {
-            client_id: process.env.GOOGLE_CLIENT_ID || '',
-            client_secret: process.env.GOOGLE_CLIENT_SECRET || '',
-            grant_type: 'refresh_token',
-            refresh_token: token.refreshToken,
-            errorType: 'RefreshTokenError',
-          });
+          token = await tokenRequest(
+            token,
+            'https://oauth2.googleapis.com/token',
+            {
+              client_id: process.env.GOOGLE_CLIENT_ID || '',
+              client_secret: process.env.GOOGLE_CLIENT_SECRET || '',
+              grant_type: 'refresh_token',
+              refresh_token: token.refreshToken,
+              errorType: 'RefreshTokenError',
+            }
+          );
           break;
 
         case 'social_auth_credentials':
-          token = tokenRequest(token, `${process.env.API_URL}/oauth/token`, {
-            client_id: process.env.CLIENT_ID || '',
-            client_secret: process.env.CLIENT_SECRET || '',
-            grant_type: 'refresh_token',
-            refresh_token: token.refreshToken,
-            scope: 'regular_user',
-            errorType: 'RefreshTokenError',
-          });
+          token = await tokenRequest(
+            token,
+            `${process.env.API_URL}/oauth/token`,
+            {
+              client_id: process.env.CLIENT_ID || '',
+              client_secret: process.env.CLIENT_SECRET || '',
+              grant_type: 'refresh_token',
+              refresh_token: token.refreshToken,
+              scope: 'regular_user',
+              errorType: 'RefreshTokenError',
+            }
+          );
           break;
       }
 
       return token;
     },
     async session({ session, token }) {
-      session.userId = token.userId;
       session.accessToken = token.accessToken;
       session.provider = token.provider;
       session.error = token.error;
+
+      if (token.userId) {
+        session.userId = token.userId;
+      }
 
       return session;
     },

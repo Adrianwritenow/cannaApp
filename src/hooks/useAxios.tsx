@@ -1,7 +1,7 @@
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSession } from 'next-auth/react';
-import axios, { AxiosError, AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosResponse, AxiosRequestConfig } from 'axios';
 import { IAxiosAction, IAxiosState } from '@/interfaces/axios';
 
 export type DispatchAxios = (params: IAxiosAction) => void;
@@ -15,12 +15,20 @@ export function useAxios(): [DispatchAxios, IAxiosState] {
     baseURL: process.env.API_URL,
   });
 
-  client.interceptors.request.use(config => {
+  client.interceptors.request.use((config: AxiosRequestConfig) => {
+    config.headers = config.headers || {};
+    config.headers['Content-Type'] = 'application/json';
+
     if (session?.accessToken) {
       config.headers.Authorization = `Bearer ${session.accessToken}`;
     }
-    config.headers['Content-Type'] = 'application/json';
-    config.url += `?_format=json&auth_type=${session.provider}`;
+
+    if (session?.provider) {
+      config.url += `?_format=json&auth_type=${session.provider}`;
+    } else {
+      config.url += `?_format=json`;
+    }
+
     return config;
   });
 

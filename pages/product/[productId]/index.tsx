@@ -3,9 +3,11 @@ import React, { useState } from "react";
 import { listings, products } from "../../../src/helpers/mockData";
 
 import DropdownFilter from "../../../src/components/forms/fields/DropdownFilter";
+import FaqSlideOver from "../../../src/views/slideOver/FaqSlideOver";
 import ImageSlider from "../../../src/components/slider/ImageSlider";
 import Link from "next/link";
 import ProductResultsSection from "../../../src/components/sections/ProductsResultsSection";
+import ReviewsSlideOver from "../../../src/views/slideOver/ReviewsSlideOver";
 import { Vendor } from "../../../src/interfaces/vendor";
 import VendorCard from "../../../src/components/vendor/VendorCard";
 
@@ -13,10 +15,10 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-const product = products[0];
-
 export default function ProductDetail() {
   const [sort, setSort]: any = useState("relevance");
+  const listing = listings[0];
+  const product = products[0];
 
   return (
     <div className="max-w-7xl mx-auto bg-white">
@@ -131,7 +133,7 @@ export default function ProductDetail() {
               </div>
             </div>
           </section>
-
+          {/* Specifications */}
           <section aria-labelledby="specifications-heading">
             <h2 id="specifications-heading" className="sr-only">
               Specifications
@@ -157,16 +159,18 @@ export default function ProductDetail() {
               </ul>
             </div>
           </section>
+          <FaqSlideOver business={listing} />
+          <ReviewsSlideOver business={listing} label="" />
         </div>
       </div>
 
       <ProductResultsSection
-        products={products}
+        list={products}
         sponsored={false}
         label="Related Items"
       />
       <ProductResultsSection
-        products={products}
+        list={products}
         sponsored={false}
         label="Recently Viewed Items"
       />

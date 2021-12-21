@@ -17,11 +17,10 @@ export default function ResultsStrain(data: ResultsProps) {
   return (
     <div>
       <ProductResultsSection
-        products={products}
+        list={products}
         sponsored={true}
         label={"Shop %Query%"}
       />
-      {/* Sponsered Listings Section */}
 
       <div>
         <h2 className="text-xl text-gray-700 font-semibold p-4">

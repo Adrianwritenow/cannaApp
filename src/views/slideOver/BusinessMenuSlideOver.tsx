@@ -2,19 +2,19 @@ import { Dialog, Transition } from "@headlessui/react";
 import React, { Fragment, useEffect, useState } from "react";
 
 import { ArrowLeftIcon } from "@heroicons/react/outline";
-import { BusinessSlideoverProps } from "../../interfaces/props/businessSlideOverProps";
 import FilterMenuTabs from "../../components/filter/FilterMenuTabs";
 import ProductResultsSection from "../../components/sections/ProductsResultsSection";
+import { SlideOverProps } from "../../interfaces/props/SlideOverProps";
 import { products } from "../../helpers/mockData";
 
-export default function BusinessMenuSlideOver(props: BusinessSlideoverProps) {
+export default function BusinessMenuSlideOver(props: SlideOverProps) {
   const { business } = props;
   const [open, setOpen] = useState(false);
 
   return (
     <div>
       <ProductResultsSection
-        products={products}
+        list={products}
         sponsored={false}
         label={"Explore our Products"}
         buttonLabel={"See all Products"}
@@ -54,7 +54,7 @@ export default function BusinessMenuSlideOver(props: BusinessSlideoverProps) {
                           </button>
                         </div>
                         <Dialog.Title className="text-lg font-semibold text-gray-600">
-                          {business.name}
+                          {business?.name}
                         </Dialog.Title>
                       </div>
                     </div>

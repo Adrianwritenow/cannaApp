@@ -6,7 +6,6 @@ import { useSession } from 'next-auth/react';
 
 import AvatarMenu from '@/components/menus/AvatarMenu';
 import { Disclosure } from '@headlessui/react';
-import FilterMenu from '@/components/filter/FilterMenu';
 import { HeaderRoutes } from '@/helpers/routes';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -153,6 +152,7 @@ export default function NavBar() {
                             <Link href={'/'}>
                               <a className="flex items-center relative  h-6 w-auto">
                                 <Image
+                                  unoptimized
                                   layout="intrinsic"
                                   src={Logo}
                                   alt="CannaPages"

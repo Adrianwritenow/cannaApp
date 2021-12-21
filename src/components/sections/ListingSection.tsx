@@ -1,6 +1,6 @@
 import { InformationCircleIcon } from "@heroicons/react/outline";
 import { Listing } from "../../interfaces/listing";
-import ListingCard from "../listings/ListingCard";
+import ListingCardDropdown from "../listings/ListingCardDropDown";
 import ListingCardSmall from "../listings/ListingCardSmall";
 import React from "react";
 
@@ -30,7 +30,7 @@ export default function ListingSection(results: Listings) {
         {listings.map((listing: Listing, index) => {
           if (index <= 4) {
             return (
-              <ListingCard
+              <ListingCardDropdown
                 listing={listing}
                 key={`lc-${listing.id}-${index}`}
                 classNames="p-4 pb-0"

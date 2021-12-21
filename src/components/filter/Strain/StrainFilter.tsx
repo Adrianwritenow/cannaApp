@@ -8,8 +8,8 @@ import { Form, Formik } from "formik";
 import React, { FormEvent, Fragment, useEffect, useState } from "react";
 
 import DropdownFilter from "../../forms/fields/DropdownFilter";
-import FilterForm from "../FilterForm";
-import { StrainFilters } from "../../../helpers/filters";
+import FilterGroup from "../FilterGroup";
+import { Filters } from "../../../helpers/filters";
 import StrainsIcon from "../../../../public/assets/icons/iconComponents/Strains";
 
 interface SortViewProps {
@@ -51,31 +51,6 @@ export default function StrainFilter(props: FilterProps) {
   const allEmpty = Object.keys(savedValues).every(function (key) {
     return savedValues[key].length === 0;
   });
-
-  // Add filters to list to be rendered and update the form state values
-  function handleFilter(
-    event: FormEvent<HTMLFormElement>,
-    id: string,
-    setFieldValue: Function
-  ) {
-    const element = event.target as HTMLFormElement;
-    const value = element.value;
-    const currentFilters = savedValues;
-    const filterField = currentFilters.filters[`${id}`];
-
-    if (filterField.includes(value)) {
-      filterField.splice(filterField.indexOf(value), 1);
-    } else {
-      filterField.push(value);
-    }
-
-    setSavedValues((prevState: any) => {
-      return { ...prevState, [`${id}`]: filterField };
-    });
-
-    setFieldValue("filters", savedValues.filters);
-  }
-
   // Removwe filters from list to be rendered and update the form state values
 
   function removeFilter(filter: string) {
@@ -95,7 +70,7 @@ export default function StrainFilter(props: FilterProps) {
 
     setFilterTabs(filter_array);
     handleResults(filter_array);
-  }, [savedValues, values]);
+  }, [savedValues, values, handleResults]);
 
   return (
     <div>
@@ -144,7 +119,7 @@ export default function StrainFilter(props: FilterProps) {
                     <div className="mt-6 relative flex-1">
                       {/* Body content */}
                       <div className="relative w-full h-full inset-0 flex flex-wrap content-between">
-                        <div className="grid w-full grid-flow-row auto-rows-max border-t border-b">
+                        <div className="w-full bg-gray-50 h-full">
                           <Formik
                             initialValues={
                               !allEmpty ? savedValues : initialValues
@@ -152,51 +127,37 @@ export default function StrainFilter(props: FilterProps) {
                             onSubmit={() => {}}
                             enableReinitialize={true}
                           >
-                            {({ values, setFieldValue }) => {
+                            {({}) => {
                               return (
-                                // Form Popover sets based on type of filter
-                                <Form className=" divide-y divide-gray-200 ">
-                                  <FilterForm
-                                    filters={StrainFilters.types}
-                                    label={"Strain Type"}
-                                    id={"types"}
-                                    values={values.filters.types}
-                                    handleFilter={handleFilter}
-                                    setFieldValue={setFieldValue}
-                                  />
-                                  <FilterForm
-                                    filters={StrainFilters.flavors}
-                                    label={"Flavors"}
-                                    id={"flavors"}
-                                    values={values.filters.flavors}
-                                    handleFilter={handleFilter}
-                                    setFieldValue={setFieldValue}
-                                  />
-                                  <FilterForm
-                                    filters={StrainFilters.armoas}
-                                    label={"Aromas"}
-                                    id={"aromas"}
-                                    values={values.filters.aromas}
-                                    handleFilter={handleFilter}
-                                    setFieldValue={setFieldValue}
-                                  />
-                                  <FilterForm
-                                    filters={StrainFilters.feelings}
-                                    label={"Desired Feeling"}
-                                    id={"feelings"}
-                                    values={values.filters.feelings}
-                                    handleFilter={handleFilter}
-                                    setFieldValue={setFieldValue}
-                                  />
-                                  <FilterForm
-                                    filters={StrainFilters.helps}
-                                    label={"May Help With"}
-                                    id={"helps"}
-                                    values={values.filters.helps}
-                                    handleFilter={handleFilter}
-                                    setFieldValue={setFieldValue}
-                                  />
-                                </Form>
+                                <div className="relative w-full h-full inset-0 flex flex-wrap content-between ">
+                                  <Form className="grid w-full h-full grid-flow-row auto-rows-max  px-4 pb-2 pt-12 ">
+                                    <FilterGroup
+                                      filters={Filters.strains.list}
+                                      label={"Strain Type"}
+                                      id={"types"}
+                                    />
+                                    <FilterGroup
+                                      filters={Filters.flavors.list}
+                                      label={"Flavors"}
+                                      id={"flavors"}
+                                    />
+                                    <FilterGroup
+                                      filters={Filters.armoas.list}
+                                      label={"Aromas"}
+                                      id={"aromas"}
+                                    />
+                                    <FilterGroup
+                                      filters={Filters.feelings.list}
+                                      label={"Desired Feeling"}
+                                      id={"feelings"}
+                                    />
+                                    <FilterGroup
+                                      filters={Filters.helps.list}
+                                      label={"May Help With"}
+                                      id={"helps"}
+                                    />
+                                  </Form>
+                                </div>
                               );
                             }}
                           </Formik>

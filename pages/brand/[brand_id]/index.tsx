@@ -1,8 +1,8 @@
 import { listings, products } from "../../../src/helpers/mockData";
 
 import { BookmarkIcon } from "@heroicons/react/outline";
-import BrandFilterSlideOver from "../../../src/views/slideOver/BrandFilterSlideOver";
 import { ExternalLinkIcon } from "@heroicons/react/solid";
+import FilterSlideOver from "../../../src/views/slideOver/FilterSlideOver";
 import Image from "next/image";
 import Link from "next/link";
 import ProductResultsSection from "../../../src/components/sections/ProductsResultsSection";
@@ -62,27 +62,27 @@ export default function BrandProfile() {
           </div>
         </section>
         <div>
-          <BrandFilterSlideOver business={listing} />
+          <FilterSlideOver />
         </div>
         <div className="py-3">
           <ProductResultsSection
-            products={products}
+            list={products}
             sponsored={false}
             label="Explore our products"
           />
 
           <ProductResultsSection
-            products={products}
+            list={products}
             sponsored={false}
             label="Best Sellers"
           />
           <ProductResultsSection
-            products={products}
+            list={products}
             sponsored={false}
             label="Deals"
           />
           <ProductResultsSection
-            products={products}
+            list={products}
             sponsored={false}
             label="Category"
           />

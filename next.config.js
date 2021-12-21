@@ -3,6 +3,8 @@ const path = require("path");
 module.exports = {
   reactStrictMode: true,
   experimental: { esmExternals: true },
+  target: "serverless",
+
   images: {
     domains: ["images.unsplash.com", "tailwindui.com", "unsplash.com"],
     loader: "akamai",

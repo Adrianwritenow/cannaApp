@@ -5,8 +5,8 @@ import { Field, Form, Formik } from 'formik';
 import React, { useContext, useState } from 'react';
 import { signIn } from 'next-auth/react';
 
-import ErrorsDisplay from '../error/ErrorsDisplay';
-import { InputField } from './fields/InputField';
+import ErrorsDisplay from '@/components/error/ErrorsDisplay';
+import { InputField } from '@/components/forms/fields/InputField';
 import { useRouter } from 'next/router';
 
 export default function LoginForm() {

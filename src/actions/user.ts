@@ -1,4 +1,4 @@
-import { IAxiosAction } from '../interfaces/axios';
+import { IAxiosAction } from '@/interfaces/axios';
 
 export const USER_REQUEST_GET = 'user/get';
 export const USER_REQUEST_GET_CURRENT = 'user/getCurrent';

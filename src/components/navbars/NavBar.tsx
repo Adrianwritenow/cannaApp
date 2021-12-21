@@ -11,7 +11,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { LocationMarkerIcon as LocationMarkerIconOutline } from "@heroicons/react/outline";
 import { LocationMarkerIcon as LocationMarkerIconSolid } from "@heroicons/react/solid";
-import Logo from "../../../public/assets/logos/logo-text.png";
+import Logo from "/public/assets/logos/logo-text.png";
 import { SearchField } from "../forms/fields/SearchField";
 import { SearchIcon } from "@heroicons/react/solid";
 import { XIcon } from "@heroicons/react/solid";
@@ -152,6 +152,7 @@ export default function NavBar() {
                             <Link href={"/"}>
                               <a className="flex items-center relative  h-6 w-auto">
                                 <Image
+                                  unoptimized
                                   layout="intrinsic"
                                   src={Logo}
                                   alt="CannaPages"

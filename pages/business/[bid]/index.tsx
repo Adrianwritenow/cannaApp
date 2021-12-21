@@ -20,14 +20,14 @@ import BusinessMenuSlideOver from "../../../src/views/slideOver/BusinessMenuSlid
 import BusinessVerificationSlideOver from "../../../src/views/slideOver/BusinessVerifiedSlideOver";
 import FaqSlideOver from "../../../src/views/slideOver/FaqSlideOver";
 import Image from "next/image";
-import ListingCard from "../../../src/components/listings/ListingCard";
+import ListingCardDropdown from "../../../src/components/listings/ListingCardDropDown";
 import Map from "../../../public/assets/images/png/map-mock.png";
 import ReviewsSlideOver from "../../../src/views/slideOver/ReviewsSlideOver";
 import SvgIconTwitter from "../../../public/assets/icons/iconComponents/IconTwitter";
 import { listings } from "../../../src/helpers/mockData";
 import { useRouter } from "next/router";
 
-export default function StrainDetail() {
+export default function BusinessDetails() {
   const listing = listings[0];
   const [view, setView] = useState("");
   const router = useRouter();
@@ -130,7 +130,7 @@ export default function StrainDetail() {
 
       <div className="px-4 space-y-4">
         <AboutUsSlideOver business={listing} />
-        <BusinessVerificationSlideOver business={listing} />
+        <BusinessVerificationSlideOver />
         {/* Map */}
         <section className="pt-10 pb-4">
           <h2 className="sr-only">Location</h2>
@@ -234,7 +234,7 @@ export default function StrainDetail() {
         <div className="grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-4">
           {listings.map((listing, index) => (
             <div className="w-64" key={`lc-${listing.id}-${index}`}>
-              <ListingCard listing={listing} amenities={false} />
+              <ListingCardDropdown listing={listing} amenities={false} />
             </div>
           ))}
         </div>

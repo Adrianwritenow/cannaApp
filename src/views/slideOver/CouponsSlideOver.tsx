@@ -1,35 +1,24 @@
-import { ArrowLeftIcon, XIcon } from "@heroicons/react/solid";
 import { Dialog, Transition } from "@headlessui/react";
-import { Field, Form, Formik } from "formik";
-import React, { Fragment, useState } from "react";
+import { Fragment, useState } from "react";
 
-import FaqSection from "../../components/sections/FaqSection";
+import { ArrowLeftIcon } from "@heroicons/react/outline";
+import ProductResultsSection from "../../components/sections/ProductsResultsSection";
 import { SlideOverProps } from "../../interfaces/props/SlideOverProps";
+import { coupons } from "../../helpers/mockData";
 
-export default function FaqSlideOver(props: SlideOverProps) {
-  const { business } = props;
-
+export default function CouponSlideOver(props: SlideOverProps) {
+  const { label } = props;
   const [open, setOpen] = useState(false);
-  const initialValues = {
-    search: "",
-  };
-
   return (
-    <section>
-      <h2 className="sr-only">Question & Answer</h2>
-      <h2
-        id="business-faq"
-        className="text-lg text-gray-700 font-semibold pt-3 pb-2"
-      >
-        Question & Answer
-      </h2>
-      {business?.faqs && <FaqSection faqs={business.faqs} />}
-      <button
-        onClick={() => setOpen(true)}
-        className="py-4 w-full uppercase text-green-500 text-xs font-semibold border-t border-gray-200 tracking-widest"
-      >
-        {`See all ${business?.faqs.length} Answers`}
-      </button>
+    <div>
+      <ProductResultsSection
+        list={coupons}
+        sponsored={false}
+        label={label ? label : "Results"}
+        buttonLabel={"See more"}
+        stateFunction={setOpen}
+        type={"COUPON"}
+      />
       <Transition.Root show={open} as={Fragment}>
         <Dialog
           as="div"
@@ -64,12 +53,9 @@ export default function FaqSlideOver(props: SlideOverProps) {
                           </button>
                         </div>
                         <Dialog.Title className="text-lg font-semibold text-gray-600">
-                          {business?.name}
+                          {label}
                         </Dialog.Title>
                       </div>
-                    </div>
-                    <div className="mt-6 relative flex-1 px-4 sm:px-6">
-                      {business?.faqs && <FaqSection faqs={business?.faqs} />}
                     </div>
                   </div>
                 </div>
@@ -78,6 +64,6 @@ export default function FaqSlideOver(props: SlideOverProps) {
           </div>
         </Dialog>
       </Transition.Root>
-    </section>
+    </div>
   );
 }

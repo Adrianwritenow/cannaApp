@@ -32,9 +32,13 @@ export default function ProductResultsSection(results: Results) {
       ) : (
         ""
       )}
-      <h2 className="text-xl  text-gray-700 font-semibold p-4 pt-0">{label}</h2>
+      <h2 className="text-xl  text-gray-700 font-semibold p-4 ">{label}</h2>
       {list && (
-        <div className="grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-6 ">
+        <div
+          className={`${
+            type === "COUPON" ? "pb-6" : ""
+          } grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-6 `}
+        >
           {list.map((data, index) => {
             if (type === "COUPON") {
               return <CouponCard coupon={data as Coupon} key={`pc-${index}`} />;
@@ -54,7 +58,7 @@ export default function ProductResultsSection(results: Results) {
           })}
         </div>
       )}
-      <div className="px-4 ">
+      <div className={"px-4"}>
         <button
           className="py-4 w-full uppercase text-green-500 text-xs font-semibold border-t border-gray-200 tracking-widest"
           onClick={() => {

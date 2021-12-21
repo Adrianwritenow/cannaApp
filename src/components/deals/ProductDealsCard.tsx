@@ -23,7 +23,7 @@ export default function ProductDealsCard(data: ProductProps) {
           objectFit={"cover"}
         />
       </div>
-      <div className="pb-6 text-left text-sm w-full">
+      <div className="text-left text-sm w-full">
         <div className="text-gray-500">
           <p className="text-blue-500">{product.vendor}</p>
           <h3 className="text-sm text-gray-700">{product.name}</h3>

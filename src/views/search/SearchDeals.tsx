@@ -8,12 +8,12 @@ import ProductResultsSection from "../../components/sections/ProductsResultsSect
 
 export default function SearchDeals() {
   return (
-    <div>
+    <div className="bg-gray-50">
       <FilterSlideOver />
-      <div className="">
+      <div>
         <h3 className="p-4 text-lg font-semibold text-black">Featured Deals</h3>
 
-        <section className="px-4">
+        <section className="px-4 pb-2.5">
           {products.map((product, index) => {
             return (
               <ProductDealsCard
@@ -34,7 +34,7 @@ export default function SearchDeals() {
             </h2>
             <h2
               id="deals-near-me"
-              className="text-gray-700 text-lg font-semibold px-4 pb-5"
+              className="text-gray-700 text-lg font-semibold px-4 py-4"
             >
               Deals Near Me
             </h2>

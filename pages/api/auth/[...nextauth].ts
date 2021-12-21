@@ -106,11 +106,6 @@ export default NextAuth({
       session.provider = token.provider;
       session.error = token.error;
 
-      console.log('SESSION:');
-      console.log(session);
-      console.log('TOKEN:');
-      console.log(token);
-
       return session;
     },
   },

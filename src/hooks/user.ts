@@ -13,13 +13,7 @@ export function useCurrentUser(hydrate: boolean = false) {
 
   useEffect(() => {
     if (hydrate && !loading && session?.accessToken) {
-      const userData = session?.user;
-      // API logins will have uid but facebook/google/etc will not.
-      if (userData.uid) {
-        dispatchAxios(getCurrentUser(userData.uid));
-      } else {
-        dispatchAxios(getCurrentUser('me'));
-      }
+      dispatchAxios(getCurrentUser(session.userId || 'me'));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session]);

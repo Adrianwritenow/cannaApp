@@ -22,13 +22,12 @@ export default function BottomNavBar() {
           return obj.id !== "login";
         });
       }
-      console.log(sessionRoutes);
       setRoutes(sessionRoutes);
     }
   }, [routes]);
 
   return (
-    <div className="fixed w-full bg-white p-2 bottom-0 grid grid-flow-col border-t border-gray-200">
+    <div className="fixed w-full bg-white px-2 py-3 pb-6 bottom-0 grid grid-flow-col border-t border-gray-200">
       {routes.map((route, i) => {
         return (
           <Link

@@ -1,3 +1,4 @@
+import { Coupon } from "../../interfaces/coupon";
 import { Listing } from "../../interfaces/listing";
 import { Product } from "../../interfaces/product";
 import { Strain } from "../../interfaces/strain";
@@ -1076,6 +1077,59 @@ export const strains: Array<Strain> = [
     growing: {
       min: 20,
       max: 30,
+    },
+  },
+];
+
+export const coupons: Array<Coupon> = [
+  {
+    code: "HHH-111-222-333",
+    saving: "10%",
+    products: [products[0], products[1], products[2]],
+    business: listings[0],
+    image: {
+      id: 14,
+      name: "Bongs",
+      src: "https://images.unsplash.com/photo-1601505612614-178f7ca0077c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80",
+      alt: "Bongs",
+    },
+  },
+
+  {
+    code: "HHH-111-222-333",
+    saving: "10%",
+    products: [products[0], products[1], products[2]],
+    business: listings[0],
+    image: {
+      id: 56,
+      name: "Pipes",
+      src: "https://images.unsplash.com/photo-1592410115363-e8dc156e4113?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80",
+      alt: "Pipes",
+    },
+  },
+  {
+    code: "HHH-111-222-333",
+    saving: "10%",
+    products: [products[0], products[1], products[2]],
+    business: listings[0],
+
+    image: {
+      id: 45,
+      name: "Pipes",
+      src: "https://images.unsplash.com/photo-1621541694081-aef305865f51?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80",
+      alt: "Pipes",
+    },
+  },
+  {
+    code: "HHH-111-222-333",
+    saving: "10%",
+    products: [products[0], products[1], products[2]],
+    business: listings[0],
+    image: {
+      id: 24,
+      name: "Grinder",
+      src: "https://images.unsplash.com/photo-1513114412776-6169617cdcf3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8d2VlZCUyMGdyaW5kZXJ8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60",
+      alt: "Grinder",
     },
   },
 ];

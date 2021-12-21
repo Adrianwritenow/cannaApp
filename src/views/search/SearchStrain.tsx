@@ -7,7 +7,7 @@ import StrainLanding from "./landing/StrainLanding";
 export default function SearchStrain() {
   const [sort, setSort] = useState("relevance");
   const [view, setView] = useState("list");
-  const [results, setResults]: any = useState([]);
+  const [results, setResults]: any = useState([1, 2, 3]);
 
   const sortState = {
     value: sort,
@@ -27,6 +27,7 @@ export default function SearchStrain() {
         handleResults={setResults}
       />
       {/* Results list x Landing Page */}
+
       {results.length > 0 ? <ResultsStrain view={view} /> : <StrainLanding />}
     </div>
   );

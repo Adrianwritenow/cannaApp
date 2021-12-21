@@ -1,18 +1,21 @@
-import { StarIcon } from "@heroicons/react/solid";
-import React from "react";
 import Image from "next/image";
 import { Product } from "../../interfaces/product";
+import React from "react";
+import { StarIcon } from "@heroicons/react/solid";
 
 interface ProductProps {
   product: Product;
+  deal?: string;
 }
 
 export default function ProductCard(data: ProductProps) {
-  const { product } = data;
-
+  const { product, deal } = data;
   return (
-    <div className="relative w-36 flex flex-wrap" id={`product-${product.id}`}>
-      <div className="rounded-lg overflow-hidden w-36 h-36 relative">
+    <div
+      className="relative w-full flex flex-wrap"
+      id={`product-${product.id}`}
+    >
+      <div className="rounded-lg overflow-hidden w-full h-36 relative">
         <Image
           src={product.imageSrc}
           alt={product.imageAlt}
@@ -24,7 +27,19 @@ export default function ProductCard(data: ProductProps) {
         <p className="text-blue-500">{product.vendor}</p>
         <h3 className="text-sm font-normal text-gray-700">{product.name}</h3>
         <p className="font-normal text-gray-500">{product.category}</p>
-        <p className=" text-base font-normal text-gray-700">{product.price}</p>
+
+        {deal ? (
+          <div className="flex items-center space-x-1">
+            <p className=" text-base font-semibold text-red-800 ">{deal}</p>
+            <p className="text-sm line-through text-gray-500">
+              {product.price}
+            </p>
+          </div>
+        ) : (
+          <p className=" text-base font-normal text-gray-700">
+            {product.price}
+          </p>
+        )}
 
         <div className="flex flex-col items-start">
           <p className="sr-only">{product.rating} out of 5 stars</p>

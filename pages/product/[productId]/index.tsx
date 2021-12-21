@@ -165,12 +165,12 @@ export default function ProductDetail() {
       </div>
 
       <ProductResultsSection
-        products={products}
+        list={products}
         sponsored={false}
         label="Related Items"
       />
       <ProductResultsSection
-        products={products}
+        list={products}
         sponsored={false}
         label="Recently Viewed Items"
       />

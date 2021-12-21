@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { JWT } from 'next-auth/jwt';
 import sureThing from '@/helpers/sureThing';
 import { ITokenRequest, ITokenResponse } from '@/interfaces/token';
 
@@ -6,7 +7,7 @@ export default async function tokenRequest(
   token: {},
   url: string,
   params: ITokenRequest
-): ITokenResponse {
+): JWT {
   const response = await sureThing(
     axios.post(url, new URLSearchParams(params), {
       headers: {

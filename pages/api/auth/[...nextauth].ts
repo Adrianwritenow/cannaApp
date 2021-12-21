@@ -23,12 +23,20 @@ export default NextAuth({
       },
     }),
     CredentialsProvider({
-      name: 'Credentials',
+      name: 'credentials',
+      credentials: {
+        email: {
+          label: 'Email Address',
+          type: 'email',
+          placeholder: 'jsmith@example.com',
+        },
+        password: { label: 'Password', type: 'password' },
+      },
       async authorize(credentials) {
         // Get access token.
         const token = tokenRequest({}, `${process.env.API_URL}/oauth/token`, {
-          username: credentials.email,
-          password: credentials.password,
+          username: credentials?.email || '',
+          password: credentials?.password || '',
           grant_type: 'password',
           client_id: process.env.CLIENT_ID || '',
           client_secret: process.env.CLIENT_SECRET || '',
@@ -38,7 +46,7 @@ export default NextAuth({
           return null;
         }
 
-        const decoded = jwtDecode<JwtPayload>(token.accessToken);
+        const decoded = jwtDecode<JwtPayload>(token.accessToken || '');
 
         return {
           ...token,
@@ -58,9 +66,9 @@ export default NextAuth({
     async jwt({ token, user, account }) {
       // Initial log in.
       if (account && user) {
-        token.provider = `social_auth_${account.provider}`;
+        token.provider = `social_auth_${account.provider || ''}`;
 
-        const expires_in = account.expires_in ?? 0;
+        const expires_in: any = account.expires_in || 0;
         return {
           accessToken: account.access_token,
           accessTokenExpires: Date.now() + expires_in * 1000,
@@ -71,23 +79,25 @@ export default NextAuth({
       }
 
       // Return previous token if the access token has not expired yet.
-      if (Date.now() < token.accessTokenExpires) {
+      const accessTokenExpires: any = token.accessTokenExpires || 0;
+      if (!accessTokenExpires || Date.now() < accessTokenExpires) {
         return token;
       }
 
       // Access token has expired, try to update it for each provider type.
       switch (token.provider) {
         case 'social_auth_google':
-          return tokenRequest(token, 'https://oauth2.googleapis.com/token', {
+          token = tokenRequest(token, 'https://oauth2.googleapis.com/token', {
             client_id: process.env.GOOGLE_CLIENT_ID || '',
             client_secret: process.env.GOOGLE_CLIENT_SECRET || '',
             grant_type: 'refresh_token',
             refresh_token: token.refreshToken,
             errorType: 'RefreshTokenError',
           });
+          break;
 
         case 'social_auth_credentials':
-          return tokenRequest(token, `${process.env.API_URL}/oauth/token`, {
+          token = tokenRequest(token, `${process.env.API_URL}/oauth/token`, {
             client_id: process.env.CLIENT_ID || '',
             client_secret: process.env.CLIENT_SECRET || '',
             grant_type: 'refresh_token',
@@ -95,10 +105,10 @@ export default NextAuth({
             scope: 'regular_user',
             errorType: 'RefreshTokenError',
           });
-
-        default:
-          return token;
+          break;
       }
+
+      return token;
     },
     async session({ session, token }) {
       session.userId = token.userId;

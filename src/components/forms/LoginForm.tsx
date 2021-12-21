@@ -8,6 +8,7 @@ import { signIn } from 'next-auth/react';
 import ErrorsDisplay from '@/components/error/ErrorsDisplay';
 import { InputField } from '@/components/forms/fields/InputField';
 import { useRouter } from 'next/router';
+import sureThing from '@/helpers/sureThing';
 
 export default function LoginForm() {
   const [apiError, setApiError] = useState('');
@@ -32,14 +33,16 @@ export default function LoginForm() {
   const handleSubmit = async (values: any) => {
     setApiError('');
 
-    const response = await signIn('credentials', {
-      email: values.email,
-      password: values.password,
-      redirect: false,
-    });
+    const response = await sureThing(
+      signIn('credentials', {
+        email: values.email,
+        password: values.password,
+        redirect: false,
+      })
+    );
 
-    if (response.error) {
-      setApiError(response.error);
+    if (!response.ok) {
+      setApiError(response.error.toString());
     }
   };
 

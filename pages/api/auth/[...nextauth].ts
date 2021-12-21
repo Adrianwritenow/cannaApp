@@ -8,12 +8,12 @@ import tokenRequest from '@/helpers/tokenRequest';
 export default NextAuth({
   providers: [
     FacebookProvider({
-      clientId: process.env.FACEBOOK_CLIENT_ID,
-      clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
+      clientId: process.env.FACEBOOK_CLIENT_ID || '',
+      clientSecret: process.env.FACEBOOK_CLIENT_SECRET || '',
     }),
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      clientId: process.env.GOOGLE_CLIENT_ID || '',
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
       authorization: {
         params: {
           prompt: 'consent',
@@ -30,8 +30,8 @@ export default NextAuth({
           username: credentials.email,
           password: credentials.password,
           grant_type: 'password',
-          client_id: process.env.CLIENT_ID,
-          client_secret: process.env.CLIENT_SECRET,
+          client_id: process.env.CLIENT_ID || '',
+          client_secret: process.env.CLIENT_SECRET || '',
         });
 
         if (token.error) {
@@ -79,8 +79,8 @@ export default NextAuth({
       switch (token.provider) {
         case 'social_auth_google':
           return tokenRequest(token, 'https://oauth2.googleapis.com/token', {
-            client_id: process.env.GOOGLE_CLIENT_ID,
-            client_secret: process.env.GOOGLE_CLIENT_SECRET,
+            client_id: process.env.GOOGLE_CLIENT_ID || '',
+            client_secret: process.env.GOOGLE_CLIENT_SECRET || '',
             grant_type: 'refresh_token',
             refresh_token: token.refreshToken,
             errorType: 'RefreshTokenError',
@@ -88,8 +88,8 @@ export default NextAuth({
 
         case 'social_auth_credentials':
           return tokenRequest(token, `${process.env.API_URL}/oauth/token`, {
-            client_id: process.env.CLIENT_ID,
-            client_secret: process.env.CLIENT_SECRET,
+            client_id: process.env.CLIENT_ID || '',
+            client_secret: process.env.CLIENT_SECRET || '',
             grant_type: 'refresh_token',
             refresh_token: token.refreshToken,
             scope: 'regular_user',

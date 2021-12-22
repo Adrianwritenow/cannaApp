@@ -23,6 +23,7 @@
     "formik": "^2.2.9",
     "jwt-decode": "^3.1.2",
     "next": "12",
+    "next-auth": "^4.0.5",
     "postcss-import": "^14.0.2",
     "postcss-preset-env": "^6.7.0",
     "qs": "^6.10.1",

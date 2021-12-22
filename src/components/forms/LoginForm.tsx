@@ -1,29 +1,29 @@
-import * as Yup from "yup";
+import * as Yup from 'yup';
 
-import { AuthContext, login } from "../../authentication/authContext";
-import { EyeIcon, EyeOffIcon } from "@heroicons/react/outline";
-import { Field, Form, Formik } from "formik";
-import React, { useContext, useState } from "react";
+import { EyeIcon, EyeOffIcon } from '@heroicons/react/outline';
+import { Field, Form, Formik } from 'formik';
+import React, { useContext, useState } from 'react';
+import { signIn } from 'next-auth/react';
 
-import ErrorsDisplay from "../error/ErrorsDisplay";
-import { InputField } from "./fields/InputField";
-import { useRouter } from "next/router";
+import ErrorsDisplay from '@/components/error/ErrorsDisplay';
+import { InputField } from '@/components/forms/fields/InputField';
+import { useRouter } from 'next/router';
+import sureThing from '@/helpers/sureThing';
 
 export default function LoginForm() {
-  const authState = useContext(AuthContext);
-  const [apiError, setApiError] = useState("");
+  const [apiError, setApiError] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
   const router = useRouter();
   const schema = Yup.object().shape({
     email: Yup.string()
-      .email("Email address does not look complete")
-      .required("Email address is required"),
-    password: Yup.string().required("Password is required"),
+      .email('Email address does not look complete')
+      .required('Email address is required'),
+    password: Yup.string().required('Password is required'),
   });
 
   const initialValues = {
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   };
 
   const togglePasswordVisible = () => {
@@ -31,12 +31,18 @@ export default function LoginForm() {
   };
 
   const handleSubmit = async (values: any) => {
-    setApiError("");
+    setApiError('');
 
-    const response = await login(authState, values.email, values.password);
+    const response = await sureThing(
+      signIn('credentials', {
+        email: values.email,
+        password: values.password,
+        redirect: false,
+      })
+    );
 
-    if (response.status !== 200) {
-      setApiError(response.data.message);
+    if (response.error) {
+      setApiError(response.error.toString());
     }
   };
 
@@ -49,7 +55,7 @@ export default function LoginForm() {
     >
       {({ handleSubmit, errors, values }) => {
         const errorCount = Object.keys(errors).length;
-        const passwordError = Object.keys(errors).includes("password");
+        const passwordError = Object.keys(errors).includes('password');
         const errorList = Object.values(errors).map((error, i) => (
           <li className="text-red-900 font-normal" key={i}>
             {error}
@@ -73,18 +79,18 @@ export default function LoginForm() {
                 label="Password"
                 id="password"
                 name="password"
-                type={passwordVisible ? "text" : "password"}
+                type={passwordVisible ? 'text' : 'password'}
                 component={InputField}
               />
               <button
                 role="switch"
                 type="button"
                 style={{
-                  position: "absolute",
-                  bottom: "7.6px",
-                  right: passwordError ? "35px" : "9.5px",
+                  position: 'absolute',
+                  bottom: '7.6px',
+                  right: passwordError ? '35px' : '9.5px',
                 }}
-                aria-pressed={passwordVisible ? "true" : "false"}
+                aria-pressed={passwordVisible ? 'true' : 'false'}
                 onClick={togglePasswordVisible}
                 className={`cursor-default text-gray-500 w-6`}
               >
@@ -131,7 +137,7 @@ export default function LoginForm() {
                 errorList={errorList}
               />
             ) : (
-              ""
+              ''
             )}
 
             <button

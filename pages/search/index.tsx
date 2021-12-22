@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import SearchAll from "../../src/views/search/SearchAll";
+import SearchDeals from "../../src/views/search/SearchDeals";
 import SearchDispensary from "../../src/views/search/SearchDispensary";
 import SearchStrain from "../../src/views/search/SearchStrain";
 import { Tab } from "@headlessui/react";
@@ -14,10 +15,10 @@ export default function Search() {
 
   const tabs = [
     { name: "All", href: "/search?type=all", current: false },
-    { name: "Dispensaries", href: "/search?type=dispensaries", current: false },
+    { name: "Deals", href: "/search?", current: false },
+    { name: "Shopping", href: "/search?type=shops", current: false },
     { name: "Strains", href: "/search?type=strains", current: false },
-    { name: "Restauraunts", href: "/search?type=restuaurant", current: false },
-    { name: "Shops", href: "/search?type=shops", current: false },
+    { name: "Dispensaries", href: "/search?type=dispensaries", current: false },
   ];
 
   useEffect(() => {
@@ -54,17 +55,22 @@ export default function Search() {
             <Tab.Panel className="focus:outline-none">
               {/* Search All */}
               <SearchAll />
-              {/* Search All */}
             </Tab.Panel>
             <Tab.Panel className="focus:outline-none">
-              {/* Search Dispensery */}
-              <SearchDispensary />
-              {/* Search Dispensery */}
+              {/* Search Deals */}
+              <SearchDeals />
+            </Tab.Panel>
+            <Tab.Panel className="focus:outline-none">
+              {/* Search Shopping */}
+              <>Shopping</>
             </Tab.Panel>
             <Tab.Panel className="focus:outline-none">
               {/* Search Strain */}
               <SearchStrain />
-              {/* Search Strain */}
+            </Tab.Panel>
+            <Tab.Panel className="focus:outline-none">
+              {/* Search Dispensery */}
+              <SearchDispensary />
             </Tab.Panel>
           </Tab.Panels>
         </Tab.Group>

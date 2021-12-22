@@ -51,31 +51,6 @@ export default function StrainFilter(props: FilterProps) {
   const allEmpty = Object.keys(savedValues).every(function (key) {
     return savedValues[key].length === 0;
   });
-
-  // Add filters to list to be rendered and update the form state values
-  function handleFilter(
-    event: FormEvent<HTMLFormElement>,
-    id: string,
-    setFieldValue: Function
-  ) {
-    const element = event.target as HTMLFormElement;
-    const value = element.value;
-    const currentFilters = savedValues;
-    const filterField = currentFilters.filters[`${id}`];
-
-    if (filterField.includes(value)) {
-      filterField.splice(filterField.indexOf(value), 1);
-    } else {
-      filterField.push(value);
-    }
-
-    setSavedValues((prevState: any) => {
-      return { ...prevState, [`${id}`]: filterField };
-    });
-
-    setFieldValue("filters", savedValues.filters);
-  }
-
   // Removwe filters from list to be rendered and update the form state values
 
   function removeFilter(filter: string) {
@@ -95,7 +70,7 @@ export default function StrainFilter(props: FilterProps) {
 
     setFilterTabs(filter_array);
     handleResults(filter_array);
-  }, [savedValues, values]);
+  }, [savedValues, values, handleResults]);
 
   return (
     <div>

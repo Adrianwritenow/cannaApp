@@ -16,6 +16,7 @@ jobs:
         env:
           API_URL: ${{ secrets.DEV_API_URL }}
           MAPBOX_ACCESS_TOKEN: ${{ secrets.MAPBOX_ACCESS_TOKEN }}
+          CLIENT_ID: ${{ secrets.DEV_CLIENT_ID }}
       - name: Deploy to S3
         uses: jakejarvis/s3-sync-action@master
         with:

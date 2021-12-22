@@ -165,15 +165,31 @@ export default function ProductDetail() {
       </div>
 
       <ProductResultsSection
-        products={products}
+        list={products}
         sponsored={false}
         label="Related Items"
       />
       <ProductResultsSection
-        products={products}
+        list={products}
         sponsored={false}
         label="Recently Viewed Items"
       />
     </div>
   );
+}
+
+export async function getStaticPaths() {
+  const paths = listings.map((listing, index) => ({
+    params: { productId: `${index}` },
+  }));
+  return { paths, fallback: false };
+}
+export async function getStaticProps() {
+  return {
+    props: {},
+    // Next.js will attempt to re-generate the page:
+    // - When a request comes in
+    // - At most once every 10 seconds
+    revalidate: 10, // In seconds
+  };
 }

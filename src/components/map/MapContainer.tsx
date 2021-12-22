@@ -1,54 +1,73 @@
-import { Transition } from "@headlessui/react";
-import { MapIcon, MenuIcon } from "@heroicons/react/solid";
-import React, { useRef, useState } from "react";
+import React, { createContext, useEffect, useRef, useState } from "react";
 import { Map } from "./Map";
 import MapResults from "./MapResults";
-import { MapContext } from "./mapContext";
+import { MapIcon } from "@heroicons/react/solid";
 import { useCurrentWidth } from "./useCurrentWidth";
+import { ViewListIcon } from "@heroicons/react/outline";
+
+export const MapContext = createContext<any>(null);
 
 function MapContainer({ data }: any) {
-  const [mapShowing, setMapShowing] = useState(true);
+  const [showMap, setShowMap] = useState(true);
+  const [showResults, setShowResults] = useState(true);
+  const [activeCard, setActiveCard] = useState<any>(null);
+  const [swiper, setSwiper] = useState<any>(null);
   const width = useCurrentWidth();
-  return (
-    <MapContext>
-      {!mapShowing && (
-        <div className="w-screen relative py-2 bg-gray-50">
+  return !!data ? (
+    <>
+      {!showMap && (
+        <div className="w-screen relative py-2 bg-gray-50 flex items-center justify-center">
           <button
-            className="mx-auto my-auto flex justify-around px-3 items-center z-10  h-10  w-28 rounded-3xl text-white bg-green-400"
-            onClick={() => setMapShowing(!mapShowing)}
+            className="flex justify-between text-sm items-center px-4 py-4 h-7 rounded-3xl text-white bg-green-400"
+            onClick={() => setShowMap(!showMap)}
           >
-            Map <MapIcon className=" w-8" />
+            Map
+            <MapIcon className="ml-2 w-6" />
           </button>
         </div>
       )}
-      <Transition
-        show={mapShowing}
-        enter="transition ease-out duration-300"
-        enterFrom="transform opacity-0 scale-95"
-        enterTo=" transform opacity-100 scale-100"
-        leave="transition-opacity duration-400 "
-        leaveFrom="transform opacity-100 scale-100"
-        leaveTo="transform opacity-0 scale-95"
-      >
-        <section className=" relative w-screen">
-          <>
-            <Map data={data} currentViewport={width}></Map>
-            <div className="absolute bottom-64 w-screen flex justify-center">
-              <button
-                className=" flex  justify-around items-center z-10 px-5 py-4 h-10  w-28 rounded-3xl  text-white bg-green-400"
-                onClick={() => setMapShowing(!mapShowing)}
-              >
-                List
-                <MenuIcon className=" w-8" />
-              </button>
-            </div>
-            <div className="">
-              <MapResults data={data} />
-            </div>
-          </>
-        </section>
-      </Transition>
-    </MapContext>
+      {data && (
+        <MapContext.Provider
+          value={{
+            activeCard,
+            setActiveCard,
+            swiper,
+            setSwiper,
+            showResults,
+            setShowResults,
+          }}
+        >
+          <div className="overflow-hidden">
+            <section className=" relative w-screen">
+              {data && showMap ? (
+                <>
+                  <Map data={data} currentViewport={width} />
+                  <div
+                    className={`transition-all duration-500 absolute bottom-60
+                ${
+                  !showResults ? "transform translate-y-52" : ""
+                } w-screen flex justify-center`}
+                  >
+                    <button
+                      className="flex justify-between text-sm items-center px-4 py-4 h-7 rounded-3xl z-40 text-white bg-green-400"
+                      onClick={() => setShowMap(!showMap)}
+                    >
+                      List
+                      <ViewListIcon className=" ml-2 w-6" />
+                    </button>
+                  </div>
+                  <div className="">
+                    <MapResults data={data} />
+                  </div>
+                </>
+              ) : null}
+            </section>
+          </div>
+        </MapContext.Provider>
+      )}
+    </>
+  ) : (
+    <></>
   );
 }
 

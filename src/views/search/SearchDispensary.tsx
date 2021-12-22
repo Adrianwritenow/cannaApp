@@ -11,33 +11,33 @@ export default function SearchStrain() {
   const [data, setData] = useState([]);
   const [resultSet, setResultSet] = useState(8);
 
+  const locations = ["boulder", "orlando", "sacramento", "portland"];
+  const [place, setPlace] = useState(0);
+
   useEffect(() => {
-    if (true) {
       axios
         .get(
           //TODO add to env variables
-          `https://search-dev.cannapages.com/elasticsearch_index_pantheon_dispenaries/_search?q=${resultSet}`
+          `https://search-dev.cannapages.com/elasticsearch_index_pantheon_dispenaries/_search?q=${locations[place]}`
         )
         .then((res: any) => setData(res.data.hits.hits))
         .catch((err) => console.log(err));
-    }
-  }, [resultSet]);
+  }, [place]);
   return (
     <div className="bg-gray-50">
-      <MapContainer data={data} />
-      
+      {data && <MapContainer data={data}/> }
+
+      {/* Temporary next location button for demonstration purposes */}
       <div className="px-4 flex">
         <button
-          onClick={() => setResultSet((prev) => prev - 1)}
+          onClick={() => {
+            if (place === 3) {
+              setPlace(0);
+            } else setPlace((prev) => prev + 1);
+          }}
           className="py-4 w-full uppercase text-gray-700 text-xs font-bold border-t border-gray-200 tracking-widest"
         >
-          <p>Prev</p>
-        </button>
-        <button
-          onClick={() => setResultSet((prev) => prev + 1)}
-          className="py-4 w-full uppercase text-gray-700 text-xs font-bold border-t border-gray-200 tracking-widest"
-        >
-          Next
+          <p>{locations[place]}{' >'}</p>
         </button>
       </div>
       <ListingSection listings={[listings[0], listings[1]]} sponsored={true} />

@@ -1,30 +1,41 @@
+import { ArrowLeftIcon, XIcon } from "@heroicons/react/solid";
 import { Dialog, Transition } from "@headlessui/react";
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useState } from "react";
 
-import { ArrowLeftIcon } from "@heroicons/react/outline";
-import FilterMenuTabs from "../../components/filter/FilterMenuTabs";
-import ProductResultsSection from "../../components/sections/ProductsResultsSection";
-import { SlideOverProps } from "../../interfaces/props/SlideOverProps";
-import { products } from "../../helpers/mockData";
-import { BusinessSlideoverProps } from "@/interfaces/props/businessSlideOverProps";
+interface AboutProps {
+  businessName: string;
+  about: string;
+}
 
-export default function BusinessMenuSlideOver(props: BusinessSlideoverProps) {
-  const { dispensary } = props;
+export default function AboutSlideOver(props: AboutProps) {
+  const { businessName, about } = props;
   const [open, setOpen] = useState(false);
-
   return (
     <div>
-      <ProductResultsSection
-        list={products}
-        sponsored={false}
-        label={"Explore our Products"}
-        buttonLabel={"See all Products"}
-        stateFunction={setOpen}
-      />
+      <section aria-labelledby="business-about" className="pt-4">
+        <h2 id="business-about" className="sr-only">
+          About
+        </h2>
+        <h2
+          id="business-about"
+          className="text-lg text-gray-700 font-semibold py-2"
+        >
+          About Us
+        </h2>
+        <p className={"text-base text-gray-700 line-clamp-4"}>{about}</p>
+        <div className="pt-5 ">
+          <button
+            onClick={() => setOpen(true)}
+            className="py-4 w-full uppercase text-green-500 text-xs font-semibold border-t border-gray-200 tracking-widest"
+          >
+            Learn more
+          </button>
+        </div>
+      </section>
       <Transition.Root show={open} as={Fragment}>
         <Dialog
           as="div"
-          className="fixed inset-0 overflow-hidden"
+          className="fixed inset-0 overflow-hidden z-50"
           onClose={setOpen}
         >
           <div className="absolute inset-0 overflow-hidden">
@@ -55,15 +66,26 @@ export default function BusinessMenuSlideOver(props: BusinessSlideoverProps) {
                           </button>
                         </div>
                         <Dialog.Title className="text-lg font-semibold text-gray-600">
-                          {dispensary?._source.name}
+                          {businessName}
                         </Dialog.Title>
                       </div>
                     </div>
-                    <div className="mt-6 relative flex-1">
-                      <section className="w-full">
-                        <FilterMenuTabs products={products} />
+                    <div className="mt-6 relative flex-1 px-4 sm:px-6">
+                      <section
+                        aria-labelledby="business-about"
+                        className="pt-4"
+                      >
+                        <h2 id="business-about" className="sr-only">
+                          About
+                        </h2>
+                        <h2
+                          id="business-about"
+                          className="text-lg text-gray-700 font-semibold py-2"
+                        >
+                          About Us
+                        </h2>
+                        <p className={"text-base text-gray-700"}>{about}</p>
                       </section>
-                      <div className="px-4 grid grid-flow-row auto-rows-max gap-9"></div>
                     </div>
                   </div>
                 </div>

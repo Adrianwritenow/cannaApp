@@ -1,8 +1,8 @@
 import { BottomNavRoutes, Route } from '../../helpers/routes';
-import React, { useContext, useEffect, useState } from 'react';
-import { useSession } from 'next-auth/react';
+import React, { useEffect, useState } from 'react';
+
 import Link from 'next/link';
-import { useCurrentUser } from '@/hooks/user';
+import { useSession } from 'next-auth/react';
 
 export default function BottomNavBar() {
   const [activeTab, setActiveTab] = useState('');
@@ -11,19 +11,18 @@ export default function BottomNavBar() {
   let sessionRoutes = [];
 
   useEffect(() => {
-    if (!routes.length) {
-      if (!session?.access_token) {
-        sessionRoutes = BottomNavRoutes.filter(function (obj) {
-          return obj.id !== 'user' && obj.id !== 'stash';
-        });
-      } else {
-        sessionRoutes = BottomNavRoutes.filter(function (obj) {
-          return obj.id !== 'login';
-        });
-      }
+    if (!session?.accessToken) {
+      sessionRoutes = BottomNavRoutes.filter(function (obj) {
+        return obj.id !== 'user' && obj.id !== 'stash';
+      });
+      setRoutes(sessionRoutes);
+    } else {
+      sessionRoutes = BottomNavRoutes.filter(function (obj) {
+        return obj.id !== 'login';
+      });
       setRoutes(sessionRoutes);
     }
-  }, [routes, session]);
+  }, [session]);
 
   return (
     <div className="fixed w-full bg-white px-2 py-3 pb-6 bottom-0 grid grid-flow-col border-t border-gray-200">

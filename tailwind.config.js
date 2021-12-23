@@ -11,6 +11,18 @@ module.exports = {
 
   darkMode: false, // or 'media' or 'class'
   theme: {
+    textIndent: (theme, { negative }) => ({
+      ...{
+        sm: "2rem",
+        md: "3rem",
+        lg: "4rem",
+      },
+      ...negative({
+        sm: "2rem",
+        md: "3rem",
+        lg: "4rem",
+      }),
+    }),
     extend: {
       gridTemplateColumns: {
         "carousel": 'repeat(12, 200px)'
@@ -73,12 +85,14 @@ module.exports = {
     },
   },
   variants: {
-    extend: {},
+    // all the following default to ['responsive']
+    textIndent: ["responsive"],
   },
 
   plugins: [
     require("@tailwindcss/typography"),
     require("@tailwindcss/line-clamp"),
     require("@tailwindcss/forms"),
+    require("tailwindcss-text-indent")(),
   ],
 };

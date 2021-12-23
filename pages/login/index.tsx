@@ -1,13 +1,15 @@
-import { useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { useSession, signIn } from 'next-auth/react';
-import Image from 'next/image';
-import Link from 'next/link';
+import { signIn, useSession } from 'next-auth/react';
 
-import LoginForm from '@/components/forms/LoginForm';
-import Logo from '@/public/assets/logos/logo.png';
 import FacebookIcon from '@/public/assets/icons/iconComponents/IconFacebook';
 import GoogleIcon from '@/public/assets/icons/iconComponents/IconGoogle';
+import IconFacebook from '@/public/assets/icons/iconComponents/IconFacebook';
+import IconGoogle from '@/public/assets/icons/iconComponents/IconGoogle';
+import Image from 'next/image';
+import Link from 'next/link';
+import LoginForm from '@/components/forms/LoginForm';
+import Logo from '@/public/assets/logos/logo.png';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 
 export default function Login() {
   const router = useRouter();
@@ -54,7 +56,7 @@ export default function Login() {
                 onClick={() => signIn('google')}
                 className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 focus:outline-none focus:ring-green focus:border-green"
               >
-                <GoogleIcon width={20} height={20} />
+                <IconGoogle width={20} height={20} />
               </button>
             </a>
           </Link>
@@ -65,7 +67,7 @@ export default function Login() {
                 onClick={() => signIn('facebook')}
                 className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 focus:outline-none focus:ring-green focus:border-green"
               >
-                <FacebookIcon width={20} height={20} />
+                <IconFacebook width={20} height={20} />
               </button>
             </a>
           </Link>

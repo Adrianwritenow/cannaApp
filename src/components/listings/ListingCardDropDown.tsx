@@ -1,11 +1,11 @@
-import { CheckIcon, StarIcon } from "@heroicons/react/solid";
-import { Listing, ListingProps } from "../../interfaces/listing";
+import { CheckIcon, StarIcon } from '@heroicons/react/solid';
+import { Listing, ListingProps } from '../../interfaces/listing';
 
-import { BookmarkIcon } from "@heroicons/react/outline";
-import { Disclosure } from "@headlessui/react";
-import Image from "next/image";
-import Link from "next/link";
-import React from "react";
+import { BookmarkIcon } from '@heroicons/react/outline';
+import { Disclosure } from '@headlessui/react';
+import Image from 'next/image';
+import Link from 'next/link';
+import React from 'react';
 
 export default function ListingCardDropdown(data: ListingProps) {
   const { listing, amenities, classNames, discount } = data;
@@ -24,7 +24,7 @@ export default function ListingCardDropdown(data: ListingProps) {
               src={listing.image}
               alt={listing.name}
               layout="fill"
-              objectFit={"cover"}
+              objectFit={'cover'}
             />
           </div>
           <div className="pt-2.5 text-left text-sm w-full">
@@ -41,13 +41,13 @@ export default function ListingCardDropdown(data: ListingProps) {
                   {listing.rating}
                 </span>
 
-                {[0, 1, 2, 3, 4].map((rating) => (
+                {[0, 1, 2, 3, 4].map(rating => (
                   <StarIcon
                     key={rating}
                     className={`    ${
                       listing.rating > rating
-                        ? "text-yellow-400"
-                        : "text-gray-200"
+                        ? 'text-yellow-400'
+                        : 'text-gray-200'
                     }
                   flex-shrink-0 h-4 w-4`}
                     aria-hidden="true"
@@ -84,7 +84,10 @@ export default function ListingCardDropdown(data: ListingProps) {
             </div>
           </div>
           <Disclosure.Panel as="div">
-            <Link href={`/business/1`} passHref>
+            <Link
+              href={`/business/entity%3Adispensary_entity%2F6029%3Aen`}
+              passHref
+            >
               <a>
                 <button
                   type="button"

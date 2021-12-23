@@ -4,13 +4,11 @@ import { useState } from 'react';
 import { IconFacebook } from '../../../public/assets/icons/iconComponents';
 import SvgIconTwitter from '@/public/assets/icons/iconComponents/IconTwitter';
 import SocialShare from '@/components/share/SocialShare';
-import 'swiper/css';
+
 import { articles } from '@/helpers/mockData';
 import BlogArticleSlider from '@/components/blog/BlogArticleSlider';
-// import { useRouter } from "next/router";
 
 export default function BlogPost() {
-  const [swiper, setSwiper] = useState(null);
   return (
     <div className="relative  bg-white overflow-hidden">
       <div className="relative px-4 sm:px-6 lg:px-8">

@@ -22,7 +22,7 @@ import BusinessVerificationSlideOver from "../../../src/views/slideOver/Business
 import { Dispensary } from "../../../src/interfaces/searchDispensary";
 import FaqSlideOver from "../../../src/views/slideOver/FaqSlideOver";
 import Image from "next/image";
-import ListingCard from "../../../src/components/listings/ListingCard";
+import ListingCardDropdown from "../../../src/components/listings/ListingCardDropDown";
 import Map from "../../../public/assets/images/png/map-mock.png";
 import ReviewsSlideOver from "../../../src/views/slideOver/ReviewsSlideOver";
 import SvgIconTwitter from "../../../public/assets/icons/iconComponents/IconTwitter";
@@ -259,7 +259,7 @@ export default function BusinessDetail() {
         <div className="grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-4">
           {listings.map((listing, index) => (
             <div className="w-64" key={`lc-${listing.id}-${index}`}>
-              <ListingCard listing={listing} amenities={false} />
+              <ListingCardDropdown listing={listing} amenities={false} />
             </div>
           ))}
         </div>

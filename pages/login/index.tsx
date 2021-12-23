@@ -1,37 +1,29 @@
-import {
-  IconFacebook,
-  IconGoogle,
-} from "../../public/assets/icons/iconComponents";
-import React, { useContext, useEffect, useState } from "react";
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
+import { useSession, signIn } from 'next-auth/react';
+import Image from 'next/image';
+import Link from 'next/link';
 
-import { AuthContext } from "../../src/authentication/authContext";
-import Image from "next/image";
-import Link from "next/link";
-import LoginForm from "../../src/components/forms/LoginForm";
-import Logo from "../../public/assets/logos/logo.png";
-import { useRouter } from "next/router";
+import LoginForm from '@/components/forms/LoginForm';
+import Logo from '@/public/assets/logos/logo.png';
+import FacebookIcon from '@/public/assets/icons/iconComponents/IconFacebook';
+import GoogleIcon from '@/public/assets/icons/iconComponents/IconGoogle';
 
 export default function Login() {
-  const authState = useContext(AuthContext);
-  const [access_token, setAccessToken] = useState("");
   const router = useRouter();
+  const { data: session, status } = useSession();
 
   useEffect(() => {
-    if (authState.state.session.access_token) {
-      const access_token = authState.state.session.access_token;
-      setAccessToken(`${access_token}`);
+    if (session?.accessToken) {
+      router.push('/');
     }
-
-    if (access_token) {
-      router.push("/");
-    }
-  }, [access_token, authState, router]);
+  }, [session, router]);
 
   return (
     <div className="flex flex-col justify-start max-w-5xl mx-auto py-12 bg-white px-4">
       <div className="grid grid-cols-6 gap-0">
         <div className="h-12 w-12 relative col-span-1">
-          <Image src={Logo} alt="CannaPages" layout={"responsive"} />
+          <Image src={Logo} alt="CannaPages" layout={'responsive'} />
         </div>
 
         <span className="flex justify-end items-center col-span-5 font-normal text-gray-500">
@@ -59,7 +51,7 @@ export default function Login() {
             <a>
               <span className="sr-only">Sign in with Google</span>
               <button
-                onClick={() => {}}
+                onClick={() => signIn('google')}
                 className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 focus:outline-none focus:ring-green focus:border-green"
               >
                 <IconGoogle width={20} height={20} />
@@ -70,7 +62,7 @@ export default function Login() {
             <a>
               <span className="sr-only">Sign in with Facebook</span>
               <button
-                onClick={() => {}}
+                onClick={() => signIn('facebook')}
                 className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 focus:outline-none focus:ring-green focus:border-green"
               >
                 <IconFacebook width={20} height={20} />

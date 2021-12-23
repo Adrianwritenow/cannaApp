@@ -6,6 +6,7 @@ module.exports = {
     "./src/components/**/*.{js,ts,jsx,tsx}",
     "./src/views/**/*.{js,ts,jsx,tsx}",
     "./src/helpers/**/*.{js,ts,jsx,tsx}",
+    "./src/**/*.{js,ts,jsx,tsx}",
   ],
 
   darkMode: false, // or 'media' or 'class'
@@ -23,6 +24,12 @@ module.exports = {
       }),
     }),
     extend: {
+      gridTemplateColumns: {
+        "carousel": 'repeat(12, 200px)'
+      },
+      gridTemplateRows: {
+        "carousel": '200px'
+      },
       spacing: {
         25: "6.5rem",
       },

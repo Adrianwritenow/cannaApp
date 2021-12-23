@@ -23,19 +23,26 @@
     "formik": "^2.2.9",
     "jwt-decode": "^3.1.2",
     "next": "12",
+    "next-auth": "^4.0.5",
     "postcss-import": "^14.0.2",
     "postcss-preset-env": "^6.7.0",
     "qs": "^6.10.2",
     "react": "17.0.2",
+    "react-cookie-consent": "^7.0.1",
     "react-dom": "17.0.2",
+    "react-map-gl": "^6.1.18",
     "react-number-format": "^4.7.3",
     "react-redux": "^7.2.6",
     "react-select": "^5.0.0",
     "react-sticky-box": "^0.9.3",
     "redux-logger": "^3.0.6",
+<<<<<<< HEAD
     "swiper": "^7.2.0",
     "tailwindcss-text-indent": "^1.0.2",
     "tailwindcss-typography": "^3.1.0",
+=======
+    "swiper": "^7.3.3",
+>>>>>>> develop
     "yup": "^0.32.9"
   },
   "devDependencies": {
@@ -61,5 +68,8 @@
     "ts-jest": "^27.0.4",
     "ts-node": "^10.2.0",
     "typescript": "^4.3.5"
+  },
+  "resolutions": {
+    "postcss-focus-within": "^4.0.0"
   }
 }

@@ -77,7 +77,7 @@ export default function StrainDetail() {
         </section>
       </div>
       <ProductResultsSection
-        products={products}
+        list={products}
         sponsored={true}
         label={"Shop %Query%"}
       />

@@ -1,26 +1,18 @@
-import { AuthContext, logout } from "../../../src/authentication/authContext";
-import { Menu, Transition } from "@headlessui/react";
-import React, { Fragment, useContext, useEffect, useState } from "react";
+import { Menu, Transition } from '@headlessui/react';
+import React, { Fragment, useContext, useEffect, useState } from 'react';
+import { signOut } from 'next-auth/react';
 
-import AvatarIcon from "../../../public/assets/icons/iconComponents/Avatar";
-import BusinessMenu from "./BusinessMenu";
-import UserMenu from "./UserMenu";
-import { useCurrentUser } from "../../hooks/user";
-import { useRouter } from "next/router";
+import AvatarIcon from '@/public/assets/icons/iconComponents/Avatar';
+import BusinessMenu from './BusinessMenu';
+import UserMenu from './UserMenu';
+import { useCurrentUser } from '@/hooks/user';
 
 export default function AvatarMenu() {
-  const authState = useContext(AuthContext);
-  const router = useRouter();
   const [currentUser] = useCurrentUser(true);
   const [mounted, setMounted] = useState(false);
 
   const ref = React.createRef();
-  const [menuType, setMenuType] = useState("user");
-
-  const handleSignOut = async () => {
-    const response = await logout(authState);
-    router.push("/");
-  };
+  const [menuType, setMenuType] = useState('user');
 
   useEffect(() => {
     setMounted(true);
@@ -45,15 +37,15 @@ export default function AvatarMenu() {
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            {menuType === "business" ? (
-              <BusinessMenu ref={ref} handleSignOut={handleSignOut} />
+            {menuType === 'business' ? (
+              <BusinessMenu ref={ref} handleSignOut={signOut} />
             ) : (
               <UserMenu
                 ref={ref}
-                handleSignOut={handleSignOut}
+                handleSignOut={signOut}
                 user={{
-                  name: currentUser.name ? currentUser.name[0].value : "",
-                  uid: "",
+                  name: currentUser.name[0].value || '',
+                  uid: '',
                 }}
               />
             )}

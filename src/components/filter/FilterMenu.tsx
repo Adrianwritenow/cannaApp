@@ -1,62 +1,30 @@
-import {
-  AdjustmentsIcon,
-  ChevronLeftIcon,
-  XIcon,
-} from "@heroicons/react/solid";
 import { Dialog, Transition } from "@headlessui/react";
-import { Field, Form, Formik } from "formik";
 import React, { FormEvent, Fragment, useEffect, useState } from "react";
 
-import DropdownFilter from "../forms/fields/DropdownFilter";
-import FilterForm from "./FilterForm";
+import FilterGroup from "./FilterGroup";
+import FilterGroupPrice from "./FilterGroupPrice";
 import { Filters } from "../../helpers/filters";
-import { SearchBar } from "../forms/fields/SearchBar";
 import StrainsIcon from "../../../public/assets/icons/iconComponents/Strains";
+import { XIcon } from "@heroicons/react/solid";
 
 interface FilterMenuProps {
   open: boolean;
-  setFieldValue: Function;
   values: any;
   setOpen: Function;
   setSavedValues: Function;
-  savedValues: any;
+  icon?: boolean;
+  label?: string;
+  setFieldValue: Function;
 }
 
 export default function FilterMenu(props: FilterMenuProps) {
-  const { setFieldValue, open, values, setOpen, setSavedValues, savedValues } =
+  const { open, values, setOpen, icon, label, setSavedValues, setFieldValue } =
     props;
 
-  const initialValues = {
-    filters: {
-      types: [],
-      strains: [],
-    },
-    search: "",
-  };
-
   // Add filters to list to be rendered and update the form state values
-  function handleFilter(
-    event: FormEvent<HTMLFormElement>,
-    id: string,
-    setFieldValue: Function
-  ) {
-    const element = event.target as HTMLFormElement;
-    const value = element.value;
-    const currentFilters = savedValues;
-    const filterField = currentFilters.filters[`${id}`];
-
-    if (filterField.includes(value)) {
-      filterField.splice(filterField.indexOf(value), 1);
-    } else {
-      filterField.push(value);
-    }
-
-    setSavedValues((prevState: any) => {
-      return { ...prevState, [`${id}`]: filterField };
-    });
-
-    setFieldValue("filters", savedValues.filters);
-  }
+  useEffect(() => {
+    setSavedValues(values);
+  }, [values, setSavedValues]);
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -79,20 +47,19 @@ export default function FilterMenu(props: FilterMenuProps) {
               leaveTo="-translate-x-full"
             >
               <div className="w-screen max-w-md">
-                <div className="h-full flex flex-col pt-6 bg-white shadow-xl overflow-y-scroll">
+                <div className="h-full flex flex-col pt-6 bg-gray-50 overflow-y-scroll">
                   <div className="px-4 sm:px-6">
                     <div className="flex items-start justify-between">
                       <div className="flex">
-                        <StrainsIcon className="w-7 h-7 mr-2" />
-
+                        {icon && <StrainsIcon className="w-7 h-7 mr-2" />}
                         <h2 className="text-xl font-bold text-gray-900">
-                          Strain Filter
+                          {label ? label : "Filter"}
                         </h2>
                       </div>
                       <div className="ml-3 h-7 flex items-center">
                         <button
                           type="button"
-                          className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                          className="bg-gray-50 rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                           onClick={() => setOpen(false)}
                         >
                           <span className="sr-only">Close filter</span>
@@ -103,40 +70,56 @@ export default function FilterMenu(props: FilterMenuProps) {
                   </div>
                   <div className="mt-6 relative flex-1">
                     {/* Body content */}
-                    <div className="relative w-full h-full inset-0 flex flex-wrap content-between">
-                      <div className="grid w-full grid-flow-row auto-rows-max border-t border-b divide-y divide-gray-200">
-                        {/* // Form Popover sets based on type of filter */}
-                        <FilterForm
-                          filters={Filters.type}
-                          label={"Product Type"}
-                          id={"types"}
-                          values={values.filters.types}
-                          handleFilter={handleFilter}
+                    <div className="relative w-full h-full inset-0 flex flex-wrap content-between bg-gray-50">
+                      <div className="grid w-full grid-flow-row auto-rows-max  px-4 pb-2 pt-12">
+                        {/* // Field sets based on type of filter  if multiple nested filters then pass setFieldValue*/}
+                        {/* Pass the filters ket of values to set Checked */}
+                        <FilterGroup
+                          filters={Filters.sort.list}
+                          label={"Sort By"}
+                          id={"sort"}
+                          type="radio"
+                          values={values.filters.sort}
                           setFieldValue={setFieldValue}
                         />
-                        <FilterForm
-                          filters={Filters.strains}
-                          label={"Strain"}
+                        <FilterGroupPrice
+                          filters={Filters.price.list}
+                          label={"Price"}
+                          id={"price"}
+                          type="radio"
+                          minName="range.min_price"
+                          maxName="range.max_price"
+                        />
+                        <FilterGroup
+                          filters={Filters.strains.list}
+                          label={"Strain Type"}
                           id={"strains"}
                           values={values.filters.strains}
-                          handleFilter={handleFilter}
+                        />
+                        <FilterGroup
+                          filters={Filters.concentrates.list}
+                          label={"Concentrates"}
+                          id={"category"}
+                          type="radio"
+                          values={values.filters.category}
                           setFieldValue={setFieldValue}
                         />
-                      </div>
-                      <div className="flex items-center w-full border-t border-gray-200 ">
-                        <button
-                          className="px-4 py-6 text-left flex items-center font-semibold text-green text-sm"
-                          onClick={() => setOpen(false)}
-                        >
-                          <ChevronLeftIcon className="w-6 h-6" />
-                          see %NUM% results
-                        </button>
-                        <button
-                          onClick={() => setSavedValues(initialValues)}
-                          className="px-4 ml-auto py-6 text-left flex font-semibold text-green text-sm"
-                        >
-                          clear all filters
-                        </button>
+                        <FilterGroup
+                          filters={Filters.edibles.list}
+                          label={"Edibles"}
+                          id={"category"}
+                          type="radio"
+                          values={values.filters.category}
+                          setFieldValue={setFieldValue}
+                        />
+                        <FilterGroup
+                          filters={Filters.topicals.list}
+                          label={"Topicals"}
+                          id={"category"}
+                          type="radio"
+                          values={values.filters.category}
+                          setFieldValue={setFieldValue}
+                        />
                       </div>
                     </div>
                     {/* /End Body */}

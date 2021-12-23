@@ -138,18 +138,18 @@ function ProductDetailXVendor() {
         </div>
       )}
       <ProductResultsSection
-        products={products}
+        list={products}
         sponsored={false}
         label="Related Items"
       />
 
       <ProductResultsSection
-        products={products}
+        list={products}
         sponsored={false}
         label="More from %Shop% "
       />
       <ProductResultsSection
-        products={products}
+        list={products}
         sponsored={false}
         label="Recently Viewed Items"
       />

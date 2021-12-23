@@ -4,10 +4,12 @@ import { listings, products } from "../../../src/helpers/mockData";
 
 import AboutSlideOver from "../../../src/components/products/AboutSlideOver";
 import DropdownFilter from "../../../src/components/forms/fields/DropdownFilter";
+import FaqSlideOver from "../../../src/views/slideOver/FaqSlideOver";
 import ImageSlider from "../../../src/components/slider/ImageSlider";
 import Link from "next/link";
 import { Product } from "../../../src/interfaces/searchProduct";
 import ProductResultsSection from "../../../src/components/sections/ProductsResultsSection";
+import ReviewsSlideOver from "../../../src/views/slideOver/ReviewsSlideOver";
 import { Vendor } from "../../../src/interfaces/vendor";
 import VendorCard from "../../../src/components/vendor/VendorCard";
 import { getDocument } from "../../../src/actions/search";
@@ -22,6 +24,8 @@ export default function ProductDetail() {
   const { productId } = router.query;
   const [product, setProduct] = useState<Product>();
   const [sort, setSort]: any = useState("relevance");
+  const listing = listings[0];
+  const product = products[0];
 
   useEffect(() => {
     if (productId) {
@@ -162,6 +166,7 @@ export default function ProductDetail() {
                   </Link>
                 </div>
               </div>
+<<<<<<< HEAD
             </section>
 
             <section aria-labelledby="specifications-heading">
@@ -174,6 +179,30 @@ export default function ProductDetail() {
               <div>
                 <ul className="text-sm text-gray-700">
                   {/* {product.specifications.map((spec, index) => {
+=======
+              <div className="pt-2">
+                <p className="text-sm text-gray-500">{product.about}</p>
+                <Link href="#" passHref>
+                  <a className="text-green mt-1 text-sm font-medium flex items-center">
+                    Learn more &nbsp;
+                    <ArrowRightIcon className="w-4 h-4" />
+                  </a>
+                </Link>
+              </div>
+            </div>
+          </section>
+          {/* Specifications */}
+          <section aria-labelledby="specifications-heading">
+            <h2 id="specifications-heading" className="sr-only">
+              Specifications
+            </h2>
+            <h2 className="text-gray-700 text-lg font-semibold">
+              Specifications
+            </h2>
+            <div>
+              <ul className="text-sm text-gray-700">
+                {product.specifications.map((spec, index) => {
+>>>>>>> develop
                   return (
                     <li
                       key={index}
@@ -185,24 +214,49 @@ export default function ProductDetail() {
                       <p className="ml-auto">{spec.value}</p>
                     </li>
                   );
+<<<<<<< HEAD
                 })} */}
                 </ul>
               </div>
             </section>
           </div>
+=======
+                })}
+              </ul>
+            </div>
+          </section>
+          <FaqSlideOver business={listing} />
+          <ReviewsSlideOver business={listing} label="" />
+>>>>>>> develop
         </div>
       )}
 
       <ProductResultsSection
-        products={products}
+        list={products}
         sponsored={false}
         label="Related Items"
       />
       <ProductResultsSection
-        products={products}
+        list={products}
         sponsored={false}
         label="Recently Viewed Items"
       />
     </div>
   );
+}
+
+export async function getStaticPaths() {
+  const paths = listings.map((listing, index) => ({
+    params: { productId: `${index}` },
+  }));
+  return { paths, fallback: false };
+}
+export async function getStaticProps() {
+  return {
+    props: {},
+    // Next.js will attempt to re-generate the page:
+    // - When a request comes in
+    // - At most once every 10 seconds
+    revalidate: 10, // In seconds
+  };
 }

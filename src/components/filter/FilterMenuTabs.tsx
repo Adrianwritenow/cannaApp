@@ -104,11 +104,10 @@ export default function FilterMenuTabs(props: FilterMenuTabsProps) {
 
                   <FilterMenu
                     open={open}
-                    setFieldValue={setFieldValue}
                     values={values}
                     setOpen={setOpen}
                     setSavedValues={setSavedValues}
-                    savedValues={savedValues}
+                    setFieldValue={setFieldValue}
                   />
                   {/* Filter Tabs list */}
                   <div className="flex items-center py-3.5 relative overflow-x-scroll">
@@ -155,7 +154,7 @@ export default function FilterMenuTabs(props: FilterMenuTabsProps) {
                               onClick={() => {
                                 removeFilter(filter);
                               }}
-                              className="flex rounded-full border-2 border-gray-200 items-center px-4 py-2   text-sm font-medium bg-white text-gray-900 mx-1"
+                              className="flex rounded-full border-2 border-gray-200 w-max items-center px-4 py-2  w-max text-sm font-medium bg-white text-gray-900 mx-1"
                             >
                               <span>{filter}</span>
                               <span className="sr-only">

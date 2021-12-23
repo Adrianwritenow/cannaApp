@@ -1,5 +1,5 @@
 # Common build stage
-FROM node
+FROM node:lts-alpine
 
 ENV NODE_ENV development
 

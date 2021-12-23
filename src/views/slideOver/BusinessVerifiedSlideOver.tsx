@@ -2,7 +2,8 @@ import { BadgeCheckIcon, XIcon } from "@heroicons/react/solid";
 import { Dialog, Transition } from "@headlessui/react";
 import React, { Fragment, useState } from "react";
 
-import { BusinessSlideoverProps } from "../../interfaces/props/businessSlideOverProps";
+import { SlideOverProps } from "../../interfaces/props/SlideOverProps";
+import { BusinessSlideoverProps } from "@/interfaces/props/businessSlideOverProps";
 
 export default function BusinessVerificationSlideOver(
   props: BusinessSlideoverProps

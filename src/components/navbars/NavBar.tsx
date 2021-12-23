@@ -1,30 +1,119 @@
-import React, { useContext, useEffect, useState } from "react";
+import * as Yup from 'yup';
 
-import { AuthContext } from "../../../src/authentication/authContext";
-import AvatarMenu from "../menus/AvatarMenu";
-import { Disclosure } from "@headlessui/react";
-import FilterMenu from "../filter/FilterMenu";
-import { HeaderRoutes } from "../../helpers/routes";
-import Image from "next/image";
-import Link from "next/link";
-import Logo from "../../../public/assets/logos/logo-text.png";
-import { MenuIcon } from "@heroicons/react/solid";
+import { Field, FieldAttributes, Form, Formik } from 'formik';
+import React, { useContext, useEffect, useState } from 'react';
+import { useSession } from 'next-auth/react';
+
+import AvatarMenu from '@/components/menus/AvatarMenu';
+import { Disclosure } from '@headlessui/react';
+import { HeaderRoutes } from '@/helpers/routes';
+import Image from 'next/image';
+import Link from 'next/link';
+import { LocationMarkerIcon as LocationMarkerIconOutline, MenuIcon } from '@heroicons/react/outline';
+import { LocationMarkerIcon as LocationMarkerIconSolid } from '@heroicons/react/solid';
+import Logo from '@/public/assets/logos/logo-text.png';
 import SearchSlideOver from "../forms/fields/SearchSlideOver";
-import { XIcon } from "@heroicons/react/solid";
-import { useRouter } from "next/router";
+import { XIcon } from '@heroicons/react/solid';
+import { useRouter } from 'next/router';
 
 export default function NavBar() {
+  const [focus, setFocus] = useState({ location: false, search: false });
+  const [view, setView] = useState('list');
   const router = useRouter();
-  const authState = useContext(AuthContext);
+  const { data: session, status } = useSession();
 
-  const [token, setAccessToken] = useState<string | null>(null);
+  const [searchData, setSearchData] = useState([
+    {
+      value: 'Sour Diesel',
+      type: 'strain',
+      category: 'Strain',
+    },
+    {
+      value: 'Sour O.G.',
+      type: 'strain',
+      category: 'Strain',
+    },
+    {
+      value: 'Sour Tangie',
+      type: 'strain',
+      category: 'Strain',
+    },
+    {
+      value: 'Sour Jack',
+      type: 'strain',
+      category: 'Strain',
+    },
+    {
+      value: 'Sour',
+      type: 'flavor',
+      category: 'Strain',
+    },
+    {
+      value: 'Sour Jack’s Ganja Shack',
+      type: 'dispensary',
+      category: 'Shops',
+    },
+  ]);
+
+  const [locationData, setSearchLocationData] = useState([
+    {
+      value: 'Colorado Springs',
+      area: 'CO',
+    },
+    {
+      value: 'Colorado',
+    },
+    {
+      value: 'Colorado River',
+    },
+    {
+      value: 'Colorado State University',
+      area: 'Fort Collins, CO',
+    },
+  ]);
+
+  const schema = Yup.object().shape({
+    search: Yup.object(),
+    location: Yup.object(),
+  });
+
+  const initialValues = {
+    search: '',
+    location: '',
+  };
+
+  // Ref to toggle focus
+  const otherRef = React.createRef<FieldAttributes<any>>();
+
+  // Trigger Focus state for layout changes
+  function handleFocus(id: string, value: boolean) {
+    const focusUpdate: any = { ...focus };
+    Object.keys(focusUpdate).forEach((id: string) => (focusUpdate[id] = false));
+    focusUpdate[id] = value;
+    setFocus(focusUpdate);
+  }
+
+  // Trigger Focus state for layout changes for location pin interaction
+  function focusOnLocation() {
+    otherRef.current.focus();
+    handleFocus('location', true);
+  }
 
   useEffect(() => {
-    if (authState) {
-      const access_token = authState.state.session.access_token;
-      if (access_token) setAccessToken(`${access_token}`);
+    // After data is collected add a initial value for location
+    const locationOptions = [...locationData];
+
+    if (locationOptions[0].value != 'use my current location') {
+      locationOptions.unshift({
+        value: 'use my current location',
+        area: '',
+      });
+
+      setSearchLocationData(locationOptions);
     }
-  }, [token, authState]);
+  }, [focus, locationData, session]);
+
+  function handleSubmit(values: any) {}
 
   return (
     <Disclosure as="nav" className="shadow">
@@ -64,7 +153,7 @@ export default function NavBar() {
                   </div>
                 </div>
                 <div className="flex justify-end align-center ml-auto">
-                  {!token ? (
+                  {session?.accessToken || status === 'loading'  ? (
                     <Link href={"/login"}>
                       <a>
                         <button className="w-full bg-green text-white hover:bg-green-600 flex justify-center py-1 px-2 border border-transparent rounded-md shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green">

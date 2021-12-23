@@ -1,3 +1,4 @@
+import { Coupon } from "../../interfaces/coupon";
 import { Listing } from "../../interfaces/listing";
 import { Product } from "../../interfaces/product";
 import { Strain } from "../../interfaces/strain";
@@ -155,6 +156,186 @@ export const products: Array<Product> = [
   },
   {
     id: 3,
+    name: "Product Name",
+    vendor: "Vendor",
+    about:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.",
+    cannabanoids: {
+      thc: 0.5,
+      cbd: 0.5,
+    },
+    type: "Type",
+    specifications: [
+      { label: "Specific", value: "description" },
+      { label: "Specific", value: "description" },
+      { label: "Specific", value: "description" },
+      { label: "Specific", value: "description" },
+      { label: "Specific", value: "description" },
+      { label: "Specific", value: "description" },
+      { label: "Specific", value: "description" },
+    ],
+    brand: "Brand",
+    category: "Category",
+    price: "$15",
+    rating: 4,
+    reviewCount: 21,
+    imageSrc:
+      "https://images.unsplash.com/photo-1587920951705-5e2ddf954c49?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=774&q=80",
+    imageAlt: "TODO",
+    href: "#",
+  },
+  {
+    id: 4,
+    name: "Product Name",
+    vendor: "Vendor",
+    about:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.",
+    cannabanoids: {
+      thc: 0.5,
+      cbd: 0.5,
+    },
+    type: "general",
+    specifications: [
+      { label: "Specific", value: "description" },
+      { label: "Specific", value: "description" },
+      { label: "Specific", value: "description" },
+      { label: "Specific", value: "description" },
+      { label: "Specific", value: "description" },
+      { label: "Specific", value: "description" },
+      { label: "Specific", value: "description" },
+    ],
+    brand: "Brand",
+    category: "Category",
+    price: "$149",
+    rating: 5,
+    reviewCount: 38,
+    imageSrc:
+      "https://images.unsplash.com/photo-1573340605426-50e22546b411?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=654&q=80",
+    imageAlt: "TODO",
+    href: "#",
+    images: [
+      {
+        id: 1,
+        name: "Angled view",
+        src: "https://images.unsplash.com/photo-1573340605426-50e22546b411?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=654&q=80",
+        alt: "Angled front view with bag zipped and handles upright.",
+      },
+      {
+        id: 2,
+        name: "Angled view",
+        src: "https://images.unsplash.com/photo-1583511335492-7953f39ce779?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1625&q=80",
+        alt: "Angled front view with bag zipped and handles upright.",
+      },
+      {
+        id: 3,
+        name: "Angled view",
+        src: "https://images.unsplash.com/photo-1597511325194-f5d8389f8a5c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1033&q=80",
+        alt: "Angled front view with bag zipped and handles upright.",
+      },
+    ],
+  },
+  {
+    id: 5,
+    name: "Product Name",
+    vendor: "Vendor",
+    about:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.",
+    cannabanoids: {
+      thc: 0.5,
+      cbd: 0.5,
+    },
+    type: "flower",
+    specifications: [
+      { label: "Specific", value: "description" },
+      { label: "Specific", value: "description" },
+      { label: "Specific", value: "description" },
+      { label: "Specific", value: "description" },
+      { label: "Specific", value: "description" },
+      { label: "Specific", value: "description" },
+      { label: "Specific", value: "description" },
+    ],
+    brand: "Brand",
+    category: "Category",
+    price: "$15",
+    rating: 5,
+    reviewCount: 18,
+    imageSrc:
+      "https://images.unsplash.com/photo-1583511335492-7953f39ce779?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1625&q=80",
+    imageAlt: "TODO",
+    href: "#",
+    images: [
+      {
+        id: 1,
+        name: "Angled view",
+        src: "https://images.unsplash.com/photo-1573340605426-50e22546b411?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=654&q=80",
+        alt: "Angled front view with bag zipped and handles upright.",
+      },
+      {
+        id: 2,
+        name: "Angled view",
+        src: "https://images.unsplash.com/photo-1583511335492-7953f39ce779?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1625&q=80",
+        alt: "Angled front view with bag zipped and handles upright.",
+      },
+      {
+        id: 3,
+        name: "Angled view",
+        src: "https://images.unsplash.com/photo-1597511325194-f5d8389f8a5c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1033&q=80",
+        alt: "Angled front view with bag zipped and handles upright.",
+      },
+    ],
+  },
+  {
+    id: 6,
+    name: "Product Name",
+    vendor: "Vendor",
+    about:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.",
+    cannabanoids: {
+      thc: 0.5,
+      cbd: 0.5,
+    },
+    type: "clothing",
+    specifications: [
+      { label: "Specific", value: "description" },
+      { label: "Specific", value: "description" },
+      { label: "Specific", value: "description" },
+      { label: "Specific", value: "description" },
+      { label: "Specific", value: "description" },
+      { label: "Specific", value: "description" },
+      { label: "Specific", value: "description" },
+    ],
+    brand: "Brand",
+    category: "Category",
+    price: "$15",
+    rating: 5,
+    reviewCount: 14,
+    imageSrc:
+      "https://images.unsplash.com/photo-1597511325194-f5d8389f8a5c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1033&q=80",
+    imageAlt: "TODO",
+    images: [
+      {
+        id: 1,
+        name: "Angled view",
+        src: "https://images.unsplash.com/photo-1573340605426-50e22546b411?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=654&q=80",
+        alt: "Angled front view with bag zipped and handles upright.",
+      },
+      {
+        id: 2,
+        name: "Angled view",
+        src: "https://images.unsplash.com/photo-1583511335492-7953f39ce779?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1625&q=80",
+        alt: "Angled front view with bag zipped and handles upright.",
+      },
+      {
+        id: 3,
+        name: "Angled view",
+        src: "https://images.unsplash.com/photo-1597511325194-f5d8389f8a5c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1033&q=80",
+        alt: "Angled front view with bag zipped and handles upright.",
+      },
+    ],
+    href: "#",
+  },
+  {
+    id: 7,
     name: "Product Name",
     vendor: "Vendor",
     about:
@@ -896,6 +1077,59 @@ export const strains: Array<Strain> = [
     growing: {
       min: 20,
       max: 30,
+    },
+  },
+];
+
+export const coupons: Array<Coupon> = [
+  {
+    code: "HHH-111-222-333",
+    saving: "10%",
+    products: [products[0], products[1], products[2]],
+    business: listings[0],
+    image: {
+      id: 14,
+      name: "Bongs",
+      src: "https://images.unsplash.com/photo-1601505612614-178f7ca0077c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80",
+      alt: "Bongs",
+    },
+  },
+
+  {
+    code: "HHH-111-222-333",
+    saving: "10%",
+    products: [products[0], products[1], products[2]],
+    business: listings[0],
+    image: {
+      id: 56,
+      name: "Pipes",
+      src: "https://images.unsplash.com/photo-1592410115363-e8dc156e4113?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80",
+      alt: "Pipes",
+    },
+  },
+  {
+    code: "HHH-111-222-333",
+    saving: "10%",
+    products: [products[0], products[1], products[2]],
+    business: listings[0],
+
+    image: {
+      id: 45,
+      name: "Pipes",
+      src: "https://images.unsplash.com/photo-1621541694081-aef305865f51?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80",
+      alt: "Pipes",
+    },
+  },
+  {
+    code: "HHH-111-222-333",
+    saving: "10%",
+    products: [products[0], products[1], products[2]],
+    business: listings[0],
+    image: {
+      id: 24,
+      name: "Grinder",
+      src: "https://images.unsplash.com/photo-1513114412776-6169617cdcf3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8d2VlZCUyMGdyaW5kZXJ8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60",
+      alt: "Grinder",
     },
   },
 ];

@@ -11,7 +11,7 @@ export default function SearchAll() {
     <div className="bg-gray-50">
       {/* Shop Query Section */}
       <ProductResultsSection
-        products={products}
+        list={products}
         sponsored={true}
         label="Shop %Query%"
       />

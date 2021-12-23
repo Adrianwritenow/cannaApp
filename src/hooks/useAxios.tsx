@@ -1,17 +1,36 @@
-import { AuthContext, getClient } from "../authentication/authContext";
-import { AxiosError, AxiosResponse } from "axios";
-import { IAxiosAction, IAxiosState } from "../interfaces/axios";
-import { useCallback, useContext, useEffect, useRef, useState } from "react";
-
-import { useDispatch } from "react-redux";
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useSession } from 'next-auth/react';
+import axios, { AxiosError, AxiosResponse, AxiosRequestConfig } from 'axios';
+import { IAxiosAction, IAxiosState } from '@/interfaces/axios';
 
 export type DispatchAxios = (params: IAxiosAction) => void;
 
 export function useAxios(): [DispatchAxios, IAxiosState] {
+  const { data: session, status } = useSession();
   const dispatch = useDispatch();
-  const authState = useContext(AuthContext);
   const isMounted = useRef(true);
-  const axios = getClient(authState);
+
+  const client = axios.create({
+    baseURL: process.env.API_URL,
+  });
+
+  client.interceptors.request.use((config: AxiosRequestConfig) => {
+    config.headers = config.headers || {};
+    config.headers['Content-Type'] = 'application/json';
+
+    if (session?.accessToken) {
+      config.headers.Authorization = `Bearer ${session.accessToken}`;
+    }
+
+    if (session?.provider) {
+      config.url += `?_format=json&auth_type=${session.provider}`;
+    } else {
+      config.url += `?_format=json`;
+    }
+
+    return config;
+  });
 
   const [state, setState] = useState<IAxiosState>({
     loading: false,
@@ -25,8 +44,6 @@ export function useAxios(): [DispatchAxios, IAxiosState] {
         type: params.type,
         config: params.config,
       };
-
-      // params.config.url += "?_format=json";
 
       if (params.data) {
         action.data = params.data;
@@ -44,7 +61,7 @@ export function useAxios(): [DispatchAxios, IAxiosState] {
         success: false,
       });
 
-      axios(params.config)
+      client(params.config)
         .then((response: AxiosResponse) => {
           // dispatch must come before setState
           dispatch({
@@ -80,7 +97,7 @@ export function useAxios(): [DispatchAxios, IAxiosState] {
           }
         });
     },
-    [isMounted, dispatch, state, axios]
+    [isMounted, dispatch, state, client]
   );
 
   useEffect(() => {

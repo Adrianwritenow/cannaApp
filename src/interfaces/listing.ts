@@ -6,6 +6,10 @@ export interface Listing {
   image: string;
   address: string;
   distance: string;
+  coords?: {
+    lat?: number;
+    lng?: number;
+  };
   socials: {
     facebook: string;
     instagram: string;
@@ -22,4 +26,11 @@ export interface Listing {
   reviewCount: number;
   reviews: Array<Review>;
   faqs: Array<Faq>;
+}
+
+export interface ListingProps {
+  listing: Listing;
+  amenities?: boolean;
+  classNames?: string;
+  discount?: string;
 }

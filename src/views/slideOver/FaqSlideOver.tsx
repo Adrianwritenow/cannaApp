@@ -5,9 +5,11 @@ import React, { Fragment, useState } from "react";
 
 import { BusinessSlideoverProps } from "../../interfaces/props/businessSlideOverProps";
 import FaqSection from "../../components/sections/FaqSection";
+import { listings } from "../../../src/helpers/mockData";
 
 export default function FaqSlideOver(props: BusinessSlideoverProps) {
-  const { business } = props;
+  const { dispensary } = props;
+  const business = listings[0];
 
   const [open, setOpen] = useState(false);
   const initialValues = {

@@ -13,22 +13,22 @@ export function searchQuery(search: string) {
 
   const data = JSON.stringify(body);
 
-  const results = axios({
-    url: `${SEARCH_URL}/_search`,
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    data: data,
-  }).then((res: AxiosResponse) => {
-    return res.data;
-  });
+  // const results = axios({
+  //   url: `${SEARCH_URL}/_search`,
+  //   method: "POST",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  //   data: data,
+  // }).then((res: AxiosResponse) => {
+  //   return res.data;
+  // });
 
-  // const results = axios
-  //   .get(`${SEARCH_URL}/_search?`, { params: { q: search } })
-  //   .then((res: AxiosResponse) => {
-  //     return res.data;
-  //   });
+  const results = axios
+    .get(`${SEARCH_URL}/_search?`, { params: { q: search } })
+    .then((res: AxiosResponse) => {
+      return res.data;
+    });
 
   // const results = axios
   //   .get(`${SEARCH_URL}`, {
@@ -44,6 +44,7 @@ export function searchQuery(search: string) {
 }
 
 export function getDocument(id: string | string[] | undefined) {
+  console.log("HAMMER", id);
   const results = axios({
     url: `${SEARCH_URL}/_doc/${encodeURIComponent(id as string)}`,
     method: "GET",
@@ -54,6 +55,8 @@ export function getDocument(id: string | string[] | undefined) {
   }).then((res: AxiosResponse) => {
     return res.data;
   });
+
+  console.log(results);
 
   return results;
 }

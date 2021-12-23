@@ -8,7 +8,7 @@ import ProductResultsSection from "../../components/sections/ProductsResultsSect
 import { products } from "../../helpers/mockData";
 
 export default function BusinessMenuSlideOver(props: BusinessSlideoverProps) {
-  const { business } = props;
+  const { dispensary } = props;
   const [open, setOpen] = useState(false);
 
   return (
@@ -54,7 +54,7 @@ export default function BusinessMenuSlideOver(props: BusinessSlideoverProps) {
                           </button>
                         </div>
                         <Dialog.Title className="text-lg font-semibold text-gray-600">
-                          {business.name}
+                          {dispensary?._source.name}
                         </Dialog.Title>
                       </div>
                     </div>

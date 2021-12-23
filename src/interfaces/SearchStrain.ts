@@ -5,7 +5,7 @@ export interface Strain {
   _source: {
     category: string[];
     created_1: number[];
-    description: string[];
+    description_1: string[];
     field_delivery_and_pickup_info: string[];
     field_image: number[];
     field_rating: number[] | 0;
@@ -19,6 +19,6 @@ export interface Strain {
     status_1: boolean[];
     uuid: string[];
     _language: string;
-    _type: string;
+    type: string;
   };
 }

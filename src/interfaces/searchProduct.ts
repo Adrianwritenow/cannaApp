@@ -9,6 +9,7 @@ export interface Product {
     field_delivery_and_pickup_info: string[];
     field_image: number[];
     field_rating: number[] | 0;
+    field_brand: string[];
     field_review_count: number[] | 0;
     field_price: string[];
     field_price_label: string[];

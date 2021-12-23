@@ -4,6 +4,7 @@ import { listings, products } from "../../../src/helpers/mockData";
 
 import AboutSlideOver from "../../../src/components/products/AboutSlideOver";
 import DropdownFilter from "../../../src/components/forms/fields/DropdownFilter";
+import ImageSlider from "../../../src/components/slider/ImageSlider";
 import Link from "next/link";
 import { Product } from "../../../src/interfaces/searchProduct";
 import ProductResultsSection from "../../../src/components/sections/ProductsResultsSection";
@@ -15,7 +16,6 @@ import { useRouter } from "next/router";
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
-// const product = products[0];
 
 export default function ProductDetail() {
   const router = useRouter();
@@ -40,7 +40,7 @@ export default function ProductDetail() {
       {product && (
         <div className="">
           {/* Image gallery */}
-          {/* <ImageSlider images={product.images} /> */}
+          <ImageSlider images={[]} />
 
           {/* Product info */}
           <div className="mt-4 px-4 space-y-4">
@@ -104,7 +104,13 @@ export default function ProductDetail() {
                   listing: listing,
                   product: products[0],
                 };
-                return <VendorCard vendor={vendorProduct} key={index} />;
+                return (
+                  <VendorCard
+                    productId={productId}
+                    vendor={vendorProduct}
+                    key={index}
+                  />
+                );
               })}
             </section>
           </div>

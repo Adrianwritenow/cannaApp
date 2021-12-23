@@ -1,4 +1,5 @@
-import { ArrowRightIcon } from "@heroicons/react/solid";
+import { ArrowRightIcon, CurrencyDollarIcon } from "@heroicons/react/solid";
+
 import Link from "next/link";
 import { Product } from "../../interfaces/searchProduct";
 import SvgSativa from "../../../public/assets/icons/iconComponents/Sativa";
@@ -14,7 +15,7 @@ export default function SearchProductCard(props: SearchProductProps) {
       <a className="flex items-center shrink-0">
         <div className=" grid grid-cols-12 py-3 w-full">
           <div className="bg-green-500 rounded-sm p-0.5 mt-0.5 w-6 h-6 flex items-center justify-center">
-            <SvgSativa className="w-5 h-5 text-green-50" />
+            <CurrencyDollarIcon className="w-4 h-4 text-green-50" />
           </div>
           <div className="ml-2 w-full flex flex-wrap col-span-9 ">
             <p className="w-full overflow-hidden flex flex-wrap text-gray-700 pr-4">

@@ -6,10 +6,12 @@ import { BusinessSlideoverProps } from "../../interfaces/props/businessSlideOver
 import DropdownFilter from "../../components/forms/fields/DropdownFilter";
 import ReviewCard from "../../components/reviews/ReviewCard";
 import ReviewFormSlideOver from "../../components/reviews/ReviewFormSlideOver";
+import { listings } from "../../helpers/mockData";
 
 export default function ReviewsSlideOver(props: BusinessSlideoverProps) {
-  const { business } = props;
+  const { dispensary } = props;
   const [open, setOpen] = useState(false);
+  const business = listings[0];
 
   const [sort, setSort] = useState("");
   const [type, setType] = useState("");
@@ -39,13 +41,13 @@ export default function ReviewsSlideOver(props: BusinessSlideoverProps) {
           onClick={() => setOpen(true)}
           className="py-4 w-full uppercase text-green-500 text-xs font-semibold border-t border-gray-200 tracking-widest"
         >
-          See All {business.reviews.length} Reviews
+          See All {dispensary?._source.field_reviews_count} Reviews
         </button>
       </div>
       <Transition.Root show={open} as={Fragment}>
         <Dialog
           as="div"
-          className="fixed inset-0 overflow-hidden"
+          className="fixed inset-0 overflow-hidden z-50"
           onClose={setOpen}
         >
           <div className="absolute inset-0 overflow-hidden">
@@ -76,7 +78,7 @@ export default function ReviewsSlideOver(props: BusinessSlideoverProps) {
                           </button>
                         </div>
                         <Dialog.Title className="text-lg font-semibold text-gray-600">
-                          {business.name}
+                          {dispensary?._source.name}
                         </Dialog.Title>
                       </div>
                     </div>
@@ -97,7 +99,8 @@ export default function ReviewsSlideOver(props: BusinessSlideoverProps) {
                               <EmojiHappyIcon className="w-6 h-6" />
                               <span className="px-1">Very Positive</span>
                               <span className="font-normal text-gray-500">
-                                (90% of 2000 reviews)
+                                (90% of{" "}
+                                {`${dispensary?._source.field_reviews_count}`})
                               </span>
                             </p>
                           </div>
@@ -121,7 +124,7 @@ export default function ReviewsSlideOver(props: BusinessSlideoverProps) {
                             <ReviewFormSlideOver
                               myRating={myRating}
                               setMyRating={setMyRating}
-                              business={business}
+                              dispensary={dispensary}
                             />
                           </div>
                         </section>

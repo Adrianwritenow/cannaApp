@@ -5,7 +5,7 @@ import React, { Fragment, useState } from "react";
 import { BusinessSlideoverProps } from "../../interfaces/props/businessSlideOverProps";
 
 export default function AboutUsSlideOver(props: BusinessSlideoverProps) {
-  const { business } = props;
+  const { dispensary } = props;
   const [open, setOpen] = useState(false);
   return (
     <div>
@@ -20,7 +20,7 @@ export default function AboutUsSlideOver(props: BusinessSlideoverProps) {
           About Us
         </h2>
         <p className={"text-base text-gray-700 line-clamp-4"}>
-          {business.about}
+          {dispensary?._source.description}
         </p>
         <div className="pt-5 ">
           <button
@@ -32,11 +32,7 @@ export default function AboutUsSlideOver(props: BusinessSlideoverProps) {
         </div>
       </section>
       <Transition.Root show={open} as={Fragment}>
-        <Dialog
-          as="div"
-          className="fixed inset-0 overflow-hidden"
-          onClose={setOpen}
-        >
+        <Dialog as="div" className=" z-50" onClose={setOpen}>
           <div className="absolute inset-0 overflow-hidden">
             <Dialog.Overlay className="absolute inset-0" />
 
@@ -65,7 +61,7 @@ export default function AboutUsSlideOver(props: BusinessSlideoverProps) {
                           </button>
                         </div>
                         <Dialog.Title className="text-lg font-semibold text-gray-600">
-                          {business.name}
+                          {dispensary?._source.name}
                         </Dialog.Title>
                       </div>
                     </div>
@@ -84,7 +80,7 @@ export default function AboutUsSlideOver(props: BusinessSlideoverProps) {
                           About Us
                         </h2>
                         <p className={"text-base text-gray-700"}>
-                          {business.about}
+                          {dispensary?._source.description}
                         </p>
                       </section>
                     </div>

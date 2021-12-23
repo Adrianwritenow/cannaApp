@@ -4,15 +4,16 @@ import { Field, Form, Formik } from "formik";
 import React, { Fragment, useState } from "react";
 
 import AvatarIcon from "../../../public/assets/icons/iconComponents/Avatar";
+import { Dispensary } from "../../interfaces/searchDispensary";
 import { Listing } from "../../interfaces/listing";
 
 interface ReviewSlideOverProps {
   myRating: number;
   setMyRating: Function;
-  business: Listing;
+  dispensary?: Dispensary;
 }
 export default function ReviewFormSlideOver(props: ReviewSlideOverProps) {
-  const { myRating, setMyRating, business } = props;
+  const { myRating, setMyRating, dispensary } = props;
   const [open, setOpen] = useState(false);
   const rating = [
     "I don't know",
@@ -41,7 +42,7 @@ export default function ReviewFormSlideOver(props: ReviewSlideOverProps) {
       <Transition.Root show={open} as={Fragment}>
         <Dialog
           as="div"
-          className="fixed inset-0 overflow-hidden"
+          className="fixed inset-0 overflow-hidden z-50"
           onClose={setOpen}
         >
           <div className="absolute inset-0 overflow-hidden">
@@ -78,7 +79,7 @@ export default function ReviewFormSlideOver(props: ReviewSlideOverProps) {
                       <Dialog.Title className="text-2xl font-semibold text-gray-700 leading-4">
                         How was your visit at <br />
                         <br />
-                        {business.name}
+                        {dispensary?._source.name}
                       </Dialog.Title>
                       <div>
                         <div className="pt-4">

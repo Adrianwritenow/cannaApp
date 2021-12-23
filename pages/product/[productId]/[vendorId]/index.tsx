@@ -6,22 +6,32 @@ import FlowerProduct from "../../../../src/views/search/product/FlowerProduct";
 import GeneralProduct from "../../../../src/views/search/product/GeneralProduct";
 import ImageSlider from "../../../../src/components/slider/ImageSlider";
 import Link from "next/link";
-import { Product } from "../../../../src/interfaces/product";
+import { Product } from "../../../../src/interfaces/searchProduct";
 import ProductResultsSection from "../../../../src/components/sections/ProductsResultsSection";
+import { getDocument } from "../../../../src/actions/search";
 import { products } from "../../../../src/helpers/mockData";
 import { useRouter } from "next/router";
 
 function ProductDetailXVendor() {
-  const [sort, setSort]: any = useState("relevance");
-  const [product, setProduct] = useState<Product>();
   const router = useRouter();
 
+  const [sort, setSort]: any = useState("relevance");
+  const { productId, vendorId } = router.query;
+
+  const [product, setProduct] = useState<Product>();
+
+  const dummyProduct = products[0];
+
   useEffect(() => {
-    const query = router.query;
-    const { productId } = query;
-    const pid = parseInt(productId as string);
-    setProduct(products[pid]);
-  }, [product, router]);
+    console.log(router.query);
+    if (productId) {
+      getDocument(productId).then(
+        (document: React.SetStateAction<Product | undefined>) => {
+          setProduct(document);
+        }
+      );
+    }
+  }, [router]);
 
   return (
     <div className="max-w-7xl mx-auto bg-white">
@@ -30,13 +40,13 @@ function ProductDetailXVendor() {
         <div className="">
           {/* Image gallery */}
 
-          <ImageSlider images={product.images} />
+          <ImageSlider images={[]} />
 
           {/* Product info */}
 
           <div className="mt-4 px-4 space-y-4">
             {(() => {
-              switch (product.type) {
+              switch (product._source._type) {
                 case "flower":
                   return <FlowerProduct product={product} />;
                   break;
@@ -55,37 +65,40 @@ function ProductDetailXVendor() {
               </h2>
               <div className="pt-6">
                 <h2 className="text-gray-700 text-lg font-semibold">
-                  {product.name}
+                  {product._source.name_1}
                 </h2>
-                {product.type !== "clothing" && (
+                {product._source._type !== "clothing" && (
                   <div className="text-sm text-gray-500 pt-2">
                     <p>
-                      <span className="text-black">Type:</span> {product.type}
+                      <span className="text-black">Type:</span>{" "}
+                      {product._source._type}
                     </p>
                     <p>
-                      <span className="text-black">Category:</span>{" "}
-                      {product.category}
+                      <span className="text-black">Category:</span>
+                      {product._source.category}
                     </p>
                     <div className="flex">
                       <p className="text-black">Cannabanoids:&nbsp;</p>
                       <p>
                         THC&nbsp;
-                        {product.cannabanoids &&
-                          Math.round(product.cannabanoids?.thc * 100)}
+                        {dummyProduct.cannabanoids &&
+                          Math.round(dummyProduct.cannabanoids?.thc * 100)}
                         %
                       </p>
                       <>&nbsp;</>
                       <p>
                         CBD&nbsp;
-                        {product.cannabanoids &&
-                          Math.round(product.cannabanoids?.cbd * 100)}
+                        {dummyProduct.cannabanoids &&
+                          Math.round(dummyProduct.cannabanoids?.cbd * 100)}
                         %
                       </p>
                     </div>
                   </div>
                 )}
                 <div className="pt-2">
-                  <p className="text-sm text-gray-500">{product.about}</p>
+                  <p className="text-sm text-gray-500">
+                    {product._source.description}
+                  </p>
                   <Link href="#" passHref>
                     <a className="text-green mt-1 text-sm font-medium flex items-center">
                       Learn more &nbsp;
@@ -105,7 +118,7 @@ function ProductDetailXVendor() {
               </h2>
               <div>
                 <ul className="text-sm text-gray-700">
-                  {product.specifications.map((spec, index) => {
+                  {dummyProduct.specifications.map((spec, index) => {
                     return (
                       <li
                         key={index}

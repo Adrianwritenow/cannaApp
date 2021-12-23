@@ -45,7 +45,7 @@ export default function SearchSlideOver() {
       <Transition.Root show={open} as={Fragment}>
         <Dialog
           as="div"
-          className="fixed inset-0 overflow-hidden"
+          className="fixed inset-0 overflow-hidden z-50"
           onClose={() => setOpen(false)}
         >
           <div className="absolute inset-0 overflow-hidden">
@@ -161,19 +161,34 @@ export default function SearchSlideOver() {
                           switch (true) {
                             case result._id.includes("strain_entity"):
                               return (
-                                <li key={`result-${index}`}>
+                                <li
+                                  key={`result-${index}`}
+                                  onClick={() => {
+                                    setOpen(false);
+                                  }}
+                                >
                                   <SearchStrainCard data={result} />
                                 </li>
                               );
                             case result._id.includes("product_entity"):
                               return (
-                                <li key={`result-${index}`}>
+                                <li
+                                  key={`result-${index}`}
+                                  onClick={() => {
+                                    setOpen(false);
+                                  }}
+                                >
                                   <SearchProductCard data={result} />
                                 </li>
                               );
                             case result._id.includes("dispensary_entity"):
                               return (
-                                <li key={`result-${index}`}>
+                                <li
+                                  key={`result-${index}`}
+                                  onClick={() => {
+                                    setOpen(false);
+                                  }}
+                                >
                                   <SearchDispensaryCard data={result} />
                                 </li>
                               );

@@ -2,7 +2,7 @@ import {
   Deals,
   Menu,
   Products,
-  Shops,
+  Store,
   Strains,
 } from "../../public/assets/icons/iconComponents";
 export interface Route {
@@ -93,7 +93,7 @@ export const FooterRoutes = {
 export const BottomNavRoutes = [
   {
     label: "Shops",
-    icon: <Shops className="w-7 h-7" />,
+    icon: <Store className="w-7 h-7" />,
     href: "/search",
     id: "shops",
   },

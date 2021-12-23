@@ -1,7 +1,8 @@
+import { Dispensary } from "../searchDispensary";
 import { Listing } from "../listing";
 
 export interface BusinessSlideoverProps {
-  business: Listing;
+  dispensary?: Dispensary;
   active?: boolean;
   setView?: Function;
 }

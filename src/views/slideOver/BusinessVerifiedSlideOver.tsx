@@ -7,7 +7,7 @@ import { BusinessSlideoverProps } from "../../interfaces/props/businessSlideOver
 export default function BusinessVerificationSlideOver(
   props: BusinessSlideoverProps
 ) {
-  const { business } = props;
+  const { dispensary } = props;
   const [open, setOpen] = useState(false);
   return (
     <section>
@@ -42,7 +42,7 @@ export default function BusinessVerificationSlideOver(
       <Transition.Root show={open} as={Fragment}>
         <Dialog
           as="div"
-          className="fixed inset-0 overflow-hidden"
+          className="fixed inset-0 overflow-hidden z-50"
           onClose={setOpen}
         >
           <div className="absolute inset-0 overflow-hidden">

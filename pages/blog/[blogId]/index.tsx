@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
 import { IconFacebook } from '../../../public/assets/icons/iconComponents';
 import SvgIconTwitter from '@/public/assets/icons/iconComponents/IconTwitter';
 import SocialShare from '@/components/share/SocialShare';
@@ -34,12 +33,12 @@ export default function BlogPost() {
               <div className="flex justify-between w-full">
                 <Link href="#" passHref>
                   <a>
-                    <IconFacebook width={20} height={20} fill="#2F603D" />
+                    <IconFacebook className="w-5 h-5 text-green-500" />
                   </a>
                 </Link>
                 <Link href="#" passHref>
                   <a>
-                    <SvgIconTwitter width={20} height={20} fill="#2F603D" />
+                    <SvgIconTwitter className="w-5 h-5 text-green-500" />
                   </a>
                 </Link>
 

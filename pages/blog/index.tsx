@@ -1,22 +1,21 @@
-import { articles } from "../../src/helpers/mockData";
-import Image from "next/image";
-import BlogArticleCardSmall from "../../src/components/blog/BlogArticleCardSmall";
-import BlogArticleCardFeatured from "../../src/components/blog/BlogArticleCardFeatured";
-import Link from "next/link";
+import { articles } from '../../src/helpers/mockData';
+import BlogArticleCardSmall from '../../src/components/blog/BlogArticleCardSmall';
+import BlogArticleCardFeatured from '../../src/components/blog/BlogArticleCardFeatured';
+import Link from 'next/link';
 
 const topics = [
-  "Arts",
-  "Education",
-  "CBD",
-  "Politics",
-  "Strains & Products",
-  "Health & Lifestyle",
-  "Science & Technology",
-  "Business",
-  "Entertainment",
-  "Food & Drink",
-  "Travel",
-  "Opinion",
+  'Arts',
+  'Education',
+  'CBD',
+  'Politics',
+  'Strains & Products',
+  'Health & Lifestyle',
+  'Science & Technology',
+  'Business',
+  'Entertainment',
+  'Food & Drink',
+  'Travel',
+  'Opinion',
 ];
 
 export default function Blog() {
@@ -52,7 +51,7 @@ export default function Blog() {
           </div>
           <div>
             <div className="flex flex-wrap py-6 border-b-2 ">
-              {topics.map((topic) => (
+              {topics.map(topic => (
                 <Link href="#" key={topic} passHref>
                   <a className="px-4 py-1 mr-2 my-1 text-gray-600 bg-white text-sm border-2 border-gray-400 rounded-2xl hover:bg-green-400 hover:border-transparent hover:text-white">
                     {topic}

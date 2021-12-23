@@ -5,7 +5,6 @@ import IconShare from '../../../public/assets/icons/iconComponents/IconShare';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-
 export default function SocialShare() {
   const [open, setOpen] = useState(false);
   const router = useRouter();
@@ -30,7 +29,6 @@ export default function SocialShare() {
     },
   ];
 
-
   return (
     <>
       <button
@@ -38,7 +36,7 @@ export default function SocialShare() {
           setOpen(true);
         }}
       >
-        <IconShare height={20} width={20} fill="#2F603D" />
+        <IconShare className="w-5 h-5 text-green-500" />
       </button>
       <Transition.Root show={open} as={Fragment}>
         <Dialog

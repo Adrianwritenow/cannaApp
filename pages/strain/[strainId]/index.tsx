@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { products, strain } from "../../../src/helpers/mockData";
+import React, { useEffect, useState } from 'react';
+import { products, strain } from '../../../src/helpers/mockData';
 
-import Image from "next/image";
-import ProductResultsSection from "../../../src/components/sections/ProductsResultsSection";
-import { Sativa } from "../../../public/assets/icons/iconComponents";
-import { StarIcon } from "@heroicons/react/solid";
-import { Strain } from "../../../src/interfaces/searchStrain";
-import { getDocument } from "../../../src/actions/search";
-import { useRouter } from "next/router";
+import Image from 'next/image';
+import ProductResultsSection from '../../../src/components/sections/ProductsResultsSection';
+import { Sativa } from '../../../public/assets/icons/iconComponents';
+import { StarIcon } from '@heroicons/react/solid';
+import { Strain } from '../../../src/interfaces/searchStrain';
+import { getDocument } from '../../../src/actions/search';
+import { useRouter } from 'next/router';
 
 export default function StrainDetail() {
   const router = useRouter();
@@ -16,7 +16,6 @@ export default function StrainDetail() {
   const [strain, setStrain] = useState<Strain>();
 
   useEffect(() => {
-    console.log(strainId);
     if (strainId) {
       getDocument(strainId).then(
         (document: React.SetStateAction<Strain | undefined>) => {
@@ -54,11 +53,11 @@ export default function StrainDetail() {
             {strain?._source.type}
           </p>
           <div className="flex items-center pt-4">
-            {[0, 1, 2, 3, 4].map((rating) => (
+            {[0, 1, 2, 3, 4].map(rating => (
               <StarIcon
                 key={rating}
                 className={`${
-                  myRating > rating ? "text-yellow-400" : "text-gray-200"
+                  myRating > rating ? 'text-yellow-400' : 'text-gray-200'
                 }
                   flex-shrink-0 h-6 w-6`}
                 aria-hidden="true"
@@ -79,7 +78,7 @@ export default function StrainDetail() {
       <ProductResultsSection
         list={products}
         sponsored={true}
-        label={"Shop %Query%"}
+        label={'Shop %Query%'}
       />
     </div>
   );

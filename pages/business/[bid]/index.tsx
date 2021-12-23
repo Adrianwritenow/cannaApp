@@ -1,4 +1,4 @@
-import { ArrowLeftIcon, StarIcon } from "@heroicons/react/solid";
+import { ArrowLeftIcon, StarIcon } from '@heroicons/react/solid';
 import {
   BookmarkIcon,
   GlobeIcon,
@@ -7,35 +7,35 @@ import {
   PhoneIcon,
   ShareIcon,
   StarIcon as StarIconOutline,
-} from "@heroicons/react/outline";
+} from '@heroicons/react/outline';
 import {
   IconFacebook,
   IconInsta,
   Sativa,
-} from "../../../public/assets/icons/iconComponents";
-import React, { useEffect, useState } from "react";
+} from '../../../public/assets/icons/iconComponents';
+import React, { useEffect, useState } from 'react';
 
-import AboutUsSlideOver from "../../../src/views/slideOver/AboutUsSlideOver";
-import AmenitiesSection from "../../../src/components/sections/AmenitiesSection";
-import BusinessMenuSlideOver from "../../../src/views/slideOver/BusinessMenuSlideOver";
-import BusinessVerificationSlideOver from "../../../src/views/slideOver/BusinessVerifiedSlideOver";
-import { Dispensary } from "../../../src/interfaces/searchDispensary";
-import FaqSlideOver from "../../../src/views/slideOver/FaqSlideOver";
-import Image from "next/image";
-import ListingCardDropdown from "../../../src/components/listings/ListingCardDropDown";
-import Map from "../../../public/assets/images/png/map-mock.png";
-import ReviewsSlideOver from "../../../src/views/slideOver/ReviewsSlideOver";
-import SvgIconTwitter from "../../../public/assets/icons/iconComponents/IconTwitter";
-import { getDocument } from "../../../src/actions/search";
-import { listings } from "../../../src/helpers/mockData";
-import { useRouter } from "next/router";
+import AboutUsSlideOver from '../../../src/views/slideOver/AboutUsSlideOver';
+import AmenitiesSection from '../../../src/components/sections/AmenitiesSection';
+import BusinessMenuSlideOver from '../../../src/views/slideOver/BusinessMenuSlideOver';
+import BusinessVerificationSlideOver from '../../../src/views/slideOver/BusinessVerifiedSlideOver';
+import { Dispensary } from '../../../src/interfaces/searchDispensary';
+import FaqSlideOver from '../../../src/views/slideOver/FaqSlideOver';
+import Image from 'next/image';
+import ListingCardDropdown from '../../../src/components/listings/ListingCardDropDown';
+import Map from '../../../public/assets/images/png/map-mock.png';
+import ReviewsSlideOver from '../../../src/views/slideOver/ReviewsSlideOver';
+import SvgIconTwitter from '../../../public/assets/icons/iconComponents/IconTwitter';
+import { getDocument } from '../../../src/actions/search';
+import { listings } from '../../../src/helpers/mockData';
+import { useRouter } from 'next/router';
 
 export default function BusinessDetail() {
   const router = useRouter();
   const { bid } = router.query;
-  const [view, setView] = useState("");
+  const [view, setView] = useState('');
   const [dispensary, setDispensary] = useState<Dispensary>();
-  const [sort, setSort]: any = useState("relevance");
+  const [sort, setSort]: any = useState('relevance');
   const listing = listings[0];
 
   useEffect(() => {
@@ -148,7 +148,7 @@ export default function BusinessDetail() {
       <div className="py-4">
         <BusinessMenuSlideOver
           dispensary={dispensary}
-          active={view === "menu" ? true : false}
+          active={view === 'menu' ? true : false}
           setView={setView}
         />
       </div>
@@ -161,7 +161,13 @@ export default function BusinessDetail() {
           <h2 className="sr-only">Location</h2>
 
           <div className="w-full h-48 relative rounded-lg overflow-hidden">
-            <Image src={Map} layout="fill" objectFit={"cover"} alt={"Map"} />
+            <Image
+              unoptimized
+              src={Map}
+              layout="fill"
+              objectFit={'cover'}
+              alt={'Map'}
+            />
           </div>
 
           <div className="text-lg text-gray-500 w-60 grid grid-flow-row auto-rows-max gap-2">

@@ -1,85 +1,25 @@
-import * as Yup from "yup";
+import * as Yup from 'yup';
 
-import { Field, FieldAttributes, Form, Formik } from "formik";
-import React, { useContext, useEffect, useState } from "react";
+import { Field, FieldAttributes, Form, Formik } from 'formik';
+import React, { useContext, useEffect, useState } from 'react';
 
-import AuthContext from "../../../stores/authContext";
-import AvatarMenu from "../menus/AvatarMenu";
-import { Disclosure } from "@headlessui/react";
-import { HeaderRoutes } from "../../helpers/routes";
-import Image from "next/image";
-import Link from "next/link";
-import { LocationMarkerIcon as LocationMarkerIconOutline } from "@heroicons/react/outline";
-import { LocationMarkerIcon as LocationMarkerIconSolid } from "@heroicons/react/solid";
-import Logo from "../../../public/assets/logos/logo-text.png";
-import { SearchField } from "../forms/fields/SearchField";
-import { SearchIcon } from "@heroicons/react/solid";
-import { XIcon } from "@heroicons/react/solid";
-import { useRouter } from "next/router";
+import AvatarMenu from '../menus/AvatarMenu';
+import { Disclosure } from '@headlessui/react';
+import { HeaderRoutes } from '../../helpers/routes';
+import Image from 'next/image';
+import Link from 'next/link';
+import { LocationMarkerIcon as LocationMarkerIconOutline } from '@heroicons/react/outline';
+import { LocationMarkerIcon as LocationMarkerIconSolid } from '@heroicons/react/solid';
+import Logo from '../../../public/assets/logos/logo-text.png';
+import { SearchField } from '../forms/fields/SearchField';
+import { SearchIcon } from '@heroicons/react/solid';
+import { XIcon } from '@heroicons/react/solid';
+import { useRouter } from 'next/router';
 
 export default function NavBar() {
   const [focus, setFocus] = useState({ location: false, search: false });
-  const [view, setView] = useState("list");
+  const [view, setView] = useState('list');
   const router = useRouter();
-  const authState = useContext(AuthContext);
-  const [token, setAccessToken] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (authState) {
-      const access_token = authState.state.session.access_token;
-      if (access_token) setAccessToken(`${access_token}`);
-    }
-  }, [token, authState]);
-
-  const [searchData, setSearchData] = useState([
-    {
-      value: "Sour Diesel",
-      type: "strain",
-      category: "Strain",
-    },
-    {
-      value: "Sour O.G.",
-      type: "strain",
-      category: "Strain",
-    },
-    {
-      value: "Sour Tangie",
-      type: "strain",
-      category: "Strain",
-    },
-    {
-      value: "Sour Jack",
-      type: "strain",
-      category: "Strain",
-    },
-    {
-      value: "Sour",
-      type: "flavor",
-      category: "Strain",
-    },
-    {
-      value: "Sour Jack’s Ganja Shack",
-      type: "dispensary",
-      category: "Shops",
-    },
-  ]);
-
-  const [locationData, setSearchLocationData] = useState([
-    {
-      value: "Colorado Springs",
-      area: "CO",
-    },
-    {
-      value: "Colorado",
-    },
-    {
-      value: "Colorado River",
-    },
-    {
-      value: "Colorado State University",
-      area: "Fort Collins, CO",
-    },
-  ]);
 
   const schema = Yup.object().shape({
     search: Yup.object(),
@@ -87,8 +27,8 @@ export default function NavBar() {
   });
 
   const initialValues = {
-    search: "",
-    location: "",
+    search: '',
+    location: '',
   };
 
   // Ref to toggle focus
@@ -105,17 +45,17 @@ export default function NavBar() {
   // Trigger Focus state for layout changes for location pin interaction
   function focusOnLocation() {
     otherRef.current.focus();
-    handleFocus("location", true);
+    handleFocus('location', true);
   }
   useEffect(() => {
     // After data is collected add a initial value for location
 
     const locationOptions = [...locationData];
 
-    if (locationOptions[0].value != "use my current location") {
+    if (locationOptions[0].value != 'use my current location') {
       locationOptions.unshift({
-        value: "use my current location",
-        area: "",
+        value: 'use my current location',
+        area: '',
       });
 
       setSearchLocationData(locationOptions);
@@ -157,7 +97,7 @@ export default function NavBar() {
                       <div className="bg-white p-2">
                         <div className="grid grid-cols-11 px-2 relative">
                           <div className="col-span-4 flex items-center">
-                            <Link href={"/"}>
+                            <Link href={'/'}>
                               <a className="flex items-center relative  h-6 w-auto">
                                 <Image
                                   layout="intrinsic"
@@ -187,7 +127,7 @@ export default function NavBar() {
                           <div className="col-start-10 col-span-2 flex justify-end align-center  ">
                             {!hasValue ? (
                               !token ? (
-                                <Link href={"/login"}>
+                                <Link href={'/login'}>
                                   <a>
                                     <button className="w-full bg-green text-white hover:bg-green-600 flex justify-center py-1 px-2 border border-transparent rounded-md shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green">
                                       Log in
@@ -200,7 +140,7 @@ export default function NavBar() {
                             ) : (
                               <button
                                 className="h-6 w-6"
-                                onClick={(event) => {
+                                onClick={event => {
                                   resetForm();
                                 }}
                               >
@@ -209,19 +149,19 @@ export default function NavBar() {
                             )}
                           </div>
                         </div>
-                        {!router.pathname.startsWith("/user") ? (
-                          <Form className={"w-full"} onSubmit={handleSubmit}>
+                        {!router.pathname.startsWith('/user') ? (
+                          <Form className={'w-full'} onSubmit={handleSubmit}>
                             <div className="grid grid-cols-7 gap-1 pt-2">
                               <div
                                 className={`${
-                                  !toggleForm ? "col-span-5" : "col-span-7 "
+                                  !toggleForm ? 'col-span-5' : 'col-span-7 '
                                 }`}
                               >
                                 <Field
-                                  name={"search"}
+                                  name={'search'}
                                   component={SearchField}
                                   options={searchData}
-                                  id={"search"}
+                                  id={'search'}
                                   handleFocus={handleFocus}
                                   onChange={handleChange}
                                   setFieldValue={setFieldValue}
@@ -239,10 +179,10 @@ export default function NavBar() {
                               </div>
                               <div
                                 className={`${
-                                  !toggleForm ? "flex" : "hidden"
+                                  !toggleForm ? 'flex' : 'hidden'
                                 } items-center col-span-2 justify-center`}
                                 onClick={() => {
-                                  handleFocus("location", true);
+                                  handleFocus('location', true);
                                   focusOnLocation();
                                 }}
                               >
@@ -255,15 +195,15 @@ export default function NavBar() {
                             <div
                               // innerRef={otherRef}
                               className={`pt-2 w-full ${
-                                focus.location || hasValue ? "flex" : "hidden"
+                                focus.location || hasValue ? 'flex' : 'hidden'
                               }`}
                             >
                               <Field
                                 innerRef={otherRef}
-                                name={"location"}
+                                name={'location'}
                                 component={SearchField}
                                 options={locationData}
-                                id={"location"}
+                                id={'location'}
                                 handleFocus={handleFocus}
                                 onChange={handleChange}
                                 setFieldValue={setFieldValue}
@@ -282,14 +222,14 @@ export default function NavBar() {
                             <button
                               type="submit"
                               className={`${
-                                toggleForm ? "flex" : "hidden"
+                                toggleForm ? 'flex' : 'hidden'
                               } mt-2 w-full bg-green text-white hover:bg-green-600 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green`}
                             >
                               Search
                             </button>
                           </Form>
                         ) : (
-                          ""
+                          ''
                         )}
                       </div>
                     </div>

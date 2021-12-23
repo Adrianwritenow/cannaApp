@@ -1,13 +1,15 @@
-import { useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { useSession, signIn } from 'next-auth/react';
-import Image from 'next/image';
-import Link from 'next/link';
+import { signIn, useSession } from 'next-auth/react';
 
-import LoginForm from '@/components/forms/LoginForm';
-import Logo from '@/public/assets/logos/logo.png';
 import FacebookIcon from '@/public/assets/icons/iconComponents/IconFacebook';
 import GoogleIcon from '@/public/assets/icons/iconComponents/IconGoogle';
+import IconFacebook from '@/public/assets/icons/iconComponents/IconFacebook';
+import IconGoogle from '@/public/assets/icons/iconComponents/IconGoogle';
+import Image from 'next/image';
+import Link from 'next/link';
+import LoginForm from '@/components/forms/LoginForm';
+import Logo from '@/public/assets/logos/logo.png';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 
 export default function Login() {
   const router = useRouter();

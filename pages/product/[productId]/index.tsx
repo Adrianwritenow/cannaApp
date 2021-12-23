@@ -1,31 +1,30 @@
-import { ArrowRightIcon, StarIcon } from "@heroicons/react/solid";
-import React, { useEffect, useState } from "react";
-import { listings, products } from "../../../src/helpers/mockData";
+import { ArrowRightIcon, StarIcon } from '@heroicons/react/solid';
+import React, { useEffect, useState } from 'react';
+import { listings, products } from '../../../src/helpers/mockData';
 
-import AboutSlideOver from "../../../src/components/products/AboutSlideOver";
-import DropdownFilter from "../../../src/components/forms/fields/DropdownFilter";
-import FaqSlideOver from "../../../src/views/slideOver/FaqSlideOver";
-import ImageSlider from "../../../src/components/slider/ImageSlider";
-import Link from "next/link";
-import { Product } from "../../../src/interfaces/searchProduct";
-import ProductResultsSection from "../../../src/components/sections/ProductsResultsSection";
-import ReviewsSlideOver from "../../../src/views/slideOver/ReviewsSlideOver";
-import { Vendor } from "../../../src/interfaces/vendor";
-import VendorCard from "../../../src/components/vendor/VendorCard";
-import { getDocument } from "../../../src/actions/search";
-import { useRouter } from "next/router";
+import AboutSlideOver from '../../../src/components/products/AboutSlideOver';
+import DropdownFilter from '../../../src/components/forms/fields/DropdownFilter';
+import FaqSlideOver from '../../../src/views/slideOver/FaqSlideOver';
+import ImageSlider from '../../../src/components/slider/ImageSlider';
+import Link from 'next/link';
+import { Product } from '../../../src/interfaces/searchProduct';
+import ProductResultsSection from '../../../src/components/sections/ProductsResultsSection';
+import ReviewsSlideOver from '../../../src/views/slideOver/ReviewsSlideOver';
+import { Vendor } from '../../../src/interfaces/vendor';
+import VendorCard from '../../../src/components/vendor/VendorCard';
+import { getDocument } from '../../../src/actions/search';
+import { useRouter } from 'next/router';
 
 function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(" ");
+  return classes.filter(Boolean).join(' ');
 }
 
 export default function ProductDetail() {
   const router = useRouter();
   const { productId } = router.query;
   const [product, setProduct] = useState<Product>();
-  const [sort, setSort]: any = useState("relevance");
+  const [sort, setSort]: any = useState('relevance');
   const listing = listings[0];
-  const product = products[0];
 
   useEffect(() => {
     if (productId) {
@@ -68,14 +67,14 @@ export default function ProductDetail() {
                       ? product?._source.field_rating
                       : 0}
                   </span>
-                  {[0, 1, 2, 3, 4].map((rating) => (
+                  {[0, 1, 2, 3, 4].map(rating => (
                     <StarIcon
                       key={rating}
                       className={classNames(
                         product?._source.field_rating > rating
-                          ? "text-gray-900"
-                          : "text-gray-200",
-                        "h-3.5 w-3.5 flex-shrink-0"
+                          ? 'text-gray-900'
+                          : 'text-gray-200',
+                        'h-3.5 w-3.5 flex-shrink-0'
                       )}
                       aria-hidden="true"
                     />
@@ -98,9 +97,9 @@ export default function ProductDetail() {
                 <p className="text-sm">Buying Options</p>
                 <DropdownFilter
                   setter={setSort}
-                  options={["relevance", "distance"]}
+                  options={['relevance', 'distance']}
                   current={sort}
-                  label={"Sort By"}
+                  label={'Sort By'}
                 />
               </div>
               {listings.map((listing, index) => {
@@ -129,11 +128,11 @@ export default function ProductDetail() {
                 </h2>
                 <div className="text-sm text-gray-500 pt-2">
                   <p>
-                    <span className="text-black">Type:</span>{" "}
+                    <span className="text-black">Type:</span>{' '}
                     {product?._source._type}
                   </p>
                   <p>
-                    <span className="text-black">Category:</span>{" "}
+                    <span className="text-black">Category:</span>{' '}
                     {product?._source.category}
                   </p>
                   <div className="flex">
@@ -166,7 +165,6 @@ export default function ProductDetail() {
                   </Link>
                 </div>
               </div>
-<<<<<<< HEAD
             </section>
 
             <section aria-labelledby="specifications-heading">
@@ -179,30 +177,6 @@ export default function ProductDetail() {
               <div>
                 <ul className="text-sm text-gray-700">
                   {/* {product.specifications.map((spec, index) => {
-=======
-              <div className="pt-2">
-                <p className="text-sm text-gray-500">{product.about}</p>
-                <Link href="#" passHref>
-                  <a className="text-green mt-1 text-sm font-medium flex items-center">
-                    Learn more &nbsp;
-                    <ArrowRightIcon className="w-4 h-4" />
-                  </a>
-                </Link>
-              </div>
-            </div>
-          </section>
-          {/* Specifications */}
-          <section aria-labelledby="specifications-heading">
-            <h2 id="specifications-heading" className="sr-only">
-              Specifications
-            </h2>
-            <h2 className="text-gray-700 text-lg font-semibold">
-              Specifications
-            </h2>
-            <div>
-              <ul className="text-sm text-gray-700">
-                {product.specifications.map((spec, index) => {
->>>>>>> develop
                   return (
                     <li
                       key={index}
@@ -214,20 +188,11 @@ export default function ProductDetail() {
                       <p className="ml-auto">{spec.value}</p>
                     </li>
                   );
-<<<<<<< HEAD
                 })} */}
                 </ul>
               </div>
             </section>
           </div>
-=======
-                })}
-              </ul>
-            </div>
-          </section>
-          <FaqSlideOver business={listing} />
-          <ReviewsSlideOver business={listing} label="" />
->>>>>>> develop
         </div>
       )}
 

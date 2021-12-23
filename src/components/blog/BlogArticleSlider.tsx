@@ -2,10 +2,10 @@ import { Post } from '@/interfaces/post';
 import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import BlogArticleCardSlide from './BlogArticleCardSlide';
-
+import 'swiper/css';
 
 function BlogArticleSlider(props: { posts: Post[] }) {
-    const { posts } = props;
+  const { posts } = props;
   return (
     <div className="pb-4">
       <h2 className="px-4 pb-4 text-green-600 text-xl font-bold">

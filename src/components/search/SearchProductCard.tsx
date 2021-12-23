@@ -1,8 +1,7 @@
-import { ArrowRightIcon, CurrencyDollarIcon } from "@heroicons/react/solid";
+import { ArrowRightIcon, CurrencyDollarIcon } from '@heroicons/react/solid';
 
-import Link from "next/link";
-import { Product } from "../../interfaces/searchProduct";
-import SvgSativa from "../../../public/assets/icons/iconComponents/Sativa";
+import Link from 'next/link';
+import { Product } from '../../interfaces/searchProduct';
 
 interface SearchProductProps {
   data: Product;

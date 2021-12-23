@@ -1,8 +1,8 @@
-import Image from "next/image";
-import Link from "next/link";
-import React from "react";
-import { StarIcon } from "@heroicons/react/solid";
-import { Strain } from "../../interfaces/strain";
+import Image from 'next/image';
+import Link from 'next/link';
+import React from 'react';
+import { StarIcon } from '@heroicons/react/solid';
+import { Strain } from '../../interfaces/strain';
 
 interface StrainProps {
   strain: Strain;
@@ -12,7 +12,7 @@ export default function StrainCardSmall(data: StrainProps) {
   const { strain } = data;
 
   return (
-    <Link href="/strain/1" passHref>
+    <Link href="/strain/entity%3Astrain_entity%2F602%3Aen" passHref>
       <a>
         <div className="w-full flex p-4 items-center">
           <div className="rounded-lg overflow-hidden w-12 h-12 relative flex-shrink-0 mr-3">
@@ -20,7 +20,7 @@ export default function StrainCardSmall(data: StrainProps) {
               src={strain.images[0]}
               alt={strain.title}
               layout="fill"
-              objectFit={"cover"}
+              objectFit={'cover'}
             />
           </div>
           <div className="text-left text-sm w-full">
@@ -36,13 +36,13 @@ export default function StrainCardSmall(data: StrainProps) {
                   {strain.rating}
                 </span>
 
-                {[0, 1, 2, 3, 4].map((rating) => (
+                {[0, 1, 2, 3, 4].map(rating => (
                   <StarIcon
                     key={rating}
                     className={`    ${
                       strain.rating > rating
-                        ? "text-yellow-400"
-                        : "text-gray-200"
+                        ? 'text-yellow-400'
+                        : 'text-gray-200'
                     }
                   flex-shrink-0 h-4 w-4`}
                     aria-hidden="true"

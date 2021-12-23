@@ -27,7 +27,6 @@ export default function ProductDetail() {
   const listing = listings[0];
 
   useEffect(() => {
-    console.log(productId);
     if (productId) {
       getDocument(productId).then(
         (document: React.SetStateAction<Product | undefined>) => {

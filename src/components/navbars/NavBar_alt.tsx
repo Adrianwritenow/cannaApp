@@ -21,6 +21,56 @@ export default function NavBar() {
   const [view, setView] = useState('list');
   const router = useRouter();
 
+  const [searchData, setSearchData] = useState([
+    {
+      value: 'Sour Diesel',
+      type: 'strain',
+      category: 'Strain',
+    },
+    {
+      value: 'Sour O.G.',
+      type: 'strain',
+      category: 'Strain',
+    },
+    {
+      value: 'Sour Tangie',
+      type: 'strain',
+      category: 'Strain',
+    },
+    {
+      value: 'Sour Jack',
+      type: 'strain',
+      category: 'Strain',
+    },
+    {
+      value: 'Sour',
+      type: 'flavor',
+      category: 'Strain',
+    },
+    {
+      value: 'Sour Jack’s Ganja Shack',
+      type: 'dispensary',
+      category: 'Shops',
+    },
+  ]);
+
+  const [locationData, setSearchLocationData] = useState([
+    {
+      value: 'Colorado Springs',
+      area: 'CO',
+    },
+    {
+      value: 'Colorado',
+    },
+    {
+      value: 'Colorado River',
+    },
+    {
+      value: 'Colorado State University',
+      area: 'Fort Collins, CO',
+    },
+  ]);
+
   const schema = Yup.object().shape({
     search: Yup.object(),
     location: Yup.object(),
@@ -125,9 +175,9 @@ export default function NavBar() {
                             </div>
                           </div>
                           <div className="col-start-10 col-span-2 flex justify-end align-center  ">
-                            {!hasValue ? (
+                            {/* {!hasValue ? (
                               !token ? (
-                                <Link href={'/login'}>
+                                <Link href={"/login"}>
                                   <a>
                                     <button className="w-full bg-green text-white hover:bg-green-600 flex justify-center py-1 px-2 border border-transparent rounded-md shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green">
                                       Log in
@@ -140,13 +190,13 @@ export default function NavBar() {
                             ) : (
                               <button
                                 className="h-6 w-6"
-                                onClick={event => {
+                                onClick={(event) => {
                                   resetForm();
                                 }}
                               >
                                 <XIcon className=" text-gray-500 h-6 w-6" />
                               </button>
-                            )}
+                            )} */}
                           </div>
                         </div>
                         {!router.pathname.startsWith('/user') ? (

@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 
-import SearchAll from "../../src/views/search/SearchAll";
-import SearchDeals from "../../src/views/search/SearchDeals";
-import SearchDispensary from "../../src/views/search/SearchDispensary";
-import SearchStrain from "../../src/views/search/SearchStrain";
-import { Tab } from "@headlessui/react";
-import { useRouter } from "next/router";
+import SearchAll from '../../src/views/search/SearchAll';
+import SearchDeals from '../../src/views/search/SearchDeals';
+import SearchDispensary from '../../src/views/search/SearchDispensary';
+import SearchStrain from '../../src/views/search/SearchStrain';
+import { Tab } from '@headlessui/react';
+import { useRouter } from 'next/router';
 
 export default function Search() {
   const router = useRouter();
@@ -14,11 +14,11 @@ export default function Search() {
   const query = router.query;
 
   const tabs = [
-    { name: "All", href: "/search?type=all", current: false },
-    { name: "Deals", href: "/search?", current: false },
-    { name: "Shopping", href: "/search?type=shops", current: false },
-    { name: "Strains", href: "/search?type=strains", current: false },
-    { name: "Dispensaries", href: "/search?type=dispensaries", current: false },
+    { name: 'All', href: '/search?type=all', current: false },
+    { name: 'Deals', href: '/search?', current: false },
+    { name: 'Shopping', href: '/search?type=shops', current: false },
+    { name: 'Strains', href: '/search?type=strains', current: false },
+    { name: 'Dispensaries', href: '/search?type=dispensaries', current: false },
   ];
 
   useEffect(() => {
@@ -41,8 +41,8 @@ export default function Search() {
                 className={({ selected }) =>
                   `${
                     selected
-                      ? "border-green text-green"
-                      : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                      ? 'border-green text-green'
+                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                   }  whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm w-auto focus:outline-none`
                 }
               >

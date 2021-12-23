@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 
-import { ArrowRightIcon } from "@heroicons/react/solid";
-import ClothingProduct from "../../../../src/views/search/product/ClothingProduct";
-import FlowerProduct from "../../../../src/views/search/product/FlowerProduct";
-import GeneralProduct from "../../../../src/views/search/product/GeneralProduct";
-import ImageSlider from "../../../../src/components/slider/ImageSlider";
-import Link from "next/link";
-import { Product } from "../../../../src/interfaces/searchProduct";
-import ProductResultsSection from "../../../../src/components/sections/ProductsResultsSection";
-import { getDocument } from "../../../../src/actions/search";
-import { products } from "../../../../src/helpers/mockData";
-import { useRouter } from "next/router";
+import { ArrowRightIcon } from '@heroicons/react/solid';
+import ClothingProduct from '../../../../src/views/search/product/ClothingProduct';
+import FlowerProduct from '../../../../src/views/search/product/FlowerProduct';
+import GeneralProduct from '../../../../src/views/search/product/GeneralProduct';
+import ImageSlider from '../../../../src/components/slider/ImageSlider';
+import Link from 'next/link';
+import { Product } from '../../../../src/interfaces/searchProduct';
+import ProductResultsSection from '../../../../src/components/sections/ProductsResultsSection';
+import { getDocument } from '../../../../src/actions/search';
+import { products } from '../../../../src/helpers/mockData';
+import { useRouter } from 'next/router';
 
 function ProductDetailXVendor() {
   const router = useRouter();
 
-  const [sort, setSort]: any = useState("relevance");
+  const [sort, setSort]: any = useState('relevance');
   const { productId, vendorId } = router.query;
 
   const [product, setProduct] = useState<Product>();
@@ -23,7 +23,6 @@ function ProductDetailXVendor() {
   const dummyProduct = products[0];
 
   useEffect(() => {
-    console.log(router.query);
     if (productId) {
       getDocument(productId).then(
         (document: React.SetStateAction<Product | undefined>) => {
@@ -47,10 +46,10 @@ function ProductDetailXVendor() {
           <div className="mt-4 px-4 space-y-4">
             {(() => {
               switch (product._source._type) {
-                case "flower":
+                case 'flower':
                   return <FlowerProduct product={product} />;
                   break;
-                case "clothing":
+                case 'clothing':
                   return <ClothingProduct product={product} />;
                   break;
                 default:
@@ -67,10 +66,10 @@ function ProductDetailXVendor() {
                 <h2 className="text-gray-700 text-lg font-semibold">
                   {product._source.name_1}
                 </h2>
-                {product._source._type !== "clothing" && (
+                {product._source._type !== 'clothing' && (
                   <div className="text-sm text-gray-500 pt-2">
                     <p>
-                      <span className="text-black">Type:</span>{" "}
+                      <span className="text-black">Type:</span>{' '}
                       {product._source._type}
                     </p>
                     <p>
@@ -123,7 +122,7 @@ function ProductDetailXVendor() {
                       <li
                         key={index}
                         className={`${
-                          index % 2 === 0 ? "bg-white" : "bg-green-50"
+                          index % 2 === 0 ? 'bg-white' : 'bg-green-50'
                         } flex py-3 px-2`}
                       >
                         <p className="font-semibold">{spec.label}</p>

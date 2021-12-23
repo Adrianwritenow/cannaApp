@@ -1,25 +1,24 @@
-import { ArrowLeftIcon, SearchIcon, XIcon } from "@heroicons/react/solid";
-import { Dialog, Transition } from "@headlessui/react";
-import { Field, Form, Formik } from "formik";
-import React, { Fragment, Ref, useEffect, useState } from "react";
+import { ArrowLeftIcon, SearchIcon, XIcon } from '@heroicons/react/solid';
+import { Dialog, Transition } from '@headlessui/react';
+import { Field, Form, Formik } from 'formik';
+import React, { Fragment, Ref, useEffect, useState } from 'react';
 
-import SearchDispensaryCard from "../../search/SearchDispensaryCard";
-import { SearchHits } from "../../../interfaces/searchHits";
-import SearchProductCard from "../../search/SearchProductCard";
-import SearchStrainCard from "../../search/SearchStrainCard";
-import { searchQuery } from "../../../actions/search";
-import { useAxios } from "../../../hooks/useAxios";
+import SearchDispensaryCard from '../../search/SearchDispensaryCard';
+import { SearchHits } from '../../../interfaces/searchHits';
+import SearchProductCard from '../../search/SearchProductCard';
+import SearchStrainCard from '../../search/SearchStrainCard';
+import { searchQuery } from '../../../actions/search';
+import { useAxios } from '../../../hooks/useAxios';
 
 export default function SearchSlideOver() {
   const [open, setOpen] = useState(false);
   const [dispatchAxios, { loading }] = useAxios();
   const [results, setResults]: any = useState([]);
-  const [initialValues, setInitialValues] = useState({ search: "" });
+  const [initialValues, setInitialValues] = useState({ search: '' });
 
   async function handleSubmit(search: any) {
     const hits: SearchHits = await searchQuery(search);
     setResults(hits.hits.hits);
-    console.log(results);
   }
   function handleSearch(search: any) {
     handleSubmit(search);
@@ -95,15 +94,15 @@ export default function SearchSlideOver() {
                               }) => {
                                 return (
                                   <Form
-                                    className={"w-full flex items-center"}
+                                    className={'w-full flex items-center'}
                                     onSubmit={handleSubmit}
                                   >
                                     <div className="grid grid-cols-7 gap-1 w-full">
-                                      <div className={"col-span-7"}>
+                                      <div className={'col-span-7'}>
                                         <Field
-                                          name={"search"}
-                                          type={"text"}
-                                          id={"search"}
+                                          name={'search'}
+                                          type={'text'}
+                                          id={'search'}
                                           className="w-full border-none p-4 focus:border-0 focus:outline-none focus:ring-transparent"
                                           onChange={(
                                             e: React.ChangeEvent<HTMLInputElement>
@@ -159,7 +158,7 @@ export default function SearchSlideOver() {
                       <ul className="px-4 ">
                         {results.map((result: any, index: number) => {
                           switch (true) {
-                            case result._id.includes("strain_entity"):
+                            case result._id.includes('strain_entity'):
                               return (
                                 <li
                                   key={`result-${index}`}
@@ -170,7 +169,7 @@ export default function SearchSlideOver() {
                                   <SearchStrainCard data={result} />
                                 </li>
                               );
-                            case result._id.includes("product_entity"):
+                            case result._id.includes('product_entity'):
                               return (
                                 <li
                                   key={`result-${index}`}
@@ -181,7 +180,7 @@ export default function SearchSlideOver() {
                                   <SearchProductCard data={result} />
                                 </li>
                               );
-                            case result._id.includes("dispensary_entity"):
+                            case result._id.includes('dispensary_entity'):
                               return (
                                 <li
                                   key={`result-${index}`}
@@ -196,7 +195,7 @@ export default function SearchSlideOver() {
                         })}
                       </ul>
                     ) : (
-                      ""
+                      ''
                     )}
                   </div>
                 </div>

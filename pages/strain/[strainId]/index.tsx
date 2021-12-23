@@ -5,7 +5,7 @@ import Image from 'next/image';
 import ProductResultsSection from '../../../src/components/sections/ProductsResultsSection';
 import { Sativa } from '../../../public/assets/icons/iconComponents';
 import { StarIcon } from '@heroicons/react/solid';
-import { Strain } from '@/interfaces/searchStrain';
+import { Strain } from '@/interfaces/SearchStrain';
 import { getDocument } from '../../../src/actions/search';
 import { useRouter } from 'next/router';
 

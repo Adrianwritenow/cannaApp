@@ -1,6 +1,6 @@
 import { ArrowRightIcon } from '@heroicons/react/solid';
 import Link from 'next/link';
-import { Strain } from '@/interfaces/searchStrain';
+import { Strain } from '@/interfaces/SearchStrain';
 import SvgSativa from '@/public/assets/icons/iconComponents/Sativa';
 
 interface SearchProductProps {

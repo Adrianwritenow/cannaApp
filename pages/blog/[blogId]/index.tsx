@@ -1,136 +1,130 @@
-import { CameraIcon } from "@heroicons/react/solid";
-import Image from "next/image";
-import { useRouter } from "next/router";
+import Image from 'next/image';
+import Link from 'next/link';
+import { IconFacebook } from '../../../public/assets/icons/iconComponents';
+import SvgIconTwitter from '@/public/assets/icons/iconComponents/IconTwitter';
+import SocialShare from '@/components/share/SocialShare';
+
+import { articles } from '@/helpers/mockData';
+import BlogArticleSlider from '@/components/blog/BlogArticleSlider';
 
 export default function BlogPost() {
-  const router = useRouter();
-  const blogId = router.query.blogId;
   return (
-    <div className="bg-white overflow-hidden">
-      <div className="relative max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
-        <div className="hidden lg:block bg-gray-50 absolute top-0 bottom-0 left-3/4 w-screen" />
-        <div className="mx-auto text-base max-w-prose lg:grid lg:grid-cols-2 lg:gap-8 lg:max-w-none">
-          <div>
-            <h2 className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-              Blog Post {blogId}
-            </h2>
-          </div>
-        </div>
-        <div className="mt-8 lg:grid lg:grid-cols-2 lg:gap-8">
-          <div className="relative lg:row-start-1 lg:col-start-2">
-            <svg
-              className="hidden lg:block absolute top-0 right-0 -mt-20 -mr-20"
-              width={404}
-              height={384}
-              fill="none"
-              viewBox="0 0 404 384"
-              aria-hidden="true"
-            >
-              <defs>
-                <pattern
-                  id="de316486-4a29-4312-bdfc-fbce2132a2c1"
-                  x={0}
-                  y={0}
-                  width={20}
-                  height={20}
-                  patternUnits="userSpaceOnUse"
-                >
-                  <rect
-                    x={0}
-                    y={0}
-                    width={4}
-                    height={4}
-                    className="text-gray-200"
-                    fill="currentColor"
-                  />
-                </pattern>
-              </defs>
-              <rect
-                width={404}
-                height={384}
-                fill="url(#de316486-4a29-4312-bdfc-fbce2132a2c1)"
-              />
-            </svg>
-            <div className="relative text-base mx-auto max-w-prose lg:max-w-none">
-              <figure>
-                <div className="aspect-w-12 aspect-h-7 lg:aspect-none">
-                  <Image
-                    className={
-                      "rounded-lg shadow-lg object-cover object-center"
-                    }
-                    src={
-                      "https://images.unsplash.com/photo-1597266028990-0d03b2e9a2a0?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2503&q=80"
-                    }
-                    alt="Marijuana Bud"
-                    width={1184}
-                    height={1376}
-                  />
-                </div>
-                <figcaption className="mt-3 flex text-sm text-gray-500">
-                  <CameraIcon
-                    className="flex-none w-5 h-5 text-gray-400"
-                    aria-hidden="true"
-                  />
-                  <span className="ml-2">Photograph by Marcus O’Leary</span>
-                </figcaption>
-              </figure>
-            </div>
-          </div>
-          <div className="mt-8 lg:mt-0">
-            <div className="text-base max-w-prose mx-auto lg:max-w-none">
-              <p className="text-lg text-gray-500">
-                Sagittis scelerisque nulla cursus in enim consectetur quam.
-                Dictum urna sed consectetur neque tristique pellentesque.
-                Blandit amet, sed aenean erat arcu morbi.
-              </p>
-            </div>
-            <div className="mt-5 prose prose-indigo text-gray-500 mx-auto lg:max-w-none lg:row-start-1 lg:col-start-1">
-              <p>
-                Sollicitudin tristique eros erat odio sed vitae, consequat
-                turpis elementum. Lorem nibh vel, eget pretium arcu vitae. Eros
-                eu viverra donec ut volutpat donec laoreet quam urna.
-              </p>
-              <p>
-                Bibendum eu nulla feugiat justo, elit adipiscing. Ut tristique
-                sit nisi lorem pulvinar. Urna, laoreet fusce nibh leo. Dictum et
-                et et sit. Faucibus sed non gravida lectus dignissim imperdiet
-                a.
-              </p>
-              <p>
-                Dictum magnis risus phasellus vitae quam morbi. Quis lorem lorem
-                arcu, metus, egestas netus cursus. In.
-              </p>
-              <ul role="list">
-                <li>Quis elit egestas venenatis mattis dignissim.</li>
-                <li>
-                  Cras cras lobortis vitae vivamus ultricies facilisis tempus.
-                </li>
-                <li>Orci in sit morbi dignissim metus diam arcu pretium.</li>
-              </ul>
-              <p>
-                Rhoncus nisl, libero egestas diam fermentum dui. At quis
-                tincidunt vel ultricies. Vulputate aliquet velit faucibus
-                semper. Pellentesque in venenatis vestibulum consectetur nibh
-                id. In id ut tempus egestas. Enim sit aliquam nec, a. Morbi enim
-                fermentum lacus in. Viverra.
-              </p>
-              <h3>How we helped</h3>
-              <p>
-                Tincidunt integer commodo, cursus etiam aliquam neque, et.
-                Consectetur pretium in volutpat, diam. Montes, magna cursus
-                nulla feugiat dignissim id lobortis amet. Laoreet sem est
-                phasellus eu proin massa, lectus. Diam rutrum posuere donec
-                ultricies non morbi. Mi a platea auctor mi.
-              </p>
-              <p>
-                Sagittis scelerisque nulla cursus in enim consectetur quam.
-                Dictum urna sed consectetur neque tristique pellentesque.
-                Blandit amet, sed aenean erat arcu morbi.
-              </p>
+    <div className="relative  bg-white overflow-hidden">
+      <div className="relative px-4 sm:px-6 lg:px-8">
+        <div className="text-lg max-w-prose mx-auto">
+          <h1>
+            <span className="mt-2 block font-serif text-4xl leading-10  text-green-500 text-5xl">
+              Exercitation veniam consequat sunt nostrud amet.
+            </span>
+          </h1>
+          <p className="pt-4 text-gray-500">
+            Ultrices cursus sagittis, lacus risus enim odio potenti diam
+            parturient odio ipsum.
+          </p>
+          <div className="pt-4 border-b-2 pb-4">
+            <p className="text-xs text-gray-900">
+              By{' '}
+              <Link href="#" passHref>
+                <a className="text-green-400">John Doe</a>
+              </Link>{' '}
+              | January 1st, 2022
+            </p>
+            <div className="flex items-center pt-4 w-24">
+              <div className="flex justify-between w-full">
+                <Link href="#" passHref>
+                  <a>
+                    <IconFacebook className="w-5 h-5 text-green-500" />
+                  </a>
+                </Link>
+                <Link href="#" passHref>
+                  <a>
+                    <SvgIconTwitter className="w-5 h-5 text-green-500" />
+                  </a>
+                </Link>
+
+                <SocialShare />
+              </div>
             </div>
           </div>
         </div>
       </div>
+
+      <div className="relative flex justify-center mt-4">
+        <Image
+          src="https://images.unsplash.com/photo-1605570381616-4d1dc384e9e8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
+          layout="intrinsic"
+          height={620}
+          width={830}
+          objectFit="cover"
+          alt="rolling a joint"
+        />
+      </div>
+      <div className="relative px-4 sm:px-6 lg:px-8">
+        <div>
+          <p className="mt-8 text-xl text-green-600 leading-8">
+            Urna ullamcorper varius molestie quisque ac vel augue mi lacus.
+            Risus arcu lectus consequat tempus tellus velit tristique senectus
+            quis. Mollis dictumst malesuada elementum ac pellentesque. Quisque
+            lectus lobortis morbi bibendum ultricies faucibus. Egestas sed
+            ultrices sed quam mi. A bibendum posuere ipsum, fermentum. Enim
+            sociis aliquam, ac velit aenean tellus porttitor. Elementum eget
+            tincidunt posuere vitae vitae lorem fermentum, dignissim in. Enim
+            ultricies lorem consectetur risus blandit mollis lacus pretium
+            cursus. Non et quis ultrices lectus dictum. Dolor neque potenti nibh
+            in arcu sed non nisl, egestas.
+          </p>
+        </div>
+        <div className=" text-gray-500 mx-auto">
+          <blockquote className="ml-3 font-serif my-10 py-10 not-italic text-3xl pl-4 text-green-600 border-l-2 border-green-600">
+            “Quisque lectus lobortis morbi bibendum ultricies faucibus.”
+          </blockquote>
+          <p className="mt-8 text-xl text-green-600 leading-8">
+            Vel sed tincidunt in consectetur nibh lacinia platea interdum. Massa
+            morbi amet tincidunt sed pharetra, ultricies vitae. At enim posuere
+            in malesuada. Quis risus quis tristique risus. Ac pellentesque quis
+            ultrices ornare feugiat elit. Pharetra sit enim, justo tellus in ac.
+            Tortor amet velit in justo, nisi. Tortor risus sem dictum senectus
+            elementum eu elit. Diam elit ante aliquam tortor velit. Quam turpis
+            pharetra risus, lectus elementum mauris. Pharetra senectus ipsum
+            interdum sed enim integer amet. Purus elit, eget sed curabitur
+            scelerisque tellus.
+          </p>
+        </div>
+      </div>
+      <div className="relative flex items-center flex-col py-4 mt-4 ">
+        <Image
+          src="https://images.unsplash.com/photo-1524046346361-5a9c9592fb74?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=872&q=80"
+          layout="intrinsic"
+          height={620}
+          width={830}
+          objectFit="cover"
+          alt="rolling a joint"
+        />
+        <figcaption className=" text-sm text-green-600 sm:px-6 pt-4 px-4 lg:px-8">
+          Nulla eget porta aliquet quis sit elementum. Tortor, vitae elit quis
+          nunc nulla. Non lacus, purus tincidunt ac aliquam elit. Enim
+          scelerisque eu porta vitae augue risus, fusce.
+        </figcaption>
+      </div>
+      <div className="relative px-4 pt-6 sm:px-6 lg:px-8 my-4 pb-6">
+        <h2 className="text-green-600 text-xl font-bold">
+          Feugiat rhoncus odio praesent et interdum. Aliquam ultrices
+          scelerisque quisque nibh.
+        </h2>
+        <p className="mt-8 text-xl text-green-600 leading-8">
+          Pharetra sit enim, justo tellus in ac. Tortor amet velit in justo,
+          nisi. Tortor risus sem dictum senectus elementum eu elit. Diam elit
+          ante aliquam tortor velit. Quam turpis pharetra risus, lectus
+          elementum mauris. Pharetra senectus ipsum interdum sed enim integer
+          amet. Purus elit, eget sed curabitur scelerisque tellus. Quis nunc
+          adipiscing hendrerit nulla lectus. Enim venenatis, semper lobortis
+          aliquet cursus erat. Amet at dignissim eget iaculis nulla massa. Enim,
+          tempus euismod id eget dictumst morbi. Gravida ac suspendisse enim
+          malesuada tempus. Eu, turpis sit tortor pharetra gravida arcu purus,
+          phasellus ipsum. Quam id mattis enim tortor tristique aliquam id est.{' '}
+        </p>
+      </div>
+      <BlogArticleSlider posts={articles} />
     </div>
   );
 }

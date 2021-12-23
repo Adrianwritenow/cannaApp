@@ -97,7 +97,7 @@ export const BottomNavRoutes: Route[] = [
   {
     label: "Articles",
     icon: <NewspaperIcon className="w-6 h-6 stroke-1" />,
-    href: "#",
+    href: "/blog",
     id: "articles",
   },
   {

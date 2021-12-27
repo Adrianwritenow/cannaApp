@@ -1,7 +1,8 @@
-import { articles } from '../../src/helpers/mockData';
 import BlogArticleCardSmall from '../../src/components/blog/BlogArticleCardSmall';
 import BlogArticleCardFeatured from '../../src/components/blog/BlogArticleCardFeatured';
 import Link from 'next/link';
+import articles from '@/helpers/mockData/articles.json';
+import moment from 'moment';
 
 const topics = [
   'Arts',
@@ -19,11 +20,12 @@ const topics = [
 ];
 
 export default function Blog() {
+  const now = moment()
   return (
     <div>
       <div className="bg-gray-100 w-full h-12 flex items-center justify-center">
         <p className="text-xs uppercase tracking-wider">
-          Friday, December 10, 2021
+          {now.format('dddd, MMMM Do, YYYY')}
         </p>
       </div>
       <div className="bg-white pt-6 pb-20 px-4 sm:px-6 lg:pt-24 lg:pb-28 lg:px-8">
@@ -35,13 +37,14 @@ export default function Blog() {
             </h2>
           </div>
           <div className=" grid gap-0  lg:grid-cols-3 lg:gap-x-5 lg:gap-y-12">
-            {articles.map((post, idx) =>
+            {articles.articles.slice(0,5).map((post, idx) =>
               idx === 0 ? (
                 <BlogArticleCardFeatured post={post} key={post.title} />
-              ) : (
-                <BlogArticleCardSmall post={post} />
-              )
-            )}
+                ) : (
+                  <BlogArticleCardSmall post={post} />
+                  )
+                  )}
+                  <BlogArticleCardSmall post={articles.articles[0]} />
           </div>
 
           <div>
@@ -66,8 +69,8 @@ export default function Blog() {
             </h2>
           </div>
           <div className=" grid gap-0  lg:grid-cols-3 lg:gap-x-5 lg:gap-y-12">
-            {articles.map((post, idx) => (
-              <BlogArticleCardSmall key={post.title} post={post} />
+            {articles.articles.slice(5).map((post, idx) => (
+              <BlogArticleCardSmall key={post.title} post={post}/>
             ))}
           </div>
         </div>

@@ -25,7 +25,7 @@ export default function BottomNavBar() {
   }, [session]);
 
   return (
-    <div className="fixed w-full bg-white px-2 py-3 pb-6 bottom-0 grid grid-flow-col border-t border-gray-200">
+    <div className="fixed w-full bg-white px-2 py-3 pb-6 bottom-0 grid grid-flow-col border-t border-gray-200 z-10">
       {routes.map((route, i) => {
         return (
           <Link

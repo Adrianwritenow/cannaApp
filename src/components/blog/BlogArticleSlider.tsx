@@ -7,7 +7,7 @@ import 'swiper/css';
 function BlogArticleSlider(props: { posts: Post[] }) {
   const { posts } = props;
   return (
-    <div className="pb-4">
+    <div className="pb-4 bg-white ">
       <h2 className="px-4 pb-4 text-green-600 text-xl font-bold">
         Related Stories
       </h2>

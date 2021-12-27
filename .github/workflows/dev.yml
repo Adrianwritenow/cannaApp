@@ -1,4 +1,4 @@
-name: "[DEV] Build and Deploy"
+name: '[DEV] Build and Deploy'
 
 on:
   push:
@@ -16,7 +16,14 @@ jobs:
         env:
           API_URL: ${{ secrets.DEV_API_URL }}
           MAPBOX_ACCESS_TOKEN: ${{ secrets.MAPBOX_ACCESS_TOKEN }}
+          NEXTAUTH_SECRET: 'secret'
           CLIENT_ID: ${{ secrets.DEV_CLIENT_ID }}
+          CLIENT_SECRET: 'secret'
+          FACEBOOK_CLIENT_ID: ${{ secrets.DEV_FACEBOOK_CLIENT_ID }}
+          FACEBOOK_CLIENT_SECRET: ${{ secrets.DEV_FACEBOOK_CLIENT_SECRET }}
+          GOOGLE_CLIENT_ID: ${{ secrets.DEV_GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.DEV_GOOGLE_CLIENT_SECRET }}
+          SEARCH_URL: ${{ secrets.DEV_SEARCH_URL }}
       - name: Deploy to S3
         uses: jakejarvis/s3-sync-action@master
         with:
@@ -26,13 +33,13 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
-          SOURCE_DIR: "out"
-          DEST_DIR: "development"
+          SOURCE_DIR: 'out'
+          DEST_DIR: 'development'
       - name: Invalidate CloudFront Cache
         uses: chetan/invalidate-cloudfront-action@master
         env:
-          DISTRIBUTION: "EZ7X5WBXG6TMO"
-          PATHS: "/*"
+          DISTRIBUTION: 'EZ7X5WBXG6TMO'
+          PATHS: '/*'
           AWS_REGION: ${{ secrets.AWS_REGION }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

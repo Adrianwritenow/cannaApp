@@ -1,5 +1,5 @@
 cannapagesWeb:
-  component: '@sls-next/serverless-component@3.6.0'
+  component: '@sls-next/serverless-component'
   inputs:
     cloudfront:
-      distributionId: ${env:DISTRIBUTION}
+      distributionId: ${env.DISTRIBUTION}

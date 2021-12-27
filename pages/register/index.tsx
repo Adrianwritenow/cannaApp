@@ -7,6 +7,7 @@ import React from "react";
 import RegisterForm from "../../src/components/forms/RegisterForm";
 
 export default function Register() {
+
   return (
     <div className="flex flex-col justify-center max-w-5xl mx-auto py-12 bg-white px-4">
       <div className="grid grid-cols-6 gap-0">

@@ -5,42 +5,45 @@ import React, { useState } from "react";
 
 import ErrorsDisplay from "../error/ErrorsDisplay";
 import { InputField } from "./fields/InputField";
-import { register } from "../../actions/register";
+import { registerVerify, registerResendVerification } from "../../actions/register";
 import { useRouter } from "next/router";
 
-export default function RegisterForm() {
-  const [apiError, setApiError] = useState("");
+export default function RegisterVerifyForm(props: any) {
+  const [apiError, setApiError] = useState('');
+  const [formMessage, setFormMessage] = useState('');
+  const { emailAddress } = props;
 
   const router = useRouter();
   const schema = Yup.object().shape({
-    email: Yup.string()
-      .email("Email address does not look complete")
-      .required("Email address is required"),
-    username: Yup.string()
-      .required("Username is required"),
-    password: Yup.string().required("Password is required"),
-    confirmPassword: Yup.string().oneOf(
-      [Yup.ref("password"), null],
-      "That doesn't match your New Password"
-    ),
+    token: Yup.string()
+      .length(6, "Code must be 6 digits.")
+      .required("6 digit code is required"),
   });
 
   const initialValues = {
-    email: "",
-    username: "",
-    password: "",
-    confirmPassword: "",
+    token: '',
   };
 
   async function handleSubmit(values: any) {
     setApiError("");
 
-    const response = await register(values.email, values.username, values.password);
-    const encodedEmail = encodeURIComponent(values.email);
+    const response = await registerVerify(emailAddress, values.token);
 
     if (response.status == 200) {
-      router.push("/register/verify?email=" + encodedEmail);
+      router.push("/register/complete");
     } else {
+      setApiError(response.data.message);
+    }
+  }
+
+  async function handleResend() {
+    const response = await registerResendVerification(emailAddress);
+
+    if (response.status == 200) {
+      // Show success message
+      setFormMessage(`A new passcode has been sent to ${emailAddress}`)
+    } else {
+      // Show failure message
       setApiError(response.data.message);
     }
   }
@@ -53,7 +56,7 @@ export default function RegisterForm() {
       validateOnChange={false}
       validateOnBlur={true}
     >
-      {({ handleSubmit, errors }) => {
+      {({ handleSubmit, errors, values }) => {
         const errorCount = Object.keys(errors).length;
         const errorList = Object.values(errors).map((error, i) => (
           <li className="text-red-700 font-normal" key={i}>
@@ -63,47 +66,17 @@ export default function RegisterForm() {
 
         return (
           <form
-            className="space-y-6"
+            className="space-y-4"
             action="#"
             method="POST"
             onSubmit={handleSubmit}
           >
-            <div className="mt-1">
-              <Field
-                label="Email Address"
-                id="email"
-                name="email"
-                type="email"
-                component={InputField}
-              />
-            </div>
 
             <div className="mt-1">
               <Field
-                label="Username"
-                id="username"
-                name="username"
-                type="username"
-                component={InputField}
-              />
-            </div>
-
-            <div className="mt-1">
-              <Field
-                label="Password"
-                id="password"
-                name="password"
-                type="password"
-                component={InputField}
-              />
-            </div>
-
-            <div className="mt-1">
-              <Field
-                label="Retype password"
-                id="confirmPassword"
-                name="confirmPassword"
-                type="password"
+                id="token"
+                name="token"
+                type="token"
                 component={InputField}
               />
             </div>
@@ -122,8 +95,26 @@ export default function RegisterForm() {
               type="submit"
               className="w-full bg-green text-white hover:bg-green-600 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:"
             >
-              Sign up
+              Verify E-mail
             </button>
+
+            <button 
+              onClick={handleResend}
+              type="button"
+              className="w-full bg-white text-green flex justify-center py-2 px-4 border border-transparent text-md font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:"
+            >
+              Resend Passcode
+            </button>
+
+            { formMessage !== '' && (
+              <div className=" bg-green-50 bg-opacity-40 border border-green block w-full rounded-md py-2 ">
+                <div className="justify-center px-6 py-2">
+                  <p className="text-sm text-gray-900 font-normal">
+                    { formMessage }
+                  </p>
+                </div>
+              </div>
+            )}
           </form>
         );
       }}

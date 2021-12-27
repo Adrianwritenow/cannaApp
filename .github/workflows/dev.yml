@@ -19,10 +19,8 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: yarn install --frozen-lockfile
-      - name: serverless deploy
+      - name: serverless
         uses: serverless/github-action@master
-        with:
-          args: deploy
         env:
           DISTRIBUTION: 'EZ7X5WBXG6TMO'
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}

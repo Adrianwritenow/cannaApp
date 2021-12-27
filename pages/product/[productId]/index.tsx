@@ -37,7 +37,7 @@ export default function ProductDetail() {
   }, [router]);
 
   return (
-    <div className="max-w-7xl mx-auto bg-white">
+    <div className="max-w-7xl mx-auto bg-white md:px-20">
       {/* Product */}
 
       {product && (

@@ -1,13 +1,11 @@
 import * as Yup from 'yup';
 
-import React, { useContext, useEffect, useState } from 'react';
-
 import AvatarMenu from '@/components/menus/AvatarMenu';
 import { Disclosure } from '@headlessui/react';
-import { HeaderRoutes } from '@/helpers/routes';
 import Image from 'next/image';
 import Link from 'next/link';
 import Logo from '@/public/assets/logos/logo-text.png';
+import React from 'react';
 import SearchSlideOver from '../forms/fields/SearchSlideOver';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
@@ -36,20 +34,6 @@ export default function NavBar() {
                   </Link>
                 </div>
 
-                <div className="hidden lg:block lg:ml-6">
-                  <div className="flex space-x-4 text-sm">
-                    {Object.entries(HeaderRoutes).map(([key, value], index) => {
-                      const href = value.href;
-                      return (
-                        <Link href={href} as={href} key={index}>
-                          <a className="text-gray-400 hover:text-green-500">
-                            {value.label}
-                          </a>
-                        </Link>
-                      );
-                    })}
-                  </div>
-                </div>
                 <div className="flex justify-end align-center ml-auto">
                   {!session?.accessToken || status === 'loading' ? (
                     <Link href={'/login'}>

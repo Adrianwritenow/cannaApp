@@ -55,7 +55,5 @@ export function getDocument(id: string | string[] | undefined) {
     return res.data;
   });
 
-  console.log(results);
-
   return results;
 }

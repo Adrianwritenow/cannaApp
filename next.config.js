@@ -18,5 +18,6 @@ module.exports = {
     API_URL: process.env.API_URL,
     CLIENT_ID: process.env.CLIENT_ID,
     MAPBOX_ACCESS_TOKEN: process.env.MAPBOX_ACCESS_TOKEN,
+    IPSTACK_ACCESS_KEY: process.env.IPSTACK_ACCESS_KEY,
   },
 };

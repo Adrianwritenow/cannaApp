@@ -5,10 +5,10 @@ export async function getLocationByIP () {
   try {
     const response = await axios(`http://api.ipstack.com/check?access_key=${IPSTACK_ACCESS_KEY}`);
     return {
-      city: response.city,
-      state: response.region_code,
-      lat: response.latitude,
-      lng: response.longitude,
+      city: response.data.city,
+      state: response.data.region_code,
+      lat: response.data.latitude,
+      lng: response.data.longitude,
     };
   } catch (error: any) {
     return error.response;

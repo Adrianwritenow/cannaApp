@@ -28,7 +28,6 @@ function SearchMap() {
       );
     }
   };
-  console.log(userCoordinates);
 
   useEffect(() => {
     axios

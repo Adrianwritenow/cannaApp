@@ -7,7 +7,7 @@ import { ViewListIcon } from "@heroicons/react/outline";
 
 export const MapContext = createContext<any>(null);
 
-function MapContainer({ data }: any) {
+export function MapContainer({ data, userCoordinates }: any) {
   const [showMap, setShowMap] = useState(true);
   const [showResults, setShowResults] = useState(true);
   const [activeCard, setActiveCard] = useState<any>(null);
@@ -35,6 +35,7 @@ function MapContainer({ data }: any) {
             setSwiper,
             showResults,
             setShowResults,
+            userCoordinates
           }}
         >
           <div className="overflow-hidden">
@@ -71,4 +72,3 @@ function MapContainer({ data }: any) {
   );
 }
 
-export default MapContainer;

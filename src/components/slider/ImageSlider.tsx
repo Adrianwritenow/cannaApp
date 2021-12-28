@@ -7,6 +7,7 @@ import { A11y, Navigation, Pagination, Scrollbar } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import Image from "next/image";
+import { Sativa } from "../../../public/assets/icons/iconComponents";
 
 export default function ImageSlider(props: any) {
   const { images } = props;
@@ -25,19 +26,27 @@ export default function ImageSlider(props: any) {
         onSlideChange={() => {}}
         onSwiper={(swiper) => {}}
       >
-        {images.map((image: any, index: any) => (
-          <SwiperSlide key={`${image.alt}-${index}`}>
-            <div className="relative w-full relative w-full pb-full">
-              <Image
-                src={image.src}
-                alt={image.alt}
-                layout="fill"
-                objectFit={"cover"}
-                className={"w-full h-full"}
-              />
+        {images.length ? (
+          images.map((image: any, index: any) => (
+            <SwiperSlide key={`${image.alt}-${index}`}>
+              <div className="relative w-full relative w-full pb-full">
+                <Image
+                  src={image.src}
+                  alt={image.alt}
+                  layout="fill"
+                  objectFit={"cover"}
+                  className={"w-full h-full"}
+                />
+              </div>
+            </SwiperSlide>
+          ))
+        ) : (
+          <SwiperSlide key={`placeholder`}>
+            <div className="relative w-full relative w-full bg-gray-50">
+              <Sativa fill="black" opacity={0.2} className="w-full h-full" />
             </div>
           </SwiperSlide>
-        ))}
+        )}
       </Swiper>
     </div>
   );

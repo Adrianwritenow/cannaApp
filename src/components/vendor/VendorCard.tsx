@@ -3,13 +3,15 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { Vendor } from "../../interfaces/vendor";
+import { useRouter } from "next/router";
 
 interface VendorProps {
   vendor: Vendor;
+  productId?: string | string[] | undefined;
 }
 
 export default function VendorCard(props: VendorProps) {
-  const { vendor } = props;
+  const { vendor, productId } = props;
 
   return (
     <div
@@ -65,7 +67,12 @@ export default function VendorCard(props: VendorProps) {
           </p>
         </div>
       </div>
-      <Link href={`/product/123/${vendor.product.id}`} passHref>
+      <Link
+        href={`/product/${encodeURIComponent(productId as string)}/${
+          vendor.product.id
+        }`}
+        passHref
+      >
         <button
           type="button"
           className="w-full text-center justify-center py-2 border border-transparent text-sm font-medium w-full rounded shadow-sm text-white bg-green hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green mt-5"

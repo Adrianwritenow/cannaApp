@@ -1133,3 +1133,82 @@ export const coupons: Array<Coupon> = [
     },
   },
 ];
+
+export const articles = [
+  {
+    id: "0",
+    title:
+      "Parturient eu a elit volutpat eget tristique nisi. Commodo amet nulla felis.",
+    href: "#",
+    topic: {
+      name: "%Topic%",
+      href: "#",
+    },
+    imageUrl:
+      "https://images.unsplash.com/photo-1605570381616-4d1dc384e9e8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
+    imageAltText: "Alt Text",
+    date: "Mar 16, 2020",
+    datetime: "2020-03-16",
+    author: {
+      name: "Janette Doe",
+      href: "#",
+    },
+  },
+  {
+    id: "1",
+    title:
+      "Parturient eu a elit volutpat eget tristique nisi. Commodo amet nulla felis.",
+    href: "#",
+    topic: {
+      name: "%Topic%",
+      href: "#",
+    },
+    imageUrl:
+      "https://images.unsplash.com/photo-1606752815564-979a1c23af95?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80",
+    imageAltText: "Alt Text",
+    date: "Mar 16, 2020",
+    datetime: "2020-03-16",
+    author: {
+      name: "Janette Doe",
+      href: "#",
+    },
+  },
+  {
+    id: "2",
+    title:
+      "Parturient eu a elit volutpat eget tristique nisi. Commodo amet nulla felis.",
+    href: "#",
+    topic: {
+      name: "%Topic%",
+      href: "#",
+    },
+    imageUrl:
+      "https://images.unsplash.com/photo-1606752815564-979a1c23af95?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80",
+    imageAltText: "Alt Text",
+    date: "Mar 16, 2020",
+    datetime: "2020-03-16",
+    author: {
+      name: "Janette Doe",
+      href: "#",
+    },
+  },
+  {
+    id: "3",
+    title:
+      "Parturient eu a elit volutpat eget tristique nisi. Commodo amet nulla felis.",
+    href: "#",
+    topic: {
+      name: "%Topic%",
+      href: "#",
+    },
+    imageUrl:
+      "https://images.unsplash.com/photo-1606752815564-979a1c23af95?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80",
+    imageAltText: "Alt Text",
+    date: "Mar 16, 2020",
+    datetime: "2020-03-16",
+    author: {
+      name: "Janette Doe",
+      href: "#",
+    },
+  },
+];

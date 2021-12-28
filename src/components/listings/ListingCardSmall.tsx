@@ -1,11 +1,11 @@
-import { CheckIcon, StarIcon } from "@heroicons/react/solid";
+import { CheckIcon, StarIcon } from '@heroicons/react/solid';
 
-import { BookmarkIcon } from "@heroicons/react/outline";
-import { Disclosure } from "@headlessui/react";
-import Image from "next/image";
-import Link from "next/link";
-import { Listing } from "../../interfaces/listing";
-import React from "react";
+import { BookmarkIcon } from '@heroicons/react/outline';
+import { Disclosure } from '@headlessui/react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { Listing } from '../../interfaces/listing';
+import React from 'react';
 
 interface ListingProps {
   listing: Listing;
@@ -22,13 +22,13 @@ export default function ListingCardSmall(data: ListingProps) {
     >
       {({ open }) => (
         <>
-          <Disclosure.Button className="w-full flex">
+          <Disclosure.Button className="w-full flex focus:outline-none">
             <div className="rounded-lg overflow-hidden w-20 h-20 relative flex-shrink-0 mr-3">
               <Image
                 src={listing.image}
                 alt={listing.name}
                 layout="fill"
-                objectFit={"cover"}
+                objectFit={'cover'}
               />
             </div>
             <div className="text-left text-sm w-full">
@@ -45,13 +45,13 @@ export default function ListingCardSmall(data: ListingProps) {
                     {listing.rating}
                   </span>
 
-                  {[0, 1, 2, 3, 4].map((rating) => (
+                  {[0, 1, 2, 3, 4].map(rating => (
                     <StarIcon
                       key={rating}
                       className={`    ${
                         listing.rating > rating
-                          ? "text-yellow-400"
-                          : "text-gray-200"
+                          ? 'text-yellow-400'
+                          : 'text-gray-200'
                       }
                   flex-shrink-0 h-4 w-4`}
                       aria-hidden="true"
@@ -68,7 +68,10 @@ export default function ListingCardSmall(data: ListingProps) {
             </div>
           </Disclosure.Button>
           <Disclosure.Panel as="div" className="w-full pt-4">
-            <Link href={`/business/1`} passHref>
+            <Link
+              href={`/business/entity%3Adispensary_entity%2F6029%3Aen`}
+              passHref
+            >
               <a>
                 <button
                   type="button"

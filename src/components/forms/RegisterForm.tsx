@@ -16,6 +16,8 @@ export default function RegisterForm() {
     email: Yup.string()
       .email("Email address does not look complete")
       .required("Email address is required"),
+    username: Yup.string()
+      .required("Username is required"),
     password: Yup.string().required("Password is required"),
     confirmPassword: Yup.string().oneOf(
       [Yup.ref("password"), null],
@@ -25,6 +27,7 @@ export default function RegisterForm() {
 
   const initialValues = {
     email: "",
+    username: "",
     password: "",
     confirmPassword: "",
   };
@@ -32,10 +35,12 @@ export default function RegisterForm() {
   async function handleSubmit(values: any) {
     setApiError("");
 
-    const response = await register(values.email, values.password);
-    router.push("/register/complete");
+    const response = await register(values.email, values.username, values.password);
+    const encodedEmail = encodeURIComponent(values.email);
 
-    if (response.status !== 200) {
+    if (response.status == 200) {
+      router.push("/register/verify?email=" + encodedEmail);
+    } else {
       setApiError(response.data.message);
     }
   }
@@ -69,6 +74,16 @@ export default function RegisterForm() {
                 id="email"
                 name="email"
                 type="email"
+                component={InputField}
+              />
+            </div>
+
+            <div className="mt-1">
+              <Field
+                label="Username"
+                id="username"
+                name="username"
+                type="username"
                 component={InputField}
               />
             </div>

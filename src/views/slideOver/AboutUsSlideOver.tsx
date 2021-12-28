@@ -3,13 +3,14 @@ import { Dialog, Transition } from "@headlessui/react";
 import React, { Fragment, useState } from "react";
 
 import { SlideOverProps } from "../../interfaces/props/SlideOverProps";
+import { BusinessSlideoverProps } from "@/interfaces/props/businessSlideOverProps";
 
-export default function AboutUsSlideOver(props: SlideOverProps) {
-  const { business } = props;
+export default function AboutUsSlideOver(props: BusinessSlideoverProps) {
+  const { dispensary } = props;
   const [open, setOpen] = useState(false);
   return (
     <div>
-      {business?.about && (
+      {dispensary?._source.description && (
         <div>
           <section aria-labelledby="business-about" className="pt-4">
             <h2 id="business-about" className="sr-only">
@@ -22,7 +23,7 @@ export default function AboutUsSlideOver(props: SlideOverProps) {
               About Us
             </h2>
             <p className={"text-base text-gray-700 line-clamp-4"}>
-              {business.about}
+          {dispensary?._source.description}
             </p>
             <div className="pt-5 ">
               <button
@@ -67,7 +68,7 @@ export default function AboutUsSlideOver(props: SlideOverProps) {
                               </button>
                             </div>
                             <Dialog.Title className="text-lg font-semibold text-gray-600">
-                              {business.name}
+          {dispensary?._source.name}
                             </Dialog.Title>
                           </div>
                         </div>
@@ -86,7 +87,7 @@ export default function AboutUsSlideOver(props: SlideOverProps) {
                               About Us
                             </h2>
                             <p className={"text-base text-gray-700"}>
-                              {business.about}
+          {dispensary?._source.description}
                             </p>
                           </section>
                         </div>

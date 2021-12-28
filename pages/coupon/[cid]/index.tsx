@@ -1,7 +1,7 @@
-import { Business } from "../../../public/assets/icons/iconComponents";
-import { CheckCircleIcon } from "@heroicons/react/solid";
-import ProductResultsGrid from "../../../src/components/products/ProductResultsGrid";
-import { useState } from "react";
+import { Business } from '../../../public/assets/icons/iconComponents';
+import { CheckCircleIcon } from '@heroicons/react/solid';
+import ProductResultsGrid from '../../../src/components/products/ProductResultsGrid';
+import { useState } from 'react';
 
 export default function CouponDetail() {
   const [redeemed, setRedeemed] = useState(false);
@@ -12,7 +12,7 @@ export default function CouponDetail() {
       <section className="border-b border-gray-200 space-y-6">
         <div className="flex items-center space-x-2">
           <div className="flex justify-center items-center rounded-full overflow-hidden w-10 h-10 border border-gray-200">
-            <Business className="w-4 h-4" />
+            <Business fill="green" className="w-4 h-4" />
           </div>
           <div className="text-sm">
             <h3 className="font-semibold">Brand/Location</h3>
@@ -31,7 +31,7 @@ export default function CouponDetail() {
             type="button"
             className="w-full bg-white text-green-500 hover:bg-gray-50 flex justify-center py-2 px-4 border-2 border-green-500 rounded-md shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green"
           >
-            {!saved ? "Save Coupon" : "View Coupons"}
+            {!saved ? 'Save Coupon' : 'View Coupons'}
           </button>
 
           <button
@@ -40,7 +40,7 @@ export default function CouponDetail() {
             className="w-full bg-green text-white hover:bg-green-600 flex justify-center py-2 px-4   border-2 border-green-500 rounded-md shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green"
           >
             {!redeemed ? (
-              "Apply Coupon to Cart"
+              'Apply Coupon to Cart'
             ) : (
               <div className="flex">
                 <CheckCircleIcon className="w-5 h-5 text-white mr-3" />
@@ -52,7 +52,7 @@ export default function CouponDetail() {
       </section>
 
       <section>
-        <ProductResultsGrid label={"Qualifying Items"} />
+        <ProductResultsGrid label={'Qualifying Items'} />
       </section>
     </div>
   );

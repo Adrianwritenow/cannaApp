@@ -3,8 +3,12 @@ import { Dialog, Transition } from "@headlessui/react";
 import React, { Fragment, useState } from "react";
 
 import { SlideOverProps } from "../../interfaces/props/SlideOverProps";
+import { BusinessSlideoverProps } from "@/interfaces/props/businessSlideOverProps";
 
-export default function BusinessVerificationSlideOver(props: SlideOverProps) {
+export default function BusinessVerificationSlideOver(
+  props: BusinessSlideoverProps
+) {
+  const { dispensary } = props;
   const [open, setOpen] = useState(false);
   return (
     <section>
@@ -39,7 +43,7 @@ export default function BusinessVerificationSlideOver(props: SlideOverProps) {
       <Transition.Root show={open} as={Fragment}>
         <Dialog
           as="div"
-          className="fixed inset-0 overflow-hidden"
+          className="fixed inset-0 overflow-hidden z-50"
           onClose={setOpen}
         >
           <div className="absolute inset-0 overflow-hidden">

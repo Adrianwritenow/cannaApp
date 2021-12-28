@@ -1,0 +1,40 @@
+.article {
+    max-width: 1100px;
+    margin: 0 auto;
+    color: #1D3A25;
+    & p {
+        font-size: 1.2rem;
+        line-height: 1.5;
+        padding-bottom: 1.5em;
+
+    }
+
+    & h3 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        line-height: 1.5;
+        padding-bottom: 1.5em;
+    }
+    & iframe {
+        width: 90%;
+        max-width: 800px;
+        // height: 500px;
+        margin: 0 auto;
+        border: none;
+        margin-bottom: 1.5em;
+    }
+
+    & a {
+        text-decoration: underline;
+    }
+
+    & ul {
+        padding: 0 1em 1em 1em;
+    }
+
+    & li {
+        list-style: disc;
+        padding-bottom: .75em;
+        
+    }
+}

@@ -6,9 +6,10 @@ import FilterMenuTabs from "../../components/filter/FilterMenuTabs";
 import ProductResultsSection from "../../components/sections/ProductsResultsSection";
 import { SlideOverProps } from "../../interfaces/props/SlideOverProps";
 import { products } from "../../helpers/mockData";
+import { BusinessSlideoverProps } from "@/interfaces/props/businessSlideOverProps";
 
-export default function BusinessMenuSlideOver(props: SlideOverProps) {
-  const { business } = props;
+export default function BusinessMenuSlideOver(props: BusinessSlideoverProps) {
+  const { dispensary } = props;
   const [open, setOpen] = useState(false);
 
   return (
@@ -54,7 +55,7 @@ export default function BusinessMenuSlideOver(props: SlideOverProps) {
                           </button>
                         </div>
                         <Dialog.Title className="text-lg font-semibold text-gray-600">
-                          {business?.name}
+                          {dispensary?._source.name}
                         </Dialog.Title>
                       </div>
                     </div>

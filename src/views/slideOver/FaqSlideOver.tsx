@@ -4,10 +4,12 @@ import { Field, Form, Formik } from "formik";
 import React, { Fragment, useState } from "react";
 
 import FaqSection from "../../components/sections/FaqSection";
-import { SlideOverProps } from "../../interfaces/props/SlideOverProps";
+import { listings } from "../../../src/helpers/mockData";
+import { BusinessSlideoverProps } from "@/interfaces/props/businessSlideOverProps";
 
-export default function FaqSlideOver(props: SlideOverProps) {
-  const { business } = props;
+export default function FaqSlideOver(props: BusinessSlideoverProps) {
+  const { dispensary } = props;
+  const business = listings[0];
 
   const [open, setOpen] = useState(false);
   const initialValues = {

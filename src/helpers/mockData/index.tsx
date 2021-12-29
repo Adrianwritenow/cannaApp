@@ -1,9 +1,8 @@
 import { Coupon } from '../../interfaces/coupon';
 import { Dispensary } from '@/interfaces/searchDispensary';
 import { Faq } from '@/interfaces/faq';
-import { Listing } from '../../interfaces/listing';
 import { Product } from '@/interfaces/searchProduct';
-import { Strain } from '../../interfaces/strain';
+import { Strain } from '@/interfaces/SearchStrain';
 
 export const products: Array<Product> = [
   {
@@ -21,8 +20,8 @@ export const products: Array<Product> = [
       field_top_rated_effects: ['Relaxed', 'Happy', 'Sleepy'],
       field_top_reported_flavors: ['Pine', 'Spicy/Herbal', 'Coffee'],
       field_rating: [3.5],
-      field_brand: ['Fake Brand'],
       field_review_count: [123],
+      field_brand: ['Fake Brand'],
       field_price: ['12.99'],
       field_price_label: ['per 1/2 oz'],
       field_source_url_1: ['#'],
@@ -72,7 +71,7 @@ export const products: Array<Product> = [
       category: ['Dummy'],
       created_1: [1556767],
       description: [
-        'rem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.',
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.',
       ],
       field_delivery_and_pickup_info: [''],
       field_image: [123],
@@ -244,141 +243,124 @@ export const listings: Array<Dispensary> = [
 ];
 
 export const strain: Strain = {
-  id: 'c1',
-  rating: 4,
-  reviewCount: 30,
-  images: [
-    'https://images.unsplash.com/photo-1503262028195-93c528f03218?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2071&q=80',
-    'https://images.unsplash.com/photo-1496189713555-6f47ff6b27e8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80',
-    'https://images.unsplash.com/photo-1520224855316-280b2e6afca1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=776&q=80',
-    'https://images.unsplash.com/photo-1457573399415-1154bfe3ff71?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2787&q=80',
-  ],
-  title: 'Cannabis Strain',
-  type: 'Type',
-
-  about:
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.',
-  cannabanoids: {
-    thc: 40,
-    cbd: 60,
-  },
-  effects: {
-    type: 'Sleepy',
-    effectPercent: 55,
-  },
-  growing: {
-    min: 20,
-    max: 30,
+  _id: 'entity:strain_entity/1430:en',
+  _index: 'elasticsearch_index_pantheon_index01',
+  _score: 4.4,
+  _source: {
+    created_2: [1635912414],
+    field_image: [123],
+    field_rating: [3.5],
+    field_review_count: [123],
+    description_1: [
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.',
+    ],
+    field_top_rated_effects_1: ['Aroused', 'Sleepy', 'Creative'],
+    field_top_reported_flavors_1: ['Woody', 'Nutty', 'Skunk'],
+    field_source_url_2: ['#'],
+    langcode_2: ['en'],
+    name_2: ['Fake Strain'],
+    status_2: [true],
+    uuid: ['9becd266-99e6-4b83-b4c7-3c2ae1886a24'],
+    _language: 'en',
+    type: '_doc',
   },
 };
 
 export const strains: Array<Strain> = [
   {
-    id: 'c1',
-    rating: 4,
-    reviewCount: 30,
-    images: [
-      'https://images.unsplash.com/photo-1503262028195-93c528f03218?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2071&q=80',
-      'https://images.unsplash.com/photo-1496189713555-6f47ff6b27e8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80',
-      'https://images.unsplash.com/photo-1520224855316-280b2e6afca1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=776&q=80',
-      'https://images.unsplash.com/photo-1457573399415-1154bfe3ff71?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2787&q=80',
-    ],
-    title: 'Cannabis Strain',
-    type: 'Type',
-    about:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.',
-    cannabanoids: {
-      thc: 40,
-      cbd: 60,
-    },
-    effects: {
-      type: 'Sleepy',
-      effectPercent: 55,
-    },
-    growing: {
-      min: 20,
-      max: 30,
+    _id: 'entity:strain_entity/1430:en',
+    _index: 'elasticsearch_index_pantheon_index01',
+    _score: 4.4,
+    _source: {
+      created_2: [1635912414],
+      field_image: [123],
+      field_rating: [3.5],
+      field_review_count: [123],
+
+      description_1: [
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.',
+      ],
+      field_top_rated_effects_1: ['Aroused', 'Sleepy', 'Creative'],
+      field_top_reported_flavors_1: ['Woody', 'Nutty', 'Skunk'],
+      field_source_url_2: ['#'],
+      langcode_2: ['en'],
+      name_2: ['Fake Strain'],
+      status_2: [true],
+      uuid: ['9becd266-99e6-4b83-b4c7-3c2ae1886a24'],
+      _language: 'en',
+      type: '_doc',
     },
   },
   {
-    id: 'c2',
-    rating: 4,
-    reviewCount: 30,
-    images: [
-      'https://images.unsplash.com/photo-1503262028195-93c528f03218?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2071&q=80',
-      'https://images.unsplash.com/photo-1496189713555-6f47ff6b27e8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80',
-      'https://images.unsplash.com/photo-1520224855316-280b2e6afca1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=776&q=80',
-      'https://images.unsplash.com/photo-1457573399415-1154bfe3ff71?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2787&q=80',
-    ],
-    title: 'Cannabis Strain',
-    type: 'Type',
-    about:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.',
-    cannabanoids: {
-      thc: 40,
-      cbd: 60,
-    },
-    effects: {
-      type: 'Sleepy',
-      effectPercent: 55,
-    },
-    growing: {
-      min: 20,
-      max: 30,
+    _id: 'entity:strain_entity/1430:en',
+    _index: 'elasticsearch_index_pantheon_index01',
+    _score: 4.4,
+    _source: {
+      created_2: [1635912414],
+      description_1: [
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.',
+      ],
+      field_image: [123],
+      field_rating: [3.5],
+      field_review_count: [123],
+
+      field_top_rated_effects_1: ['Aroused', 'Sleepy', 'Creative'],
+      field_top_reported_flavors_1: ['Woody', 'Nutty', 'Skunk'],
+      field_source_url_2: ['#'],
+      langcode_2: ['en'],
+      name_2: ['Fake Strain'],
+      status_2: [true],
+      uuid: ['9becd266-99e6-4b83-b4c7-3c2ae1886a24'],
+      _language: 'en',
+      type: '_doc',
     },
   },
   {
-    id: 'c3',
-    rating: 4,
-    reviewCount: 30,
-    images: [
-      'https://images.unsplash.com/photo-1503262028195-93c528f03218?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2071&q=80',
-      'https://images.unsplash.com/photo-1496189713555-6f47ff6b27e8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80',
-      'https://images.unsplash.com/photo-1520224855316-280b2e6afca1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=776&q=80',
-      'https://images.unsplash.com/photo-1457573399415-1154bfe3ff71?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2787&q=80',
-    ],
-    title: 'Cannabis Strain',
-    type: 'Type',
-    about:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.',
-    cannabanoids: {
-      thc: 40,
-      cbd: 60,
-    },
-    effects: {
-      type: 'Sleepy',
-      effectPercent: 55,
-    },
-    growing: {
-      min: 20,
-      max: 30,
+    _id: 'entity:strain_entity/1430:en',
+    _index: 'elasticsearch_index_pantheon_index01',
+    _score: 4.4,
+    _source: {
+      created_2: [1635912414],
+      description_1: [
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.',
+      ],
+      field_image: [123],
+      field_rating: [3.5],
+      field_review_count: [123],
+
+      field_top_rated_effects_1: ['Aroused', 'Sleepy', 'Creative'],
+      field_top_reported_flavors_1: ['Woody', 'Nutty', 'Skunk'],
+      field_source_url_2: ['#'],
+      langcode_2: ['en'],
+      name_2: ['Fake Strain'],
+      status_2: [true],
+      uuid: ['9becd266-99e6-4b83-b4c7-3c2ae1886a24'],
+      _language: 'en',
+      type: '_doc',
     },
   },
   {
-    id: 'c4',
-    rating: 4,
-    reviewCount: 30,
-    images: [
-      'https://images.unsplash.com/photo-1503262028195-93c528f03218?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2071&q=80',
-      'https://images.unsplash.com/photo-1496189713555-6f47ff6b27e8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80',
-      'https://images.unsplash.com/photo-1520224855316-280b2e6afca1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=776&q=80',
-      'https://images.unsplash.com/photo-1457573399415-1154bfe3ff71?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2787&q=80',
-    ],
-    title: 'Cannabis Strain',
-    type: 'Type',
-    about:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.',
-    cannabanoids: {
-      thc: 40,
-      cbd: 60,
-    },
-    effects: {
-      type: 'Sleepy',
-      effectPercent: 55,
-    },
-    growing: {
-      min: 20,
-      max: 30,
+    _id: 'entity:strain_entity/1430:en',
+    _index: 'elasticsearch_index_pantheon_index01',
+    _score: 4.4,
+    _source: {
+      created_2: [1635912414],
+      description_1: [
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.',
+      ],
+      field_image: [123],
+      field_rating: [3.5],
+      field_review_count: [123],
+
+      field_top_rated_effects_1: ['Aroused', 'Sleepy', 'Creative'],
+      field_top_reported_flavors_1: ['Woody', 'Nutty', 'Skunk'],
+      field_source_url_2: ['#'],
+      langcode_2: ['en'],
+      name_2: ['Fake Strain'],
+      status_2: [true],
+      uuid: ['9becd266-99e6-4b83-b4c7-3c2ae1886a24'],
+      _language: 'en',
+      type: '_doc',
     },
   },
 ];

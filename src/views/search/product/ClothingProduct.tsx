@@ -1,13 +1,13 @@
-import { Field, Form, Formik } from "formik";
+import { Field, Form, Formik } from 'formik';
 
-import { Product } from "../../../interfaces/searchProduct";
-import { ProductColorTabs } from "../../../components/forms/fields/ProductColorTabs";
-import { ProductOptionTabs } from "../../../components/forms/fields/ProductOptionTabs";
-import QuantityField from "../../../components/forms/fields/QuantityField";
-import { StarIcon } from "@heroicons/react/solid";
+import { Product } from '../../../interfaces/searchProduct';
+import { ProductColorTabs } from '../../../components/forms/fields/ProductColorTabs';
+import { ProductOptionTabs } from '../../../components/forms/fields/ProductOptionTabs';
+import QuantityField from '../../../components/forms/fields/QuantityField';
+import { StarIcon } from '@heroicons/react/solid';
 
 function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(" ");
+  return classes.filter(Boolean).join(' ');
 }
 
 export default function ClothingProduct(props: { product: Product }) {
@@ -16,7 +16,7 @@ export default function ClothingProduct(props: { product: Product }) {
     quantity: 0,
   };
 
-  const colors = ["red", "green", "blue", "yellow"];
+  const colors = ['red', 'green', 'blue', 'yellow'];
 
   return (
     <section>
@@ -29,7 +29,7 @@ export default function ClothingProduct(props: { product: Product }) {
       <p className="text-sm text-blue-500 pt-4">
         {product._source.field_brand
           ? product._source.field_brand
-          : "Brand Unknown"}
+          : 'Brand Unknown'}
       </p>
       <h1 className="text-lg font-normal tracking-tight text-gray-900">
         {product._source.name_1}
@@ -42,14 +42,14 @@ export default function ClothingProduct(props: { product: Product }) {
           <span className="font-normal text-gray-500 mr-1">
             {product._source.field_rating || 0}
           </span>
-          {[0, 1, 2, 3, 4].map((rating) => (
+          {[0, 1, 2, 3, 4].map(rating => (
             <StarIcon
               key={rating}
               className={classNames(
-                product._source.field_rating > rating
-                  ? "text-gray-900"
-                  : "text-gray-200",
-                "h-3.5 w-3.5 flex-shrink-0"
+                product._source.field_rating[0] > rating
+                  ? 'text-gray-900'
+                  : 'text-gray-200',
+                'h-3.5 w-3.5 flex-shrink-0'
               )}
               aria-hidden="true"
             />
@@ -59,11 +59,11 @@ export default function ClothingProduct(props: { product: Product }) {
           </span>
         </div>
         <p className="sr-only">
-          {product._source.field_rating || 0} out of 5 stars
+          {product._source.field_rating[0] || 0} out of 5 stars
         </p>
       </div>
       <p className="text-xl font-bold text-black">
-        {product._source.field_price || "Price not known"}
+        {product._source.field_price || 'Price not known'}
       </p>
 
       <div>
@@ -80,29 +80,29 @@ export default function ClothingProduct(props: { product: Product }) {
                   <div>
                     <Field
                       component={ProductOptionTabs}
-                      label={"Size"}
+                      label={'Size'}
                       options={[
                         {
-                          label: "S",
-                          value: "S",
+                          label: 'S',
+                          value: 'S',
                         },
                         {
-                          label: "M",
-                          value: "M",
+                          label: 'M',
+                          value: 'M',
                         },
                         {
-                          label: "L",
-                          value: "L",
+                          label: 'L',
+                          value: 'L',
                         },
                         {
-                          label: "XL",
-                          value: "XL",
+                          label: 'XL',
+                          value: 'XL',
                         },
                       ]}
                     />
                     <Field
                       component={ProductColorTabs}
-                      label={"Colors"}
+                      label={'Colors'}
                       options={colors}
                     />
                   </div>

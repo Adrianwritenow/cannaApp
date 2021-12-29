@@ -3,7 +3,6 @@ import { listings, products } from '../../../src/helpers/mockData';
 import { BookmarkIcon } from '@heroicons/react/outline';
 import { ExternalLinkIcon } from '@heroicons/react/solid';
 import FilterSlideOver from '../../../src/views/slideOver/FilterSlideOver';
-import Image from 'next/image';
 import ImageWithFallback from '@/components/image/ImageWithFallback';
 import Link from 'next/link';
 import ProductResultsSection from '../../../src/components/sections/ProductsResultsSection';
@@ -37,7 +36,7 @@ export default function BrandProfile() {
         >
           {/* Title */}
           <h2 id="brand-heading" className="sr-only">
-            {listing}
+            {listing._source.name}
           </h2>
           <h2 className="text-gray-700 text-2xl font-semibold">
             {listing._source.name}

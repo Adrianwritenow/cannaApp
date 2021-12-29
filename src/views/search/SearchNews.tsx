@@ -11,7 +11,7 @@ export default function SearchNews() {
 
       <section className="px-4 ">
         {sample.articles.map((post: Post, index) => (
-          <span id={`${index}`}>
+          <span id={`${index}`} key={`article-${index}`}>
             <BlogArticleSmall post={post} />
           </span>
         ))}

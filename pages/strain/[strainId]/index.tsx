@@ -1,18 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import { products, strain } from '../../../src/helpers/mockData';
 
-import Image from 'next/image';
 import ProductResultsSection from '../../../src/components/sections/ProductsResultsSection';
+import { RootState } from '@/reducers';
 import { Sativa } from '../../../public/assets/icons/iconComponents';
 import { StarIcon } from '@heroicons/react/solid';
 import { Strain } from '@/interfaces/SearchStrain';
 import { getDocument } from '../../../src/actions/search';
+import { products } from '../../../src/helpers/mockData';
 import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
 
 export default function StrainDetail() {
   const router = useRouter();
   const { strainId } = router.query;
   const [myRating, setMyRating] = useState(0);
+  const [currentQuery, setCurrentQuery] = useState('');
+
+  const { results, query } = useSelector((root: RootState) => root.search);
+  const [searchLists, setSearchLists] = useState([]);
+
   const [strain, setStrain] = useState<Strain>();
 
   useEffect(() => {
@@ -23,7 +29,20 @@ export default function StrainDetail() {
         }
       );
     }
-  }, [strainId]);
+    let searchListUpdate: any = [];
+
+    results.map((result: any, index: number) => {
+      switch (true) {
+        case result._id.includes('product_entity'):
+          searchListUpdate.push(result);
+          break;
+      }
+    });
+    if (currentQuery !== query) {
+      setSearchLists(searchListUpdate);
+    }
+    setCurrentQuery(query);
+  }, [strainId, results, searchLists]);
 
   return (
     <div className="bg-white">
@@ -75,11 +94,15 @@ export default function StrainDetail() {
           </p>
         </section>
       </div>
-      <ProductResultsSection
-        list={products}
-        sponsored={true}
-        label={'Shop %Query%'}
-      />
+      {searchLists.length ? (
+        <ProductResultsSection
+          list={searchLists}
+          sponsored={true}
+          label={`Shop "${query}"`}
+        />
+      ) : (
+        ''
+      )}
     </div>
   );
 }

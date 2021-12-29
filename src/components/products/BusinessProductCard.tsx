@@ -1,6 +1,6 @@
-import Image from 'next/image';
+import ImageWithFallback from '../image/ImageWithFallback';
 import Link from 'next/link';
-import { Product } from '../../interfaces/product';
+import { Product } from '@/interfaces/searchProduct';
 import React from 'react';
 import { StarIcon } from '@heroicons/react/solid';
 
@@ -16,27 +16,29 @@ export default function BusinessProductCard(data: ProductProps) {
       <a>
         <div
           className="relative w-full flex py-4 border-b border-gray-200"
-          id={`product-${product.id}`}
+          id={`product-${product._id}`}
         >
           <div className="pb-6 text-left text-sm w-full">
             <h3 className="text-sm font-normal text-gray-700">
-              {product.name}
+              {product._source.name_1[0]}
             </h3>
             <p className=" text-base font-semibold text-gray-700">
-              {product.price}
+              {product._source.field_price[0]}
             </p>
 
             <div className="flex flex-col items-start">
-              <p className="sr-only">{product.rating} out of 5 stars</p>
+              <p className="sr-only">
+                {product._source.field_rating[0]} out of 5 stars
+              </p>
               <div className="flex items-center">
                 <span className="font-normal text-gray-500">
-                  {product.rating}
+                  {product._source.field_rating}
                 </span>
                 {[0, 1, 2, 3, 4].map(rating => (
                   <StarIcon
                     key={rating}
                     className={`    ${
-                      product.rating > rating
+                      product._source.field_rating[0] > rating
                         ? 'text-yellow-400'
                         : 'text-gray-200'
                     }
@@ -45,15 +47,15 @@ export default function BusinessProductCard(data: ProductProps) {
                   />
                 ))}
                 <p className="font-normal text-gray-500">
-                  ({product.reviewCount})
+                  ({product._source.field_review_count})
                 </p>
               </div>
             </div>
           </div>
           <div className="rounded-lg overflow-hidden w-25 h-25 relative flex-shrink-0">
-            <Image
-              src={product.imageSrc}
-              alt={product.imageAlt}
+            <ImageWithFallback
+              src={product._source.field_image}
+              alt={product._source.name_1}
               layout="fill"
               objectFit={'cover'}
             />

@@ -14,6 +14,7 @@ import {
   Sativa,
 } from '../../../public/assets/icons/iconComponents';
 import React, { useEffect, useState } from 'react';
+import { faqs, listings } from '@/helpers/mockData';
 
 import AboutUsSlideOver from '../../../src/views/slideOver/AboutUsSlideOver';
 import AmenitiesSection from '../../../src/components/sections/AmenitiesSection';
@@ -27,7 +28,6 @@ import Map from '../../../public/assets/images/png/map-mock.png';
 import ReviewsSlideOver from '../../../src/views/slideOver/ReviewsSlideOver';
 import SvgIconTwitter from '../../../public/assets/icons/iconComponents/IconTwitter';
 import { getDocument } from '../../../src/actions/search';
-import { listings } from '../../../src/helpers/mockData';
 import { useRouter } from 'next/router';
 
 export default function BusinessDetail() {
@@ -98,15 +98,15 @@ export default function BusinessDetail() {
               />
               <p className="p">
                 <span>
-                  {parseInt(dispensary?._source.field_rating as string).toFixed(
-                    1
-                  )}
+                  {parseFloat(
+                    dispensary?._source.field_rating[0] as string
+                  ).toFixed(1)}
                 </span>
                 ({dispensary?._source.field_reviews_count}) Reviews
               </p>
             </div>
             <div className="flex">
-              <p>{dispensary?._source.category}</p>
+              <p>{dispensary?._source._type}</p>
               <span className="px-1 text-normal">&#8226;&nbsp;</span>
               {/* Need current location from */}
               {/* <p>{listing.distance}</p> */}
@@ -247,9 +247,11 @@ export default function BusinessDetail() {
             </p>
           </div>
         </section>
-        <FaqSlideOver dispensary={dispensary} />
-        <ReviewsSlideOver dispensary={dispensary} />
-        <AmenitiesSection amenities={listing.amenities} />
+        {/* Need Review FAQ  and amenities Data */}
+        <FaqSlideOver name={dispensary?._source.name[0]} faqs={faqs} />
+
+        {/* <ReviewsSlideOver dispensary={dispensary} /> */}
+        {/* <AmenitiesSection amenities={listing.amenities} /> */}
         {/* Also Viewed */}
       </div>
       <section className="pb-4 pt-2">
@@ -264,7 +266,7 @@ export default function BusinessDetail() {
         </h2>
         <div className="grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-4">
           {listings.map((listing, index) => (
-            <div className="w-64" key={`lc-${listing.id}-${index}`}>
+            <div className="w-64" key={`lc-${listing._id}-${index}`}>
               <ListingCardDropdown listing={listing} amenities={false} />
             </div>
           ))}

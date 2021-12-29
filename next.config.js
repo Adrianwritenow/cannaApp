@@ -1,4 +1,5 @@
 const path = require('path');
+const env = process.env.NODE_ENV;
 
 module.exports = {
   reactStrictMode: true,
@@ -21,6 +22,7 @@ module.exports = {
     CLIENT_ID: process.env.CLIENT_ID,
     SEARCH_URL: process.env.SEARCH_URL,
     MAPBOX_ACCESS_TOKEN: process.env.MAPBOX_ACCESS_TOKEN,
+    NEXTAUTH_URL: process.env.NEXTAUTH_URL,
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
     FACEBOOK_CLIENT_ID: process.env.FACEBOOK_CLIENT_ID,
     FACEBOOK_CLIENT_SECRET: process.env.FACEBOOK_CLIENT_SECRET,

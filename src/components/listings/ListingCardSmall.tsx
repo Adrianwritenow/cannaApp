@@ -2,31 +2,32 @@ import { CheckIcon, StarIcon } from '@heroicons/react/solid';
 
 import { BookmarkIcon } from '@heroicons/react/outline';
 import { Disclosure } from '@headlessui/react';
-import Image from 'next/image';
+import { DispensaryProps } from '../../interfaces/listing';
+import ImageWithFallback from '../image/ImageWithFallback';
 import Link from 'next/link';
-import { Listing } from '../../interfaces/listing';
 import React from 'react';
 
-interface ListingProps {
-  listing: Listing;
-}
-export default function ListingCardSmall(data: ListingProps) {
+export default function ListingCardSmall(data: DispensaryProps) {
   const { listing } = data;
 
   return (
     <Disclosure
       as="div"
-      key={listing.id}
+      key={listing._id}
       className="relative w-full flex flex-wrap p-4"
-      id={`listing-${listing.id}`}
+      id={`listing-${listing._id}`}
     >
       {({ open }) => (
         <>
           <Disclosure.Button className="w-full flex focus:outline-none">
             <div className="rounded-lg overflow-hidden w-20 h-20 relative flex-shrink-0 mr-3">
-              <Image
-                src={listing.image}
-                alt={listing.name}
+              <ImageWithFallback
+                src={
+                  listing._source.field_image
+                    ? listing._source.field_image[0]
+                    : 'undeined'
+                }
+                alt={listing._source.name}
                 layout="fill"
                 objectFit={'cover'}
               />
@@ -34,22 +35,24 @@ export default function ListingCardSmall(data: ListingProps) {
             <div className="text-left text-sm w-full">
               <div className="flex flex-wrap justify-between">
                 <h3 className="text-lg font-semobold text-gray-700">
-                  {listing.name}
+                  {listing._source.name}
                 </h3>
                 <BookmarkIcon className="w-6" />
               </div>
               <div className="flex flex-col items-start">
-                <p className="sr-only">{listing.rating} out of 5 stars</p>
+                <p className="sr-only">
+                  {listing._source.field_rating[0]} out of 5 stars
+                </p>
                 <div className="flex items-center">
                   <span className="font-normal text-gray-500">
-                    {listing.rating}
+                    {listing._source.field_rating[0]}
                   </span>
 
                   {[0, 1, 2, 3, 4].map(rating => (
                     <StarIcon
                       key={rating}
                       className={`    ${
-                        listing.rating > rating
+                        parseFloat(listing._source.field_rating[0]) > rating
                           ? 'text-yellow-400'
                           : 'text-gray-200'
                       }
@@ -58,11 +61,11 @@ export default function ListingCardSmall(data: ListingProps) {
                     />
                   ))}
                   <p className="font-normal text-gray-500">
-                    ({listing.reviewCount})
+                    ({listing._source.field_reviews_count})
                   </p>
                 </div>
                 <p className="text-sm text-gray-500 font-normal">
-                  {listing.category}
+                  {listing._source._type}
                 </p>
               </div>
             </div>

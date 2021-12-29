@@ -1,7 +1,7 @@
-import { Listing } from "./listing";
-import { Product } from "./product";
+import { Dispensary } from './searchDispensary';
+import { Product } from './searchProduct';
 
 export interface Vendor {
-  listing: Listing;
+  listing: Dispensary;
   product: Product;
 }

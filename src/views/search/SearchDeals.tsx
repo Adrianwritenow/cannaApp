@@ -1,10 +1,10 @@
-import { listings, products } from "../../helpers/mockData";
+import { listings, products } from '../../helpers/mockData';
 
-import CouponSlideOver from "../slideOver/CouponsSlideOver";
-import FilterSlideOver from "../slideOver/FilterSlideOver";
-import ListingCard from "../../components/listings/ListingCard";
-import ProductDealsCard from "../../components/deals/ProductDealsCard";
-import ProductResultsSection from "../../components/sections/ProductsResultsSection";
+import CouponSlideOver from '../slideOver/CouponsSlideOver';
+import FilterSlideOver from '../slideOver/FilterSlideOver';
+import ListingCard from '../../components/listings/ListingCard';
+import ProductDealsCard from '../../components/deals/ProductDealsCard';
+import ProductResultsSection from '../../components/sections/ProductsResultsSection';
 
 export default function SearchDeals() {
   return (
@@ -18,7 +18,7 @@ export default function SearchDeals() {
             return (
               <ProductDealsCard
                 product={product}
-                key={`${product.id}-${index}`}
+                key={`${product._id}-${index}`}
               />
             );
           })}
@@ -40,9 +40,9 @@ export default function SearchDeals() {
             </h2>
             <div className="grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-4 pb-4">
               {listings.map((listing, index) => (
-                <div className="w-64" key={`lc-${listing.id}-${index}`}>
+                <div className="w-64" key={`lc-${listing._id}-${index}`}>
                   <ListingCard
-                    discount={"50%"}
+                    discount={'50%'}
                     listing={listing}
                     amenities={false}
                   />

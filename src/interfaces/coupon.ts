@@ -1,11 +1,11 @@
-import { Image } from "./image";
-import { Listing } from "./listing";
-import { Product } from "./product";
+import { Dispensary } from './searchDispensary';
+import { Image } from './image';
+import { Product } from './searchProduct';
 
 export interface Coupon {
   code: string;
   saving: string;
   products: Product[];
-  business: Listing;
+  business: Dispensary;
   image: Image;
 }

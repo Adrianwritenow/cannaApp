@@ -1,271 +1,27 @@
-import { ArrowRightIcon } from "@heroicons/react/solid";
-import { Feeling } from "../../../interfaces/feeling";
-import { Feelings } from "../../../helpers/feelings";
-import { Flavor } from "../../../interfaces/flavor";
-import { Flavors } from "../../../helpers/flavors";
-import Image from "next/image";
-import Link from "next/link";
-import React from "react";
-import { Strain } from "../../../interfaces/strain";
-import StrainCardSmall from "../../../components/strains/StrainCardSmall";
-import SvgHybrid from "../../../../public/assets/icons/iconComponents/Hybrid";
-import SvgIndica from "../../../../public/assets/icons/iconComponents/Indica";
-import SvgSativa from "../../../../public/assets/icons/iconComponents/Sativa";
-import { Terpene } from "../../../interfaces/terpene";
-import { Terpenes } from "../../../helpers/terpenes";
+import { strain, strains } from '@/helpers/mockData';
+
+import { ArrowRightIcon } from '@heroicons/react/solid';
+import { Feeling } from '../../../interfaces/feeling';
+import { Feelings } from '../../../helpers/feelings';
+import { Flavor } from '../../../interfaces/flavor';
+import { Flavors } from '../../../helpers/flavors';
+import Image from 'next/image';
+import ImageWithFallback from '@/components/image/ImageWithFallback';
+import Link from 'next/link';
+import React from 'react';
+import { Strain } from '@/interfaces/SearchStrain';
+import StrainCardSmall from '../../../components/strains/StrainCardSmall';
+import SvgHybrid from '../../../../public/assets/icons/iconComponents/Hybrid';
+import SvgIndica from '../../../../public/assets/icons/iconComponents/Indica';
+import SvgSativa from '../../../../public/assets/icons/iconComponents/Sativa';
+import { Terpene } from '../../../interfaces/terpene';
+import { Terpenes } from '../../../helpers/terpenes';
 
 interface StrainProps {
   strain: Strain;
 }
 
 export default function StrainLanding() {
-  const strain: Strain = {
-    id: "c1",
-    rating: 4,
-    reviewCount: 30,
-    images: [
-      "https://images.unsplash.com/photo-1503262028195-93c528f03218?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2071&q=80",
-      "https://images.unsplash.com/photo-1496189713555-6f47ff6b27e8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80",
-      "https://images.unsplash.com/photo-1520224855316-280b2e6afca1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=776&q=80",
-      "https://images.unsplash.com/photo-1457573399415-1154bfe3ff71?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2787&q=80",
-    ],
-    title: "Cannabis Strain",
-    type: "Type",
-    about:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.",
-    cannabanoids: {
-      thc: 40,
-      cbd: 60,
-    },
-    effects: {
-      type: "Sleepy",
-      effectPercent: 55,
-    },
-    growing: {
-      min: 20,
-      max: 30,
-    },
-  };
-
-  const popularStrains: Array<Strain> = [
-    {
-      id: "c1",
-      rating: 4,
-      reviewCount: 30,
-      images: [
-        "https://images.unsplash.com/photo-1503262028195-93c528f03218?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2071&q=80",
-        "https://images.unsplash.com/photo-1496189713555-6f47ff6b27e8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80",
-        "https://images.unsplash.com/photo-1520224855316-280b2e6afca1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=776&q=80",
-        "https://images.unsplash.com/photo-1457573399415-1154bfe3ff71?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2787&q=80",
-      ],
-      title: "Cannabis Strain",
-      type: "Type",
-      about:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.",
-      cannabanoids: {
-        thc: 40,
-        cbd: 60,
-      },
-      effects: {
-        type: "Sleepy",
-        effectPercent: 55,
-      },
-      growing: {
-        min: 20,
-        max: 30,
-      },
-    },
-    {
-      id: "c2",
-      rating: 4,
-      reviewCount: 30,
-      images: [
-        "https://images.unsplash.com/photo-1503262028195-93c528f03218?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2071&q=80",
-        "https://images.unsplash.com/photo-1496189713555-6f47ff6b27e8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80",
-        "https://images.unsplash.com/photo-1520224855316-280b2e6afca1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=776&q=80",
-        "https://images.unsplash.com/photo-1457573399415-1154bfe3ff71?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2787&q=80",
-      ],
-      title: "Cannabis Strain",
-      type: "Type",
-      about:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.",
-      cannabanoids: {
-        thc: 40,
-        cbd: 60,
-      },
-      effects: {
-        type: "Sleepy",
-        effectPercent: 55,
-      },
-      growing: {
-        min: 20,
-        max: 30,
-      },
-    },
-    {
-      id: "c3",
-      rating: 4,
-      reviewCount: 30,
-      images: [
-        "https://images.unsplash.com/photo-1503262028195-93c528f03218?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2071&q=80",
-        "https://images.unsplash.com/photo-1496189713555-6f47ff6b27e8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80",
-        "https://images.unsplash.com/photo-1520224855316-280b2e6afca1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=776&q=80",
-        "https://images.unsplash.com/photo-1457573399415-1154bfe3ff71?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2787&q=80",
-      ],
-      title: "Cannabis Strain",
-      type: "Type",
-      about:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.",
-      cannabanoids: {
-        thc: 40,
-        cbd: 60,
-      },
-      effects: {
-        type: "Sleepy",
-        effectPercent: 55,
-      },
-      growing: {
-        min: 20,
-        max: 30,
-      },
-    },
-    {
-      id: "c4",
-      rating: 4,
-      reviewCount: 30,
-      images: [
-        "https://images.unsplash.com/photo-1503262028195-93c528f03218?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2071&q=80",
-        "https://images.unsplash.com/photo-1496189713555-6f47ff6b27e8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80",
-        "https://images.unsplash.com/photo-1520224855316-280b2e6afca1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=776&q=80",
-        "https://images.unsplash.com/photo-1457573399415-1154bfe3ff71?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2787&q=80",
-      ],
-      title: "Cannabis Strain",
-      type: "Type",
-      about:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.",
-      cannabanoids: {
-        thc: 40,
-        cbd: 60,
-      },
-      effects: {
-        type: "Sleepy",
-        effectPercent: 55,
-      },
-      growing: {
-        min: 20,
-        max: 30,
-      },
-    },
-    {
-      id: "c5",
-      rating: 4,
-      reviewCount: 30,
-      images: [
-        "https://images.unsplash.com/photo-1503262028195-93c528f03218?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2071&q=80",
-        "https://images.unsplash.com/photo-1496189713555-6f47ff6b27e8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80",
-        "https://images.unsplash.com/photo-1520224855316-280b2e6afca1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=776&q=80",
-        "https://images.unsplash.com/photo-1457573399415-1154bfe3ff71?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2787&q=80",
-      ],
-      title: "Cannabis Strain",
-      type: "Type",
-      about:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.",
-      cannabanoids: {
-        thc: 40,
-        cbd: 60,
-      },
-      effects: {
-        type: "Sleepy",
-        effectPercent: 55,
-      },
-      growing: {
-        min: 20,
-        max: 30,
-      },
-    },
-    {
-      id: "c6",
-      rating: 4,
-      reviewCount: 30,
-      images: [
-        "https://images.unsplash.com/photo-1503262028195-93c528f03218?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2071&q=80",
-        "https://images.unsplash.com/photo-1496189713555-6f47ff6b27e8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80",
-        "https://images.unsplash.com/photo-1520224855316-280b2e6afca1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=776&q=80",
-        "https://images.unsplash.com/photo-1457573399415-1154bfe3ff71?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2787&q=80",
-      ],
-      title: "Cannabis Strain",
-      type: "Type",
-      about:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.",
-      cannabanoids: {
-        thc: 40,
-        cbd: 60,
-      },
-      effects: {
-        type: "Sleepy",
-        effectPercent: 55,
-      },
-      growing: {
-        min: 20,
-        max: 30,
-      },
-    },
-    {
-      id: "c7",
-      rating: 4,
-      reviewCount: 30,
-      images: [
-        "https://images.unsplash.com/photo-1503262028195-93c528f03218?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2071&q=80",
-        "https://images.unsplash.com/photo-1496189713555-6f47ff6b27e8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80",
-        "https://images.unsplash.com/photo-1520224855316-280b2e6afca1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=776&q=80",
-        "https://images.unsplash.com/photo-1457573399415-1154bfe3ff71?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2787&q=80",
-      ],
-      title: "Cannabis Strain",
-      type: "Type",
-      about:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.",
-      cannabanoids: {
-        thc: 40,
-        cbd: 60,
-      },
-      effects: {
-        type: "Sleepy",
-        effectPercent: 55,
-      },
-      growing: {
-        min: 20,
-        max: 30,
-      },
-    },
-    {
-      id: "c8",
-      rating: 4,
-      reviewCount: 30,
-      images: [
-        "https://images.unsplash.com/photo-1503262028195-93c528f03218?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2071&q=80",
-        "https://images.unsplash.com/photo-1496189713555-6f47ff6b27e8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80",
-        "https://images.unsplash.com/photo-1520224855316-280b2e6afca1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=776&q=80",
-        "https://images.unsplash.com/photo-1457573399415-1154bfe3ff71?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2787&q=80",
-      ],
-      title: "Cannabis Strain",
-      type: "Type",
-      about:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.",
-      cannabanoids: {
-        thc: 40,
-        cbd: 60,
-      },
-      effects: {
-        type: "Sleepy",
-        effectPercent: 55,
-      },
-      growing: {
-        min: 20,
-        max: 30,
-      },
-    },
-  ];
-
   return (
     <div className="max-w-7xl bg-gray-50 pb-5">
       {/* Strain */}
@@ -279,25 +35,28 @@ export default function StrainLanding() {
         </h1>
         {/* Image */}
         <div className="w-full h-48 relative rounded-lg overflow-hidden">
-          <Image
-            src={strain.images[0]}
-            alt={strain.title}
+          <ImageWithFallback
+            src={strain._source.field_image}
+            alt={strain._source.name_2}
             layout="fill"
-            objectFit={"cover"}
+            objectFit={'cover'}
           />
         </div>
 
         {/* Strain info */}
         <div className="pt-4">
-          <h1 className="text-xl font-normal text-gray-700">{strain.title}</h1>
-          <p className="text-gray-500 text-sm font-normal">{strain.type}</p>
+          <h1 className="text-xl font-normal text-gray-700">
+            {strain._source.name_2}
+          </h1>
+          <p className="text-gray-500 text-sm font-normal">
+            {strain._source.type}
+          </p>
 
           <div className="mt-4">
             <h3 className="sr-only">Description</h3>
-            <div
-              className="text-base text-gray-700 space-y-6"
-              dangerouslySetInnerHTML={{ __html: strain.about }}
-            />
+            <p className="text-base text-gray-700 space-y-6">
+              {strain._source.description_1}
+            </p>
           </div>
           <Link href="#" passHref>
             <a className="text-green mt-1 text-sm font-medium flex items-center">
@@ -320,7 +79,7 @@ export default function StrainLanding() {
         <div className="w-full overflow-x-scroll">
           <div className="w-min">
             <div className="grid grid-flow-col auto-cols-max grid-rows-4 w-full gap-1">
-              {popularStrains.map((strain: Strain, index) => (
+              {strains.map((strain: Strain, index) => (
                 <div className="w-60" key={`${strain}-${index}`}>
                   <StrainCardSmall strain={strain} />
                 </div>
@@ -390,7 +149,7 @@ export default function StrainLanding() {
                         src={feeling.src}
                         alt={feeling.label}
                         layout="fill"
-                        objectFit={"cover"}
+                        objectFit={'cover'}
                       />
                     </div>
                     <p className="w-full text-center">{feeling.label}</p>

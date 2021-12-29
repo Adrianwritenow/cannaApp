@@ -1,6 +1,6 @@
-import { Coupon } from "../../interfaces/coupon";
-import Image from "next/image";
-import Link from "next/link";
+import { Coupon } from '../../interfaces/coupon';
+import Image from 'next/image';
+import Link from 'next/link';
 
 interface CouponCardProps {
   coupon: Coupon;
@@ -15,13 +15,13 @@ export default function CouponCard(props: CouponCardProps) {
           src={coupon.image.src}
           alt={coupon.image.alt}
           layout="fill"
-          objectFit={"cover"}
+          objectFit={'cover'}
         />
       </div>
       <div className="pt-2 pb-6 text-left text-sm w-36">
         <p className="text-blue-500 font-semibold">Save {coupon.saving} on</p>
         <h3 className="text-sm font-normal text-gray-700 pt-1 pb-2">
-          {coupon.products[0].name}
+          {coupon.products[0]._source.name_1}
         </h3>
         <div className="flex flex-col items-start">
           <Link href="/coupon/1" passHref>

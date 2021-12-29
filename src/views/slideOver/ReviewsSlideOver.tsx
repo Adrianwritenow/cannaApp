@@ -1,22 +1,22 @@
-import { ArrowLeftIcon, EmojiHappyIcon } from "@heroicons/react/solid";
-import { Dialog, Transition } from "@headlessui/react";
-import React, { Fragment, useState } from "react";
+import { ArrowLeftIcon, EmojiHappyIcon } from '@heroicons/react/solid';
+import { Dialog, Transition } from '@headlessui/react';
+import React, { Fragment, useState } from 'react';
 
-import { BusinessSlideoverProps } from "../../interfaces/props/businessSlideOverProps";
-import DropdownFilter from "../../components/forms/fields/DropdownFilter";
-import ReviewCard from "../../components/reviews/ReviewCard";
-import ReviewFormSlideOver from "../../components/reviews/ReviewFormSlideOver";
-import { listings } from "../../helpers/mockData";
+import { BusinessSlideoverProps } from '../../interfaces/props/businessSlideOverProps';
+import DropdownFilter from '../../components/forms/fields/DropdownFilter';
+import ReviewCard from '../../components/reviews/ReviewCard';
+import ReviewFormSlideOver from '../../components/reviews/ReviewFormSlideOver';
+import { listings } from '../../helpers/mockData';
 
 export default function ReviewsSlideOver(props: BusinessSlideoverProps) {
   const { dispensary } = props;
   const [open, setOpen] = useState(false);
   const business = listings[0];
 
-  const [sort, setSort] = useState("");
-  const [type, setType] = useState("");
-  const [cons, setCons] = useState("");
-  const [language, setLanguage] = useState("");
+  const [sort, setSort] = useState('');
+  const [type, setType] = useState('');
+  const [cons, setCons] = useState('');
+  const [language, setLanguage] = useState('');
 
   const [myRating, setMyRating] = useState(0);
 
@@ -32,11 +32,11 @@ export default function ReviewsSlideOver(props: BusinessSlideoverProps) {
         Recommended Reviews
       </h2>
       <div>
-        {business.reviews.map((review, index) => (
+        {/* {business.reviews.map((review, index) => (
           <div key={`review-${index}`}>
             <ReviewCard review={review} />
           </div>
-        ))}
+        ))} */}
         <button
           onClick={() => setOpen(true)}
           className="py-4 w-full uppercase text-green-500 text-xs font-semibold border-t border-gray-200 tracking-widest"
@@ -99,7 +99,7 @@ export default function ReviewsSlideOver(props: BusinessSlideoverProps) {
                               <EmojiHappyIcon className="w-6 h-6" />
                               <span className="px-1">Very Positive</span>
                               <span className="font-normal text-gray-500">
-                                (90% of{" "}
+                                (90% of{' '}
                                 {`${dispensary?._source.field_reviews_count}`})
                               </span>
                             </p>
@@ -135,37 +135,37 @@ export default function ReviewsSlideOver(props: BusinessSlideoverProps) {
                           <div className="flex overflow-x-scroll pl-4 pb-4">
                             <DropdownFilter
                               setter={setSort}
-                              options={["relevance", "distance", "rating"]}
+                              options={['relevance', 'distance', 'rating']}
                               current={sort}
-                              label={"Sort by"}
+                              label={'Sort by'}
                             />
                             <DropdownFilter
                               setter={setType}
-                              options={["positive", "negative"]}
+                              options={['positive', 'negative']}
                               current={type}
-                              label={"Review Type"}
+                              label={'Review Type'}
                             />
                             <DropdownFilter
                               setter={setCons}
-                              options={["Yes", "No"]}
+                              options={['Yes', 'No']}
                               current={cons}
-                              label={"Consumption"}
+                              label={'Consumption'}
                             />
                             <DropdownFilter
                               setter={setLanguage}
-                              options={["english", "spanish"]}
+                              options={['english', 'spanish']}
                               current={language}
-                              label={"Language"}
+                              label={'Language'}
                             />
                           </div>
 
                           {/* Results */}
                           <div className="px-4">
-                            {business.reviews.map((review, index) => (
+                            {/* {business.reviews.map((review, index) => (
                               <div key={`review-${index}`}>
                                 <ReviewCard review={review} />
                               </div>
-                            ))}
+                            ))} */}
                           </div>
                         </section>
                       </div>

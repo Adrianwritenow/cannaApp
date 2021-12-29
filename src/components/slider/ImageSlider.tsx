@@ -1,13 +1,14 @@
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/scrollbar";
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/scrollbar';
 
-import { A11y, Navigation, Pagination, Scrollbar } from "swiper";
-import { Swiper, SwiperSlide } from "swiper/react";
+import { A11y, Navigation, Pagination, Scrollbar } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
 
-import Image from "next/image";
-import { Sativa } from "../../../public/assets/icons/iconComponents";
+import Image from 'next/image';
+import ImageWithFallback from '../image/ImageWithFallback';
+import { Sativa } from '../../../public/assets/icons/iconComponents';
 
 export default function ImageSlider(props: any) {
   const { images } = props;
@@ -24,18 +25,18 @@ export default function ImageSlider(props: any) {
           },
         }}
         onSlideChange={() => {}}
-        onSwiper={(swiper) => {}}
+        onSwiper={swiper => {}}
       >
         {images.length ? (
           images.map((image: any, index: any) => (
             <SwiperSlide key={`${image.alt}-${index}`}>
               <div className="relative w-full relative w-full pb-full">
-                <Image
+                <ImageWithFallback
                   src={image.src}
                   alt={image.alt}
                   layout="fill"
-                  objectFit={"cover"}
-                  className={"w-full h-full"}
+                  objectFit={'cover'}
+                  className={'w-full h-full'}
                 />
               </div>
             </SwiperSlide>

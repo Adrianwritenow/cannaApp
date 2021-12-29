@@ -1,21 +1,36 @@
-import React, { useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
+import { RootState } from '@/reducers';
 import SearchAll from '../../src/views/search/SearchAll';
 import SearchDeals from '../../src/views/search/SearchDeals';
 import SearchDispensary from '../../src/views/search/SearchDispensary';
+import SearchNews from '@/views/search/SearchNews';
+import SearchShopping from '@/views/search/SearchShopping';
+import { SearchState } from '@/interfaces/searchState';
 import SearchStrain from '../../src/views/search/SearchStrain';
 import { Tab } from '@headlessui/react';
 import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
 import Link from 'next/link';
 
 export default function Search() {
   const router = useRouter();
   const [view, setView] = useState(0);
+  const { results, query } = useSelector((root: RootState) => root.search);
+  const [currentQuery, setCurrentQuery] = useState('');
+  const [searchLists, setSearchLists] = useState<SearchState>({
+    news: [],
+    deals: [],
+    shopping: [],
+    dispensaries: [],
+    strains: [],
+  });
 
-  const query = router.query;
+  const path = router.query;
 
   const tabs = [
     { name: 'All', href: '/search?type=all', current: false },
+    { name: 'News', href: '/search?type=news', current: false },
     { name: 'Map', href: '/search?type=dispensaries', current: false },
     { name: 'Deals', href: '/search?', current: false },
     { name: 'Shopping', href: '/search?type=shops', current: false },
@@ -25,12 +40,40 @@ export default function Search() {
 
   useEffect(() => {
     tabs.map((tab, index) => {
-      const currentPath = tab.href.includes(`${query.type}`);
+      const currentPath = tab.href.includes(`${path.type}`);
       if (currentPath) {
         setView(index);
       }
     });
-  }, [view]);
+
+    let searchListUpdate: SearchState = {
+      news: [],
+      deals: [],
+      shopping: [],
+      dispensaries: [],
+      strains: [],
+    };
+
+    results.map((result: any, index: number) => {
+      switch (true) {
+        case result._id.includes('strain_entity'):
+          searchListUpdate.strains.push(result);
+          break;
+
+        case result._id.includes('product_entity'):
+          searchListUpdate.shopping.push(result);
+          break;
+
+        case result._id.includes('dispensary_entity'):
+          searchListUpdate.dispensaries.push(result);
+          break;
+      }
+    });
+    if (currentQuery !== query) {
+      setSearchLists(searchListUpdate);
+    }
+    setCurrentQuery(query);
+  }, [view, results, searchLists]);
 
   return (
     <div className="bg-gray-50 ">
@@ -62,7 +105,11 @@ export default function Search() {
           <Tab.Panels className="focus:outline-none">
             <Tab.Panel className="focus:outline-none">
               {/* Search All */}
-              <SearchAll />
+              <SearchAll lists={searchLists} query={query} />
+            </Tab.Panel>
+            <Tab.Panel className="focus:outline-none">
+              {/* Search All */}
+              <SearchNews />
             </Tab.Panel>
             <Tab.Panel className="focus:outline-none">
               {/* Link to Map */}
@@ -73,15 +120,22 @@ export default function Search() {
             </Tab.Panel>
             <Tab.Panel className="focus:outline-none">
               {/* Search Shopping */}
-              <>Shopping</>
+              <SearchShopping products={searchLists.shopping} query={query} />
             </Tab.Panel>
             <Tab.Panel className="focus:outline-none">
               {/* Search Strain */}
-              <SearchStrain />
+              <SearchStrain
+                strains={searchLists.strains}
+                query={query}
+                products={searchLists.shopping}
+              />
             </Tab.Panel>
             <Tab.Panel className="focus:outline-none">
               {/* Search Dispensery */}
-              <SearchDispensary />
+              <SearchDispensary
+                dispensaries={searchLists.dispensaries}
+                query={query}
+              />
             </Tab.Panel>
           </Tab.Panels>
         </Tab.Group>

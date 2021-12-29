@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 
-import { Coupon } from "../../interfaces/coupon";
-import CouponCard from "../coupons/CouponCard";
-import { InformationCircleIcon } from "@heroicons/react/outline";
-import { Product } from "../../interfaces/product";
-import ProductCard from "../products/ProductCard";
+import { Coupon } from '../../interfaces/coupon';
+import CouponCard from '../coupons/CouponCard';
+import { InformationCircleIcon } from '@heroicons/react/outline';
+import { Product } from '@/interfaces/searchProduct';
+import ProductCard from '../products/ProductCard';
 
 interface Results {
   list: Array<Product> | Array<Coupon>;
@@ -30,19 +30,19 @@ export default function ProductResultsSection(results: Results) {
           <InformationCircleIcon className="w-5 h-5 text-gray-500 " />
         </div>
       ) : (
-        ""
+        ''
       )}
       <h2 className="text-xl  text-gray-700 font-semibold p-4 ">{label}</h2>
       {list && (
         <div
           className={`${
-            type === "COUPON" ? "pb-6" : ""
+            type === 'COUPON' ? 'pb-6' : ''
           } grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-6 `}
         >
           {list.map((data, index) => {
-            if (type === "COUPON") {
+            if (type === 'COUPON') {
               return <CouponCard coupon={data as Coupon} key={`pc-${index}`} />;
-            } else if (type === "DEAL") {
+            } else if (type === 'DEAL') {
               return (
                 <ProductCard
                   product={data as Product}
@@ -58,7 +58,7 @@ export default function ProductResultsSection(results: Results) {
           })}
         </div>
       )}
-      <div className={"px-4"}>
+      <div className={'px-4'}>
         <button
           className="py-4 w-full uppercase text-green-500 text-xs font-semibold border-t border-gray-200 tracking-widest"
           onClick={() => {

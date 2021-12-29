@@ -1,4 +1,3 @@
-import { ArrowRightIcon, StarIcon } from '@heroicons/react/solid';
 import React, { useEffect, useState } from 'react';
 import { listings, products } from '../../../src/helpers/mockData';
 
@@ -6,25 +5,25 @@ import AboutSlideOver from '../../../src/components/products/AboutSlideOver';
 import DropdownFilter from '../../../src/components/forms/fields/DropdownFilter';
 import FaqSlideOver from '../../../src/views/slideOver/FaqSlideOver';
 import ImageSlider from '../../../src/components/slider/ImageSlider';
-import Link from 'next/link';
 import { Product } from '../../../src/interfaces/searchProduct';
 import ProductResultsSection from '../../../src/components/sections/ProductsResultsSection';
 import ReviewsSlideOver from '../../../src/views/slideOver/ReviewsSlideOver';
+import { RootState } from '@/reducers';
+import { StarIcon } from '@heroicons/react/solid';
 import { Vendor } from '../../../src/interfaces/vendor';
 import VendorCard from '../../../src/components/vendor/VendorCard';
 import { getDocument } from '../../../src/actions/search';
 import { useRouter } from 'next/router';
-
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(' ');
-}
+import { useSelector } from 'react-redux';
 
 export default function ProductDetail() {
   const router = useRouter();
   const { productId } = router.query;
   const [product, setProduct] = useState<Product>();
   const [sort, setSort]: any = useState('relevance');
-  const listing = listings[0];
+  const { results, query } = useSelector((root: RootState) => root.search);
+  const [searchLists, setSearchLists] = useState([]);
+  const [currentQuery, setCurrentQuery] = useState('');
 
   useEffect(() => {
     if (productId) {
@@ -34,7 +33,21 @@ export default function ProductDetail() {
         }
       );
     }
-  }, [router]);
+
+    let searchListUpdate: any = [];
+
+    results.map((result: any, index: number) => {
+      switch (true) {
+        case result._id.includes('product_entity'):
+          searchListUpdate.push(result);
+          break;
+      }
+    });
+    if (currentQuery !== query) {
+      setSearchLists(searchListUpdate);
+    }
+    setCurrentQuery(query);
+  }, [router, results, searchLists]);
 
   return (
     <div className="max-w-7xl mx-auto bg-white md:px-20">
@@ -70,21 +83,31 @@ export default function ProductDetail() {
                   {[0, 1, 2, 3, 4].map(rating => (
                     <StarIcon
                       key={rating}
-                      className={classNames(
-                        product?._source.field_rating > rating
-                          ? 'text-gray-900'
-                          : 'text-gray-200',
+                      className={`${
+                        product._source?.field_rating
+                          ? product._source?.field_rating[0]
+                          : 0 > rating
+                          ? 'text-yellow-400'
+                          : 'text-gray-200'
+                      }
                         'h-3.5 w-3.5 flex-shrink-0'
-                      )}
+                      `}
                       aria-hidden="true"
                     />
                   ))}
                   <span className="font-normal text-gray-500">
-                    ({product._source.field_review_count})
+                    (
+                    {product._source.field_review_count
+                      ? product._source.field_review_count[0]
+                      : 0}
+                    )
                   </span>
                 </div>
                 <p className="sr-only">
-                  {product._source.field_rating} out of 5 stars
+                  {product._source.field_rating
+                    ? product._source.field_rating[0]
+                    : 0}{' '}
+                  out of 5 stars
                 </p>
               </div>
             </section>
@@ -137,6 +160,7 @@ export default function ProductDetail() {
                   </p>
                   <div className="flex">
                     <p className="text-black">Cannabanoids:&nbsp;</p>
+                    {/* Need Cannabanoids data */}
                     {/* <p>
                     THC&nbsp;
                     {product.cannabanoids &&
@@ -157,17 +181,12 @@ export default function ProductDetail() {
                     about={product._source.description[0]}
                     businessName={product._source.name_1[0]}
                   />
-                  <Link href="#" passHref>
-                    <a className="text-green mt-1 text-sm font-medium flex items-center">
-                      Learn more &nbsp;
-                      <ArrowRightIcon className="w-4 h-4" />
-                    </a>
-                  </Link>
                 </div>
               </div>
             </section>
+            {/* Need specification data  */}
 
-            <section aria-labelledby="specifications-heading">
+            {/* <section aria-labelledby="specifications-heading">
               <h2 id="specifications-heading" className="sr-only">
                 Specifications
               </h2>
@@ -176,33 +195,33 @@ export default function ProductDetail() {
               </h2>
               <div>
                 <ul className="text-sm text-gray-700">
-                  {/* {product.specifications.map((spec, index) => {
-                  return (
-                    <li
-                      key={index}
-                      className={`${
-                        index % 2 === 0 ? "bg-white" : "bg-green-50"
-                      } flex py-3 px-2`}
-                    >
-                      <p className="font-semibold">{spec.label}</p>
-                      <p className="ml-auto">{spec.value}</p>
-                    </li>
-                  );
-                })} */}
+                  {product.specifications.map((spec, index) => {
+                    return (
+                      <li
+                        key={index}
+                        className={`${
+                          index % 2 === 0 ? 'bg-white' : 'bg-green-50'
+                        } flex py-3 px-2`}
+                      >
+                        <p className="font-semibold">{spec.label}</p>
+                        <p className="ml-auto">{spec.value}</p>
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
-            </section>
+            </section> */}
           </div>
         </div>
       )}
 
       <ProductResultsSection
-        list={products}
+        list={searchLists}
         sponsored={false}
         label="Related Items"
       />
       <ProductResultsSection
-        list={products}
+        list={searchLists}
         sponsored={false}
         label="Recently Viewed Items"
       />

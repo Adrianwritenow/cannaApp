@@ -1,13 +1,13 @@
-import { AdjustmentsIcon, TagIcon } from "@heroicons/react/solid";
-import { Field, Form, Formik } from "formik";
-import React, { FormEvent, useEffect, useState } from "react";
+import { AdjustmentsIcon, TagIcon } from '@heroicons/react/solid';
+import { Field, Form, Formik } from 'formik';
+import React, { FormEvent, useEffect, useState } from 'react';
 
-import BusinessProductCard from "../products/BusinessProductCard";
-import DropdownFilter from "../forms/fields/DropdownFilter";
-import FilterMenu from "./FilterMenu";
-import { Product } from "../../interfaces/product";
-import { SearchBar } from "../forms/fields/SearchBar";
-import { Tab } from "@headlessui/react";
+import BusinessProductCard from '../products/BusinessProductCard';
+import DropdownFilter from '../forms/fields/DropdownFilter';
+import FilterMenu from './FilterMenu';
+import { Product } from '@/interfaces/searchProduct';
+import { SearchBar } from '../forms/fields/SearchBar';
+import { Tab } from '@headlessui/react';
 
 interface FilterMenuTabsProps {
   products: Product[];
@@ -16,24 +16,24 @@ interface FilterMenuTabsProps {
 export default function FilterMenuTabs(props: FilterMenuTabsProps) {
   const { products } = props;
   const [open, setOpen] = useState(false);
-  const [rated, setRated] = useState("Top Rated");
-  const [pricing, setPricing] = useState("On Sale");
+  const [rated, setRated] = useState('Top Rated');
+  const [pricing, setPricing] = useState('On Sale');
   const [view, setView] = useState(0);
 
-  const tabs = ["Deals", "Flower", "Concentrates", "Edibles", "Topicals"];
+  const tabs = ['Deals', 'Flower', 'Concentrates', 'Edibles', 'Topicals'];
   const initialValues = {
     filters: {
       types: [],
       strains: [],
     },
-    search: "",
+    search: '',
   };
   const [savedValues, setSavedValues]: any = useState({
     filters: {
       types: [],
       strains: [],
     },
-    search: "",
+    search: '',
   });
   const [filterTabs, setFilterTabs]: any = useState([]);
   const values = savedValues.filters;
@@ -46,7 +46,7 @@ export default function FilterMenuTabs(props: FilterMenuTabsProps) {
   // Remove filters from list to be rendered and update the form state values
 
   function removeFilter(filter: string) {
-    Object.keys(values).map((key) => {
+    Object.keys(values).map(key => {
       const currentArray = values[key];
       if (currentArray.includes(filter)) {
         currentArray.splice(currentArray.indexOf(filter), 1);
@@ -75,11 +75,11 @@ export default function FilterMenuTabs(props: FilterMenuTabsProps) {
             <Form>
               <div className="px-4">
                 <Field
-                  name={"search"}
+                  name={'search'}
                   component={SearchBar}
-                  type={"text"}
+                  type={'text'}
                   placeholder="Search"
-                  id={"search"}
+                  id={'search'}
                   setFieldValue={setFieldValue}
                 />
               </div>
@@ -92,8 +92,8 @@ export default function FilterMenuTabs(props: FilterMenuTabsProps) {
                         className={({ selected }) =>
                           `${
                             selected
-                              ? "border-green text-green"
-                              : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                              ? 'border-green text-green'
+                              : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                           }  whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm w-auto focus:outline-none`
                         }
                       >
@@ -127,22 +127,22 @@ export default function FilterMenuTabs(props: FilterMenuTabsProps) {
                           <DropdownFilter
                             setter={setPricing}
                             options={[
-                              "Most Expensive",
-                              "Least Expensive",
-                              "On Sale",
+                              'Most Expensive',
+                              'Least Expensive',
+                              'On Sale',
                             ]}
                             current={pricing}
-                            label={"Sort by"}
+                            label={'Sort by'}
                           />
                           <DropdownFilter
                             setter={setRated}
                             options={[
-                              "Most Reviewed",
-                              "Top Rated",
-                              "Lowest rated",
+                              'Most Reviewed',
+                              'Top Rated',
+                              'Lowest rated',
                             ]}
                             current={rated}
-                            label={"Sort by"}
+                            label={'Sort by'}
                           />
                         </div>
                         <div className="flex">

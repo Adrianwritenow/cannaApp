@@ -1,9 +1,11 @@
-import { CheckIcon } from "@heroicons/react/solid";
-import Image from "next/image";
-import Link from "next/link";
-import React from "react";
-import { Vendor } from "../../interfaces/vendor";
-import { useRouter } from "next/router";
+import React, { useEffect, useState } from 'react';
+
+import { CheckIcon } from '@heroicons/react/solid';
+import ImageWithFallback from '../image/ImageWithFallback';
+import Link from 'next/link';
+import { Product } from '@/interfaces/searchProduct';
+import { Vendor } from '../../interfaces/vendor';
+import { getDocument } from '@/actions/search';
 
 interface VendorProps {
   vendor: Vendor;
@@ -12,42 +14,59 @@ interface VendorProps {
 
 export default function VendorCard(props: VendorProps) {
   const { vendor, productId } = props;
+  const [product, setProduct] = useState<Product>();
+
+  useEffect(() => {
+    if (productId) {
+      getDocument(productId).then(
+        (document: React.SetStateAction<Product | undefined>) => {
+          setProduct(document);
+        }
+      );
+    }
+  }, []);
 
   return (
     <div
-      key={vendor.listing.id}
+      key={vendor.listing._id}
       className="relative w-full flex flex-wrap py-4 pb-0"
-      id={`vendor.listing-${vendor.listing.id}`}
+      id={`vendor.listing-${vendor.listing._id}`}
     >
       <div className="w-full flex ">
         <div className="rounded-lg overflow-hidden w-25 h-25 relative mr-4 flex-shrink-0">
-          <Image
-            src={vendor.product.imageSrc}
-            alt={vendor.product.name}
+          <ImageWithFallback
+            src={product?._source.field_image}
+            alt={product?._source.name_1}
             layout="fill"
-            objectFit={"cover"}
+            objectFit={'cover'}
           />
         </div>
         <div className="flex flex-col w-full">
           <div className="text-left text-sm">
             <div className="w-full ">
               <h3 className="text-sm font-semibold text-gray-900">
-                {vendor.listing.name}
+                {vendor.listing._source.name}
               </h3>
               <div className="flex flex-col w-full items-start">
                 <p className="text-sm text-gray-500 font-normal">
-                  {vendor.listing.distance}
+                  {/* Need Distance */}
+                  {/* {vendor.listing.distance} */}
+                  N/A
                   <span className="px-2 text-normal">&#8226;</span>
                   In Stock
                 </p>
+                {/* Need Hours data */}
                 <p className="text-sm text-gray-500 font-normal">
                   <span className="text-normal text-blue-500">Open </span>
-                  until {vendor.listing.closeTime}
+                  until
+                  {/* {vendor.listing.closeTime} */}
+                  N/A
                 </p>
               </div>
             </div>
           </div>
-          <div className="w-full relative overflow-scroll h-6">
+          {/* Need Amenities info */}
+          {/* <div className="w-full relative overflow-scroll h-6">
             <div className="grid grid-flow-col auto-cols-max gap-2 absolute full items-center">
               {vendor.listing.amenities.map((amenity, index) => (
                 <p
@@ -61,15 +80,15 @@ export default function VendorCard(props: VendorProps) {
                 </p>
               ))}
             </div>
-          </div>
+          </div> */}
           <p className="text-sm font-semibold text-gray-900">
-            {vendor.product.price}
+            {product?._source.field_price}
           </p>
         </div>
       </div>
       <Link
         href={`/product/${encodeURIComponent(productId as string)}/${
-          vendor.product.id
+          product?._id
         }`}
         passHref
       >

@@ -1,6 +1,7 @@
 import { Business } from '../../../public/assets/icons/iconComponents';
 import { CheckCircleIcon } from '@heroicons/react/solid';
 import ProductResultsGrid from '../../../src/components/products/ProductResultsGrid';
+import { products } from '@/helpers/mockData';
 import { useState } from 'react';
 
 export default function CouponDetail() {
@@ -52,7 +53,7 @@ export default function CouponDetail() {
       </section>
 
       <section>
-        <ProductResultsGrid label={'Qualifying Items'} />
+        <ProductResultsGrid label={'Qualifying Items'} list={products} />
       </section>
     </div>
   );

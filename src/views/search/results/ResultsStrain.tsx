@@ -1,44 +1,36 @@
-import { products, strains } from "../../../helpers/mockData";
-
-import { Product } from "../../../interfaces/product";
-import ProductResultsSection from "../../../components/sections/ProductsResultsSection";
-import React from "react";
-import { Strain } from "../../../interfaces/strain";
-import StrainCard from "../../../components/strains/StrainCard";
-import StrainCardSmall from "../../../components/strains/StrainCardSmall";
+import React from 'react';
+import { Strain } from '@/interfaces/SearchStrain';
+import StrainCard from '../../../components/strains/StrainCard';
+import StrainCardSmall from '../../../components/strains/StrainCardSmall';
 
 interface ResultsProps {
   view: string;
+  strains: Strain[];
+  query: string;
 }
 
 export default function ResultsStrain(data: ResultsProps) {
-  const { view } = data;
+  const { view, strains, query } = data;
 
   return (
     <div>
-      <ProductResultsSection
-        list={products}
-        sponsored={true}
-        label={"Shop %Query%"}
-      />
-
       <div>
         <h2 className="text-xl text-gray-700 font-semibold p-4">
-          % Results for %Query%
+          {`${strains.length} Results for ${query}`}
         </h2>
-        {view === "list" ? (
+        {view === 'list' ? (
           <div className=" grid grid-flow-row auto-rows-max">
             {strains.map((strain: Strain) => (
               <StrainCardSmall
                 strain={strain}
-                key={`strain-card-${strain.id}`}
+                key={`strain-card-${strain._id}`}
               />
             ))}
           </div>
         ) : (
           <div className=" grid grid-cols-2 px-4 gap-4">
             {strains.map((strain: Strain) => (
-              <StrainCard strain={strain} key={`strain-card-${strain.id}`} />
+              <StrainCard strain={strain} key={`strain-card-${strain._id}`} />
             ))}
           </div>
         )}

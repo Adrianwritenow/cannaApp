@@ -8,8 +8,8 @@ export interface Strain {
     description_1: string[];
     field_delivery_and_pickup_info: string[];
     field_image: number[];
-    field_rating: number[] | 0;
-    field_review_count: number[] | 0;
+    field_rating: number[] | [0];
+    field_review_count: number[] | [0];
     field_price: string[];
     field_price_label: string[];
     field_source_url_1: string[];

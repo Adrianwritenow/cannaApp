@@ -1,5 +1,6 @@
-import { Faq } from "./faq";
-import { Review } from "./review";
+import { Dispensary } from './searchDispensary';
+import { Faq } from './faq';
+import { Review } from './review';
 
 export interface Listing {
   id: string;
@@ -29,7 +30,14 @@ export interface Listing {
 }
 
 export interface ListingProps {
-  listing: Listing;
+  listing: Dispensary;
+  amenities?: boolean;
+  classNames?: string;
+  discount?: string;
+}
+
+export interface DispensaryProps {
+  listing: Dispensary;
   amenities?: boolean;
   classNames?: string;
   discount?: string;

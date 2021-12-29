@@ -1,6 +1,7 @@
 import Image from 'next/image';
+import ImageWithFallback from '../image/ImageWithFallback';
 import Link from 'next/link';
-import { Product } from '../../interfaces/product';
+import { Product } from '@/interfaces/searchProduct';
 import React from 'react';
 import { StarIcon } from '@heroicons/react/solid';
 
@@ -13,51 +14,72 @@ export default function ProductCard(data: ProductProps) {
   const { product, deal } = data;
 
   return (
-    <Link href="/product/entity%3Aproduct_entity%2F101%3Aen" passHref>
+    <Link
+      href={`/product/${encodeURIComponent(product._id as string)}`}
+      passHref
+    >
       <a>
         <div
           className="relative w-full flex flex-wrap"
-          id={`product-${product.id}`}
+          id={`product-${product._id}`}
         >
           <div className="rounded-lg overflow-hidden w-full h-36 relative">
-            <Image
-              src={product.imageSrc}
-              alt={product.imageAlt}
+            {/* Replace placeholder with */}
+            <ImageWithFallback
+              src={`${product._source?.field_image[0]}`}
+              alt={product._source?.name_1[0]}
               layout="fill"
               objectFit={'cover'}
             />
           </div>
           <div className="pt-2 pb-6 text-left text-sm w-36">
-            <p className="text-blue-500">{product.vendor}</p>
+            <p className="text-blue-500">
+              {product._source?.field_brand
+                ? product._source?.field_brand[0]
+                : 'Unknown'}
+            </p>
             <h3 className="text-sm font-normal text-gray-700">
-              {product.name}
+              {product._source?.name_1[0]}
             </h3>
-            <p className="font-normal text-gray-500">{product.category}</p>
+            <p className="font-normal text-gray-500">
+              {product._source?.category}
+            </p>
 
             {deal ? (
               <div className="flex items-center space-x-1">
                 <p className=" text-base font-semibold text-red-800 ">{deal}</p>
                 <p className="text-sm line-through text-gray-500">
-                  {product.price}
+                  {product._source?.field_price[0]}
                 </p>
               </div>
             ) : (
               <p className=" text-base font-normal text-gray-700">
-                {product.price}
+                {product._source?.field_price
+                  ? product._source?.field_price[0]
+                  : 'Unknown'}
               </p>
             )}
 
             <div className="flex flex-col items-start">
-              <p className="sr-only">{product.rating} out of 5 stars</p>
+              <p className="sr-only">
+                {product._source?.field_rating
+                  ? product._source?.field_rating[0]
+                  : 'N/A'}
+                out of 5 stars
+              </p>
               <div className="flex items-center">
                 <span className="font-normal text-gray-500">
-                  {product.rating}
+                  {product._source?.field_rating
+                    ? product._source?.field_rating[0]
+                    : 0}
                 </span>
                 {[0, 1, 2, 3, 4].map(rating => (
                   <StarIcon
                     key={rating}
-                    className={`    ${
-                      product.rating > rating
+                    className={`${
+                      product._source?.field_rating
+                        ? product._source?.field_rating[0]
+                        : 0 > rating
                         ? 'text-yellow-400'
                         : 'text-gray-200'
                     }
@@ -66,7 +88,11 @@ export default function ProductCard(data: ProductProps) {
                   />
                 ))}
                 <p className="font-normal text-gray-500">
-                  ({product.reviewCount})
+                  (
+                  {product._source?.field_review_count
+                    ? product._source?.field_review_count[0]
+                    : 0}
+                  )
                 </p>
               </div>
             </div>

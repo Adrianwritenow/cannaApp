@@ -1,12 +1,15 @@
 import { AxiosResponse } from 'axios';
-import qs from 'qs';
 
 var axios = require('axios');
-
 const SEARCH_URL = process.env.SEARCH_URL;
 
-export const SEARCH_POST = 'search/post';
+export const SEARCH_REQUEST_GET = 'search/get';
 var bodybuilder = require('bodybuilder');
+
+export const reciveResults = (data: any) => ({
+  type: SEARCH_REQUEST_GET,
+  data,
+});
 
 export function searchQuery(search: string) {
   var body = bodybuilder().query('query_string', 'query', search).build();
@@ -25,7 +28,7 @@ export function searchQuery(search: string) {
   // });
 
   const results = axios
-    .get(`${SEARCH_URL}/_search?`, { params: { q: search } })
+    .get(`${SEARCH_URL}/_search?size=6`, { params: { q: search } })
     .then((res: AxiosResponse) => {
       return res.data;
     });

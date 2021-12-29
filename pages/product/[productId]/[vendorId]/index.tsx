@@ -2,25 +2,31 @@ import React, { useEffect, useState } from 'react';
 
 import { ArrowRightIcon } from '@heroicons/react/solid';
 import ClothingProduct from '../../../../src/views/search/product/ClothingProduct';
+import { Dispensary } from '@/interfaces/searchDispensary';
 import FlowerProduct from '../../../../src/views/search/product/FlowerProduct';
 import GeneralProduct from '../../../../src/views/search/product/GeneralProduct';
 import ImageSlider from '../../../../src/components/slider/ImageSlider';
 import Link from 'next/link';
 import { Product } from '../../../../src/interfaces/searchProduct';
 import ProductResultsSection from '../../../../src/components/sections/ProductsResultsSection';
+import { RootState } from '@/reducers';
 import { getDocument } from '../../../../src/actions/search';
 import { products } from '../../../../src/helpers/mockData';
 import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
 
 function ProductDetailXVendor() {
   const router = useRouter();
 
   const [sort, setSort]: any = useState('relevance');
   const { productId, vendorId } = router.query;
-
   const [product, setProduct] = useState<Product>();
+  const [vendor, setVendor] = useState<Dispensary>();
 
   const dummyProduct = products[0];
+  const { results, query } = useSelector((root: RootState) => root.search);
+  const [searchList, setSearchLists] = useState([]);
+  const [currentQuery, setCurrentQuery] = useState('');
 
   useEffect(() => {
     if (productId) {
@@ -29,8 +35,28 @@ function ProductDetailXVendor() {
           setProduct(document);
         }
       );
+
+      getDocument(vendorId).then(
+        (document: React.SetStateAction<Dispensary | undefined>) => {
+          setVendor(document);
+        }
+      );
     }
-  }, [router]);
+
+    let searchListUpdate: any = [];
+
+    results.map((result: any, index: number) => {
+      switch (true) {
+        case result._id.includes('product_entity'):
+          searchListUpdate.push(result);
+          break;
+      }
+    });
+    if (currentQuery !== query) {
+      setSearchLists(searchListUpdate);
+    }
+    setCurrentQuery(query);
+  }, [router, results, searchList]);
 
   return (
     <div className="max-w-7xl mx-auto bg-white">
@@ -76,7 +102,8 @@ function ProductDetailXVendor() {
                       <span className="text-black">Category:</span>
                       {product._source.category}
                     </p>
-                    <div className="flex">
+                    {/* Need Cannabanoid data */}
+                    {/* <div className="flex">
                       <p className="text-black">Cannabanoids:&nbsp;</p>
                       <p>
                         THC&nbsp;
@@ -91,7 +118,7 @@ function ProductDetailXVendor() {
                           Math.round(dummyProduct.cannabanoids?.cbd * 100)}
                         %
                       </p>
-                    </div>
+                    </div> */}
                   </div>
                 )}
                 <div className="pt-2">
@@ -108,7 +135,8 @@ function ProductDetailXVendor() {
               </div>
             </section>
 
-            <section aria-labelledby="specifications-heading">
+            {/* Need Specifications data */}
+            {/* <section aria-labelledby="specifications-heading">
               <h2 id="specifications-heading" className="sr-only">
                 Specifications
               </h2>
@@ -132,23 +160,23 @@ function ProductDetailXVendor() {
                   })}
                 </ul>
               </div>
-            </section>
+            </section> */}
           </div>
         </div>
       )}
       <ProductResultsSection
-        list={products}
+        list={searchList}
         sponsored={false}
         label="Related Items"
       />
 
       <ProductResultsSection
-        list={products}
+        list={searchList}
         sponsored={false}
-        label="More from %Shop% "
+        label={`More from ${vendor?._source.name}`}
       />
       <ProductResultsSection
-        list={products}
+        list={searchList}
         sponsored={false}
         label="Recently Viewed Items"
       />

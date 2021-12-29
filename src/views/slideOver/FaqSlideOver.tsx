@@ -1,19 +1,19 @@
-import { ArrowLeftIcon, XIcon } from "@heroicons/react/solid";
-import { Dialog, Transition } from "@headlessui/react";
-import { Field, Form, Formik } from "formik";
-import React, { Fragment, useState } from "react";
+import { ArrowLeftIcon, XIcon } from '@heroicons/react/solid';
+import { Dialog, Transition } from '@headlessui/react';
+import { Field, Form, Formik } from 'formik';
+import React, { Fragment, useState } from 'react';
 
-import FaqSection from "../../components/sections/FaqSection";
-import { listings } from "../../../src/helpers/mockData";
-import { BusinessSlideoverProps } from "@/interfaces/props/businessSlideOverProps";
+import { BusinessSlideoverProps } from '@/interfaces/props/businessSlideOverProps';
+import FaqSection from '../../components/sections/FaqSection';
+import { listings } from '../../../src/helpers/mockData';
 
 export default function FaqSlideOver(props: BusinessSlideoverProps) {
-  const { dispensary } = props;
+  const { faqs, name } = props;
   const business = listings[0];
 
   const [open, setOpen] = useState(false);
   const initialValues = {
-    search: "",
+    search: '',
   };
 
   return (
@@ -25,12 +25,12 @@ export default function FaqSlideOver(props: BusinessSlideoverProps) {
       >
         Question & Answer
       </h2>
-      {business?.faqs && <FaqSection faqs={business.faqs} />}
+      {faqs && <FaqSection faqs={faqs} />}
       <button
         onClick={() => setOpen(true)}
         className="py-4 w-full uppercase text-green-500 text-xs font-semibold border-t border-gray-200 tracking-widest"
       >
-        {`See all ${business?.faqs.length} Answers`}
+        {`See all ${faqs ? faqs.length : 0} Answers`}
       </button>
       <Transition.Root show={open} as={Fragment}>
         <Dialog
@@ -66,12 +66,12 @@ export default function FaqSlideOver(props: BusinessSlideoverProps) {
                           </button>
                         </div>
                         <Dialog.Title className="text-lg font-semibold text-gray-600">
-                          {business?.name}
+                          {name}
                         </Dialog.Title>
                       </div>
                     </div>
                     <div className="mt-6 relative flex-1 px-4 sm:px-6">
-                      {business?.faqs && <FaqSection faqs={business?.faqs} />}
+                      {faqs && <FaqSection faqs={faqs} />}
                     </div>
                   </div>
                 </div>

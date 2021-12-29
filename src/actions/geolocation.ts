@@ -31,6 +31,6 @@ export async function getCurrentLocation () {
   }
 }
 
-function getLocation (options?: PositionOptions) {
+function getLocation (options?: PositionOptions): Promise<any> {
   return new Promise((resolve, reject) => navigator.geolocation.getCurrentPosition(resolve, reject));
 }

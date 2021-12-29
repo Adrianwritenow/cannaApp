@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
 import { Dispensary } from '@/interfaces/searchDispensary';
-import { Listing } from '../../interfaces/listing';
 import ListingCardDropdown from '../../components/listings/ListingCardDropDown';
 import ListingSection from '../../components/sections/ListingSection';
-import MapContainer from '../../components/map/MapContainer';
-import axios from 'axios';
-import { listings } from '../../helpers/mockData';
 
 export default function SearchStrain(props: {
   dispensaries: Dispensary[];

@@ -11,6 +11,7 @@ import SearchStrain from '../../src/views/search/SearchStrain';
 import { Tab } from '@headlessui/react';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
+import Link from 'next/link';
 
 export default function Search() {
   const router = useRouter();
@@ -30,6 +31,7 @@ export default function Search() {
   const tabs = [
     { name: 'All', href: '/search?type=all', current: false },
     { name: 'News', href: '/search?type=news', current: false },
+    { name: 'Map', href: '/search?type=dispensaries', current: false },
     { name: 'Deals', href: '/search?', current: false },
     { name: 'Shopping', href: '/search?type=shops', current: false },
     { name: 'Strains', href: '/search?type=strains', current: false },
@@ -89,7 +91,13 @@ export default function Search() {
                   }  whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm w-auto focus:outline-none`
                 }
               >
-                <span className="px-4">{tab.name}</span>
+                {tab.name === 'Map' ? (
+                  <Link href="/map" passHref>
+                    <a className="px-4">{tab.name}</a>
+                  </Link>
+                ) : (
+                  <span className="px-4">{tab.name}</span>
+                )}
               </Tab>
             ))}
           </Tab.List>
@@ -102,6 +110,9 @@ export default function Search() {
             <Tab.Panel className="focus:outline-none">
               {/* Search All */}
               <SearchNews />
+            </Tab.Panel>
+            <Tab.Panel className="focus:outline-none">
+              {/* Link to Map */}
             </Tab.Panel>
             <Tab.Panel className="focus:outline-none">
               {/* Search Deals */}

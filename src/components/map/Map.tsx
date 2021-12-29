@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { ChevronDownIcon } from "@heroicons/react/outline";
 import "mapbox-gl/dist/mapbox-gl.css";
@@ -9,13 +10,13 @@ import { MapContext } from "./MapContainer";
 export function Map({ data, currentViewport }: any) {
   const [viewport, setViewport] = useState<any>({
     width: "100%",
-    height: "62vh",
+    height: "80vh",
     latitude: 37.0902,
     longitude: -95.7219,
     zoom: 3,
   });
 
-  const { activeCard, setActiveCard, swiper, setShowResults, showResults } =
+  const { activeCard, setActiveCard, swiper, setShowResults, showResults, userCoordinates } =
     useContext(MapContext);
 
   useEffect(() => {
@@ -43,6 +44,18 @@ export function Map({ data, currentViewport }: any) {
       });
     }
   }, [activeCard, data]);
+
+  useEffect(() => {
+    if (!!userCoordinates) {
+      setViewport({
+        ...viewport,
+        latitude: userCoordinates.lat,
+        longitude: userCoordinates.lng,
+        transitionDuration: 1000,
+        zoom: 12,
+      });
+    }
+  }, [userCoordinates])
 
   // Redraw map if viewport changes
   useEffect(() => {

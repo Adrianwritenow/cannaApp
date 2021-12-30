@@ -23,7 +23,7 @@ export default function FilterNewsMenu(props: FilterMenuProps) {
   // Add filters to list to be rendered and update the form state values
   useEffect(() => {
     setSavedValues(values);
-  }, [values, setSavedValues]);
+  }, [values]);
 
   return (
     <Transition.Root show={open} as={Fragment}>

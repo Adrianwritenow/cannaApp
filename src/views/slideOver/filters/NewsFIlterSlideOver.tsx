@@ -65,8 +65,6 @@ export default function NewsFilterSlideOver() {
     });
 
     setFilterList(filterArray);
-    console.log('filterList', filterList);
-    console.log('filterArray', filterArray);
 
     // Check to see if value is unique if not update
     const is_same =
@@ -76,17 +74,12 @@ export default function NewsFilterSlideOver() {
       });
 
     if (!is_same) {
-      console.log('BANG', savedValues);
       setSavedValues((prevState: any) => ({
         ...prevState,
         filters,
       }));
     }
     setSort(savedValues.sort);
-    console.log('savedVALS', savedValues);
-    console.log('filters', filters);
-
-    console.log('xxx', Object.keys(savedValues.filters));
   }, [savedValues]);
 
   return (

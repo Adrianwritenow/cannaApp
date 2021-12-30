@@ -2,11 +2,11 @@ import { Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
 
 import { AdjustmentsIcon } from '@heroicons/react/solid';
-import DropdownFilter from '../../components/forms/fields/DropdownFilter';
-import FilterMenu from '../../components/filter/FilterMenu';
-import { Filters } from '../../helpers/filters';
+import DropdownFilter from '../../../components/forms/fields/DropdownFilter';
+import FilterMenu from '../../../components/filter/FilterMenu';
+import { Filters } from '../../../helpers/filters';
 
-export default function MapFilterSlideOver() {
+export default function FilterSlideOver() {
   const [open, setOpen] = useState(false);
   const [rated, setRated] = useState('Top Rated');
   const [savedValues, setSavedValues]: any = useState({
@@ -109,6 +109,8 @@ export default function MapFilterSlideOver() {
         filters,
       }));
     }
+    console.log('xxx', Object.keys(savedValues.filters));
+
     // update sort
     setSortPricing(savedValues.sort);
   }, [savedValues]);
@@ -133,7 +135,7 @@ export default function MapFilterSlideOver() {
                   setFieldValue={setFieldValue}
                 />
                 {/* Filter Tabs list */}
-                <div className="flex items-center py-3.5 pt-0 relative overflow-x-scroll">
+                <div className="flex items-center py-3.5 relative overflow-x-scroll">
                   <div className="w-full flex">
                     <div className="ml-4 mr-2 flex items-center">
                       <button
@@ -159,7 +161,11 @@ export default function MapFilterSlideOver() {
                         />
                         <DropdownFilter
                           setter={setRated}
-                          options={['Relevance', 'Distance']}
+                          options={[
+                            'Most Reviewed',
+                            'Top Rated',
+                            'Lowest rated',
+                          ]}
                           current={rated}
                           label={'Sort by'}
                         />
@@ -196,7 +202,6 @@ export default function MapFilterSlideOver() {
                     </div>
                   </div>
                 </div>
-                <div></div>
               </div>
             </Form>
           );

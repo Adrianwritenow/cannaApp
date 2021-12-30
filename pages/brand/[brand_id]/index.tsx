@@ -2,7 +2,7 @@ import { listings, products } from '../../../src/helpers/mockData';
 
 import { BookmarkIcon } from '@heroicons/react/outline';
 import { ExternalLinkIcon } from '@heroicons/react/solid';
-import FilterSlideOver from '../../../src/views/slideOver/FilterSlideOver';
+import FilterSlideOver from '../../../src/views/slideOver/filters/FilterSlideOver';
 import ImageWithFallback from '@/components/image/ImageWithFallback';
 import Link from 'next/link';
 import ProductResultsSection from '../../../src/components/sections/ProductsResultsSection';

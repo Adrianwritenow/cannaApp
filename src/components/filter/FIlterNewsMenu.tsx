@@ -1,8 +1,7 @@
 import { Dialog, Transition } from '@headlessui/react';
-import React, { FormEvent, Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect } from 'react';
 
 import FilterGroup from './FilterGroup';
-import FilterGroupPrice from './FilterGroupPrice';
 import { Filters } from '../../helpers/filters';
 import StrainsIcon from '../../../public/assets/icons/iconComponents/Strains';
 import { XIcon } from '@heroicons/react/solid';
@@ -17,7 +16,7 @@ interface FilterMenuProps {
   setFieldValue: Function;
 }
 
-export default function FilterMenu(props: FilterMenuProps) {
+export default function FilterNewsMenu(props: FilterMenuProps) {
   const { open, values, setOpen, icon, label, setSavedValues, setFieldValue } =
     props;
 
@@ -75,50 +74,18 @@ export default function FilterMenu(props: FilterMenuProps) {
                         {/* // Field sets based on type of filter  if multiple nested filters then pass setFieldValue*/}
                         {/* Pass the filters ket of values to set Checked */}
                         <FilterGroup
-                          filters={Filters.sort.list}
+                          filters={Filters.sortNews.list}
                           label={'Sort By'}
                           id={'sort'}
                           type="radio"
                           values={values.filters.sort}
                           setFieldValue={setFieldValue}
                         />
-                        <FilterGroupPrice
-                          filters={Filters.price.list}
-                          label={'Price'}
-                          id={'price'}
-                          type="radio"
-                          minName="range.min_price"
-                          maxName="range.max_price"
-                        />
                         <FilterGroup
-                          filters={Filters.strains.list}
-                          label={'Strain Type'}
-                          id={'strains'}
-                          values={values.filters.strains}
-                        />
-                        <FilterGroup
-                          filters={Filters.concentrates.list}
-                          label={'Concentrates'}
-                          id={'category'}
-                          type="radio"
-                          values={values.filters.category}
-                          setFieldValue={setFieldValue}
-                        />
-                        <FilterGroup
-                          filters={Filters.edibles.list}
-                          label={'Edibles'}
-                          id={'category'}
-                          type="radio"
-                          values={values.filters.category}
-                          setFieldValue={setFieldValue}
-                        />
-                        <FilterGroup
-                          filters={Filters.topicals.list}
-                          label={'Topicals'}
-                          id={'category'}
-                          type="radio"
-                          values={values.filters.category}
-                          setFieldValue={setFieldValue}
+                          filters={Filters.newsCategories.list}
+                          label={'Categories'}
+                          id={'categories'}
+                          values={values.filters.categories}
                         />
                       </div>
                     </div>

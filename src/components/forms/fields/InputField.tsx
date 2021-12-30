@@ -1,5 +1,5 @@
-import NumberFormat from "react-number-format";
-import React from "react";
+import NumberFormat from 'react-number-format';
+import React from 'react';
 
 interface FormikForm {
   getFieldMeta(name: string): any;
@@ -11,12 +11,13 @@ interface FormikField extends React.InputHTMLAttributes<HTMLInputElement> {
 
 interface FieldProps extends React.HTMLAttributes<HTMLInputElement> {
   id: string;
-  autoComplete: React.InputHTMLAttributes<HTMLInputElement>["autoComplete"];
-  disabled?: React.InputHTMLAttributes<HTMLInputElement>["disabled"];
-  type?: React.InputHTMLAttributes<HTMLInputElement>["type"];
+  autoComplete: React.InputHTMLAttributes<HTMLInputElement>['autoComplete'];
+  disabled?: React.InputHTMLAttributes<HTMLInputElement>['disabled'];
+  type?: React.InputHTMLAttributes<HTMLInputElement>['type'];
   label: React.ReactNode;
   labelHidden: boolean;
   form: FormikForm;
+  format: string;
   field: FormikField;
   styles: string;
   mask: string;
@@ -44,6 +45,7 @@ export function InputField(props: FieldProps) {
     handleChange,
     setFieldValue,
     value,
+    format,
     maskPlaceholder,
     ...rest
   } = props;
@@ -51,40 +53,39 @@ export function InputField(props: FieldProps) {
   const { name } = field;
   const meta = form.getFieldMeta(name);
 
-  let labelClasses = "block text-sm font-medium text-gray-700";
+  let labelClasses = 'block text-sm font-medium text-gray-700';
   if (labelHidden) {
-    labelClasses += " sr-only";
+    labelClasses += ' sr-only';
   }
 
   let inputClass =
-    "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-green focus:border-green sm:text-sm disabled:bg-gray-300 disabled:text-gray-500";
+    'block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-green focus:border-green sm:text-sm disabled:bg-gray-300 disabled:text-gray-500';
   if (meta && meta.touched && meta.error) {
     inputClass =
-      "block w-full px-3 py-2 border rounded-md shadow-sm border-red-300 text-red-900 placeholder-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm ";
+      'block w-full px-3 py-2 border rounded-md shadow-sm border-red-300 text-red-900 placeholder-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm ';
   }
 
   return (
-    <div {...rest} className={"w-full"}>
+    <div {...rest} className={'w-full'}>
       <label htmlFor={id} className={`${labelClasses} mb-1`}>
         {label}
       </label>
       <div className="relative rounded-md shadow-sm ">
-        {mask ? (
-          <input
-            // format={mask}
-            type="number"
-            className={inputClass + " " + styles}
+        {format ? (
+          <NumberFormat
+            format={format}
+            mask={mask}
+            className={inputClass + ' ' + styles}
             id={id}
             placeholder={placeholder}
             autoComplete={autoComplete}
             disabled={disabled}
             onChange={handleChange}
-            {...field}
           />
         ) : (
           <input
             type={type}
-            className={inputClass}
+            className={styles ? inputClass + ' ' + styles : inputClass}
             placeholder={placeholder}
             autoComplete={autoComplete}
             disabled={disabled}
@@ -115,9 +116,9 @@ export function InputField(props: FieldProps) {
 
 InputField.defaultProps = {
   disabled: false,
-  type: "text",
-  autoComplete: "off",
-  placeholder: "",
-  label: "",
+  type: 'text',
+  autoComplete: 'off',
+  placeholder: '',
+  label: '',
   labelHidden: false,
 };

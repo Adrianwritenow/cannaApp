@@ -1,27 +1,27 @@
-import * as Yup from "yup";
+import * as Yup from 'yup';
 
-import { Field, Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
+import { Field, Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
 
-import { InputField } from "../fields/InputField";
-import { RootState } from "../../../reducers";
-import SelectDropdown from "../fields/SelectDropdown";
+import { InputField } from '../fields/InputField';
+import { RootState } from '../../../reducers';
+import SelectDropdown from '../fields/SelectDropdown';
 
-import { updateUser } from "../../../actions/user";
-import { useAxios } from "../../../hooks/useAxios";
-import { useSelector } from "react-redux";
+import { updateUser } from '../../../actions/user';
+import { useAxios } from '../../../hooks/useAxios';
+import { useSelector } from 'react-redux';
 
 export default function UpdatePersonalForm() {
   const [initialValues, setInitialValues] = useState({
-
-    field_first_name: "",
-    field_last_name: "",
-    mail: "",
-    country: "",
-    field_state: "",
-    phone: "",
+    field_first_name: '',
+    field_last_name: '',
+    mail: '',
+    country: '',
+    field_state: '',
+    phone: '',
   });
   const [dispatchAxios, { loading }] = useAxios();
+  const [initialValuesSet, setInitialValuesSet] = useState(false) // see comment in useEffect below
   const { currentUser } = useSelector((root: RootState) => root.user);
 
   const schema = Yup.object().shape({
@@ -34,36 +34,38 @@ export default function UpdatePersonalForm() {
   });
 
   const countries = [
-    { id: "US", label: "United States" },
-    { id: "MX", label: "Mexico" },
-    { id: "CA", label: "Canada" },
+    { id: 'US', label: 'United States' },
+    { id: 'MX', label: 'Mexico' },
+    { id: 'CA', label: 'Canada' },
   ];
 
   const states = [
-    { id: "FL", label: "Florida" },
-    { id: "NY", label: "New York" },
-    { id: "CA", label: "California" },
+    { id: 'FL', label: 'Florida' },
+    { id: 'NY', label: 'New York' },
+    { id: 'CA', label: 'California' },
   ];
 
   useEffect(() => {
+    
     const isEmpty = Object.values(initialValues).every(
-      (x) => x === null || x === ""
+      x => x === null || x === ''
     );
-    if (isEmpty) {
+    // initialValuesSet checks to see if the initialValues have been set here to prevent an infinite loop when viewing in a dev environment with no logged in user.
+    if (isEmpty && !initialValuesSet) {
+      setInitialValuesSet(true);
       setInitialValues({
-        field_first_name: currentUser.field_first_name[0]?.value || "",
-        field_last_name: currentUser.field_last_name[0]?.value || "",
-        mail: "" || "",
-        country: "" || "",
-        field_state: currentUser.field_state[0]?.value || "",
-        phone: "" || "",
+        field_first_name: currentUser.field_first_name[0]?.value || '',
+        field_last_name: currentUser.field_last_name[0]?.value || '',
+        mail: '' || '',
+        country: '' || '',
+        field_state: currentUser.field_state[0]?.value || '',
+        phone: '' || '',
       });
     }
   }, [initialValues, currentUser]);
 
   async function handleSubmit(values: any) {
     dispatchAxios(updateUser(currentUser.uid[0].value, values));
-
   }
 
   return (
@@ -76,6 +78,7 @@ export default function UpdatePersonalForm() {
       validateOnBlur={true}
     >
       {({ values, handleBlur, handleChange, setFieldValue }) => {
+        
         return (
           <Form className="bg-white shadow">
             <div className="grid grid-cols-1 gap-y-6 sm:grid-cols-6 sm:gap-x-6 py-6 px-4 sm:px-6 lg:py-12 lg:px-8">
@@ -163,7 +166,8 @@ export default function UpdatePersonalForm() {
                     name="phone"
                     handleBlur={handleBlur}
                     handleChange={handleChange}
-                    mask="(###) ###-####"
+                    format="(###) ###-####"
+                    mask="_"
                     type="text"
                     component={InputField}
                   />

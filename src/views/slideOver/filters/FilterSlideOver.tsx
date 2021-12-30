@@ -109,7 +109,6 @@ export default function FilterSlideOver() {
         filters,
       }));
     }
-    console.log('xxx', Object.keys(savedValues.filters));
 
     // update sort
     setSortPricing(savedValues.sort);

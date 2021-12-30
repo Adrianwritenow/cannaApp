@@ -1,7 +1,6 @@
 import BlogArticleSmall from '@/components/blog/BlogArticleCardSmall';
 import FilterSlideOver from '../slideOver/filters/FilterSlideOver';
 import Link from 'next/link';
-import NewsFilterSlideOver from '../slideOver/filters/NewsFIlterSlideOver';
 import { Post } from '@/interfaces/post';
 import sample from '@/helpers/mockData/articles.json';
 

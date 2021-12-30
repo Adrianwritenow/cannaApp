@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 
 import { AdjustmentsIcon } from '@heroicons/react/solid';
 import DropdownFilter from '../../../components/forms/fields/DropdownFilter';
-import FilterNewsMenu from '@/components/filter/FIlterNewsMenu';
+import FilterNewsMenu from '@/components/filter/FilterNewsMenu';
 import { Filters } from '@/helpers/filters';
 
 export default function NewsFilterSlideOver() {

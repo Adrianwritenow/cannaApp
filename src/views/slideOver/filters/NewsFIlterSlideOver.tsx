@@ -15,6 +15,7 @@ export default function NewsFilterSlideOver() {
   });
   const [filterList, setFilterList]: any = useState([]);
   const [sort, setSort] = useState(savedValues.sort);
+  
 
   const initialValues: any = {
     categories: [],

@@ -7,7 +7,6 @@ export default function SearchNews() {
   return (
     <div>
       <NewsFilterSlideOver />
-
       <section className="px-4 ">
         {sample.articles.map((post: Post, index) => (
           <span id={`${index}`} key={`article-${index}`}>

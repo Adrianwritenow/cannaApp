@@ -6,6 +6,7 @@ import sample from '@/helpers/mockData/articles.json';
 export default function SearchNews() {
   return (
     <div>
+      {/* Filter component */}
       <NewsFilterSlideOver />
       <section className="px-4 ">
         {sample.articles.map((post: Post, index) => (

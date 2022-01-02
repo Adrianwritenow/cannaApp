@@ -24,7 +24,7 @@ import { Dispensary } from '../../../src/interfaces/searchDispensary';
 import FaqSlideOver from '../../../src/views/slideOver/FaqSlideOver';
 import Image from 'next/image';
 import ListingCardDropdown from '../../../src/components/listings/ListingCardDropDown';
-import Map from '../../../public/assets/images/png/map-mock.png';
+import Map from '@/public/assets/images/png/map-mock.png';
 import ReviewsSlideOver from '../../../src/views/slideOver/ReviewsSlideOver';
 import SvgIconTwitter from '../../../public/assets/icons/iconComponents/IconTwitter';
 import { getDocument } from '../../../src/actions/search';

@@ -13,7 +13,8 @@ import SearchStrainCard from '../../search/SearchStrainCard';
 import { useAxios } from '../../../hooks/useAxios';
 import { useRouter } from 'next/router';
 
-export default function SearchSlideOver() {
+export default function SearchSlideOver(props: { root?: boolean }) {
+  const { root } = props;
   const [open, setOpen] = useState(false);
   const { results, query } = useSelector((root: RootState) => root.search);
   const dispatch = useDispatch();
@@ -33,17 +34,29 @@ export default function SearchSlideOver() {
 
   return (
     <div>
-      <div className="w-full relative">
+      <div className="w-full relative pb-4">
         <button
           type="button"
           placeholder="search"
-          className="w-full items-center border-solid border border-gray-400 indent-sm rounded-md focus:outline-none focus:ring-0 shadow-sm flex px-4 py-2 text-gray-500"
+          className="w-full items-center border-solid border border-gray-400 rounded-md focus:outline-none focus:ring-0 shadow-sm flex px-3 py-2 text-gray-500 bg-white"
           onClick={() => {
             setOpen(true);
           }}
         >
-          <SearchIcon className="w-5 h-5" />
-          {query ? query : 'Search'}
+          {root ? (
+            <div className="flex items-center">
+              <SearchIcon className=" w-5 h-5 text-green-500" />
+              <div className="w-full pl-2 shrink-0">
+                <span className="font-bold">Find</span> dispensaries, strains,
+                flower ...
+              </div>
+            </div>
+          ) : (
+            <>
+              <SearchIcon className="w-5 h-5" />
+              <span className="pl-2">{query ? query : 'Search'}</span>
+            </>
+          )}
         </button>
       </div>
       <Transition.Root show={open} as={Fragment}>

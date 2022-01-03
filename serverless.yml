@@ -4,5 +4,4 @@ cannapagesWeb:
     cloudfront:
       distributionId: ${env.DISTRIBUTION}
     bucketName: cannapages-web
-    runtime: nodejs16.x
     removeOldLambdaVersions: true

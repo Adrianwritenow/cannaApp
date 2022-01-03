@@ -1,0 +1,33 @@
+.root {
+  position: relative;
+  width: 100%;
+}
+
+.root input {
+  padding-left: 30px;
+}
+
+.icon {
+  position: absolute;
+  left: 8px;
+  top: 11px;
+  height: 18px;
+  width: 18px;
+  z-index: 1;
+}
+
+.iconBold path {
+  stroke: rgba(107, 114, 128, var(--tw-text-opacity));
+  stroke-width: 3;
+}
+
+.item,
+.subItem {
+  position: relative;
+  padding: 10px 10px 10px 35px;
+  cursor: pointer;
+}
+
+.subItem {
+  margin-left: -35px;
+}

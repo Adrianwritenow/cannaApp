@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux';
-import search from './reducers/search';
-import user from './reducers/user';
+import autocomplete from './autocomplete';
+import search from './search';
+import user from './user';
 
 export const reducers = combineReducers({
-  user,
+  autocomplete,
   search,
+  user,
 });
 
 export type RootState = ReturnType<typeof reducers>;

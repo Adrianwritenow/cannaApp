@@ -36,26 +36,33 @@ export default function GeneralProduct(props: { product: Product }) {
       <div className="flex items-center">
         <div className="flex items-center">
           <span className="font-normal text-gray-500 mr-1">
-            {product._source.field_rating[0] || 0}
+            {product._source.field_rating ? product._source.field_rating[0] : 0}
           </span>
           {[0, 1, 2, 3, 4].map(rating => (
             <StarIcon
               key={rating}
               className={classNames(
-                product._source.field_rating[0] > rating
-                  ? 'text-gray-900'
-                  : 'text-gray-200',
+                product._source.field_rating
+                  ? product._source.field_rating[0] > rating
+                    ? 'text-gray-900'
+                    : 'text-gray-200'
+                  : '',
                 'h-3.5 w-3.5 flex-shrink-0'
               )}
               aria-hidden="true"
             />
           ))}
           <span className="font-normal text-gray-500">
-            ({product._source.field_review_count || 0})
+            (
+            {product._source.field_review_count
+              ? product._source.field_review_count[0]
+              : 0}
+            )
           </span>
         </div>
         <p className="sr-only">
-          {product._source.field_rating[0] || 0} out of 5 stars
+          {product._source.field_rating ? product._source.field_rating[0] : 0}
+          out of 5 stars
         </p>
       </div>
       <p className="text-xl font-bold text-black">

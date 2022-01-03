@@ -14,7 +14,7 @@ import {
   Sativa,
 } from '../../../public/assets/icons/iconComponents';
 import React, { useEffect, useState } from 'react';
-import { faqs, listings } from '@/helpers/mockData';
+import { faqs, listings, reviews } from '@/helpers/mockData';
 
 import AboutUsSlideOver from '../../../src/views/slideOver/AboutUsSlideOver';
 import AmenitiesSection from '../../../src/components/sections/AmenitiesSection';
@@ -328,9 +328,10 @@ export default function BusinessDetail() {
         </section>
         {/* Need Review FAQ  and amenities Data */}
         <FaqSlideOver name={dispensary?._source.name[0]} faqs={faqs} />
-
-        {/* <ReviewsSlideOver dispensary={dispensary} /> */}
-        {/* <AmenitiesSection amenities={listing.amenities} /> */}
+        <ReviewsSlideOver dispensary={dispensary} reviews={reviews} />
+        <AmenitiesSection
+          amenities={['amenity', 'amenity', 'amenity', 'amenity']}
+        />
         {/* Also Viewed */}
       </div>
       <section className="pb-4 pt-2">

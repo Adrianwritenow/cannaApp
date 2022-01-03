@@ -2,6 +2,7 @@ import { Coupon } from '../../interfaces/coupon';
 import { Dispensary } from '@/interfaces/searchDispensary';
 import { Faq } from '@/interfaces/faq';
 import { Product } from '@/interfaces/searchProduct';
+import { Review } from '@/interfaces/review';
 import { Strain } from '@/interfaces/SearchStrain';
 
 export const products: Array<Product> = [
@@ -564,5 +565,35 @@ export const faqs: Faq[] = [
     question: 'Lorem Ipsum Dolor sit Amet?',
     answer:
       'Ivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam',
+  },
+];
+
+export const reviews: Review[] = [
+  {
+    recommended: true,
+    by: 'Jon Doe',
+    caption: 'Great place',
+    review:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.',
+    time: '12:00pm',
+    date: '1/01/2022',
+  },
+  {
+    recommended: true,
+    by: 'Jane Doe',
+    caption: 'Great place',
+    review:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.',
+    time: '12:00pm',
+    date: '1/01/2022',
+  },
+  {
+    recommended: false,
+    by: 'Jack Doe',
+    caption: 'Great place',
+    review:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.',
+    time: '12:00pm',
+    date: '1/01/2022',
   },
 ];

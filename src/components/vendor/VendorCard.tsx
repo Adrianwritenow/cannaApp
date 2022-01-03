@@ -87,9 +87,7 @@ export default function VendorCard(props: VendorProps) {
         </div>
       </div>
       <Link
-        href={`/product/${encodeURIComponent(productId as string)}/${
-          product?._id
-        }`}
+        href={`/product/${encodeURIComponent(productId as string)}/0`}
         passHref
       >
         <button

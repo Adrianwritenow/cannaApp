@@ -9,7 +9,7 @@ import ReviewFormSlideOver from '../../components/reviews/ReviewFormSlideOver';
 import { listings } from '../../helpers/mockData';
 
 export default function ReviewsSlideOver(props: BusinessSlideoverProps) {
-  const { dispensary } = props;
+  const { dispensary, reviews } = props;
   const [open, setOpen] = useState(false);
   const business = listings[0];
 
@@ -31,19 +31,21 @@ export default function ReviewsSlideOver(props: BusinessSlideoverProps) {
       >
         Recommended Reviews
       </h2>
-      <div>
-        {/* {business.reviews.map((review, index) => (
-          <div key={`review-${index}`}>
-            <ReviewCard review={review} />
-          </div>
-        ))} */}
-        <button
-          onClick={() => setOpen(true)}
-          className="py-4 w-full uppercase text-green-500 text-xs font-semibold border-t border-gray-200 tracking-widest"
-        >
-          See All {dispensary?._source.field_reviews_count} Reviews
-        </button>
-      </div>
+      {reviews && (
+        <div>
+          {reviews.map((review, index) => (
+            <div key={`review-${index}`}>
+              <ReviewCard review={review} />
+            </div>
+          ))}
+          <button
+            onClick={() => setOpen(true)}
+            className="py-4 w-full uppercase text-green-500 text-xs font-semibold border-t border-gray-200 tracking-widest"
+          >
+            See All {dispensary?._source.field_reviews_count} Reviews
+          </button>
+        </div>
+      )}
       <Transition.Root show={open} as={Fragment}>
         <Dialog
           as="div"
@@ -160,13 +162,15 @@ export default function ReviewsSlideOver(props: BusinessSlideoverProps) {
                           </div>
 
                           {/* Results */}
-                          <div className="px-4">
-                            {/* {business.reviews.map((review, index) => (
-                              <div key={`review-${index}`}>
-                                <ReviewCard review={review} />
-                              </div>
-                            ))} */}
-                          </div>
+                          {reviews && (
+                            <div className="px-4">
+                              {reviews.map((review, index) => (
+                                <div key={`review-${index}`}>
+                                  <ReviewCard review={review} />
+                                </div>
+                              ))}
+                            </div>
+                          )}
                         </section>
                       </div>
                     </div>

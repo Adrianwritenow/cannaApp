@@ -54,21 +54,23 @@ export default function Search() {
       strains: [],
     };
 
-    results.map((result: any, index: number) => {
-      switch (true) {
-        case result._id.includes('strain_entity'):
-          searchListUpdate.strains.push(result);
-          break;
+    if (results[0]) {
+      results[0].general.map((result: any, index: number) => {
+        switch (true) {
+          case result._id.includes('strain_entity'):
+            searchListUpdate.strains.push(result);
+            break;
 
-        case result._id.includes('product_entity'):
-          searchListUpdate.shopping.push(result);
-          break;
+          case result._id.includes('product_entity'):
+            searchListUpdate.shopping.push(result);
+            break;
 
-        case result._id.includes('dispensary_entity'):
-          searchListUpdate.dispensaries.push(result);
-          break;
-      }
-    });
+          case result._id.includes('dispensary_entity'):
+            searchListUpdate.dispensaries.push(result);
+            break;
+        }
+      });
+    }
     if (currentQuery !== query) {
       setSearchLists(searchListUpdate);
     }

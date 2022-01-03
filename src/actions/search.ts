@@ -11,6 +11,68 @@ export const reciveResults = (data: any) => ({
   data,
 });
 
+// export function spatialQuery(coords: any, distance: any) {
+//   const query = bodybuilder()
+//     .query('match_all', {})
+//     .filter('geo_distance', {
+//       distance: '10km',
+//       field_coordinates: { lat: 28.5384, lon: -81.3789 },
+//     })
+//     .build();
+
+//   const results = axios({
+//     url: 'https://search-dev.cannapages.com/elasticsearch_index_dev_cannapages_dispenaries/_search',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//     method: 'POST',
+//     data: query,
+//   }).then((response: AxiosResponse) => response.data);
+
+//   return results;
+// }
+
+export function combinedSearchQuery(
+  search: string,
+  coords?: any,
+  distance?: string
+) {
+  const spatialQuery =
+    coords && distance
+      ? bodybuilder()
+          .query('match_all', {})
+          .filter('geo_distance', {
+            distance: distance,
+            field_coordinates: { lat: coords.lat, lon: coords.lon },
+          })
+          .build()
+      : bodybuilder().query('query_string', 'query', search).build();
+  const query = bodybuilder().query('query_string', 'query', search).build();
+
+  const generalRequest = axios({
+    url: `${SEARCH_URL}/_search?size=100`,
+    headers: { 'Content-Type': 'application/json' },
+    method: 'POST',
+    data: query,
+  });
+
+  // TODO - add dispensary search url to env
+  const dispensaryRequest = axios({
+    url: `https://search-dev.cannapages.com/elasticsearch_index_dev_cannapages_dispenaries/_search?size=50`,
+    headers: { 'Content-Type': 'application/json' },
+    method: 'POST',
+    data: coords && distance ? spatialQuery : query,
+  });
+
+  const results = axios.all([generalRequest, dispensaryRequest]).then(
+    axios.spread(({ data: general }: any, { data: dispensaries }: any) => {
+      return { general, dispensaries };
+    })
+  );
+
+  return results;
+}
+
 export function searchQuery(search: string) {
   var body = bodybuilder().query('query_string', 'query', search).build();
 

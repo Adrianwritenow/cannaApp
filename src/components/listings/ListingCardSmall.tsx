@@ -78,7 +78,7 @@ export default function ListingCardSmall(data: DispensaryProps) {
               <a>
                 <button
                   type="button"
-                  className="flex text-center justify-center py-2 border border-transparent text-sm font-medium w-full rounded shadow-sm text-white bg-green hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 w-full"
+                  className="flex text-center justify-center py-2 border border-transparent text-sm font-medium w-full rounded shadow-sm text-white bg-green hover:bg-green-600 focus:outline-none w-full"
                 >
                   Pickup Avaliable
                 </button>

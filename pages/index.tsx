@@ -1,91 +1,249 @@
-import Image from 'next/image';
+import { listings, products } from '@/helpers/mockData';
 
-const incentives = [
-  {
-    name: 'Free shipping',
-    imageSrc:
-      'https://tailwindui.com/img/ecommerce/icons/icon-shipping-simple.svg',
-    description:
-      "It's not actually free we just price it into the products. Someone's paying for it, and it's not us.",
-  },
-  {
-    name: '10-year warranty',
-    imageSrc:
-      'https://tailwindui.com/img/ecommerce/icons/icon-warranty-simple.svg',
-    description:
-      "If it breaks in the first 10 years we'll replace it. After that you're on your own though.",
-  },
-  {
-    name: 'Exchanges',
-    imageSrc:
-      'https://tailwindui.com/img/ecommerce/icons/icon-exchange-simple.svg',
-    description:
-      "If you don't like it, trade it to one of your friends for something of theirs. Don't send it here though.",
-  },
-];
+import { ArrowsExpandIcon } from '@heroicons/react/solid';
+import Background from '@/public/assets/images/png/fullBloom.png';
+import BlogArticleSmall from '@/components/blog/BlogArticleCardSmall';
+import ClaimBusiness from '@/public/assets/images/png/growBusiness.png';
+import CouponSlideOver from '@/views/slideOver/CouponsSlideOver';
+import Image from 'next/image';
+import Link from 'next/link';
+import ListingCard from '@/components/listings/ListingCard';
+import Logo from '@/public/assets/logos/logo.png';
+import LogoText from '@/public/assets/logos/logo-text.png';
+import Map from '@/public/assets/images/png/mapColor.png';
+import { Post } from '@/interfaces/post';
+import ProductResultsSection from '@/components/sections/ProductsResultsSection';
+import SearchSlideOver from '@/components/forms/fields/SearchSlideOver';
+import { destinations } from '@/helpers/destinations';
+import { publications } from '@/helpers/publications';
+import sample from '@/helpers/mockData/articles.json';
+
 export default function Home() {
   return (
-    <div className="mx-auto ">
-      {/* Hero section */}
-      <div className="relative ">
-        <div className="absolute inset-x-0 bottom-0 bg-gray-100" />
-        <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-          <div className="relative h-96 shadow-xl sm:rounded-2xl sm:overflow-hidden">
-            <div className="absolute inset-0">
-              <Image
-                className={'h-full w-full object-cover'}
-                src={
-                  'https://images.unsplash.com/photo-1597266028990-0d03b2e9a2a0?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2503&q=80'
-                }
-                alt="Marijuana Bud"
-                layout="fill"
-              />
-              <div className="absolute inset-0 bg-gradient-to-r from-green-800 to-green-700 mix-blend-multiply" />
+    <div className="mx-auto space-y-2">
+      {/* Search/Map Section */}
+      <section className="relative pt-16">
+        <Image src={Map} alt="Map" layout="fill" objectFit={'cover'} />
+        <Link href="/map" passHref>
+          <a className="absolute z-10 flex rounded-full bg-gray-50 shadow p-0.5 right-0 top-0 mt-2 mr-4 focus:outline-none">
+            <button className="focus:outline-none">
+              <ArrowsExpandIcon className="w-5 h-5 text-gray-700" />
+            </button>
+          </a>
+        </Link>
+        <div className="relative rounded-t-xl overflow-hidden shadow-top ">
+          <Image
+            src={Background}
+            alt="Background image"
+            className="z-0"
+            layout="fill"
+            objectFit={'cover'}
+          />
+          <div className="p-6 ">
+            <div className="flex items-center justify-center space-x-2">
+              <div>
+                <Image width={52} height={58} src={Logo} alt="Image logo" />
+              </div>
+              <div className="mt-2">
+                <Image
+                  width={172}
+                  height={32}
+                  src={LogoText}
+                  alt="Image logo"
+                />
+              </div>
+            </div>
+            <SearchSlideOver root={true} />
+            <div className="flex items-center flex-wrap space-y-2">
+              <span></span>
+              <p className="rounded-full text-sm text-green-400 border border-green-400 py-2 px-4 bg-white z-10">
+                Dispensaries
+              </p>
+              <p className="rounded-full text-sm mx-2 text-green-400 border border-green-400 py-2 px-4 bg-white z-10">
+                Services
+              </p>
+              <p className="rounded-full text-sm text-green-400 border border-green-400 py-2 px-4 bg-white z-10">
+                Deals
+              </p>
+              <p className="rounded-full text-sm text-green-400 border border-green-400 py-2 px-4 bg-white z-10">
+                Popular Strains
+              </p>
+              <p className="rounded-full text-sm text-green-400 mx-2 border border-green-400 py-2 px-4 bg-white z-10">
+                Smoke Shops
+              </p>
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Feature Section */}
-      <div className="mx-auto ">
-        <div className="bg-gray-100 py-16 ">
-          <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            <div className="text-center">
-              <h2 className="text-2xl font-extrabold tracking-tight text-gray-900">
-                We built our business on customer service
-              </h2>
+      {/* Deals Near me section */}
+      <section className="pb-4 pt-2">
+        <h2 id="deals-near-me" className="sr-only">
+          Deals Near Me
+        </h2>
+        <h2
+          id="deals-near-me"
+          className="text-gray-700 text-lg font-semibold px-4 py-4"
+        >
+          Deals Near Me
+        </h2>
+        <div className="grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-4 pb-4">
+          {listings.map((listing, index) => (
+            <div className="w-64" key={`lc-${listing._id}-${index}`}>
+              <ListingCard
+                discount={'50%'}
+                listing={listing}
+                amenities={false}
+              />
             </div>
-            <div className="mt-12 max-w-7xl mx-auto grid grid-cols-1 gap-y-10 gap-x-8  lg:grid-cols-3">
-              {incentives.map(incentive => (
-                <div
-                  key={incentive.name}
-                  className="text-center sm:flex sm:text-left lg:block lg:text-center"
-                >
-                  <div className="sm:flex-shrink-0">
-                    <div className="flow-root">
-                      <div className="w-16 h-16 mx-auto relative ">
-                        <Image
-                          src={incentive.imageSrc}
-                          layout="fill"
-                          alt="incentive"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="mt-3 sm:mt-0 sm:ml-6 lg:mt-6 lg:ml-0">
-                    <h3 className="text-sm font-medium text-gray-900">
-                      {incentive.name}
-                    </h3>
-                    <p className="mt-2 text-sm text-gray-500">
-                      {incentive.description}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+          ))}
         </div>
-      </div>
+        <div className="px-4 pt-2">
+          <button
+            className="py-4 w-full uppercase text-green-500 text-xs font-semibold border-t border-gray-200 tracking-widest"
+            onClick={() => {}}
+          >
+            <span>See more</span>
+          </button>
+        </div>
+      </section>
+
+      {/* Deals of the Day */}
+      <CouponSlideOver label="Deals of the Day" />
+
+      {/* Featured Destinations */}
+      <section className="pb-4 pt-2">
+        <h2 id="featured-destinations" className="sr-only">
+          Featured Destinations
+        </h2>
+        <h2
+          id="featured-destinations"
+          className="text-gray-700 text-lg font-semibold px-4 py-4"
+        >
+          Featured Destinations
+        </h2>
+        <div className="grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-4 pb-4">
+          {destinations.map((location, index) => (
+            <div key={`fd-${index}`}>
+              <div className="w-36 flex relative">
+                <div className="w-full h-48 rounded-md overflow-hidden">
+                  <Image
+                    src={location.imgSrc}
+                    alt={location.label}
+                    layout="fill"
+                    objectFit={'cover'}
+                  />
+                </div>
+              </div>
+              <p className=" text-center py-2 font-medium text-sm text-gray-700">
+                {location.label}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* New Locations nearby */}
+      <section className="pb-4 pt-2">
+        <h2 id="locations-near-me" className="sr-only">
+          New Locations Nearby
+        </h2>
+        <h2
+          id="locations-near-me"
+          className="text-gray-700 text-lg font-semibold px-4 py-4"
+        >
+          New Locations Nearby
+        </h2>
+        <div className="grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-4 pb-4">
+          {listings.map((listing, index) => (
+            <div className="w-64" key={`lc-${listing._id}-${index}`}>
+              <ListingCard listing={listing} amenities={false} />
+            </div>
+          ))}
+        </div>
+      </section>
+      <ProductResultsSection
+        list={products}
+        sponsored={false}
+        label={`Shop Flower near %Location%`}
+      />
+
+      {/* News Section */}
+      <section>
+        {sample.articles.map((post: Post, index) => (
+          <div id={`${index}`} key={`article-${index}`} className="px-4">
+            <BlogArticleSmall post={post} />
+          </div>
+        ))}
+        <div className="px-4 pt-2">
+          <button className="py-4 w-full uppercase text-gray-700 text-xs  text-green-500 font-bold border-t border-gray-200 tracking-widest">
+            See more Articles
+          </button>
+        </div>
+      </section>
+
+      {/* Print Publication */}
+      <section className="pb-4 pt-2">
+        <h2 id="publications" className="sr-only">
+          Subscribe to our Print Publication
+        </h2>
+        <h2
+          id="publications"
+          className="text-gray-700 text-lg font-semibold px-4 py-4"
+        >
+          Subscribe to our Print Publication
+        </h2>
+        <div className="grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-4 pb-4">
+          {publications.map((location, index) => (
+            <div key={`lc-${index}`}>
+              <div className="w-36 flex relative">
+                <div className="w-full h-48 rounded-md overflow-hidden">
+                  <Image
+                    src={location.imgSrc}
+                    alt={location.label}
+                    layout="fill"
+                    objectFit={'cover'}
+                  />
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="px-4 pt-2">
+          <button
+            className="py-4 w-full uppercase text-green-500 text-xs font-semibold border-t border-gray-200 tracking-widest"
+            onClick={() => {}}
+          >
+            <span>Subscribe Now</span>
+          </button>
+        </div>
+      </section>
+
+      {/* Start Growing your Business */}
+      <section className="p-4 pb-6 bg-gray-800">
+        <div className="w-full pb-full rounded-md relative overflow-hidden mb-5">
+          <Image
+            src={ClaimBusiness}
+            alt={'Claim Business'}
+            layout="fill"
+            objectFit={'cover'}
+          />
+        </div>
+
+        <h2 className="text-green-100 text-2xl font-bold pb-2.5">
+          Start Growing Your Business
+        </h2>
+        <p className="text-lg text-white pb-6">
+          People are looking for businesses just like yours. Claim and manage
+          your listing on Cannapages and make it easier for people to find you.
+        </p>
+        <button
+          className="p-4 rounded-md bg-green-100 w-max  text-green-600 text-sm font-semibold border-gray-200"
+          onClick={() => {}}
+        >
+          <span>Claim your Business</span>
+        </button>
+      </section>
     </div>
   );
 }

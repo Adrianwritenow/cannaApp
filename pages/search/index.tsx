@@ -1,5 +1,6 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
+import Link from 'next/link';
 import { RootState } from '@/reducers';
 import SearchAll from '../../src/views/search/SearchAll';
 import SearchDeals from '../../src/views/search/SearchDeals';
@@ -11,7 +12,6 @@ import SearchStrain from '../../src/views/search/SearchStrain';
 import { Tab } from '@headlessui/react';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
-import Link from 'next/link';
 
 export default function Search() {
   const router = useRouter();
@@ -88,7 +88,7 @@ export default function Search() {
                     selected
                       ? 'border-green text-green'
                       : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                  }  whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm w-auto focus:outline-none`
+                  }  whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm w-auto focus:outline-none`
                 }
               >
                 {tab.name === 'Map' ? (

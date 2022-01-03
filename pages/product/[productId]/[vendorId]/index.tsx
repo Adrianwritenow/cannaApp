@@ -16,7 +16,7 @@ import ImageSlider from '../../../../src/components/slider/ImageSlider';
 import Link from 'next/link';
 import { Product } from '../../../../src/interfaces/searchProduct';
 import ProductResultsSection from '../../../../src/components/sections/ProductsResultsSection';
-import ReviewsSlideOver from '@/views/slideOver/ReviewsSlideOver';
+import ProductReviewsSlideOver from '@/views/slideOver/ProductReviewSlideOver';
 import { RootState } from '@/reducers';
 import { getDocument } from '../../../../src/actions/search';
 import { useRouter } from 'next/router';
@@ -64,7 +64,8 @@ function ProductDetailXVendor() {
       setSearchLists(searchListUpdate);
     }
     setCurrentQuery(query);
-    console.log(results);
+
+    console.log('REVW', reviews);
   }, [router, results, searchList]);
 
   return (
@@ -189,7 +190,7 @@ function ProductDetailXVendor() {
         label="Related Items"
       />
       <div className="px-4 pt-4">
-        <ReviewsSlideOver dispensary={listings[0]} reviews={reviews} />
+        <ProductReviewsSlideOver product={product} reviews={reviews} />
       </div>
 
       <ProductResultsSection

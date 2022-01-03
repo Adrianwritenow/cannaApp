@@ -1,38 +1,42 @@
-import { ArrowLeftIcon, StarIcon, XIcon } from "@heroicons/react/solid";
-import { Dialog, Transition } from "@headlessui/react";
-import { Field, Form, Formik } from "formik";
-import React, { Fragment, useState } from "react";
+import { ArrowLeftIcon, StarIcon, XIcon } from '@heroicons/react/solid';
+import { Dialog, Transition } from '@headlessui/react';
+import { Field, Form, Formik } from 'formik';
+import React, { Fragment, useState } from 'react';
 
-import AvatarIcon from "../../../public/assets/icons/iconComponents/Avatar";
-import { Dispensary } from "../../interfaces/searchDispensary";
-import { Listing } from "../../interfaces/listing";
+import AvatarIcon from '../../../public/assets/icons/iconComponents/Avatar';
+import { Dispensary } from '../../interfaces/searchDispensary';
+import { Product } from '@/interfaces/searchProduct';
+import { Strain } from '@/interfaces/strain';
 
 interface ReviewSlideOverProps {
   myRating: number;
   setMyRating: Function;
   dispensary?: Dispensary;
+  product?: Product;
+  strain?: Strain;
 }
 export default function ReviewFormSlideOver(props: ReviewSlideOverProps) {
-  const { myRating, setMyRating, dispensary } = props;
+  const { myRating, setMyRating, dispensary, product } = props;
   const [open, setOpen] = useState(false);
   const rating = [
     "I don't know",
-    "It was bad",
+    'It was bad',
     "Could've been better",
-    "It was ok",
-    "It was good",
-    "It was great!",
+    'It was ok',
+    'It was good',
+    'It was great!',
   ];
+
   return (
     <div>
       <div>
         <div className="flex items-center pt-4">
           <AvatarIcon className="w-8 h-8 mr-4" />
           <button className="flex items-center" onClick={() => setOpen(true)}>
-            {[0, 1, 2, 3, 4].map((rating) => (
+            {[0, 1, 2, 3, 4].map(rating => (
               <StarIcon
                 key={rating}
-                className={"text-gray-200 flex-shrink-0 h-8 w-8"}
+                className={'text-gray-200 flex-shrink-0 h-8 w-8'}
                 aria-hidden="true"
               />
             ))}
@@ -79,7 +83,9 @@ export default function ReviewFormSlideOver(props: ReviewSlideOverProps) {
                       <Dialog.Title className="text-2xl font-semibold text-gray-700 leading-4">
                         How was your visit at <br />
                         <br />
-                        {dispensary?._source.name}
+                        {dispensary
+                          ? dispensary?._source.name
+                          : product?._source.name_1}
                       </Dialog.Title>
                       <div>
                         <div className="pt-4">
@@ -87,13 +93,13 @@ export default function ReviewFormSlideOver(props: ReviewSlideOverProps) {
                             {rating[myRating]}
                           </p>
                           <div className="flex items-center">
-                            {[0, 1, 2, 3, 4].map((rating) => (
+                            {[0, 1, 2, 3, 4].map(rating => (
                               <StarIcon
                                 key={rating}
                                 className={`${
                                   myRating > rating
-                                    ? "text-yellow-400"
-                                    : "text-gray-200"
+                                    ? 'text-yellow-400'
+                                    : 'text-gray-200'
                                 }
                                       flex-shrink-0 h-8 w-8`}
                                 onClick={() => setMyRating(rating + 1)}
@@ -102,7 +108,7 @@ export default function ReviewFormSlideOver(props: ReviewSlideOverProps) {
                             ))}
                           </div>
                           <Formik
-                            initialValues={{ review: "" }}
+                            initialValues={{ review: '' }}
                             onSubmit={() => {}}
                             enableReinitialize={true}
                           >
@@ -115,9 +121,9 @@ export default function ReviewFormSlideOver(props: ReviewSlideOverProps) {
                                   <Field
                                     className="border-gray-200 rounded-md focus:outline-none w-full focus:ring-green-400 focus:border-green-400 p-2 h-48"
                                     placeholder="Express in words how you felt about your visit."
-                                    component={"textarea"}
-                                    name={"review"}
-                                    id={"review"}
+                                    component={'textarea'}
+                                    name={'review'}
+                                    id={'review'}
                                   />
                                   <button
                                     type="submit"

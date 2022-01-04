@@ -102,7 +102,7 @@ export default function ListingCardDropdown(data: DispensaryProps) {
               <a>
                 <button
                   type="button"
-                  className="flex text-center justify-center py-2 border border-transparent text-sm font-medium w-full rounded shadow-sm text-white bg-green-600 hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  className="flex text-center justify-center py-2 border border-transparent text-sm font-medium w-full rounded shadow-sm text-white bg-green-600 hover:bg-green-800 focus:outline-none"
                 >
                   Start Your Order
                 </button>

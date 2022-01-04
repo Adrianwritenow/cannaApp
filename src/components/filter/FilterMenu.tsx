@@ -1,11 +1,11 @@
-import { Dialog, Transition } from "@headlessui/react";
-import React, { FormEvent, Fragment, useEffect, useState } from "react";
+import { Dialog, Transition } from '@headlessui/react';
+import React, { FormEvent, Fragment, useEffect, useState } from 'react';
 
-import FilterGroup from "./FilterGroup";
-import FilterGroupPrice from "./FilterGroupPrice";
-import { Filters } from "../../helpers/filters";
-import StrainsIcon from "../../../public/assets/icons/iconComponents/Strains";
-import { XIcon } from "@heroicons/react/solid";
+import FilterGroup from './FilterGroup';
+import FilterGroupPrice from './FilterGroupPrice';
+import { Filters } from '../../helpers/filters';
+import StrainsIcon from '../../../public/assets/icons/iconComponents/Strains';
+import { XIcon } from '@heroicons/react/solid';
 
 interface FilterMenuProps {
   open: boolean;
@@ -53,13 +53,13 @@ export default function FilterMenu(props: FilterMenuProps) {
                       <div className="flex">
                         {icon && <StrainsIcon className="w-7 h-7 mr-2" />}
                         <h2 className="text-xl font-bold text-gray-900">
-                          {label ? label : "Filter"}
+                          {label ? label : 'Filter'}
                         </h2>
                       </div>
                       <div className="ml-3 h-7 flex items-center">
                         <button
                           type="button"
-                          className="bg-gray-50 rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                          className="bg-gray-50 rounded-md text-gray-400 hover:text-gray-500 focus:outline-none"
                           onClick={() => setOpen(false)}
                         >
                           <span className="sr-only">Close filter</span>
@@ -76,46 +76,46 @@ export default function FilterMenu(props: FilterMenuProps) {
                         {/* Pass the filters ket of values to set Checked */}
                         <FilterGroup
                           filters={Filters.sort.list}
-                          label={"Sort By"}
-                          id={"sort"}
+                          label={'Sort By'}
+                          id={'sort'}
                           type="radio"
                           values={values.filters.sort}
                           setFieldValue={setFieldValue}
                         />
                         <FilterGroupPrice
                           filters={Filters.price.list}
-                          label={"Price"}
-                          id={"price"}
+                          label={'Price'}
+                          id={'price'}
                           type="radio"
                           minName="range.min_price"
                           maxName="range.max_price"
                         />
                         <FilterGroup
                           filters={Filters.strains.list}
-                          label={"Strain Type"}
-                          id={"strains"}
+                          label={'Strain Type'}
+                          id={'strains'}
                           values={values.filters.strains}
                         />
                         <FilterGroup
                           filters={Filters.concentrates.list}
-                          label={"Concentrates"}
-                          id={"category"}
+                          label={'Concentrates'}
+                          id={'category'}
                           type="radio"
                           values={values.filters.category}
                           setFieldValue={setFieldValue}
                         />
                         <FilterGroup
                           filters={Filters.edibles.list}
-                          label={"Edibles"}
-                          id={"category"}
+                          label={'Edibles'}
+                          id={'category'}
                           type="radio"
                           values={values.filters.category}
                           setFieldValue={setFieldValue}
                         />
                         <FilterGroup
                           filters={Filters.topicals.list}
-                          label={"Topicals"}
-                          id={"category"}
+                          label={'Topicals'}
+                          id={'category'}
                           type="radio"
                           values={values.filters.category}
                           setFieldValue={setFieldValue}

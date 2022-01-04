@@ -1,15 +1,15 @@
 import { listings, products } from '../../helpers/mockData';
 
 import CouponSlideOver from '../slideOver/CouponsSlideOver';
-import FilterSlideOver from '../slideOver/FilterSlideOver';
 import ListingCard from '../../components/listings/ListingCard';
 import ProductDealsCard from '../../components/deals/ProductDealsCard';
+import ProductFilterSlideOver from '../slideOver/filters/ProductFilterSlideOver';
 import ProductResultsSection from '../../components/sections/ProductsResultsSection';
 
 export default function SearchDeals() {
   return (
     <div className="bg-gray-50">
-      <FilterSlideOver />
+      <ProductFilterSlideOver />
       <div>
         <h3 className="p-4 text-lg font-semibold text-black">Featured Deals</h3>
 

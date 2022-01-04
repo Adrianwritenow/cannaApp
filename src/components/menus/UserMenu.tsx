@@ -86,7 +86,7 @@ const UserMenu = React.forwardRef(
         <Menu.Item>
           {({ active }) => (
             <Menu.Button>
-              <Link href="#">
+              <Link href="/business/claim">
                 <a className={'text-gray-900 block w-full text-left text-sm'}>
                   Claim your business
                 </a>

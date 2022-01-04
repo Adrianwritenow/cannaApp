@@ -1,9 +1,9 @@
-import { BadgeCheckIcon, XIcon } from "@heroicons/react/solid";
-import { Dialog, Transition } from "@headlessui/react";
-import React, { Fragment, useState } from "react";
+import { BadgeCheckIcon, XIcon } from '@heroicons/react/solid';
+import { Dialog, Transition } from '@headlessui/react';
+import React, { Fragment, useState } from 'react';
 
-import { SlideOverProps } from "../../interfaces/props/SlideOverProps";
-import { BusinessSlideoverProps } from "@/interfaces/props/businessSlideOverProps";
+import { BusinessSlideoverProps } from '@/interfaces/props/businessSlideOverProps';
+import { SlideOverProps } from '../../interfaces/props/SlideOverProps';
 
 export default function BusinessVerificationSlideOver(
   props: BusinessSlideoverProps
@@ -69,7 +69,7 @@ export default function BusinessVerificationSlideOver(
                         <div className="ml-3 h-7 flex items-center">
                           <button
                             type="button"
-                            className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none "
                             onClick={() => setOpen(false)}
                           >
                             <span className="sr-only">Close panel</span>

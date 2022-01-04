@@ -2,12 +2,14 @@ import { ArrowLeftIcon, SearchIcon, XIcon } from '@heroicons/react/solid';
 import { Dialog, Transition } from '@headlessui/react';
 import { Field, Form, Formik } from 'formik';
 import React, { Fragment, Ref, useEffect, useState } from 'react';
-import { reciveResults, searchQuery } from '../../../actions/search';
+import { recieveResults, searchQuery } from '../../../actions/search';
+import { lookupLocationByIP, getLocationByIP } from '../../../actions/location';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from '@/reducers';
 import SearchDispensaryCard from '../../search/SearchDispensaryCard';
 import { SearchHits } from '../../../interfaces/searchHits';
+import { LocationData } from '../../../interfaces/locationData';
 import SearchProductCard from '../../search/SearchProductCard';
 import SearchStrainCard from '../../search/SearchStrainCard';
 import { useAxios } from '../../../hooks/useAxios';
@@ -16,6 +18,7 @@ import { useRouter } from 'next/router';
 export default function SearchSlideOver() {
   const [open, setOpen] = useState(false);
   const { results, query } = useSelector((root: RootState) => root.search);
+  const location = useSelector((root: RootState) => root.location);
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -23,11 +26,24 @@ export default function SearchSlideOver() {
 
   async function handleSubmit(search: any) {
     const hits: SearchHits = await searchQuery(search);
-    dispatch(reciveResults({ search: search, data: hits.hits.hits }));
+    dispatch(recieveResults({ search: search, data: hits.hits.hits }));
   }
+
   function handleSearch(search: any) {
     handleSubmit(search);
   }
+
+  // Get initial location data based on Client IP
+  useEffect(() => {
+    async function getLocation () {
+      const data: LocationData = await lookupLocationByIP();
+      dispatch(getLocationByIP(data));
+    }
+
+    if (! Object.keys(location).length) {
+      getLocation();
+    }
+  }, []);
 
   useEffect(() => {}, [initialValues, results]);
 
@@ -121,14 +137,14 @@ export default function SearchSlideOver() {
                                             placeholder={'Search...'}
                                           />
                                           {/* <Field
-                                          name={"location"}
-                                          type={"text"}
-                                          id={"location"}
-                                          className="w-full border-none px-4 focus:border-0 focus:outline-none focus:ring-transparent"
-                                          onChange={() => {}}
-                                          value={values.location}
-                                          placeholder="Location..."
-                                        /> */}
+                                            name={"location"}
+                                            type={"text"}
+                                            id={"location"}
+                                            className="w-full border-none px-4 focus:border-0 focus:outline-none focus:ring-transparent"
+                                            onChange={() => {}}
+                                            value={values.location}
+                                            placeholder="Location..."
+                                          /> */}
                                         </div>
                                       </div>
                                       <button

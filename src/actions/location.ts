@@ -1,7 +1,22 @@
 const axios = require("axios");
 const IPSTACK_ACCESS_KEY = process.env.IPSTACK_ACCESS_KEY;
 
-export async function getLocationByIP () {
+import { LocationData } from '../interfaces/locationData';
+
+export const LOCATION_BY_IP_GET = 'location/get_by_ip';
+export const LOCATION_API_GET = 'location/get_by_api';
+
+export const getLocationByIP = (data: LocationData) => ({
+  type: LOCATION_BY_IP_GET,
+  data,
+});
+
+export const getLocationByAPI = (data: LocationData) => ({
+  type: LOCATION_API_GET,
+  data,
+});
+
+export async function lookupLocationByIP () {
   try {
     const response = await axios(`http://api.ipstack.com/check?access_key=${IPSTACK_ACCESS_KEY}`);
     return {

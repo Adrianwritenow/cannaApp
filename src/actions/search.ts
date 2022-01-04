@@ -6,7 +6,7 @@ const SEARCH_URL = process.env.SEARCH_URL;
 export const SEARCH_REQUEST_GET = 'search/get';
 var bodybuilder = require('bodybuilder');
 
-export const reciveResults = (data: any) => ({
+export const recieveResults = (data: any) => ({
   type: SEARCH_REQUEST_GET,
   data,
 });

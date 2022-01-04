@@ -22,6 +22,7 @@ export default function StrainDetail() {
   const [strain, setStrain] = useState<Strain>();
 
   useEffect(() => {
+    console.log(results);
     if (strainId) {
       getDocument(strainId).then(
         (document: React.SetStateAction<Strain | undefined>) => {
@@ -31,7 +32,7 @@ export default function StrainDetail() {
     }
     let searchListUpdate: any = [];
 
-    results.map((result: any, index: number) => {
+    results[0].general.map((result: any, index: number) => {
       switch (true) {
         case result._id.includes('product_entity'):
           searchListUpdate.push(result);

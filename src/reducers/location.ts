@@ -1,8 +1,5 @@
 import { 
-  LOCATION_BY_IP_GET,
-  LOCATION_API_GET,
-  getLocationByIP,
-  getCurrentLocation
+  LOCATION_SET
 } from '../actions/location';
 
 const defaultState = { };
@@ -13,15 +10,7 @@ export interface LocationAction {
 
 const location = (state: any = defaultState, action: LocationAction) => {
   switch (action.type) {
-    case LOCATION_BY_IP_GET:
-      return {
-        ...state,
-        ...action.data,
-      };
-
-    case LOCATION_API_GET:
-      locationData = getCurrentLocation();
-
+    case LOCATION_SET:
       return {
         ...state,
         ...action.data,

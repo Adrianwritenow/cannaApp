@@ -3,7 +3,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import { Field, Form, Formik } from 'formik';
 import React, { Fragment, Ref, useEffect, useState } from 'react';
 import { receiveResults, searchQuery } from '../../../actions/search';
-import { lookupLocationByIP, getLocationByIP } from '../../../actions/location';
+import { getLocationByIP, setLocation } from '../../../actions/location';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from '@/reducers';
@@ -37,8 +37,8 @@ export default function SearchSlideOver(props: { root?: boolean }) {
   // Get initial location data based on Client IP
   useEffect(() => {
     async function getLocation () {
-      const data: LocationData = await lookupLocationByIP();
-      dispatch(getLocationByIP(data));
+      const data: LocationData = await getLocationByIP();
+      dispatch(setLocation(data));
     }
 
     if (! Object.keys(location).length) {

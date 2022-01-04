@@ -1,6 +1,4 @@
-import { 
-  LOCATION_SET
-} from '../actions/location';
+import { LOCATION_SET } from '../actions/location';
 
 const defaultState = { };
 

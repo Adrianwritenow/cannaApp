@@ -2,7 +2,7 @@ import { ArrowLeftIcon, SearchIcon, XIcon } from '@heroicons/react/solid';
 import { Dialog, Transition } from '@headlessui/react';
 import { Field, Form, Formik } from 'formik';
 import React, { Fragment, Ref, useEffect, useState } from 'react';
-import { recieveResults, searchQuery } from '../../../actions/search';
+import { receiveResults, searchQuery } from '../../../actions/search';
 import { lookupLocationByIP, getLocationByIP } from '../../../actions/location';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -27,7 +27,7 @@ export default function SearchSlideOver(props: { root?: boolean }) {
 
   async function handleSubmit(search: any) {
     const hits: SearchHits = await searchQuery(search);
-    dispatch(recieveResults({ search: search, data: hits.hits.hits }));
+    dispatch(receiveResults({ search: search, data: hits.hits.hits }));
   }
 
   function handleSearch(search: any) {

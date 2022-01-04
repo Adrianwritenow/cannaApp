@@ -7,6 +7,7 @@ export const LOCATION_SET = 'location/set';
 
 export const setLocation = (data: LocationData) => ({
   type: LOCATION_SET,
+  data
 });
 
 export async function getLocationByIP () {

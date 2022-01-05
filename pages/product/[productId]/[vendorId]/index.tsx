@@ -189,7 +189,7 @@ function ProductDetailXVendor() {
         sponsored={false}
         label="Related Items"
       />
-      <div className="px-4 pt-4">
+      <div className="pt-4">
         <ProductReviewsSlideOver product={product} reviews={reviews} />
       </div>
 
@@ -197,11 +197,13 @@ function ProductDetailXVendor() {
         list={searchList}
         sponsored={false}
         label={`More from ${vendor?._source.name}`}
+        hideButton={true}
       />
       <ProductResultsSection
         list={searchList}
         sponsored={false}
         label="Recently Viewed Items"
+        hideButton={true}
       />
     </div>
   );

@@ -4,22 +4,24 @@ import {
   FireIcon,
   ThumbDownIcon,
   ThumbUpIcon,
-} from "@heroicons/react/solid";
-import React, { useState } from "react";
+} from '@heroicons/react/solid';
+import React, { useState } from 'react';
 
-import AvatarIcon from "../../../public/assets/icons/iconComponents/Avatar";
-import { Review } from "../../interfaces/review";
+import AvatarIcon from '../../../public/assets/icons/iconComponents/Avatar';
+import { Review } from '../../interfaces/review';
 
 interface ReviewProps {
   review: Review;
+  showFull?: boolean;
+  self?: boolean;
 }
 export default function ReviewCard(props: ReviewProps) {
-  const { review } = props;
+  const { review, showFull, self } = props;
   const [readMore, setReadMore] = useState(false);
 
   return (
     <div className="py-4">
-      <div className="flex flex-wrap border-b border-gray-200">
+      <div className="flex flex-wrap">
         <div className="flex justify-between w-full">
           <div className="flex flex-wrap">
             <AvatarIcon className="w-8 h-8 mr-4" />
@@ -30,9 +32,13 @@ export default function ReviewCard(props: ReviewProps) {
               <p className="text-xs text-gray-500">{review.caption}</p>
             </div>
           </div>
-          <button>
-            <DotsVerticalIcon className="w-4 h-4" />
-          </button>
+          {!self ? (
+            <button>
+              <DotsVerticalIcon className="w-4 h-4" />
+            </button>
+          ) : (
+            ''
+          )}
         </div>
         <div className="text-xl font-semibold w-full py-3 ">
           {review.recommended ? (
@@ -52,37 +58,43 @@ export default function ReviewCard(props: ReviewProps) {
           )}
         </div>
         <div className="text-sm space-y-1">
-          <p className={`${!readMore ? "line-clamp-4" : ""}`}>
+          <p className={`${!readMore && !showFull ? 'line-clamp-3' : ''}`}>
             {review.review}
           </p>
-          <button
-            onClick={() => setReadMore(!readMore)}
-            className="text-green font-semibold focus:outline-none"
-          >
-            Read Full Review
-          </button>
+          {!readMore && !showFull && (
+            <button
+              onClick={() => setReadMore(!readMore)}
+              className="text-green font-semibold focus:outline-none"
+            >
+              Read Full Review
+            </button>
+          )}
 
           <p className="text-gray-500 pb-2.5">
-            <time dateTime={review.date}>{review.date}</time>
-            <span aria-hidden="true">&#8226;</span>
             <time dateTime={review.time}>{review.time}</time>
+            <span aria-hidden="true">&nbsp;&#8226;&nbsp;</span>
+            <time dateTime={review.date}>{review.date}</time>
           </p>
         </div>
       </div>
-      <div className="grid grid-flow-col auto-cols-max gap-4 py-4">
-        <button className="text-xs font-medium shadow-sm text-gray-700 flex rounded-lg px-2.5 py-2 border border-gray-200">
-          <ThumbUpIcon className="w-4 h-4 mr-2" />
-          Useful
-        </button>
-        <button className="text-xs font-medium shadow-sm text-gray-700 flex rounded-lg px-2.5 py-2 border border-gray-200">
-          <EmojiHappyIcon className="w-4 h-4 mr-2" />
-          Funny
-        </button>
-        <button className="text-xs font-medium shadow-sm text-gray-700 flex rounded-lg px-2.5 py-2 border border-gray-200">
-          <FireIcon className="w-4 h-4 mr-2" />
-          Amazing
-        </button>
-      </div>
+      {!self ? (
+        <div className="grid grid-flow-col auto-cols-max gap-4 py-4 border-t border-gray-200">
+          <button className="text-xs font-medium shadow-sm text-gray-700 flex rounded-lg px-2.5 py-2 border border-gray-200">
+            <ThumbUpIcon className="w-4 h-4 mr-2" />
+            Useful
+          </button>
+          <button className="text-xs font-medium shadow-sm text-gray-700 flex rounded-lg px-2.5 py-2 border border-gray-200">
+            <EmojiHappyIcon className="w-4 h-4 mr-2" />
+            Funny
+          </button>
+          <button className="text-xs font-medium shadow-sm text-gray-700 flex rounded-lg px-2.5 py-2 border border-gray-200">
+            <FireIcon className="w-4 h-4 mr-2" />
+            Amazing
+          </button>
+        </div>
+      ) : (
+        ''
+      )}
     </div>
   );
 }

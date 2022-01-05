@@ -5,7 +5,7 @@ import React, { Fragment, useState } from 'react';
 import { BusinessSlideoverProps } from '../../interfaces/props/businessSlideOverProps';
 import DropdownFilter from '../../components/forms/fields/DropdownFilter';
 import ReviewCard from '../../components/reviews/ReviewCard';
-import ReviewFormSlideOver from '../../components/reviews/ReviewFormSlideOver';
+import ReviewFormSlideOver from '../../components/reviews/product/ReviewFormSlideOver';
 import { listings } from '../../helpers/mockData';
 
 export default function ReviewsSlideOver(props: BusinessSlideoverProps) {

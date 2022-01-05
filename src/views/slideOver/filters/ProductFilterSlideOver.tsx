@@ -2,24 +2,17 @@ import { Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
 
 import { AdjustmentsIcon } from '@heroicons/react/solid';
-import DropdownFilter from '../../components/forms/fields/DropdownFilter';
-import FilterMenu from '../../components/filter/FilterMenu';
-import { Filters } from '../../helpers/filters';
+import DropdownFilter from '../../../components/forms/fields/DropdownFilter';
+import FilterProductMenu from '@/components/filter/FilterProductMenu';
+import { Filters } from '../../../helpers/filters';
 
-export default function MapFilterSlideOver() {
+export default function ProductFilterSlideOver() {
   const [open, setOpen] = useState(false);
   const [rated, setRated] = useState('Top Rated');
   const [savedValues, setSavedValues]: any = useState({
-    strains: [],
     category: '',
     filters: {},
     sort: '',
-    price: '',
-    range: {
-      min_price: '',
-      max_price: '',
-    },
-    search: '',
   });
   const [sortPricing, setSortPricing] = useState(savedValues.sort);
   const [filterList, setFilterList]: any = useState([]);
@@ -29,12 +22,6 @@ export default function MapFilterSlideOver() {
     filters: {},
     category: '',
     sort: '',
-    price: '',
-    range: {
-      min_price: '',
-      max_price: '',
-    },
-    search: '',
   };
 
   // Remove filters from list to be rendered and update the form state values
@@ -51,9 +38,6 @@ export default function MapFilterSlideOver() {
     } else {
       stateCopy[keyName] = initialValues[keyName];
       stateCopy.filters[keyName] = [''];
-      if (keyName === 'range') {
-        stateCopy.filters[keyName] = [''];
-      }
     }
 
     listCopy.splice(listCopy.indexOf(filter), 1);
@@ -66,20 +50,7 @@ export default function MapFilterSlideOver() {
     // Force values to array in order to check if they exist in case of multiple values
     const filters: any = {
       sort: [savedValues.sort],
-      strains: savedValues.strains,
       category: [savedValues.category],
-      price: [savedValues.price],
-      range: [
-        `${
-          savedValues.range.min_price ? '$' + savedValues.range.min_price : ''
-        }${
-          savedValues.range.min_price && savedValues.range.max_price
-            ? ' - '
-            : ''
-        }${
-          savedValues.range.max_price ? '$' + savedValues.range.max_price : ''
-        }`,
-      ],
     };
 
     const filter_data: string[] = Object.keys(filters).reduce(function (
@@ -109,6 +80,7 @@ export default function MapFilterSlideOver() {
         filters,
       }));
     }
+
     // update sort
     setSortPricing(savedValues.sort);
   }, [savedValues]);
@@ -124,7 +96,7 @@ export default function MapFilterSlideOver() {
           return (
             <Form>
               <div>
-                <FilterMenu
+                <FilterProductMenu
                   open={open}
                   values={values}
                   setOpen={setOpen}
@@ -133,7 +105,7 @@ export default function MapFilterSlideOver() {
                   setFieldValue={setFieldValue}
                 />
                 {/* Filter Tabs list */}
-                <div className="flex items-center py-3.5 pt-0 relative overflow-x-scroll">
+                <div className="flex items-center py-3.5 relative overflow-x-scroll">
                   <div className="w-full flex">
                     <div className="ml-4 mr-2 flex items-center">
                       <button
@@ -156,12 +128,6 @@ export default function MapFilterSlideOver() {
                           current={sortPricing}
                           label={'Sort by'}
                           setFieldValue={setFieldValue}
-                        />
-                        <DropdownFilter
-                          setter={setRated}
-                          options={['Relevance', 'Distance']}
-                          current={rated}
-                          label={'Sort by'}
                         />
                       </div>
                       <div className="flex">
@@ -196,7 +162,6 @@ export default function MapFilterSlideOver() {
                     </div>
                   </div>
                 </div>
-                <div></div>
               </div>
             </Form>
           );

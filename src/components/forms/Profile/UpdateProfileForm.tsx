@@ -1,11 +1,11 @@
-import * as Yup from "yup";
+import * as Yup from 'yup';
 
-import { Field, Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
+import { Field, Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
 
-import { updateUser } from "../../../actions/user";
-import { useAxios } from "../../../hooks/useAxios";
-import { useCurrentUser } from "../../../hooks/user";
+import { updateUser } from '../../../actions/user';
+import { useAxios } from '../../../hooks/useAxios';
+import { useCurrentUser } from '../../../hooks/user';
 
 interface ProfileImages {
   user_picture: string | null;
@@ -17,9 +17,9 @@ export default function UpdateProfileForm() {
   const [dispatchAxios, { loading }] = useAxios();
 
   const [initialValues, setInitialValues] = useState({
-    about: "",
-    user_picture: "",
-    coverPhoto: "",
+    about: '',
+    user_picture: '',
+    coverPhoto: '',
   });
 
   const [selectedFile, setSelectedFile] = useState<ProfileImages>({
@@ -28,21 +28,21 @@ export default function UpdateProfileForm() {
   });
 
   const schema = Yup.object().shape({
-    name: Yup.string().required("Username is required"),
+    name: Yup.string().required('Username is required'),
     about: Yup.string(),
     user_picture: Yup.mixed()
-      .test("imageType", "Must be an image format", (file) => {
+      .test('imageType', 'Must be an image format', file => {
         if (file) {
           return (
-            (file && file.type === "image/jpeg") ||
-            (file && file.type === "image/jpg") ||
-            (file && file.type === "image/png")
+            (file && file.type === 'image/jpeg') ||
+            (file && file.type === 'image/jpg') ||
+            (file && file.type === 'image/png')
           );
         } else {
           return true;
         }
       })
-      .test("fileSize", "File is too large", (file) => {
+      .test('fileSize', 'File is too large', file => {
         if (file) {
           return file && file.size <= 10000000;
         } else {
@@ -50,18 +50,18 @@ export default function UpdateProfileForm() {
         }
       }),
     coverPhoto: Yup.mixed()
-      .test("imageType", "Must be an image format", (file) => {
+      .test('imageType', 'Must be an image format', file => {
         if (file) {
           return (
-            (file && file.type === "image/jpeg") ||
-            (file && file.type === "image/jpg") ||
-            (file && file.type === "image/png")
+            (file && file.type === 'image/jpeg') ||
+            (file && file.type === 'image/jpg') ||
+            (file && file.type === 'image/png')
           );
         } else {
           return true;
         }
       })
-      .test("fileSize", "File is too large", (file) => {
+      .test('fileSize', 'File is too large', file => {
         if (file) {
           return file && file.size <= 10000000;
         } else {
@@ -100,15 +100,15 @@ export default function UpdateProfileForm() {
 
   useEffect(() => {
     const isEmpty = Object.values(initialValues).every(
-      (x) => x === null || x === ""
+      x => x === null || x === ''
     );
 
     if (isEmpty) {
       const currentPhoto = currentUser.user_picture[0]?.value;
       setInitialValues({
-        about: "",
+        about: '',
         user_picture: currentUser.user_picture[0]?.value,
-        coverPhoto: "",
+        coverPhoto: '',
       });
       setSelectedFile({
         ...selectedFile,
@@ -125,7 +125,7 @@ export default function UpdateProfileForm() {
     <Formik
       validationSchema={schema}
       initialValues={initialValues}
-      onSubmit={(values) => handleSubmit(values)}
+      onSubmit={values => handleSubmit(values)}
       validateOnChange={true}
       enableReinitialize
       validateOnBlur={true}
@@ -145,8 +145,8 @@ export default function UpdateProfileForm() {
               </div>
               <div className="sm:col-span-3">
                 <label
-                  htmlFor={"about"}
-                  className={"block text-sm font-medium text-gray-700"}
+                  htmlFor={'about'}
+                  className={'block text-sm font-medium text-gray-700'}
                 >
                   About
                 </label>
@@ -155,9 +155,9 @@ export default function UpdateProfileForm() {
                   id="about"
                   name="about"
                   type="text"
-                  as={"textarea"}
+                  as={'textarea'}
                   className={
-                    "text-base max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md px-3 py-2 h-20"
+                    'text-base max-w-lg shadow-sm block w-full  sm:text-sm border border-gray-300 rounded-md px-3 py-2 h-20'
                   }
                 />
                 <p className="mt-2 text-sm text-gray-500">

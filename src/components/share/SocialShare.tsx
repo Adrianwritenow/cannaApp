@@ -1,8 +1,9 @@
-import { Fragment, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-import { XIcon } from '@heroicons/react/outline';
+import { Fragment, useState } from 'react';
+
 import IconShare from '../../../public/assets/icons/iconComponents/IconShare';
 import Link from 'next/link';
+import { XIcon } from '@heroicons/react/outline';
 import { useRouter } from 'next/router';
 
 export default function SocialShare() {
@@ -77,7 +78,7 @@ export default function SocialShare() {
                 <div className="block absolute top-0 right-0 pt-4 pr-4">
                   <button
                     type="button"
-                    className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none"
                     onClick={() => setOpen(false)}
                   >
                     <span className="sr-only">Close</span>

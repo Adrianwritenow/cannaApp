@@ -1,20 +1,20 @@
-import { CheckCircleIcon, TrashIcon } from "@heroicons/react/solid";
-import React, { useState } from "react";
+import { CheckCircleIcon, TrashIcon } from '@heroicons/react/solid';
+import React, { useState } from 'react';
 
-import Image from "next/image";
-import { RadioGroup } from "@headlessui/react";
-import StickyBox from "react-sticky-box";
+import Image from 'next/image';
+import { RadioGroup } from '@headlessui/react';
+import StickyBox from 'react-sticky-box';
 
 const products = [
   {
     id: 1,
-    title: "Basic Tee",
-    href: "#",
-    price: "$32.00",
-    color: "Black",
-    size: "Large",
+    title: 'Basic Tee',
+    href: '#',
+    price: '$32.00',
+    color: 'Black',
+    size: 'Large',
     imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/checkout-page-02-product-01.jpg",
+      'https://tailwindui.com/img/ecommerce-images/checkout-page-02-product-01.jpg',
     imageAlt: "Front of men's Basic Tee in black.",
   },
   // More products...
@@ -22,20 +22,20 @@ const products = [
 const deliveryMethods = [
   {
     id: 1,
-    title: "Standard",
-    turnaround: "4–10 business days",
-    price: "$5.00",
+    title: 'Standard',
+    turnaround: '4–10 business days',
+    price: '$5.00',
   },
-  { id: 2, title: "Express", turnaround: "2–5 business days", price: "$16.00" },
+  { id: 2, title: 'Express', turnaround: '2–5 business days', price: '$16.00' },
 ];
 const paymentMethods = [
-  { id: "credit-card", title: "Credit card" },
-  { id: "paypal", title: "PayPal" },
-  { id: "etransfer", title: "eTransfer" },
+  { id: 'credit-card', title: 'Credit card' },
+  { id: 'paypal', title: 'PayPal' },
+  { id: 'etransfer', title: 'eTransfer' },
 ];
 
 function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(" ");
+  return classes.filter(Boolean).join(' ');
 }
 
 export default function Checkout() {
@@ -270,15 +270,15 @@ export default function Checkout() {
               </RadioGroup.Label>
 
               <div className="mt-4 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4">
-                {deliveryMethods.map((deliveryMethod) => (
+                {deliveryMethods.map(deliveryMethod => (
                   <RadioGroup.Option
                     key={deliveryMethod.id}
                     value={deliveryMethod}
                     className={({ checked, active }) =>
                       classNames(
-                        checked ? "border-transparent" : "border-gray-300",
-                        active ? "ring-2 ring-indigo-500" : "",
-                        "relative bg-white border rounded-lg shadow-sm p-4 flex cursor-pointer focus:outline-none"
+                        checked ? 'border-transparent' : 'border-gray-300',
+                        active ? 'ring-2 ring-indigo-500' : '',
+                        'relative bg-white border rounded-lg shadow-sm p-4 flex cursor-pointer focus:outline-none'
                       )
                     }
                   >
@@ -314,11 +314,11 @@ export default function Checkout() {
                         ) : null}
                         <div
                           className={classNames(
-                            active ? "border" : "border-2",
+                            active ? 'border' : 'border-2',
                             checked
-                              ? "border-indigo-500"
-                              : "border-transparent",
-                            "absolute -inset-px rounded-lg pointer-events-none"
+                              ? 'border-indigo-500'
+                              : 'border-transparent',
+                            'absolute -inset-px rounded-lg pointer-events-none'
                           )}
                           aria-hidden="true"
                         />
@@ -451,7 +451,7 @@ export default function Checkout() {
             <div className="mt-4 bg-white border border-gray-200 rounded-lg shadow-sm">
               <h3 className="sr-only">Items in your cart</h3>
               <ul role="list" className="divide-y divide-gray-200">
-                {products.map((product) => (
+                {products.map(product => (
                   <li key={product.id} className="flex py-6 px-4 sm:px-6">
                     <div className="flex-shrink-0">
                       <div className="w-20 h-full rounded-md overflow-hidden relative">
@@ -546,7 +546,7 @@ export default function Checkout() {
               <div className="border-t border-gray-200 py-6 px-4 sm:px-6">
                 <button
                   type="submit"
-                  className="w-full bg-green border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-green-500"
+                  className="w-full bg-green border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-green-700 -none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-green-500"
                 >
                   Confirm order
                 </button>

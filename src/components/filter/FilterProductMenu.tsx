@@ -17,7 +17,7 @@ interface FilterMenuProps {
   setFieldValue: Function;
 }
 
-export default function FilterMenu(props: FilterMenuProps) {
+export default function FilterProductMenu(props: FilterMenuProps) {
   const { open, values, setOpen, icon, label, setSavedValues, setFieldValue } =
     props;
 
@@ -82,19 +82,38 @@ export default function FilterMenu(props: FilterMenuProps) {
                           values={values.filters.sort}
                           setFieldValue={setFieldValue}
                         />
-                        <FilterGroupPrice
-                          filters={Filters.price.list}
-                          label={'Price'}
-                          id={'price'}
+
+                        <FilterGroup
+                          filters={Filters.pipes.list}
+                          label={'Pipes'}
+                          id={'category'}
                           type="radio"
-                          minName="range.min_price"
-                          maxName="range.max_price"
+                          values={values.filters.category}
+                          setFieldValue={setFieldValue}
                         />
                         <FilterGroup
-                          filters={Filters.strains.list}
-                          label={'Strain Type'}
-                          id={'strains'}
-                          values={values.filters.strains}
+                          filters={Filters.rigs.list}
+                          label={'Rigs'}
+                          id={'category'}
+                          type="radio"
+                          values={values.filters.category}
+                          setFieldValue={setFieldValue}
+                        />
+                        <FilterGroup
+                          filters={Filters.vapePens.list}
+                          label={'Vape Pens'}
+                          id={'category'}
+                          type="radio"
+                          values={values.filters.category}
+                          setFieldValue={setFieldValue}
+                        />
+                        <FilterGroup
+                          filters={Filters.flower.list}
+                          label={'Flower'}
+                          id={'category'}
+                          type="radio"
+                          values={values.filters.category}
+                          setFieldValue={setFieldValue}
                         />
                         <FilterGroup
                           filters={Filters.concentrates.list}
@@ -114,7 +133,31 @@ export default function FilterMenu(props: FilterMenuProps) {
                         />
                         <FilterGroup
                           filters={Filters.topicals.list}
-                          label={'Topicals'}
+                          label={'Beauty & Personal Care'}
+                          id={'category'}
+                          type="radio"
+                          values={values.filters.category}
+                          setFieldValue={setFieldValue}
+                        />
+                        <FilterGroup
+                          filters={Filters.rollingPapers.list}
+                          label={'Rolling Papers'}
+                          id={'category'}
+                          type="radio"
+                          values={values.filters.category}
+                          setFieldValue={setFieldValue}
+                        />
+                        <FilterGroup
+                          filters={Filters.herbGrinders.list}
+                          label={'Herb Grinders'}
+                          id={'category'}
+                          type="radio"
+                          values={values.filters.category}
+                          setFieldValue={setFieldValue}
+                        />
+                        <FilterGroup
+                          filters={Filters.misc.list}
+                          label={'Miscellaneous'}
                           id={'category'}
                           type="radio"
                           values={values.filters.category}

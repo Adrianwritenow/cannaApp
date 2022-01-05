@@ -7,7 +7,7 @@ import {
 import { Dialog, Transition } from '@headlessui/react';
 import { Field, Form, Formik } from 'formik';
 import React, { Fragment, Ref, useEffect, useState } from 'react';
-import { receiveResults, searchQuery } from '../../../actions/search';
+import { combinedSearchQuery, receiveResults, searchQuery } from '../../../actions/search';
 import { getLocationByIP, setLocation } from '../../../actions/location';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -34,22 +34,10 @@ export default function SearchSlideOver(props: {
 
   const [initialValues, setInitialValues] = useState({ search: '' });
 
-  async function handleSubmit(search: any) {
-    // const hits: any = await searchQuery(search);
-    const { general, dispensaries }: any = await combinedSearchQuery(search);
-    dispatch(
-      reciveResults({
-        search: search,
-        data: [
-          {
-            general: general.hits.hits,
-            dispensaries: dispensaries.hits.hits,
-          },
-        ],
-      })
-    );
-  }
-
+   async function handleSubmit(search: any) {
+     const hits: SearchHits = await combinedSearchQuery(search);
+     dispatch(receiveResults({ search: search, data: hits.hits.hits }));
+   }
   function handleSearch(search: any) {
     handleSubmit(search);
   }
@@ -64,6 +52,7 @@ export default function SearchSlideOver(props: {
     if (! Object.keys(location).length) {
       getLocation();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {}, [initialValues, results]);
@@ -217,7 +206,7 @@ export default function SearchSlideOver(props: {
                                     </Form>
                                     {results.length ? (
                                       <ul className="px-4 ">
-                                        {results[0].general.map(
+                                        {results.map(
                                           (result: any, index: number) => {
                                             switch (true) {
                                               case result._id.includes(

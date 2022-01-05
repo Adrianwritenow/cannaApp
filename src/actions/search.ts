@@ -47,28 +47,15 @@ export function combinedSearchQuery(
           })
           .build()
       : bodybuilder().query('query_string', 'query', search).build();
+
   const query = bodybuilder().query('query_string', 'query', search).build();
 
-  const generalRequest = axios({
-    url: `${SEARCH_URL}/elasticsearch_index_pantheon_index01/_search?size=100`,
-    headers: { 'Content-Type': 'application/json' },
-    method: 'POST',
-    data: query,
-  });
-
-  // TODO - add dispensary search url to env
-  const dispensaryRequest = axios({
-    url: `${SEARCH_URL}/elasticsearch_index_dev_cannapages_dispenaries/_search?size=50`,
+  const results = axios({
+    url: `${SEARCH_URL}/elasticsearch_index_dev_cannapages_index01/_search?size=20`,
     headers: { 'Content-Type': 'application/json' },
     method: 'POST',
     data: coords && distance ? spatialQuery : query,
-  });
-
-  const results = axios.all([generalRequest, dispensaryRequest]).then(
-    axios.spread(({ data: general }: any, { data: dispensaries }: any) => {
-      return { general, dispensaries };
-    })
-  );
+  }).then((response: AxiosResponse) =>  response.data);
 
   return results;
 }
@@ -114,7 +101,7 @@ export function getDocument(id: string | string[] | undefined) {
     .build();
 
   const results = axios({
-    url: `${SEARCH_URL}/_all/_search?size=1`,
+    url: `${SEARCH_URL}/elasticsearch_index_dev_cannapages_index01/_search?size=1`,
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

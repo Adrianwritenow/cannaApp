@@ -40,7 +40,7 @@ export default function ProductDetail() {
     let searchListUpdate: any = [];
 
     if (results.length) {
-      results[0].general.map((result: any, index: number) => {
+      results.map((result: any, index: number) => {
         switch (true) {
           case result._id.includes('product_entity'):
             searchListUpdate.push(result);
@@ -52,6 +52,7 @@ export default function ProductDetail() {
       setSearchLists(searchListUpdate);
     }
     setCurrentQuery(query);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router, results, searchLists]);
 
   return (

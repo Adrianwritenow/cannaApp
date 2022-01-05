@@ -54,8 +54,8 @@ export default function Search() {
       strains: [],
     };
 
-    if (results[0]) {
-      results[0].general.map((result: any, index: number) => {
+    if (results) {
+      results.map((result: any, index: number) => {
         switch (true) {
           case result._id.includes('strain_entity'):
             searchListUpdate.strains.push(result);
@@ -75,6 +75,7 @@ export default function Search() {
       setSearchLists(searchListUpdate);
     }
     setCurrentQuery(query);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [view, results, searchLists]);
 
   return (
@@ -126,11 +127,11 @@ export default function Search() {
             </Tab.Panel>
             <Tab.Panel className="focus:outline-none">
               {/* Search Strain */}
-              <SearchStrain
+              {/* <SearchStrain
                 strains={searchLists.strains}
                 query={query}
                 products={searchLists.shopping}
-              />
+              /> */}
             </Tab.Panel>
             <Tab.Panel className="focus:outline-none">
               {/* Search Dispensery */}

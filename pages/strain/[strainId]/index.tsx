@@ -9,6 +9,7 @@ import { getDocument } from '../../../src/actions/search';
 import { products } from '../../../src/helpers/mockData';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
+import { SearchHits } from '@/interfaces/searchHits';
 
 export default function StrainDetail() {
   const router = useRouter();
@@ -22,13 +23,13 @@ export default function StrainDetail() {
   const [strain, setStrain] = useState<Strain>();
 
   useEffect(() => {
-    console.log(results);
     if (strainId) {
-      getDocument(strainId).then(
-        (document: React.SetStateAction<Strain | undefined>) => {
-          setStrain(document);
+      getDocument(strainId).then((document: SearchHits) => {
+        if (document) {
+          const result = document.hits.hits[0];
+          setStrain(result as unknown as Strain);
         }
-      );
+      });
     }
     let searchListUpdate: any = [];
 
@@ -43,6 +44,7 @@ export default function StrainDetail() {
       setSearchLists(searchListUpdate);
     }
     setCurrentQuery(query);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [strainId, results, searchLists]);
 
   return (

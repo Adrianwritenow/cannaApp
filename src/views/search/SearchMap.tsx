@@ -5,11 +5,11 @@ import BullseyeIcon from '@/public/assets/icons/iconComponents/Bullseye';
 import { Dispensary } from '@/interfaces/searchDispensary';
 import SvgEmptyState from '@/public/assets/icons/iconComponents/EmptyState';
 
-function SearchMap(props: { dispensaries: Dispensary[]; query: string }) {
-  const { dispensaries, query } = props;
+function SearchMap() {
+
 
   return dispensaries.length ? (
-    <MapContainer data={dispensaries} />
+    <MapContainer  />
   ) : (
     <div className="w-full flex items-center  flex-wrap justify-center h-full space-y-4 py-14">
       <SvgEmptyState className="w-40 h-40" />

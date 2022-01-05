@@ -40,30 +40,34 @@ export default function ListingCardDropdown(data: DispensaryProps) {
               <BookmarkIcon className="w-6" />
             </div>
             <div className="flex flex-col items-start">
-              <p className="sr-only">
-                {listing._source?.field_rating} out of 5 stars
-              </p>
-              <div className="flex items-center">
-                <span className="font-normal text-gray-500">
-                  {listing._source?.field_rating}
-                </span>
+              {listing._source.field_rating && (
+                <>
+                  <p className="sr-only">
+                    {listing._source?.field_rating} out of 5 stars
+                  </p>
+                  <div className="flex items-center">
+                    <span className="font-normal text-gray-500">
+                      {listing._source?.field_rating}
+                    </span>
 
-                {[0, 1, 2, 3, 4].map(rating => (
-                  <StarIcon
-                    key={rating}
-                    className={`    ${
-                      parseFloat(listing._source?.field_rating[0]) > rating
-                        ? 'text-yellow-400'
-                        : 'text-gray-200'
-                    }
+                    {[0, 1, 2, 3, 4].map(rating => (
+                      <StarIcon
+                        key={rating}
+                        className={`    ${
+                          parseFloat(listing._source?.field_rating[0]) > rating
+                            ? 'text-yellow-400'
+                            : 'text-gray-200'
+                        }
                   flex-shrink-0 h-4 w-4`}
-                    aria-hidden="true"
-                  />
-                ))}
-                <p className="font-normal text-gray-500">
-                  ({listing._source?.field_reviews_count})
-                </p>
-              </div>
+                        aria-hidden="true"
+                      />
+                    ))}
+                    <p className="font-normal text-gray-500">
+                      ({listing._source?.field_reviews_count})
+                    </p>
+                  </div>
+                </>
+              )}
               <p className="text-sm text-gray-500 font-normal">
                 {listing._source?._type}
                 <span className="px-2 text-normal">&#8226;</span>

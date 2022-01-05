@@ -93,7 +93,7 @@ export function Map({ data, currentViewport }: any) {
       setViewport({
         ...viewport,
         latitude: userCoordinates.lat,
-        longitude: userCoordinates.lng - 0.005,
+        longitude: userCoordinates.lon - 0.005,
         transitionDuration: 1500,
         zoom: 9,
       });

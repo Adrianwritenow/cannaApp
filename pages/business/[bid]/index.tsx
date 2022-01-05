@@ -29,6 +29,8 @@ import ReviewsSlideOver from '../../../src/views/slideOver/ReviewsSlideOver';
 import SvgIconTwitter from '../../../public/assets/icons/iconComponents/IconTwitter';
 import { getDocument } from '../../../src/actions/search';
 import { useRouter } from 'next/router';
+import { SearchHits } from '@/interfaces/searchHits';
+import Link from 'next/link';
 
 export default function BusinessDetail() {
   const router = useRouter();
@@ -40,12 +42,14 @@ export default function BusinessDetail() {
 
   useEffect(() => {
     if (bid) {
-      getDocument(bid).then(
-        (document: React.SetStateAction<Dispensary | undefined>) => {
-          setDispensary(document);
+      getDocument(bid).then((document: SearchHits) => {
+        if (document) {
+          const result = document.hits.hits[0];
+          setDispensary(result as unknown as Dispensary);
         }
-      );
+      });
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router]);
 
   return (
@@ -98,9 +102,11 @@ export default function BusinessDetail() {
               />
               <p className="p">
                 <span>
-                  {parseFloat(
-                    dispensary?._source.field_rating[0] as string
-                  ).toFixed(1)}
+                  {typeof dispensary?._source.field_rating !== 'undefined'
+                    ? parseFloat(
+                        dispensary?._source.field_rating[0] as string
+                      ).toFixed(1)
+                    : ''}
                 </span>
                 ({dispensary?._source.field_reviews_count}) Reviews
               </p>
@@ -170,11 +176,16 @@ export default function BusinessDetail() {
             />
           </div>
 
-          <div className="text-lg text-gray-500 w-60 grid grid-flow-row auto-rows-max gap-2">
-            <h2 className="text-lg text-gray-700 font-semibold pt-3">
+          <div className="text-lg text-gray-500 w-full grid grid-flow-row auto-rows-max gap-2">
+            <h2 className="text-lg text-gray-700 font-semibold pt-3 ">
               Location
             </h2>
-            <p className="text-gray-700">{dispensary?._source.address_line1}</p>
+            <p className="text-gray-700 w-full">
+              {dispensary?._source.address_line1[0]}
+              <br />
+              {dispensary?._source.locality[0]},{' '}
+              {dispensary?._source.administrative_area}
+            </p>
             {/* <p>{listing.distance} away</p> */}
           </div>
           <div className="pt-5 ">
@@ -197,18 +208,47 @@ export default function BusinessDetail() {
 
           <div className="grid grid-flow-row auto-rows-max ">
             <div className="pt-5 ">
-              <button className="py-4 w-full text-gray-700 flex items-center justify-start ">
-                <IconFacebook className="w-10 h-10 text-gray-400" />
-                {/* <span className="pl-4">{listing.socials.facebook}</span> */}
-              </button>
-              <button className="py-4 w-full text-gray-700 flex items-center justify-start">
-                <SvgIconTwitter className="w-10 h-10 text-gray-400" />
-                {/* <span className="pl-4">{listing.socials.twitter}</span> */}
-              </button>
-              <button className="py-4 w-full text-gray-700 flex items-center justify-start   ">
-                <IconInsta className="w-10 h-10 text-gray-400" />
-                {/* <span className="pl-4">{listing.socials.instagram}</span> */}
-              </button>
+              {typeof dispensary?._source.field_facebook !== 'undefined' && (
+                <Link
+                  href={`${dispensary?._source.field_facebook[0]}`}
+                  passHref
+                >
+                  <a>
+                    <button className="py-4 w-full text-gray-700 flex items-center justify-start ">
+                      <IconFacebook className="w-10 h-10 text-gray-400" />
+                      <span className="pl-4 text-sm">
+                        {dispensary?._source.field_facebook[0]}
+                      </span>
+                    </button>{' '}
+                  </a>
+                </Link>
+              )}
+              {typeof dispensary?._source.field_twitter !== 'undefined' && (
+                <Link href={`${dispensary?._source.field_twitter[0]}`}>
+                  <a>
+                    <button className="py-4 w-full text-gray-700 flex items-center justify-start">
+                      <SvgIconTwitter className="w-10 h-10 text-gray-400" />
+
+                      <span className="pl-4 text-sm">
+                        {dispensary?._source.field_twitter[0]}
+                      </span>
+                    </button>
+                  </a>
+                </Link>
+              )}
+              {typeof dispensary?._source.field_instagram !== 'undefined' && (
+                <Link href={`${dispensary?._source.field_instagram[0]}`}>
+                  <a>
+                    {' '}
+                    <button className="py-4 w-full text-gray-700 flex items-center justify-start   ">
+                      <IconInsta className="w-10 h-10 text-gray-400" />
+                      <span className="pl-4 text-sm">
+                        {dispensary?._source.field_instagram[0]}
+                      </span>
+                    </button>{' '}
+                  </a>
+                </Link>
+              )}
             </div>
           </div>
         </section>
@@ -222,30 +262,69 @@ export default function BusinessDetail() {
             className="text-lg text-gray-700 font-semibold pb-4 pt-1 w-full border-b border-gray-200"
           >
             Opening Hours
-          </h2>
-          <div className="text-gray-700 pt-2">
-            <p className="py-3 flex justify-between items-center">
-              Sunday <span>8:00 AM-:00 PM</span>
-            </p>
-            <p className="py-3 flex justify-between items-center">
-              Monday <span>8:00 AM-:00 PM</span>
-            </p>
-            <p className="py-3 flex justify-between items-center">
-              Tuesday <span>8:00 AM-:00 PM</span>
-            </p>
-            <p className="py-3 flex justify-between items-center">
-              Wednesday <span>8:00 AM-:00 PM</span>
-            </p>
-            <p className="py-3 flex justify-between items-center">
-              Thursday <span>8:00 AM-:00 PM</span>
-            </p>
-            <p className="py-3 flex justify-between items-center">
-              Friday <span>8:00 AM-:00 PM</span>
-            </p>
-            <p className="py-3 flex justify-between items-center">
-              Saturday <span>8:00 AM-:00 PM</span>
-            </p>
-          </div>
+          </h2>{' '}
+          {typeof dispensary?._source.field_monday_hours !== 'undefined' && (
+            <>
+              <div className="text-gray-700 pt-2">
+                <p className="py-3 flex justify-between items-center">
+                  Sunday{' '}
+                  <span>
+                    {dispensary?._source.field_sunday_hours
+                      ? dispensary?._source.field_sunday_hours
+                      : 'Not Available'}
+                  </span>
+                </p>
+                <p className="py-3 flex justify-between items-center">
+                  Monday{' '}
+                  <span>
+                    {dispensary?._source.field_monday_hours
+                      ? dispensary?._source.field_monday_hours
+                      : 'Not Available'}
+                  </span>
+                </p>
+                <p className="py-3 flex justify-between items-center">
+                  Tuesday{' '}
+                  <span>
+                    {dispensary?._source.field_tuesday_hours
+                      ? dispensary?._source.field_tuesday_hours
+                      : 'Not Available'}
+                  </span>
+                </p>
+                <p className="py-3 flex justify-between items-center">
+                  Wednesday{' '}
+                  <span>
+                    {dispensary?._source.field_wednesday_hours
+                      ? dispensary?._source.field_wednesday_hours
+                      : 'Not Available'}
+                  </span>
+                </p>
+                <p className="py-3 flex justify-between items-center">
+                  Thursday{' '}
+                  <span>
+                    {dispensary?._source.field_thursday_hours
+                      ? dispensary?._source.field_thursday_hours
+                      : 'Not Available'}
+                  </span>
+                </p>
+                <p className="py-3 flex justify-between items-center">
+                  Friday{' '}
+                  <span>
+                    {dispensary?._source.field_friday_hours
+                      ? dispensary?._source.field_friday_hours
+                      : 'Not Available'}
+                  </span>
+                </p>
+                <p className="py-3 flex justify-between items-center">
+                  Saturday{' '}
+                  <span>
+                    {dispensary?._source.field_saturday_hours
+                      ? dispensary?._source.field_saturday_hours
+                      : 'Not Available'}
+                  </span>
+                </p>
+              </div>
+            </>
+          )}
         </section>
         {/* Need Review FAQ  and amenities Data */}
         <FaqSlideOver name={dispensary?._source.name[0]} faqs={faqs} />

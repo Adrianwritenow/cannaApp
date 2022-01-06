@@ -16,18 +16,19 @@ export const MapContext = createContext<any>(null);
 export function MapContainer() {
   const [showMap, setShowMap] = useState(true);
   const { results, query } = useSelector((root: RootState) => root.search);
+  const { city, lat, lng } = useSelector((root: RootState) => root.location);
   const [dispensaryResults, setDispensaryResults] = useState<any>([]);
-  // const dispatch = useDispatch();
-  // const [resultsShouldUpdate, setResultsShouldUpdate] = useState(false);
+  const dispatch = useDispatch();
+  const [resultsShouldUpdate, setResultsShouldUpdate] = useState(false);
   const [showResults, setShowResults] = useState(true);
   const [activeCard, setActiveCard] = useState<any>(0);
   const [currentQuery, setCurrentQuery] = useState('');
   const [swiper, setSwiper] = useState<any>(null);
   const width = useCurrentWidth();
-  // const [userCoordinates, setUserCoordinates] = useState<any>({
-  //   lat: null,
-  //   lon: null,
-  // });
+  const [userCoordinates, setUserCoordinates] = useState<any>({
+    lat: null,
+    lon: null,
+  });
 
   useEffect(() => {
     let searchListUpdate: any = {
@@ -48,54 +49,53 @@ export function MapContainer() {
       setDispensaryResults(searchListUpdate);
     }
     setCurrentQuery(query);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    results,
-    dispensaryResults,
-    // userCoordinates
-  ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [results, dispensaryResults, userCoordinates]);
 
+  async function handleSubmit(search: any, coords: any, distance: any) {
+    const hits: any = await combinedSearchQuery(search, coords, distance);
+    dispatch(
+      receiveResults({
+        // search: city,
+        search: 'My Location',
+        data: hits.hits.hits,
+      })
+    );
+  }
 
-
-  // async function handleSubmit(search: any, coords: any, distance: any) {
-  //   // const hits: any = await searchQuery(search);
-  //   const hits: any = await combinedSearchQuery(search, coords, distance);
-  //   console.log(hits);
-  //   dispatch(
-  //     reciveResults({
-  //       search: search,
-  //       data: hits.hits.hits,
-  //     })
-  //   );
-  // }
-
-  // const getLocation = async () => {
-  //   if (!navigator.geolocation) {
-  //     alert('Geolocation is not supported by your browser');
-  //   } else {
-  //     navigator.geolocation.getCurrentPosition(
-  //       position => {
-  //         setResultsShouldUpdate(true);
-  //         setUserCoordinates({
-  //           lat: position.coords.latitude,
-  //           lon: position.coords.longitude,
-  //         });
-  //       },
-  //       err => console.log(err)
-  //     );
-  //   }
+  // const getLocation = () => {
+  //   setUserCoordinates({ lat: lat, lon: lng });
+  //   setResultsShouldUpdate(true);
   // };
 
-  // useEffect(() => {
-  //   if (resultsShouldUpdate && results.length) {
-  //     setResultsShouldUpdate(false);
-  //     handleSubmit(
-  //       '',
-  //       { lat: userCoordinates.lat, lon: userCoordinates.lon },
-  //       '10mi'
-  //     );
-  //   }
-  // }, [userCoordinates]);
+  const getLocation = async () => {
+    if (!navigator.geolocation) {
+      alert('Geolocation is not supported by your browser');
+    } else {
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          setResultsShouldUpdate(true);
+          setUserCoordinates({
+            lat: position.coords.latitude,
+            lon: position.coords.longitude,
+          });
+        },
+        err => console.log(err)
+      );
+    }
+  };
+
+  useEffect(() => {
+    if (resultsShouldUpdate && results.length) {
+      setResultsShouldUpdate(false);
+
+      handleSubmit(
+        '',
+        { lat: userCoordinates.lat, lon: userCoordinates.lon },
+        '10mi'
+      );
+    }
+  }, [userCoordinates]);
 
   return (
     <>
@@ -120,7 +120,7 @@ export function MapContainer() {
             setSwiper,
             showResults,
             setShowResults,
-            // userCoordinates,
+            userCoordinates,
           }}
         >
           <div className="overflow-hidden">
@@ -128,7 +128,7 @@ export function MapContainer() {
               {typeof dispensaryResults.dispensaries !== 'undefined' &&
               showMap ? (
                 <>
-                  {/* <button
+                  <button
                     onClick={() => getLocation()}
                     className="z-10 right-5 top-5 bg-green-400 h-10 w-10 flex items-center justify-center rounded-3xl absolute"
                   >
@@ -137,7 +137,7 @@ export function MapContainer() {
                       height={24}
                       width={24}
                     />
-                  </button> */}
+                  </button>
                   <Map
                     data={dispensaryResults.dispensaries}
                     currentViewport={width}

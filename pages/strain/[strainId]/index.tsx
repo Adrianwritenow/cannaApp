@@ -33,7 +33,7 @@ export default function StrainDetail() {
     }
     let searchListUpdate: any = [];
 
-    results[0].general.map((result: any, index: number) => {
+    results.map((result: any, index: number) => {
       switch (true) {
         case result._id.includes('product_entity'):
           searchListUpdate.push(result);

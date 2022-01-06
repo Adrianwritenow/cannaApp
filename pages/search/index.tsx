@@ -127,11 +127,11 @@ export default function Search() {
             </Tab.Panel>
             <Tab.Panel className="focus:outline-none">
               {/* Search Strain */}
-              {/* <SearchStrain
+              <SearchStrain
                 strains={searchLists.strains}
                 query={query}
                 products={searchLists.shopping}
-              /> */}
+              />
             </Tab.Panel>
             <Tab.Panel className="focus:outline-none">
               {/* Search Dispensery */}

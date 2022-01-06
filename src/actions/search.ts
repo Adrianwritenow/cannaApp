@@ -51,7 +51,7 @@ export function combinedSearchQuery(
   const query = bodybuilder().query('query_string', 'query', search).build();
 
   const results = axios({
-    url: `${SEARCH_URL}/elasticsearch_index_dev_cannapages_index01/_search?size=20`,
+    url: `${SEARCH_URL}/elasticsearch_index_dev_cannapages_index01/_search?size=15`,
     headers: { 'Content-Type': 'application/json' },
     method: 'POST',
     data: coords && distance ? spatialQuery : query,

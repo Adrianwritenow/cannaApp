@@ -12,7 +12,7 @@ export default function AddPhotots(props: {
   values: {
     review: string;
     recommended: boolean | undefined;
-    rating: {
+    rating?: {
       general: number;
       service: number;
       value: number;

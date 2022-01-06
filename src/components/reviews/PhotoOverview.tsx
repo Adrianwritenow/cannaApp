@@ -2,6 +2,7 @@ import { ArrowLeftIcon, PlusIcon } from '@heroicons/react/solid';
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment, useEffect, useState } from 'react';
 
+import EditPhotoDetails from './EditPhotoDetails';
 import Image from 'next/image';
 import SubmitReview from './SubmitReview';
 
@@ -16,7 +17,7 @@ export default function PhotoOverview(props: {
   values: {
     review: string;
     recommended: boolean | undefined;
-    rating: {
+    rating?: {
       general: number;
       service: number;
       value: number;
@@ -29,11 +30,7 @@ export default function PhotoOverview(props: {
 }) {
   const [open, setOpen] = useState(false);
   const { setFieldValue, values, setParent } = props;
-  const [selectedFile, setSelectedFile] = useState<ReviewPhoto>({
-    photo: null,
-  });
   const [previews, setPreviews] = useState([]);
-  const [update, setUpdate] = useState(false);
 
   const onSelectFile = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -154,19 +151,7 @@ export default function PhotoOverview(props: {
 
                     <div className="grid grid-cols-3 gap-0.5 w-full h-min mb-auto">
                       {previews.map((image, index) => {
-                        return (
-                          <div
-                            className="w-full pb-full overflow-hidden relative"
-                            key={`preview-${index}`}
-                          >
-                            <Image
-                              src={image}
-                              alt="Profile Photo"
-                              layout="fill"
-                              objectFit="cover"
-                            />
-                          </div>
-                        );
+                        return <EditPhotoDetails src={image} index={index} />;
                       })}
                     </div>
 

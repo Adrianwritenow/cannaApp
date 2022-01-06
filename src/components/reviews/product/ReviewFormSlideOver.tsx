@@ -9,13 +9,13 @@ import { Dialog, Transition } from '@headlessui/react';
 import { Field, Form, Formik } from 'formik';
 import React, { Fragment, useState } from 'react';
 
+import AddPhotots from '../AddPhotos';
 import AvatarIcon from '../../../../public/assets/icons/iconComponents/Avatar';
 import { Dispensary } from '../../../interfaces/searchDispensary';
 import ImageWithFallback from '@/components/image/ImageWithFallback';
 import { Product } from '@/interfaces/searchProduct';
 import { RadioButton } from '@/components/forms/fields/RadioButton';
 import { Strain } from '@/interfaces/strain';
-import SubmitReview from '../SubmitReview';
 
 interface ReviewSlideOverProps {
   myRating: number;
@@ -138,6 +138,7 @@ export default function ReviewFormSlideOver(props: ReviewSlideOverProps) {
                       initialValues={{
                         review: '',
                         recommended: undefined,
+                        photos: [],
                       }}
                       onSubmit={() => {}}
                       enableReinitialize={true}
@@ -185,8 +186,13 @@ export default function ReviewFormSlideOver(props: ReviewSlideOverProps) {
                                 />
                               </div>
                             </div>
-
-                            <SubmitReview values={values} setParent={setOpen} />
+                            <div className="pb-4 w-full">
+                              <AddPhotots
+                                values={values}
+                                setFieldValue={setFieldValue}
+                                setParent={setOpen}
+                              />
+                            </div>
                           </Form>
                         );
                       }}

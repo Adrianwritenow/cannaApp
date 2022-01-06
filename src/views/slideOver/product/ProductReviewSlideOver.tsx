@@ -7,7 +7,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import React, { Fragment, useState } from 'react';
 
 import DropdownFilter from '../../../components/forms/fields/DropdownFilter';
-import { ProductSlideoverProps } from '@/interfaces/props/productSlideOverProps';
+import { ProductSlideoverProps } from '@/interfaces/props/ProductSlideOverProps';
 import ReviewCard from '../../../components/reviews/ReviewCard';
 import ReviewFormSlideOver from '../../../components/reviews/product/ReviewFormSlideOver';
 import { listings } from '../../../helpers/mockData';

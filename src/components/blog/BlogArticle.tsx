@@ -1,11 +1,12 @@
+import { useEffect, useState } from 'react';
+
+import { IconFacebook } from '@/public/assets/icons/iconComponents';
 import Image from 'next/image';
 import Link from 'next/link';
-import { IconFacebook } from '@/public/assets/icons/iconComponents';
-import SvgIconTwitter from '@/public/assets/icons/iconComponents/IconTwitter';
 import SocialShare from '@/components/share/SocialShare';
-import styles from './styles.module.scss';
-import { useEffect, useState } from 'react';
+import SvgIconTwitter from '@/public/assets/icons/iconComponents/IconTwitter';
 import moment from 'moment';
+import styles from './styles.module.scss';
 
 export default function BlogArticle({ post }: any) {
   const [renderHtml, setRenderHtml] = useState('');
@@ -30,11 +31,11 @@ export default function BlogArticle({ post }: any) {
               <p className="pt-4 text-gray-500">{post.description}</p>
               <div className="pt-4 border-b-2 pb-4">
                 <p className="text-xs text-gray-900">
-                  By{' '}
-                  <Link href="#" passHref>
+                  By&nbsp;
+                  <Link href={`/blog/author/${post.author}`} passHref>
                     <a className="text-green-400">{post.author}</a>
-                  </Link>{' '}
-                  | {moment(post.published).format('MMMM Do, YYYY')}
+                  </Link>
+                  &nbsp; | {moment(post.published).format('MMMM Do, YYYY')}
                 </p>
                 <div className="flex items-center pt-4 w-24">
                   <div className="flex justify-between w-full">

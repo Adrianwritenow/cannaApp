@@ -49,15 +49,6 @@ export default function PhotoOverview(props: {
     }
   };
 
-  const onAddFile = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    setFieldValue: {
-      (field: string, value: any, shouldValidate?: boolean | undefined): void;
-    }
-  ) => {
-    console.log(event.target.files);
-  };
-
   const viewPreview = previews.length > 0 && open;
 
   return (

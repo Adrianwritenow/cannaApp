@@ -36,7 +36,7 @@ export default function Blog() {
               Top Stories
             </h2>
           </div>
-          <div className=" grid gap-0  lg:grid-cols-3 lg:gap-x-5 lg:gap-y-12 divide-y divide-dashed">
+          <div className=" grid gap-0  lg:grid-cols-3 lg:gap-x-5 lg:gap-y-12">
             {articles.articles
               .slice(0, 5)
               .map((post, idx) =>
@@ -57,7 +57,7 @@ export default function Blog() {
           <div>
             <div className="flex flex-wrap py-6 border-b-2 ">
               {topics.map(topic => (
-                <Link href={`/blog/tag/${topic}`} key={topic} passHref>
+                <Link href={`/blog/category/${topic}`} key={topic} passHref>
                   <a className="px-4 py-1 mr-2 my-1 text-gray-600 bg-white text-sm border-2 border-gray-400 rounded-2xl hover:bg-green-400 hover:border-transparent hover:text-white">
                     {topic}
                   </a>

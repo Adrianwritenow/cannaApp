@@ -220,8 +220,9 @@ export default function RateCategorySlideOver(props: {
 
                     <div className="px-4 pb-4">
                       <AddPhotots
-                        values={values.photos}
+                        values={values}
                         setFieldValue={setFieldValue}
+                        setParent={setParent}
                       />
                     </div>
                   </div>

@@ -1,5 +1,5 @@
 import { ArrowLeftIcon, StarIcon } from '@heroicons/react/solid';
-import { Dialog, Transition } from '@headlessui/react';
+import { Dialog, Tab, Transition } from '@headlessui/react';
 import { Field, Form, Formik } from 'formik';
 import React, { Fragment, useState } from 'react';
 
@@ -149,24 +149,33 @@ export default function ReviewFormSlideOver(props: ReviewSlideOverProps) {
                       {({ values, setFieldValue }) => {
                         return (
                           <Form className="flex flex-wrap px-4 pt-6 pb-4 flex-grow">
-                            <div className="pb-10 w-full">
-                              <p className="text-lg text-gray-700 font-semibold py-3.5">
-                                Write your review
-                              </p>
-                              <Field
-                                className="border-gray-200 rounded-md focus:outline-none w-full focus:ring-green-400 focus:border-green-400 p-2 h-48"
-                                placeholder="Express in words how you felt about your visit."
-                                component={'textarea'}
-                                name={'review'}
-                                id={'review'}
-                              />
+                            <div className="w-full mt-auto">
+                              <Tab.Group defaultIndex={1}>
+                                <Tab.Panels>
+                                  <Tab.Panel>
+                                    <div className="pb-10 w-full">
+                                      <p className="text-lg text-gray-700 font-semibold py-3.5">
+                                        Write your review
+                                      </p>
+                                      <Field
+                                        className="border-gray-200 rounded-md focus:outline-none w-full focus:ring-green-400 focus:border-green-400 p-2 h-48"
+                                        placeholder="Express in words how you felt about your visit."
+                                        component={'textarea'}
+                                        name={'review'}
+                                        id={'review'}
+                                      />
+                                    </div>
+                                  </Tab.Panel>
+                                  <Tab.Panel>Content 2</Tab.Panel>
+                                  <Tab.Panel>Content 3</Tab.Panel>
+                                </Tab.Panels>
+                              </Tab.Group>
+                              {/* <RateCategorySlideOver
+                                values={values}
+                                setFieldValue={setFieldValue}
+                                setParent={setOpen}
+                              /> */}
                             </div>
-
-                            <RateCategorySlideOver
-                              values={values}
-                              setFieldValue={setFieldValue}
-                              setParent={setOpen}
-                            />
                           </Form>
                         );
                       }}

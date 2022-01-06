@@ -1,8 +1,9 @@
 import { ArrowLeftIcon, PlusIcon } from '@heroicons/react/solid';
 import { Dialog, Transition } from '@headlessui/react';
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 
 import Image from 'next/image';
+import SubmitReview from './SubmitReview';
 
 interface ReviewPhoto {
   photo: string[] | null;
@@ -12,10 +13,22 @@ export default function PhotoOverview(props: {
   setFieldValue: {
     (field: string, value: any, shouldValidate?: boolean | undefined): void;
   };
-  values: File[];
+  values: {
+    review: string;
+    recommended: boolean | undefined;
+    rating: {
+      general: number;
+      service: number;
+      value: number;
+      location: number;
+      accuracy: number;
+    };
+    photos: File[];
+  };
+  setParent: Function;
 }) {
   const [open, setOpen] = useState(false);
-  const { setFieldValue, values } = props;
+  const { setFieldValue, values, setParent } = props;
   const [selectedFile, setSelectedFile] = useState<ReviewPhoto>({
     photo: null,
   });
@@ -36,8 +49,9 @@ export default function PhotoOverview(props: {
 
       if (adding) {
         const previewCopy = previews.concat(imageArray);
-        const valuesCopy = values.concat(Array.from(event.target.files));
+        const valuesCopy = values.photos.concat(Array.from(event.target.files));
         setPreviews(previewCopy);
+        setFieldValue(event.target.id, valuesCopy);
       } else {
         setPreviews(imageArray);
         setFieldValue(event.target.id, Array.from(event.target.files));
@@ -48,6 +62,10 @@ export default function PhotoOverview(props: {
       setFieldValue(event.target.id, null);
     }
   };
+
+  useEffect(() => {
+    console.log(values);
+  }, [values]);
 
   const viewPreview = previews.length > 0 && open;
 
@@ -62,7 +80,7 @@ export default function PhotoOverview(props: {
           className="relative text-sm text-white pointer-events-none"
         >
           <span>Add Photos</span>
-          <span className="sr-only"> user photo</span>
+          <span className="sr-only"> Add Photos</span>
         </label>
         <input
           id="photos"
@@ -110,7 +128,7 @@ export default function PhotoOverview(props: {
                         <span className="text-lg  text-gray-700">Back</span>
                       </div>
                       <div className="w-full">
-                        <button className="w-full relative bg-green-white py-4 px-3 flex items-center cursor-pointer focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-50 focus-within:ring-green">
+                        <button className="w-full relative bg-green-white py-4 px-3 flex items-center cursor-pointer focus-within:outline-none">
                           <label
                             htmlFor="photos"
                             className="relative text-green-500 pointer-events-none flex items-center space-x-3 ml-auto mr-auto"
@@ -134,7 +152,7 @@ export default function PhotoOverview(props: {
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-3 gap-0.5 w-full h-min pt-1">
+                    <div className="grid grid-cols-3 gap-0.5 w-full h-min mb-auto">
                       {previews.map((image, index) => {
                         return (
                           <div
@@ -150,6 +168,17 @@ export default function PhotoOverview(props: {
                           </div>
                         );
                       })}
+                    </div>
+
+                    <div className="px-4 py-5">
+                      <SubmitReview
+                        values={{
+                          review: values.review,
+                          recommended: values.recommended,
+                          photos: values.photos,
+                        }}
+                        setParent={setParent}
+                      />
                     </div>
                   </div>
                 </div>

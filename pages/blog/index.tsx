@@ -1,5 +1,5 @@
-import BlogArticleCardSmall from '../../src/components/blog/BlogArticleCardSmall';
 import BlogArticleCardFeatured from '../../src/components/blog/BlogArticleCardFeatured';
+import BlogArticleCardSmall from '../../src/components/blog/BlogArticleCardSmall';
 import Link from 'next/link';
 import articles from '@/helpers/mockData/articles.json';
 import moment from 'moment';
@@ -20,7 +20,7 @@ const topics = [
 ];
 
 export default function Blog() {
-  const now = moment()
+  const now = moment();
   return (
     <div>
       <div className="bg-gray-100 w-full h-12 flex items-center justify-center">
@@ -36,15 +36,17 @@ export default function Blog() {
               Top Stories
             </h2>
           </div>
-          <div className=" grid gap-0  lg:grid-cols-3 lg:gap-x-5 lg:gap-y-12">
-            {articles.articles.slice(0,5).map((post, idx) =>
-              idx === 0 ? (
-                <BlogArticleCardFeatured post={post} key={post.title} />
+          <div className=" grid gap-0  lg:grid-cols-3 lg:gap-x-5 lg:gap-y-12 divide-y divide-dashed">
+            {articles.articles
+              .slice(0, 5)
+              .map((post, idx) =>
+                idx === 0 ? (
+                  <BlogArticleCardFeatured post={post} key={post.title} />
                 ) : (
                   <BlogArticleCardSmall post={post} />
-                  )
-                  )}
-                  <BlogArticleCardSmall post={articles.articles[0]} />
+                )
+              )}
+            <BlogArticleCardSmall post={articles.articles[0]} />
           </div>
 
           <div>
@@ -55,7 +57,7 @@ export default function Blog() {
           <div>
             <div className="flex flex-wrap py-6 border-b-2 ">
               {topics.map(topic => (
-                <Link href="#" key={topic} passHref>
+                <Link href={`/blog/tag/${topic}`} key={topic} passHref>
                   <a className="px-4 py-1 mr-2 my-1 text-gray-600 bg-white text-sm border-2 border-gray-400 rounded-2xl hover:bg-green-400 hover:border-transparent hover:text-white">
                     {topic}
                   </a>
@@ -70,7 +72,7 @@ export default function Blog() {
           </div>
           <div className=" grid gap-0  lg:grid-cols-3 lg:gap-x-5 lg:gap-y-12">
             {articles.articles.slice(5).map((post, idx) => (
-              <BlogArticleCardSmall key={post.title} post={post}/>
+              <BlogArticleCardSmall key={post.title} post={post} />
             ))}
           </div>
         </div>

@@ -3,15 +3,28 @@ import { Fragment, useState } from 'react';
 
 import { ArrowLeftIcon } from '@heroicons/react/solid';
 import PhotoOverview from './PhotoOverview';
+import SubmitReview from './SubmitReview';
 
 export default function AddPhotots(props: {
   setFieldValue: {
     (field: string, value: any, shouldValidate?: boolean | undefined): void;
   };
-  values: File[];
+  values: {
+    review: string;
+    recommended: boolean | undefined;
+    rating: {
+      general: number;
+      service: number;
+      value: number;
+      location: number;
+      accuracy: number;
+    };
+    photos: File[];
+  };
+  setParent: Function;
 }) {
   const [open, setOpen] = useState(false);
-  const { values, setFieldValue } = props;
+  const { values, setFieldValue, setParent } = props;
 
   return (
     <div className="w-full">
@@ -67,17 +80,20 @@ export default function AddPhotots(props: {
                       <PhotoOverview
                         values={values}
                         setFieldValue={setFieldValue}
+                        setParent={setParent}
                       />
                     </section>
 
                     <div className="px-4 pb-4 w-full flex">
-                      <button
-                        type="button"
-                        onClick={() => {}}
-                        className="w-max ml-auto px-6 py-2 mt-6 border-2 border-green-500 rounded-md shadow-sm text-sm font-medium text-green-500 bg-white hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-                      >
-                        Skip for now
-                      </button>
+                      <SubmitReview
+                        values={{
+                          review: values.review,
+                          recommended: values.recommended,
+                          photos: values.photos,
+                        }}
+                        setParent={setParent}
+                        skip={true}
+                      />
                     </div>
                   </div>
                 </div>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { listings, products } from '../../../src/helpers/mockData';
 
 import AboutSlideOver from '../../../src/components/products/AboutSlideOver';
+import CouponSlideOver from '@/views/slideOver/CouponsSlideOver';
 import DropdownFilter from '../../../src/components/forms/fields/DropdownFilter';
 import FaqSlideOver from '../../../src/views/slideOver/FaqSlideOver';
 import ImageSlider from '../../../src/components/slider/ImageSlider';
@@ -9,6 +10,7 @@ import { Product } from '../../../src/interfaces/searchProduct';
 import ProductResultsSection from '../../../src/components/sections/ProductsResultsSection';
 import ReviewsSlideOver from '../../../src/views/slideOver/ReviewsSlideOver';
 import { RootState } from '@/reducers';
+import { SearchHits } from '@/interfaces/searchHits';
 import { StarIcon } from '@heroicons/react/solid';
 import { Vendor } from '../../../src/interfaces/vendor';
 import VendorCard from '../../../src/components/vendor/VendorCard';
@@ -27,26 +29,30 @@ export default function ProductDetail() {
 
   useEffect(() => {
     if (productId) {
-      getDocument(productId).then(
-        (document: React.SetStateAction<Product | undefined>) => {
-          setProduct(document);
+      getDocument(productId).then((document: SearchHits) => {
+        if (document) {
+          const result = document.hits.hits[0];
+          setProduct(result as unknown as Product);
         }
-      );
+      });
     }
 
     let searchListUpdate: any = [];
 
-    results.map((result: any, index: number) => {
-      switch (true) {
-        case result._id.includes('product_entity'):
-          searchListUpdate.push(result);
-          break;
-      }
-    });
+    if (results.length) {
+      results.map((result: any, index: number) => {
+        switch (true) {
+          case result._id.includes('product_entity'):
+            searchListUpdate.push(result);
+            break;
+        }
+      });
+    }
     if (currentQuery !== query) {
       setSearchLists(searchListUpdate);
     }
     setCurrentQuery(query);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router, results, searchLists]);
 
   return (
@@ -65,10 +71,10 @@ export default function ProductDetail() {
                 <h2 className="sr-only">Product information</h2>
               </div>
               <p className="text-sm text-blue-500">
-                {product?._source.category}
+                {product?._source?.category[0]}
               </p>
               <h1 className="text-lg font-normal tracking-tight text-gray-900">
-                {product?._source.name_1}
+                {product?._source.name_1[0]}
               </h1>
 
               {/* Reviews */}
@@ -112,7 +118,7 @@ export default function ProductDetail() {
               </div>
             </section>
 
-            <section aria-labelledby="vendors-heading">
+            {/* <section aria-labelledby="vendors-heading">
               <h2 id="vendors-heading" className="sr-only">
                 Vendors with this product
               </h2>
@@ -138,7 +144,7 @@ export default function ProductDetail() {
                   />
                 );
               })}
-            </section>
+            </section> */}
           </div>
           <div className="space-y-6 px-4">
             <section aria-labelledby="details-heading ">
@@ -151,12 +157,13 @@ export default function ProductDetail() {
                 </h2>
                 <div className="text-sm text-gray-500 pt-2">
                   <p>
-                    <span className="text-black">Type:</span>{' '}
-                    {product?._source._type}
+                    <span className="text-black">Type:</span>
+                    {/* {product?._source.category[0]} */}
+                    %Type%
                   </p>
                   <p>
-                    <span className="text-black">Category:</span>{' '}
-                    {product?._source.category}
+                    <span className="text-black">Category:</span>
+                    {product?._source.category[0]}
                   </p>
                   <div className="flex">
                     <p className="text-black">Cannabanoids:&nbsp;</p>
@@ -214,7 +221,7 @@ export default function ProductDetail() {
           </div>
         </div>
       )}
-
+      {/* 
       <ProductResultsSection
         list={searchLists}
         sponsored={false}
@@ -224,7 +231,7 @@ export default function ProductDetail() {
         list={searchLists}
         sponsored={false}
         label="Recently Viewed Items"
-      />
+      /> */}
     </div>
   );
 }

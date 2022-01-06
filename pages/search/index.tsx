@@ -54,25 +54,28 @@ export default function Search() {
       strains: [],
     };
 
-    results.map((result: any, index: number) => {
-      switch (true) {
-        case result._id.includes('strain_entity'):
-          searchListUpdate.strains.push(result);
-          break;
+    if (results) {
+      results.map((result: any, index: number) => {
+        switch (true) {
+          case result._id.includes('strain_entity'):
+            searchListUpdate.strains.push(result);
+            break;
 
-        case result._id.includes('product_entity'):
-          searchListUpdate.shopping.push(result);
-          break;
+          case result._id.includes('product_entity'):
+            searchListUpdate.shopping.push(result);
+            break;
 
-        case result._id.includes('dispensary_entity'):
-          searchListUpdate.dispensaries.push(result);
-          break;
-      }
-    });
+          case result._id.includes('dispensary_entity'):
+            searchListUpdate.dispensaries.push(result);
+            break;
+        }
+      });
+    }
     if (currentQuery !== query) {
       setSearchLists(searchListUpdate);
     }
     setCurrentQuery(query);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [view, results, searchLists]);
 
   return (

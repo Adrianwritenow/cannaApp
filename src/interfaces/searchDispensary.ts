@@ -10,6 +10,16 @@ export interface Dispensary {
     description: string[];
     field_delivery_and_pickup_info: string[];
     field_image: number[];
+    field_facebook: string[];
+    field_instagram: string[];
+    field_twitter: string[];
+    field_monday_hours: string[];
+    field_tuesday_hours: string[];
+    field_wednesday_hours: string[];
+    field_thursday_hours: string[];
+    field_friday_hours: string[];
+    field_saturday_hours: string[];
+    field_sunday_hours: string[];
     field_phone_number: string[];
     postal_code: string[];
     field_email: string[];
@@ -23,5 +33,7 @@ export interface Dispensary {
     status: boolean[];
     _language: string;
     _type: string;
+    locality: string[];
+    administrative_area: string[];
   };
 }

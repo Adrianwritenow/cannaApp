@@ -2,7 +2,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import { Fragment, useState } from 'react';
 
 import { ArrowLeftIcon } from '@heroicons/react/outline';
-import ReviewCard from '../ReviewCard';
+import ReviewCard from './ReviewCard';
 import moment from 'moment';
 
 export default function SubmitReview(props: {

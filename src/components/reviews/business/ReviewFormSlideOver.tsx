@@ -1,32 +1,27 @@
-import {
-  ArrowLeftIcon,
-  StarIcon,
-  ThumbDownIcon,
-  ThumbUpIcon,
-  XIcon,
-} from '@heroicons/react/solid';
+import { ArrowLeftIcon, StarIcon } from '@heroicons/react/solid';
 import { Dialog, Transition } from '@headlessui/react';
 import { Field, Form, Formik } from 'formik';
 import React, { Fragment, useState } from 'react';
 
 import AvatarIcon from '../../../../public/assets/icons/iconComponents/Avatar';
 import { Dispensary } from '../../../interfaces/searchDispensary';
-import ImageWithFallback from '@/components/image/ImageWithFallback';
-import { Product } from '@/interfaces/searchProduct';
-import { RadioButton } from '@/components/forms/fields/RadioButton';
+import RateCategorySlideOver from './RateCategorySlideOver';
 import { Strain } from '@/interfaces/strain';
-import SubmitReview from '../SubmitReview';
 
 interface ReviewSlideOverProps {
-  myRating: number;
-  setMyRating: Function;
   dispensary?: Dispensary;
-  product?: Product;
   strain?: Strain;
   button?: Boolean;
 }
 export default function ReviewFormSlideOver(props: ReviewSlideOverProps) {
-  const { myRating, setMyRating, product, button } = props;
+  const { dispensary, button } = props;
+  const [myRating, setMyRating] = useState({
+    general: 0,
+    service: 0,
+    value: 0,
+    location: 0,
+    accuracy: 0,
+  });
   const [open, setOpen] = useState(false);
   const rating = [
     "I don't know",
@@ -100,33 +95,34 @@ export default function ReviewFormSlideOver(props: ReviewSlideOverProps) {
                       </div>
                     </div>
                     <div className="mt-6 relative flex-col h-auto  px-4 sm:px-6">
-                      <Dialog.Title className="font-semibold text-gray-700 flex space-x-4 border-dashed border-b pb-4">
-                        <div className="relative w-24 h-full rounded-lg overflow-hidden ">
-                          <ImageWithFallback
-                            src={product?._source.field_image}
-                            alt={product?._source.name_1}
-                            layout="fill"
-                            objectFit={'cover'}
-                          />
-                        </div>
-                        <span>{product?._source.name_1}</span>
+                      <Dialog.Title className="font-semibold text-gray-700 flex space-x-4">
+                        <h2 className="text-2xl font-semibold text-gray-700">
+                          How was your visit at {dispensary?._source.name} ?
+                        </h2>
                       </Dialog.Title>
                       <div className="flex-col h-auto flex-grow">
                         <div className="pt-3 w-full">
                           <p className="text-green-400 font-semibold py-3">
-                            {rating[myRating]}
+                            {rating[myRating.general]}
                           </p>
                           <div className="flex items-center">
                             {[0, 1, 2, 3, 4].map(rating => (
                               <StarIcon
                                 key={rating}
                                 className={`${
-                                  myRating > rating
+                                  myRating.general > rating
                                     ? 'text-yellow-400'
                                     : 'text-gray-200'
                                 }
                                       flex-shrink-0 h-8 w-8`}
-                                onClick={() => setMyRating(rating + 1)}
+                                onClick={() =>
+                                  setMyRating((prevState: any) => {
+                                    return {
+                                      ...prevState,
+                                      general: rating + 1,
+                                    };
+                                  })
+                                }
                                 aria-hidden="true"
                               />
                             ))}
@@ -138,6 +134,14 @@ export default function ReviewFormSlideOver(props: ReviewSlideOverProps) {
                       initialValues={{
                         review: '',
                         recommended: undefined,
+                        photos: [],
+                        rating: {
+                          general: 0,
+                          service: 0,
+                          value: 0,
+                          location: 0,
+                          accuracy: 0,
+                        },
                       }}
                       onSubmit={() => {}}
                       enableReinitialize={true}
@@ -157,36 +161,12 @@ export default function ReviewFormSlideOver(props: ReviewSlideOverProps) {
                                 id={'review'}
                               />
                             </div>
-                            <div className="w-full flex-1 flex-grow">
-                              <p className="text-gray-700 font-semibold py-4">
-                                Would you recommend this product?
-                              </p>
-                              <div className="grid grid-cols-2 gap-6 w-full">
-                                <Field
-                                  name="recommended"
-                                  component={RadioButton}
-                                  setFieldValue={setFieldValue}
-                                  icon={<ThumbUpIcon className="w-5 h-5 p-1" />}
-                                  label="Yes"
-                                  value={true}
-                                  currentValue={values.recommended}
-                                />
 
-                                <Field
-                                  name="recommended"
-                                  component={RadioButton}
-                                  setFieldValue={setFieldValue}
-                                  icon={
-                                    <ThumbDownIcon className="w-5 h-5 p-1" />
-                                  }
-                                  label="No"
-                                  currentValue={values.recommended}
-                                  value={false}
-                                />
-                              </div>
-                            </div>
-
-                            <SubmitReview values={values} setParent={setOpen} />
+                            <RateCategorySlideOver
+                              values={values}
+                              setFieldValue={setFieldValue}
+                              setParent={setOpen}
+                            />
                           </Form>
                         );
                       }}

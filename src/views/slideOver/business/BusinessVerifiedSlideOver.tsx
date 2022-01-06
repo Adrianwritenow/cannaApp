@@ -3,7 +3,6 @@ import { Dialog, Transition } from '@headlessui/react';
 import React, { Fragment, useState } from 'react';
 
 import { BusinessSlideoverProps } from '@/interfaces/props/businessSlideOverProps';
-import { SlideOverProps } from '../../interfaces/props/SlideOverProps';
 
 export default function BusinessVerificationSlideOver(
   props: BusinessSlideoverProps

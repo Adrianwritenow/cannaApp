@@ -3,9 +3,9 @@ import React, { Fragment, useEffect, useState } from 'react';
 
 import { ArrowLeftIcon } from '@heroicons/react/outline';
 import { BusinessSlideoverProps } from '@/interfaces/props/businessSlideOverProps';
-import FilterMenuTabs from '../../components/filter/FilterMenuTabs';
-import ProductResultsSection from '../../components/sections/ProductsResultsSection';
-import { products } from '../../helpers/mockData';
+import FilterMenuTabs from '../../../components/filter/FilterMenuTabs';
+import ProductResultsSection from '../../../components/sections/ProductsResultsSection';
+import { products } from '../../../helpers/mockData';
 
 export default function BusinessMenuSlideOver(props: BusinessSlideoverProps) {
   const { dispensary } = props;

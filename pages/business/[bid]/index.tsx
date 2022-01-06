@@ -18,14 +18,14 @@ import { faqs, listings, reviews } from '@/helpers/mockData';
 
 import AboutUsSlideOver from '../../../src/views/slideOver/AboutUsSlideOver';
 import AmenitiesSection from '../../../src/components/sections/AmenitiesSection';
-import BusinessMenuSlideOver from '../../../src/views/slideOver/BusinessMenuSlideOver';
-import BusinessVerificationSlideOver from '../../../src/views/slideOver/BusinessVerifiedSlideOver';
+import BusinessMenuSlideOver from '../../../src/views/slideOver/business/BusinessMenuSlideOver';
+import BusinessReviewSlideOver from '@/views/slideOver/business/BusinessReviewSlideOver';
+import BusinessVerificationSlideOver from '@/views/slideOver/business/BusinessVerifiedSlideOver';
 import { Dispensary } from '../../../src/interfaces/searchDispensary';
 import FaqSlideOver from '../../../src/views/slideOver/FaqSlideOver';
 import Image from 'next/image';
 import ListingCardDropdown from '../../../src/components/listings/ListingCardDropDown';
 import Map from '@/public/assets/images/png/map-mock.png';
-import ReviewsSlideOver from '../../../src/views/slideOver/ReviewsSlideOver';
 import SvgIconTwitter from '../../../public/assets/icons/iconComponents/IconTwitter';
 import { getDocument } from '../../../src/actions/search';
 import { useRouter } from 'next/router';
@@ -159,7 +159,7 @@ export default function BusinessDetail() {
         />
       </div>
 
-      <div className="px-4 space-y-4">
+      <div className="space-y-4 px-4">
         <AboutUsSlideOver dispensary={dispensary} />
         <BusinessVerificationSlideOver dispensary={dispensary} />
         {/* Map */}
@@ -326,14 +326,18 @@ export default function BusinessDetail() {
             </>
           )}
         </section>
-        {/* Need Review FAQ  and amenities Data */}
-        <FaqSlideOver name={dispensary?._source.name[0]} faqs={faqs} />
-        <ReviewsSlideOver dispensary={dispensary} reviews={reviews} />
+      </div>
+      {/* Need Review FAQ  and amenities Data */}
+
+      <FaqSlideOver name={dispensary?._source.name[0]} faqs={faqs} />
+      <BusinessReviewSlideOver dispensary={dispensary} reviews={reviews} />
+
+      <div className="px-4">
         <AmenitiesSection
           amenities={['amenity', 'amenity', 'amenity', 'amenity']}
         />
-        {/* Also Viewed */}
       </div>
+      {/* Also Viewed */}
       <section className="pb-4 pt-2">
         <h2 id="related-businesses" className="sr-only">
           People Also Viewed

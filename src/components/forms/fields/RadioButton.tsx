@@ -42,8 +42,6 @@ export function RadioButton(props: FieldProps) {
     ...rest
   } = props;
 
-  console.log(currentValue == value);
-
   return (
     <div {...rest} className="w-full text-sm center ">
       <label htmlFor={id} className="w-full flex items-center">

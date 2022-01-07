@@ -1,4 +1,8 @@
-import { ArrowsExpandIcon, LocationMarkerIcon } from '@heroicons/react/solid';
+import {
+  ArrowsExpandIcon,
+  LocationMarkerIcon,
+  TagIcon,
+} from '@heroicons/react/solid';
 import { listings, products } from '@/helpers/mockData';
 
 import Background from '@/public/assets/images/png/fullBloom.png';
@@ -78,7 +82,7 @@ export default function Home() {
                 passHref
               >
                 <a className="rounded-full text-sm text-green-400 border border-green-400 py-2 pr-4 pl-2.5 bg-white z-10 flex items-center space-x-1">
-                  <LocationMarkerIcon className="w-3.5 h-3.5 " />
+                  <TagIcon className="w-3.5 h-3.5 " />
                   <span>Edibles</span>
                 </a>
               </Link>
@@ -90,7 +94,7 @@ export default function Home() {
                 passHref
               >
                 <a className="rounded-full text-sm text-green-400 border border-green-400 py-2 pr-4 pl-2.5 bg-white z-10 flex items-center space-x-1">
-                  <LocationMarkerIcon className="w-3.5 h-3.5 " />
+                  <TagIcon className="w-3.5 h-3.5 " />
                   <span>Deals</span>
                 </a>
               </Link>
@@ -102,7 +106,7 @@ export default function Home() {
                 passHref
               >
                 <a className="rounded-full text-sm text-green-400 border border-green-400 py-2 pr-4 pl-2.5 bg-white z-10 flex items-center space-x-1">
-                  <LocationMarkerIcon className="w-3.5 h-3.5 " />
+                  <TagIcon className="w-3.5 h-3.5 " />
                   <span>Budder</span>
                 </a>
               </Link>
@@ -114,7 +118,7 @@ export default function Home() {
                 passHref
               >
                 <a className="rounded-full text-sm text-green-400 border border-green-400 py-2 pr-4 pl-2.5 bg-white z-10 flex items-center space-x-1">
-                  <LocationMarkerIcon className="w-3.5 h-3.5 " />
+                  <TagIcon className="w-3.5 h-3.5 " />
                   <span>Fragrances</span>
                 </a>
               </Link>
@@ -126,7 +130,7 @@ export default function Home() {
                 passHref
               >
                 <a className="rounded-full text-sm text-green-400 border border-green-400 py-2 pr-4 pl-2.5 bg-white z-10 flex items-center space-x-1">
-                  <LocationMarkerIcon className="w-3.5 h-3.5 " />
+                  <TagIcon className="w-3.5 h-3.5 " />
                   <span>Flower</span>
                 </a>
               </Link>

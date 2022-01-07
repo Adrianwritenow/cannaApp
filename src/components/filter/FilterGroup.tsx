@@ -124,7 +124,7 @@ export default function FilterGroup(data: Filters) {
                                                 }
                                               }}
                                             >
-                                              <Disclosure.Button className="flex justify-start focus:outline-none w-full flex ">
+                                              <Disclosure.Button className="flex justify-start focus:outline-none w-full ">
                                                 <Field
                                                   id={`${id}_sub_${index}`}
                                                   name={id}

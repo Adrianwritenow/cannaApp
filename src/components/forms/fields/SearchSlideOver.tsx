@@ -1,63 +1,106 @@
-import { ArrowLeftIcon, SearchIcon, XIcon } from '@heroicons/react/solid';
+import {
+  ArrowLeftIcon,
+  ChevronLeftIcon,
+  SearchIcon,
+  XIcon,
+} from '@heroicons/react/solid';
 import { Dialog, Transition } from '@headlessui/react';
 import { Field, Form, Formik } from 'formik';
 import React, { Fragment, Ref, useEffect, useState } from 'react';
-import { reciveResults, searchQuery } from '../../../actions/search';
+import { combinedSearchQuery, receiveResults, searchQuery } from '../../../actions/search';
+import { getLocationByIP, setLocation } from '../../../actions/location';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from '@/reducers';
 import SearchDispensaryCard from '../../search/SearchDispensaryCard';
 import { SearchHits } from '../../../interfaces/searchHits';
+import { LocationData } from '../../../interfaces/locationData';
 import SearchProductCard from '../../search/SearchProductCard';
 import SearchStrainCard from '../../search/SearchStrainCard';
 import { useAxios } from '../../../hooks/useAxios';
 import { useRouter } from 'next/router';
 
-export default function SearchSlideOver(props: { root?: boolean }) {
+export default function SearchSlideOver(props: {
+  searchRoute?: string;
+  root?: boolean;
+}) {
   const { root } = props;
   const [open, setOpen] = useState(false);
   const { results, query } = useSelector((root: RootState) => root.search);
+  const location = useSelector((root: RootState) => root.location);
   const dispatch = useDispatch();
   const router = useRouter();
+  const { searchRoute } = props;
 
   const [initialValues, setInitialValues] = useState({ search: '' });
 
-  async function handleSubmit(search: any) {
-    const hits: SearchHits = await searchQuery(search);
-    dispatch(reciveResults({ search: search, data: hits.hits.hits }));
-  }
+   async function handleSubmit(search: any) {
+     const hits: SearchHits = await combinedSearchQuery(search);
+     dispatch(receiveResults({ search: search, data: hits.hits.hits }));
+   }
   function handleSearch(search: any) {
     handleSubmit(search);
   }
+
+  // Get initial location data based on Client IP
+  useEffect(() => {
+    async function getLocation () {
+      const data: LocationData = await getLocationByIP();
+      dispatch(setLocation(data));
+    }
+
+    if (! Object.keys(location).length) {
+      getLocation();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {}, [initialValues, results]);
 
   return (
     <div>
       <div className="w-full relative pb-4">
-        <button
-          type="button"
-          placeholder="search"
-          className="w-full items-center border-solid border border-gray-400 rounded-md focus:outline-none focus:ring-0 shadow-sm flex px-3 py-2 text-gray-500 bg-white"
-          onClick={() => {
-            setOpen(true);
-          }}
-        >
-          {root ? (
-            <div className="flex items-center">
-              <SearchIcon className=" w-5 h-5 text-green-500" />
-              <div className="w-full pl-2 shrink-0">
-                <span className="font-bold">Find</span> dispensaries, strains,
-                flower ...
+        <div className="flex flex-row border-solid border border-gray-400 text-gray-500 rounded-md focus:outline-none focus:ring-0 shadow-sm items-center justify-center">
+          {router.pathname === '/map' ? (
+            <button
+              onClick={() => {
+                router.back();
+              }}
+            >
+              <ArrowLeftIcon className="w-5 h-5 ml-3" />
+            </button>
+          ) : !root ? (
+            <button
+              onClick={() => {
+                setOpen(true);
+              }}
+            >
+              <SearchIcon className="w-5 h-5 ml-3" />
+            </button>
+          ) : null}
+          <button
+            type="button"
+            placeholder="search"
+            className="w-full items-center rounded-md flex py-2 text-gray-500 bg-white"
+            onClick={() => {
+              setOpen(true);
+            }}
+          >
+            {root ? (
+              <div className="flex items-center">
+                <SearchIcon className=" w-5 h-5 text-green-500 ml-3" />
+                <div className="w-full pl-2 shrink-0">
+                  <span className="font-bold">Find</span> dispensaries, strains,
+                  flower ...
+                </div>
               </div>
-            </div>
-          ) : (
-            <>
-              <SearchIcon className="w-5 h-5" />
-              <span className="pl-2">{query ? query : 'Search'}</span>
-            </>
-          )}
-        </button>
+            ) : (
+              <>
+                <span className="pl-2">{query ? query : 'Search'}</span>
+              </>
+            )}
+          </button>
+        </div>
       </div>
       <Transition.Root show={open} as={Fragment}>
         <Dialog
@@ -134,14 +177,14 @@ export default function SearchSlideOver(props: { root?: boolean }) {
                                             placeholder={'Search...'}
                                           />
                                           {/* <Field
-                                          name={"location"}
-                                          type={"text"}
-                                          id={"location"}
-                                          className="w-full border-none px-4 focus:border-0 focus:outline-none focus:ring-transparent"
-                                          onChange={() => {}}
-                                          value={values.location}
-                                          placeholder="Location..."
-                                        /> */}
+                                            name={"location"}
+                                            type={"text"}
+                                            id={"location"}
+                                            className="w-full border-none px-4 focus:border-0 focus:outline-none focus:ring-transparent"
+                                            onChange={() => {}}
+                                            value={values.location}
+                                            placeholder="Location..."
+                                          /> */}
                                         </div>
                                       </div>
                                       <button
@@ -221,7 +264,11 @@ export default function SearchSlideOver(props: { root?: boolean }) {
                                     <div
                                       key={`generalSearch`}
                                       onClick={() => {
-                                        router.push('/search');
+                                        router.push(
+                                          searchRoute === '/map'
+                                            ? searchRoute
+                                            : '/search'
+                                        );
                                         setOpen(false);
                                       }}
                                       className="text-gray-700 w-full flex px-4 py-3"

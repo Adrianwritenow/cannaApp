@@ -29,7 +29,11 @@ export default function NavBar() {
                   </Link>
                 </div>
               </div>
-              {!router.pathname.startsWith('/user') ? <SearchSlideOver /> : ''}
+              {!router.pathname.startsWith('/user') ? (
+                <SearchSlideOver searchRoute={router.pathname} />
+              ) : (
+                ''
+              )}
             </div>
           </div>
         </div>

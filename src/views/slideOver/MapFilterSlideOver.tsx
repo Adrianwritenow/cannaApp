@@ -111,6 +111,7 @@ export default function MapFilterSlideOver() {
     }
     // update sort
     setSortPricing(savedValues.sort);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [savedValues]);
 
   return (
@@ -138,7 +139,7 @@ export default function MapFilterSlideOver() {
                     <div className="ml-4 mr-2 flex items-center">
                       <button
                         type="button"
-                        className="bg-white rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        className="bg-white rounded-md focus:outline-none "
                         onClick={() => setOpen(true)}
                       >
                         <span className="sr-only">Open filter</span>
@@ -159,10 +160,7 @@ export default function MapFilterSlideOver() {
                         />
                         <DropdownFilter
                           setter={setRated}
-                          options={[
-                            'Relevance',
-                            'Distance',
-                          ]}
+                          options={['Relevance', 'Distance']}
                           current={rated}
                           label={'Sort by'}
                         />

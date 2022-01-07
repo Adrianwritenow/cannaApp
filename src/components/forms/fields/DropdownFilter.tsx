@@ -1,6 +1,6 @@
-import { ChevronDownIcon, XIcon } from "@heroicons/react/solid";
-import { Dialog, Transition } from "@headlessui/react";
-import React, { Fragment, useEffect, useState } from "react";
+import { ChevronDownIcon, XIcon } from '@heroicons/react/solid';
+import { Dialog, Transition } from '@headlessui/react';
+import React, { Fragment, useEffect, useState } from 'react';
 
 interface DropdownFilter {
   setter: Function;
@@ -26,23 +26,23 @@ export default function DropdownFilter(data: DropdownFilter) {
     <>
       <button
         type="button"
-        className="mx-1 flex rounded-full border-2 border-gray-200 items-center px-4 py-2 text-sm font-medium bg-white text-gray-900 whitespace-pre"
+        className="mx-1 flex rounded-full border-2 border-gray-200 items-center px-4 py-2 text-sm font-medium bg-white text-gray-900 whitespace-pre focus:outline-none"
         onClick={() => setOpen(true)}
       >
-        <span className={"capitalize text-gray-600 text-sm"}>
+        <span className={'capitalize text-gray-600 text-sm'}>
           {preface && <span>{preface}&nbsp;</span>}
           {current ? current : label}
         </span>
 
         <ChevronDownIcon
-          className={"h-5 w-5 transform text-gray-600"}
+          className={'h-5 w-5 transform text-gray-600'}
           aria-hidden="true"
         />
       </button>
       <Transition.Root show={open} as={Fragment}>
         <Dialog
           as="div"
-          className="fixed z-10 inset-0 overflow-y-auto"
+          className="fixed z-50 inset-0 overflow-y-auto"
           onClose={setOpen}
         >
           <div className="flex items-end justify-center min-h-screen text-center sm:block sm:p-0">

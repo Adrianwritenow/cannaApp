@@ -1,5 +1,5 @@
-import FilterSlideOver from '../slideOver/FilterSlideOver';
 import { Product } from '@/interfaces/searchProduct';
+import ProductFilterSlideOver from '../slideOver/filters/ProductFilterSlideOver';
 import ProductResultsGrid from '@/components/products/ProductResultsGrid';
 import ProductResultsSection from '@/components/sections/ProductsResultsSection';
 import SvgEmptyState from '@/public/assets/icons/iconComponents/EmptyState';
@@ -12,7 +12,7 @@ export default function SearchShopping(props: {
 
   return (
     <section className="bg-gray-50">
-      <FilterSlideOver />
+      <ProductFilterSlideOver />
 
       <div>
         {products.length ? (

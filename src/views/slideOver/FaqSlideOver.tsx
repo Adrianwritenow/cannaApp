@@ -18,14 +18,17 @@ export default function FaqSlideOver(props: BusinessSlideoverProps) {
 
   return (
     <section>
-      <h2 className="sr-only">Question & Answer</h2>
-      <h2
-        id="business-faq"
-        className="text-lg text-gray-700 font-semibold pt-3 pb-2"
-      >
-        Question & Answer
-      </h2>
-      {faqs && <FaqSection faqs={faqs} />}
+      <div className="px-4">
+        <h2 className="sr-only">Question & Answer</h2>
+        <h2
+          id="business-faq"
+          className="text-lg text-gray-700 font-semibold pt-3 pb-2"
+        >
+          Question & Answer
+        </h2>
+
+        {faqs && <FaqSection faqs={faqs} />}
+      </div>
       <button
         onClick={() => setOpen(true)}
         className="py-4 w-full uppercase text-green-500 text-xs font-semibold border-t border-gray-200 tracking-widest"

@@ -2,6 +2,7 @@ import { Coupon } from '../../interfaces/coupon';
 import { Dispensary } from '@/interfaces/searchDispensary';
 import { Faq } from '@/interfaces/faq';
 import { Product } from '@/interfaces/searchProduct';
+import { Review } from '@/interfaces/review';
 import { Strain } from '@/interfaces/SearchStrain';
 
 export const products: Array<Product> = [
@@ -95,6 +96,7 @@ export const products: Array<Product> = [
 ];
 
 export const listings: Array<Dispensary> = [
+
   {
     _id: 'entity:dispensary_entity/6029:en',
     _index: 'elasticsearch_index_pantheon_index01',
@@ -122,6 +124,18 @@ export const listings: Array<Dispensary> = [
       status: [true],
       _language: 'en',
       _type: 'doc',
+      field_facebook: ['https://www.facebook.com/Fake-Dispensary-6029'],
+      field_instagram: ['https://www.instagram.com/fake_dispensary'],
+      field_twitter: ['https://twitter.com/fake_dispensary'],
+      field_monday_hours: ['9:00 AM - 9:00 PM'],
+      field_tuesday_hours: ['9:00 AM - 9:00 PM'],
+      field_wednesday_hours: ['9:00 AM - 9:00 PM'],
+      field_thursday_hours: ['9:00 AM - 9:00 PM'],
+      field_friday_hours: ['9:00 AM - 9:00 PM'],
+      field_saturday_hours: ['9:00 AM - 9:00 PM'],
+      field_sunday_hours: ['9:00 AM - 9:00 PM'],
+      locality: ['Key West'],
+      administrative_area: ['FL'],
     },
   },
   {
@@ -151,6 +165,18 @@ export const listings: Array<Dispensary> = [
       status: [true],
       _language: 'en',
       _type: 'doc',
+      field_facebook: ['https://www.facebook.com/Fake-Dispensary-6029'],
+      field_instagram: ['https://www.instagram.com/fake_dispensary'],
+      field_twitter: ['https://twitter.com/fake_dispensary'],
+      field_monday_hours: ['9:00 AM - 9:00 PM'],
+      field_tuesday_hours: ['9:00 AM - 9:00 PM'],
+      field_wednesday_hours: ['9:00 AM - 9:00 PM'],
+      field_thursday_hours: ['9:00 AM - 9:00 PM'],
+      field_friday_hours: ['9:00 AM - 9:00 PM'],
+      field_saturday_hours: ['9:00 AM - 9:00 PM'],
+      field_sunday_hours: ['9:00 AM - 9:00 PM'],
+      locality: ['Key West'],
+      administrative_area: ['FL'],
     },
   },
   {
@@ -180,6 +206,18 @@ export const listings: Array<Dispensary> = [
       status: [true],
       _language: 'en',
       _type: 'doc',
+      field_facebook: ['https://www.facebook.com/Fake-Dispensary-6029'],
+      field_instagram: ['https://www.instagram.com/fake_dispensary'],
+      field_twitter: ['https://twitter.com/fake_dispensary'],
+      field_monday_hours: ['9:00 AM - 9:00 PM'],
+      field_tuesday_hours: ['9:00 AM - 9:00 PM'],
+      field_wednesday_hours: ['9:00 AM - 9:00 PM'],
+      field_thursday_hours: ['9:00 AM - 9:00 PM'],
+      field_friday_hours: ['9:00 AM - 9:00 PM'],
+      field_saturday_hours: ['9:00 AM - 9:00 PM'],
+      field_sunday_hours: ['9:00 AM - 9:00 PM'],
+      locality: ['Key West'],
+      administrative_area: ['FL'],
     },
   },
   {
@@ -209,6 +247,18 @@ export const listings: Array<Dispensary> = [
       status: [true],
       _language: 'en',
       _type: 'doc',
+      field_facebook: ['https://www.facebook.com/Fake-Dispensary-6029'],
+      field_instagram: ['https://www.instagram.com/fake_dispensary'],
+      field_twitter: ['https://twitter.com/fake_dispensary'],
+      field_monday_hours: ['9:00 AM - 9:00 PM'],
+      field_tuesday_hours: ['9:00 AM - 9:00 PM'],
+      field_wednesday_hours: ['9:00 AM - 9:00 PM'],
+      field_thursday_hours: ['9:00 AM - 9:00 PM'],
+      field_friday_hours: ['9:00 AM - 9:00 PM'],
+      field_saturday_hours: ['9:00 AM - 9:00 PM'],
+      field_sunday_hours: ['9:00 AM - 9:00 PM'],
+      locality: ['Key West'],
+      administrative_area: ['FL'],
     },
   },
   {
@@ -238,6 +288,18 @@ export const listings: Array<Dispensary> = [
       status: [true],
       _language: 'en',
       _type: 'doc',
+      field_facebook: ['https://www.facebook.com/Fake-Dispensary-6029'],
+      field_instagram: ['https://www.instagram.com/fake_dispensary'],
+      field_twitter: ['https://twitter.com/fake_dispensary'],
+      field_monday_hours: ['9:00 AM - 9:00 PM'],
+      field_tuesday_hours: ['9:00 AM - 9:00 PM'],
+      field_wednesday_hours: ['9:00 AM - 9:00 PM'],
+      field_thursday_hours: ['9:00 AM - 9:00 PM'],
+      field_friday_hours: ['9:00 AM - 9:00 PM'],
+      field_saturday_hours: ['9:00 AM - 9:00 PM'],
+      field_sunday_hours: ['9:00 AM - 9:00 PM'],
+      locality: ['Key West'],
+      administrative_area: ['FL'],
     },
   },
 ];
@@ -503,5 +565,35 @@ export const faqs: Faq[] = [
     question: 'Lorem Ipsum Dolor sit Amet?',
     answer:
       'Ivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam',
+  },
+];
+
+export const reviews: Review[] = [
+  {
+    recommended: true,
+    by: 'Jon Doe',
+    caption: 'Great place',
+    review:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.',
+    time: '12:00pm',
+    date: '1/01/2022',
+  },
+  {
+    recommended: true,
+    by: 'Jane Doe',
+    caption: 'Great place',
+    review:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.',
+    time: '12:00pm',
+    date: '1/01/2022',
+  },
+  {
+    recommended: false,
+    by: 'Jack Doe',
+    caption: 'Great place',
+    review:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.',
+    time: '12:00pm',
+    date: '1/01/2022',
   },
 ];

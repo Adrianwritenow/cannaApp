@@ -1,13 +1,12 @@
 import BlogArticleSmall from '@/components/blog/BlogArticleCardSmall';
-import FilterSlideOver from '../slideOver/FilterSlideOver';
+import NewsFilterSlideOver from '../slideOver/filters/NewsFilterSlideOver';
 import { Post } from '@/interfaces/post';
 import sample from '@/helpers/mockData/articles.json';
 
 export default function SearchNews() {
   return (
     <div>
-      <FilterSlideOver />
-
+      <NewsFilterSlideOver />
       <section className="px-4 ">
         {sample.articles.map((post: Post, index) => (
           <span id={`${index}`} key={`article-${index}`}>

@@ -2,47 +2,28 @@ import { Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
 
 import { AdjustmentsIcon } from '@heroicons/react/solid';
-import DropdownFilter from '../../components/forms/fields/DropdownFilter';
-import FilterMenu from '../../components/filter/FilterMenu';
-import { Filters } from '../../helpers/filters';
-import { useRouter } from 'next/router';
+import DropdownFilter from '../../../components/forms/fields/DropdownFilter';
+import FilterNewsMenu from '@/components/filter/FilterNewsMenu';
+import { Filters } from '@/helpers/filters';
 
-export default function FilterSlideOver() {
-  const router = useRouter();
+export default function NewsFilterSlideOver() {
   const [open, setOpen] = useState(false);
-  const [rated, setRated] = useState('Top Rated');
-  const { type, category }: any = router.query;
   const [savedValues, setSavedValues]: any = useState({
-    strains: [],
-    category: category || '',
-    type: type || '',
+    categories: [],
     filters: {},
     sort: '',
-    price: '',
-    range: {
-      min_price: '',
-      max_price: '',
-    },
-    search: '',
   });
-  const [sortPricing, setSortPricing] = useState(savedValues.sort);
   const [filterList, setFilterList]: any = useState([]);
+  const [sort, setSort] = useState(savedValues.sort);
 
   const initialValues: any = {
-    strains: [],
+    categories: [],
     filters: {},
-    category: '',
-    type: '',
     sort: '',
-    price: '',
-    range: {
-      min_price: '',
-      max_price: '',
-    },
-    search: '',
   };
 
   // Remove filters from list to be rendered and update the form state values
+
   function removeFilter(keyName: string, filter: string) {
     let stateCopy = Object.assign({}, savedValues);
     let listCopy = filterList;
@@ -55,9 +36,6 @@ export default function FilterSlideOver() {
     } else {
       stateCopy[keyName] = initialValues[keyName];
       stateCopy.filters[keyName] = [''];
-      if (keyName === 'range') {
-        stateCopy.filters[keyName] = [''];
-      }
     }
 
     listCopy.splice(listCopy.indexOf(filter), 1);
@@ -70,21 +48,7 @@ export default function FilterSlideOver() {
     // Force values to array in order to check if they exist in case of multiple values
     const filters: any = {
       sort: [savedValues.sort],
-      type: [savedValues.type],
-      strains: savedValues.strains,
-      category: [savedValues.category],
-      price: [savedValues.price],
-      range: [
-        `${
-          savedValues.range.min_price ? '$' + savedValues.range.min_price : ''
-        }${
-          savedValues.range.min_price && savedValues.range.max_price
-            ? ' - '
-            : ''
-        }${
-          savedValues.range.max_price ? '$' + savedValues.range.max_price : ''
-        }`,
-      ],
+      categories: savedValues.categories,
     };
 
     const filter_data: string[] = Object.keys(filters).reduce(function (
@@ -99,6 +63,7 @@ export default function FilterSlideOver() {
     const filterArray = filter_data.filter(function (entry: string) {
       return entry.trim() != '';
     });
+
     setFilterList(filterArray);
 
     // Check to see if value is unique if not update
@@ -114,8 +79,7 @@ export default function FilterSlideOver() {
         filters,
       }));
     }
-    // update sort
-    setSortPricing(savedValues.sort);
+    setSort(savedValues.sort);
   }, [savedValues]);
 
   return (
@@ -129,7 +93,7 @@ export default function FilterSlideOver() {
           return (
             <Form>
               <div>
-                <FilterMenu
+                <FilterNewsMenu
                   open={open}
                   values={values}
                   setOpen={setOpen}
@@ -143,7 +107,7 @@ export default function FilterSlideOver() {
                     <div className="ml-4 mr-2 flex items-center">
                       <button
                         type="button"
-                        className="bg-white rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        className="bg-white rounded-md focus:outline-none Zfocus:ring-indigo-500 focus:outline-none "
                         onClick={() => setOpen(true)}
                       >
                         <span className="sr-only">Open filter</span>
@@ -153,23 +117,11 @@ export default function FilterSlideOver() {
                     <div className="flex">
                       <div className="flex">
                         <DropdownFilter
-                          setter={setSortPricing}
-                          id={'sort'}
-                          options={Filters.sort.list.map(filter => {
+                          setter={setSort}
+                          options={Filters.sortNews.list.map(filter => {
                             return filter.value;
                           })}
-                          current={sortPricing}
-                          label={'Sort by'}
-                          setFieldValue={setFieldValue}
-                        />
-                        <DropdownFilter
-                          setter={setRated}
-                          options={[
-                            'Most Reviewed',
-                            'Top Rated',
-                            'Lowest rated',
-                          ]}
-                          current={rated}
+                          current={sort}
                           label={'Sort by'}
                         />
                       </div>
@@ -189,7 +141,7 @@ export default function FilterSlideOver() {
                                     onClick={() => {
                                       removeFilter(keyName, filter);
                                     }}
-                                    className="flex rounded-full border-2 border-gray-200 items-center px-4 py-2   text-sm font-medium bg-white text-gray-900 mx-1 w-max"
+                                    className="flex rounded-full border-2 border-gray-200 items-center px-4 py-2   text-sm font-medium bg-white text-gray-900 mx-1 w-max focus:outline-none"
                                   >
                                     <span>{filter}</span>
                                     <span className="sr-only">
@@ -205,7 +157,6 @@ export default function FilterSlideOver() {
                     </div>
                   </div>
                 </div>
-                <div></div>
               </div>
             </Form>
           );

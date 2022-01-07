@@ -33,22 +33,23 @@ export default function ListingCardSmall(data: DispensaryProps) {
               />
             </div>
             <div className="text-left text-sm w-full">
-              <div className="flex flex-wrap justify-between">
+              {/* Need favorites  */}
+              {/* <div className="flex flex-wrap justify-between">
                 <h3 className="text-lg font-semobold text-gray-700">
                   {listing._source.name}
                 </h3>
                 <BookmarkIcon className="w-6" />
-              </div>
+              </div> */}
               <div className="flex flex-col items-start">
                 <p className="sr-only">
-                  {listing._source.field_rating[0]} out of 5 stars
+                 {listing._source.field_rating  &&`${listing._source.field_rating[0]} out of 5 stars`}
                 </p>
                 <div className="flex items-center">
                   <span className="font-normal text-gray-500">
-                    {listing._source.field_rating[0]}
+                    { listing._source.field_rating ? `${listing._source.field_rating[0]}`: ''}
                   </span>
 
-                  {[0, 1, 2, 3, 4].map(rating => (
+                  {listing._source.field_rating ? [0, 1, 2, 3, 4].map(rating => (
                     <StarIcon
                       key={rating}
                       className={`    ${
@@ -59,7 +60,7 @@ export default function ListingCardSmall(data: DispensaryProps) {
                   flex-shrink-0 h-4 w-4`}
                       aria-hidden="true"
                     />
-                  ))}
+                  )): <em>No Reviews</em>}
                   <p className="font-normal text-gray-500">
                     ({listing._source.field_reviews_count})
                   </p>
@@ -78,7 +79,7 @@ export default function ListingCardSmall(data: DispensaryProps) {
               <a>
                 <button
                   type="button"
-                  className="flex text-center justify-center py-2 border border-transparent text-sm font-medium w-full rounded shadow-sm text-white bg-green hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 w-full"
+                  className="flex text-center justify-center py-2 border border-transparent text-sm font-medium w-full rounded shadow-sm text-white bg-green hover:bg-green-600 focus:outline-none w-full"
                 >
                   Pickup Avaliable
                 </button>

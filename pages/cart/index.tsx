@@ -3,119 +3,119 @@ import {
   ClockIcon,
   QuestionMarkCircleIcon,
   XIcon as XIconSolid,
-} from "@heroicons/react/solid";
+} from '@heroicons/react/solid';
 
-import Image from "next/image";
-import StickyBox from "react-sticky-box";
+import Image from 'next/image';
+import StickyBox from 'react-sticky-box';
 
 const products = [
   {
     id: 1,
-    name: "Basic Tee",
-    href: "#",
-    price: "$32.00",
-    color: "Sienna",
+    name: 'Basic Tee',
+    href: '#',
+    price: '$32.00',
+    color: 'Sienna',
     inStock: true,
-    size: "Large",
+    size: 'Large',
     imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-01-product-01.jpg",
+      'https://tailwindui.com/img/ecommerce-images/shopping-cart-page-01-product-01.jpg',
     imageAlt: "Front of men's Basic Tee in sienna.",
   },
   {
     id: 2,
-    name: "Basic Tee",
-    href: "#",
-    price: "$32.00",
-    color: "Black",
+    name: 'Basic Tee',
+    href: '#',
+    price: '$32.00',
+    color: 'Black',
     inStock: false,
-    leadTime: "3–4 weeks",
-    size: "Large",
+    leadTime: '3–4 weeks',
+    size: 'Large',
     imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-01-product-02.jpg",
+      'https://tailwindui.com/img/ecommerce-images/shopping-cart-page-01-product-02.jpg',
     imageAlt: "Front of men's Basic Tee in black.",
   },
   {
     id: 3,
-    name: "Nomad Tumbler",
-    href: "#",
-    price: "$35.00",
-    color: "White",
+    name: 'Nomad Tumbler',
+    href: '#',
+    price: '$35.00',
+    color: 'White',
     inStock: true,
     imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-01-product-03.jpg",
-    imageAlt: "Insulated bottle with white base and black snap lid.",
+      'https://tailwindui.com/img/ecommerce-images/shopping-cart-page-01-product-03.jpg',
+    imageAlt: 'Insulated bottle with white base and black snap lid.',
   },
   {
     id: 4,
-    name: "Basic Tee",
-    href: "#",
-    price: "$32.00",
-    color: "Sienna",
+    name: 'Basic Tee',
+    href: '#',
+    price: '$32.00',
+    color: 'Sienna',
     inStock: true,
-    size: "Large",
+    size: 'Large',
     imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-01-product-01.jpg",
+      'https://tailwindui.com/img/ecommerce-images/shopping-cart-page-01-product-01.jpg',
     imageAlt: "Front of men's Basic Tee in sienna.",
   },
   {
     id: 5,
-    name: "Basic Tee",
-    href: "#",
-    price: "$32.00",
-    color: "Black",
+    name: 'Basic Tee',
+    href: '#',
+    price: '$32.00',
+    color: 'Black',
     inStock: false,
-    leadTime: "3–4 weeks",
-    size: "Large",
+    leadTime: '3–4 weeks',
+    size: 'Large',
     imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-01-product-02.jpg",
+      'https://tailwindui.com/img/ecommerce-images/shopping-cart-page-01-product-02.jpg',
     imageAlt: "Front of men's Basic Tee in black.",
   },
   {
     id: 6,
-    name: "Nomad Tumbler",
-    href: "#",
-    price: "$35.00",
-    color: "White",
+    name: 'Nomad Tumbler',
+    href: '#',
+    price: '$35.00',
+    color: 'White',
     inStock: true,
     imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-01-product-03.jpg",
-    imageAlt: "Insulated bottle with white base and black snap lid.",
+      'https://tailwindui.com/img/ecommerce-images/shopping-cart-page-01-product-03.jpg',
+    imageAlt: 'Insulated bottle with white base and black snap lid.',
   },
   {
     id: 7,
-    name: "Basic Tee",
-    href: "#",
-    price: "$32.00",
-    color: "Sienna",
+    name: 'Basic Tee',
+    href: '#',
+    price: '$32.00',
+    color: 'Sienna',
     inStock: true,
-    size: "Large",
+    size: 'Large',
     imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-01-product-01.jpg",
+      'https://tailwindui.com/img/ecommerce-images/shopping-cart-page-01-product-01.jpg',
     imageAlt: "Front of men's Basic Tee in sienna.",
   },
   {
     id: 8,
-    name: "Basic Tee",
-    href: "#",
-    price: "$32.00",
-    color: "Black",
+    name: 'Basic Tee',
+    href: '#',
+    price: '$32.00',
+    color: 'Black',
     inStock: false,
-    leadTime: "3–4 weeks",
-    size: "Large",
+    leadTime: '3–4 weeks',
+    size: 'Large',
     imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-01-product-02.jpg",
+      'https://tailwindui.com/img/ecommerce-images/shopping-cart-page-01-product-02.jpg',
     imageAlt: "Front of men's Basic Tee in black.",
   },
   {
     id: 9,
-    name: "Nomad Tumbler",
-    href: "#",
-    price: "$35.00",
-    color: "White",
+    name: 'Nomad Tumbler',
+    href: '#',
+    price: '$35.00',
+    color: 'White',
     inStock: true,
     imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-01-product-03.jpg",
-    imageAlt: "Insulated bottle with white base and black snap lid.",
+      'https://tailwindui.com/img/ecommerce-images/shopping-cart-page-01-product-03.jpg',
+    imageAlt: 'Insulated bottle with white base and black snap lid.',
   },
 ];
 
@@ -134,7 +134,7 @@ export default function Cart() {
 
           <ul
             role="list"
-            className="border-t border-b border-gray-200 divide-y divide-gray-200"
+            className="border-t border-gray-200 divide-y divide-gray-200"
           >
             {products.map((product, productIdx) => (
               <li key={product.id} className="flex py-6 sm:py-10">
@@ -223,7 +223,7 @@ export default function Cart() {
 
                     <span>
                       {product.inStock
-                        ? "In stock"
+                        ? 'In stock'
                         : `Ships in ${product.leadTime}`}
                     </span>
                   </p>

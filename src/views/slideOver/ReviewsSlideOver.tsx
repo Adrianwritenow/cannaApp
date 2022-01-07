@@ -5,11 +5,11 @@ import React, { Fragment, useState } from 'react';
 import { BusinessSlideoverProps } from '../../interfaces/props/businessSlideOverProps';
 import DropdownFilter from '../../components/forms/fields/DropdownFilter';
 import ReviewCard from '../../components/reviews/ReviewCard';
-import ReviewFormSlideOver from '../../components/reviews/ReviewFormSlideOver';
+import ReviewFormSlideOver from '../../components/reviews/product/ReviewFormSlideOver';
 import { listings } from '../../helpers/mockData';
 
 export default function ReviewsSlideOver(props: BusinessSlideoverProps) {
-  const { dispensary } = props;
+  const { dispensary, reviews, name } = props;
   const [open, setOpen] = useState(false);
   const business = listings[0];
 
@@ -23,27 +23,29 @@ export default function ReviewsSlideOver(props: BusinessSlideoverProps) {
   return (
     <section>
       <h2 id="business-reviews" className="sr-only">
-        Recommended Reviews
+        {name ? name : 'Reviews'}
       </h2>
       <h2
         id="business-review"
         className="text-lg text-gray-700 font-semibold pb-2 pt-1 w-full bo"
       >
-        Recommended Reviews
+        {name ? name : 'Reviews'}
       </h2>
-      <div>
-        {/* {business.reviews.map((review, index) => (
-          <div key={`review-${index}`}>
-            <ReviewCard review={review} />
-          </div>
-        ))} */}
-        <button
-          onClick={() => setOpen(true)}
-          className="py-4 w-full uppercase text-green-500 text-xs font-semibold border-t border-gray-200 tracking-widest"
-        >
-          See All {dispensary?._source.field_reviews_count} Reviews
-        </button>
-      </div>
+      {reviews && (
+        <div>
+          {reviews.map((review, index) => (
+            <div key={`review-${index}`}>
+              <ReviewCard review={review} />
+            </div>
+          ))}
+          <button
+            onClick={() => setOpen(true)}
+            className="py-4 w-full uppercase text-green-500 text-xs font-semibold border-t border-gray-200 tracking-widest"
+          >
+            See All {dispensary?._source.field_reviews_count} Reviews
+          </button>
+        </div>
+      )}
       <Transition.Root show={open} as={Fragment}>
         <Dialog
           as="div"
@@ -135,7 +137,7 @@ export default function ReviewsSlideOver(props: BusinessSlideoverProps) {
                           <div className="flex overflow-x-scroll pl-4 pb-4">
                             <DropdownFilter
                               setter={setSort}
-                              options={['relevance', 'distance', 'rating']}
+                              options={['Most Useful', 'Most Recent']}
                               current={sort}
                               label={'Sort by'}
                             />
@@ -147,26 +149,28 @@ export default function ReviewsSlideOver(props: BusinessSlideoverProps) {
                             />
                             <DropdownFilter
                               setter={setCons}
-                              options={['Yes', 'No']}
+                              options={['Smoked', 'Vaped', 'Topical']}
                               current={cons}
                               label={'Consumption'}
                             />
                             <DropdownFilter
                               setter={setLanguage}
-                              options={['english', 'spanish']}
+                              options={['english']}
                               current={language}
                               label={'Language'}
                             />
                           </div>
 
                           {/* Results */}
-                          <div className="px-4">
-                            {/* {business.reviews.map((review, index) => (
-                              <div key={`review-${index}`}>
-                                <ReviewCard review={review} />
-                              </div>
-                            ))} */}
-                          </div>
+                          {reviews && (
+                            <div className="px-4">
+                              {reviews.map((review, index) => (
+                                <div key={`review-${index}`}>
+                                  <ReviewCard review={review} />
+                                </div>
+                              ))}
+                            </div>
+                          )}
                         </section>
                       </div>
                     </div>

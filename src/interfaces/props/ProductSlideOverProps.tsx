@@ -1,9 +1,9 @@
-import { Dispensary } from '../searchDispensary';
-import { Faq } from './../faq';
+import { Faq } from '../faq';
+import { Product } from '../searchProduct';
 import { Review } from '../review';
 
-export interface BusinessSlideoverProps {
-  dispensary?: Dispensary;
+export interface ProductSlideoverProps {
+  product?: Product;
   reviews?: Review[];
   active?: boolean;
   setView?: Function;

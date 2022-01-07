@@ -77,7 +77,7 @@ export default function Home() {
               <Link
                 href={{
                   pathname: '/search',
-                  query: { type: 'Edible', view: 'shopping' },
+                  query: { category: 'Edible', view: 'shopping' },
                 }}
                 passHref
               >

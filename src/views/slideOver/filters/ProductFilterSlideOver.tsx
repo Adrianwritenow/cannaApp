@@ -5,12 +5,16 @@ import { AdjustmentsIcon } from '@heroicons/react/solid';
 import DropdownFilter from '../../../components/forms/fields/DropdownFilter';
 import FilterProductMenu from '@/components/filter/FilterProductMenu';
 import { Filters } from '../../../helpers/filters';
+import { useRouter } from 'next/router';
 
 export default function ProductFilterSlideOver() {
+  const router = useRouter();
+  const { type, category } = router.query;
+
   const [open, setOpen] = useState(false);
   const [rated, setRated] = useState('Top Rated');
   const [savedValues, setSavedValues]: any = useState({
-    category: '',
+    category: category || '',
     filters: {},
     sort: '',
   });

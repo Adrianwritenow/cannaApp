@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 
-import { CheckIcon } from '@heroicons/react/solid';
 import ImageWithFallback from '../image/ImageWithFallback';
 import Link from 'next/link';
 import { Product } from '@/interfaces/searchProduct';
@@ -24,7 +23,7 @@ export default function VendorCard(props: VendorProps) {
         }
       );
     }
-  }, []);
+  }, [productId]);
 
   return (
     <div

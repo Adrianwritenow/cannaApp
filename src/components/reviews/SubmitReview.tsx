@@ -1,27 +1,52 @@
 import { Dialog, Transition } from '@headlessui/react';
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 
 import { ArrowLeftIcon } from '@heroicons/react/outline';
-import ReviewCard from '../ReviewCard';
+import Image from 'next/image';
+import ReviewCard from './ReviewCard';
 import moment from 'moment';
 
 export default function SubmitReview(props: {
-  values: { review: string; recommended: boolean | undefined };
+  values: { review: string; recommended?: boolean; photos?: File[] };
   setParent: Function;
+  skip?: boolean;
 }) {
   const [open, setOpen] = useState(false);
-  const { values, setParent } = props;
+  const { values, setParent, skip } = props;
   const now = moment();
+  const [previews, setPreviews] = useState([]);
+  const [update, setUpdate] = useState(true);
+
+  useEffect(() => {
+    if (values.photos && values.photos.length && update) {
+      const imageArray: any = values.photos.map(image =>
+        URL.createObjectURL(image)
+      );
+      setPreviews(imageArray);
+      setUpdate(false);
+    }
+    setUpdate(true);
+  }, [update, values]);
 
   return (
     <div className="w-full">
-      <button
-        type="button"
-        onClick={() => setOpen(true)}
-        className="w-full inline-flex items-center justify-center px-6 py-2 mt-6 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-      >
-        Next
-      </button>
+      {skip ? (
+        <button
+          type="button"
+          onClick={() => setOpen(true)}
+          className="w-max ml-auto flex px-6 py-2 mt-6 border-2 border-green-500 rounded-md shadow-sm text-sm font-medium text-green-500 bg-white hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+        >
+          Skip for now
+        </button>
+      ) : (
+        <button
+          type="button"
+          onClick={() => setOpen(true)}
+          className="w-full inline-flex items-center justify-center px-6 py-2 mt-6 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+        >
+          Next
+        </button>
+      )}
       <Transition.Root show={open} as={Fragment}>
         <Dialog
           as="div"
@@ -74,7 +99,26 @@ export default function SubmitReview(props: {
                         self={true}
                         showFull={true}
                       />
+                      {values.photos && (
+                        <div className="grid grid-flow-col auto-cols-max gap-2 overflow-scroll pb-4">
+                          {previews.map((photo, index) => (
+                            <div key={`rp-${index}`}>
+                              <div className="w-20 flex relative rounded-md overflow-hidden">
+                                <div className="w-full pb-full  ">
+                                  <Image
+                                    src={photo}
+                                    alt={`review-photo-${index}`}
+                                    layout="fill"
+                                    objectFit={'cover'}
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
                     </div>
+
                     <div className="px-4 pb-4">
                       <button
                         type="button"

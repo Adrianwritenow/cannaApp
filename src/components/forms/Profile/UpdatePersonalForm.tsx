@@ -6,7 +6,6 @@ import React, { useEffect, useState } from 'react';
 import { InputField } from '../fields/InputField';
 import { RootState } from '../../../reducers';
 import SelectDropdown from '../fields/SelectDropdown';
-
 import { updateUser } from '../../../actions/user';
 import { useAxios } from '../../../hooks/useAxios';
 import { useSelector } from 'react-redux';
@@ -21,7 +20,7 @@ export default function UpdatePersonalForm() {
     phone: '',
   });
   const [dispatchAxios, { loading }] = useAxios();
-  const [initialValuesSet, setInitialValuesSet] = useState(false) // see comment in useEffect below
+  const [initialValuesSet, setInitialValuesSet] = useState(false); // see comment in useEffect below
   const { currentUser } = useSelector((root: RootState) => root.user);
 
   const schema = Yup.object().shape({
@@ -46,7 +45,6 @@ export default function UpdatePersonalForm() {
   ];
 
   useEffect(() => {
-    
     const isEmpty = Object.values(initialValues).every(
       x => x === null || x === ''
     );
@@ -62,7 +60,7 @@ export default function UpdatePersonalForm() {
         phone: '' || '',
       });
     }
-  }, [initialValues, currentUser]);
+  }, [initialValues, currentUser, initialValuesSet]);
 
   async function handleSubmit(values: any) {
     dispatchAxios(updateUser(currentUser.uid[0].value, values));
@@ -78,7 +76,6 @@ export default function UpdatePersonalForm() {
       validateOnBlur={true}
     >
       {({ values, handleBlur, handleChange, setFieldValue }) => {
-        
         return (
           <Form className="bg-white shadow">
             <div className="grid grid-cols-1 gap-y-6 sm:grid-cols-6 sm:gap-x-6 py-6 px-4 sm:px-6 lg:py-12 lg:px-8">

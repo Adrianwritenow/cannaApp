@@ -7,14 +7,12 @@ import {
 } from '../../../src/helpers/mockData';
 
 import AboutSlideOver from '../../../src/components/products/AboutSlideOver';
-import CouponSlideOver from '@/views/slideOver/CouponsSlideOver';
 import DropdownFilter from '../../../src/components/forms/fields/DropdownFilter';
 import FaqSlideOver from '../../../src/views/slideOver/FaqSlideOver';
 import ImageSlider from '../../../src/components/slider/ImageSlider';
 import { Product } from '../../../src/interfaces/searchProduct';
 import ProductResultsSection from '../../../src/components/sections/ProductsResultsSection';
-import ProductReviewsSlideOver from '@/views/slideOver/ProductReviewSlideOver';
-import ReviewsSlideOver from '../../../src/views/slideOver/ReviewsSlideOver';
+import ProductReviewsSlideOver from '@/views/slideOver/product/ProductReviewSlideOver';
 import { RootState } from '@/reducers';
 import { SearchHits } from '@/interfaces/searchHits';
 import { StarIcon } from '@heroicons/react/solid';
@@ -58,7 +56,7 @@ export default function ProductDetail() {
       setSearchLists(searchListUpdate);
     }
     setCurrentQuery(query);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router, results, searchLists]);
 
   return (
@@ -237,7 +235,6 @@ export default function ProductDetail() {
         <ProductReviewsSlideOver product={product} reviews={reviews} />
       </div>
 
-      {/* 
       <ProductResultsSection
         list={searchLists}
         sponsored={false}
@@ -249,7 +246,7 @@ export default function ProductDetail() {
         sponsored={false}
         hideButton={true}
         label="Recently Viewed Items"
-      /> */}
+      />
     </div>
   );
 }

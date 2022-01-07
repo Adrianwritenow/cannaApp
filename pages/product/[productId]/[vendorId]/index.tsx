@@ -16,7 +16,7 @@ import ImageSlider from '../../../../src/components/slider/ImageSlider';
 import Link from 'next/link';
 import { Product } from '../../../../src/interfaces/searchProduct';
 import ProductResultsSection from '../../../../src/components/sections/ProductsResultsSection';
-import ProductReviewsSlideOver from '@/views/slideOver/ProductReviewSlideOver';
+import ProductReviewsSlideOver from '@/views/slideOver/product/ProductReviewSlideOver';
 import { RootState } from '@/reducers';
 import { getDocument } from '../../../../src/actions/search';
 import { useRouter } from 'next/router';
@@ -64,9 +64,7 @@ function ProductDetailXVendor() {
       setSearchLists(searchListUpdate);
     }
     setCurrentQuery(query);
-
-    console.log('REVW', reviews);
-  }, [router, results, searchList]);
+  }, [router, results, searchList, currentQuery]);
 
   return (
     <div className="max-w-7xl mx-auto bg-white">

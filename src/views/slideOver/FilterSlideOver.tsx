@@ -11,10 +11,11 @@ export default function FilterSlideOver() {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [rated, setRated] = useState('Top Rated');
+  const { type, category }: any = router.query;
   const [savedValues, setSavedValues]: any = useState({
     strains: [],
-    category: '',
-    type: '',
+    category: category || '',
+    type: type || '',
     filters: {},
     sort: '',
     price: '',
@@ -116,8 +117,6 @@ export default function FilterSlideOver() {
     // update sort
     setSortPricing(savedValues.sort);
   }, [savedValues]);
-
-  console.log('QUERY CHK:::', router.query);
 
   return (
     <div>

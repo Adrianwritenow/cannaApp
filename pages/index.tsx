@@ -58,37 +58,73 @@ export default function Home() {
             </div>
             <div className="flex items-center flex-wrap space-x-2 space-y-2">
               <span></span>
-              <Link href={'/search?type=dispensaries'} passHref>
+              <Link
+                href={{
+                  pathname: '/search',
+                  query: { view: 'dispensaries' },
+                }}
+                passHref
+              >
                 <a className="rounded-full text-sm text-green-400 border border-green-400 py-2 pr-4 pl-2.5 bg-white z-10 flex items-center space-x-1">
                   <LocationMarkerIcon className="w-3.5 h-3.5 " />
                   <span>Dispensaries</span>
                 </a>
               </Link>
-              <Link href={'/search?type=dispensaries'} passHref>
+              <Link
+                href={{
+                  pathname: '/search',
+                  query: { type: 'Edible', view: 'shopping' },
+                }}
+                passHref
+              >
                 <a className="rounded-full text-sm text-green-400 border border-green-400 py-2 pr-4 pl-2.5 bg-white z-10 flex items-center space-x-1">
                   <LocationMarkerIcon className="w-3.5 h-3.5 " />
                   <span>Edibles</span>
                 </a>
               </Link>
-              <Link href={'/search?type=deals'} passHref>
+              <Link
+                href={{
+                  pathname: '/search',
+                  query: { view: 'deals' },
+                }}
+                passHref
+              >
                 <a className="rounded-full text-sm text-green-400 border border-green-400 py-2 pr-4 pl-2.5 bg-white z-10 flex items-center space-x-1">
                   <LocationMarkerIcon className="w-3.5 h-3.5 " />
                   <span>Deals</span>
                 </a>
               </Link>
-              <Link href={'/search?type=dispensaries'} passHref>
+              <Link
+                href={{
+                  pathname: '/search',
+                  query: { category: 'Budder', view: 'shopping' },
+                }}
+                passHref
+              >
                 <a className="rounded-full text-sm text-green-400 border border-green-400 py-2 pr-4 pl-2.5 bg-white z-10 flex items-center space-x-1">
                   <LocationMarkerIcon className="w-3.5 h-3.5 " />
-                  <span>Concentrates</span>
+                  <span>Budder</span>
                 </a>
               </Link>
-              <Link href={'/search?type=dispensaries'} passHref>
+              <Link
+                href={{
+                  pathname: '/search',
+                  query: { category: 'Fragrances', view: 'shopping' },
+                }}
+                passHref
+              >
                 <a className="rounded-full text-sm text-green-400 border border-green-400 py-2 pr-4 pl-2.5 bg-white z-10 flex items-center space-x-1">
                   <LocationMarkerIcon className="w-3.5 h-3.5 " />
-                  <span>Topicals</span>
+                  <span>Fragrances</span>
                 </a>
               </Link>
-              <Link href={'/search?type=dispensaries'} passHref>
+              <Link
+                href={{
+                  pathname: '/search',
+                  query: { type: 'Flower', view: 'shopping' },
+                }}
+                passHref
+              >
                 <a className="rounded-full text-sm text-green-400 border border-green-400 py-2 pr-4 pl-2.5 bg-white z-10 flex items-center space-x-1">
                   <LocationMarkerIcon className="w-3.5 h-3.5 " />
                   <span>Flower</span>

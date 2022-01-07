@@ -3,13 +3,13 @@ import { Product } from '@/interfaces/searchProduct';
 import ProductResultsGrid from '@/components/products/ProductResultsGrid';
 import ProductResultsSection from '@/components/sections/ProductsResultsSection';
 import SvgEmptyState from '@/public/assets/icons/iconComponents/EmptyState';
-// import { products } from '@/helpers/mockData';
 
 export default function SearchShopping(props: {
   products: Product[];
   query: string;
 }) {
   const { products, query } = props;
+
   return (
     <section className="bg-gray-50">
       <FilterSlideOver />

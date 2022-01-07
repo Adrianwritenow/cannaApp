@@ -33,14 +33,14 @@ export default function Search() {
     { name: 'News', href: '/search?type=news', current: false },
     { name: 'Map', href: '/search?type=map', current: false },
     { name: 'Deals', href: '/search?type=deals', current: false },
-    { name: 'Shopping', href: '/search?type=shops', current: false },
+    { name: 'Shopping', href: '/search?type=shopping', current: false },
     { name: 'Strains', href: '/search?type=strains', current: false },
     { name: 'Dispensaries', href: '/search?type=dispensaries', current: false },
   ];
 
   useEffect(() => {
     tabs.map((tab, index) => {
-      const currentPath = tab.href.includes(`${path.type}`);
+      const currentPath = tab.href.includes(`${path.view}`);
       if (currentPath) {
         setView(index);
       }

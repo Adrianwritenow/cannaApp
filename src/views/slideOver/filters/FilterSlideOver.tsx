@@ -2,9 +2,9 @@ import { Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
 
 import { AdjustmentsIcon } from '@heroicons/react/solid';
-import DropdownFilter from '../../components/forms/fields/DropdownFilter';
-import FilterMenu from '../../components/filter/FilterMenu';
-import { Filters } from '../../helpers/filters';
+import DropdownFilter from '../../../components/forms/fields/DropdownFilter';
+import FilterMenu from '../../../components/filter/FilterMenu';
+import { Filters } from '../../../helpers/filters';
 
 export default function FilterSlideOver() {
   const [open, setOpen] = useState(false);

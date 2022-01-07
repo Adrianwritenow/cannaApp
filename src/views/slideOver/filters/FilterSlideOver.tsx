@@ -2,16 +2,20 @@ import { Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
 
 import { AdjustmentsIcon } from '@heroicons/react/solid';
-import DropdownFilter from '../../../components/forms/fields/DropdownFilter';
-import FilterMenu from '../../../components/filter/FilterMenu';
-import { Filters } from '../../../helpers/filters';
+import DropdownFilter from '@/components/forms/fields/DropdownFilter';
+import FilterMenu from '@/components/filter/FilterMenu';
+import { Filters } from '@/helpers/filters';
+import { useRouter } from 'next/router';
 
 export default function FilterSlideOver() {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [rated, setRated] = useState('Top Rated');
+  const { type, category }: any = router.query;
   const [savedValues, setSavedValues]: any = useState({
     strains: [],
-    category: '',
+    category: category || '',
+    type: type || '',
     filters: {},
     sort: '',
     price: '',
@@ -28,6 +32,7 @@ export default function FilterSlideOver() {
     strains: [],
     filters: {},
     category: '',
+    type: '',
     sort: '',
     price: '',
     range: {
@@ -38,7 +43,6 @@ export default function FilterSlideOver() {
   };
 
   // Remove filters from list to be rendered and update the form state values
-
   function removeFilter(keyName: string, filter: string) {
     let stateCopy = Object.assign({}, savedValues);
     let listCopy = filterList;
@@ -66,6 +70,7 @@ export default function FilterSlideOver() {
     // Force values to array in order to check if they exist in case of multiple values
     const filters: any = {
       sort: [savedValues.sort],
+      type: [savedValues.type],
       strains: savedValues.strains,
       category: [savedValues.category],
       price: [savedValues.price],

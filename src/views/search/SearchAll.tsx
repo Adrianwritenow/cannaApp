@@ -11,8 +11,12 @@ import SvgEmptyState from '@/public/assets/icons/iconComponents/EmptyState';
 export default function SearchAll(props: {
   lists: SearchState;
   query: string;
+  userCoords: {
+    lat: number;
+    lng: number;
+  };
 }) {
-  const { lists, query } = props;
+  const { lists, query, userCoords } = props;
 
   return (
     <div className="bg-gray-50">
@@ -48,9 +52,14 @@ export default function SearchAll(props: {
                 listings={lists.dispensaries}
                 sponsored={true}
                 query={query}
+                userCoords={userCoords}
               />
               {/* Listings Section */}
-              <ListingSection listings={lists.dispensaries} query={query} />
+              <ListingSection
+                listings={lists.dispensaries}
+                query={query}
+                userCoords={userCoords}
+              />
             </>
           ) : (
             ''

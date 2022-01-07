@@ -1,6 +1,6 @@
+import { ArrowsExpandIcon, LocationMarkerIcon } from '@heroicons/react/solid';
 import { listings, products } from '@/helpers/mockData';
 
-import { ArrowsExpandIcon } from '@heroicons/react/solid';
 import Background from '@/public/assets/images/png/fullBloom.png';
 import BlogArticleSmall from '@/components/blog/BlogArticleCardSmall';
 import ClaimBusiness from '@/public/assets/images/png/growBusiness.png';
@@ -39,38 +39,61 @@ export default function Home() {
             layout="fill"
             objectFit={'cover'}
           />
-          <div className="p-6 ">
-            <div className="flex items-center justify-center space-x-2">
-              <div>
-                <Image width={52} height={58} src={Logo} alt="Image logo" />
+          <div className="px-2 py-7">
+            <div className="px-4">
+              <div className="space-x-2 flex justify-center items-center pb-4">
+                <div>
+                  <Image width={52} height={58} src={Logo} alt="Image logo" />
+                </div>
+                <div className="mt-2">
+                  <Image
+                    width={172}
+                    height={32}
+                    src={LogoText}
+                    alt="Image logo"
+                  />
+                </div>
               </div>
-              <div className="mt-2">
-                <Image
-                  width={172}
-                  height={32}
-                  src={LogoText}
-                  alt="Image logo"
-                />
-              </div>
+              <SearchSlideOver root={true} />
             </div>
-            <SearchSlideOver root={true} />
-            <div className="flex items-center flex-wrap space-y-2">
+            <div className="flex items-center flex-wrap space-x-2 space-y-2">
               <span></span>
-              <p className="rounded-full text-sm text-green-400 border border-green-400 py-2 px-4 bg-white z-10">
-                Dispensaries
-              </p>
-              <p className="rounded-full text-sm mx-2 text-green-400 border border-green-400 py-2 px-4 bg-white z-10">
-                Services
-              </p>
-              <p className="rounded-full text-sm text-green-400 border border-green-400 py-2 px-4 bg-white z-10">
-                Deals
-              </p>
-              <p className="rounded-full text-sm text-green-400 border border-green-400 py-2 px-4 bg-white z-10">
-                Popular Strains
-              </p>
-              <p className="rounded-full text-sm text-green-400 mx-2 border border-green-400 py-2 px-4 bg-white z-10">
-                Smoke Shops
-              </p>
+              <Link href={'/search?type=dispensaries'} passHref>
+                <a className="rounded-full text-sm text-green-400 border border-green-400 py-2 pr-4 pl-2.5 bg-white z-10 flex items-center space-x-1">
+                  <LocationMarkerIcon className="w-3.5 h-3.5 " />
+                  <span>Dispensaries</span>
+                </a>
+              </Link>
+              <Link href={'/search?type=dispensaries'} passHref>
+                <a className="rounded-full text-sm text-green-400 border border-green-400 py-2 pr-4 pl-2.5 bg-white z-10 flex items-center space-x-1">
+                  <LocationMarkerIcon className="w-3.5 h-3.5 " />
+                  <span>Edibles</span>
+                </a>
+              </Link>
+              <Link href={'/search?type=deals'} passHref>
+                <a className="rounded-full text-sm text-green-400 border border-green-400 py-2 pr-4 pl-2.5 bg-white z-10 flex items-center space-x-1">
+                  <LocationMarkerIcon className="w-3.5 h-3.5 " />
+                  <span>Deals</span>
+                </a>
+              </Link>
+              <Link href={'/search?type=dispensaries'} passHref>
+                <a className="rounded-full text-sm text-green-400 border border-green-400 py-2 pr-4 pl-2.5 bg-white z-10 flex items-center space-x-1">
+                  <LocationMarkerIcon className="w-3.5 h-3.5 " />
+                  <span>Concentrates</span>
+                </a>
+              </Link>
+              <Link href={'/search?type=dispensaries'} passHref>
+                <a className="rounded-full text-sm text-green-400 border border-green-400 py-2 pr-4 pl-2.5 bg-white z-10 flex items-center space-x-1">
+                  <LocationMarkerIcon className="w-3.5 h-3.5 " />
+                  <span>Topicals</span>
+                </a>
+              </Link>
+              <Link href={'/search?type=dispensaries'} passHref>
+                <a className="rounded-full text-sm text-green-400 border border-green-400 py-2 pr-4 pl-2.5 bg-white z-10 flex items-center space-x-1">
+                  <LocationMarkerIcon className="w-3.5 h-3.5 " />
+                  <span>Flower</span>
+                </a>
+              </Link>
             </div>
           </div>
         </div>

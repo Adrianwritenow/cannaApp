@@ -1,8 +1,8 @@
-import { ChevronRightIcon } from "@heroicons/react/solid";
-import { Disclosure } from "@headlessui/react";
-import { Field } from "formik";
-import { Filters } from "../../interfaces/filter";
-import React from "react";
+import { ChevronRightIcon } from '@heroicons/react/solid';
+import { Disclosure } from '@headlessui/react';
+import { Field } from 'formik';
+import { Filters } from '../../interfaces/filter';
+import React from 'react';
 
 export default function FilterGroup(data: Filters) {
   const { filters, label, id, type, values, setFieldValue } = data;
@@ -16,12 +16,12 @@ export default function FilterGroup(data: Filters) {
               <Disclosure.Button className="w-full flex justify-start focus:outline-none  ">
                 <div
                   className={`w-full ${
-                    open ? "border-b border-gray-200" : ""
+                    open ? 'border-b border-gray-200' : ''
                   } flex items-center`}
                 >
                   <ChevronRightIcon
                     className={`w-6 h-6 text-gray-500 transition-transform duration-75 ease-in-out ${
-                      open ? "transform rotate-90" : ""
+                      open ? 'transform rotate-90' : ''
                     }`}
                   />
                   <h3 className="text-sm font-semibold text-gray-700 text-left py-2 pl-4">
@@ -67,7 +67,7 @@ export default function FilterGroup(data: Filters) {
                                         checked={values?.includes(filter.value)}
                                         type={type}
                                         className={
-                                          "focus:ring-green h-4 w-4 text-green border-gray-300 rounded-full"
+                                          'focus:ring-green h-4 w-4 text-green border-gray-300 rounded-full'
                                         }
                                       />
                                       <span className="ml-2">
@@ -93,9 +93,9 @@ export default function FilterGroup(data: Filters) {
                                         name={id}
                                         value={`${filter.value}`}
                                         checked={values?.includes(filter.value)}
-                                        type={"checkbox"}
+                                        type={'checkbox'}
                                         className={
-                                          "focus:ring-green h-4 w-4 text-green border-gray-300 rounded-md"
+                                          'focus:ring-green h-4 w-4 text-green border-gray-300 rounded-md'
                                         }
                                       />
                                       <span className="ml-2">
@@ -133,7 +133,7 @@ export default function FilterGroup(data: Filters) {
                                                   )}
                                                   value={`${subFilter.value}`}
                                                   type={
-                                                    type ? type : "checkbox"
+                                                    type ? type : 'checkbox'
                                                   }
                                                   className="focus:ring-green h-4 w-4 text-green border-gray-300 rounded-full"
                                                 />
@@ -163,7 +163,7 @@ export default function FilterGroup(data: Filters) {
                                                             type={
                                                               type
                                                                 ? type
-                                                                : "checkbox"
+                                                                : 'checkbox'
                                                             }
                                                             className="focus:ring-green h-4 w-4 text-green border-gray-300 rounded-full"
                                                           />

@@ -7,7 +7,6 @@ import {
 } from '../../../src/helpers/mockData';
 
 import AboutSlideOver from '../../../src/components/products/AboutSlideOver';
-import CouponSlideOver from '@/views/slideOver/CouponsSlideOver';
 import DropdownFilter from '../../../src/components/forms/fields/DropdownFilter';
 import FaqSlideOver from '../../../src/views/slideOver/FaqSlideOver';
 import ImageSlider from '../../../src/components/slider/ImageSlider';

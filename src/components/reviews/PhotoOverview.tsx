@@ -53,8 +53,6 @@ export default function PhotoOverview(props: {
         setPreviews(imageArray);
         setFieldValue(event.target.id, Array.from(event.target.files));
       }
-
-      Array.from(previews).map(image => URL.revokeObjectURL(image));
     } else {
       setFieldValue(event.target.id, null);
     }

@@ -95,6 +95,7 @@ export function MapContainer() {
         '10mi'
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userCoordinates]);
 
   return (

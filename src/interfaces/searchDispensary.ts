@@ -22,6 +22,8 @@ export interface Dispensary {
     field_sunday_hours: string[];
     field_phone_number: string[];
     postal_code: string[];
+    lat: number[];
+    lon: number[];
     field_email: string[];
     field_coordinates: string[];
     field_rating: string[] | ['0'];

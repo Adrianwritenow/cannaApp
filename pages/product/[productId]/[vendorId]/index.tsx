@@ -64,7 +64,7 @@ function ProductDetailXVendor() {
       setSearchLists(searchListUpdate);
     }
     setCurrentQuery(query);
-  }, [router, results, searchList]);
+  }, [router, results, searchList, currentQuery]);
 
   return (
     <div className="max-w-7xl mx-auto bg-white">

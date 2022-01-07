@@ -60,9 +60,7 @@ export default function PhotoOverview(props: {
     }
   };
 
-  useEffect(() => {
-    console.log(values);
-  }, [values]);
+  useEffect(() => {}, [values]);
 
   const viewPreview = previews.length > 0 && open;
 
@@ -151,7 +149,11 @@ export default function PhotoOverview(props: {
 
                     <div className="grid grid-cols-3 gap-0.5 w-full h-min mb-auto">
                       {previews.map((image, index) => {
-                        return <EditPhotoDetails src={image} index={index} />;
+                        return (
+                          <div key={`edit-photo--${index}`}>
+                            <EditPhotoDetails src={image} index={index} />
+                          </div>
+                        );
                       })}
                     </div>
 

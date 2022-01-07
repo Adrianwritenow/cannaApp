@@ -18,7 +18,6 @@ export default function SubmitReview(props: {
   const [update, setUpdate] = useState(true);
 
   useEffect(() => {
-    console.log('VALS FINAL', values);
     if (values.photos && values.photos.length && update) {
       const imageArray: any = values.photos.map(image =>
         URL.createObjectURL(image)

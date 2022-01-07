@@ -74,7 +74,7 @@ export default function AddPhotots(props: {
                         Add photos of your experience
                       </h2>
                       <p className="text-sm py-2">
-                        Your photos help visitors imagine what it's like to
+                        Your photos help visitors imagine what it&apos;s like to
                         visit this place.
                       </p>
                       <PhotoOverview

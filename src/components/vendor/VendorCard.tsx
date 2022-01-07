@@ -24,7 +24,7 @@ export default function VendorCard(props: VendorProps) {
         }
       );
     }
-  }, []);
+  }, [productId]);
 
   return (
     <div

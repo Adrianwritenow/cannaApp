@@ -22,7 +22,7 @@ export default function DealOverview() {
         }
       );
     }
-  }, [router]);
+  }, [router, deal_id]);
 
   return (
     <div className="bg-gray-50">

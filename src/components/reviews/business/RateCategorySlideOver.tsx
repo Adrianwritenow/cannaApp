@@ -115,7 +115,7 @@ export default function RateCategorySlideOver(props: {
                               Value
                             </h3>
                             <p className="text-sm text-gray-500">
-                              Was the product or service worth it’s price?
+                              Was the product or service worth its price?
                             </p>
                           </div>
                           <div className="flex items-center">
@@ -141,7 +141,7 @@ export default function RateCategorySlideOver(props: {
                               Location
                             </h3>
                             <p className="text-sm text-gray-500">
-                              How appealing is surrounding the area?
+                              How appealing is the surrounding area?
                             </p>
                           </div>
                           <div className="flex items-center">

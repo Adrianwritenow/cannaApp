@@ -57,7 +57,7 @@ export default function ProductDetail() {
       setSearchLists(searchListUpdate);
     }
     setCurrentQuery(query);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router, results, searchLists]);
 
   return (
@@ -247,7 +247,7 @@ export default function ProductDetail() {
         sponsored={false}
         hideButton={true}
         label="Recently Viewed Items"
-      /> */}
+      />
     </div>
   );
 }

@@ -1,15 +1,14 @@
 import React, { createContext, useEffect, useRef, useState } from 'react';
-import { Map } from './Map';
-import MapResults from './MapResults';
-import { MapIcon } from '@heroicons/react/solid';
-import { useCurrentWidth } from './useCurrentWidth';
-import { ViewListIcon } from '@heroicons/react/outline';
-import { RootState } from '@/reducers';
-import { useDispatch, useSelector } from 'react-redux';
-import BullseyeIcon from '@/public/assets/icons/iconComponents/Bullseye';
 import { combinedSearchQuery, receiveResults } from '@/actions/search';
-import { SearchState } from '@/interfaces/searchState';
-import { useRouter } from 'next/router';
+import { useDispatch, useSelector } from 'react-redux';
+
+import BullseyeIcon from '@/public/assets/icons/iconComponents/Bullseye';
+import { Map } from './Map';
+import { MapIcon } from '@heroicons/react/solid';
+import MapResults from './MapResults';
+import { RootState } from '@/reducers';
+import { ViewListIcon } from '@heroicons/react/outline';
+import { useCurrentWidth } from './useCurrentWidth';
 
 export const MapContext = createContext<any>(null);
 
@@ -53,7 +52,11 @@ export function MapContainer() {
   }, [results, dispensaryResults, userCoordinates]);
 
   async function handleSubmit(search: any, coords: any, distance: any) {
-    const hits: any = await combinedSearchQuery(search, coords, distance);
+    const hits: any = await combinedSearchQuery({
+      search: search,
+      coords: coords,
+      distance: distance,
+    });
     dispatch(
       receiveResults({
         // search: city,

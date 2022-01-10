@@ -1,5 +1,5 @@
 export interface Review {
-  recommended: boolean;
+  recommended: boolean | undefined;
   by: string;
   caption: string;
   review: string;

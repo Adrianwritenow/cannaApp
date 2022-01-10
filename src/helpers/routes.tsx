@@ -3,7 +3,7 @@ import {
   NewspaperIcon,
   SearchIcon,
   UserCircleIcon,
-} from "@heroicons/react/outline";
+} from '@heroicons/react/outline';
 
 export interface Route {
   label: String;
@@ -13,45 +13,45 @@ export interface Route {
 }
 
 export const HeaderRoutes = {
-  listings: { label: "Listings", href: "/listings" },
-  dispatches: { label: "Dispatches", href: "/dispatches" },
-  critiques: { label: "Cannacritiques", href: "/canna" },
-  about: { label: "About Us", href: "/about" },
-  contact: { label: "Contact", href: "/contact" },
+  listings: { label: 'Listings', href: '/listings' },
+  dispatches: { label: 'Dispatches', href: '/dispatches' },
+  critiques: { label: 'Cannacritiques', href: '/canna' },
+  about: { label: 'About Us', href: '/about' },
+  contact: { label: 'Contact', href: '/contact' },
 };
 
 export const FooterRoutes = {
   business: [
-    { label: "Why CANNAPAGES?", href: "#" },
-    { label: "Get Listed", href: "#" },
-    { label: "Advertise", href: "#" },
-    { label: "Fre Classifieds", href: "#" },
-    { label: "Contact Sales", href: "#" },
+    { label: 'Why CANNAPAGES?', href: '#' },
+    { label: 'Get Listed', href: '#' },
+    { label: 'Advertise', href: '#' },
+    { label: 'Free Classifieds', href: '#' },
+    { label: 'Contact Sales', href: '#' },
   ],
   listings: [
-    { label: "Deals", href: "#" },
-    { label: "Buisnesses", href: "#" },
-    { label: "Strains", href: "#" },
-    { label: "Products", href: "#" },
+    { label: 'Deals', href: '#' },
+    { label: 'Buisnesses', href: '#' },
+    { label: 'Strains', href: '#' },
+    { label: 'Products', href: '#' },
   ],
   community: [
-    { label: "Blog", href: "/blog" },
-    { label: "In Print", href: "#" },
-    { label: "Reviews", href: "#" },
-    { label: "Forum", href: "/forum" },
-    { label: "Buy a Subscription", href: "#" },
+    { label: 'Blog', href: '/blog' },
+    { label: 'In Print', href: '#' },
+    { label: 'Reviews', href: '#' },
+    { label: 'Forum', href: '/forum' },
+    { label: 'Buy a Subscription', href: '#' },
   ],
   cannapages: [
-    { label: "About", href: "/about" },
-    { label: "Jobs", href: "#" },
-    { label: "Contact", href: "/contact" },
-    { label: "Privacy Policy", href: "/privacy-policy" },
-    { label: "Terms of Service", href: "/terms-and-conditions" },
+    { label: 'About', href: '/about' },
+    { label: 'Jobs', href: '#' },
+    { label: 'Contact', href: '/contact' },
+    { label: 'Privacy Policy', href: '/privacy-policy' },
+    { label: 'Terms of Service', href: '/terms-and-conditions' },
   ],
   social: [
     {
-      label: "Facebook",
-      href: "#",
+      label: 'Facebook',
+      href: '#',
       icon: function SocialIcons(props: any) {
         return (
           <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
@@ -65,8 +65,8 @@ export const FooterRoutes = {
       },
     },
     {
-      label: "Instagram",
-      href: "#",
+      label: 'Instagram',
+      href: '#',
       icon: function SocialIcons(props: any) {
         return (
           <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
@@ -80,8 +80,8 @@ export const FooterRoutes = {
       },
     },
     {
-      label: "Twitter",
-      href: "#",
+      label: 'Twitter',
+      href: '#',
       icon: function SocialIcons(props: any) {
         return (
           <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
@@ -95,33 +95,33 @@ export const FooterRoutes = {
 
 export const BottomNavRoutes: Route[] = [
   {
-    label: "Articles",
+    label: 'Articles',
     icon: <NewspaperIcon className="w-6 h-6 stroke-1" />,
-    href: "/blog",
-    id: "articles",
+    href: '/blog',
+    id: 'articles',
   },
   {
-    label: "Explore",
+    label: 'Explore',
     icon: <SearchIcon className="w-6 h-6 stroke-1" />,
-    href: "/search",
-    id: "explore",
+    href: '/search',
+    id: 'explore',
   },
   {
-    label: "Stash",
+    label: 'Stash',
     icon: <BookmarkIcon className="w-6 h-6 stroke-1" />,
-    href: "#",
-    id: "stash",
+    href: '#',
+    id: 'stash',
   },
   {
-    label: "Profile",
+    label: 'Profile',
     icon: <UserCircleIcon className="w-6 h-6 stroke-1" />,
-    href: "/user",
-    id: "user",
+    href: '/user',
+    id: 'user',
   },
   {
-    label: "Login",
+    label: 'Login',
     icon: <UserCircleIcon strokeWidth={1} className="w-6 h-6 stroke-1" />,
-    href: "/login",
-    id: "login",
+    href: '/login',
+    id: 'login',
   },
 ];

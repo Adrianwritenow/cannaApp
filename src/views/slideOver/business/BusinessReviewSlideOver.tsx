@@ -1,14 +1,18 @@
-import { ArrowLeftIcon, EmojiHappyIcon } from '@heroicons/react/solid';
+import {
+  ArrowLeftIcon,
+  EmojiHappyIcon,
+  StarIcon,
+} from '@heroicons/react/solid';
 import { Dialog, Transition } from '@headlessui/react';
 import React, { Fragment, useState } from 'react';
 
-import { BusinessSlideoverProps } from '../../interfaces/props/businessSlideOverProps';
-import DropdownFilter from '../../components/forms/fields/DropdownFilter';
-import ReviewCard from '../../components/reviews/ReviewCard';
-import ReviewFormSlideOver from '../../components/reviews/product/ReviewFormSlideOver';
-import { listings } from '../../helpers/mockData';
+import { BusinessSlideoverProps } from '@/interfaces/props/businessSlideOverProps';
+import DropdownFilter from '../../../components/forms/fields/DropdownFilter';
+import ReviewCard from '../../../components/reviews/ReviewCard';
+import ReviewFormSlideOver from '../../../components/reviews/business/ReviewFormSlideOver';
+import { listings } from '../../../helpers/mockData';
 
-export default function ReviewsSlideOver(props: BusinessSlideoverProps) {
+export default function BusinessReviewSlideOver(props: BusinessSlideoverProps) {
   const { dispensary, reviews, name } = props;
   const [open, setOpen] = useState(false);
   const business = listings[0];
@@ -18,23 +22,52 @@ export default function ReviewsSlideOver(props: BusinessSlideoverProps) {
   const [cons, setCons] = useState('');
   const [language, setLanguage] = useState('');
 
-  const [myRating, setMyRating] = useState(0);
-
   return (
     <section>
-      <h2 id="business-reviews" className="sr-only">
-        {name ? name : 'Reviews'}
-      </h2>
-      <h2
-        id="business-review"
-        className="text-lg text-gray-700 font-semibold pb-2 pt-1 w-full bo"
-      >
-        {name ? name : 'Reviews'}
-      </h2>
+      <div className="px-4">
+        <h2 id="business-reviews" className="sr-only">
+          {name ? name : 'Reviews'}
+        </h2>
+        <h2
+          id="business-review"
+          className="text-lg text-gray-700 font-semibold pb-2 pt-1 w-full bo"
+        >
+          {name ? name : 'Reviews'}
+        </h2>
+        <ReviewFormSlideOver dispensary={dispensary} button={true} />
+      </div>
+
+      <div className="flex overflow-x-scroll pl-4 pt-6 pb-4">
+        <DropdownFilter
+          setter={setSort}
+          options={['Most Useful', 'Most Recent']}
+          current={sort}
+          label={'Sort by'}
+        />
+        <DropdownFilter
+          setter={setType}
+          options={['positive', 'negative']}
+          current={type}
+          label={'Review Type'}
+        />
+        <DropdownFilter
+          setter={setCons}
+          options={['Smoked', 'Vaped', 'Topical']}
+          current={cons}
+          label={'Consumption'}
+        />
+        <DropdownFilter
+          setter={setLanguage}
+          options={['english']}
+          current={language}
+          label={'Language'}
+        />
+      </div>
+
       {reviews && (
         <div>
           {reviews.map((review, index) => (
-            <div key={`review-${index}`}>
+            <div className="px-4" key={`review-${index}`}>
               <ReviewCard review={review} />
             </div>
           ))}
@@ -87,11 +120,11 @@ export default function ReviewsSlideOver(props: BusinessSlideoverProps) {
                     <div className="mt-6 relative flex-1 ">
                       <div className="pt-5">
                         <section className="px-4">
-                          <h2 id="business-rating" className="sr-only">
+                          <h2 id="product-rating" className="sr-only">
                             Business Rating
                           </h2>
                           <h2
-                            id="business-rating"
+                            id="product-rating"
                             className="text-lg text-gray-700 font-semibold py-2"
                           >
                             Business Rating
@@ -105,6 +138,74 @@ export default function ReviewsSlideOver(props: BusinessSlideoverProps) {
                                 {`${dispensary?._source.field_reviews_count}`})
                               </span>
                             </p>
+                          </div>
+                        </section>
+                        <section className="px-4 ">
+                          <div className=" grid grid-flow-row auto-rows-max gap-4 pt-7  border-b pb-5">
+                            <div className="flex items-center">
+                              <p>Service</p>
+                              <div className="flex ml-auto">
+                                {[0, 1, 2, 3, 4].map(rating => (
+                                  <StarIcon
+                                    key={rating}
+                                    className={`    ${
+                                      5 > rating
+                                        ? 'text-yellow-400'
+                                        : 'text-gray-200'
+                                    } flex-shrink-0 h-4 w-4`}
+                                    aria-hidden="true"
+                                  />
+                                ))}
+                              </div>
+                            </div>
+                            <div className="flex items-center">
+                              <p>Value</p>
+                              <div className="flex ml-auto">
+                                {[0, 1, 2, 3, 4].map(rating => (
+                                  <StarIcon
+                                    key={rating}
+                                    className={`    ${
+                                      5 > rating
+                                        ? 'text-yellow-400'
+                                        : 'text-gray-200'
+                                    } flex-shrink-0 h-4 w-4`}
+                                    aria-hidden="true"
+                                  />
+                                ))}
+                              </div>
+                            </div>
+                            <div className="flex items-center">
+                              <p>Location</p>
+                              <div className="flex ml-auto">
+                                {[0, 1, 2, 3, 4].map(rating => (
+                                  <StarIcon
+                                    key={rating}
+                                    className={`${
+                                      4 > rating
+                                        ? 'text-yellow-400'
+                                        : 'text-gray-200'
+                                    } flex-shrink-0 h-4 w-4`}
+                                    aria-hidden="true"
+                                  />
+                                ))}
+                              </div>
+                            </div>
+                            <div className="flex items-center">
+                              <p>Accuracy</p>
+                              <div className="flex ml-auto">
+                                {[0, 1, 2, 3, 4].map(rating => (
+                                  <StarIcon
+                                    key={rating}
+                                    className={`    ${
+                                      5 > rating
+                                        ? 'text-yellow-400'
+                                        : 'text-gray-200'
+                                    } flex-shrink-0 h-4 w-4`}
+                                    aria-hidden="true"
+                                  />
+                                ))}
+                              </div>
+                            </div>
                           </div>
                         </section>
                         <section className="px-4 pt-7">
@@ -123,11 +224,7 @@ export default function ReviewsSlideOver(props: BusinessSlideoverProps) {
                                 What was your experience like?
                               </p>
                             </div>
-                            <ReviewFormSlideOver
-                              myRating={myRating}
-                              setMyRating={setMyRating}
-                              dispensary={dispensary}
-                            />
+                            <ReviewFormSlideOver dispensary={dispensary} />
                           </div>
                         </section>
 

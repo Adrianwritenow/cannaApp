@@ -2,11 +2,12 @@ import { Coupon } from '../../interfaces/coupon';
 import { Dispensary } from '@/interfaces/searchDispensary';
 import { Faq } from '@/interfaces/faq';
 import { Product } from '@/interfaces/searchProduct';
+import { Review } from '@/interfaces/review';
 import { Strain } from '@/interfaces/SearchStrain';
 
 export const products: Array<Product> = [
   {
-    _id: 'entity:product_entity/380:en',
+    _id: 'entity:product_entity/86898:en',
     _index: 'elasticsearch_index_pantheon_index01',
     _score: 6,
     _source: {
@@ -35,7 +36,7 @@ export const products: Array<Product> = [
     },
   },
   {
-    _id: 'entity:product_entity/380:en',
+    _id: 'entity:product_entity/86898:en',
     _index: 'elasticsearch_index_pantheon_index01',
     _score: 6,
     _source: {
@@ -64,7 +65,7 @@ export const products: Array<Product> = [
     },
   },
   {
-    _id: 'entity:product_entity/380:en',
+    _id: 'entity:product_entity/86898:en',
     _index: 'elasticsearch_index_pantheon_index01',
     _score: 6,
     _source: {
@@ -96,7 +97,6 @@ export const products: Array<Product> = [
 
 export const listings: Array<Dispensary> = [
 
- 
   {
     _id: 'entity:dispensary_entity/6029:en',
     _index: 'elasticsearch_index_pantheon_index01',
@@ -119,6 +119,8 @@ export const listings: Array<Dispensary> = [
       field_reviews_count: [123],
       field_source_url: ['#'],
       field_sponsored: [false],
+      lat: [39.635418],
+      lon: [-76.27047],
       langcode: ['en'],
       name: ['Fake Dispensary'],
       status: [true],
@@ -164,6 +166,8 @@ export const listings: Array<Dispensary> = [
       field_reviews_count: [123],
       field_source_url: ['#'],
       field_sponsored: [false],
+      lat: [39.635418],
+      lon: [-76.27047],
       langcode: ['en'],
       name: ['Fake Dispensary'],
       status: [true],
@@ -209,6 +213,8 @@ export const listings: Array<Dispensary> = [
       field_reviews_count: [123],
       field_source_url: ['#'],
       field_sponsored: [false],
+      lat: [39.635418],
+      lon: [-76.27047],
       langcode: ['en'],
       name: ['Fake Dispensary'],
       status: [true],
@@ -254,6 +260,8 @@ export const listings: Array<Dispensary> = [
       field_reviews_count: [123],
       field_source_url: ['#'],
       field_sponsored: [false],
+      lat: [39.635418],
+      lon: [-76.27047],
       langcode: ['en'],
       name: ['Fake Dispensary'],
       status: [true],
@@ -299,6 +307,8 @@ export const listings: Array<Dispensary> = [
       field_reviews_count: [123],
       field_source_url: ['#'],
       field_sponsored: [false],
+      lat: [39.635418],
+      lon: [-76.27047],
       langcode: ['en'],
       name: ['Fake Dispensary'],
       status: [true],
@@ -585,5 +595,35 @@ export const faqs: Faq[] = [
     question: 'Lorem Ipsum Dolor sit Amet?',
     answer:
       'Ivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam',
+  },
+];
+
+export const reviews: Review[] = [
+  {
+    recommended: true,
+    by: 'Jon Doe',
+    caption: 'Great place',
+    review:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.',
+    time: '12:00pm',
+    date: '1/01/2022',
+  },
+  {
+    recommended: true,
+    by: 'Jane Doe',
+    caption: 'Great place',
+    review:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.',
+    time: '12:00pm',
+    date: '1/01/2022',
+  },
+  {
+    recommended: false,
+    by: 'Jack Doe',
+    caption: 'Great place',
+    review:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.',
+    time: '12:00pm',
+    date: '1/01/2022',
   },
 ];

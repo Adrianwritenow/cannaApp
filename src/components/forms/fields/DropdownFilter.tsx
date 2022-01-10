@@ -42,7 +42,7 @@ export default function DropdownFilter(data: DropdownFilter) {
       <Transition.Root show={open} as={Fragment}>
         <Dialog
           as="div"
-          className="fixed z-10 inset-0 overflow-y-auto"
+          className="fixed z-50 inset-0 overflow-y-auto"
           onClose={setOpen}
         >
           <div className="flex items-end justify-center min-h-screen text-center sm:block sm:p-0">

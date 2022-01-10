@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { listings, products } from '../../../src/helpers/mockData';
+import {
+  faqs,
+  listings,
+  products,
+  reviews,
+} from '../../../src/helpers/mockData';
 
 import AboutSlideOver from '../../../src/components/products/AboutSlideOver';
-import CouponSlideOver from '@/views/slideOver/CouponsSlideOver';
 import DropdownFilter from '../../../src/components/forms/fields/DropdownFilter';
 import FaqSlideOver from '../../../src/views/slideOver/FaqSlideOver';
 import ImageSlider from '../../../src/components/slider/ImageSlider';
 import { Product } from '../../../src/interfaces/searchProduct';
 import ProductResultsSection from '../../../src/components/sections/ProductsResultsSection';
-import ReviewsSlideOver from '../../../src/views/slideOver/ReviewsSlideOver';
+import ProductReviewsSlideOver from '@/views/slideOver/product/ProductReviewSlideOver';
 import { RootState } from '@/reducers';
 import { SearchHits } from '@/interfaces/searchHits';
 import { StarIcon } from '@heroicons/react/solid';
@@ -52,7 +56,7 @@ export default function ProductDetail() {
       setSearchLists(searchListUpdate);
     }
     setCurrentQuery(query);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router, results, searchLists]);
 
   return (
@@ -168,19 +172,15 @@ export default function ProductDetail() {
                   <div className="flex">
                     <p className="text-black">Cannabanoids:&nbsp;</p>
                     {/* Need Cannabanoids data */}
-                    {/* <p>
-                    THC&nbsp;
-                    {product.cannabanoids &&
-                      Math.round(product.cannabanoids?.thc * 100)}
-                    %
-                  </p>
-                  <>&nbsp;</>
-                  <p>
-                    CBD&nbsp;
-                    {product.cannabanoids &&
-                      Math.round(product.cannabanoids?.cbd * 100)}
-                    %
-                  </p> */}
+                    <p>
+                      THC&nbsp;
+                      {Math.round(0.5 * 100)}%
+                    </p>
+                    <>&nbsp;</>
+                    <p>
+                      CBD&nbsp;
+                      {Math.round(0.5 * 100)}%
+                    </p>
                   </div>
                 </div>
                 <div className="pt-2">
@@ -193,7 +193,7 @@ export default function ProductDetail() {
             </section>
             {/* Need specification data  */}
 
-            {/* <section aria-labelledby="specifications-heading">
+            <section aria-labelledby="specifications-heading">
               <h2 id="specifications-heading" className="sr-only">
                 Specifications
               </h2>
@@ -202,7 +202,13 @@ export default function ProductDetail() {
               </h2>
               <div>
                 <ul className="text-sm text-gray-700">
-                  {product.specifications.map((spec, index) => {
+                  {[
+                    { label: 'Spec', value: ' Value' },
+                    { label: 'Spec', value: ' Value' },
+                    { label: 'Spec', value: ' Value' },
+                    { label: 'Spec', value: ' Value' },
+                    { label: 'Spec', value: ' Value' },
+                  ].map((spec, index) => {
                     return (
                       <li
                         key={index}
@@ -217,21 +223,30 @@ export default function ProductDetail() {
                   })}
                 </ul>
               </div>
-            </section> */}
+            </section>
           </div>
         </div>
       )}
-      {/* 
+
+      <div className=" pt-4">
+        <FaqSlideOver name={listings[0]._source.name[0]} faqs={faqs} />
+      </div>
+      <div className="pt-4">
+        <ProductReviewsSlideOver product={product} reviews={reviews} />
+      </div>
+
       <ProductResultsSection
         list={searchLists}
         sponsored={false}
+        hideButton={true}
         label="Related Items"
       />
       <ProductResultsSection
         list={searchLists}
         sponsored={false}
+        hideButton={true}
         label="Recently Viewed Items"
-      /> */}
+      />
     </div>
   );
 }

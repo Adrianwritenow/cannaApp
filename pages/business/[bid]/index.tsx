@@ -137,6 +137,7 @@ export default function BusinessDetail() {
       setOpenTime(todayOpenTime);
       setCloseTime(todayCloseTime);
       setTomorrowOpenTime(tomorrowOpenTime);
+
       setIsOpen(
         currentTimeIsBetweenTzTime(
           new Date(),
@@ -220,7 +221,6 @@ export default function BusinessDetail() {
               {/***** Need pricing info *****/}
               {/* <span className="px-1 text-normal">&#8226;</span>
               <p>$$$</p> */}
-              
             </div>
             <div className="flex justify-between">
               <div className="flex">
@@ -230,12 +230,21 @@ export default function BusinessDetail() {
                   <p className="text-normal text-red-500">Closed</p>
                 )}
                 <span className="px-1 text-normal">&#8226;</span>
-                {!isOpen && willOpenToday ? (
-                  <p>Opens {openTime}</p>
-                ) : !isOpen && !willOpenToday ? (
-                  <p>opens {tomorrowOpenTime}</p>
+                {!isOpen && !willOpenToday && tomorrowOpenTime.toLowerCase() === 'closed' ? (
+                  // if dispensary is closed and will not open tomorrow
+                  <p className="text-sm">
+                    <em>See hours</em>
+                  </p>
                 ) : (
-                  <p>closes {closeTime}</p>
+                  <>
+                    {!isOpen && willOpenToday ? (
+                      <p>Opens {openTime}</p>
+                    ) : !isOpen && !willOpenToday ? (
+                      <p>opens {tomorrowOpenTime}</p>
+                    ) : (
+                      <p>closes {closeTime}</p>
+                    )}
+                  </>
                 )}
               </div>
               <div className="flex">

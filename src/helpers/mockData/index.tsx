@@ -7,7 +7,7 @@ import { Strain } from '@/interfaces/SearchStrain';
 
 export const products: Array<Product> = [
   {
-    _id: 'entity:product_entity/380:en',
+    _id: 'entity:product_entity/86898:en',
     _index: 'elasticsearch_index_pantheon_index01',
     _score: 6,
     _source: {
@@ -36,7 +36,7 @@ export const products: Array<Product> = [
     },
   },
   {
-    _id: 'entity:product_entity/380:en',
+    _id: 'entity:product_entity/86898:en',
     _index: 'elasticsearch_index_pantheon_index01',
     _score: 6,
     _source: {
@@ -65,7 +65,7 @@ export const products: Array<Product> = [
     },
   },
   {
-    _id: 'entity:product_entity/380:en',
+    _id: 'entity:product_entity/86898:en',
     _index: 'elasticsearch_index_pantheon_index01',
     _score: 6,
     _source: {
@@ -96,7 +96,6 @@ export const products: Array<Product> = [
 ];
 
 export const listings: Array<Dispensary> = [
-
   {
     _id: 'entity:dispensary_entity/6029:en',
     _index: 'elasticsearch_index_pantheon_index01',
@@ -119,6 +118,8 @@ export const listings: Array<Dispensary> = [
       field_reviews_count: [123],
       field_source_url: ['#'],
       field_sponsored: [false],
+      lat: [39.635418],
+      lon: [-76.27047],
       langcode: ['en'],
       name: ['Fake Dispensary'],
       status: [true],
@@ -160,6 +161,8 @@ export const listings: Array<Dispensary> = [
       field_reviews_count: [123],
       field_source_url: ['#'],
       field_sponsored: [false],
+      lat: [39.635418],
+      lon: [-76.27047],
       langcode: ['en'],
       name: ['Fake Dispensary'],
       status: [true],
@@ -201,6 +204,8 @@ export const listings: Array<Dispensary> = [
       field_reviews_count: [123],
       field_source_url: ['#'],
       field_sponsored: [false],
+      lat: [39.635418],
+      lon: [-76.27047],
       langcode: ['en'],
       name: ['Fake Dispensary'],
       status: [true],
@@ -242,6 +247,8 @@ export const listings: Array<Dispensary> = [
       field_reviews_count: [123],
       field_source_url: ['#'],
       field_sponsored: [false],
+      lat: [39.635418],
+      lon: [-76.27047],
       langcode: ['en'],
       name: ['Fake Dispensary'],
       status: [true],
@@ -283,6 +290,8 @@ export const listings: Array<Dispensary> = [
       field_reviews_count: [123],
       field_source_url: ['#'],
       field_sponsored: [false],
+      lat: [39.635418],
+      lon: [-76.27047],
       langcode: ['en'],
       name: ['Fake Dispensary'],
       status: [true],

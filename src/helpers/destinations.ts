@@ -33,7 +33,7 @@ export const destinations: Destination[] = [
     imgSrc: Vancouver,
   },
   {
-    label: 'Amsetdam',
+    label: 'Amsterdam',
     imgSrc: Amsterdamn,
   },
   {

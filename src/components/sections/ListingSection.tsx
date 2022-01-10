@@ -8,9 +8,13 @@ interface Listings {
   listings: Array<Dispensary>;
   sponsored?: boolean;
   query?: string;
+  userCoords?: {
+    lat: number;
+    lng: number;
+  };
 }
 export default function ListingSection(results: Listings) {
-  const { listings, sponsored, query } = results;
+  const { listings, sponsored, query, userCoords } = results;
   return (
     <section id="listing-section">
       {sponsored ? (
@@ -34,6 +38,7 @@ export default function ListingSection(results: Listings) {
                 listing={listing}
                 key={`lc-${listing._id}-${index}`}
                 classNames="p-4 pb-0"
+                userCoords={userCoords}
               />
             );
           } else {

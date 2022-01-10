@@ -41,4 +41,8 @@ export interface DispensaryProps {
   amenities?: boolean;
   classNames?: string;
   discount?: string;
+  userCoords?: {
+    lat: number;
+    lng: number;
+  };
 }

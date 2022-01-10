@@ -91,6 +91,14 @@ export default function FilterMenu(props: FilterMenuProps) {
                           maxName="range.max_price"
                         />
                         <FilterGroup
+                          filters={Filters.type.list}
+                          label={'Type'}
+                          id={'type'}
+                          type="radio"
+                          setFieldValue={setFieldValue}
+                          values={values.filters.type}
+                        />
+                        <FilterGroup
                           filters={Filters.strains.list}
                           label={'Strain Type'}
                           id={'strains'}

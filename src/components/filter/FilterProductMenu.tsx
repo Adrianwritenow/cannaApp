@@ -1,8 +1,7 @@
 import { Dialog, Transition } from '@headlessui/react';
-import React, { FormEvent, Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 
 import FilterGroup from './FilterGroup';
-import FilterGroupPrice from './FilterGroupPrice';
 import { Filters } from '../../helpers/filters';
 import StrainsIcon from '../../../public/assets/icons/iconComponents/Strains';
 import { XIcon } from '@heroicons/react/solid';
@@ -86,6 +85,14 @@ export default function FilterProductMenu(props: FilterMenuProps) {
                         <FilterGroup
                           filters={Filters.pipes.list}
                           label={'Pipes'}
+                          id={'category'}
+                          type="radio"
+                          values={values.filters.category}
+                          setFieldValue={setFieldValue}
+                        />
+                        <FilterGroup
+                          filters={Filters.type.list}
+                          label={'Type'}
                           id={'category'}
                           type="radio"
                           values={values.filters.category}

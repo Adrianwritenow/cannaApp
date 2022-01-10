@@ -39,8 +39,6 @@ export function combinedSearchQuery(searchProps: {
   filters?: { sort: string; category: string };
 }) {
   const { search, coords, distance, filters } = searchProps;
-
-  console.log(searchProps);
   const spatialQuery =
     coords && distance
       ? bodybuilder()
@@ -77,7 +75,6 @@ export function combinedSearchQuery(searchProps: {
   }
 
   const body = query.build();
-  console.log(body);
 
   const results = axios({
     url: `${SEARCH_URL}/elasticsearch_index_dev_cannapages_index01/_search?size=15`,
@@ -86,8 +83,6 @@ export function combinedSearchQuery(searchProps: {
     data: coords && distance ? spatialQuery : body,
   })
     .then((response: AxiosResponse) => {
-      console.log(response.data);
-
       return response.data;
     })
     .catch((error: any) => {

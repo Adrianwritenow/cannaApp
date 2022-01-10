@@ -56,7 +56,6 @@ export default function Search() {
     };
 
     if (results) {
-      console.log('RESULTS', results);
       results.map((result: any, index: number) => {
         switch (true) {
           case result._id.includes('strain_entity'):

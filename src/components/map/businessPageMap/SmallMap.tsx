@@ -17,6 +17,7 @@ function SmallMap({ coords }: { coords: { lat: number; lon: number } }) {
       longitude: coords.lon,
       zoom: 13
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [coords])
   return (
     <div className="h-full w-full">

@@ -26,8 +26,6 @@ export interface Dispensary {
     lon: number[];
     field_email: string[];
     field_time_zone: string[];
-    lat: number[];
-    lon: number[];
     field_coordinates: string[];
     field_rating: string[] | ['0'];
     field_reviews_count: number[] | [0];

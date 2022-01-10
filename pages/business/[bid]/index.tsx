@@ -1,11 +1,10 @@
 import { ArrowLeftIcon, StarIcon } from '@heroicons/react/solid';
 import {
-  BookmarkIcon,
+  // BookmarkIcon,
   GlobeIcon,
   InformationCircleIcon,
   MapIcon,
   PhoneIcon,
-  ShareIcon,
   StarIcon as StarIconOutline,
 } from '@heroicons/react/outline';
 import {
@@ -17,20 +16,25 @@ import React, { useEffect, useState } from 'react';
 import { faqs, listings, reviews } from '@/helpers/mockData';
 
 import AboutUsSlideOver from '../../../src/views/slideOver/AboutUsSlideOver';
+
 import AmenitiesSection from '../../../src/components/sections/AmenitiesSection';
 import BusinessMenuSlideOver from '../../../src/views/slideOver/business/BusinessMenuSlideOver';
 import BusinessReviewSlideOver from '@/views/slideOver/business/BusinessReviewSlideOver';
 import BusinessVerificationSlideOver from '@/views/slideOver/business/BusinessVerifiedSlideOver';
 import { Dispensary } from '../../../src/interfaces/searchDispensary';
 import FaqSlideOver from '../../../src/views/slideOver/FaqSlideOver';
-import Image from 'next/image';
 import ListingCardDropdown from '../../../src/components/listings/ListingCardDropDown';
-import Map from '@/public/assets/images/png/map-mock.png';
+
+// import ReviewsSlideOver from '../../../src/views/slideOver/ReviewsSlideOver';
+
 import SvgIconTwitter from '../../../public/assets/icons/iconComponents/IconTwitter';
 import { getDocument } from '../../../src/actions/search';
 import { useRouter } from 'next/router';
 import { SearchHits } from '@/interfaces/searchHits';
 import Link from 'next/link';
+import moment from 'moment-timezone';
+import SocialShare from '@/components/share/SocialShare';
+import SmallMap from '@/components/map/businessPageMap/SmallMap';
 
 export default function BusinessDetail() {
   const router = useRouter();
@@ -39,18 +43,116 @@ export default function BusinessDetail() {
   const [dispensary, setDispensary] = useState<Dispensary>();
   const [sort, setSort]: any = useState('relevance');
   const listing = listings[0];
+  const [isOpen, setIsOpen] = useState(false);
+  const [willOpenToday, setWillOpenToday] = useState(false);
+  const [openTime, setOpenTime] = useState('');
+  const [closeTime, setCloseTime] = useState('');
+  const [dispensaryTimezone, setDispensaryTimezone] = useState('');
+  const [tomorrowOpenTime, setTomorrowOpenTime] = useState('');
+
+  let now = moment();
+
+  const currentTimeIsBetweenTzTime = (
+    currentTime = new Date(),
+    tmz: string,
+    startTime: string,
+    endTime: string,
+    fmt = 'h:mma'
+  ) => {
+    const time = moment.tz(currentTime, tmz);
+    const start = moment.tz(startTime, fmt, tmz);
+    const end = moment.tz(endTime, fmt, tmz);
+    return (
+      time.isBetween(start, end) ||
+      time.isBetween(start.subtract(1, 'day'), end.subtract(1, 'day')) ||
+      time.isBetween(start.add(2, 'day'), end.add(2, 'day'))
+    );
+  };
+
+  function getSourceValue(key: keyof Dispensary['_source']) {
+    if (dispensary && Object.keys(dispensary._source).includes(key)) {
+      return key as keyof Dispensary['_source'];
+    }
+    throw Error('key not found');
+  }
 
   useEffect(() => {
     if (bid) {
       getDocument(bid).then((document: SearchHits) => {
         if (document) {
           const result = document.hits.hits[0];
-          setDispensary(result as unknown as Dispensary);
+          setDispensary(result as Dispensary);
         }
       });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router]);
+
+  useEffect(() => {
+    if (dispensary && dispensaryTimezone === '') {
+      switch (dispensary?._source.field_time_zone[0]) {
+        case 'EST':
+          setDispensaryTimezone('America/New_York');
+          break;
+        case 'CST':
+          setDispensaryTimezone('America/Chicago');
+          break;
+        case 'MST':
+          setDispensaryTimezone('America/Denver');
+          break;
+        case 'PST':
+          setDispensaryTimezone('America/Los_Angeles');
+          break;
+      }
+    } else if (dispensary && dispensaryTimezone) {
+      const todayKey = getSourceValue(
+        `field_${now
+          .tz(dispensaryTimezone)
+          .format('dddd')
+          .toLowerCase()}_hours` as keyof Dispensary['_source']
+      );
+      const tomorrowKey = getSourceValue(
+        `field_${moment()
+          .add(1, 'days')
+          .tz(dispensaryTimezone)
+          .format('dddd')
+          .toLowerCase()}_hours` as keyof Dispensary['_source']
+      );
+
+      const todayHours = (dispensary?._source[todayKey][0] as string).split(
+        ' - '
+      );
+      const tomorrowHours = (
+        dispensary?._source[tomorrowKey][0] as string
+      ).split(' - ');
+      const todayOpenTime = todayHours[0];
+      const todayCloseTime = todayHours[1];
+      const tomorrowOpenTime = tomorrowHours[0];
+      const todayOpenMoment = moment.tz(
+        todayOpenTime,
+        'h:mmA',
+        dispensaryTimezone
+      );
+
+      setOpenTime(todayOpenTime);
+      setCloseTime(todayCloseTime);
+      setTomorrowOpenTime(tomorrowOpenTime);
+
+      setIsOpen(
+        currentTimeIsBetweenTzTime(
+          new Date(),
+          dispensaryTimezone,
+          todayOpenTime,
+          todayCloseTime
+        )
+      );
+
+      if (moment().tz(dispensaryTimezone).isBefore(todayOpenMoment)) {
+        setWillOpenToday(true);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispensary, dispensaryTimezone]);
 
   return (
     <div className="bg-white">
@@ -72,18 +174,16 @@ export default function BusinessDetail() {
           <ArrowLeftIcon className="text-gray-700 w-4" />
         </button>
         <div className="absolute flex space-x-6 right-0 top-0 z-30 m-4">
-          <button
+          {/****** Need saving favorites working ******/}
+          {/* <button
             onClick={() => router.back()}
             className="bg-white rounded-full shadow-sm  w-10 h-10 flex items-center justify-center"
           >
             <BookmarkIcon className="text-gray-700 w-4" />
-          </button>
-          <button
-            onClick={() => router.back()}
-            className="bg-white rounded-full shadow-sm  w-10 h-10 flex items-center justify-center"
-          >
-            <ShareIcon className="text-gray-700 w-4" />
-          </button>
+          </button> */}
+          <div className="bg-white rounded-full shadow-sm  w-10 h-10 flex items-center justify-center">
+            <SocialShare iconStyles="text-gray-700 w-4" />
+          </div>
         </div>
       </div>
       <div className="p-4 pb-0 shadow-md pb-2">
@@ -102,7 +202,7 @@ export default function BusinessDetail() {
               />
               <p className="p">
                 <span>
-                  {typeof dispensary?._source.field_rating !== 'undefined'
+                  {dispensary?._source.field_rating[0] !== ''
                     ? parseFloat(
                         dispensary?._source.field_rating[0] as string
                       ).toFixed(1)
@@ -113,41 +213,88 @@ export default function BusinessDetail() {
             </div>
             <div className="flex">
               <p>{dispensary?._source._type}</p>
-              <span className="px-1 text-normal">&#8226;&nbsp;</span>
-              {/* Need current location from */}
-              {/* <p>{listing.distance}</p> */}
-              <span className="px-1 text-normal">&#8226;</span>
-              <p>$$$</p>
+
+              {/*****  Need current location from *****/}
+              {/* <span className="px-1 text-normal">&#8226;&nbsp;</span>
+              <p>{listing.distance}</p> */}
+
+              {/***** Need pricing info *****/}
+              {/* <span className="px-1 text-normal">&#8226;</span>
+              <p>$$$</p> */}
             </div>
             <div className="flex justify-between">
-              {/* <div className="flex">
-                <p className="text-normal text-blue-500">Open</p>
+              <div className="flex">
+                {isOpen ? (
+                  <p className="text-normal text-blue-500">Open</p>
+                ) : (
+                  <p className="text-normal text-red-500">Closed</p>
+                )}
                 <span className="px-1 text-normal">&#8226;</span>
-                <p>Closes {listing.closeTime}</p>
-              </div> */}
+                {!isOpen && !willOpenToday && tomorrowOpenTime.toLowerCase() === 'closed' ? (
+                  // if dispensary is closed and will not open tomorrow
+                  <p className="text-sm">
+                    <em>See hours</em>
+                  </p>
+                ) : (
+                  <>
+                    {!isOpen && willOpenToday ? (
+                      <p>Opens {openTime}</p>
+                    ) : !isOpen && !willOpenToday ? (
+                      <p>opens {tomorrowOpenTime}</p>
+                    ) : (
+                      <p>closes {closeTime}</p>
+                    )}
+                  </>
+                )}
+              </div>
               <div className="flex">
                 <InformationCircleIcon className="w-5 h-5" />
-                <p className="pl-1">See Operating Hours</p>
+                <Link href="#business-hours" passHref>
+                  <a className="pl-1">See Operating Hours</a>
+                </Link>
               </div>
             </div>
           </div>
-          <div className="grid grid-cols-4 grid-flow-col auto-cols-max w-full pt-3">
-            <button className="text-gray-500 flex flex-wrap justify-center py-2">
+          <div className="flex justify-around auto-cols-max w-full justify-center pt-3 w-full">
+            <a
+              href={`tel:${dispensary?._source.field_phone_number}`}
+              className="text-gray-500 flex flex-wrap justify-center py-2"
+            >
               <PhoneIcon className="w-6 h-6 " />
               <span className="w-full text-center text-xs">Call</span>
-            </button>
-            <button className="text-gray-500 flex flex-wrap justify-center py-2">
+            </a>
+            <a
+              href={`http://maps.google.com/maps?q=${
+                dispensary?._source.name
+              }+${
+                dispensary?._source.address_line1[0]
+                  ? dispensary?._source.address_line1[0]
+                  : dispensary?._source.field_coordinates
+              }&ll=${dispensary?._source.field_coordinates}&z=17`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-500 flex flex-wrap justify-center py-2"
+            >
               <MapIcon className="w-6 h-6 " />
               <span className="w-full text-center text-xs">Directions</span>
-            </button>
-            <button className="text-gray-500 flex flex-wrap justify-center py-2">
-              <GlobeIcon className="w-6 h-6 " />
-              <span className="w-full text-center text-xs">Website</span>
-            </button>
-            <button className="text-gray-500 flex flex-wrap justify-center py-2">
+            </a>
+            {dispensary?._source.field_website !== undefined && (
+              <a
+                href={`${dispensary?._source.field_website}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-500 flex flex-wrap justify-center py-2"
+              >
+                <GlobeIcon className="w-6 h-6 " />
+                <span className="w-full text-center text-xs">Website</span>
+              </a>
+            )}
+
+            {/***** Need Reviews *****/}
+            {/* <button className="text-gray-500 flex flex-wrap justify-center py-2">
               <StarIconOutline className="w-6 h-6 " />
               <span className="w-full text-center text-xs">Review</span>
-            </button>
+            </button> */}
           </div>
         </section>
       </div>
@@ -167,13 +314,14 @@ export default function BusinessDetail() {
           <h2 className="sr-only">Location</h2>
 
           <div className="w-full h-48 relative rounded-lg overflow-hidden">
-            <Image
-              unoptimized
-              src={Map}
-              layout="fill"
-              objectFit={'cover'}
-              alt={'Map'}
-            />
+            {dispensary && (
+              <SmallMap
+                coords={{
+                  lat: dispensary?._source.lat[0],
+                  lon: dispensary?._source.lon[0],
+                }}
+              />
+            )}
           </div>
 
           <div className="text-lg text-gray-500 w-full grid grid-flow-row auto-rows-max gap-2">
@@ -184,74 +332,105 @@ export default function BusinessDetail() {
               {dispensary?._source.address_line1[0]}
               <br />
               {dispensary?._source.locality[0]},{' '}
-              {dispensary?._source.administrative_area}
+              {dispensary?._source.administrative_area}{' '}
+              {dispensary?._source.postal_code[0]}
             </p>
             {/* <p>{listing.distance} away</p> */}
           </div>
-          <div className="pt-5 ">
-            <button className="py-4 w-full uppercase text-gray-700 text-xs font-semibold border-t border-gray-200 tracking-widest text-green">
+          <div className="pt-5 w-full flex justify-center ">
+            <a
+              href={`http://maps.google.com/maps?q=${
+                dispensary?._source.name
+              }+${
+                dispensary?._source.address_line1[0]
+                  ? dispensary?._source.address_line1[0]
+                  : dispensary?._source.field_coordinates
+              }&ll=${dispensary?._source.field_coordinates}&z=17`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="py-4 uppercase text-gray-700 text-xs font-semibold border-t border-gray-200 tracking-widest text-green w-full text-center"
+            >
               Get Directions
-            </button>
+            </a>
           </div>
         </section>
         {/* Socials */}
-        <section className="py-2">
-          <h2 id="business-socilas" className="sr-only">
-            Find us on Social Media
-          </h2>
-          <h2
-            id="business-socilas"
-            className="text-lg text-gray-700 font-semibold"
-          >
-            Find us on Social Media
-          </h2>
+        {dispensary?._source.field_facebook ||
+        dispensary?._source.field_twitter ||
+        dispensary?._source.field_instagram ? (
+          <section className="py-2">
+            <h2 id="business-socilas" className="sr-only">
+              Find us on Social Media
+            </h2>
+            <h2
+              id="business-socilas"
+              className="text-lg text-gray-700 font-semibold"
+            >
+              Find us on Social Media
+            </h2>
 
-          <div className="grid grid-flow-row auto-rows-max ">
-            <div className="pt-5 ">
-              {typeof dispensary?._source.field_facebook !== 'undefined' && (
-                <Link
-                  href={`${dispensary?._source.field_facebook[0]}`}
-                  passHref
-                >
-                  <a>
-                    <button className="py-4 w-full text-gray-700 flex items-center justify-start ">
-                      <IconFacebook className="w-10 h-10 text-gray-400" />
-                      <span className="pl-4 text-sm">
-                        {dispensary?._source.field_facebook[0]}
-                      </span>
-                    </button>{' '}
-                  </a>
-                </Link>
-              )}
-              {typeof dispensary?._source.field_twitter !== 'undefined' && (
-                <Link href={`${dispensary?._source.field_twitter[0]}`}>
-                  <a>
-                    <button className="py-4 w-full text-gray-700 flex items-center justify-start">
-                      <SvgIconTwitter className="w-10 h-10 text-gray-400" />
+            <div className="grid grid-flow-row auto-rows-max ">
+              <div className="pt-5 ">
+                {typeof dispensary?._source.field_facebook !== 'undefined' && (
+                  <Link
+                    href={`${dispensary?._source.field_facebook[0]}`}
+                    passHref
+                  >
+                    <a>
+                      <button className="py-4 w-full text-gray-700 flex items-center justify-start ">
+                        <IconFacebook className="w-10 h-10 text-gray-400" />
+                        <span className="pl-4 text-sm">
+                          {
+                            dispensary?._source.field_facebook[0].split('/')[
+                              dispensary?._source.field_facebook[0].split('/')
+                                .length - 1
+                            ]
+                          }
+                        </span>
+                      </button>{' '}
+                    </a>
+                  </Link>
+                )}
+                {typeof dispensary?._source.field_twitter !== 'undefined' && (
+                  <Link href={`${dispensary?._source.field_twitter[0]}`}>
+                    <a>
+                      <button className="py-4 w-full text-gray-700 flex items-center justify-start">
+                        <SvgIconTwitter className="w-10 h-10 text-gray-400" />
 
-                      <span className="pl-4 text-sm">
-                        {dispensary?._source.field_twitter[0]}
-                      </span>
-                    </button>
-                  </a>
-                </Link>
-              )}
-              {typeof dispensary?._source.field_instagram !== 'undefined' && (
-                <Link href={`${dispensary?._source.field_instagram[0]}`}>
-                  <a>
-                    {' '}
-                    <button className="py-4 w-full text-gray-700 flex items-center justify-start   ">
-                      <IconInsta className="w-10 h-10 text-gray-400" />
-                      <span className="pl-4 text-sm">
-                        {dispensary?._source.field_instagram[0]}
-                      </span>
-                    </button>{' '}
-                  </a>
-                </Link>
-              )}
+                        <span className="pl-4 text-sm">
+                          {
+                            dispensary?._source.field_twitter[0].split('/')[
+                              dispensary?._source.field_twitter[0].split('/')
+                                .length - 1
+                            ]
+                          }
+                        </span>
+                      </button>
+                    </a>
+                  </Link>
+                )}
+                {typeof dispensary?._source.field_instagram !== 'undefined' && (
+                  <Link href={`${dispensary?._source.field_instagram[0]}`}>
+                    <a>
+                      {' '}
+                      <button className="py-4 w-full text-gray-700 flex items-center justify-start   ">
+                        <IconInsta className="w-10 h-10 text-gray-400" />
+                        <span className="pl-4 text-sm">
+                          {
+                            dispensary?._source.field_instagram[0].split('/')[
+                              dispensary?._source.field_instagram[0].split('/')
+                                .length - 1
+                            ]
+                          }
+                        </span>
+                      </button>{' '}
+                    </a>
+                  </Link>
+                )}
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        ) : null}
         {/* Hours of Operation */}
         <section>
           <h2 id="business-hours" className="sr-only">

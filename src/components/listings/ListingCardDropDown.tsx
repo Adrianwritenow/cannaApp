@@ -1,11 +1,11 @@
 import { CheckIcon, StarIcon } from '@heroicons/react/solid';
+import React, { useEffect, useState } from 'react';
 
 import { BookmarkIcon } from '@heroicons/react/outline';
 import { Disclosure } from '@headlessui/react';
 import { DispensaryProps } from '../../interfaces/listing';
 import ImageWithFallback from '../image/ImageWithFallback';
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
 import { getDistance } from 'geolib';
 
 export default function ListingCardDropdown(data: DispensaryProps) {
@@ -18,17 +18,22 @@ export default function ListingCardDropdown(data: DispensaryProps) {
 
   useEffect(() => {
     if (userCoords && listing) {
-      const distance = getDistance(
-        {
-          latitude: listing._source.lat[0],
-          longitude: listing._source.lon[0],
-        },
-        {
-          latitude: userCoords?.lat,
-          longitude: userCoords?.lng,
-        }
+      const isEmpty = Object.values(userCoords).every(
+        x => x === null || x === undefined
       );
-      setDistanceFrom(`${getMiles(distance).toFixed(1)} mi`);
+      if (!isEmpty) {
+        const distance = getDistance(
+          {
+            latitude: listing._source.lat[0],
+            longitude: listing._source.lon[0],
+          },
+          {
+            latitude: userCoords?.lat,
+            longitude: userCoords?.lng,
+          }
+        );
+        setDistanceFrom(`${getMiles(distance).toFixed(1)} mi`);
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userCoords]);

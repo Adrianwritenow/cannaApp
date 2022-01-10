@@ -39,8 +39,10 @@ export default function SearchSlideOver(props: {
   });
 
   async function handleSubmit(search: any) {
-    const hits: SearchHits = await combinedSearchQuery(search);
-    dispatch(receiveResults({ search: search, data: hits.hits.hits }));
+    const hits: SearchHits = await combinedSearchQuery({ search: search });
+    if (hits.hits.hits.length) {
+      dispatch(receiveResults({ search: search, data: hits.hits.hits }));
+    }
   }
   function handleSearch(search: any) {
     handleSubmit(search);

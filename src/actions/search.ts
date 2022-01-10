@@ -32,11 +32,15 @@ export const receiveResults = (data: any) => ({
 //   return results;
 // }
 
-export function combinedSearchQuery(
-  search: string,
-  coords?: any,
-  distance?: string
-) {
+export function combinedSearchQuery(searchProps: {
+  search: string;
+  coords?: any;
+  distance?: string;
+  filters?: { sort: string; category: string };
+}) {
+  const { search, coords, distance, filters } = searchProps;
+
+  console.log(searchProps);
   const spatialQuery =
     coords && distance
       ? bodybuilder()
@@ -48,49 +52,47 @@ export function combinedSearchQuery(
           .build()
       : bodybuilder().query('query_string', 'query', search).build();
 
-  const query = bodybuilder().query('query_string', 'query', search).build();
+  const query = bodybuilder().query('query_string', 'query', search);
+
+  if (filters?.category) {
+    if (filters?.category[0]) {
+      query.filter('match', 'category', filters.category[0]);
+    }
+  }
+
+  if (filters?.sort) {
+    if (filters?.sort[0]) {
+      const sort = filters?.sort[0];
+      switch (sort) {
+        case 'Price: Hight to Low':
+          query.sort('field_price', 'desc');
+          break;
+        case 'Price: Low to High':
+          query.sort('field_price', 'asc');
+          break;
+        default:
+          break;
+      }
+    }
+  }
+
+  const body = query.build();
+  console.log(body);
 
   const results = axios({
     url: `${SEARCH_URL}/elasticsearch_index_dev_cannapages_index01/_search?size=15`,
     headers: { 'Content-Type': 'application/json' },
     method: 'POST',
-    data: coords && distance ? spatialQuery : query,
-  }).then((response: AxiosResponse) =>  response.data);
+    data: coords && distance ? spatialQuery : body,
+  })
+    .then((response: AxiosResponse) => {
+      console.log(response.data);
 
-  return results;
-}
-
-export function searchQuery(search: string) {
-  var body = bodybuilder().query('query_string', 'query', search).build();
-
-  const data = JSON.stringify(body);
-
-  // const results = axios({
-  //   url: `${SEARCH_URL}/_search`,
-  //   method: "POST",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  //   data: data,
-  // }).then((res: AxiosResponse) => {
-  //   return res.data;
-  // });
-
-  const results = axios
-    .get(`${SEARCH_URL}/_search?size=6`, { params: { q: search } })
-    .then((res: AxiosResponse) => {
-      return res.data;
+      return response.data;
+    })
+    .catch((error: any) => {
+      console.log(error);
     });
-
-  // const results = axios
-  //   .get(`${SEARCH_URL}`, {
-  //     params: {
-  //       q: data,
-  //     },
-  //   })
-  //   .then((res: AxiosResponse) => {
-  //     console.log(res);
-  //   });
 
   return results;
 }

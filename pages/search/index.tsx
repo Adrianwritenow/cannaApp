@@ -56,6 +56,7 @@ export default function Search() {
     };
 
     if (results) {
+      console.log('RESULTS', results);
       results.map((result: any, index: number) => {
         switch (true) {
           case result._id.includes('strain_entity'):
@@ -72,12 +73,11 @@ export default function Search() {
         }
       });
     }
-    if (currentQuery !== query) {
-      setSearchLists(searchListUpdate);
-    }
+    setSearchLists(searchListUpdate);
+
     setCurrentQuery(query);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [view, results, searchLists]);
+  }, [view, results]);
 
   return (
     <div className="bg-gray-50 ">

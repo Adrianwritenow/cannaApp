@@ -96,6 +96,7 @@ export const products: Array<Product> = [
 
 export const listings: Array<Dispensary> = [
 
+ 
   {
     _id: 'entity:dispensary_entity/6029:en',
     _index: 'elasticsearch_index_pantheon_index01',
@@ -130,11 +131,15 @@ export const listings: Array<Dispensary> = [
       field_tuesday_hours: ['9:00 AM - 9:00 PM'],
       field_wednesday_hours: ['9:00 AM - 9:00 PM'],
       field_thursday_hours: ['9:00 AM - 9:00 PM'],
+      lat: [39.635418],
+      lon: [-76.270470],
       field_friday_hours: ['9:00 AM - 9:00 PM'],
+      field_time_zone: ['EST'],
       field_saturday_hours: ['9:00 AM - 9:00 PM'],
       field_sunday_hours: ['9:00 AM - 9:00 PM'],
       locality: ['Key West'],
       administrative_area: ['FL'],
+      field_website: ['https://www.google.com']
     },
   },
   {
@@ -171,11 +176,15 @@ export const listings: Array<Dispensary> = [
       field_tuesday_hours: ['9:00 AM - 9:00 PM'],
       field_wednesday_hours: ['9:00 AM - 9:00 PM'],
       field_thursday_hours: ['9:00 AM - 9:00 PM'],
+      lat: [39.635418],
+      lon: [-76.270470],
       field_friday_hours: ['9:00 AM - 9:00 PM'],
+      field_time_zone: ['EST'],
       field_saturday_hours: ['9:00 AM - 9:00 PM'],
       field_sunday_hours: ['9:00 AM - 9:00 PM'],
       locality: ['Key West'],
       administrative_area: ['FL'],
+      field_website: ['https://www.google.com']
     },
   },
   {
@@ -212,11 +221,15 @@ export const listings: Array<Dispensary> = [
       field_tuesday_hours: ['9:00 AM - 9:00 PM'],
       field_wednesday_hours: ['9:00 AM - 9:00 PM'],
       field_thursday_hours: ['9:00 AM - 9:00 PM'],
+      lat: [39.635418],
+      lon: [-76.270470],
       field_friday_hours: ['9:00 AM - 9:00 PM'],
+      field_time_zone: ['EST'],
       field_saturday_hours: ['9:00 AM - 9:00 PM'],
       field_sunday_hours: ['9:00 AM - 9:00 PM'],
       locality: ['Key West'],
       administrative_area: ['FL'],
+      field_website: ['https://www.google.com']
     },
   },
   {
@@ -253,11 +266,15 @@ export const listings: Array<Dispensary> = [
       field_tuesday_hours: ['9:00 AM - 9:00 PM'],
       field_wednesday_hours: ['9:00 AM - 9:00 PM'],
       field_thursday_hours: ['9:00 AM - 9:00 PM'],
+      lat: [39.635418],
+      lon: [-76.270470],
       field_friday_hours: ['9:00 AM - 9:00 PM'],
+      field_time_zone: ['EST'],
       field_saturday_hours: ['9:00 AM - 9:00 PM'],
       field_sunday_hours: ['9:00 AM - 9:00 PM'],
       locality: ['Key West'],
       administrative_area: ['FL'],
+      field_website: ['https://www.google.com']
     },
   },
   {
@@ -294,11 +311,15 @@ export const listings: Array<Dispensary> = [
       field_tuesday_hours: ['9:00 AM - 9:00 PM'],
       field_wednesday_hours: ['9:00 AM - 9:00 PM'],
       field_thursday_hours: ['9:00 AM - 9:00 PM'],
+      lat: [39.635418],
+      lon: [-76.270470],
       field_friday_hours: ['9:00 AM - 9:00 PM'],
+      field_time_zone: ['EST'],
       field_saturday_hours: ['9:00 AM - 9:00 PM'],
       field_sunday_hours: ['9:00 AM - 9:00 PM'],
       locality: ['Key West'],
       administrative_area: ['FL'],
+      field_website: ['https://www.google.com']
     },
   },
 ];

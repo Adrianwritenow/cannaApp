@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { XIcon } from '@heroicons/react/outline';
 import { useRouter } from 'next/router';
 
-export default function SocialShare() {
+export default function SocialShare({ iconStyles = '' }: { iconStyles?: string }) {
   const [open, setOpen] = useState(false);
   const router = useRouter();
 
@@ -37,12 +37,12 @@ export default function SocialShare() {
           setOpen(true);
         }}
       >
-        <IconShare className="w-5 h-5 text-green-500" />
+        <IconShare className={`${iconStyles ? iconStyles : 'w-5 h-5 text-green-500' }`} />
       </button>
       <Transition.Root show={open} as={Fragment}>
         <Dialog
           as="div"
-          className="fixed z-10 inset-0 overflow-y-auto"
+          className="fixed z-50 inset-0 overflow-y-auto"
           onClose={setOpen}
         >
           <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
@@ -114,7 +114,10 @@ export default function SocialShare() {
                         <div className="border-b-2 pb-4">Email</div>
                       </a>
                     </Link>
-                    {platforms.map((platform, idx) => (
+
+                    {/* TODO: set up open graph protocol formatting for social share links */}
+                    
+                    {/* {platforms.map((platform, idx) => (
                       <div
                         key={platform.name}
                         className={`${
@@ -127,7 +130,7 @@ export default function SocialShare() {
                           <a>Share on {platform.name}</a>
                         </Link>
                       </div>
-                    ))}
+                    ))} */}
                   </div>
                 </div>
               </div>

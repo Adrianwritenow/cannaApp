@@ -10,13 +10,14 @@ import BullseyeIcon from '@/public/assets/icons/iconComponents/Bullseye';
 import { combinedSearchQuery, receiveResults } from '@/actions/search';
 import { SearchState } from '@/interfaces/searchState';
 import { useRouter } from 'next/router';
+import { SearchHits } from '@/interfaces/searchHits';
 
 export const MapContext = createContext<any>(null);
 
-export function MapContainer() {
+export function MapContainer({ data }: any) {
   const [showMap, setShowMap] = useState(true);
-  const { results, query } = useSelector((root: RootState) => root.search);
-  const { city, lat, lng } = useSelector((root: RootState) => root.location);
+  // const { results, query } = useSelector((root: RootState) => root.search);
+  const location = useSelector((root: RootState) => root.location);
   const [dispensaryResults, setDispensaryResults] = useState<any>([]);
   const dispatch = useDispatch();
   const [resultsShouldUpdate, setResultsShouldUpdate] = useState(false);
@@ -30,72 +31,19 @@ export function MapContainer() {
     lon: null,
   });
 
-  useEffect(() => {
-    let searchListUpdate: any = {
-      dispensaries: [],
-    };
-
-    if (results) {
-      results.filter((result: any) => {
-        if (
-          result._id.includes('dispensary') &&
-          typeof result._source.lat !== 'undefined'
-        ) {
-          searchListUpdate.dispensaries.push(result);
-        }
-      });
-    }
-    if (currentQuery !== query) {
-      setDispensaryResults(searchListUpdate);
-    }
-    setCurrentQuery(query);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [results, dispensaryResults, userCoordinates]);
-
-  async function handleSubmit(search: any, coords: any, distance: any) {
-    const hits: any = await combinedSearchQuery(search, coords, distance);
+  async function handleSubmit() {
+    const hits: any = await combinedSearchQuery(
+      location.city,
+      { lat: location.lat, lon: location.lng },
+      '10mi'
+    );
     dispatch(
       receiveResults({
-        // search: city,
-        search: 'My Location',
+        search: location.city,
         data: hits.hits.hits,
       })
     );
   }
-
-  // const getLocation = () => {
-  //   setUserCoordinates({ lat: lat, lon: lng });
-  //   setResultsShouldUpdate(true);
-  // };
-
-  const getLocation = async () => {
-    if (!navigator.geolocation) {
-      alert('Geolocation is not supported by your browser');
-    } else {
-      navigator.geolocation.getCurrentPosition(
-        position => {
-          setResultsShouldUpdate(true);
-          setUserCoordinates({
-            lat: position.coords.latitude,
-            lon: position.coords.longitude,
-          });
-        },
-        err => console.log(err)
-      );
-    }
-  };
-
-  useEffect(() => {
-    if (resultsShouldUpdate && results.length) {
-      setResultsShouldUpdate(false);
-
-      handleSubmit(
-        '',
-        { lat: userCoordinates.lat, lon: userCoordinates.lon },
-        '10mi'
-      );
-    }
-  }, [userCoordinates]);
 
   return (
     <>
@@ -111,7 +59,7 @@ export function MapContainer() {
         </div>
       )}
 
-      {typeof dispensaryResults.dispensaries !== 'undefined' && (
+      {typeof data && (
         <MapContext.Provider
           value={{
             activeCard,
@@ -120,16 +68,15 @@ export function MapContainer() {
             setSwiper,
             showResults,
             setShowResults,
-            userCoordinates,
+            // userCoordinates,
           }}
         >
           <div className="overflow-hidden">
             <section className=" relative w-screen">
-              {typeof dispensaryResults.dispensaries !== 'undefined' &&
-              showMap ? (
+              {typeof data !== 'undefined' && showMap ? (
                 <>
                   <button
-                    onClick={() => getLocation()}
+                    onClick={handleSubmit}
                     className="z-10 right-5 top-5 bg-green-400 h-10 w-10 flex items-center justify-center rounded-3xl absolute"
                   >
                     <BullseyeIcon
@@ -138,10 +85,7 @@ export function MapContainer() {
                       width={24}
                     />
                   </button>
-                  <Map
-                    data={dispensaryResults.dispensaries}
-                    currentViewport={width}
-                  />
+                  <Map data={data} currentViewport={width} />
                   <div
                     className={`transition-all duration-500 absolute bottom-64
                 ${
@@ -157,7 +101,7 @@ export function MapContainer() {
                     </button>
                   </div>
                   <div className="">
-                    <MapResults data={dispensaryResults.dispensaries} />
+                    <MapResults data={data} />
                   </div>
                 </>
               ) : null}

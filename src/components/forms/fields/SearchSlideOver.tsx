@@ -7,7 +7,11 @@ import {
 import { Dialog, Transition } from '@headlessui/react';
 import { Field, Form, Formik } from 'formik';
 import React, { Fragment, Ref, useEffect, useState } from 'react';
-import { combinedSearchQuery, receiveResults, searchQuery } from '../../../actions/search';
+import {
+  combinedSearchQuery,
+  receiveResults,
+  searchQuery,
+} from '../../../actions/search';
 import { getLocationByIP, setLocation } from '../../../actions/location';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -29,31 +33,46 @@ export default function SearchSlideOver(props: {
   const { results, query } = useSelector((root: RootState) => root.search);
   const location = useSelector((root: RootState) => root.location);
   const dispatch = useDispatch();
+  const [initialResultsSet, setInitialResultsSet] = useState(false);
   const router = useRouter();
   const { searchRoute } = props;
 
   const [initialValues, setInitialValues] = useState({ search: '' });
 
-   async function handleSubmit(search: any) {
-     const hits: SearchHits = await combinedSearchQuery(search);
-     dispatch(receiveResults({ search: search, data: hits.hits.hits }));
-   }
+  async function handleSubmit(search: any) {
+    const hits: SearchHits = await combinedSearchQuery(search);
+    dispatch(receiveResults({ search: search, data: hits.hits.hits }));
+  }
   function handleSearch(search: any) {
     handleSubmit(search);
   }
+  console.log(query);
 
   // Get initial location data based on Client IP
   useEffect(() => {
-    async function getLocation () {
+    async function getLocation() {
       const data: LocationData = await getLocationByIP();
       dispatch(setLocation(data));
     }
 
-    if (! Object.keys(location).length) {
+    if (!Object.keys(location).length) {
       getLocation();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Get initial dispensary results based on Client IP
+  useEffect(() => {
+    async function getDispensaryResults() {
+      const hits: SearchHits = await combinedSearchQuery(location.city);
+      dispatch(receiveResults({ search: location.city, data: hits.hits.hits }));
+    }
+
+    if (location.city && query === '') {
+      getDispensaryResults();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.city]);
 
   useEffect(() => {}, [initialValues, results]);
 

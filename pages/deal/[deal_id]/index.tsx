@@ -5,6 +5,7 @@ import Image from 'next/image';
 import ImageSlider from '@/components/slider/ImageSlider';
 import Map from '@/public/assets/images/png/map-mock.png';
 import { Product } from '@/interfaces/searchProduct';
+import { SearchHits } from '@/interfaces/searchHits';
 import { StarIcon } from '@heroicons/react/solid';
 import { getDocument } from '@/actions/search';
 import { useRouter } from 'next/router';
@@ -16,19 +17,20 @@ export default function DealOverview() {
 
   useEffect(() => {
     if (deal_id) {
-      getDocument(deal_id).then(
-        (document: React.SetStateAction<Product | undefined>) => {
-          setProduct(document);
+      getDocument(deal_id).then((document: SearchHits) => {
+        if (document) {
+          const result = document.hits.hits[0];
+          setProduct(result as unknown as Product);
         }
-      );
+      });
     }
-  }, [router]);
+  }, [router, deal_id]);
 
   return (
     <div className="bg-gray-50">
       <ImageSlider images={[]} />
       <div className="px-4 pt-5">
-        {product && (
+        {product?._source && (
           <div>
             <section>
               <div>
@@ -106,20 +108,22 @@ export default function DealOverview() {
             <h2 className="text-gray-700 text-lg font-semibold">
               Deal Details
             </h2>
-            <div className="text-sm text-gray-500 pt-2">
-              <p>
-                <span className="text-black">Store Name: </span>
-                {product?._source.name_1}
-              </p>
-              <p>
-                <span className="text-black">Type: </span>
-                {product?._source._type}
-              </p>
-              <p>
-                <span className="text-black">Category: </span>
-                {product?._source.category}
-              </p>
-            </div>
+            {product?._source && (
+              <div className="text-sm text-gray-500 pt-2">
+                <p>
+                  <span className="text-black">Store Name: </span>
+                  {product?._source.name_1}
+                </p>
+                <p>
+                  <span className="text-black">Type: </span>
+                  {product?._source._type}
+                </p>
+                <p>
+                  <span className="text-black">Category: </span>
+                  {product?._source.category}
+                </p>
+              </div>
+            )}
           </div>
           <p className="text-sm text-gray-700 pt-2">
             Ut varius scelerisque augue et condimentum. Curabitur mi mauris,

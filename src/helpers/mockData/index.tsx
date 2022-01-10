@@ -2,11 +2,12 @@ import { Coupon } from '../../interfaces/coupon';
 import { Dispensary } from '@/interfaces/searchDispensary';
 import { Faq } from '@/interfaces/faq';
 import { Product } from '@/interfaces/searchProduct';
+import { Review } from '@/interfaces/review';
 import { Strain } from '@/interfaces/SearchStrain';
 
 export const products: Array<Product> = [
   {
-    _id: 'entity:product_entity/380:en',
+    _id: 'entity:product_entity/86898:en',
     _index: 'elasticsearch_index_pantheon_index01',
     _score: 6,
     _source: {
@@ -22,7 +23,7 @@ export const products: Array<Product> = [
       field_rating: [3.5],
       field_review_count: [123],
       field_brand: ['Fake Brand'],
-      field_price: ['12.99'],
+      field_price: [12.99],
       field_price_label: ['per 1/2 oz'],
       field_source_url_1: ['#'],
       field_sponsored: [false],
@@ -35,7 +36,7 @@ export const products: Array<Product> = [
     },
   },
   {
-    _id: 'entity:product_entity/380:en',
+    _id: 'entity:product_entity/86898:en',
     _index: 'elasticsearch_index_pantheon_index01',
     _score: 6,
     _source: {
@@ -51,7 +52,7 @@ export const products: Array<Product> = [
       field_rating: [3.5],
       field_brand: ['Fake Brand'],
       field_review_count: [123],
-      field_price: ['12.99'],
+      field_price: [12.99],
       field_price_label: ['per 1/2 oz'],
       field_source_url_1: ['#'],
       field_sponsored: [false],
@@ -64,7 +65,7 @@ export const products: Array<Product> = [
     },
   },
   {
-    _id: 'entity:product_entity/380:en',
+    _id: 'entity:product_entity/86898:en',
     _index: 'elasticsearch_index_pantheon_index01',
     _score: 6,
     _source: {
@@ -80,7 +81,7 @@ export const products: Array<Product> = [
       field_rating: [3.5],
       field_brand: ['Fake Brand'],
       field_review_count: [123],
-      field_price: ['12.99'],
+      field_price: [12.99],
       field_price_label: ['per 1/2 oz'],
       field_source_url_1: ['#'],
       field_sponsored: [false],
@@ -95,6 +96,7 @@ export const products: Array<Product> = [
 ];
 
 export const listings: Array<Dispensary> = [
+
   {
     _id: 'entity:dispensary_entity/6029:en',
     _index: 'elasticsearch_index_pantheon_index01',
@@ -117,11 +119,27 @@ export const listings: Array<Dispensary> = [
       field_reviews_count: [123],
       field_source_url: ['#'],
       field_sponsored: [false],
+      lat: [39.635418],
+      lon: [-76.27047],
       langcode: ['en'],
       name: ['Fake Dispensary'],
       status: [true],
       _language: 'en',
       _type: 'doc',
+      field_facebook: ['https://www.facebook.com/Fake-Dispensary-6029'],
+      field_instagram: ['https://www.instagram.com/fake_dispensary'],
+      field_twitter: ['https://twitter.com/fake_dispensary'],
+      field_monday_hours: ['9:00 AM - 9:00 PM'],
+      field_tuesday_hours: ['9:00 AM - 9:00 PM'],
+      field_wednesday_hours: ['9:00 AM - 9:00 PM'],
+      field_thursday_hours: ['9:00 AM - 9:00 PM'],
+      field_friday_hours: ['9:00 AM - 9:00 PM'],
+      field_time_zone: ['EST'],
+      field_saturday_hours: ['9:00 AM - 9:00 PM'],
+      field_sunday_hours: ['9:00 AM - 9:00 PM'],
+      locality: ['Key West'],
+      administrative_area: ['FL'],
+      field_website: ['https://www.google.com']
     },
   },
   {
@@ -146,11 +164,27 @@ export const listings: Array<Dispensary> = [
       field_reviews_count: [123],
       field_source_url: ['#'],
       field_sponsored: [false],
+      lat: [39.635418],
+      lon: [-76.27047],
       langcode: ['en'],
       name: ['Fake Dispensary'],
       status: [true],
       _language: 'en',
       _type: 'doc',
+      field_facebook: ['https://www.facebook.com/Fake-Dispensary-6029'],
+      field_instagram: ['https://www.instagram.com/fake_dispensary'],
+      field_twitter: ['https://twitter.com/fake_dispensary'],
+      field_monday_hours: ['9:00 AM - 9:00 PM'],
+      field_tuesday_hours: ['9:00 AM - 9:00 PM'],
+      field_wednesday_hours: ['9:00 AM - 9:00 PM'],
+      field_thursday_hours: ['9:00 AM - 9:00 PM'],
+      field_friday_hours: ['9:00 AM - 9:00 PM'],
+      field_time_zone: ['EST'],
+      field_saturday_hours: ['9:00 AM - 9:00 PM'],
+      field_sunday_hours: ['9:00 AM - 9:00 PM'],
+      locality: ['Key West'],
+      administrative_area: ['FL'],
+      field_website: ['https://www.google.com']
     },
   },
   {
@@ -175,11 +209,27 @@ export const listings: Array<Dispensary> = [
       field_reviews_count: [123],
       field_source_url: ['#'],
       field_sponsored: [false],
+      lat: [39.635418],
+      lon: [-76.27047],
       langcode: ['en'],
       name: ['Fake Dispensary'],
       status: [true],
       _language: 'en',
       _type: 'doc',
+      field_facebook: ['https://www.facebook.com/Fake-Dispensary-6029'],
+      field_instagram: ['https://www.instagram.com/fake_dispensary'],
+      field_twitter: ['https://twitter.com/fake_dispensary'],
+      field_monday_hours: ['9:00 AM - 9:00 PM'],
+      field_tuesday_hours: ['9:00 AM - 9:00 PM'],
+      field_wednesday_hours: ['9:00 AM - 9:00 PM'],
+      field_thursday_hours: ['9:00 AM - 9:00 PM'],
+      field_friday_hours: ['9:00 AM - 9:00 PM'],
+      field_time_zone: ['EST'],
+      field_saturday_hours: ['9:00 AM - 9:00 PM'],
+      field_sunday_hours: ['9:00 AM - 9:00 PM'],
+      locality: ['Key West'],
+      administrative_area: ['FL'],
+      field_website: ['https://www.google.com']
     },
   },
   {
@@ -204,11 +254,27 @@ export const listings: Array<Dispensary> = [
       field_reviews_count: [123],
       field_source_url: ['#'],
       field_sponsored: [false],
+      lat: [39.635418],
+      lon: [-76.27047],
       langcode: ['en'],
       name: ['Fake Dispensary'],
       status: [true],
       _language: 'en',
       _type: 'doc',
+      field_facebook: ['https://www.facebook.com/Fake-Dispensary-6029'],
+      field_instagram: ['https://www.instagram.com/fake_dispensary'],
+      field_twitter: ['https://twitter.com/fake_dispensary'],
+      field_monday_hours: ['9:00 AM - 9:00 PM'],
+      field_tuesday_hours: ['9:00 AM - 9:00 PM'],
+      field_wednesday_hours: ['9:00 AM - 9:00 PM'],
+      field_thursday_hours: ['9:00 AM - 9:00 PM'],
+      field_friday_hours: ['9:00 AM - 9:00 PM'],
+      field_time_zone: ['EST'],
+      field_saturday_hours: ['9:00 AM - 9:00 PM'],
+      field_sunday_hours: ['9:00 AM - 9:00 PM'],
+      locality: ['Key West'],
+      administrative_area: ['FL'],
+      field_website: ['https://www.google.com']
     },
   },
   {
@@ -233,11 +299,27 @@ export const listings: Array<Dispensary> = [
       field_reviews_count: [123],
       field_source_url: ['#'],
       field_sponsored: [false],
+      lat: [39.635418],
+      lon: [-76.27047],
       langcode: ['en'],
       name: ['Fake Dispensary'],
       status: [true],
       _language: 'en',
       _type: 'doc',
+      field_facebook: ['https://www.facebook.com/Fake-Dispensary-6029'],
+      field_instagram: ['https://www.instagram.com/fake_dispensary'],
+      field_twitter: ['https://twitter.com/fake_dispensary'],
+      field_monday_hours: ['9:00 AM - 9:00 PM'],
+      field_tuesday_hours: ['9:00 AM - 9:00 PM'],
+      field_wednesday_hours: ['9:00 AM - 9:00 PM'],
+      field_thursday_hours: ['9:00 AM - 9:00 PM'],
+      field_friday_hours: ['9:00 AM - 9:00 PM'],
+      field_time_zone: ['EST'],
+      field_saturday_hours: ['9:00 AM - 9:00 PM'],
+      field_sunday_hours: ['9:00 AM - 9:00 PM'],
+      locality: ['Key West'],
+      administrative_area: ['FL'],
+      field_website: ['https://www.google.com']
     },
   },
 ];
@@ -503,5 +585,35 @@ export const faqs: Faq[] = [
     question: 'Lorem Ipsum Dolor sit Amet?',
     answer:
       'Ivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam',
+  },
+];
+
+export const reviews: Review[] = [
+  {
+    recommended: true,
+    by: 'Jon Doe',
+    caption: 'Great place',
+    review:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.',
+    time: '12:00pm',
+    date: '1/01/2022',
+  },
+  {
+    recommended: true,
+    by: 'Jane Doe',
+    caption: 'Great place',
+    review:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.',
+    time: '12:00pm',
+    date: '1/01/2022',
+  },
+  {
+    recommended: false,
+    by: 'Jack Doe',
+    caption: 'Great place',
+    review:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.',
+    time: '12:00pm',
+    date: '1/01/2022',
   },
 ];

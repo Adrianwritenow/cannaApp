@@ -111,6 +111,7 @@ export default function MapFilterSlideOver() {
     }
     // update sort
     setSortPricing(savedValues.sort);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [savedValues]);
 
   return (

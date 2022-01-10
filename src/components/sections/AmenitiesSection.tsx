@@ -1,4 +1,4 @@
-import { CheckIcon } from "@heroicons/react/solid";
+import { CheckIcon } from '@heroicons/react/solid';
 
 interface AmenitiesProps {
   amenities: Array<string>;
@@ -31,14 +31,14 @@ export default function AmenitiesSection(props: AmenitiesProps) {
           >
             General
           </h3>
-          <div className="flex py-2">
+          <div className="flex flex-wrap py-2">
             {amenities.map((amenity, index) => (
               <div key={`amenity-${index}`}>
                 <p className="flex flex-wrap items-center text-gray-500 py-2 px-3">
                   <span className="text-green">
                     <CheckIcon className="w-4 mr-2" />
                   </span>
-                  {amenity}
+                  <span>{amenity}</span>
                 </p>
               </div>
             ))}
@@ -57,7 +57,7 @@ export default function AmenitiesSection(props: AmenitiesProps) {
           >
             Service Options
           </h3>
-          <div className="flex py-2">
+          <div className="flex flex-wrap py-2">
             {amenities.map((amenity, index) => (
               <div key={`amenity-${index}`}>
                 <p className="flex flex-wrap items-center text-gray-500 py-2 px-3">
@@ -83,7 +83,7 @@ export default function AmenitiesSection(props: AmenitiesProps) {
           >
             Payment
           </h3>
-          <div className="flex py-2">
+          <div className="flex flex-wrap py-2">
             {amenities.map((amenity, index) => (
               <div key={`amenity-${index}`}>
                 <p className="flex flex-wrap items-center text-gray-500 py-2 px-3">
@@ -106,7 +106,7 @@ export default function AmenitiesSection(props: AmenitiesProps) {
           <h3 id="business-amenities-crowd" className="text-sm text-green pt-3">
             Crowd
           </h3>
-          <div className="flex py-2">
+          <div className="flex flex-wrap py-2">
             {amenities.map((amenity, index) => (
               <div key={`amenity-${index}`}>
                 <p className="flex flex-wrap items-center text-gray-500 py-2 px-3">
@@ -132,7 +132,7 @@ export default function AmenitiesSection(props: AmenitiesProps) {
           >
             Atmosphere
           </h3>
-          <div className="flex py-2">
+          <div className="flex flex-wrap py-2">
             {amenities.map((amenity, index) => (
               <div key={`amenity-${index}`}>
                 <p className="flex flex-wrap items-center text-gray-500 py-2 px-3">

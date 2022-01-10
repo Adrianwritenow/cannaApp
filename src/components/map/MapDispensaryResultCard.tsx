@@ -1,8 +1,5 @@
-import { BookmarkAltIcon, StarIcon } from '@heroicons/react/solid';
+import { StarIcon } from '@heroicons/react/solid';
 import React, { useState } from 'react';
-
-import { BookmarkIcon } from '@heroicons/react/solid';
-import { BookmarkIcon as BookmarkIconSelected } from '@heroicons/react/solid';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -13,8 +10,8 @@ export function MapResultCard({ listing }: any) {
 
   return (
     <div className="group relative bg-white rounded-lg h-full ">
-      <div className=" group-hover:opacity-75 basis-1/2">
-        <div className="h-24 relative rounded-t-lg overflow-hidden">
+      <div >
+        <div className="h-28 relative rounded-t-lg overflow-hidden">
           <Image
             objectFit="cover"
             src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1674&q=80"

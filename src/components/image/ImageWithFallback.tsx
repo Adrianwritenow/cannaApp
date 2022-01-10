@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { Sativa } from '@/public/assets/icons/iconComponents';
 
 const ImageWithFallback = (props: any) => {
-  const { src, fallbackSrc, ...rest } = props;
+  const { src, fallbackSrc, alt, ...rest } = props;
   const [imgStatus, setImgStatus] = useState(true);
 
   return (
@@ -16,6 +16,7 @@ const ImageWithFallback = (props: any) => {
           onError={() => {
             setImgStatus(fallbackSrc);
           }}
+          alt={alt}
         />
       ) : (
         <div className="absolute w-full relative h-full bg-gray-200 z-0">

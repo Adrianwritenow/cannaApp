@@ -9,8 +9,12 @@ import SvgEmptyState from '@/public/assets/icons/iconComponents/EmptyState';
 export default function SearchStrain(props: {
   dispensaries: Dispensary[];
   query: string;
+  userCoords: {
+    lat: number;
+    lng: number;
+  };
 }) {
-  const { dispensaries, query } = props;
+  const { dispensaries, query, userCoords } = props;
 
   return (
     <div className="bg-gray-50">
@@ -18,7 +22,11 @@ export default function SearchStrain(props: {
       <div>
         {dispensaries.length ? (
           <div>
-            <ListingSection listings={dispensaries} query={query} />
+            <ListingSection
+              listings={dispensaries}
+              query={query}
+              userCoords={{ lat: userCoords.lat, lng: userCoords.lng }}
+            />
             <div className="pt-5">
               <h2 className="text-xl text-gray-700 font-semibold p-4 pb-0">
                 {`Dispensaries near "${query}"`}
@@ -28,6 +36,7 @@ export default function SearchStrain(props: {
                   <ListingCardDropdown
                     listing={dispensary}
                     key={`sd-${index}`}
+                    userCoords={{ lat: userCoords.lat, lng: userCoords.lng }}
                   />
                 ))}
               </div>

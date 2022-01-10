@@ -1,16 +1,27 @@
 import { Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
+import { combinedSearchQuery, receiveResults } from '@/actions/search';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { AdjustmentsIcon } from '@heroicons/react/solid';
+import CouponSlideOver from '../CouponsSlideOver';
 import DropdownFilter from '../../../components/forms/fields/DropdownFilter';
 import FilterProductMenu from '@/components/filter/FilterProductMenu';
 import { Filters } from '../../../helpers/filters';
+import { RootState } from '@/reducers';
+import { SearchHits } from '@/interfaces/searchHits';
+import { useRouter } from 'next/router';
 
 export default function ProductFilterSlideOver() {
+  const router = useRouter();
+  const { type, category } = router.query;
+  const { query } = useSelector((root: RootState) => root.search);
+  const dispatch = useDispatch();
+
   const [open, setOpen] = useState(false);
   const [rated, setRated] = useState('Top Rated');
   const [savedValues, setSavedValues]: any = useState({
-    category: '',
+    category: category || '',
     filters: {},
     sort: '',
   });
@@ -53,13 +64,13 @@ export default function ProductFilterSlideOver() {
       category: [savedValues.category],
     };
 
-    const filter_data: string[] = Object.keys(filters).reduce(function (
-      res,
-      key
-    ) {
-      return res.concat(filters[key]);
-    },
-    []);
+    const filter_data: string[] = Object.keys(filters).reduce(
+      function (res, key) {
+        return res.concat(filters[key]);
+      },
+
+      []
+    );
 
     // Remove initial empty values
     const filterArray = filter_data.filter(function (entry: string) {
@@ -83,6 +94,17 @@ export default function ProductFilterSlideOver() {
 
     // update sort
     setSortPricing(savedValues.sort);
+
+    async function getSearchItems() {
+      const hits: SearchHits = await combinedSearchQuery({
+        search: query,
+        filters: savedValues.filters,
+      });
+
+      dispatch(receiveResults({ search: query, data: hits.hits.hits }));
+    }
+
+    getSearchItems();
   }, [savedValues]);
 
   return (

@@ -36,3 +36,4 @@ jobs:
           GOOGLE_CLIENT_SECRET: ${{ secrets.DEV_GOOGLE_CLIENT_SECRET }}
           SEARCH_URL: ${{ secrets.DEV_SEARCH_URL }}
           NEXTAUTH_URL: ${{ secrets.DEV_NEXTAUTH_URL }}
+          IPSTACK_ACCESS_KEY: ${{ secrets.IPSTACK_ACCESS_KEY }}

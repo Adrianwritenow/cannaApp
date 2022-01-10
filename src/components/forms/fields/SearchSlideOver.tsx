@@ -1,8 +1,13 @@
-import { ArrowLeftIcon, SearchIcon, XIcon } from '@heroicons/react/solid';
+import {
+  ArrowLeftIcon,
+  LocationMarkerIcon,
+  SearchIcon,
+  XIcon,
+} from '@heroicons/react/solid';
 import { Dialog, Transition } from '@headlessui/react';
-import { Field, Form, Formik } from 'formik';
-import React, { Fragment, Ref, useEffect, useState } from 'react';
-import { receiveResults, searchQuery } from '../../../actions/search';
+import { Field, FieldAttributes, Form, Formik } from 'formik';
+import React, { Fragment, Ref, useEffect, useRef, useState } from 'react';
+import { combinedSearchQuery, receiveResults } from '../../../actions/search';
 import { getLocationByIP, setLocation } from '../../../actions/location';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -12,22 +17,32 @@ import { SearchHits } from '../../../interfaces/searchHits';
 import { LocationData } from '../../../interfaces/locationData';
 import SearchProductCard from '../../search/SearchProductCard';
 import SearchStrainCard from '../../search/SearchStrainCard';
-import { useAxios } from '../../../hooks/useAxios';
 import { useRouter } from 'next/router';
 
-export default function SearchSlideOver(props: { root?: boolean }) {
+export default function SearchSlideOver(props: {
+  searchRoute?: string;
+  root?: boolean;
+}) {
   const { root } = props;
   const [open, setOpen] = useState(false);
   const { results, query } = useSelector((root: RootState) => root.search);
   const location = useSelector((root: RootState) => root.location);
+  const [focus, setFocus] = useState('');
   const dispatch = useDispatch();
   const router = useRouter();
+  const { searchRoute } = props;
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  const [initialValues, setInitialValues] = useState({ search: '' });
+  const [initialValues, setInitialValues] = useState({
+    search: '',
+    location: '',
+  });
 
   async function handleSubmit(search: any) {
-    const hits: SearchHits = await searchQuery(search);
-    dispatch(receiveResults({ search: search, data: hits.hits.hits }));
+    const hits: SearchHits = await combinedSearchQuery({ search: search });
+    if (hits.hits.hits.length) {
+      dispatch(receiveResults({ search: search, data: hits.hits.hits }));
+    }
   }
 
   function handleSearch(search: any) {
@@ -36,44 +51,75 @@ export default function SearchSlideOver(props: { root?: boolean }) {
 
   // Get initial location data based on Client IP
   useEffect(() => {
-    async function getLocation () {
+    async function getLocation() {
       const data: LocationData = await getLocationByIP();
       dispatch(setLocation(data));
     }
 
-    if (! Object.keys(location).length) {
+    if (!Object.keys(location).length) {
       getLocation();
     }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {}, [initialValues, results]);
 
+  function handleFocus() {
+    // Wait for transition to finish then focus on input
+    setTimeout(() => {
+      const node = inputRef.current;
+      if (node) {
+        node.focus();
+      }
+    }, 500);
+  }
+
   return (
     <div>
       <div className="w-full relative pb-4">
-        <button
-          type="button"
-          placeholder="search"
-          className="w-full items-center border-solid border border-gray-400 rounded-md focus:outline-none focus:ring-0 shadow-sm flex px-3 py-2 text-gray-500 bg-white"
-          onClick={() => {
-            setOpen(true);
-          }}
-        >
-          {root ? (
-            <div className="flex items-center">
-              <SearchIcon className=" w-5 h-5 text-green-500" />
-              <div className="w-full pl-2 shrink-0">
-                <span className="font-bold">Find</span> dispensaries, strains,
-                flower ...
+        <div className="flex flex-row border-solid border border-gray-400 text-gray-500 rounded-md focus:outline-none focus:ring-0 shadow-sm items-center justify-center">
+          {router.pathname === '/map' ? (
+            <button
+              onClick={() => {
+                router.back();
+              }}
+            >
+              <ArrowLeftIcon className="w-5 h-5 ml-3" />
+            </button>
+          ) : !root ? (
+            <button
+              onClick={() => {
+                setOpen(true);
+              }}
+            >
+              <SearchIcon className="w-5 h-5 ml-3" />
+            </button>
+          ) : null}
+          <button
+            type="button"
+            placeholder="search"
+            className="w-full items-center rounded-md flex py-2 text-gray-500 bg-white"
+            onClick={() => {
+              setOpen(true);
+              handleFocus();
+            }}
+          >
+            {root ? (
+              <div className="flex items-center">
+                <SearchIcon className=" w-5 h-5 text-green-500 ml-3" />
+                <div className="w-full pl-2 shrink-0">
+                  <span className="font-bold">Find</span> dispensaries, strains,
+                  flower ...
+                </div>
               </div>
-            </div>
-          ) : (
-            <>
-              <SearchIcon className="w-5 h-5" />
-              <span className="pl-2">{query ? query : 'Search'}</span>
-            </>
-          )}
-        </button>
+            ) : (
+              <>
+                <span className="pl-2">{query ? query : 'Search'}</span>
+              </>
+            )}
+          </button>
+        </div>
       </div>
       <Transition.Root show={open} as={Fragment}>
         <Dialog
@@ -119,63 +165,87 @@ export default function SearchSlideOver(props: { root?: boolean }) {
                                   <div className="w-full">
                                     <Form
                                       className={
-                                        'w-full flex items-center shadow-md px-4 '
+                                        'w-full  shadow-md px-4 divide-y '
                                       }
                                       onSubmit={handleSubmit}
                                     >
-                                      <button
-                                        type="button"
-                                        className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-transparent"
-                                        onClick={() => setOpen(false)}
-                                      >
-                                        <span className="sr-only">Back</span>
-                                        <ArrowLeftIcon
-                                          className="h-6 w-6"
-                                          aria-hidden="true"
-                                        />
-                                      </button>
-                                      <div className="grid grid-cols-7 gap-1 w-full">
-                                        <div className={'col-span-7'}>
-                                          <Field
-                                            name={'search'}
-                                            type={'text'}
-                                            id={'search'}
-                                            className="w-full border-none p-4 focus:border-0 focus:outline-none focus:ring-transparent"
-                                            onChange={(
-                                              e: React.ChangeEvent<HTMLInputElement>
-                                            ) => {
-                                              handleChange(e);
-                                              handleSearch(e.target.value);
-                                            }}
-                                            placeholder={'Search...'}
+                                      <div className="flex w-full">
+                                        <button
+                                          type="button"
+                                          className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-transparent"
+                                          onClick={() => setOpen(false)}
+                                        >
+                                          <span className="sr-only">Back</span>
+                                          <ArrowLeftIcon
+                                            className="h-6 w-6"
+                                            aria-hidden="true"
                                           />
-                                          {/* <Field
-                                            name={"location"}
-                                            type={"text"}
-                                            id={"location"}
-                                            className="w-full border-none px-4 focus:border-0 focus:outline-none focus:ring-transparent"
-                                            onChange={() => {}}
-                                            value={values.location}
-                                            placeholder="Location..."
-                                          /> */}
+                                        </button>
+                                        <div className="grid grid-cols-7 gap-1 w-full">
+                                          <div className={'col-span-7'}>
+                                            <input
+                                              name={'search'}
+                                              type={'text'}
+                                              ref={inputRef}
+                                              onFocus={() => {
+                                                setFocus('search');
+                                              }}
+                                              id={'search'}
+                                              className="w-full border-none p-4 focus:border-0 focus:outline-none focus:ring-transparent"
+                                              onChange={(
+                                                e: React.ChangeEvent<HTMLInputElement>
+                                              ) => {
+                                                handleChange(e);
+                                                handleSearch(e.target.value);
+                                              }}
+                                              placeholder={'Search...'}
+                                            />
+                                          </div>
+                                        </div>
+                                        <button
+                                          type="button"
+                                          className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-transparent"
+                                          onClick={() => {
+                                            resetForm;
+                                            setOpen(false);
+                                          }}
+                                        >
+                                          <span className="sr-only">
+                                            Close panel
+                                          </span>
+                                          <XIcon
+                                            className="h-6 w-6"
+                                            aria-hidden="true"
+                                          />
+                                        </button>
+                                      </div>
+                                      <div className="flex w-full items-center">
+                                        <div>
+                                          <LocationMarkerIcon
+                                            className={`h-6 w-6  ${
+                                              focus == 'location'
+                                                ? 'text-green-500'
+                                                : 'text-gray-500'
+                                            }`}
+                                            aria-hidden="true"
+                                          />
+                                        </div>
+                                        <div className="grid grid-cols-7 gap-1 w-full">
+                                          <div className={'col-span-7'}>
+                                            <Field
+                                              name={'location'}
+                                              type={'text'}
+                                              onFocus={() => {
+                                                setFocus('location');
+                                              }}
+                                              id={'location'}
+                                              className="w-full border-none p-4 focus:border-0 focus:outline-none focus:ring-transparent"
+                                              value={values.location}
+                                              placeholder="Location..."
+                                            />
+                                          </div>
                                         </div>
                                       </div>
-                                      <button
-                                        type="button"
-                                        className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-transparent"
-                                        onClick={() => {
-                                          resetForm;
-                                          setOpen(false);
-                                        }}
-                                      >
-                                        <span className="sr-only">
-                                          Close panel
-                                        </span>
-                                        <XIcon
-                                          className="h-6 w-6"
-                                          aria-hidden="true"
-                                        />
-                                      </button>
                                     </Form>
                                     {results.length ? (
                                       <ul className="px-4 ">
@@ -237,7 +307,11 @@ export default function SearchSlideOver(props: { root?: boolean }) {
                                     <div
                                       key={`generalSearch`}
                                       onClick={() => {
-                                        router.push('/search');
+                                        router.push(
+                                          searchRoute === '/map'
+                                            ? searchRoute
+                                            : '/search'
+                                        );
                                         setOpen(false);
                                       }}
                                       className="text-gray-700 w-full flex px-4 py-3"

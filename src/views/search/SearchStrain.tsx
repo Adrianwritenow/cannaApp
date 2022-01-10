@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 
-import FilterSlideOver from '../slideOver/filters/FilterSlideOver';
 import { Product } from '@/interfaces/searchProduct';
 import ProductResultsSection from '@/components/sections/ProductsResultsSection';
 import ResultsStrain from './results/ResultsStrain';
 import { Strain } from '@/interfaces/SearchStrain';
+import StrainFilterSlideOver from '../slideOver/filters/StrainFilterSlideOver';
 import StrainLanding from './landing/StrainLanding';
 
 export default function SearchStrain(props: {
@@ -30,7 +30,7 @@ export default function SearchStrain(props: {
     <div className="bg-gray-50">
       {/* Filter list */}
 
-      <FilterSlideOver />
+      <StrainFilterSlideOver />
 
       {/* Results list x Landing Page */}
 

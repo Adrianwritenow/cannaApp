@@ -55,7 +55,7 @@ export default function ProductCard(data: ProductProps) {
             ) : (
               <p className=" text-base font-normal text-gray-700">
                 {product._source?.field_price
-                  ? product._source?.field_price[0]
+                  ? `$${product._source?.field_price[0].toFixed(2)}`
                   : 'Unknown'}
               </p>
             )}

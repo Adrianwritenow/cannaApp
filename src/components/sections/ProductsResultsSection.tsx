@@ -32,7 +32,7 @@ export default function ProductResultsSection(results: Results) {
   return (
     <section id="results-section">
       {sponsored ? (
-        <div className="flex flex-wrap items-center px-4 py-3">
+        <div className="flex flex-wrap items-center px-4 pt-3">
           <h5 className="text-xs text-gray-500 font-semibold pr-1">
             Sponsored Result
           </h5>
@@ -67,7 +67,7 @@ export default function ProductResultsSection(results: Results) {
           })}
         </div>
       )}
-      {hideButton ? (
+      {hideButton || sponsored ? (
         ''
       ) : (
         <div className={'px-4'}>

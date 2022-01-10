@@ -14,9 +14,7 @@ import {
 } from '../../../public/assets/icons/iconComponents';
 import React, { useEffect, useState } from 'react';
 import { faqs, listings, reviews } from '@/helpers/mockData';
-
 import AboutUsSlideOver from '../../../src/views/slideOver/AboutUsSlideOver';
-
 import AmenitiesSection from '../../../src/components/sections/AmenitiesSection';
 import BusinessMenuSlideOver from '../../../src/views/slideOver/business/BusinessMenuSlideOver';
 import BusinessReviewSlideOver from '@/views/slideOver/business/BusinessReviewSlideOver';
@@ -24,8 +22,6 @@ import BusinessVerificationSlideOver from '@/views/slideOver/business/BusinessVe
 import { Dispensary } from '../../../src/interfaces/searchDispensary';
 import FaqSlideOver from '../../../src/views/slideOver/FaqSlideOver';
 import ListingCardDropdown from '../../../src/components/listings/ListingCardDropDown';
-
-// import ReviewsSlideOver from '../../../src/views/slideOver/ReviewsSlideOver';
 
 import SvgIconTwitter from '../../../public/assets/icons/iconComponents/IconTwitter';
 import { getDocument } from '../../../src/actions/search';
@@ -230,7 +226,9 @@ export default function BusinessDetail() {
                   <p className="text-normal text-red-500">Closed</p>
                 )}
                 <span className="px-1 text-normal">&#8226;</span>
-                {!isOpen && !willOpenToday && tomorrowOpenTime.toLowerCase() === 'closed' ? (
+                {!isOpen &&
+                !willOpenToday &&
+                tomorrowOpenTime.toLowerCase() === 'closed' ? (
                   // if dispensary is closed and will not open tomorrow
                   <p className="text-sm">
                     <em>See hours</em>
@@ -289,12 +287,12 @@ export default function BusinessDetail() {
                 <span className="w-full text-center text-xs">Website</span>
               </a>
             )}
-
-            {/***** Need Reviews *****/}
-            {/* <button className="text-gray-500 flex flex-wrap justify-center py-2">
-              <StarIconOutline className="w-6 h-6 " />
-              <span className="w-full text-center text-xs">Review</span>
-            </button> */}
+            <Link href="#reviews-section" passHref>
+              <a className="text-gray-500 flex flex-wrap justify-center py-2">
+                <StarIconOutline className="w-6 h-6 " />
+                <span className="w-full text-center text-xs">Review</span>
+              </a>
+            </Link>
           </div>
         </section>
       </div>
@@ -305,7 +303,6 @@ export default function BusinessDetail() {
           setView={setView}
         />
       </div>
-
       <div className="space-y-4 px-4">
         <AboutUsSlideOver dispensary={dispensary} />
         <BusinessVerificationSlideOver dispensary={dispensary} />
@@ -507,10 +504,10 @@ export default function BusinessDetail() {
         </section>
       </div>
       {/* Need Review FAQ  and amenities Data */}
-
       <FaqSlideOver name={dispensary?._source.name[0]} faqs={faqs} />
-      <BusinessReviewSlideOver dispensary={dispensary} reviews={reviews} />
-
+      <div id="reviews-section">
+        <BusinessReviewSlideOver dispensary={dispensary} reviews={reviews} />
+      </div>
       <div className="px-4">
         <AmenitiesSection
           amenities={['amenity', 'amenity', 'amenity', 'amenity']}

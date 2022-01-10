@@ -12,7 +12,7 @@ export const setLocation = (data: LocationData) => ({
 
 export async function getLocationByIP () {
   try {
-    const response = await axios(`http://api.ipstack.com/check?access_key=${IPSTACK_ACCESS_KEY}`);
+    const response = await axios(`https://api.ipstack.com/check?access_key=${IPSTACK_ACCESS_KEY}`);
     return {
       city: response.data.city,
       state: response.data.region_code,

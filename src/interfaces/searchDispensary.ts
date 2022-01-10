@@ -25,11 +25,13 @@ export interface Dispensary {
     lat: number[];
     lon: number[];
     field_email: string[];
+    field_time_zone: string[];
     field_coordinates: string[];
     field_rating: string[] | ['0'];
     field_reviews_count: number[] | [0];
     field_source_url: string[];
     field_sponsored: boolean[];
+    field_website: string[];
     langcode: string[];
     name: string[];
     status: boolean[];

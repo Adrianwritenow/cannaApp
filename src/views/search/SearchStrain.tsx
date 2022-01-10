@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Product } from '@/interfaces/searchProduct';
 import ProductResultsSection from '@/components/sections/ProductsResultsSection';
@@ -26,16 +26,17 @@ export default function SearchStrain(props: {
     update: setView,
   };
 
+  useEffect(() => {}, [strains]);
+
   return (
     <div className="bg-gray-50">
-      {/* Filter list */}
-
-      <StrainFilterSlideOver />
-
       {/* Results list x Landing Page */}
 
-      {strains.length > 0 ? (
+      {strains.length && !strains[0]._source.field_featured[0] ? (
         <>
+          {/* Filter list */}
+          <StrainFilterSlideOver />
+
           {products.length > 0 ? (
             <ProductResultsSection
               list={products}

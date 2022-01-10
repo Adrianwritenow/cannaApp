@@ -115,3 +115,43 @@ export function getDocument(id: string | string[] | undefined) {
 
   return results;
 }
+
+export function getFeatured() {
+  var body = bodybuilder().filter('match', 'field_featured', true).build();
+  const results = axios({
+    url: `${SEARCH_URL}/elasticsearch_index_dev_cannapages_index01/_search?size=1`,
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+  })
+    .then((res: AxiosResponse) => {
+      return res.data;
+    })
+    .catch((error: AxiosError) => {
+      // dispatch must come before setState
+      console.log('ERR:::', error);
+    });
+  return results;
+}
+
+export function browseBy(field: string, value: string) {
+  var body = bodybuilder().filter('match', `${field}`, `${value}`).build();
+  const results = axios({
+    url: `${SEARCH_URL}/elasticsearch_index_dev_cannapages_index01/_search?size=15`,
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+  })
+    .then((res: AxiosResponse) => {
+      return res.data;
+    })
+    .catch((error: AxiosError) => {
+      // dispatch must come before setState
+      console.log('ERR:::', error);
+    });
+  return results;
+}

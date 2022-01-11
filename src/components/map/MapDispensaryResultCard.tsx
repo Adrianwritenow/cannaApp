@@ -1,13 +1,29 @@
-import React, { useState } from 'react';
-
+import React, { useEffect, useState } from 'react';
+import { StarIcon } from '@heroicons/react/solid';
 import Image from 'next/image';
 import Link from 'next/link';
-import { StarIcon } from '@heroicons/react/solid';
+import OpenIndicator from '@/helpers/OpenStatus';
+import getDistanceFrom from '@/helpers/getDistanceFrom';
 
-export function MapResultCard({ listing }: any) {
-  const open = true;
-  const closeTime = '8:00';
+export function MapResultCard({ listing, userCoords }: any) {
   const [favorited, setFavorited] = useState(false);
+  const [distanceFrom, setDistanceFrom] = useState('');
+
+  useEffect(() => {
+    if (userCoords && listing) {
+      const isEmpty = Object.values(userCoords).every(
+        x => x === null || x === undefined
+      );
+      if (!isEmpty) {
+        const distance = getDistanceFrom(userCoords, {
+          lat: listing._source.lat,
+          lon: listing._source.lon,
+        });
+        setDistanceFrom(distance);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userCoords]);
 
   return (
     <div className="group relative bg-white rounded-lg h-full ">
@@ -28,11 +44,11 @@ export function MapResultCard({ listing }: any) {
             href={`/business/${encodeURIComponent(listing._id as string)}`}
             passHref
           >
-            <h3 className="text-md underline font-semibold text-gray-700">
+            <h3 className="text-md underline font-semibold text-gray-700 mb-2">
               {listing._source.name}
             </h3>
           </Link>
-          <div>
+          {/* <div>
             {' '}
             <button onClick={() => setFavorited(!favorited)}>
               <svg
@@ -50,7 +66,7 @@ export function MapResultCard({ listing }: any) {
                 />
               </svg>
             </button>
-          </div>
+          </div> */}
         </div>
 
         <div className="flex items-start w-full flex-col">
@@ -86,17 +102,12 @@ export function MapResultCard({ listing }: any) {
             </p>
           </div>
           <p className="text-sm text-gray-500 font-normal">
-            {listing.category ? ` ${listing.category} •` : ''} x mi
+            {listing.category ? ` ${listing.category} •` : ''}
+            {distanceFrom}
           </p>
-          <p className="text-sm text-gray-500 font-normal">
-            {open ? (
-              <>
-                <span className="text-blue-500">Open</span> {`${closeTime}`}
-              </>
-            ) : (
-              'Closed'
-            )}
-          </p>
+          {/* <p className="text-sm text-gray-500 font-normal"> */}
+            <OpenIndicator dispensary={listing} />
+          {/* </p> */}
         </div>
       </div>
     </div>

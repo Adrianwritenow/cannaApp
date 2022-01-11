@@ -25,7 +25,7 @@ function Map() {
           <div className="pt-4">
             <MapFilterSlideOver />
           </div>
-          <MapContainer data={mapResults}/>
+          <MapContainer/>
         </div>
       ) : (
         <div className="w-full flex items-center  flex-wrap justify-center h-full space-y-4 py-14">

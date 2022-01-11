@@ -29,6 +29,7 @@ export default function SearchSlideOver(props: {
   const { results, query } = useSelector((root: RootState) => root.search);
   const location = useSelector((root: RootState) => root.location);
   const [focus, setFocus] = useState('');
+  const [initialSearchSet, setInitialSearchSet] = useState(false);
   const dispatch = useDispatch();
   const [initialResultsSet, setInitialResultsSet] = useState(false);
   const router = useRouter();
@@ -55,7 +56,6 @@ export default function SearchSlideOver(props: {
   function handleSearch(search: any) {
     handleSubmit(search);
   }
-  console.log(query);
 
   // Get initial location data based on Client IP
   useEffect(() => {
@@ -70,6 +70,23 @@ export default function SearchSlideOver(props: {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    async function getDispensaryResults() {
+      const hits: any = await combinedSearchQuery({
+        search: location.city,
+        endpoints: [ 'dispenaries'],
+        coords: { lat: location.lat, lon: location.lng },
+        distance: '10mi',
+      });
+      dispatch(receiveResults({ search: location.city, data: hits }));
+    }
+
+    if (location.city && query === '') {
+      getDispensaryResults();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.city]);
 
   function handleFocus() {
     // Wait for transition to finish then focus on input

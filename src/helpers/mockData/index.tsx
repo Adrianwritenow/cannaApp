@@ -137,7 +137,7 @@ export const listings: Array<Dispensary> = [
       sunday_hours: ['9:00 AM - 9:00 PM'],
       locality: ['Key West'],
       administrative_area: ['FL'],
-      field_website: ['https://www.google.com'],
+      website: ['https://www.google.com'],
     },
   },
   {
@@ -181,7 +181,7 @@ export const listings: Array<Dispensary> = [
       sunday_hours: ['9:00 AM - 9:00 PM'],
       locality: ['Key West'],
       administrative_area: ['FL'],
-      field_website: ['https://www.google.com'],
+      website: ['https://www.google.com'],
     },
   },
   {
@@ -225,7 +225,7 @@ export const listings: Array<Dispensary> = [
       sunday_hours: ['9:00 AM - 9:00 PM'],
       locality: ['Key West'],
       administrative_area: ['FL'],
-      field_website: ['https://www.google.com'],
+      website: ['https://www.google.com'],
     },
   },
   {
@@ -269,7 +269,7 @@ export const listings: Array<Dispensary> = [
       sunday_hours: ['9:00 AM - 9:00 PM'],
       locality: ['Key West'],
       administrative_area: ['FL'],
-      field_website: ['https://www.google.com'],
+      website: ['https://www.google.com'],
     },
   },
   {
@@ -313,7 +313,7 @@ export const listings: Array<Dispensary> = [
       sunday_hours: ['9:00 AM - 9:00 PM'],
       locality: ['Key West'],
       administrative_area: ['FL'],
-      field_website: ['https://www.google.com'],
+      website: ['https://www.google.com'],
     },
   },
 ];

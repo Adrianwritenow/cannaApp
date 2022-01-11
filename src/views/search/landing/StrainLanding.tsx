@@ -30,11 +30,8 @@ export default function StrainLanding() {
   const [popular, setPopular] = useState<Array<Strain>>();
 
   useEffect(() => {
-    console.log('B4', featured);
-
     async function getFeaturedItems() {
       const hits: SearchHits = await getFeatured();
-      console.log('HIT', hits);
       setFeatured(hits.hits.hits[0] as unknown as Strain);
     }
     async function getPopularItems(type: string) {
@@ -46,12 +43,11 @@ export default function StrainLanding() {
       getFeaturedItems();
       getPopularItems('strains');
     }
-
-    console.log(featured);
   }, [featured]);
 
   async function handleBrowse(field: string, value: string) {
-    const hits: SearchHits = await browseBy(field, value);
+    const hits: SearchHits = await browseBy(field, value, 'strains');
+    console.log(hits);
     dispatch(receiveResults({ search: value, data: hits.hits.hits }));
   }
 

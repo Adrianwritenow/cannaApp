@@ -1,6 +1,5 @@
 import { ArrowLeftIcon, StarIcon } from '@heroicons/react/solid';
 import {
-  // BookmarkIcon,
   GlobeIcon,
   InformationCircleIcon,
   MapIcon,
@@ -14,6 +13,7 @@ import {
 } from '../../../public/assets/icons/iconComponents';
 import React, { useEffect, useState } from 'react';
 import { faqs, listings, reviews } from '@/helpers/mockData';
+
 import AboutUsSlideOver from '../../../src/views/slideOver/AboutUsSlideOver';
 import AmenitiesSection from '../../../src/components/sections/AmenitiesSection';
 import BusinessMenuSlideOver from '../../../src/views/slideOver/business/BusinessMenuSlideOver';
@@ -21,14 +21,14 @@ import BusinessReviewSlideOver from '@/views/slideOver/business/BusinessReviewSl
 import BusinessVerificationSlideOver from '@/views/slideOver/business/BusinessVerifiedSlideOver';
 import { Dispensary } from '../../../src/interfaces/dispensary';
 import FaqSlideOver from '../../../src/views/slideOver/FaqSlideOver';
-import Image from 'next/image';
 import Link from 'next/link';
-import moment from 'moment-timezone';
 import ListingCardDropdown from '../../../src/components/listings/ListingCardDropDown';
-import Map from '@/public/assets/images/png/map-mock.png';
 import { SearchHits } from '@/interfaces/searchHits';
+import SmallMap from '@/components/map/businessPageMap/SmallMap';
+import SocialShare from '@/components/share/SocialShare';
 import SvgIconTwitter from '../../../public/assets/icons/iconComponents/IconTwitter';
 import { getDocument } from '../../../src/actions/search';
+import moment from 'moment-timezone';
 import { useRouter } from 'next/router';
 
 export default function BusinessDetail() {
@@ -85,7 +85,7 @@ export default function BusinessDetail() {
 
   useEffect(() => {
     if (dispensary && dispensaryTimezone === '') {
-      switch (dispensary?._source.field_time_zone[0]) {
+      switch (dispensary?._source.time_zone[0]) {
         case 'EST':
           setDispensaryTimezone('America/New_York');
           break;
@@ -101,13 +101,13 @@ export default function BusinessDetail() {
       }
     } else if (dispensary && dispensaryTimezone) {
       const todayKey = getSourceValue(
-        `field_${now
+        `${now
           .tz(dispensaryTimezone)
           .format('dddd')
           .toLowerCase()}_hours` as keyof Dispensary['_source']
       );
       const tomorrowKey = getSourceValue(
-        `field_${moment()
+        `${moment()
           .add(1, 'days')
           .tz(dispensaryTimezone)
           .format('dddd')
@@ -254,7 +254,7 @@ export default function BusinessDetail() {
           </div>
           <div className="flex justify-around auto-cols-max w-full justify-center pt-3 w-full">
             <a
-              href={`tel:${dispensary?._source.field_phone_number}`}
+              href={`tel:${dispensary?._source.phone_number}`}
               className="text-gray-500 flex flex-wrap justify-center py-2"
             >
               <PhoneIcon className="w-6 h-6 " />
@@ -266,8 +266,8 @@ export default function BusinessDetail() {
               }+${
                 dispensary?._source.address_line1[0]
                   ? dispensary?._source.address_line1[0]
-                  : dispensary?._source.field_coordinates
-              }&ll=${dispensary?._source.field_coordinates}&z=17`}
+                  : dispensary?._source.coordinates
+              }&ll=${dispensary?._source.coordinates}&z=17`}
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-500 flex flex-wrap justify-center py-2"
@@ -275,9 +275,9 @@ export default function BusinessDetail() {
               <MapIcon className="w-6 h-6 " />
               <span className="w-full text-center text-xs">Directions</span>
             </a>
-            {dispensary?._source.field_website !== undefined && (
+            {dispensary?._source.website !== undefined && (
               <a
-                href={`${dispensary?._source.field_website}`}
+                href={`${dispensary?._source.website}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-500 flex flex-wrap justify-center py-2"
@@ -340,8 +340,8 @@ export default function BusinessDetail() {
               }+${
                 dispensary?._source.address_line1[0]
                   ? dispensary?._source.address_line1[0]
-                  : dispensary?._source.field_coordinates
-              }&ll=${dispensary?._source.field_coordinates}&z=17`}
+                  : dispensary?._source.coordinates
+              }&ll=${dispensary?._source.coordinates}&z=17`}
               target="_blank"
               rel="noopener noreferrer"
               className="py-4 uppercase text-gray-700 text-xs font-semibold border-t border-gray-200 tracking-widest text-green w-full text-center"
@@ -351,9 +351,9 @@ export default function BusinessDetail() {
           </div>
         </section>
         {/* Socials */}
-        {dispensary?._source.field_facebook ||
-        dispensary?._source.field_twitter ||
-        dispensary?._source.field_instagram ? (
+        {dispensary?._source.facebook ||
+        dispensary?._source.twitter ||
+        dispensary?._source.instagram ? (
           <section className="py-2">
             <h2 id="business-socilas" className="sr-only">
               Find us on Social Media
@@ -365,46 +365,47 @@ export default function BusinessDetail() {
               Find us on Social Media
             </h2>
 
-          <div className="grid grid-flow-row auto-rows-max ">
-            <div className="pt-5 ">
-              {typeof dispensary?._source.facebook !== 'undefined' && (
-                <Link href={`${dispensary?._source.facebook[0]}`} passHref>
-                  <a>
-                    <button className="py-4 w-full text-gray-700 flex items-center justify-start ">
-                      <IconFacebook className="w-10 h-10 text-gray-400" />
-                      <span className="pl-4 text-sm">
-                        {dispensary?._source.facebook[0]}
-                      </span>
-                    </button>{' '}
-                  </a>
-                </Link>
-              )}
-              {typeof dispensary?._source.twitter !== 'undefined' && (
-                <Link href={`${dispensary?._source.twitter[0]}`}>
-                  <a>
-                    <button className="py-4 w-full text-gray-700 flex items-center justify-start">
-                      <SvgIconTwitter className="w-10 h-10 text-gray-400" />
+            <div className="grid grid-flow-row auto-rows-max ">
+              <div className="pt-5 ">
+                {typeof dispensary?._source.facebook !== 'undefined' && (
+                  <Link href={`${dispensary?._source.facebook[0]}`} passHref>
+                    <a>
+                      <button className="py-4 w-full text-gray-700 flex items-center justify-start ">
+                        <IconFacebook className="w-10 h-10 text-gray-400" />
+                        <span className="pl-4 text-sm">
+                          {dispensary?._source.facebook[0]}
+                        </span>
+                      </button>{' '}
+                    </a>
+                  </Link>
+                )}
+                {typeof dispensary?._source.twitter !== 'undefined' && (
+                  <Link href={`${dispensary?._source.twitter[0]}`}>
+                    <a>
+                      <button className="py-4 w-full text-gray-700 flex items-center justify-start">
+                        <SvgIconTwitter className="w-10 h-10 text-gray-400" />
 
-                      <span className="pl-4 text-sm">
-                        {dispensary?._source.twitter[0]}
-                      </span>
-                    </button>
-                  </a>
-                </Link>
-              )}
-              {typeof dispensary?._source.instagram !== 'undefined' && (
-                <Link href={`${dispensary?._source.instagram[0]}`}>
-                  <a>
-                    {' '}
-                    <button className="py-4 w-full text-gray-700 flex items-center justify-start   ">
-                      <IconInsta className="w-10 h-10 text-gray-400" />
-                      <span className="pl-4 text-sm">
-                        {dispensary?._source.instagram[0]}
-                      </span>
-                    </button>{' '}
-                  </a>
-                </Link>
-              )}
+                        <span className="pl-4 text-sm">
+                          {dispensary?._source.twitter[0]}
+                        </span>
+                      </button>
+                    </a>
+                  </Link>
+                )}
+                {typeof dispensary?._source.instagram !== 'undefined' && (
+                  <Link href={`${dispensary?._source.instagram[0]}`}>
+                    <a>
+                      {' '}
+                      <button className="py-4 w-full text-gray-700 flex items-center justify-start   ">
+                        <IconInsta className="w-10 h-10 text-gray-400" />
+                        <span className="pl-4 text-sm">
+                          {dispensary?._source.instagram[0]}
+                        </span>
+                      </button>{' '}
+                    </a>
+                  </Link>
+                )}
+              </div>
             </div>
           </section>
         ) : null}

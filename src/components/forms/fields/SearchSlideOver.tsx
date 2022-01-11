@@ -79,9 +79,6 @@ export default function SearchSlideOver(props: {
     }, 500);
   }
 
-  console.log('Query', query);
-  console.log('IVery', initialValues);
-
   return (
     <div>
       <div className="w-full relative pb-4">

@@ -21,6 +21,7 @@ export interface Dispensary {
     saturday_hours: string[];
     sunday_hours: string[];
     phone_number: string[];
+    website: string[];
     postal_code: string[];
     lat: number[];
     lon: number[];
@@ -31,6 +32,7 @@ export interface Dispensary {
     source_url: string[];
     sponsored: boolean[];
     langcode: string[];
+    time_zone: string[];
     name: string[];
     status: boolean[];
     _language: string;

@@ -47,7 +47,6 @@ export default function StrainLanding() {
 
   async function handleBrowse(field: string, value: string) {
     const hits: SearchHits = await browseBy(field, value, 'strains');
-    console.log(hits);
     dispatch(receiveResults({ search: value, data: hits.hits.hits }));
   }
 

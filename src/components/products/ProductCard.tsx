@@ -26,7 +26,7 @@ export default function ProductCard(data: ProductProps) {
           <div className="rounded-lg overflow-hidden w-full h-36 relative">
             {/* Replace placeholder with */}
             <ImageWithFallback
-              src={`${product._source?.image[0]}`}
+              src={`${product._source?.image}`}
               alt={product._source?.name[0]}
               layout="fill"
               objectFit={'cover'}

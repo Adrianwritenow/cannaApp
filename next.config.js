@@ -30,5 +30,6 @@ module.exports = {
     GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
     IPSTACK_ACCESS_KEY: process.env.IPSTACK_ACCESS_KEY,
+    IPSTACK_API_URL: process.env.IPSTACK_API_URL,
   },
 };

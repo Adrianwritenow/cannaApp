@@ -11,10 +11,10 @@ import { combinedSearchQuery, receiveResults } from '../../../actions/search';
 import { getLocationByIP, setLocation } from '../../../actions/location';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { LocationData } from '../../../interfaces/locationData';
 import { RootState } from '@/reducers';
 import SearchDispensaryCard from '../../search/SearchDispensaryCard';
 import { SearchHits } from '../../../interfaces/searchHits';
+import { LocationData } from '../../../interfaces/locationData';
 import SearchProductCard from '../../search/SearchProductCard';
 import SearchStrainCard from '../../search/SearchStrainCard';
 import { useRouter } from 'next/router';
@@ -44,6 +44,7 @@ export default function SearchSlideOver(props: {
       dispatch(receiveResults({ search: search, data: hits.hits.hits }));
     }
   }
+
   function handleSearch(search: any) {
     handleSubmit(search);
   }

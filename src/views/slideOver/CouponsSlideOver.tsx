@@ -1,23 +1,27 @@
-import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
+import { Dialog, Transition } from '@headlessui/react';
+import { Fragment, useState } from 'react';
 
-import { ArrowLeftIcon } from "@heroicons/react/outline";
-import ProductResultsSection from "../../components/sections/ProductsResultsSection";
-import { SlideOverProps } from "../../interfaces/props/SlideOverProps";
-import { coupons } from "../../helpers/mockData";
+import { ArrowLeftIcon } from '@heroicons/react/outline';
+import { Coupon } from '@/interfaces/coupon';
+import ProductResultsSection from '../../components/sections/ProductsResultsSection';
+import { SlideOverProps } from '../../interfaces/props/SlideOverProps';
+import { coupons } from '../../helpers/mockData';
 
-export default function CouponSlideOver(props: SlideOverProps) {
-  const { label } = props;
+export default function CouponSlideOver(props: {
+  label: string;
+  list: Coupon[];
+}) {
+  const { label, list } = props;
   const [open, setOpen] = useState(false);
   return (
     <div>
       <ProductResultsSection
-        list={coupons}
+        list={list}
         sponsored={false}
-        label={label ? label : "Results"}
-        buttonLabel={"See more"}
+        label={label ? label : 'Results'}
+        buttonLabel={'See more'}
         stateFunction={setOpen}
-        type={"COUPON"}
+        type={'COUPON'}
       />
       <Transition.Root show={open} as={Fragment}>
         <Dialog

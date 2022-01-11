@@ -1,12 +1,54 @@
+import { browseBy, getDocument } from '@/actions/search';
+import { useEffect, useState } from 'react';
+
 import { Business } from '../../../public/assets/icons/iconComponents';
 import { CheckCircleIcon } from '@heroicons/react/solid';
+import { Coupon } from '@/interfaces/coupon';
+import { Dispensary } from '@/interfaces/dispensary';
 import ProductResultsGrid from '../../../src/components/products/ProductResultsGrid';
+import { SearchHits } from '@/interfaces/searchHits';
 import { products } from '@/helpers/mockData';
-import { useState } from 'react';
+import { useRouter } from 'next/router';
 
 export default function CouponDetail() {
   const [redeemed, setRedeemed] = useState(false);
   const [saved, setSaved] = useState(false);
+  const router = useRouter();
+  const { cid } = router.query;
+  const [coupon, setCoupon] = useState<Coupon>();
+  const [dispensary, setDispensary] = useState<Dispensary>();
+
+  useEffect(() => {
+    if (cid && !coupon) {
+      getDocument(cid, 'coupons').then((document: SearchHits) => {
+        if (document) {
+          const result = document.hits.hits[0];
+          setCoupon(result as Coupon);
+        }
+      });
+    }
+
+    async function handleBrowse() {
+      console.log('ID:::', coupon?._source.dispensary[0]);
+      const business: SearchHits = await browseBy(
+        'id',
+        coupon?._source.dispensary[0],
+        'dispenaries'
+      );
+
+      console.log('BUIZ::', business);
+      // setDispensary(business.hits.hits as unknown as Dispensary);
+    }
+
+    if (coupon && !dispensary) {
+      handleBrowse();
+    }
+
+    console.log(coupon);
+    console.log(dispensary);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router, coupon]);
 
   return (
     <div className="bg-gray-50 px-4 py-6">
@@ -23,7 +65,7 @@ export default function CouponDetail() {
           </div>
         </div>
         <h2 className="text-2xl text-gray-700 font-medium">
-          Save %Discount% on %Product Name%
+          {coupon?._source.title}
         </h2>
 
         <div className="space-y-2 pb-6">

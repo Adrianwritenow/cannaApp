@@ -142,8 +142,8 @@ export function getFeatured() {
   return results;
 }
 
-export function browseBy(field: string, value: string, index: string) {
-  var body = bodybuilder().filter('match', `${field}`, `${value}`).build();
+export function browseBy(field: string, value: any, index: string) {
+  var body = bodybuilder().filter('match', `${field}`, value).build();
   const results = axios({
     url: `${SEARCH_URL}/elasticsearch_index_dev_cannapages_${index}/_search?size=15`,
     method: 'POST',

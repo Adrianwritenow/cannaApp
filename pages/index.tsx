@@ -4,10 +4,12 @@ import {
   TagIcon,
 } from '@heroicons/react/solid';
 import { listings, products } from '@/helpers/mockData';
+import { useEffect, useState } from 'react';
 
 import Background from '@/public/assets/images/png/fullBloom.png';
 import BlogArticleSmall from '@/components/blog/BlogArticleCardSmall';
 import ClaimBusiness from '@/public/assets/images/png/growBusiness.png';
+import { Coupon } from '@/interfaces/coupon';
 import CouponSlideOver from '@/views/slideOver/CouponsSlideOver';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -17,12 +19,29 @@ import LogoText from '@/public/assets/logos/logo-text.png';
 import Map from '@/public/assets/images/png/mapColor.png';
 import { Post } from '@/interfaces/post';
 import ProductResultsSection from '@/components/sections/ProductsResultsSection';
+import { SearchHits } from '@/interfaces/searchHits';
 import SearchSlideOver from '@/components/forms/fields/SearchSlideOver';
 import { destinations } from '@/helpers/destinations';
+import { getPopular } from '@/actions/search';
 import { publications } from '@/helpers/publications';
 import sample from '@/helpers/mockData/articles.json';
 
 export default function Home() {
+  const [coupons, setCoupons] = useState<Array<Coupon>>();
+
+  useEffect(() => {
+    async function getPopularItems(type: string) {
+      const hits: SearchHits = await getPopular(type);
+      setCoupons(hits.hits.hits);
+    }
+
+    if (!coupons) {
+      getPopularItems('coupons');
+    }
+
+    console.log(coupons);
+  }, [coupons]);
+
   return (
     <div className="mx-auto space-y-2">
       {/* Search/Map Section */}
@@ -172,7 +191,7 @@ export default function Home() {
       </section>
 
       {/* Deals of the Day */}
-      <CouponSlideOver label="Deals of the Day" />
+      <CouponSlideOver label="Deals of the Day" list={coupons as Coupon[]} />
 
       {/* Featured Destinations */}
       <section className="pb-4 pt-2">

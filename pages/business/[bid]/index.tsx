@@ -19,7 +19,7 @@ import AmenitiesSection from '../../../src/components/sections/AmenitiesSection'
 import BusinessMenuSlideOver from '../../../src/views/slideOver/business/BusinessMenuSlideOver';
 import BusinessReviewSlideOver from '@/views/slideOver/business/BusinessReviewSlideOver';
 import BusinessVerificationSlideOver from '@/views/slideOver/business/BusinessVerifiedSlideOver';
-import { Dispensary } from '../../../src/interfaces/dispensary';
+import { Dispensary } from '@/interfaces/dispensary';
 import FaqSlideOver from '../../../src/views/slideOver/FaqSlideOver';
 import Link from 'next/link';
 import ListingCardDropdown from '../../../src/components/listings/ListingCardDropDown';

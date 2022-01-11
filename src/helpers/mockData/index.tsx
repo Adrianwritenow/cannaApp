@@ -120,6 +120,7 @@ export const listings: Array<Dispensary> = [
       sponsored: [false],
       lat: [39.635418],
       lon: [-76.27047],
+      time_zone: ['est'],
       langcode: ['en'],
       name: ['Fake Dispensary'],
       status: [true],
@@ -148,6 +149,8 @@ export const listings: Array<Dispensary> = [
       address_line1: ['3518 Conowingo Rd'],
       address_line2: [''],
       country_code: ['US'],
+      time_zone: ['est'],
+
       created_: [456788],
       description: [
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.',
@@ -192,6 +195,8 @@ export const listings: Array<Dispensary> = [
       address_line1: ['3518 Conowingo Rd'],
       address_line2: [''],
       country_code: ['US'],
+      time_zone: ['est'],
+
       created_: [456788],
       description: [
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.',
@@ -236,6 +241,8 @@ export const listings: Array<Dispensary> = [
       address_line1: ['3518 Conowingo Rd'],
       address_line2: [''],
       country_code: ['US'],
+      time_zone: ['est'],
+
       created_: [456788],
       description: [
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.',
@@ -280,6 +287,8 @@ export const listings: Array<Dispensary> = [
       address_line1: ['3518 Conowingo Rd'],
       address_line2: [''],
       country_code: ['US'],
+      time_zone: ['est'],
+
       created_: [456788],
       description: [
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.',
@@ -309,6 +318,7 @@ export const listings: Array<Dispensary> = [
       wednesday_hours: ['9:00 AM - 9:00 PM'],
       thursday_hours: ['9:00 AM - 9:00 PM'],
       friday_hours: ['9:00 AM - 9:00 PM'],
+
       saturday_hours: ['9:00 AM - 9:00 PM'],
       sunday_hours: ['9:00 AM - 9:00 PM'],
       locality: ['Key West'],
@@ -324,12 +334,14 @@ export const strain: Strain = {
   _score: 4.4,
   _source: {
     created: [1635912414],
+
     image: [123],
     rating: [3.5],
     review_count: [123],
     description: [
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.',
     ],
+    featured: [false],
     top_rated_effects: ['Aroused', 'Sleepy', 'Creative'],
     top_reported_flavors: ['Woody', 'Nutty', 'Skunk'],
     source_url: ['#'],
@@ -351,6 +363,8 @@ export const strains: Array<Strain> = [
       created: [1635912414],
       image: [123],
       rating: [3.5],
+      featured: [false],
+
       review_count: [123],
 
       description: [
@@ -373,6 +387,35 @@ export const strains: Array<Strain> = [
     _score: 4.4,
     _source: {
       created: [1635912414],
+      featured: [false],
+
+      description: [
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.',
+      ],
+      image: [123],
+      rating: [3.5],
+      review_count: [123],
+
+      top_rated_effects: ['Aroused', 'Sleepy', 'Creative'],
+      top_reported_flavors: ['Woody', 'Nutty', 'Skunk'],
+      source_url: ['#'],
+      langcode: ['en'],
+
+      name: ['Fake Strain'],
+      status: [true],
+      uuid: ['9becd266-99e6-4b83-b4c7-3c2ae1886a24'],
+      _language: 'en',
+      type: '_doc',
+    },
+  },
+  {
+    _id: 'entity:strain_entity/1430:en',
+    _index: 'elasticsearch_index_pantheon_index01',
+    _score: 4.4,
+    _source: {
+      created: [1635912414],
+      featured: [false],
+
       description: [
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.',
       ],
@@ -397,30 +440,8 @@ export const strains: Array<Strain> = [
     _score: 4.4,
     _source: {
       created: [1635912414],
-      description: [
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.',
-      ],
-      image: [123],
-      rating: [3.5],
-      review_count: [123],
+      featured: [false],
 
-      top_rated_effects: ['Aroused', 'Sleepy', 'Creative'],
-      top_reported_flavors: ['Woody', 'Nutty', 'Skunk'],
-      source_url: ['#'],
-      langcode: ['en'],
-      name: ['Fake Strain'],
-      status: [true],
-      uuid: ['9becd266-99e6-4b83-b4c7-3c2ae1886a24'],
-      _language: 'en',
-      type: '_doc',
-    },
-  },
-  {
-    _id: 'entity:strain_entity/1430:en',
-    _index: 'elasticsearch_index_pantheon_index01',
-    _score: 4.4,
-    _source: {
-      created: [1635912414],
       description: [
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.',
       ],

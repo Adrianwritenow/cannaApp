@@ -12,7 +12,7 @@ export default function LearnSection(data: LearnProps) {
   return (
     <section id="learn-section">
       <h2 className="text-xl  text-gray-700 font-semibold p-4">
-        Learn "{query}"
+        {`Learn "${query}"`}
       </h2>
       <div className="grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-6 pb-3">
         {strain._source.image ? (

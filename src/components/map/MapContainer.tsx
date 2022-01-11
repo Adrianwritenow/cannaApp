@@ -53,40 +53,41 @@ export function MapContainer() {
 
   async function handleSubmit(search: any, coords: any, distance: any) {
     const hits: any = await combinedSearchQuery({
-      search: search,
+      search: '',
+      endpoints: ['dispenaries'],
       coords: coords,
       distance: distance,
     });
     dispatch(
       receiveResults({
         // search: city,
-        search: 'My Location',
-        data: hits.hits.hits,
+        search: city,
+        data: hits,
       })
     );
   }
 
-  // const getLocation = () => {
-  //   setUserCoordinates({ lat: lat, lon: lng });
-  //   setResultsShouldUpdate(true);
-  // };
-
-  const getLocation = async () => {
-    if (!navigator.geolocation) {
-      alert('Geolocation is not supported by your browser');
-    } else {
-      navigator.geolocation.getCurrentPosition(
-        position => {
-          setResultsShouldUpdate(true);
-          setUserCoordinates({
-            lat: position.coords.latitude,
-            lon: position.coords.longitude,
-          });
-        },
-        err => console.log(err)
-      );
-    }
+  const getLocation = () => {
+    setUserCoordinates({ lat: lat, lon: lng });
+    setResultsShouldUpdate(true);
   };
+
+  // const getLocation = async () => {
+  //   if (!navigator.geolocation) {
+  //     alert('Geolocation is not supported by your browser');
+  //   } else {
+  //     navigator.geolocation.getCurrentPosition(
+  //       position => {
+  //         setResultsShouldUpdate(true);
+  //         setUserCoordinates({
+  //           lat: position.coords.latitude,
+  //           lon: position.coords.longitude,
+  //         });
+  //       },
+  //       err => console.log(err)
+  //     );
+  //   }
+  // };
 
   useEffect(() => {
     if (resultsShouldUpdate && results.length) {
@@ -94,8 +95,8 @@ export function MapContainer() {
 
       handleSubmit(
         '',
-        { lat: userCoordinates.lat, lon: userCoordinates.lon },
-        '10mi'
+        { lat: lat, lon: lng },
+        '15mi'
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -161,7 +162,7 @@ export function MapContainer() {
                     </button>
                   </div>
                   <div className="">
-                    <MapResults data={dispensaryResults.dispensaries} />
+                    <MapResults data={dispensaryResults.dispensaries} userCoords={{lat: lat, lng: lng}} />
                   </div>
                 </>
               ) : null}

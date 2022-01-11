@@ -86,7 +86,6 @@ export function combinedSearchQuery(searchProps: {
           let flatData = [].concat.apply([], values);
 
           flatData.sort((a: any, b: any) => (a._score < b._score ? 1 : -1));
-          console.log(flatData);
 
           return flatData;
         })

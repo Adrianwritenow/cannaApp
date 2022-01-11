@@ -6,15 +6,13 @@ import { Disclosure } from '@headlessui/react';
 import { DispensaryProps } from '../../interfaces/listing';
 import ImageWithFallback from '../image/ImageWithFallback';
 import Link from 'next/link';
-import { getDistance } from 'geolib';
+import getDistanceFrom from '@/helpers/getDistanceFrom';
+import OpenIndicator from '@/helpers/OpenStatus';
 
 export default function ListingCardDropdown(data: DispensaryProps) {
   const { listing, amenities, classNames, userCoords } = data;
   const [distanceFrom, setDistanceFrom] = useState('');
-
-  function getMiles(i: number) {
-    return i * 0.000621371192;
-  }
+  
 
   useEffect(() => {
     if (userCoords && listing) {
@@ -22,21 +20,15 @@ export default function ListingCardDropdown(data: DispensaryProps) {
         x => x === null || x === undefined
       );
       if (!isEmpty) {
-        const distance = getDistance(
-          {
-            latitude: listing._source.lat[0],
-            longitude: listing._source.lon[0],
-          },
-          {
-            latitude: userCoords?.lat,
-            longitude: userCoords?.lng,
-          }
-        );
-        setDistanceFrom(`${getMiles(distance).toFixed(1)} mi`);
+        const distance = getDistanceFrom(userCoords, {
+          lat: listing._source.lat,
+          lon: listing._source.lon,
+        });
+        setDistanceFrom(distance);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userCoords]);
+  }, [ listing]);
 
   return (
     // <Disclosure
@@ -64,7 +56,7 @@ export default function ListingCardDropdown(data: DispensaryProps) {
       </div>
       <div className="pt-2.5 text-left text-sm w-full">
         <div className="flex flex-wrap justify-between">
-          <h3 className="text-lg font-semi-bold text-gray-700">
+          <h3 className=" font-bold text-base text-gray-700 leading-6">
             <Link
               href={`/business/${encodeURIComponent(listing._id)}`}
               passHref
@@ -72,7 +64,10 @@ export default function ListingCardDropdown(data: DispensaryProps) {
               <a>{listing._source?.name}</a>
             </Link>
           </h3>
-          <BookmarkIcon className="w-6" />
+
+          {/**** Need favorites functionality  *****/}
+          {/* <BookmarkIcon className="w-6" /> */}
+
         </div>
         <div className="flex flex-col items-start">
           {listing._source.rating && (
@@ -103,18 +98,15 @@ export default function ListingCardDropdown(data: DispensaryProps) {
               </div>
             </>
           )}
-          <p className="text-sm text-gray-500 font-normal">
-            {listing._source?._type}
+          <p className="text-normal text-gray-500 font-normal">
+            Dispensary
             <span className="px-2 text-normal">&#8226;</span>
             {/* {listing.distance} */}
-            {distanceFrom ? ` ${distanceFrom} away` : ''}
+            {distanceFrom ? ` ${distanceFrom}` : ''}
           </p>
-          <p className="text-sm text-gray-500 font-normal">
-            <span className="text-normal text-blue-500">Open </span>
-            until
-            {/* {listing.closeTime} */}
-            %Closing Time
-          </p>
+          {typeof listing?._source !== 'undefined' && (
+            <OpenIndicator dispensary={listing} />
+          )}
           {/* Need Amenities Data */}
           {/* {amenities && (
                 <div className="grid grid-flow-col auto-cols-max gap-2">

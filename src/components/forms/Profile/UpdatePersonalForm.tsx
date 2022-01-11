@@ -1,35 +1,34 @@
 import * as Yup from 'yup';
-
 import { Field, Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
 
-import { InputField } from '../fields/InputField';
-import { RootState } from '../../../reducers';
-import SelectDropdown from '../fields/SelectDropdown';
-import { updateUser } from '../../../actions/user';
-import { useAxios } from '../../../hooks/useAxios';
-import { useSelector } from 'react-redux';
+import { InputField } from '@/components/forms/fields/InputField';
+import { getField } from '@/helpers/getField';
+import SelectDropdown from '@/components/forms/fields/SelectDropdown';
+import { updateUser } from '@/actions/user';
+import { useCurrentUser } from '@/hooks/user';
+import { useAxios } from '@/hooks/useAxios';
 
 export default function UpdatePersonalForm() {
   const [initialValues, setInitialValues] = useState({
-    first_name: '',
-    last_name: '',
+    field_first_name: '',
+    field_last_name: '',
+    field_country: '',
+    field_state: '',
+    field_phone: '',
     mail: '',
-    country: '',
-    state: '',
-    phone: '',
   });
   const [dispatchAxios, { loading }] = useAxios();
   const [initialValuesSet, setInitialValuesSet] = useState(false); // see comment in useEffect below
-  const { currentUser } = useSelector((root: RootState) => root.user);
+  const [currentUser] = useCurrentUser();
 
   const schema = Yup.object().shape({
-    first_name: Yup.string(),
-    last_name: Yup.string(),
+    field_first_name: Yup.string(),
+    field_last_name: Yup.string(),
+    field_country: Yup.string(),
+    field_state: Yup.string(),
+    field_phone: Yup.string(),
     mail: Yup.string(),
-    country: Yup.string(),
-    state: Yup.string(),
-    phone: Yup.string(),
   });
 
   const countries = [
@@ -39,9 +38,9 @@ export default function UpdatePersonalForm() {
   ];
 
   const states = [
-    { id: 'FL', label: 'Florida' },
-    { id: 'NY', label: 'New York' },
-    { id: 'CA', label: 'California' },
+    { id: 'Florida', label: 'Florida' },
+    { id: 'New York', label: 'New York' },
+    { id: 'California', label: 'California' },
   ];
 
   useEffect(() => {
@@ -49,15 +48,15 @@ export default function UpdatePersonalForm() {
       x => x === null || x === ''
     );
     // initialValuesSet checks to see if the initialValues have been set here to prevent an infinite loop when viewing in a dev environment with no logged in user.
-    if (isEmpty && !initialValuesSet) {
+    if (isEmpty && !initialValuesSet && getField(currentUser, 'uid')) {
       setInitialValuesSet(true);
       setInitialValues({
-        first_name: currentUser.first_name[0]?.value || '',
-        last_name: currentUser.last_name[0]?.value || '',
-        mail: '' || '',
-        country: '' || '',
-        state: currentUser.state[0]?.value || '',
-        phone: '' || '',
+        field_first_name: getField(currentUser, 'field_first_name'),
+        field_last_name: getField(currentUser, 'field_last_name'),
+        field_country: getField(currentUser, 'field_country'),
+        field_state: getField(currentUser, 'field_state'),
+        field_phone: getField(currentUser, 'field_phone'),
+        mail: getField(currentUser, 'mail'),
       });
     }
   }, [initialValues, currentUser, initialValuesSet]);
@@ -93,8 +92,8 @@ export default function UpdatePersonalForm() {
                 <div className="mt-1 flex rounded-md shadow-sm">
                   <Field
                     label="First name"
-                    id="first_name"
-                    name="first_name"
+                    id="field_first_name"
+                    name="field_first_name"
                     type="text"
                     component={InputField}
                   />
@@ -105,8 +104,8 @@ export default function UpdatePersonalForm() {
                 <div className="mt-1 flex rounded-md shadow-sm">
                   <Field
                     label="Last name"
-                    id="last_name"
-                    name="last_name"
+                    id="field_last_name"
+                    name="field_last_name"
                     type="text"
                     component={InputField}
                   />
@@ -129,11 +128,11 @@ export default function UpdatePersonalForm() {
                 <div className="mt-1 flex rounded-md shadow-sm">
                   <Field
                     label="Country / Region"
-                    id="country"
-                    name="country"
+                    id="field_country"
+                    name="field_country"
                     type="text"
                     options={countries}
-                    value={values.state}
+                    value={values.field_country}
                     setFieldValue={setFieldValue}
                     component={SelectDropdown}
                   />
@@ -144,11 +143,11 @@ export default function UpdatePersonalForm() {
                 <div className="mt-1 flex rounded-md shadow-sm">
                   <Field
                     label="State / Province"
-                    id="state"
-                    name="state"
+                    id="field_state"
+                    name="field_state"
                     type="text"
                     options={states}
-                    value={values.state}
+                    value={values.field_state}
                     setFieldValue={setFieldValue}
                     component={SelectDropdown}
                   />
@@ -159,8 +158,8 @@ export default function UpdatePersonalForm() {
                 <div className="mt-1 flex rounded-md shadow-sm">
                   <Field
                     label="Phone"
-                    id="phone"
-                    name="phone"
+                    id="field_phone"
+                    name="field_phone"
                     handleBlur={handleBlur}
                     handleChange={handleChange}
                     format="(###) ###-####"

@@ -7,10 +7,12 @@ export const USER_REQUEST_PASSWORD_RESET = 'user/password';
 
 export interface UpdateUser {
   favorite_strains?: string;
-  first_name?: string;
+  field_first_name?: string;
+  field_last_name?: string;
+  field_state?: string;
+  field_country?: string;
+  field_phone?: string;
   guest_list?: string;
-  last_name?: string;
-  state?: string;
   langcode?: string;
   mail?: string;
   name?: string;
@@ -48,14 +50,12 @@ export function updateUser(
     payload.password = password;
   }
 
-  const data = JSON.stringify(payload);
-
   return {
     type: USER_REQUEST_UPDATE,
     config: {
       method: 'patch',
       url: `/user/${id}`,
-      data: data,
+      data: payload,
     },
   };
 }

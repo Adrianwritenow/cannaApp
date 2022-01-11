@@ -1,7 +1,7 @@
-import { Fragment, useEffect, useState } from "react";
-import { Listbox, Transition } from "@headlessui/react";
+import { Fragment, useEffect, useState } from 'react';
+import { Listbox, Transition } from '@headlessui/react';
 
-import { SelectorIcon } from "@heroicons/react/solid";
+import { SelectorIcon } from '@heroicons/react/solid';
 
 interface FormikForm {
   getFieldMeta(name: string): any;
@@ -17,7 +17,7 @@ interface Option {
 
 interface FieldProps extends React.HTMLAttributes<HTMLInputElement> {
   id: string;
-  disabled?: React.InputHTMLAttributes<HTMLInputElement>["disabled"];
+  disabled?: React.InputHTMLAttributes<HTMLInputElement>['disabled'];
   label: React.ReactNode;
   labelHidden: boolean;
   options: Array<Option>;
@@ -31,7 +31,7 @@ interface FieldProps extends React.HTMLAttributes<HTMLInputElement> {
 }
 
 function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(" ");
+  return classes.filter(Boolean).join(' ');
 }
 
 export default function SelectDropdown(props: FieldProps) {
@@ -52,14 +52,14 @@ export default function SelectDropdown(props: FieldProps) {
   } = props;
 
   const initialSelect: Option = {
-    id: "",
+    id: '',
     label: `Please Select ${label}`,
   };
   const [selected, setSelected] = useState<Option>(initialSelect);
 
-  let labelClasses = "block text-sm font-medium text-gray-700";
+  let labelClasses = 'block text-sm font-medium text-gray-700';
   if (labelHidden) {
-    labelClasses += " sr-only";
+    labelClasses += ' sr-only';
   }
 
   function handleChange(value: Option) {
@@ -68,7 +68,7 @@ export default function SelectDropdown(props: FieldProps) {
   }
 
   useEffect(() => {
-    var currentValue = options.find((option) => {
+    var currentValue = options.find(option => {
       return option.label === value;
     });
     if (currentValue) {
@@ -100,13 +100,13 @@ export default function SelectDropdown(props: FieldProps) {
             leaveTo="opacity-0"
           >
             <Listbox.Options className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
-              {options.map((option) => (
+              {options.map(option => (
                 <Listbox.Option
                   key={option.id}
                   className={({ active }) =>
                     classNames(
-                      active ? "text-white bg-green" : "text-gray-900",
-                      "cursor-default select-none relative py-2 pl-8 pr-4"
+                      active ? 'text-white bg-green' : 'text-gray-900',
+                      'cursor-default select-none relative py-2 pl-8 pr-4'
                     )
                   }
                   value={option}
@@ -115,8 +115,8 @@ export default function SelectDropdown(props: FieldProps) {
                     <>
                       <span
                         className={classNames(
-                          selected ? "font-semibold" : "font-normal",
-                          "block truncate"
+                          selected ? 'font-semibold' : 'font-normal',
+                          'block truncate'
                         )}
                       >
                         {option.label}

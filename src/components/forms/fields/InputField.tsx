@@ -77,6 +77,7 @@ export function InputField(props: FieldProps) {
             mask={mask}
             className={inputClass + ' ' + styles}
             id={id}
+            name={name}
             placeholder={placeholder}
             autoComplete={autoComplete}
             disabled={disabled}

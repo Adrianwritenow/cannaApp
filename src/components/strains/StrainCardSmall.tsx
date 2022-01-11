@@ -4,13 +4,15 @@ import Link from 'next/link';
 import React from 'react';
 import { StarIcon } from '@heroicons/react/solid';
 import { Strain } from '@/interfaces/SearchStrain';
+import { Strain as StrainAlt } from '@/interfaces/strain';
 
 interface StrainProps {
   strain: Strain;
+  strainAlt?: StrainAlt;
 }
 
 export default function StrainCardSmall(data: StrainProps) {
-  const { strain } = data;
+  const { strain, strainAlt } = data;
 
   return (
     <Link href={`/strain/${encodeURIComponent(strain._id as string)}`} passHref>
@@ -23,7 +25,7 @@ export default function StrainCardSmall(data: StrainProps) {
                   ? strain._source?.field_image[0]
                   : 'undefined'
               }
-              alt={strain._source?.name_2}
+              alt={strain._source.name_2}
               layout="fill"
               objectFit={'cover'}
             />

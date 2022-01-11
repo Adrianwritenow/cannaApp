@@ -1,5 +1,7 @@
 import { AxiosError, AxiosResponse } from 'axios';
 
+import { SearchHits } from '@/interfaces/searchHits';
+
 var axios = require('axios');
 const SEARCH_URL = process.env.SEARCH_URL;
 
@@ -37,8 +39,9 @@ export function combinedSearchQuery(searchProps: {
   coords?: any;
   distance?: string;
   filters?: { sort: string; category: string };
+  endpoints?: string[];
 }) {
-  const { search, coords, distance, filters } = searchProps;
+  const { search, coords, distance, filters, endpoints } = searchProps;
   const spatialQuery =
     coords && distance
       ? bodybuilder()
@@ -47,10 +50,11 @@ export function combinedSearchQuery(searchProps: {
             distance: distance,
             field_coordinates: { lat: coords.lat, lon: coords.lon },
           })
+          .size(15)
           .build()
       : bodybuilder().query('query_string', 'query', search).build();
 
-  const query = bodybuilder().query('query_string', 'query', search);
+  const query = bodybuilder().query('query_string', 'query', search).size(15);
 
   if (filters?.category) {
     if (filters?.category[0]) {
@@ -76,20 +80,55 @@ export function combinedSearchQuery(searchProps: {
 
   const body = query.build();
 
-  const results = axios({
-    url: `${SEARCH_URL}/elasticsearch_index_dev_cannapages_index01/_search?size=15`,
-    headers: { 'Content-Type': 'application/json' },
-    method: 'POST',
-    data: coords && distance ? spatialQuery : body,
-  })
-    .then((response: AxiosResponse) => {
-      return response.data;
-    })
-    .catch((error: any) => {
-      console.log(error);
-    });
+  let apis: any[] = [];
+  let data: any[] = [];
 
-  return results;
+  if (endpoints) {
+    if (endpoints.length) {
+      apis = endpoints.map(function (value) {
+        return `${SEARCH_URL}/elasticsearch_index_dev_cannapages_${value}/_search`;
+      });
+    }
+
+    if (apis.length) {
+      const results = axios
+        .all(
+          apis.map(endpoint =>
+            axios({
+              url: endpoint,
+              headers: { 'Content-Type': 'application/json' },
+              method: 'POST',
+              data: coords && distance ? spatialQuery : body,
+            })
+          )
+        )
+        .then((response: AxiosResponse<SearchHits>[]) => {
+          let values: any[] = response.map(r => r.data.hits.hits);
+          let flatData = [].concat.apply([], values);
+          return flatData;
+        })
+        .catch((error: any) => {
+          console.log(error);
+        });
+      data = results;
+    }
+    return data;
+  }
+
+  // const results = axios({
+  //   url: `${SEARCH_URL}/elasticsearch_index_dev_cannapages_index01/_search`,
+  //   headers: { 'Content-Type': 'application/json' },
+  //   method: 'POST',
+  //   data: coords && distance ? spatialQuery : body,
+  // })
+  //   .then((response: AxiosResponse) => {
+  //     return response.data;
+  //   })
+  //   .catch((error: any) => {
+  //     console.log(error);
+  //   });
+
+  // return results;
 }
 
 export function getDocument(id: string | string[] | undefined) {
@@ -140,6 +179,26 @@ export function browseBy(field: string, value: string) {
   var body = bodybuilder().filter('match', `${field}`, `${value}`).build();
   const results = axios({
     url: `${SEARCH_URL}/elasticsearch_index_dev_cannapages_index01/_search?size=15`,
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+  })
+    .then((res: AxiosResponse) => {
+      return res.data;
+    })
+    .catch((error: AxiosError) => {
+      // dispatch must come before setState
+      console.log('ERR:::', error);
+    });
+  return results;
+}
+
+export function getPopular(type: string) {
+  var body = bodybuilder().build();
+  const results = axios({
+    url: `${SEARCH_URL}/elasticsearch_index_dev_cannapages_${type}/_search?size=15`,
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

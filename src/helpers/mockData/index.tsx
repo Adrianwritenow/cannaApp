@@ -23,7 +23,7 @@ export const products: Array<Product> = [
       field_rating: [3.5],
       field_review_count: [123],
       field_brand: ['Fake Brand'],
-      field_price: [12.99],
+      field_price: [12],
       field_price_label: ['per 1/2 oz'],
       field_source_url_1: ['#'],
       field_sponsored: [false],
@@ -52,7 +52,7 @@ export const products: Array<Product> = [
       field_rating: [3.5],
       field_brand: ['Fake Brand'],
       field_review_count: [123],
-      field_price: [12.99],
+      field_price: [12],
       field_price_label: ['per 1/2 oz'],
       field_source_url_1: ['#'],
       field_sponsored: [false],
@@ -81,7 +81,7 @@ export const products: Array<Product> = [
       field_rating: [3.5],
       field_brand: ['Fake Brand'],
       field_review_count: [123],
-      field_price: [12.99],
+      field_price: [12],
       field_price_label: ['per 1/2 oz'],
       field_source_url_1: ['#'],
       field_sponsored: [false],
@@ -96,7 +96,6 @@ export const products: Array<Product> = [
 ];
 
 export const listings: Array<Dispensary> = [
-
   {
     _id: 'entity:dispensary_entity/6029:en',
     _index: 'elasticsearch_index_pantheon_index01',
@@ -139,7 +138,7 @@ export const listings: Array<Dispensary> = [
       field_sunday_hours: ['9:00 AM - 9:00 PM'],
       locality: ['Key West'],
       administrative_area: ['FL'],
-      field_website: ['https://www.google.com']
+      field_website: ['https://www.google.com'],
     },
   },
   {
@@ -184,7 +183,7 @@ export const listings: Array<Dispensary> = [
       field_sunday_hours: ['9:00 AM - 9:00 PM'],
       locality: ['Key West'],
       administrative_area: ['FL'],
-      field_website: ['https://www.google.com']
+      field_website: ['https://www.google.com'],
     },
   },
   {
@@ -229,7 +228,7 @@ export const listings: Array<Dispensary> = [
       field_sunday_hours: ['9:00 AM - 9:00 PM'],
       locality: ['Key West'],
       administrative_area: ['FL'],
-      field_website: ['https://www.google.com']
+      field_website: ['https://www.google.com'],
     },
   },
   {
@@ -274,7 +273,7 @@ export const listings: Array<Dispensary> = [
       field_sunday_hours: ['9:00 AM - 9:00 PM'],
       locality: ['Key West'],
       administrative_area: ['FL'],
-      field_website: ['https://www.google.com']
+      field_website: ['https://www.google.com'],
     },
   },
   {
@@ -319,7 +318,7 @@ export const listings: Array<Dispensary> = [
       field_sunday_hours: ['9:00 AM - 9:00 PM'],
       locality: ['Key West'],
       administrative_area: ['FL'],
-      field_website: ['https://www.google.com']
+      field_website: ['https://www.google.com'],
     },
   },
 ];

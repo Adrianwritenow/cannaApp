@@ -21,6 +21,7 @@ export default function SearchShopping(props: {
               list={products}
               sponsored={true}
               label={`Shop "${query}"`}
+              hideButton={true}
             />
             <div className="px-4">
               <ProductResultsGrid

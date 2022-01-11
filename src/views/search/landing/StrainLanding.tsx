@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { browseBy, getFeatured, receiveResults } from '@/actions/search';
+import {
+  browseBy,
+  getFeatured,
+  getPopular,
+  receiveResults,
+} from '@/actions/search';
 
 import { ArrowRightIcon } from '@heroicons/react/solid';
 import { Feeling } from '../../../interfaces/feeling';
@@ -32,9 +37,15 @@ export default function StrainLanding() {
       const hits: SearchHits = await getFeatured();
       setFeatured(hits.hits.hits[0] as unknown as Strain);
     }
+    async function getPopularItems(type: string) {
+      const hits: SearchHits = await getPopular(type);
+      // setPopular(hits.hits.hits);
+      console.log('POP', popular);
+    }
 
     if (!featured) {
       getFeaturedItems();
+      getPopularItems('strains');
     }
 
     console.log(featured);
@@ -103,29 +114,32 @@ export default function StrainLanding() {
           </section>
 
           {/* Popular Strains */}
-          <section
-            aria-labelledby="popular-strains-heading"
-            className="mt-8 pl-4"
-          >
-            <h2 id="popular-strains-heading" className="sr-only">
-              Popular Strains
-            </h2>
 
-            <h2 className="text-gray-700 text-xl font-semibold py-4">
-              Popular Strains
-            </h2>
-            <div className="w-full overflow-x-scroll">
-              <div className="w-min">
-                <div className="grid grid-flow-col auto-cols-max grid-rows-4 w-full gap-1">
-                  {/* {strains.map((strain: Strain, index) => (
-                <div className="w-60" key={`${strain}-${index}`}>
-                  <StrainCardSmall strain={strain} />
-                </div>
-              ))} */}
+          {popular && (
+            <section
+              aria-labelledby="popular-strains-heading"
+              className="mt-8 pl-4"
+            >
+              <h2 id="popular-strains-heading" className="sr-only">
+                Popular Strains
+              </h2>
+
+              <h2 className="text-gray-700 text-xl font-semibold py-4">
+                Popular Strains
+              </h2>
+              <div className="w-full overflow-x-scroll">
+                <div className="w-min">
+                  <div className="grid grid-flow-col auto-cols-max grid-rows-4 w-full gap-1">
+                    {popular.map((strain: Strain, index) => (
+                      <div className="w-60" key={`${strain}-${index}`}>
+                        <StrainCardSmall strain={strain} />
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
-          </section>
+            </section>
+          )}
 
           {/* Browse by Type */}
           <section aria-labelledby="browse-strains-type" className="mt-8 px-4">

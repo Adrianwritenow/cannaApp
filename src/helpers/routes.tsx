@@ -106,12 +106,12 @@ export const BottomNavRoutes: Route[] = [
     href: '/search',
     id: 'explore',
   },
-  {
-    label: 'Stash',
-    icon: <BookmarkIcon className="w-6 h-6 stroke-1" />,
-    href: '#',
-    id: 'stash',
-  },
+  // {
+  //   label: 'Stash',
+  //   icon: <BookmarkIcon className="w-6 h-6 stroke-1" />,
+  //   href: '#',
+  //   id: 'stash',
+  // },
   {
     label: 'Profile',
     icon: <UserCircleIcon className="w-6 h-6 stroke-1" />,

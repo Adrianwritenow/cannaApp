@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import ImageWithFallback from '../image/ImageWithFallback';
-import { Strain } from '@/interfaces/SearchStrain';
+import { Strain } from '@/interfaces/strain';
 
 interface LearnProps {
   strain: Strain;
@@ -12,18 +12,18 @@ export default function LearnSection(data: LearnProps) {
   return (
     <section id="learn-section">
       <h2 className="text-xl  text-gray-700 font-semibold p-4">
-        Learn %Query%
+        {`Learn "${query}"`}
       </h2>
       <div className="grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-6 pb-3">
-        {strain._source.field_image ? (
-          strain._source.field_image.map((image, index) => (
+        {strain._source.image ? (
+          strain._source.image.map((image, index) => (
             <div
               className="rounded-lg overflow-hidden w-24 h-24 relative"
               key={`image-${index}`}
             >
               <ImageWithFallback
                 src={image}
-                alt={strain._source.name_2}
+                alt={strain._source.name}
                 layout="fill"
                 objectFit={'cover'}
               />
@@ -36,7 +36,7 @@ export default function LearnSection(data: LearnProps) {
           >
             <ImageWithFallback
               src={'/'}
-              alt={strain._source.name_2}
+              alt={strain._source.name}
               layout="fill"
               objectFit={'cover'}
             />
@@ -47,13 +47,13 @@ export default function LearnSection(data: LearnProps) {
       <div className="px-4">
         <div className="border-t border-gray-200 pt-2">
           <h3 className="text-xl text-gray-700 font-normal">
-            {strain._source.name_2}
+            {strain._source.name}
           </h3>
           <p className="text-sm text-gray-500 font-normal capitalize">
             {strain._source.type}
           </p>
           <p className="text-sm text-gray-500 font-normal leading-5 py-3">
-            {strain._source.description_1}
+            {strain._source.description}
           </p>
         </div>
       </div>

@@ -1,5 +1,5 @@
 import { Faq } from '../faq';
-import { Product } from '../searchProduct';
+import { Product } from '../product';
 import { Review } from '../review';
 
 export interface ProductSlideoverProps {

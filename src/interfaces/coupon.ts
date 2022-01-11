@@ -1,6 +1,6 @@
-import { Dispensary } from './searchDispensary';
+import { Dispensary } from './dispensary';
 import { Image } from './image';
-import { Product } from './searchProduct';
+import { Product } from './product';
 
 export interface Coupon {
   code: string;

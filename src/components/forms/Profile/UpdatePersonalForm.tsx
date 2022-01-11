@@ -12,11 +12,11 @@ import { useSelector } from 'react-redux';
 
 export default function UpdatePersonalForm() {
   const [initialValues, setInitialValues] = useState({
-    field_first_name: '',
-    field_last_name: '',
+    first_name: '',
+    last_name: '',
     mail: '',
     country: '',
-    field_state: '',
+    state: '',
     phone: '',
   });
   const [dispatchAxios, { loading }] = useAxios();
@@ -24,11 +24,11 @@ export default function UpdatePersonalForm() {
   const { currentUser } = useSelector((root: RootState) => root.user);
 
   const schema = Yup.object().shape({
-    field_first_name: Yup.string(),
-    field_last_name: Yup.string(),
+    first_name: Yup.string(),
+    last_name: Yup.string(),
     mail: Yup.string(),
     country: Yup.string(),
-    field_state: Yup.string(),
+    state: Yup.string(),
     phone: Yup.string(),
   });
 
@@ -52,11 +52,11 @@ export default function UpdatePersonalForm() {
     if (isEmpty && !initialValuesSet) {
       setInitialValuesSet(true);
       setInitialValues({
-        field_first_name: currentUser.field_first_name[0]?.value || '',
-        field_last_name: currentUser.field_last_name[0]?.value || '',
+        first_name: currentUser.first_name[0]?.value || '',
+        last_name: currentUser.last_name[0]?.value || '',
         mail: '' || '',
         country: '' || '',
-        field_state: currentUser.field_state[0]?.value || '',
+        state: currentUser.state[0]?.value || '',
         phone: '' || '',
       });
     }
@@ -93,8 +93,8 @@ export default function UpdatePersonalForm() {
                 <div className="mt-1 flex rounded-md shadow-sm">
                   <Field
                     label="First name"
-                    id="field_first_name"
-                    name="field_first_name"
+                    id="first_name"
+                    name="first_name"
                     type="text"
                     component={InputField}
                   />
@@ -105,8 +105,8 @@ export default function UpdatePersonalForm() {
                 <div className="mt-1 flex rounded-md shadow-sm">
                   <Field
                     label="Last name"
-                    id="field_last_name"
-                    name="field_last_name"
+                    id="last_name"
+                    name="last_name"
                     type="text"
                     component={InputField}
                   />
@@ -133,7 +133,7 @@ export default function UpdatePersonalForm() {
                     name="country"
                     type="text"
                     options={countries}
-                    value={values.field_state}
+                    value={values.state}
                     setFieldValue={setFieldValue}
                     component={SelectDropdown}
                   />
@@ -144,11 +144,11 @@ export default function UpdatePersonalForm() {
                 <div className="mt-1 flex rounded-md shadow-sm">
                   <Field
                     label="State / Province"
-                    id="field_state"
-                    name="field_state"
+                    id="state"
+                    name="state"
                     type="text"
                     options={states}
-                    value={values.field_state}
+                    value={values.state}
                     setFieldValue={setFieldValue}
                     component={SelectDropdown}
                   />

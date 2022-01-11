@@ -1,21 +1,22 @@
 export interface Strain {
-  id: string;
-  images: Array<string>;
-  title: string;
-  type: string;
-  about: string;
-  rating: number;
-  reviewCount: number;
-  cannabanoids: {
-    thc: number;
-    cbd: number;
-  };
-  effects: {
+  _id: string;
+  _index: string;
+  _score: number;
+  _source: {
+    created: number[];
+    description: string[];
+    image: number[];
+    source_url: string[];
+    langcode: string[];
+    featured: boolean[];
+    top_rated_effects: string[];
+    top_reported_flavors: string[];
+    rating: number[];
+    review_count: number[];
+    name: string[];
+    status: boolean[];
+    uuid: string[];
+    _language: string;
     type: string;
-    effectPercent: number;
-  };
-  growing: {
-    min: number;
-    max: number;
   };
 }

@@ -11,10 +11,11 @@ import { combinedSearchQuery, receiveResults } from '../../../actions/search';
 import { getLocationByIP, setLocation } from '../../../actions/location';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { LocationData } from '../../../interfaces/locationData';
 import { RootState } from '@/reducers';
+import { SearchBar } from './SearchBar';
 import SearchDispensaryCard from '../../search/SearchDispensaryCard';
 import { SearchHits } from '../../../interfaces/searchHits';
-import { LocationData } from '../../../interfaces/locationData';
 import SearchProductCard from '../../search/SearchProductCard';
 import SearchStrainCard from '../../search/SearchStrainCard';
 import { useRouter } from 'next/router';
@@ -33,15 +34,20 @@ export default function SearchSlideOver(props: {
   const { searchRoute } = props;
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const [initialValues, setInitialValues] = useState({
-    search: '',
+  const initialValues = {
+    search: query,
     location: '',
-  });
+  };
 
   async function handleSubmit(search: any) {
-    const hits: SearchHits = await combinedSearchQuery({ search: search });
-    if (hits.hits.hits.length) {
-      dispatch(receiveResults({ search: search, data: hits.hits.hits }));
+    const hits = await combinedSearchQuery({
+      search: search,
+      endpoints: ['products', 'dispenaries', 'strains'],
+    });
+    if (hits) {
+      if (hits.length) {
+        dispatch(receiveResults({ search: search, data: hits }));
+      }
     }
   }
 
@@ -62,8 +68,6 @@ export default function SearchSlideOver(props: {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useEffect(() => {}, [initialValues, results]);
 
   function handleFocus() {
     // Wait for transition to finish then focus on input
@@ -150,15 +154,11 @@ export default function SearchSlideOver(props: {
                               initialValues={initialValues}
                               enableReinitialize
                               onSubmit={() => {}}
-                              validateOnChange={false}
-                              validateOnBlur={true}
                             >
                               {({
                                 handleSubmit,
                                 values,
-                                setFieldValue,
                                 handleChange,
-                                submitForm,
                                 resetForm,
                               }) => {
                                 return (
@@ -183,13 +183,15 @@ export default function SearchSlideOver(props: {
                                         </button>
                                         <div className="grid grid-cols-7 gap-1 w-full">
                                           <div className={'col-span-7'}>
-                                            <input
+                                            <Field
                                               name={'search'}
                                               type={'text'}
-                                              ref={inputRef}
+                                              innerRef={inputRef}
                                               onFocus={() => {
                                                 setFocus('search');
                                               }}
+                                              component={SearchBar}
+                                              value={values.search}
                                               id={'search'}
                                               className="w-full border-none p-4 focus:border-0 focus:outline-none focus:ring-transparent"
                                               onChange={(

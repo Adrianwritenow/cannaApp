@@ -3,13 +3,12 @@ import React, { useEffect, useState } from 'react';
 import ProductResultsSection from '../../../src/components/sections/ProductsResultsSection';
 import { RootState } from '@/reducers';
 import { Sativa } from '../../../public/assets/icons/iconComponents';
+import { SearchHits } from '@/interfaces/searchHits';
 import { StarIcon } from '@heroicons/react/solid';
-import { Strain } from '@/interfaces/SearchStrain';
+import { Strain } from '@/interfaces/strain';
 import { getDocument } from '../../../src/actions/search';
-import { products } from '../../../src/helpers/mockData';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
-import { SearchHits } from '@/interfaces/searchHits';
 
 export default function StrainDetail() {
   const router = useRouter();
@@ -24,7 +23,7 @@ export default function StrainDetail() {
 
   useEffect(() => {
     if (strainId) {
-      getDocument(strainId).then((document: SearchHits) => {
+      getDocument(strainId, 'strains').then((document: SearchHits) => {
         if (document) {
           const result = document.hits.hits[0];
           setStrain(result as unknown as Strain);
@@ -44,7 +43,7 @@ export default function StrainDetail() {
       setSearchLists(searchListUpdate);
     }
     setCurrentQuery(query);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [strainId, results, searchLists]);
 
   return (
@@ -66,10 +65,10 @@ export default function StrainDetail() {
           className="border-gray-200 border-b pb-4"
         >
           <h2 id="strains-heading" className="sr-only">
-            {strain?._source.name_2}
+            {strain?._source.name}
           </h2>
           <h2 className="text-gray-700 text-3xl font-normal">
-            {strain?._source.name_2}
+            {strain?._source.name}
           </h2>
           <p className="text-base text-gray-500 capitalize">
             {strain?._source.type}
@@ -90,10 +89,10 @@ export default function StrainDetail() {
         </section>
         <section aria-labelledby="strains-about" className="pt-4">
           <h2 id="strains-about" className="sr-only">
-            {strain?._source.name_2}
+            {strain?._source.name}
           </h2>
           <p className="text-base text-gray-700">
-            {strain?._source.description_1}
+            {strain?._source.description}
           </p>
         </section>
       </div>

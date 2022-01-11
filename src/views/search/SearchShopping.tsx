@@ -1,4 +1,4 @@
-import { Product } from '@/interfaces/searchProduct';
+import { Product } from '@/interfaces/product';
 import ProductFilterSlideOver from '../slideOver/filters/ProductFilterSlideOver';
 import ProductResultsGrid from '@/components/products/ProductResultsGrid';
 import ProductResultsSection from '@/components/sections/ProductsResultsSection';
@@ -21,6 +21,7 @@ export default function SearchShopping(props: {
               list={products}
               sponsored={true}
               label={`Shop "${query}"`}
+              hideButton={true}
             />
             <div className="px-4">
               <ProductResultsGrid

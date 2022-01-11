@@ -1,12 +1,14 @@
+import 'mapbox-gl/dist/mapbox-gl.css';
+
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useState } from 'react';
-import { ChevronDownIcon } from '@heroicons/react/outline';
-import 'mapbox-gl/dist/mapbox-gl.css';
 import ReactMapGL, { FlyToInterpolator, Marker } from 'react-map-gl';
+
+import { ChevronDownIcon } from '@heroicons/react/outline';
 import { MapContext } from './MapContainer';
-import { getCenterOfBounds } from 'geolib';
 import MapDispMarker from '@/public/assets/icons/iconComponents/MapDispMarker';
 import MapDispMarkerSelected from '@/public/assets/icons/iconComponents/MapDispMarkerSelected';
+import { getCenterOfBounds } from 'geolib';
 
 export function Map({ data, currentViewport }: any) {
   const [currentCenter, setCurrentCenter] = useState({
@@ -23,7 +25,7 @@ export function Map({ data, currentViewport }: any) {
   });
 
   // function getCoords(item: any) {
-  //   const coordString = item._source.field_coordinates[0]
+  //   const coordString = item._source.coordinates[0]
   //     .slice(6)
   //     .slice(0, -1)
   //     .split(' ');

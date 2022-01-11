@@ -19,7 +19,7 @@ export default function ListingCard(data: ListingProps) {
       <div className="w-full focus:outline-none">
         <div className=" w-full h-36 relative">
           <ImageWithFallback
-            src={listing._source.field_image}
+            src={listing._source.image}
             alt={listing._source.name}
             layout="fill"
             objectFit={'cover'}
@@ -38,19 +38,17 @@ export default function ListingCard(data: ListingProps) {
             <BookmarkIcon className="w-6" />
           </div>
           <div className="flex flex-col items-start">
-            <p className="sr-only">
-              {listing._source.field_rating} out of 5 stars
-            </p>
+            <p className="sr-only">{listing._source.rating} out of 5 stars</p>
             <div className="flex items-center">
               <span className="font-normal text-gray-500">
-                {listing._source.field_rating}
+                {listing._source.rating}
               </span>
 
               {[0, 1, 2, 3, 4].map(rating => (
                 <StarIcon
                   key={rating}
                   className={`    ${
-                    parseFloat(listing._source.field_rating[0]) > rating
+                    parseFloat(listing._source.rating[0]) > rating
                       ? 'text-yellow-400'
                       : 'text-gray-200'
                   }
@@ -59,7 +57,7 @@ export default function ListingCard(data: ListingProps) {
                 />
               ))}
               <p className="font-normal text-gray-500">
-                ({listing._source.field_reviews_count})
+                ({listing._source.reviews_count})
               </p>
             </div>
             <p className="text-sm text-gray-500 font-normal">

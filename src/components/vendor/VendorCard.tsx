@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import ImageWithFallback from '../image/ImageWithFallback';
 import Link from 'next/link';
-import { Product } from '@/interfaces/searchProduct';
+import { Product } from '@/interfaces/product';
 import { Vendor } from '../../interfaces/vendor';
 import { getDocument } from '@/actions/search';
 
@@ -17,7 +17,7 @@ export default function VendorCard(props: VendorProps) {
 
   useEffect(() => {
     if (productId) {
-      getDocument(productId).then(
+      getDocument(productId, 'products').then(
         (document: React.SetStateAction<Product | undefined>) => {
           setProduct(document);
         }
@@ -34,8 +34,8 @@ export default function VendorCard(props: VendorProps) {
       <div className="w-full flex ">
         <div className="rounded-lg overflow-hidden w-25 h-25 relative mr-4 flex-shrink-0">
           <ImageWithFallback
-            src={product?._source.field_image}
-            alt={product?._source.name_1}
+            src={product?._source.image}
+            alt={product?._source.name}
             layout="fill"
             objectFit={'cover'}
           />
@@ -81,7 +81,7 @@ export default function VendorCard(props: VendorProps) {
             </div>
           </div> */}
           <p className="text-sm font-semibold text-gray-900">
-            {product?._source.field_price}
+            {product?._source.price}
           </p>
         </div>
       </div>

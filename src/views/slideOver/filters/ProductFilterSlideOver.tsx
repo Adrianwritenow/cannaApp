@@ -96,12 +96,12 @@ export default function ProductFilterSlideOver() {
     setSortPricing(savedValues.sort);
 
     async function getSearchItems() {
-      const hits: SearchHits = await combinedSearchQuery({
+      const hits = await combinedSearchQuery({
         search: query,
         filters: savedValues.filters,
       });
 
-      dispatch(receiveResults({ search: query, data: hits.hits.hits }));
+      dispatch(receiveResults({ search: query, data: hits }));
     }
 
     getSearchItems();

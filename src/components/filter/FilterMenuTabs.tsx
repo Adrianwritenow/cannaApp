@@ -5,7 +5,7 @@ import React, { FormEvent, useEffect, useState } from 'react';
 import BusinessProductCard from '../products/BusinessProductCard';
 import DropdownFilter from '../forms/fields/DropdownFilter';
 import FilterMenu from './FilterMenu';
-import { Product } from '@/interfaces/searchProduct';
+import { Product } from '@/interfaces/product';
 import { SearchBar } from '../forms/fields/SearchBar';
 import { Tab } from '@headlessui/react';
 

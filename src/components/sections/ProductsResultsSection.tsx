@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Coupon } from '../../interfaces/coupon';
 import CouponCard from '../coupons/CouponCard';
 import { InformationCircleIcon } from '@heroicons/react/outline';
-import { Product } from '@/interfaces/searchProduct';
+import { Product } from '@/interfaces/product';
 import ProductCard from '../products/ProductCard';
 
 interface Results {

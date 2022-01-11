@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { Product } from '@/interfaces/searchProduct';
+import { Product } from '@/interfaces/product';
 import ProductResultsSection from '@/components/sections/ProductsResultsSection';
 import ResultsStrain from './results/ResultsStrain';
-import { Strain } from '@/interfaces/SearchStrain';
+import { Strain } from '@/interfaces/strain';
 import StrainFilterSlideOver from '../slideOver/filters/StrainFilterSlideOver';
 import StrainLanding from './landing/StrainLanding';
 
@@ -26,16 +26,17 @@ export default function SearchStrain(props: {
     update: setView,
   };
 
+  useEffect(() => {}, [strains]);
+
   return (
     <div className="bg-gray-50">
-      {/* Filter list */}
-
-      <StrainFilterSlideOver />
-
       {/* Results list x Landing Page */}
 
-      {strains.length > 0 ? (
+      {strains.length && !strains[0]._source.featured[0] ? (
         <>
+          {/* Filter list */}
+          <StrainFilterSlideOver />
+
           {products.length > 0 ? (
             <ProductResultsSection
               list={products}

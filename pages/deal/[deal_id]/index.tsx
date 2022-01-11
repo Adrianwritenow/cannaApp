@@ -4,7 +4,7 @@ import { BookmarkIcon } from '@heroicons/react/outline';
 import Image from 'next/image';
 import ImageSlider from '@/components/slider/ImageSlider';
 import Map from '@/public/assets/images/png/map-mock.png';
-import { Product } from '@/interfaces/searchProduct';
+import { Product } from '@/interfaces/product';
 import { SearchHits } from '@/interfaces/searchHits';
 import { StarIcon } from '@heroicons/react/solid';
 import { getDocument } from '@/actions/search';
@@ -17,7 +17,7 @@ export default function DealOverview() {
 
   useEffect(() => {
     if (deal_id) {
-      getDocument(deal_id).then((document: SearchHits) => {
+      getDocument(deal_id, 'products').then((document: SearchHits) => {
         if (document) {
           const result = document.hits.hits[0];
           setProduct(result as unknown as Product);
@@ -43,7 +43,7 @@ export default function DealOverview() {
                 <BookmarkIcon className="w-6 h-6 ml-auto" />
               </div>
               <h1 className="text-lg font-normal tracking-tight text-gray-900">
-                {product?._source.name_1}
+                {product?._source.name}
               </h1>
             </section>
 
@@ -53,16 +53,14 @@ export default function DealOverview() {
               <div className="flex items-center">
                 <div className="flex items-center">
                   <span className="font-normal text-gray-500 mr-1">
-                    {product?._source.field_rating
-                      ? product?._source.field_rating
-                      : 0}
+                    {product?._source.rating ? product?._source.rating : 0}
                   </span>
                   {[0, 1, 2, 3, 4].map(rating => (
                     <StarIcon
                       key={rating}
                       className={`${
-                        product._source?.field_rating
-                          ? product._source?.field_rating[0]
+                        product._source?.rating
+                          ? product._source?.rating[0]
                           : 0 > rating
                           ? 'text-yellow-400'
                           : 'text-gray-200'
@@ -74,21 +72,19 @@ export default function DealOverview() {
                   ))}
                   <span className="font-normal text-gray-500">
                     (
-                    {product._source.field_review_count
-                      ? product._source.field_review_count[0]
+                    {product._source.review_count
+                      ? product._source.review_count[0]
                       : 0}
                     )
                   </span>
                 </div>
                 <p className="sr-only">
-                  {product._source.field_rating
-                    ? product._source.field_rating[0]
-                    : 0}
+                  {product._source.rating ? product._source.rating[0] : 0}
                   out of 5 stars
                 </p>
               </div>
               <p className="text-xl font-semibold text-gray-900">
-                {product?._source.field_price}
+                {product?._source.price}
               </p>
             </section>
           </div>
@@ -112,7 +108,7 @@ export default function DealOverview() {
               <div className="text-sm text-gray-500 pt-2">
                 <p>
                   <span className="text-black">Store Name: </span>
-                  {product?._source.name_1}
+                  {product?._source.name}
                 </p>
                 <p>
                   <span className="text-black">Type: </span>

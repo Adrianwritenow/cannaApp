@@ -21,7 +21,7 @@ export default function CouponCard(props: CouponCardProps) {
       <div className="pt-2 pb-6 text-left text-sm w-36">
         <p className="text-blue-500 font-semibold">Save {coupon.saving} on</p>
         <h3 className="text-sm font-normal text-gray-700 pt-1 pb-2">
-          {coupon.products[0]._source.name_1}
+          {coupon.products[0]._source.name}
         </h3>
         <div className="flex flex-col items-start">
           <Link href="/coupon/1" passHref>

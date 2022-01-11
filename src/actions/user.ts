@@ -6,11 +6,11 @@ export const USER_REQUEST_UPDATE = 'user/update';
 export const USER_REQUEST_PASSWORD_RESET = 'user/password';
 
 export interface UpdateUser {
-  field_favorite_strains?: string;
-  field_first_name?: string;
-  field_guest_list?: string;
-  field_last_name?: string;
-  field_state?: string;
+  favorite_strains?: string;
+  first_name?: string;
+  guest_list?: string;
+  last_name?: string;
+  state?: string;
   langcode?: string;
   mail?: string;
   name?: string;

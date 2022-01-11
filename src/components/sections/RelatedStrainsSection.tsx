@@ -1,4 +1,4 @@
-import { Strain } from '@/interfaces/SearchStrain';
+import { Strain } from '@/interfaces/strain';
 import StrainCard from '../strains/StrainCard';
 
 interface Strains {

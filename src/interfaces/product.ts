@@ -1,21 +1,27 @@
-import { Cannabanoids } from "./cannabanoids";
-import { Image } from "./image";
-import { Specification } from "./Specification";
 export interface Product {
-  id: number;
-  imageSrc: string;
-  about: string;
-  imageAlt: string;
-  type: string;
-  category: string;
-  brand: string;
-  vendor: string;
-  specifications: Array<Specification>;
-  href: string;
-  name: string;
-  rating: number;
-  price: string;
-  reviewCount: number;
-  images?: Array<Image>;
-  cannabanoids?: Cannabanoids;
+  _id: string;
+  _index: string;
+  _score: number;
+  _source: {
+    category: string[];
+    created: number[];
+    description: string[];
+    delivery_and_pickup_info: string[];
+    top_rated_effects: string[];
+    top_reported_flavors: string[];
+    image: number[];
+    rating: number[] | [0];
+    brand: string[] | '';
+    review_count: number[] | [0];
+    price: number[];
+    price_label: string[];
+    source_url: string[];
+    sponsored: boolean[];
+    langcode: string[];
+    name: string[];
+    status: boolean[];
+    uuid: string[];
+    _language: string;
+    _type: string;
+  };
 }

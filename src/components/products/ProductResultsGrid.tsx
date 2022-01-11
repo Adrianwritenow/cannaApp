@@ -1,4 +1,4 @@
-import { Product } from '@/interfaces/searchProduct';
+import { Product } from '@/interfaces/product';
 import ProductCard from './ProductCard';
 
 interface ResultsProps {

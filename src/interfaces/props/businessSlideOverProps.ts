@@ -1,4 +1,4 @@
-import { Dispensary } from '../searchDispensary';
+import { Dispensary } from '../dispensary';
 import { Faq } from './../faq';
 import { Review } from '../review';
 

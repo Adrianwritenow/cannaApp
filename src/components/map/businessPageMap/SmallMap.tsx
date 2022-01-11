@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ReactMapGL, { Marker } from 'react-map-gl';
+import 'mapbox-gl/dist/mapbox-gl.css';
 import MapDispMarkerSelected from '@/public/assets/icons/iconComponents/MapDispMarkerSelected';
 function SmallMap({ coords }: { coords: { lat: number; lon: number } }) {
   const [viewport, setViewport] = useState({
@@ -15,10 +16,10 @@ function SmallMap({ coords }: { coords: { lat: number; lon: number } }) {
       ...viewport,
       latitude: coords.lat,
       longitude: coords.lon,
-      zoom: 13
+      zoom: 13,
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [coords])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [coords]);
   return (
     <div className="h-full w-full">
       <ReactMapGL

@@ -20,6 +20,7 @@ module.exports = {
   env: {
     API_URL: process.env.API_URL,
     CLIENT_ID: process.env.CLIENT_ID,
+    CLIENT_SECRET: process.env.CLIENT_SECRET,
     SEARCH_URL: process.env.SEARCH_URL,
     MAPBOX_ACCESS_TOKEN: process.env.MAPBOX_ACCESS_TOKEN,
     NEXTAUTH_URL: process.env.NEXTAUTH_URL,
@@ -29,5 +30,6 @@ module.exports = {
     GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
     IPSTACK_ACCESS_KEY: process.env.IPSTACK_ACCESS_KEY,
+    IPSTACK_API_URL: process.env.IPSTACK_API_URL,
   },
 };

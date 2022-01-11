@@ -1,6 +1,5 @@
 import { ArrowLeftIcon, StarIcon } from '@heroicons/react/solid';
 import {
-  // BookmarkIcon,
   GlobeIcon,
   InformationCircleIcon,
   MapIcon,
@@ -16,25 +15,21 @@ import React, { useEffect, useState } from 'react';
 import { faqs, listings, reviews } from '@/helpers/mockData';
 
 import AboutUsSlideOver from '../../../src/views/slideOver/AboutUsSlideOver';
-
 import AmenitiesSection from '../../../src/components/sections/AmenitiesSection';
 import BusinessMenuSlideOver from '../../../src/views/slideOver/business/BusinessMenuSlideOver';
 import BusinessReviewSlideOver from '@/views/slideOver/business/BusinessReviewSlideOver';
 import BusinessVerificationSlideOver from '@/views/slideOver/business/BusinessVerifiedSlideOver';
-import { Dispensary } from '../../../src/interfaces/searchDispensary';
+import { Dispensary } from '../../../src/interfaces/dispensary';
 import FaqSlideOver from '../../../src/views/slideOver/FaqSlideOver';
+import Link from 'next/link';
 import ListingCardDropdown from '../../../src/components/listings/ListingCardDropDown';
-
-// import ReviewsSlideOver from '../../../src/views/slideOver/ReviewsSlideOver';
-
+import { SearchHits } from '@/interfaces/searchHits';
+import SmallMap from '@/components/map/businessPageMap/SmallMap';
+import SocialShare from '@/components/share/SocialShare';
 import SvgIconTwitter from '../../../public/assets/icons/iconComponents/IconTwitter';
 import { getDocument } from '../../../src/actions/search';
-import { useRouter } from 'next/router';
-import { SearchHits } from '@/interfaces/searchHits';
-import Link from 'next/link';
 import moment from 'moment-timezone';
-import SocialShare from '@/components/share/SocialShare';
-import SmallMap from '@/components/map/businessPageMap/SmallMap';
+import { useRouter } from 'next/router';
 
 export default function BusinessDetail() {
   const router = useRouter();
@@ -78,7 +73,7 @@ export default function BusinessDetail() {
 
   useEffect(() => {
     if (bid) {
-      getDocument(bid).then((document: SearchHits) => {
+      getDocument(bid, 'dispenaries').then((document: SearchHits) => {
         if (document) {
           const result = document.hits.hits[0];
           setDispensary(result as Dispensary);
@@ -90,7 +85,7 @@ export default function BusinessDetail() {
 
   useEffect(() => {
     if (dispensary && dispensaryTimezone === '') {
-      switch (dispensary?._source.field_time_zone[0]) {
+      switch (dispensary?._source.time_zone[0]) {
         case 'EST':
           setDispensaryTimezone('America/New_York');
           break;
@@ -106,13 +101,13 @@ export default function BusinessDetail() {
       }
     } else if (dispensary && dispensaryTimezone) {
       const todayKey = getSourceValue(
-        `field_${now
+        `${now
           .tz(dispensaryTimezone)
           .format('dddd')
           .toLowerCase()}_hours` as keyof Dispensary['_source']
       );
       const tomorrowKey = getSourceValue(
-        `field_${moment()
+        `${moment()
           .add(1, 'days')
           .tz(dispensaryTimezone)
           .format('dddd')
@@ -202,13 +197,13 @@ export default function BusinessDetail() {
               />
               <p className="p">
                 <span>
-                  {dispensary?._source.field_rating[0] !== ''
+                  {typeof dispensary?._source.rating !== 'undefined'
                     ? parseFloat(
-                        dispensary?._source.field_rating[0] as string
+                        dispensary?._source.rating[0] as string
                       ).toFixed(1)
                     : ''}
                 </span>
-                ({dispensary?._source.field_reviews_count}) Reviews
+                ({dispensary?._source.reviews_count}) Reviews
               </p>
             </div>
             <div className="flex">
@@ -230,7 +225,9 @@ export default function BusinessDetail() {
                   <p className="text-normal text-red-500">Closed</p>
                 )}
                 <span className="px-1 text-normal">&#8226;</span>
-                {!isOpen && !willOpenToday && tomorrowOpenTime.toLowerCase() === 'closed' ? (
+                {!isOpen &&
+                !willOpenToday &&
+                tomorrowOpenTime.toLowerCase() === 'closed' ? (
                   // if dispensary is closed and will not open tomorrow
                   <p className="text-sm">
                     <em>See hours</em>
@@ -257,7 +254,7 @@ export default function BusinessDetail() {
           </div>
           <div className="flex justify-around auto-cols-max w-full justify-center pt-3 w-full">
             <a
-              href={`tel:${dispensary?._source.field_phone_number}`}
+              href={`tel:${dispensary?._source.phone_number}`}
               className="text-gray-500 flex flex-wrap justify-center py-2"
             >
               <PhoneIcon className="w-6 h-6 " />
@@ -269,8 +266,8 @@ export default function BusinessDetail() {
               }+${
                 dispensary?._source.address_line1[0]
                   ? dispensary?._source.address_line1[0]
-                  : dispensary?._source.field_coordinates
-              }&ll=${dispensary?._source.field_coordinates}&z=17`}
+                  : dispensary?._source.coordinates
+              }&ll=${dispensary?._source.coordinates}&z=17`}
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-500 flex flex-wrap justify-center py-2"
@@ -278,9 +275,9 @@ export default function BusinessDetail() {
               <MapIcon className="w-6 h-6 " />
               <span className="w-full text-center text-xs">Directions</span>
             </a>
-            {dispensary?._source.field_website !== undefined && (
+            {dispensary?._source.website !== undefined && (
               <a
-                href={`${dispensary?._source.field_website}`}
+                href={`${dispensary?._source.website}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-500 flex flex-wrap justify-center py-2"
@@ -289,12 +286,12 @@ export default function BusinessDetail() {
                 <span className="w-full text-center text-xs">Website</span>
               </a>
             )}
-
-            {/***** Need Reviews *****/}
-            {/* <button className="text-gray-500 flex flex-wrap justify-center py-2">
-              <StarIconOutline className="w-6 h-6 " />
-              <span className="w-full text-center text-xs">Review</span>
-            </button> */}
+            <Link href="#reviews-section" passHref>
+              <a className="text-gray-500 flex flex-wrap justify-center py-2">
+                <StarIconOutline className="w-6 h-6 " />
+                <span className="w-full text-center text-xs">Review</span>
+              </a>
+            </Link>
           </div>
         </section>
       </div>
@@ -305,7 +302,6 @@ export default function BusinessDetail() {
           setView={setView}
         />
       </div>
-
       <div className="space-y-4 px-4">
         <AboutUsSlideOver dispensary={dispensary} />
         <BusinessVerificationSlideOver dispensary={dispensary} />
@@ -344,8 +340,8 @@ export default function BusinessDetail() {
               }+${
                 dispensary?._source.address_line1[0]
                   ? dispensary?._source.address_line1[0]
-                  : dispensary?._source.field_coordinates
-              }&ll=${dispensary?._source.field_coordinates}&z=17`}
+                  : dispensary?._source.coordinates
+              }&ll=${dispensary?._source.coordinates}&z=17`}
               target="_blank"
               rel="noopener noreferrer"
               className="py-4 uppercase text-gray-700 text-xs font-semibold border-t border-gray-200 tracking-widest text-green w-full text-center"
@@ -355,9 +351,9 @@ export default function BusinessDetail() {
           </div>
         </section>
         {/* Socials */}
-        {dispensary?._source.field_facebook ||
-        dispensary?._source.field_twitter ||
-        dispensary?._source.field_instagram ? (
+        {dispensary?._source.facebook ||
+        dispensary?._source.twitter ||
+        dispensary?._source.instagram ? (
           <section className="py-2">
             <h2 id="business-socilas" className="sr-only">
               Find us on Social Media
@@ -371,57 +367,39 @@ export default function BusinessDetail() {
 
             <div className="grid grid-flow-row auto-rows-max ">
               <div className="pt-5 ">
-                {typeof dispensary?._source.field_facebook !== 'undefined' && (
-                  <Link
-                    href={`${dispensary?._source.field_facebook[0]}`}
-                    passHref
-                  >
+                {typeof dispensary?._source.facebook !== 'undefined' && (
+                  <Link href={`${dispensary?._source.facebook[0]}`} passHref>
                     <a>
                       <button className="py-4 w-full text-gray-700 flex items-center justify-start ">
                         <IconFacebook className="w-10 h-10 text-gray-400" />
                         <span className="pl-4 text-sm">
-                          {
-                            dispensary?._source.field_facebook[0].split('/')[
-                              dispensary?._source.field_facebook[0].split('/')
-                                .length - 1
-                            ]
-                          }
+                          {dispensary?._source.facebook[0]}
                         </span>
                       </button>{' '}
                     </a>
                   </Link>
                 )}
-                {typeof dispensary?._source.field_twitter !== 'undefined' && (
-                  <Link href={`${dispensary?._source.field_twitter[0]}`}>
+                {typeof dispensary?._source.twitter !== 'undefined' && (
+                  <Link href={`${dispensary?._source.twitter[0]}`}>
                     <a>
                       <button className="py-4 w-full text-gray-700 flex items-center justify-start">
                         <SvgIconTwitter className="w-10 h-10 text-gray-400" />
 
                         <span className="pl-4 text-sm">
-                          {
-                            dispensary?._source.field_twitter[0].split('/')[
-                              dispensary?._source.field_twitter[0].split('/')
-                                .length - 1
-                            ]
-                          }
+                          {dispensary?._source.twitter[0]}
                         </span>
                       </button>
                     </a>
                   </Link>
                 )}
-                {typeof dispensary?._source.field_instagram !== 'undefined' && (
-                  <Link href={`${dispensary?._source.field_instagram[0]}`}>
+                {typeof dispensary?._source.instagram !== 'undefined' && (
+                  <Link href={`${dispensary?._source.instagram[0]}`}>
                     <a>
                       {' '}
                       <button className="py-4 w-full text-gray-700 flex items-center justify-start   ">
                         <IconInsta className="w-10 h-10 text-gray-400" />
                         <span className="pl-4 text-sm">
-                          {
-                            dispensary?._source.field_instagram[0].split('/')[
-                              dispensary?._source.field_instagram[0].split('/')
-                                .length - 1
-                            ]
-                          }
+                          {dispensary?._source.instagram[0]}
                         </span>
                       </button>{' '}
                     </a>
@@ -442,62 +420,62 @@ export default function BusinessDetail() {
           >
             Opening Hours
           </h2>{' '}
-          {typeof dispensary?._source.field_monday_hours !== 'undefined' && (
+          {typeof dispensary?._source.monday_hours !== 'undefined' && (
             <>
               <div className="text-gray-700 pt-2">
                 <p className="py-3 flex justify-between items-center">
                   Sunday{' '}
                   <span>
-                    {dispensary?._source.field_sunday_hours
-                      ? dispensary?._source.field_sunday_hours
+                    {dispensary?._source.sunday_hours
+                      ? dispensary?._source.sunday_hours
                       : 'Not Available'}
                   </span>
                 </p>
                 <p className="py-3 flex justify-between items-center">
                   Monday{' '}
                   <span>
-                    {dispensary?._source.field_monday_hours
-                      ? dispensary?._source.field_monday_hours
+                    {dispensary?._source.monday_hours
+                      ? dispensary?._source.monday_hours
                       : 'Not Available'}
                   </span>
                 </p>
                 <p className="py-3 flex justify-between items-center">
                   Tuesday{' '}
                   <span>
-                    {dispensary?._source.field_tuesday_hours
-                      ? dispensary?._source.field_tuesday_hours
+                    {dispensary?._source.tuesday_hours
+                      ? dispensary?._source.tuesday_hours
                       : 'Not Available'}
                   </span>
                 </p>
                 <p className="py-3 flex justify-between items-center">
                   Wednesday{' '}
                   <span>
-                    {dispensary?._source.field_wednesday_hours
-                      ? dispensary?._source.field_wednesday_hours
+                    {dispensary?._source.wednesday_hours
+                      ? dispensary?._source.wednesday_hours
                       : 'Not Available'}
                   </span>
                 </p>
                 <p className="py-3 flex justify-between items-center">
                   Thursday{' '}
                   <span>
-                    {dispensary?._source.field_thursday_hours
-                      ? dispensary?._source.field_thursday_hours
+                    {dispensary?._source.thursday_hours
+                      ? dispensary?._source.thursday_hours
                       : 'Not Available'}
                   </span>
                 </p>
                 <p className="py-3 flex justify-between items-center">
                   Friday{' '}
                   <span>
-                    {dispensary?._source.field_friday_hours
-                      ? dispensary?._source.field_friday_hours
+                    {dispensary?._source.friday_hours
+                      ? dispensary?._source.friday_hours
                       : 'Not Available'}
                   </span>
                 </p>
                 <p className="py-3 flex justify-between items-center">
                   Saturday{' '}
                   <span>
-                    {dispensary?._source.field_saturday_hours
-                      ? dispensary?._source.field_saturday_hours
+                    {dispensary?._source.saturday_hours
+                      ? dispensary?._source.saturday_hours
                       : 'Not Available'}
                   </span>
                 </p>
@@ -507,10 +485,10 @@ export default function BusinessDetail() {
         </section>
       </div>
       {/* Need Review FAQ  and amenities Data */}
-
       <FaqSlideOver name={dispensary?._source.name[0]} faqs={faqs} />
-      <BusinessReviewSlideOver dispensary={dispensary} reviews={reviews} />
-
+      <div id="reviews-section">
+        <BusinessReviewSlideOver dispensary={dispensary} reviews={reviews} />
+      </div>
       <div className="px-4">
         <AmenitiesSection
           amenities={['amenity', 'amenity', 'amenity', 'amenity']}

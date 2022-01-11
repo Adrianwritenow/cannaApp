@@ -1,7 +1,8 @@
-import { StarIcon } from '@heroicons/react/solid';
 import React, { useState } from 'react';
+
 import Image from 'next/image';
 import Link from 'next/link';
+import { StarIcon } from '@heroicons/react/solid';
 
 export function MapResultCard({ listing }: any) {
   const open = true;
@@ -10,7 +11,7 @@ export function MapResultCard({ listing }: any) {
 
   return (
     <div className="group relative bg-white rounded-lg h-full ">
-      <div >
+      <div>
         <div className="h-28 relative rounded-t-lg overflow-hidden">
           <Image
             objectFit="cover"
@@ -53,21 +54,19 @@ export function MapResultCard({ listing }: any) {
         </div>
 
         <div className="flex items-start w-full flex-col">
-          <p className="sr-only">
-            {listing._source.field_rating} out of 5 stars
-          </p>
+          <p className="sr-only">{listing._source.rating} out of 5 stars</p>
           <div className="flex items-center ">
             <div className="flex items-center">
               <span className="font-normal text-gray-500">
-                {listing._source.field_rating}
+                {listing._source.rating}
               </span>
 
-              {listing._source.field_reviews_count &&
+              {listing._source.reviews_count &&
                 [0, 1, 2, 3, 4].map(rating => (
                   <StarIcon
                     key={rating}
                     className={`${
-                      listing._source.field_rating > rating
+                      listing._source.rating > rating
                         ? 'text-yellow-400'
                         : 'text-gray-200'
                     }
@@ -77,8 +76,8 @@ export function MapResultCard({ listing }: any) {
                 ))}
             </div>
             <p className="font-normal text-gray-500">
-              {listing._source.field_reviews_count ? (
-                `(${listing._source.field_reviews_count}) `
+              {listing._source.reviews_count ? (
+                `(${listing._source.reviews_count}) `
               ) : (
                 <>
                   <em>No Reviews </em>

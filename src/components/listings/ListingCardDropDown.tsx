@@ -1,11 +1,11 @@
 import { CheckIcon, StarIcon } from '@heroicons/react/solid';
+import React, { useEffect, useState } from 'react';
 
 import { BookmarkIcon } from '@heroicons/react/outline';
 import { Disclosure } from '@headlessui/react';
 import { DispensaryProps } from '../../interfaces/listing';
 import ImageWithFallback from '../image/ImageWithFallback';
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
 import { getDistance } from 'geolib';
 
 export default function ListingCardDropdown(data: DispensaryProps) {
@@ -18,17 +18,22 @@ export default function ListingCardDropdown(data: DispensaryProps) {
 
   useEffect(() => {
     if (userCoords && listing) {
-      const distance = getDistance(
-        {
-          latitude: listing._source.lat[0],
-          longitude: listing._source.lon[0],
-        },
-        {
-          latitude: userCoords?.lat,
-          longitude: userCoords?.lng,
-        }
+      const isEmpty = Object.values(userCoords).every(
+        x => x === null || x === undefined
       );
-      setDistanceFrom(`${getMiles(distance).toFixed(1)} mi`);
+      if (!isEmpty) {
+        const distance = getDistance(
+          {
+            latitude: listing._source.lat[0],
+            longitude: listing._source.lon[0],
+          },
+          {
+            latitude: userCoords?.lat,
+            longitude: userCoords?.lng,
+          }
+        );
+        setDistanceFrom(`${getMiles(distance).toFixed(1)} mi`);
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userCoords]);
@@ -48,9 +53,7 @@ export default function ListingCardDropdown(data: DispensaryProps) {
           <a>
             <ImageWithFallback
               src={
-                listing._source?.field_image
-                  ? listing._source?.field_image[0]
-                  : 'undefined'
+                listing._source?.image ? listing._source?.image[0] : 'undefined'
               }
               alt={listing._source?.name}
               layout="fill"
@@ -72,21 +75,21 @@ export default function ListingCardDropdown(data: DispensaryProps) {
           <BookmarkIcon className="w-6" />
         </div>
         <div className="flex flex-col items-start">
-          {listing._source.field_rating && (
+          {listing._source.rating && (
             <>
               <p className="sr-only">
-                {listing._source?.field_rating} out of 5 stars
+                {listing._source?.rating} out of 5 stars
               </p>
               <div className="flex items-center">
                 <span className="font-normal text-gray-500">
-                  {listing._source?.field_rating}
+                  {listing._source?.rating}
                 </span>
 
                 {[0, 1, 2, 3, 4].map(rating => (
                   <StarIcon
                     key={rating}
                     className={`    ${
-                      parseFloat(listing._source?.field_rating[0]) > rating
+                      parseFloat(listing._source?.rating[0]) > rating
                         ? 'text-yellow-400'
                         : 'text-gray-200'
                     }
@@ -95,7 +98,7 @@ export default function ListingCardDropdown(data: DispensaryProps) {
                   />
                 ))}
                 <p className="font-normal text-gray-500">
-                  ({listing._source?.field_reviews_count})
+                  ({listing._source?.reviews_count})
                 </p>
               </div>
             </>

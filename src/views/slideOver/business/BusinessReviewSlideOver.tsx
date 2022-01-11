@@ -75,7 +75,7 @@ export default function BusinessReviewSlideOver(props: BusinessSlideoverProps) {
             onClick={() => setOpen(true)}
             className="py-4 w-full uppercase text-green-500 text-xs font-semibold border-t border-gray-200 tracking-widest"
           >
-            See All {dispensary?._source.field_reviews_count} Reviews
+            See All {dispensary?._source.reviews_count} Reviews
           </button>
         </div>
       )}
@@ -134,8 +134,8 @@ export default function BusinessReviewSlideOver(props: BusinessSlideoverProps) {
                               <EmojiHappyIcon className="w-6 h-6" />
                               <span className="px-1">Very Positive</span>
                               <span className="font-normal text-gray-500">
-                                (90% of{' '}
-                                {`${dispensary?._source.field_reviews_count}`})
+                                (90% of {`${dispensary?._source.reviews_count}`}
+                                )
                               </span>
                             </p>
                           </div>

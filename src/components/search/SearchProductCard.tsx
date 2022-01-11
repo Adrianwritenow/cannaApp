@@ -1,7 +1,7 @@
 import { ArrowRightIcon, CurrencyDollarIcon } from '@heroicons/react/solid';
 
 import Link from 'next/link';
-import { Product } from '../../interfaces/searchProduct';
+import { Product } from '../../interfaces/product';
 
 interface SearchProductProps {
   data: Product;
@@ -18,7 +18,7 @@ export default function SearchProductCard(props: SearchProductProps) {
           </div>
           <div className="ml-2 w-full flex flex-wrap col-span-9 ">
             <p className="w-full overflow-hidden flex flex-wrap text-gray-700 pr-4">
-              {data._source.name_1}
+              {data._source.name}
             </p>
             <span className="text-gray-500 text-sm w-full">Product</span>
           </div>

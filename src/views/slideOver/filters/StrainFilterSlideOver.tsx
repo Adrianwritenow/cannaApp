@@ -1,29 +1,28 @@
 import { Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
-import { combinedSearchQuery, receiveResults } from '@/actions/search';
-import { useDispatch, useSelector } from 'react-redux';
 
 import { AdjustmentsIcon } from '@heroicons/react/solid';
-import CouponSlideOver from '../CouponsSlideOver';
-import DropdownFilter from '../../../components/forms/fields/DropdownFilter';
-import FilterProductMenu from '@/components/filter/FilterProductMenu';
-import { Filters } from '../../../helpers/filters';
-import { RootState } from '@/reducers';
-import { SearchHits } from '@/interfaces/searchHits';
+import DropdownFilter from '@/components/forms/fields/DropdownFilter';
+import FilterStrainMenu from '@/components/filter/FIlterStrainMenu';
 import { useRouter } from 'next/router';
 
-export default function ProductFilterSlideOver() {
+export default function StrainFilterSlideOver() {
   const router = useRouter();
-  const { type, category } = router.query;
-  const { query } = useSelector((root: RootState) => root.search);
-  const dispatch = useDispatch();
-
   const [open, setOpen] = useState(false);
   const [rated, setRated] = useState('Top Rated');
+  const { type, category }: any = router.query;
   const [savedValues, setSavedValues]: any = useState({
+    strains: [],
     category: category || '',
+    type: type || '',
     filters: {},
     sort: '',
+    price: '',
+    range: {
+      min_price: '',
+      max_price: '',
+    },
+    search: '',
   });
   const [sortPricing, setSortPricing] = useState(savedValues.sort);
   const [filterList, setFilterList]: any = useState([]);
@@ -32,11 +31,17 @@ export default function ProductFilterSlideOver() {
     strains: [],
     filters: {},
     category: '',
+    type: '',
     sort: '',
+    price: '',
+    range: {
+      min_price: '',
+      max_price: '',
+    },
+    search: '',
   };
 
   // Remove filters from list to be rendered and update the form state values
-
   function removeFilter(keyName: string, filter: string) {
     let stateCopy = Object.assign({}, savedValues);
     let listCopy = filterList;
@@ -49,6 +54,9 @@ export default function ProductFilterSlideOver() {
     } else {
       stateCopy[keyName] = initialValues[keyName];
       stateCopy.filters[keyName] = [''];
+      if (keyName === 'range') {
+        stateCopy.filters[keyName] = [''];
+      }
     }
 
     listCopy.splice(listCopy.indexOf(filter), 1);
@@ -61,16 +69,30 @@ export default function ProductFilterSlideOver() {
     // Force values to array in order to check if they exist in case of multiple values
     const filters: any = {
       sort: [savedValues.sort],
+      type: [savedValues.type],
+      strains: savedValues.strains,
       category: [savedValues.category],
+      price: [savedValues.price],
+      range: [
+        `${
+          savedValues.range.min_price ? '$' + savedValues.range.min_price : ''
+        }${
+          savedValues.range.min_price && savedValues.range.max_price
+            ? ' - '
+            : ''
+        }${
+          savedValues.range.max_price ? '$' + savedValues.range.max_price : ''
+        }`,
+      ],
     };
 
-    const filter_data: string[] = Object.keys(filters).reduce(
-      function (res, key) {
-        return res.concat(filters[key]);
-      },
-
-      []
-    );
+    const filter_data: string[] = Object.keys(filters).reduce(function (
+      res,
+      key
+    ) {
+      return res.concat(filters[key]);
+    },
+    []);
 
     // Remove initial empty values
     const filterArray = filter_data.filter(function (entry: string) {
@@ -94,17 +116,6 @@ export default function ProductFilterSlideOver() {
 
     // update sort
     setSortPricing(savedValues.sort);
-
-    async function getSearchItems() {
-      const hits = await combinedSearchQuery({
-        search: query,
-        filters: savedValues.filters,
-      });
-
-      dispatch(receiveResults({ search: query, data: hits }));
-    }
-
-    getSearchItems();
   }, [savedValues]);
 
   return (
@@ -118,7 +129,7 @@ export default function ProductFilterSlideOver() {
           return (
             <Form>
               <div>
-                <FilterProductMenu
+                <FilterStrainMenu
                   open={open}
                   values={values}
                   setOpen={setOpen}
@@ -142,14 +153,14 @@ export default function ProductFilterSlideOver() {
                     <div className="flex">
                       <div className="flex">
                         <DropdownFilter
-                          setter={setSortPricing}
-                          id={'sort'}
-                          options={Filters.sort.list.map(filter => {
-                            return filter.value;
-                          })}
-                          current={sortPricing}
+                          setter={setRated}
+                          options={[
+                            'Most Reviewed',
+                            'Top Rated',
+                            'Lowest rated',
+                          ]}
+                          current={rated}
                           label={'Sort by'}
-                          setFieldValue={setFieldValue}
                         />
                       </div>
                       <div className="flex">

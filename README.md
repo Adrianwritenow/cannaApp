@@ -32,3 +32,6 @@ to run properly.
 | FACEBOOK_CLIENT_SECRET | Facebook application secret.                                                           |
 | GOOGLE_CLIENT_ID       | Google client id.                                                                      |
 | GOOGLE_CLIENT_SECRET   | Google client secret.                                                                  |
+| SEARCH_URL   | Elastic Search URL                                                                  |
+| IPSTACK_API_URL   | IPStack Reverse IP Lookup Service URL                                                                   |
+| IPSTACK_ACCESS_KEY   | IPStack Reverse IP Lookup Service Access Key                                                                  |

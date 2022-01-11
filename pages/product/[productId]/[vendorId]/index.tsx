@@ -8,13 +8,13 @@ import {
 
 import { ArrowRightIcon } from '@heroicons/react/solid';
 import ClothingProduct from '../../../../src/views/search/product/ClothingProduct';
-import { Dispensary } from '@/interfaces/searchDispensary';
+import { Dispensary } from '@/interfaces/dispensary';
 import FaqSlideOver from '@/views/slideOver/FaqSlideOver';
 import FlowerProduct from '../../../../src/views/search/product/FlowerProduct';
 import GeneralProduct from '../../../../src/views/search/product/GeneralProduct';
 import ImageSlider from '../../../../src/components/slider/ImageSlider';
 import Link from 'next/link';
-import { Product } from '../../../../src/interfaces/searchProduct';
+import { Product } from '../../../../src/interfaces/product';
 import ProductResultsSection from '../../../../src/components/sections/ProductsResultsSection';
 import ProductReviewsSlideOver from '@/views/slideOver/product/ProductReviewSlideOver';
 import { RootState } from '@/reducers';
@@ -37,7 +37,7 @@ function ProductDetailXVendor() {
 
   useEffect(() => {
     if (productId) {
-      getDocument(productId).then(
+      getDocument(productId, 'products').then(
         (document: React.SetStateAction<Product | undefined>) => {
           setProduct(document);
         }
@@ -98,7 +98,7 @@ function ProductDetailXVendor() {
               </h2>
               <div className="pt-6">
                 <h2 className="text-gray-700 text-lg font-semibold">
-                  {product._source.name_1}
+                  {product._source.name}
                 </h2>
                 {product._source._type !== 'clothing' && (
                   <div className="text-sm text-gray-500 pt-2">

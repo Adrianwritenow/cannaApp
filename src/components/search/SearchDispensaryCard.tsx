@@ -1,7 +1,7 @@
-import { ArrowRightIcon } from "@heroicons/react/solid";
-import { Dispensary } from "../../interfaces/searchDispensary";
-import Link from "next/link";
-import SvgStore from "../../../public/assets/icons/iconComponents/Store";
+import { ArrowRightIcon } from '@heroicons/react/solid';
+import { Dispensary } from '../../interfaces/dispensary';
+import Link from 'next/link';
+import SvgStore from '../../../public/assets/icons/iconComponents/Store';
 
 interface SearchDispensaryProps {
   data: Dispensary;

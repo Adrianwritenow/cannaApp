@@ -1,4 +1,4 @@
-import { Product } from '@/interfaces/searchProduct';
+import { Product } from '@/interfaces/product';
 import ProductFilterSlideOver from '../slideOver/filters/ProductFilterSlideOver';
 import ProductResultsGrid from '@/components/products/ProductResultsGrid';
 import ProductResultsSection from '@/components/sections/ProductsResultsSection';

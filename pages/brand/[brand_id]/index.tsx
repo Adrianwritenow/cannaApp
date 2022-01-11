@@ -15,7 +15,7 @@ export default function BrandProfile() {
       <div>
         <div className="w-full h-48 relative">
           <ImageWithFallback
-            src={listing._source.field_image[0]}
+            src={listing._source.image[0]}
             layout="fill"
             objectFit={'cover'}
             alt={listing._source.name}

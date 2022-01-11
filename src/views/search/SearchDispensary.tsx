@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { Dispensary } from '@/interfaces/searchDispensary';
+import { Dispensary } from '@/interfaces/dispensary';
 import ListingCardDropdown from '../../components/listings/ListingCardDropDown';
 import ListingSection from '../../components/sections/ListingSection';
 import ProductFilterSlideOver from '../slideOver/filters/ProductFilterSlideOver';

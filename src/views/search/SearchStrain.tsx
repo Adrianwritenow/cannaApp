@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 
-import { Product } from '@/interfaces/searchProduct';
+import { Product } from '@/interfaces/product';
 import ProductResultsSection from '@/components/sections/ProductsResultsSection';
 import ResultsStrain from './results/ResultsStrain';
-import { Strain } from '@/interfaces/SearchStrain';
+import { Strain } from '@/interfaces/strain';
 import StrainFilterSlideOver from '../slideOver/filters/StrainFilterSlideOver';
 import StrainLanding from './landing/StrainLanding';
 
@@ -32,7 +32,7 @@ export default function SearchStrain(props: {
     <div className="bg-gray-50">
       {/* Results list x Landing Page */}
 
-      {strains.length && !strains[0]._source.field_featured[0] ? (
+      {strains.length && !strains[0]._source.featured[0] ? (
         <>
           {/* Filter list */}
           <StrainFilterSlideOver />

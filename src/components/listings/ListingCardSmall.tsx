@@ -26,9 +26,7 @@ export default function ListingCardSmall(props: DispensaryProps) {
           <a>
             <ImageWithFallback
               src={
-                listing._source.field_image
-                  ? listing._source.field_image[0]
-                  : 'undeined'
+                listing._source.image ? listing._source.image[0] : 'undeined'
               }
               alt={listing._source.name[0]}
               layout="fill"
@@ -52,22 +50,20 @@ export default function ListingCardSmall(props: DispensaryProps) {
         </div>
         <div className="flex flex-col items-start">
           <p className="sr-only">
-            {listing._source.field_rating &&
-              `${listing._source.field_rating[0]} out of 5 stars`}
+            {listing._source.rating &&
+              `${listing._source.rating[0]} out of 5 stars`}
           </p>
           <div className="flex items-center">
             <span className="font-normal text-gray-500">
-              {listing._source.field_rating
-                ? `${listing._source.field_rating[0]}`
-                : ''}
+              {listing._source.rating ? `${listing._source.rating[0]}` : ''}
             </span>
 
-            {listing._source.field_rating ? (
+            {listing._source.rating ? (
               [0, 1, 2, 3, 4].map(rating => (
                 <StarIcon
                   key={rating}
                   className={`    ${
-                    parseFloat(listing._source.field_rating[0]) > rating
+                    parseFloat(listing._source.rating[0]) > rating
                       ? 'text-yellow-400'
                       : 'text-gray-200'
                   }
@@ -79,7 +75,7 @@ export default function ListingCardSmall(props: DispensaryProps) {
               <em>No Reviews</em>
             )}
             <p className="font-normal text-gray-500">
-              ({listing._source.field_reviews_count})
+              ({listing._source.reviews_count})
             </p>
           </div>
           <p className="text-sm text-gray-500 font-normal">

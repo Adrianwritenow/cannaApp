@@ -13,17 +13,14 @@ import { Flavor } from '../../../interfaces/flavor';
 import { Flavors } from '../../../helpers/flavors';
 import Image from 'next/image';
 import ImageWithFallback from '@/components/image/ImageWithFallback';
-import Link from 'next/link';
 import { SearchHits } from '@/interfaces/searchHits';
-import { Strain } from '@/interfaces/SearchStrain';
+import { Strain } from '@/interfaces/strain';
 import StrainCardSmall from '../../../components/strains/StrainCardSmall';
 import SvgHybrid from '../../../../public/assets/icons/iconComponents/Hybrid';
 import SvgIndica from '../../../../public/assets/icons/iconComponents/Indica';
 import SvgSativa from '../../../../public/assets/icons/iconComponents/Sativa';
 import { Terpene } from '../../../interfaces/terpene';
 import { Terpenes } from '../../../helpers/terpenes';
-import { handleInputChange } from 'react-select/dist/declarations/src/utils';
-import { strains } from '@/helpers/mockData';
 import { useDispatch } from 'react-redux';
 
 export default function StrainLanding() {
@@ -33,14 +30,16 @@ export default function StrainLanding() {
   const [popular, setPopular] = useState<Array<Strain>>();
 
   useEffect(() => {
+    console.log('B4', featured);
+
     async function getFeaturedItems() {
       const hits: SearchHits = await getFeatured();
+      console.log('HIT', hits);
       setFeatured(hits.hits.hits[0] as unknown as Strain);
     }
     async function getPopularItems(type: string) {
       const hits: SearchHits = await getPopular(type);
-      // setPopular(hits.hits.hits);
-      console.log('POP', popular);
+      setPopular(hits.hits.hits);
     }
 
     if (!featured) {
@@ -53,7 +52,6 @@ export default function StrainLanding() {
 
   async function handleBrowse(field: string, value: string) {
     const hits: SearchHits = await browseBy(field, value);
-    console.log(hits.hits.hits);
     dispatch(receiveResults({ search: value, data: hits.hits.hits }));
   }
 
@@ -74,7 +72,7 @@ export default function StrainLanding() {
             <div className="w-full h-48 relative rounded-lg overflow-hidden">
               <ImageWithFallback
                 src={'#'}
-                alt={featured?._source.name_2}
+                alt={featured?._source.name[0]}
                 layout="fill"
                 objectFit={'cover'}
               />
@@ -83,10 +81,10 @@ export default function StrainLanding() {
             {/* Strain info */}
             <div className="pt-4">
               <h1 className="text-xl font-normal text-gray-700">
-                {featured?._source.name_2}
+                {featured?._source.name[0]}
               </h1>
               <span className="text-gray-500 text-sm font-normal">
-                {featured?._source.type}
+                {featured?._source.type[0]}
               </span>
 
               <div className="mt-4">
@@ -96,7 +94,7 @@ export default function StrainLanding() {
                     clamp ? 'line-clamp-4' : ''
                   }`}
                   dangerouslySetInnerHTML={{
-                    __html: featured?._source.description_1[0],
+                    __html: featured?._source.description[0],
                   }}
                 />
               </div>
@@ -131,7 +129,7 @@ export default function StrainLanding() {
                 <div className="w-min">
                   <div className="grid grid-flow-col auto-cols-max grid-rows-4 w-full gap-1">
                     {popular.map((strain: Strain, index) => (
-                      <div className="w-60" key={`${strain}-${index}`}>
+                      <div className="w-max" key={`${strain}-${index}`}>
                         <StrainCardSmall strain={strain} />
                       </div>
                     ))}
@@ -206,10 +204,7 @@ export default function StrainLanding() {
                     return (
                       <button
                         onClick={() => {
-                          handleBrowse(
-                            'field_top_rated_effects_1',
-                            `${feeling.label}`
-                          );
+                          handleBrowse('top_rated_effects', `${feeling.label}`);
                         }}
                         className="w-36 flex justify-between bg-gray-100 rounded-lg overflow-hidden border border-gray-200 p-4"
                         key={`${feeling.label}-${index}`}
@@ -252,7 +247,7 @@ export default function StrainLanding() {
                       <button
                         onClick={() => {
                           handleBrowse(
-                            'field_top_reported_flavors_1',
+                            'top_reported_flavors',
                             `${flavor.label}`
                           );
                         }}
@@ -272,8 +267,9 @@ export default function StrainLanding() {
           </section>
 
           {/* Browse by Terpene */}
+          {/* Need Terpene Data */}
 
-          <section
+          {/* <section
             aria-labelledby="browse-strains-terpene"
             className="mt-8 px-4"
           >
@@ -303,7 +299,7 @@ export default function StrainLanding() {
                 </div>
               </div>
             </div>
-          </section>
+          </section> */}
         </>
       ) : (
         ''

@@ -1,4 +1,4 @@
-import { Dispensary } from '@/interfaces/searchDispensary';
+import { Dispensary } from '@/interfaces/dispensary';
 import { InformationCircleIcon } from '@heroicons/react/outline';
 import ListingCardDropdown from '../listings/ListingCardDropDown';
 import ListingCardSmall from '../listings/ListingCardSmall';

@@ -10,7 +10,7 @@ import AboutSlideOver from '../../../src/components/products/AboutSlideOver';
 import DropdownFilter from '../../../src/components/forms/fields/DropdownFilter';
 import FaqSlideOver from '../../../src/views/slideOver/FaqSlideOver';
 import ImageSlider from '../../../src/components/slider/ImageSlider';
-import { Product } from '../../../src/interfaces/searchProduct';
+import { Product } from '../../../src/interfaces/product';
 import ProductResultsSection from '../../../src/components/sections/ProductsResultsSection';
 import ProductReviewsSlideOver from '@/views/slideOver/product/ProductReviewSlideOver';
 import { RootState } from '@/reducers';
@@ -33,7 +33,7 @@ export default function ProductDetail() {
 
   useEffect(() => {
     if (productId) {
-      getDocument(productId).then((document: SearchHits) => {
+      getDocument(productId, 'products').then((document: SearchHits) => {
         if (document) {
           const result = document.hits.hits[0];
           setProduct(result as unknown as Product);
@@ -78,7 +78,7 @@ export default function ProductDetail() {
                 {product?._source?.category[0]}
               </p>
               <h1 className="text-lg font-normal tracking-tight text-gray-900">
-                {product?._source.name_1[0]}
+                {product?._source.name[0]}
               </h1>
 
               {/* Reviews */}
@@ -86,16 +86,14 @@ export default function ProductDetail() {
               <div className="flex items-center">
                 <div className="flex items-center">
                   <span className="font-normal text-gray-500 mr-1">
-                    {product?._source.field_rating
-                      ? product?._source.field_rating
-                      : 0}
+                    {product?._source.rating ? product?._source.rating : 0}
                   </span>
                   {[0, 1, 2, 3, 4].map(rating => (
                     <StarIcon
                       key={rating}
                       className={`${
-                        product._source?.field_rating
-                          ? product._source?.field_rating[0]
+                        product._source?.rating
+                          ? product._source?.rating[0]
                           : 0 > rating
                           ? 'text-yellow-400'
                           : 'text-gray-200'
@@ -107,17 +105,15 @@ export default function ProductDetail() {
                   ))}
                   <span className="font-normal text-gray-500">
                     (
-                    {product._source.field_review_count
-                      ? product._source.field_review_count[0]
+                    {product._source.review_count
+                      ? product._source.review_count[0]
                       : 0}
                     )
                   </span>
                 </div>
                 <p className="sr-only">
-                  {product._source.field_rating
-                    ? product._source.field_rating[0]
-                    : 0}{' '}
-                  out of 5 stars
+                  {product._source.rating ? product._source.rating[0] : 0} out
+                  of 5 stars
                 </p>
               </div>
             </section>
@@ -157,7 +153,7 @@ export default function ProductDetail() {
               </h2>
               <div className="pt-6">
                 <h2 className="text-gray-700 text-lg font-semibold">
-                  {product?._source.name_1}
+                  {product?._source.name}
                 </h2>
                 <div className="text-sm text-gray-500 pt-2">
                   <p>
@@ -186,7 +182,7 @@ export default function ProductDetail() {
                 <div className="pt-2">
                   <AboutSlideOver
                     about={product._source.description[0]}
-                    businessName={product._source.name_1[0]}
+                    businessName={product._source.name[0]}
                   />
                 </div>
               </div>

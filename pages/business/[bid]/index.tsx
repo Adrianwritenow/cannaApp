@@ -19,18 +19,17 @@ import AmenitiesSection from '../../../src/components/sections/AmenitiesSection'
 import BusinessMenuSlideOver from '../../../src/views/slideOver/business/BusinessMenuSlideOver';
 import BusinessReviewSlideOver from '@/views/slideOver/business/BusinessReviewSlideOver';
 import BusinessVerificationSlideOver from '@/views/slideOver/business/BusinessVerifiedSlideOver';
-import { Dispensary } from '../../../src/interfaces/searchDispensary';
+import { Dispensary } from '../../../src/interfaces/dispensary';
 import FaqSlideOver from '../../../src/views/slideOver/FaqSlideOver';
+import Image from 'next/image';
+import Link from 'next/link';
+import moment from 'moment-timezone';
 import ListingCardDropdown from '../../../src/components/listings/ListingCardDropDown';
-
+import Map from '@/public/assets/images/png/map-mock.png';
+import { SearchHits } from '@/interfaces/searchHits';
 import SvgIconTwitter from '../../../public/assets/icons/iconComponents/IconTwitter';
 import { getDocument } from '../../../src/actions/search';
 import { useRouter } from 'next/router';
-import { SearchHits } from '@/interfaces/searchHits';
-import Link from 'next/link';
-import moment from 'moment-timezone';
-import SocialShare from '@/components/share/SocialShare';
-import SmallMap from '@/components/map/businessPageMap/SmallMap';
 
 export default function BusinessDetail() {
   const router = useRouter();
@@ -74,7 +73,7 @@ export default function BusinessDetail() {
 
   useEffect(() => {
     if (bid) {
-      getDocument(bid).then((document: SearchHits) => {
+      getDocument(bid, 'dispenaries').then((document: SearchHits) => {
         if (document) {
           const result = document.hits.hits[0];
           setDispensary(result as Dispensary);
@@ -198,13 +197,13 @@ export default function BusinessDetail() {
               />
               <p className="p">
                 <span>
-                  {dispensary?._source.field_rating[0] !== ''
+                  {typeof dispensary?._source.rating !== 'undefined'
                     ? parseFloat(
-                        dispensary?._source.field_rating[0] as string
+                        dispensary?._source.rating[0] as string
                       ).toFixed(1)
                     : ''}
                 </span>
-                ({dispensary?._source.field_reviews_count}) Reviews
+                ({dispensary?._source.reviews_count}) Reviews
               </p>
             </div>
             <div className="flex">
@@ -366,65 +365,46 @@ export default function BusinessDetail() {
               Find us on Social Media
             </h2>
 
-            <div className="grid grid-flow-row auto-rows-max ">
-              <div className="pt-5 ">
-                {typeof dispensary?._source.field_facebook !== 'undefined' && (
-                  <Link
-                    href={`${dispensary?._source.field_facebook[0]}`}
-                    passHref
-                  >
-                    <a>
-                      <button className="py-4 w-full text-gray-700 flex items-center justify-start ">
-                        <IconFacebook className="w-10 h-10 text-gray-400" />
-                        <span className="pl-4 text-sm">
-                          {
-                            dispensary?._source.field_facebook[0].split('/')[
-                              dispensary?._source.field_facebook[0].split('/')
-                                .length - 1
-                            ]
-                          }
-                        </span>
-                      </button>{' '}
-                    </a>
-                  </Link>
-                )}
-                {typeof dispensary?._source.field_twitter !== 'undefined' && (
-                  <Link href={`${dispensary?._source.field_twitter[0]}`}>
-                    <a>
-                      <button className="py-4 w-full text-gray-700 flex items-center justify-start">
-                        <SvgIconTwitter className="w-10 h-10 text-gray-400" />
+          <div className="grid grid-flow-row auto-rows-max ">
+            <div className="pt-5 ">
+              {typeof dispensary?._source.facebook !== 'undefined' && (
+                <Link href={`${dispensary?._source.facebook[0]}`} passHref>
+                  <a>
+                    <button className="py-4 w-full text-gray-700 flex items-center justify-start ">
+                      <IconFacebook className="w-10 h-10 text-gray-400" />
+                      <span className="pl-4 text-sm">
+                        {dispensary?._source.facebook[0]}
+                      </span>
+                    </button>{' '}
+                  </a>
+                </Link>
+              )}
+              {typeof dispensary?._source.twitter !== 'undefined' && (
+                <Link href={`${dispensary?._source.twitter[0]}`}>
+                  <a>
+                    <button className="py-4 w-full text-gray-700 flex items-center justify-start">
+                      <SvgIconTwitter className="w-10 h-10 text-gray-400" />
 
-                        <span className="pl-4 text-sm">
-                          {
-                            dispensary?._source.field_twitter[0].split('/')[
-                              dispensary?._source.field_twitter[0].split('/')
-                                .length - 1
-                            ]
-                          }
-                        </span>
-                      </button>
-                    </a>
-                  </Link>
-                )}
-                {typeof dispensary?._source.field_instagram !== 'undefined' && (
-                  <Link href={`${dispensary?._source.field_instagram[0]}`}>
-                    <a>
-                      {' '}
-                      <button className="py-4 w-full text-gray-700 flex items-center justify-start   ">
-                        <IconInsta className="w-10 h-10 text-gray-400" />
-                        <span className="pl-4 text-sm">
-                          {
-                            dispensary?._source.field_instagram[0].split('/')[
-                              dispensary?._source.field_instagram[0].split('/')
-                                .length - 1
-                            ]
-                          }
-                        </span>
-                      </button>{' '}
-                    </a>
-                  </Link>
-                )}
-              </div>
+                      <span className="pl-4 text-sm">
+                        {dispensary?._source.twitter[0]}
+                      </span>
+                    </button>
+                  </a>
+                </Link>
+              )}
+              {typeof dispensary?._source.instagram !== 'undefined' && (
+                <Link href={`${dispensary?._source.instagram[0]}`}>
+                  <a>
+                    {' '}
+                    <button className="py-4 w-full text-gray-700 flex items-center justify-start   ">
+                      <IconInsta className="w-10 h-10 text-gray-400" />
+                      <span className="pl-4 text-sm">
+                        {dispensary?._source.instagram[0]}
+                      </span>
+                    </button>{' '}
+                  </a>
+                </Link>
+              )}
             </div>
           </section>
         ) : null}
@@ -439,62 +419,62 @@ export default function BusinessDetail() {
           >
             Opening Hours
           </h2>{' '}
-          {typeof dispensary?._source.field_monday_hours !== 'undefined' && (
+          {typeof dispensary?._source.monday_hours !== 'undefined' && (
             <>
               <div className="text-gray-700 pt-2">
                 <p className="py-3 flex justify-between items-center">
                   Sunday{' '}
                   <span>
-                    {dispensary?._source.field_sunday_hours
-                      ? dispensary?._source.field_sunday_hours
+                    {dispensary?._source.sunday_hours
+                      ? dispensary?._source.sunday_hours
                       : 'Not Available'}
                   </span>
                 </p>
                 <p className="py-3 flex justify-between items-center">
                   Monday{' '}
                   <span>
-                    {dispensary?._source.field_monday_hours
-                      ? dispensary?._source.field_monday_hours
+                    {dispensary?._source.monday_hours
+                      ? dispensary?._source.monday_hours
                       : 'Not Available'}
                   </span>
                 </p>
                 <p className="py-3 flex justify-between items-center">
                   Tuesday{' '}
                   <span>
-                    {dispensary?._source.field_tuesday_hours
-                      ? dispensary?._source.field_tuesday_hours
+                    {dispensary?._source.tuesday_hours
+                      ? dispensary?._source.tuesday_hours
                       : 'Not Available'}
                   </span>
                 </p>
                 <p className="py-3 flex justify-between items-center">
                   Wednesday{' '}
                   <span>
-                    {dispensary?._source.field_wednesday_hours
-                      ? dispensary?._source.field_wednesday_hours
+                    {dispensary?._source.wednesday_hours
+                      ? dispensary?._source.wednesday_hours
                       : 'Not Available'}
                   </span>
                 </p>
                 <p className="py-3 flex justify-between items-center">
                   Thursday{' '}
                   <span>
-                    {dispensary?._source.field_thursday_hours
-                      ? dispensary?._source.field_thursday_hours
+                    {dispensary?._source.thursday_hours
+                      ? dispensary?._source.thursday_hours
                       : 'Not Available'}
                   </span>
                 </p>
                 <p className="py-3 flex justify-between items-center">
                   Friday{' '}
                   <span>
-                    {dispensary?._source.field_friday_hours
-                      ? dispensary?._source.field_friday_hours
+                    {dispensary?._source.friday_hours
+                      ? dispensary?._source.friday_hours
                       : 'Not Available'}
                   </span>
                 </p>
                 <p className="py-3 flex justify-between items-center">
                   Saturday{' '}
                   <span>
-                    {dispensary?._source.field_saturday_hours
-                      ? dispensary?._source.field_saturday_hours
+                    {dispensary?._source.saturday_hours
+                      ? dispensary?._source.saturday_hours
                       : 'Not Available'}
                   </span>
                 </p>

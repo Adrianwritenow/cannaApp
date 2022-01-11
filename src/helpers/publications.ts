@@ -1,5 +1,5 @@
-import Publication_1 from '@/public/assets/images/png/newsletter/PHX-Jan-Feb-2021.png';
-import Publication_2 from '@/public/assets/images/png/newsletter/COS-Nov-Dec-2020.png';
+import Publication_1 from '@/public/assets/images/png/newsletter/COS-Nov-Dec-2020.png';
+import Publication_2 from '@/public/assets/images/png/newsletter/PHX-Jan-Feb-2021.png';
 import Publication_3 from '@/public/assets/images/png/newsletter/COS-May-Jun-2020.png';
 import Publication_4 from '@/public/assets/images/png/newsletter/PHX-May-Jun-2020.png';
 import Publication_5 from '@/public/assets/images/png/newsletter/COS-Jul-Aug-2020.png';

@@ -1,6 +1,6 @@
 import { ArrowRightIcon } from '@heroicons/react/solid';
 import Link from 'next/link';
-import { Strain } from '@/interfaces/SearchStrain';
+import { Strain } from '@/interfaces/strain';
 import SvgSativa from '@/public/assets/icons/iconComponents/Sativa';
 
 interface SearchProductProps {
@@ -18,7 +18,7 @@ export default function SearchStrainCard(props: SearchProductProps) {
           </div>
           <div className="ml-2 w-full flex flex-wrap col-span-9 ">
             <p className="w-full overflow-hidden flex flex-wrap text-gray-700 pr-4">
-              {data._source.name_2}
+              {data._source.name}
             </p>
             <span className="text-gray-500 text-sm w-full">Strain</span>
           </div>

@@ -1,6 +1,6 @@
 import { Field, Form, Formik } from 'formik';
 
-import { Product } from '../../../interfaces/searchProduct';
+import { Product } from '../../../interfaces/product';
 import QuantityField from '../../../components/forms/fields/QuantityField';
 import { StarIcon } from '@heroicons/react/solid';
 
@@ -23,12 +23,10 @@ export default function GeneralProduct(props: { product: Product }) {
         Shop / {product._source.category[0]} / Sub Category
       </p>
       <p className="text-sm text-blue-500 pt-4">
-        {product._source.field_brand
-          ? product._source.field_brand[0]
-          : 'Brand Unknown'}
+        {product._source.brand ? product._source.brand[0] : 'Brand Unknown'}
       </p>
       <h1 className="text-lg font-normal tracking-tight text-gray-900">
-        {product._source.name_1}
+        {product._source.name}
       </h1>
 
       {/* Reviews */}
@@ -36,14 +34,14 @@ export default function GeneralProduct(props: { product: Product }) {
       <div className="flex items-center">
         <div className="flex items-center">
           <span className="font-normal text-gray-500 mr-1">
-            {product._source.field_rating ? product._source.field_rating[0] : 0}
+            {product._source.rating ? product._source.rating[0] : 0}
           </span>
           {[0, 1, 2, 3, 4].map(rating => (
             <StarIcon
               key={rating}
               className={classNames(
-                product._source.field_rating
-                  ? product._source.field_rating[0] > rating
+                product._source.rating
+                  ? product._source.rating[0] > rating
                     ? 'text-gray-900'
                     : 'text-gray-200'
                   : '',
@@ -54,19 +52,17 @@ export default function GeneralProduct(props: { product: Product }) {
           ))}
           <span className="font-normal text-gray-500">
             (
-            {product._source.field_review_count
-              ? product._source.field_review_count[0]
-              : 0}
+            {product._source.review_count ? product._source.review_count[0] : 0}
             )
           </span>
         </div>
         <p className="sr-only">
-          {product._source.field_rating ? product._source.field_rating[0] : 0}
+          {product._source.rating ? product._source.rating[0] : 0}
           out of 5 stars
         </p>
       </div>
       <p className="text-xl font-bold text-black">
-        {product._source.field_price || 'Price not known'}
+        {product._source.price || 'Price not known'}
       </p>
 
       <div>

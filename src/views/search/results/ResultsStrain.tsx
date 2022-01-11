@@ -1,5 +1,5 @@
 import React from 'react';
-import { Strain } from '@/interfaces/SearchStrain';
+import { Strain } from '@/interfaces/strain';
 import StrainCard from '../../../components/strains/StrainCard';
 import StrainCardSmall from '../../../components/strains/StrainCardSmall';
 

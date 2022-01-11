@@ -11,9 +11,9 @@ import React, { Fragment, useState } from 'react';
 
 import AddPhotots from '../AddPhotos';
 import AvatarIcon from '../../../../public/assets/icons/iconComponents/Avatar';
-import { Dispensary } from '../../../interfaces/searchDispensary';
+import { Dispensary } from '../../../interfaces/dispensary';
 import ImageWithFallback from '@/components/image/ImageWithFallback';
-import { Product } from '@/interfaces/searchProduct';
+import { Product } from '@/interfaces/product';
 import { RadioButton } from '@/components/forms/fields/RadioButton';
 import { Strain } from '@/interfaces/strain';
 
@@ -103,13 +103,13 @@ export default function ReviewFormSlideOver(props: ReviewSlideOverProps) {
                       <Dialog.Title className="font-semibold text-gray-700 flex space-x-4 border-dashed border-b pb-4">
                         <div className="relative w-24 h-full rounded-lg overflow-hidden ">
                           <ImageWithFallback
-                            src={product?._source.field_image}
-                            alt={product?._source.name_1}
+                            src={product?._source.image}
+                            alt={product?._source.name}
                             layout="fill"
                             objectFit={'cover'}
                           />
                         </div>
-                        <span>{product?._source.name_1}</span>
+                        <span>{product?._source.name}</span>
                       </Dialog.Title>
                       <div className="flex-col h-auto flex-grow">
                         <div className="pt-3 w-full">

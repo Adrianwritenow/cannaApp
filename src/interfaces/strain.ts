@@ -5,14 +5,14 @@ export interface Strain {
   _source: {
     created: number[];
     description: string[];
-    field_image: number[];
-    field_source_url: string[];
+    image: number[];
+    source_url: string[];
     langcode: string[];
-    field_featured: boolean[];
-    field_top_rated_effects: string[];
-    field_top_reported_flavors: string[];
-    field_rating: number[];
-    field_review_count: number[];
+    featured: boolean[];
+    top_rated_effects: string[];
+    top_reported_flavors: string[];
+    rating: number[];
+    review_count: number[];
     name: string[];
     status: boolean[];
     uuid: string[];

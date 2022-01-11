@@ -4,7 +4,7 @@ import { Field, Form, Formik } from 'formik';
 import React, { Fragment, useState } from 'react';
 
 import AvatarIcon from '../../../../public/assets/icons/iconComponents/Avatar';
-import { Dispensary } from '../../../interfaces/searchDispensary';
+import { Dispensary } from '../../../interfaces/dispensary';
 import RateCategorySlideOver from './RateCategorySlideOver';
 import { Strain } from '@/interfaces/strain';
 

@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import ImageWithFallback from '../image/ImageWithFallback';
 import Link from 'next/link';
-import { Product } from '@/interfaces/searchProduct';
+import { Product } from '@/interfaces/product';
 import React from 'react';
 import { StarIcon } from '@heroicons/react/solid';
 
@@ -21,42 +21,42 @@ export default function ProductDealsCard(data: ProductProps) {
         >
           <div className="rounded-lg overflow-hidden w-25 h-25 relative flex-shrink-0">
             <ImageWithFallback
-              src={product._source.field_image[0]}
-              alt={product._source.field_image[0]}
+              src={product._source.image[0]}
+              alt={product._source.image[0]}
               layout="fill"
               objectFit={'cover'}
             />
           </div>
           <div className="text-left text-sm w-full">
             <div className="text-gray-500">
-              <p className="text-blue-500">{product._source.field_brand[0]}</p>
+              <p className="text-blue-500">{product._source.brand[0]}</p>
               <h3 className="text-sm text-gray-700">
-                {product._source.name_1[0]}
+                {product._source.name[0]}
               </h3>
               <p className=" text-sm"> 10 mi away</p>
               <div className="flex items-center space-x-1">
                 <p className=" text-base font-semibold text-red-800 ">
-                  {product._source.field_price}
+                  {product._source.price}
                 </p>
                 <p className="text-sm line-through">
-                  {product._source.field_price[0]}
+                  {product._source.price[0]}
                 </p>
               </div>
             </div>
 
             <div className="flex flex-col items-start">
               <p className="sr-only">
-                {product._source.field_rating[0]} out of 5 stars
+                {product._source.rating[0]} out of 5 stars
               </p>
               <div className="flex items-center">
                 <span className="font-normal text-gray-500">
-                  {product._source.field_rating[0]}
+                  {product._source.rating[0]}
                 </span>
                 {[0, 1, 2, 3, 4].map(rating => (
                   <StarIcon
                     key={rating}
                     className={`    ${
-                      product._source.field_rating[0] > rating
+                      product._source.rating[0] > rating
                         ? 'text-yellow-400'
                         : 'text-gray-200'
                     }
@@ -65,7 +65,7 @@ export default function ProductDealsCard(data: ProductProps) {
                   />
                 ))}
                 <p className="font-normal text-gray-500">
-                  ({product._source.field_review_count[0]})
+                  ({product._source.review_count[0]})
                 </p>
               </div>
             </div>

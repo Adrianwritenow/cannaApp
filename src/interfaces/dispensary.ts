@@ -28,7 +28,7 @@ export interface Dispensary {
     lon: number[];
     email: string[];
     coordinates: string[];
-    rating: string[] | ['0'];
+    rating: string[];
     reviews_count: number[] | [0];
     source_url: string[];
     sponsored: boolean[];

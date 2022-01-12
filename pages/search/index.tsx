@@ -136,16 +136,11 @@ export default function Search() {
             </Tab.Panel>
             <Tab.Panel className="focus:outline-none">
               {/* Search Strain */}
-              <SearchStrain
-                strains={searchLists.strains}
-                query={query}
-                products={searchLists.shopping}
-              />
+              <SearchStrain query={query} products={searchLists.shopping} />
             </Tab.Panel>
             <Tab.Panel className="focus:outline-none">
               {/* Search Dispensery */}
               <SearchDispensary
-                dispensaries={searchLists.dispensaries}
                 query={query}
                 userCoords={{ lat: location.lat, lng: location.lng }}
               />

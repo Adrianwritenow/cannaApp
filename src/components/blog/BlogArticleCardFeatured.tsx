@@ -10,7 +10,7 @@ function BlogArticleFeatured({ post }: { post: Post }) {
       <div className="align   w-full self-center py-4">
         <div>
           <div className="pb-4">
-            <Link href={`/blog/${post._id}`} passHref>
+            <Link href={`/blog/${encodeURIComponent(post._id)}`} passHref>
               <a>
                 <Image
                   src={post._source.image_url[0]}

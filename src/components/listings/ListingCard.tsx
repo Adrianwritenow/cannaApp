@@ -48,7 +48,7 @@ export default function ListingCard(data: ListingProps) {
                 <StarIcon
                   key={rating}
                   className={`    ${
-                    parseFloat(listing._source.rating) > rating
+                    parseFloat(listing._source.rating[0]) > rating
                       ? 'text-yellow-400'
                       : 'text-gray-200'
                   }

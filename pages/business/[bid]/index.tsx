@@ -12,44 +12,53 @@ import {
   Sativa,
 } from '../../../public/assets/icons/iconComponents';
 import React, { useEffect, useState } from 'react';
-import { faqs, listings, reviews } from '@/helpers/mockData';
+import { combinedSearchQuery, getDocument } from '../../../src/actions/search';
+import { faqs, reviews } from '@/helpers/mockData';
 
 import AboutUsSlideOver from '../../../src/views/slideOver/AboutUsSlideOver';
 import AmenitiesSection from '../../../src/components/sections/AmenitiesSection';
 import BusinessMenuSlideOver from '../../../src/views/slideOver/business/BusinessMenuSlideOver';
 import BusinessReviewSlideOver from '@/views/slideOver/business/BusinessReviewSlideOver';
 import BusinessVerificationSlideOver from '@/views/slideOver/business/BusinessVerifiedSlideOver';
-import { Dispensary } from '../../../src/interfaces/dispensary';
+import { Dispensary } from '@/interfaces/dispensary';
 import FaqSlideOver from '../../../src/views/slideOver/FaqSlideOver';
 import Link from 'next/link';
 import ListingCardDropdown from '../../../src/components/listings/ListingCardDropDown';
+import OpenIndicator from '@/helpers/OpenStatus';
+import { RootState } from '@/reducers';
 import { SearchHits } from '@/interfaces/searchHits';
 import SmallMap from '@/components/map/businessPageMap/SmallMap';
 import SocialShare from '@/components/share/SocialShare';
 import SvgIconTwitter from '../../../public/assets/icons/iconComponents/IconTwitter';
-import { getDocument } from '../../../src/actions/search';
+import getDistanceFrom from '@/helpers/getDistanceFrom';
 import moment from 'moment-timezone';
 import { useRouter } from 'next/router';
-
-import OpenIndicator from '@/helpers/OpenStatus';
 import { useSelector } from 'react-redux';
-import { RootState } from '@/reducers';
-import getDistanceFrom from '@/helpers/getDistanceFrom';
 
 export default function BusinessDetail() {
   const router = useRouter();
   const { bid } = router.query;
   const [view, setView] = useState('');
   const [distanceFrom, setDistanceFrom] = useState('');
-  const { lat, lng } = useSelector((root: RootState) => root.location);
   const [dispensary, setDispensary] = useState<Dispensary>();
-  const [timezone, setTimezone] = useState('')
+  const [timezone, setTimezone] = useState('');
   const [sort, setSort]: any = useState('relevance');
-  const listing = listings[0];
+  const { lat, lng } = useSelector((root: RootState) => root.location);
+  const location = useSelector((root: RootState) => root.location);
+  const [viewed, setViewed] = useState<Array<Dispensary>>();
 
   let today = moment.tz(timezone).format('dddd');
 
   useEffect(() => {
+    if (bid && !dispensary) {
+      getDocument(bid, 'dispenaries').then((document: SearchHits) => {
+        if (document) {
+          const result = document.hits.hits[0];
+          setDispensary(result as Dispensary);
+        }
+      });
+    }
+
     if (dispensary && lat && lng) {
       const isEmpty = Object.values({ lat, lng }).every(
         x => x === null || x === undefined
@@ -79,25 +88,25 @@ export default function BusinessDetail() {
             setTimezone('America/Los_Angeles');
             break;
         }
-
       }
-
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lat, lng, dispensary]);
 
-
-  useEffect(() => {
-    if (bid) {
-      getDocument(bid, 'dispenaries').then((document: SearchHits) => {
-        if (document) {
-          const result = document.hits.hits[0];
-          setDispensary(result as Dispensary);
-        }
+    async function getDispensaryResults() {
+      const hits: any = await combinedSearchQuery({
+        search: location.city,
+        endpoints: ['dispenaries'],
+        coords: { lat: location.lat, lon: location.lng },
+        distance: '10mi',
       });
+      setViewed(hits);
     }
+
+    if (location.city && !viewed) {
+      getDispensaryResults();
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router]);
+  }, [lat, lng, dispensary, router]);
 
   return (
     <div className="bg-white">
@@ -450,11 +459,13 @@ export default function BusinessDetail() {
       <div id="reviews-section">
         <BusinessReviewSlideOver dispensary={dispensary} reviews={reviews} />
       </div>
-      <div className="px-4">
-        <AmenitiesSection
-          amenities={['amenity', 'amenity', 'amenity', 'amenity']}
-        />
-      </div>
+      {dispensary?._source.amenities && (
+        <div className="px-4">
+          <AmenitiesSection
+            amenities={dispensary?._source.amenities as string[]}
+          />
+        </div>
+      )}
       {/* Also Viewed */}
       <section className="pb-4 pt-2">
         <h2 id="related-businesses" className="sr-only">
@@ -466,13 +477,16 @@ export default function BusinessDetail() {
         >
           People Also Viewed
         </h2>
-        <div className="grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-4">
-          {listings.map((listing, index) => (
-            <div className="w-64" key={`lc-${listing._id}-${index}`}>
-              <ListingCardDropdown listing={listing} amenities={false} />
-            </div>
-          ))}
-        </div>
+        {viewed && (
+          <div className="grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-4">
+            {/* location  Based*/}
+            {viewed.map((listing, index) => (
+              <div className="w-64" key={`lc-${listing._id}-${index}`}>
+                <ListingCardDropdown listing={listing} amenities={false} />
+              </div>
+            ))}
+          </div>
+        )}
       </section>
     </div>
   );

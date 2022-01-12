@@ -1,29 +1,48 @@
 import React, { useEffect, useState } from 'react';
+import { combinedSearchQuery, receiveResults } from '@/actions/search';
 
 import { Dispensary } from '@/interfaces/dispensary';
 import ListingCardDropdown from '../../components/listings/ListingCardDropDown';
 import ListingSection from '../../components/sections/ListingSection';
 import ProductFilterSlideOver from '../slideOver/filters/ProductFilterSlideOver';
 import SvgEmptyState from '@/public/assets/icons/iconComponents/EmptyState';
+import { useDispatch } from 'react-redux';
 
 export default function SearchStrain(props: {
-  dispensaries: Dispensary[];
   query: string;
   userCoords: {
     lat: number;
     lng: number;
   };
 }) {
-  const { dispensaries, query, userCoords } = props;
+  const { query, userCoords } = props;
+  const dispatch = useDispatch();
+  const [dispenaries, setDispenaries] = useState<Array<Dispensary>>();
+
+  useEffect(() => {
+    async function getProducts() {
+      const hits: any = await combinedSearchQuery({
+        search: query,
+        endpoints: ['dispenaries'],
+        total: 10,
+      });
+      setDispenaries(hits);
+      dispatch(receiveResults({ search: query, data: hits }));
+    }
+
+    if (!dispenaries) {
+      getProducts();
+    }
+  }, [dispenaries]);
 
   return (
     <div className="bg-gray-50">
       <ProductFilterSlideOver />
       <div>
-        {dispensaries.length ? (
+        {dispenaries ? (
           <div>
             <ListingSection
-              listings={dispensaries}
+              listings={dispenaries}
               query={query}
               userCoords={{ lat: userCoords.lat, lng: userCoords.lng }}
             />
@@ -32,7 +51,7 @@ export default function SearchStrain(props: {
                 {`Dispensaries near "${query}"`}
               </h2>
               <div className="grid grid-flow-row auto-rows-max gap-1 px-4">
-                {dispensaries.map((dispensary: Dispensary, index) => (
+                {dispenaries.map((dispensary: Dispensary, index) => (
                   <ListingCardDropdown
                     listing={dispensary}
                     key={`sd-${index}`}

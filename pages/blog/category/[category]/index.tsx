@@ -9,7 +9,7 @@ export default function BlogByCategory() {
 
   return (
     <div className="bg-gray-50 pt-6 pb-20 px-4 sm:px-6 lg:pt-24 lg:pb-28 lg:px-8">
-      <div className="relative max-w-lg mx-auto lg:max-w-7xl">
+      {/* <div className="relative max-w-lg mx-auto lg:max-w-7xl">
         <div>
           <h2 className="text-2xl tracking-tight font-semibold text-gray-700 sm:text-4xl">
             {category}
@@ -36,7 +36,7 @@ export default function BlogByCategory() {
             <BlogArticleCardSmall key={post.title} post={post} />
           ))}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

@@ -6,13 +6,12 @@ import { Disclosure } from '@headlessui/react';
 import { DispensaryProps } from '../../interfaces/listing';
 import ImageWithFallback from '../image/ImageWithFallback';
 import Link from 'next/link';
-import getDistanceFrom from '@/helpers/getDistanceFrom';
 import OpenIndicator from '@/helpers/OpenStatus';
+import getDistanceFrom from '@/helpers/getDistanceFrom';
 
 export default function ListingCardDropdown(data: DispensaryProps) {
   const { listing, amenities, classNames, userCoords } = data;
   const [distanceFrom, setDistanceFrom] = useState('');
-  
 
   useEffect(() => {
     if (userCoords && listing) {
@@ -28,7 +27,7 @@ export default function ListingCardDropdown(data: DispensaryProps) {
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ listing]);
+  }, [listing]);
 
   return (
     // <Disclosure
@@ -39,7 +38,7 @@ export default function ListingCardDropdown(data: DispensaryProps) {
     // >
     //   {({ open }) => (
     //     <Disclosure.Button className="w-full focus:outline-none">
-    <div className={`relative w-full flex flex-wrap ${classNames}`}>
+    <div className={`relative w-full flex flex-wrap ${classNames} pt-4`}>
       <div className="rounded-lg overflow-hidden w-full h-36 relative">
         <Link href={`/business/${encodeURIComponent(listing._id)}`} passHref>
           <a>
@@ -67,7 +66,6 @@ export default function ListingCardDropdown(data: DispensaryProps) {
 
           {/**** Need favorites functionality  *****/}
           {/* <BookmarkIcon className="w-6" /> */}
-
         </div>
         <div className="flex flex-col items-start">
           {listing._source.rating && (

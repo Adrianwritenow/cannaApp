@@ -21,7 +21,7 @@ export default function AmenitiesSection(props: AmenitiesProps) {
       {/* General Amenities */}
 
       <div className="grid grid-flow-row auto-rows-max space-y-2">
-        <div className="flex flex-wrap border-b border-gray-200">
+        <div className="border-b border-gray-200">
           <h3 id="business-amenities-general" className="sr-only">
             General
           </h3>
@@ -31,10 +31,10 @@ export default function AmenitiesSection(props: AmenitiesProps) {
           >
             General
           </h3>
-          <div className="flex flex-wrap py-2">
+          <div className="flex flex-wrap">
             {amenities.map((amenity, index) => (
               <div key={`amenity-${index}`}>
-                <p className="flex flex-wrap items-center text-gray-500 py-2 px-3">
+                <p className="flex flex-wrap items-center text-gray-500 py-2 px-3 text-sm pl-0">
                   <span className="text-green">
                     <CheckIcon className="w-4 mr-2" />
                   </span>
@@ -47,7 +47,7 @@ export default function AmenitiesSection(props: AmenitiesProps) {
 
         {/* Service Amenities */}
 
-        <div className="flex flex-wrap border-b border-gray-200">
+        {/* <div className="flex flex-wrap border-b border-gray-200">
           <h3 id="business-amenities-service" className="sr-only">
             Service Options
           </h3>
@@ -69,11 +69,11 @@ export default function AmenitiesSection(props: AmenitiesProps) {
               </div>
             ))}
           </div>
-        </div>
+        </div> */}
 
         {/* Payment Amenities */}
 
-        <div className="flex flex-wrap border-b border-gray-200">
+        {/* <div className="flex flex-wrap border-b border-gray-200">
           <h3 id="business-amenities-payment" className="sr-only">
             Payment
           </h3>
@@ -95,11 +95,11 @@ export default function AmenitiesSection(props: AmenitiesProps) {
               </div>
             ))}
           </div>
-        </div>
+        </div> */}
 
         {/* Crowd Amenities */}
 
-        <div className="flex flex-wrap border-b border-gray-200">
+        {/* <div className="flex flex-wrap border-b border-gray-200">
           <h3 id="business-amenities-crowd" className="sr-only">
             Crowd
           </h3>
@@ -118,11 +118,11 @@ export default function AmenitiesSection(props: AmenitiesProps) {
               </div>
             ))}
           </div>
-        </div>
+        </div> */}
 
         {/* Atmosphere Amenities */}
 
-        <div className="flex flex-wrap border-b border-gray-200">
+        {/* <div className="flex flex-wrap border-b border-gray-200">
           <h3 id="business-amenities-atmosphere" className="sr-only">
             Atmosphere
           </h3>
@@ -144,7 +144,7 @@ export default function AmenitiesSection(props: AmenitiesProps) {
               </div>
             ))}
           </div>
-        </div>
+        </div> */}
       </div>
     </section>
   );

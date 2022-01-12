@@ -18,9 +18,10 @@ export function combinedSearchQuery(searchProps: {
   coords?: any;
   distance?: string;
   filters?: { sort: string; category: string };
+  total?: number;
   endpoints?: string[];
 }) {
-  const { search, coords, distance, filters, endpoints } = searchProps;
+  const { search, coords, distance, filters, endpoints, total } = searchProps;
   const spatialQuery =
     coords && distance
       ? bodybuilder()
@@ -33,7 +34,9 @@ export function combinedSearchQuery(searchProps: {
           .build()
       : bodybuilder().query('query_string', 'query', search).build();
 
-  const query = bodybuilder().query('query_string', 'query', search).size(3);
+  const query = bodybuilder()
+    .query('query_string', 'query', search)
+    .size(total ? total : 3);
 
   if (filters?.category) {
     if (filters?.category[0]) {
@@ -122,10 +125,10 @@ export function getDocument(id: string | string[] | undefined, api: string) {
   return results;
 }
 
-export function getFeatured() {
+export function getFeatured(index: string) {
   var body = bodybuilder().filter('match', 'featured', true).build();
   const results = axios({
-    url: `${SEARCH_URL}/elasticsearch_index_dev_cannapages_*/_search?size=1`,
+    url: `${SEARCH_URL}/elasticsearch_index_dev_cannapages_${index}/_search?size=1`,
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -142,8 +145,9 @@ export function getFeatured() {
   return results;
 }
 
-export function browseBy(field: string, value: string, index: string) {
-  var body = bodybuilder().filter('match', `${field}`, `${value}`).build();
+export function browseBy(field: string, value: any, index: string) {
+  var body = bodybuilder().filter('match', `${field}`, value).build();
+
   const results = axios({
     url: `${SEARCH_URL}/elasticsearch_index_dev_cannapages_${index}/_search?size=15`,
     method: 'POST',

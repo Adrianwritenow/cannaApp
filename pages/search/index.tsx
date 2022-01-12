@@ -25,6 +25,7 @@ export default function Search() {
     shopping: [],
     dispensaries: [],
     strains: [],
+    blogs: [],
   });
 
   const path = router.query;
@@ -53,6 +54,7 @@ export default function Search() {
       shopping: [],
       dispensaries: [],
       strains: [],
+      blogs: [],
     };
 
     if (results) {
@@ -64,6 +66,10 @@ export default function Search() {
 
           case result._id.includes('product_entity'):
             searchListUpdate.shopping.push(result);
+            break;
+
+          case result._id.includes('blog_entity'):
+            searchListUpdate.blogs.push(result);
             break;
 
           case result._id.includes('dispensary_entity'):
@@ -109,14 +115,13 @@ export default function Search() {
             <Tab.Panel className="focus:outline-none">
               {/* Search All */}
               <SearchAll
-                lists={searchLists}
                 query={query}
                 userCoords={{ lat: location.lat, lng: location.lng }}
               />
             </Tab.Panel>
             <Tab.Panel className="focus:outline-none">
               {/* Search All */}
-              <SearchNews />
+              <SearchNews query={query} />
             </Tab.Panel>
             <Tab.Panel className="focus:outline-none">
               {/* Link to Map */}
@@ -127,20 +132,15 @@ export default function Search() {
             </Tab.Panel>
             <Tab.Panel className="focus:outline-none">
               {/* Search Shopping */}
-              <SearchShopping products={searchLists.shopping} query={query} />
+              <SearchShopping query={query} />
             </Tab.Panel>
             <Tab.Panel className="focus:outline-none">
               {/* Search Strain */}
-              <SearchStrain
-                strains={searchLists.strains}
-                query={query}
-                products={searchLists.shopping}
-              />
+              <SearchStrain query={query} products={searchLists.shopping} />
             </Tab.Panel>
             <Tab.Panel className="focus:outline-none">
               {/* Search Dispensery */}
               <SearchDispensary
-                dispensaries={searchLists.dispensaries}
                 query={query}
                 userCoords={{ lat: location.lat, lng: location.lng }}
               />

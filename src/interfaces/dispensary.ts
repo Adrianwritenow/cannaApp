@@ -5,6 +5,7 @@ export interface Dispensary {
   _source: {
     address_line1: string[];
     address_line2: string[];
+    amenities: string[];
     country_code: string[];
     created_: number[];
     description: string[];
@@ -27,7 +28,7 @@ export interface Dispensary {
     lon: number[];
     email: string[];
     coordinates: string[];
-    rating: string[] | ['0'];
+    rating: string[];
     reviews_count: number[] | [0];
     source_url: string[];
     sponsored: boolean[];

@@ -4,4 +4,5 @@ export interface SearchState {
   shopping: any[];
   dispensaries: any[];
   strains: any[];
+  blogs: any[];
 }

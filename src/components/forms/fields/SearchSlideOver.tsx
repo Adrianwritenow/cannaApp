@@ -44,7 +44,7 @@ export default function SearchSlideOver(props: {
   async function handleSubmit(search: any) {
     const hits = await combinedSearchQuery({
       search: search,
-      endpoints: ['products', 'dispenaries', 'strains'],
+      endpoints: ['products', 'dispenaries', 'strains', 'blogs'],
     });
     if (hits) {
       if (hits.length) {
@@ -75,7 +75,7 @@ export default function SearchSlideOver(props: {
     async function getDispensaryResults() {
       const hits: any = await combinedSearchQuery({
         search: location.city,
-        endpoints: [ 'dispenaries'],
+        endpoints: ['dispenaries'],
         coords: { lat: location.lat, lon: location.lng },
         distance: '10mi',
       });

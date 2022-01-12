@@ -3,17 +3,18 @@ import { useEffect, useState } from 'react';
 import { IconFacebook } from '@/public/assets/icons/iconComponents';
 import Image from 'next/image';
 import Link from 'next/link';
+import { Post } from '@/interfaces/post';
 import SocialShare from '@/components/share/SocialShare';
 import SvgIconTwitter from '@/public/assets/icons/iconComponents/IconTwitter';
 import moment from 'moment';
 import styles from './styles.module.scss';
 
-export default function BlogArticle({ post }: any) {
+export default function BlogArticle({ post }: { post: Post }) {
   const [renderHtml, setRenderHtml] = useState('');
 
   useEffect(() => {
     if (!!post) {
-      setRenderHtml(post.content);
+      setRenderHtml(post._source.content[0]);
     }
   }, [post]);
 
@@ -25,17 +26,17 @@ export default function BlogArticle({ post }: any) {
             <div className="text-lg max-w-prose mx-auto">
               <h1>
                 <span className="mt-2 block font-serif text-4xl leading-10  text-green-500 text-5xl">
-                  {post.title}
+                  {post._source.title}
                 </span>
               </h1>
-              <p className="pt-4 text-gray-500">{post.description}</p>
+              <p className="pt-4 text-gray-500">{post._source.description}</p>
               <div className="pt-4 border-b-2 pb-4">
                 <p className="text-xs text-gray-900">
                   By&nbsp;
-                  <Link href={`/blog/author/${post.author}`} passHref>
-                    <a className="text-green-400">{post.author}</a>
+                  <Link href={`/blog/author/${post._source.author}`} passHref>
+                    <a className="text-green-400">{post._source.author}</a>
                   </Link>
-                  &nbsp; | {moment(post.published).format('MMMM Do, YYYY')}
+                  {/* &nbsp; | {moment(post.published).format('MMMM Do, YYYY')} */}
                 </p>
                 <div className="flex items-center pt-4 w-24">
                   <div className="flex justify-between w-full">
@@ -58,7 +59,7 @@ export default function BlogArticle({ post }: any) {
           </div>
           <div className="relative flex justify-center mt-4">
             <Image
-              src={post.image}
+              src={post._source.image_url[0]}
               layout="intrinsic"
               height={1000}
               width={1000}

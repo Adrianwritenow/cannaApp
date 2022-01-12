@@ -23,7 +23,8 @@ import { Terpene } from '../../../interfaces/terpene';
 import { Terpenes } from '../../../helpers/terpenes';
 import { useDispatch } from 'react-redux';
 
-export default function StrainLanding() {
+export default function StrainLanding(props: { setStrains: Function }) {
+  const { setStrains } = props;
   const [featured, setFeatured] = useState<Strain>();
   const [clamp, setClamp] = useState(true);
   const dispatch = useDispatch();
@@ -31,7 +32,7 @@ export default function StrainLanding() {
 
   useEffect(() => {
     async function getFeaturedItems() {
-      const hits: SearchHits = await getFeatured();
+      const hits: SearchHits = await getFeatured('strains');
       setFeatured(hits.hits.hits[0] as unknown as Strain);
     }
     async function getPopularItems(type: string) {
@@ -41,20 +42,24 @@ export default function StrainLanding() {
 
     if (!featured) {
       getFeaturedItems();
+    }
+    if (!popular) {
       getPopularItems('strains');
     }
-  }, [featured]);
+    console.log('FEAT', featured);
+  }, [featured, popular, setFeatured]);
 
   async function handleBrowse(field: string, value: string) {
     const hits: SearchHits = await browseBy(field, value, 'strains');
     dispatch(receiveResults({ search: value, data: hits.hits.hits }));
+    setStrains(hits.hits.hits);
   }
 
   return (
     <div className="max-w-7xl bg-gray-50 pb-5">
       {/* Strain */}
 
-      {featured ? (
+      {featured && popular && (
         <>
           <section className="px-4" aria-labelledby="featured-strain-heading">
             <h1 id="featured-strain-heading" className="sr-only">
@@ -67,7 +72,7 @@ export default function StrainLanding() {
             <div className="w-full h-48 relative rounded-lg overflow-hidden">
               <ImageWithFallback
                 src={'#'}
-                alt={featured?._source.name[0]}
+                alt={featured._source.name}
                 layout="fill"
                 objectFit={'cover'}
               />
@@ -76,10 +81,10 @@ export default function StrainLanding() {
             {/* Strain info */}
             <div className="pt-4">
               <h1 className="text-xl font-normal text-gray-700">
-                {featured?._source.name[0]}
+                {featured._source.name}
               </h1>
               <span className="text-gray-500 text-sm font-normal">
-                {featured?._source.type[0]}
+                {featured._source.type[0]}
               </span>
 
               <div className="mt-4">
@@ -89,7 +94,7 @@ export default function StrainLanding() {
                     clamp ? 'line-clamp-4' : ''
                   }`}
                   dangerouslySetInnerHTML={{
-                    __html: featured?._source.description[0],
+                    __html: featured._source.description[0],
                   }}
                 />
               </div>
@@ -296,8 +301,6 @@ export default function StrainLanding() {
             </div>
           </section> */}
         </>
-      ) : (
-        ''
       )}
     </div>
   );

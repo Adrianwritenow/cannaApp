@@ -24,9 +24,9 @@ export default function SearchDeals() {
           })}
         </section>
         <div>
-          <CouponSlideOver label="Coupons on Pipes" />
+          {/* <CouponSlideOver label="Coupons on Pipes" />
 
-          <CouponSlideOver label="Coupons on Concentrates" />
+          <CouponSlideOver label="Coupons on Concentrates" /> */}
 
           <section className="pb-4 pt-2">
             <h2 id="deals-near-me" className="sr-only">

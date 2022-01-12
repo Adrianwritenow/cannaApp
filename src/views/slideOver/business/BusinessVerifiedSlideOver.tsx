@@ -108,7 +108,7 @@ export default function BusinessVerificationSlideOver(
                           <p className="pt-8">
                             When you pick a business on CannaPages, we want you
                             to be confident in your decision. That is why we
-                            give businesses the opportunity to participate in
+                            give businsesses the opportunity to participate in
                             our trade license verification process. CannaPages
                             confirmed the business's trade license as of the
                             verification date listed above. <br />

@@ -3,6 +3,7 @@ import {
   LocationMarkerIcon,
   TagIcon,
 } from '@heroicons/react/solid';
+import { browseBy, combinedSearchQuery, getPopular } from '@/actions/search';
 import { listings, products } from '@/helpers/mockData';
 import { useEffect, useState } from 'react';
 
@@ -11,6 +12,7 @@ import BlogArticleSmall from '@/components/blog/BlogArticleCardSmall';
 import ClaimBusiness from '@/public/assets/images/png/growBusiness.png';
 import { Coupon } from '@/interfaces/coupon';
 import CouponSlideOver from '@/views/slideOver/CouponsSlideOver';
+import { Dispensary } from '@/interfaces/dispensary';
 import Image from 'next/image';
 import Link from 'next/link';
 import ListingCard from '@/components/listings/ListingCard';
@@ -18,16 +20,23 @@ import Logo from '@/public/assets/logos/logo.png';
 import LogoText from '@/public/assets/logos/logo-text.png';
 import Map from '@/public/assets/images/png/mapColor.png';
 import { Post } from '@/interfaces/post';
+import { Product } from '@/interfaces/product';
 import ProductResultsSection from '@/components/sections/ProductsResultsSection';
+import { RootState } from '@/reducers';
 import { SearchHits } from '@/interfaces/searchHits';
 import SearchSlideOver from '@/components/forms/fields/SearchSlideOver';
 import { destinations } from '@/helpers/destinations';
-import { getPopular } from '@/actions/search';
 import { publications } from '@/helpers/publications';
 import sample from '@/helpers/mockData/articles.json';
+import { useSelector } from 'react-redux';
 
 export default function Home() {
+  const { lat, lng } = useSelector((root: RootState) => root.location);
+  const location = useSelector((root: RootState) => root.location);
   const [coupons, setCoupons] = useState<Array<Coupon>>();
+  const [nearby, setNearby] = useState<Array<Dispensary>>();
+  const [flower, setFlower] = useState<Array<Product>>();
+  const [blogs, setBlogs] = useState<Array<Post>>();
 
   useEffect(() => {
     async function getPopularItems(type: string) {
@@ -38,9 +47,49 @@ export default function Home() {
     if (!coupons) {
       getPopularItems('coupons');
     }
+    if (!flower) {
+      getFlower();
+    }
 
-    console.log(coupons);
-  }, [coupons]);
+    if (!blogs) {
+      getBlogs();
+    }
+
+    async function getDispensaryResults() {
+      const hits: any = await combinedSearchQuery({
+        search: location.city,
+        endpoints: ['dispenaries'],
+        coords: { lat: location.lat, lon: location.lng },
+        distance: '10mi',
+      });
+
+      // Sort by  created date
+      hits.sort((a: any, b: any) =>
+        a._source.created[0] < b._source.created[0] ? 1 : -1
+      );
+
+      setNearby(hits);
+    }
+
+    async function getFlower() {
+      const hits: SearchHits = await browseBy('category', 'Flower', 'products');
+      setFlower(hits.hits.hits);
+    }
+
+    async function getBlogs() {
+      const hits: any = await combinedSearchQuery({
+        search: '*',
+        endpoints: ['blogs'],
+        total: 5,
+      });
+
+      setBlogs(hits);
+    }
+
+    if (location.city && !nearby) {
+      getDispensaryResults();
+    }
+  }, [location, coupons, flower, blogs]);
 
   return (
     <div className="mx-auto space-y-2">
@@ -236,33 +285,38 @@ export default function Home() {
         >
           New Locations Nearby
         </h2>
-        <div className="grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-4 pb-4">
-          {listings.map((listing, index) => (
-            <div className="w-64" key={`lc-${listing._id}-${index}`}>
-              <ListingCard listing={listing} amenities={false} />
-            </div>
-          ))}
-        </div>
+
+        {nearby && (
+          <div className="grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-4 pb-4">
+            {nearby.map((listing, index) => (
+              <div className="w-64" key={`lc-${listing._id}-${index}`}>
+                <ListingCard listing={listing} amenities={false} />
+              </div>
+            ))}
+          </div>
+        )}
       </section>
       <ProductResultsSection
-        list={products}
+        list={flower as Product[]}
         sponsored={false}
-        label={`Shop Flower near %Location%`}
+        label={`Shop Flower near ${location.city}`}
       />
 
       {/* News Section */}
-      <section>
-        {sample.articles.map((post: Post, index) => (
-          <div id={`${index}`} key={`article-${index}`} className="px-4">
-            <BlogArticleSmall post={post} />
+      {blogs && (
+        <section>
+          {blogs.map((post: Post, index) => (
+            <div id={`${index}`} key={`article-${index}`} className="px-4">
+              <BlogArticleSmall post={post} />
+            </div>
+          ))}
+          <div className="px-4 pt-2">
+            <button className="py-4 w-full uppercase text-gray-700 text-xs  text-green-500 font-bold border-t border-gray-200 tracking-widest">
+              See more Articles
+            </button>
           </div>
-        ))}
-        <div className="px-4 pt-2">
-          <button className="py-4 w-full uppercase text-gray-700 text-xs  text-green-500 font-bold border-t border-gray-200 tracking-widest">
-            See more Articles
-          </button>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Print Publication */}
       <section className="pb-4 pt-2">

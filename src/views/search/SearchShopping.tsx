@@ -1,21 +1,40 @@
+import { combinedSearchQuery, receiveResults } from '@/actions/search';
+import { useEffect, useState } from 'react';
+
 import { Product } from '@/interfaces/product';
 import ProductFilterSlideOver from '../slideOver/filters/ProductFilterSlideOver';
 import ProductResultsGrid from '@/components/products/ProductResultsGrid';
 import ProductResultsSection from '@/components/sections/ProductsResultsSection';
 import SvgEmptyState from '@/public/assets/icons/iconComponents/EmptyState';
+import { useDispatch } from 'react-redux';
 
-export default function SearchShopping(props: {
-  products: Product[];
-  query: string;
-}) {
-  const { products, query } = props;
+export default function SearchShopping(props: { query: string }) {
+  const { query } = props;
+  const dispatch = useDispatch();
+  const [products, setProducts] = useState<Array<Product>>();
+
+  useEffect(() => {
+    async function getProducts() {
+      const hits: any = await combinedSearchQuery({
+        search: query,
+        endpoints: ['products'],
+        total: 10,
+      });
+      setProducts(hits);
+      dispatch(receiveResults({ search: query, data: hits }));
+    }
+
+    if (!products) {
+      getProducts();
+    }
+  }, [products]);
 
   return (
     <section className="bg-gray-50">
       <ProductFilterSlideOver />
 
       <div>
-        {products.length ? (
+        {products ? (
           <>
             <ProductResultsSection
               list={products}

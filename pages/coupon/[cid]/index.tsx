@@ -29,23 +29,18 @@ export default function CouponDetail() {
     }
 
     async function handleBrowse() {
-      console.log('ID:::', coupon?._source.dispensary[0]);
       const business: SearchHits = await browseBy(
         'id',
         coupon?._source.dispensary[0],
         'dispenaries'
       );
 
-      console.log('BUIZ::', business);
       // setDispensary(business.hits.hits as unknown as Dispensary);
     }
 
     if (coupon && !dispensary) {
       handleBrowse();
     }
-
-    console.log(coupon);
-    console.log(dispensary);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router, coupon]);

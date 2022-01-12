@@ -31,11 +31,11 @@ export default function ListingCard(data: ListingProps) {
           )}
         </div>
         <div className="p-2 text-left text-sm w-full rounded-b-lg overflow-hidden border border-gray-200">
-          <div className="flex flex-wrap justify-between">
+          <div className="flex justify-between">
             <h3 className="text-lg font-semi-bold text-gray-700">
               {listing._source.name}
             </h3>
-            <BookmarkIcon className="w-6" />
+            {/* <BookmarkIcon className="w-6 shrink-0" /> */}
           </div>
           <div className="flex flex-col items-start">
             <p className="sr-only">{listing._source.rating} out of 5 stars</p>
@@ -48,7 +48,7 @@ export default function ListingCard(data: ListingProps) {
                 <StarIcon
                   key={rating}
                   className={`    ${
-                    parseFloat(listing._source.rating[0]) > rating
+                    parseFloat(listing._source.rating) > rating
                       ? 'text-yellow-400'
                       : 'text-gray-200'
                   }

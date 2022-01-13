@@ -14,35 +14,28 @@ export default function SearchShopping(props: { query: string }) {
   const { category } = router.query;
   const { query } = props;
   const dispatch = useDispatch();
-  const [products, setProducts] = useState<Array<Product>>([]);
+  const [products, setProducts] = useState<Array<Product>>();
   const [filters, setFilters] = useState<any>({
     category: [`${category}`],
     sort: [],
   });
 
   useEffect(() => {
-    if (!products.length) {
-      console.log('@@@', filters);
-
-      getProducts();
-    }
-  }, [products, filters]);
+    getProducts();
+  }, []);
 
   async function getProducts() {
     const hits: any = await combinedSearchQuery({
       search: query,
-      filters: filters,
+      filters: filters.category ? filters.category[0] : '',
       endpoints: ['products'],
       total: 10,
     });
     setProducts(hits);
-
-    // console.log('REQ', loading);
   }
 
   function handleFilter(data: any) {
     setFilters(data);
-    console.log('FILTS', filters);
     // getProducts();
   }
 
@@ -51,7 +44,7 @@ export default function SearchShopping(props: { query: string }) {
       <ProductFilterSlideOver setFilters={handleFilter} />
 
       <div>
-        {products.length ? (
+        {products ? (
           <>
             <ProductResultsSection
               list={products}

@@ -28,7 +28,6 @@ export default function ListingCardDropdown(data: DispensaryProps) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [listing]);
-  console.log(listing);
 
   return (
     // <Disclosure

@@ -73,7 +73,7 @@ export default function StrainDetail() {
           <p className="text-base text-gray-500 capitalize">
             {strain?._source.type}
           </p>
-          <div className="flex items-center pt-4">
+          {/* <div className="flex items-center pt-4">
             {[0, 1, 2, 3, 4].map(rating => (
               <StarIcon
                 key={rating}
@@ -85,7 +85,7 @@ export default function StrainDetail() {
                 onClick={() => setMyRating(rating + 1)}
               />
             ))}
-          </div>
+          </div> */}
         </section>
         <section aria-labelledby="strains-about" className="pt-4">
           <h2 id="strains-about" className="sr-only">

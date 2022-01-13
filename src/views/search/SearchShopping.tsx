@@ -7,34 +7,51 @@ import ProductResultsGrid from '@/components/products/ProductResultsGrid';
 import ProductResultsSection from '@/components/sections/ProductsResultsSection';
 import SvgEmptyState from '@/public/assets/icons/iconComponents/EmptyState';
 import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/router';
 
 export default function SearchShopping(props: { query: string }) {
+  const router = useRouter();
+  const { category } = router.query;
   const { query } = props;
   const dispatch = useDispatch();
-  const [products, setProducts] = useState<Array<Product>>();
+  const [products, setProducts] = useState<Array<Product>>([]);
+  const [filters, setFilters] = useState<any>({
+    category: [`${category}`],
+    sort: [],
+  });
 
   useEffect(() => {
-    async function getProducts() {
-      const hits: any = await combinedSearchQuery({
-        search: query,
-        endpoints: ['products'],
-        total: 10,
-      });
-      setProducts(hits);
-      dispatch(receiveResults({ search: query, data: hits }));
-    }
+    if (!products.length) {
+      console.log('@@@', filters);
 
-    if (!products) {
       getProducts();
     }
-  }, [products]);
+  }, [products, filters]);
+
+  async function getProducts() {
+    const hits: any = await combinedSearchQuery({
+      search: query,
+      filters: filters,
+      endpoints: ['products'],
+      total: 10,
+    });
+    setProducts(hits);
+
+    // console.log('REQ', loading);
+  }
+
+  function handleFilter(data: any) {
+    setFilters(data);
+    console.log('FILTS', filters);
+    // getProducts();
+  }
 
   return (
     <section className="bg-gray-50">
-      <ProductFilterSlideOver />
+      <ProductFilterSlideOver setFilters={handleFilter} />
 
       <div>
-        {products ? (
+        {products.length ? (
           <>
             <ProductResultsSection
               list={products}

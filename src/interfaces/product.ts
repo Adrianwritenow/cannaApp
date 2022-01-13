@@ -15,7 +15,7 @@ export interface Product {
     review_count: number[] | [0];
     price: number[];
     price_label: string[];
-    source_url: string[];
+    url: string[];
     sponsored: boolean[];
     langcode: string[];
     name: string[];

@@ -29,8 +29,8 @@ export const FooterRoutes = {
     { label: 'Contact Sales', href: '#' },
   ],
   listings: [
-    { label: 'Deals', href: '#' },
-    { label: 'Buisnesses', href: '#' },
+    { label: 'Deals', href: '/search' },
+    { label: 'Businesses', href: '#' },
     { label: 'Strains', href: '#' },
     { label: 'Products', href: '#' },
   ],

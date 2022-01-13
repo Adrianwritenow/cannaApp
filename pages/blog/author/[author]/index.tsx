@@ -22,7 +22,6 @@ export default function BlogByAuthor() {
         }
       });
     }
-    console.log('!!!', articles);
   }, [router, articles]);
 
   return (

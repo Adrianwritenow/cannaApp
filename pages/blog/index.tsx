@@ -49,7 +49,6 @@ export default function Blog() {
     if (!featured) {
       getFeaturedArticles();
     }
-    console.log('!!!', featured);
   }, [articles, featured]);
   return (
     <div>

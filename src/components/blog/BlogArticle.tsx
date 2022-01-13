@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { IconFacebook } from '@/public/assets/icons/iconComponents';
 import Image from 'next/image';
+import ImageWithFallback from '../image/ImageWithFallback';
 import Link from 'next/link';
 import { Post } from '@/interfaces/post';
 import SocialShare from '@/components/share/SocialShare';
@@ -58,8 +59,12 @@ export default function BlogArticle({ post }: { post: Post }) {
             </div>
           </div>
           <div className="relative flex justify-center mt-4">
-            <Image
-              src={post._source.image_url[0]}
+            <ImageWithFallback
+              src={`${process.env.API_URL}${
+                post._source.image_url[0].includes('image_missing')
+                  ? '#'
+                  : post._source.image_url[0]
+              }`}
               layout="intrinsic"
               height={1000}
               width={1000}

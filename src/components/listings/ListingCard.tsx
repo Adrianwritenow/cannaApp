@@ -19,7 +19,11 @@ export default function ListingCard(data: ListingProps) {
       <div className="w-full focus:outline-none">
         <div className=" w-full h-36 relative">
           <ImageWithFallback
-            src={listing._source.image}
+            src={`${process.env.API_URL}${
+              listing._source.url[0].includes('image_missing')
+                ? '#'
+                : listing._source.url[0]
+            }`}
             alt={listing._source.name}
             layout="fill"
             objectFit={'cover'}

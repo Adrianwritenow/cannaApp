@@ -230,12 +230,16 @@ export default function Home() {
           ))}
         </div>
         <div className="px-4 pt-2">
-          <button
-            className="py-4 w-full uppercase text-green-500 text-xs font-semibold border-t border-gray-200 tracking-widest"
-            onClick={() => {}}
+          <Link
+            href={{ pathname: '/search', query: { view: 'deals' } }}
+            passHref
           >
-            <span>See more</span>
-          </button>
+            <a>
+              <button className="py-4 w-full uppercase text-green-500 text-xs font-semibold border-t border-gray-200 tracking-widest">
+                <span>See more</span>
+              </button>
+            </a>
+          </Link>
         </div>
       </section>
 
@@ -300,6 +304,7 @@ export default function Home() {
         list={flower as Product[]}
         sponsored={false}
         label={`Shop Flower near ${location.city}`}
+        link={'/search?category=Flower&view=shopping'}
       />
 
       {/* News Section */}

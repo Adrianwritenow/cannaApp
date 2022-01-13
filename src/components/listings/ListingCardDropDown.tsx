@@ -28,6 +28,7 @@ export default function ListingCardDropdown(data: DispensaryProps) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [listing]);
+  console.log(listing);
 
   return (
     // <Disclosure
@@ -43,9 +44,11 @@ export default function ListingCardDropdown(data: DispensaryProps) {
         <Link href={`/business/${encodeURIComponent(listing._id)}`} passHref>
           <a>
             <ImageWithFallback
-              src={
-                listing._source?.image ? listing._source?.image[0] : 'undefined'
-              }
+              src={`${process.env.API_URL}${
+                listing._source.url[0].includes('image_missing')
+                  ? '#'
+                  : listing._source.url[0]
+              }`}
               alt={listing._source?.name}
               layout="fill"
               objectFit={'cover'}

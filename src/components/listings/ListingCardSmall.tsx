@@ -25,9 +25,11 @@ export default function ListingCardSmall(props: DispensaryProps) {
         <Link href={`/business/${encodeURIComponent(listing._id)}`} passHref>
           <a>
             <ImageWithFallback
-              src={
-                listing._source.image ? listing._source.image[0] : 'undeined'
-              }
+              src={`${process.env.API_URL}${
+                listing._source.url[0].includes('image_missing')
+                  ? '#'
+                  : listing._source.url[0]
+              }`}
               alt={listing._source.name[0]}
               layout="fill"
               objectFit={'cover'}

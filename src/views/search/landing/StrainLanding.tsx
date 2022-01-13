@@ -128,7 +128,10 @@ export default function StrainLanding(props: { setStrains: Function }) {
                 <div className="w-min">
                   <div className="grid grid-flow-col auto-cols-max grid-rows-4 w-full gap-1">
                     {popular.map((strain: Strain, index) => (
-                      <div className="w-max" key={`${strain}-${index}`}>
+                      <div
+                        className="w-max relative"
+                        key={`${strain}-${index}`}
+                      >
                         <StrainCardSmall strain={strain} />
                       </div>
                     ))}

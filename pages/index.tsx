@@ -316,9 +316,13 @@ export default function Home() {
             </div>
           ))}
           <div className="px-4 pt-2">
-            <button className="py-4 w-full uppercase text-gray-700 text-xs  text-green-500 font-bold border-t border-gray-200 tracking-widest">
-              See more Articles
-            </button>
+            <Link href="/blog" passHref>
+              <a>
+                <button className="py-4 w-full uppercase text-gray-700 text-xs  text-green-500 font-bold border-t border-gray-200 tracking-widest">
+                  See more Articles
+                </button>
+              </a>
+            </Link>
           </div>
         </section>
       )}
@@ -378,12 +382,16 @@ export default function Home() {
           People are looking for businesses just like yours. Claim and manage
           your listing on Cannapages and make it easier for people to find you.
         </p>
-        <button
-          className="p-4 rounded-md bg-green-100 w-max  text-green-600 text-sm font-semibold border-gray-200"
-          onClick={() => {}}
-        >
-          <span>Claim your Business</span>
-        </button>
+        <Link href="/business/claim" passHref>
+          <a>
+            <button
+              className="p-4 rounded-md bg-green-100 w-max  text-green-600 text-sm font-semibold border-gray-200"
+              onClick={() => {}}
+            >
+              <span>Claim your Business</span>
+            </button>
+          </a>
+        </Link>
       </section>
     </div>
   );

@@ -1,8 +1,9 @@
-import React from 'react';
+import { LocationMarkerIcon, PlusCircleIcon } from '@heroicons/react/outline';
+
 import Autocomplete from 'react-autocomplete';
 import { AutocompleteItem } from '@/interfaces/autocomplete';
+import React from 'react';
 import { SearchIcon } from '@heroicons/react/solid';
-import { PlusCircleIcon, LocationMarkerIcon } from '@heroicons/react/outline';
 import styles from './AutoCompleteInput.module.scss';
 
 interface IProps extends React.HTMLAttributes<HTMLDivElement> {

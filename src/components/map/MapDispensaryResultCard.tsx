@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { StarIcon } from '@heroicons/react/solid';
+
 import Image from 'next/image';
+import ImageWithFallback from '../image/ImageWithFallback';
 import Link from 'next/link';
 import OpenIndicator from '@/helpers/OpenStatus';
+import { StarIcon } from '@heroicons/react/solid';
 import getDistanceFrom from '@/helpers/getDistanceFrom';
 
 export function MapResultCard({ listing, userCoords }: any) {
@@ -29,9 +31,13 @@ export function MapResultCard({ listing, userCoords }: any) {
     <div className="group relative bg-white rounded-lg h-full ">
       <div>
         <div className="h-28 relative rounded-t-lg overflow-hidden">
-          <Image
+          <ImageWithFallback
             objectFit="cover"
-            src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1674&q=80"
+            src={`${process.env.API_URL}${
+              listing._source.url[0].includes('image_missing')
+                ? '#'
+                : listing._source.url[0]
+            }`}
             alt={`listing ${listing._id}`}
             layout="fill"
           />
@@ -106,7 +112,7 @@ export function MapResultCard({ listing, userCoords }: any) {
             {distanceFrom}
           </p>
           {/* <p className="text-sm text-gray-500 font-normal"> */}
-            <OpenIndicator dispensary={listing} />
+          <OpenIndicator dispensary={listing} />
           {/* </p> */}
         </div>
       </div>

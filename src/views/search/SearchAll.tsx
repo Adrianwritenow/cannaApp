@@ -8,6 +8,7 @@ import RelatedStrainsSection from '../../components/sections/RelatedStrainsSecti
 import { SearchState } from '@/interfaces/searchState';
 import SvgEmptyState from '@/public/assets/icons/iconComponents/EmptyState';
 import { combinedSearchQuery } from '@/actions/search';
+import { useAxios } from '@/hooks/useAxios';
 
 export default function SearchAll(props: {
   query: string;
@@ -18,6 +19,7 @@ export default function SearchAll(props: {
 }) {
   const { query, userCoords } = props;
   const [results, setResults] = useState<Array<any>>();
+  const [dispatchAxios, { loading, error, success }] = useAxios();
   const [lists, setLists] = useState<SearchState>();
 
   useEffect(() => {
@@ -61,7 +63,6 @@ export default function SearchAll(props: {
         setLists(searchlists);
       });
     }
-    console.log('lists', lists);
   }, [results, lists]);
 
   return (

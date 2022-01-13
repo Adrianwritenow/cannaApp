@@ -30,7 +30,7 @@ export interface Dispensary {
     coordinates: string[];
     rating: string[];
     reviews_count: number[] | [0];
-    source_url: string[];
+    url: string[];
     sponsored: boolean[];
     langcode: string[];
     time_zone: string[];

@@ -13,6 +13,7 @@ import FaqSlideOver from '@/views/slideOver/FaqSlideOver';
 import FlowerProduct from '../../../../src/views/search/product/FlowerProduct';
 import GeneralProduct from '../../../../src/views/search/product/GeneralProduct';
 import ImageSlider from '../../../../src/components/slider/ImageSlider';
+import ImageWithFallback from '@/components/image/ImageWithFallback';
 import Link from 'next/link';
 import { Product } from '../../../../src/interfaces/product';
 import ProductResultsSection from '../../../../src/components/sections/ProductsResultsSection';
@@ -73,7 +74,19 @@ function ProductDetailXVendor() {
         <div className="">
           {/* Image gallery */}
 
-          <ImageSlider images={[]} />
+          {/* <ImageSlider images={[]} /> */}
+          <div className="relative w-full pb-full">
+            <ImageWithFallback
+              src={`${process.env.API_URL}${
+                product._source.url[0].includes('image_missing')
+                  ? '#'
+                  : product._source.url[0]
+              }`}
+              alt={product._source?.name[0]}
+              layout="fill"
+              objectFit={'cover'}
+            />
+          </div>
 
           {/* Product info */}
 

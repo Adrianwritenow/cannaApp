@@ -1,6 +1,5 @@
 import { Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
-import { combinedSearchQuery, receiveResults } from '@/actions/search';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { AdjustmentsIcon } from '@heroicons/react/solid';
@@ -10,9 +9,13 @@ import FilterProductMenu from '@/components/filter/FilterProductMenu';
 import { Filters } from '../../../helpers/filters';
 import { RootState } from '@/reducers';
 import { SearchHits } from '@/interfaces/searchHits';
+import { receiveResults } from '@/actions/search';
 import { useRouter } from 'next/router';
 
-export default function ProductFilterSlideOver() {
+export default function ProductFilterSlideOver(props: {
+  setFilters: Function;
+}) {
+  const { setFilters } = props;
   const router = useRouter();
   const { type, category } = router.query;
   const { query } = useSelector((root: RootState) => root.search);
@@ -90,21 +93,11 @@ export default function ProductFilterSlideOver() {
         ...prevState,
         filters,
       }));
+      setFilters(savedValues.filters);
     }
 
     // update sort
     setSortPricing(savedValues.sort);
-
-    async function getSearchItems() {
-      const hits = await combinedSearchQuery({
-        search: query,
-        filters: savedValues.filters,
-      });
-
-      dispatch(receiveResults({ search: query, data: hits }));
-    }
-
-    getSearchItems();
   }, [savedValues]);
 
   return (

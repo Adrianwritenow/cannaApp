@@ -1,6 +1,7 @@
 import { AxiosError, AxiosResponse } from 'axios';
 
 import { SearchHits } from '@/interfaces/searchHits';
+import { useState } from 'react';
 
 var axios = require('axios');
 const SEARCH_URL = process.env.SEARCH_URL;
@@ -22,6 +23,7 @@ export function combinedSearchQuery(searchProps: {
   endpoints?: string[];
 }) {
   const { search, coords, distance, filters, endpoints, total } = searchProps;
+  // const [loading, setLoading] = useState(true);
   const spatialQuery =
     coords && distance
       ? bodybuilder()
@@ -62,6 +64,8 @@ export function combinedSearchQuery(searchProps: {
 
   const body = query.build();
 
+  console.log('BODY', body);
+
   let apis: any[] = [];
   let data: any[] = [];
 
@@ -89,6 +93,7 @@ export function combinedSearchQuery(searchProps: {
           let flatData = [].concat.apply([], values);
 
           flatData.sort((a: any, b: any) => (a._score < b._score ? 1 : -1));
+          // setLoading(false);
 
           return flatData;
         })
@@ -99,6 +104,7 @@ export function combinedSearchQuery(searchProps: {
     }
     return data;
   }
+  return data;
 }
 
 export function getDocument(id: string | string[] | undefined, api: string) {

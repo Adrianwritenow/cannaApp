@@ -10,6 +10,7 @@ import AboutSlideOver from '../../../src/components/products/AboutSlideOver';
 import DropdownFilter from '../../../src/components/forms/fields/DropdownFilter';
 import FaqSlideOver from '../../../src/views/slideOver/FaqSlideOver';
 import ImageSlider from '../../../src/components/slider/ImageSlider';
+import ImageWithFallback from '@/components/image/ImageWithFallback';
 import { Product } from '../../../src/interfaces/product';
 import ProductResultsSection from '../../../src/components/sections/ProductsResultsSection';
 import ProductReviewsSlideOver from '@/views/slideOver/product/ProductReviewSlideOver';
@@ -66,7 +67,19 @@ export default function ProductDetail() {
       {product && (
         <div className="">
           {/* Image gallery */}
-          <ImageSlider images={[]} />
+          {/* <ImageSlider images={[]} /> */}
+          <div className="relative w-full pb-full">
+            <ImageWithFallback
+              src={`${process.env.API_URL}${
+                product._source.url[0].includes('image_missing')
+                  ? '#'
+                  : product._source.url[0]
+              }`}
+              alt={product._source?.name[0]}
+              layout="fill"
+              objectFit={'cover'}
+            />
+          </div>
 
           {/* Product info */}
           <div className="mt-4 px-4 space-y-4">

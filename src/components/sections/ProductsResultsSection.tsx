@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Coupon } from '../../interfaces/coupon';
 import CouponCard from '../coupons/CouponCard';
 import { InformationCircleIcon } from '@heroicons/react/outline';
+import Link from 'next/link';
 import { Product } from '@/interfaces/product';
 import ProductCard from '../products/ProductCard';
 
@@ -15,6 +16,7 @@ interface Results {
   hideButton?: boolean;
   type?: string;
   deal?: string;
+  link?: string;
 }
 
 export default function ProductResultsSection(results: Results) {
@@ -25,6 +27,7 @@ export default function ProductResultsSection(results: Results) {
     buttonLabel,
     stateFunction,
     type,
+    link,
     deal,
     hideButton,
   } = results;
@@ -75,16 +78,33 @@ export default function ProductResultsSection(results: Results) {
         ''
       ) : (
         <div className={'px-4'}>
-          <button
-            className="py-4 w-full uppercase text-green-500 text-xs font-semibold border-t border-gray-200 tracking-widest"
-            onClick={() => {
-              if (stateFunction) {
-                stateFunction(true);
-              }
-            }}
-          >
-            {buttonLabel ? buttonLabel : <span>See more</span>}
-          </button>
+          {link ? (
+            <Link href={link} passHref>
+              <a>
+                <button
+                  className="py-4 w-full uppercase text-green-500 text-xs font-semibold border-t border-gray-200 tracking-widest"
+                  onClick={() => {
+                    if (stateFunction) {
+                      stateFunction(true);
+                    }
+                  }}
+                >
+                  {buttonLabel ? buttonLabel : <span>See more</span>}
+                </button>
+              </a>
+            </Link>
+          ) : (
+            <button
+              className="py-4 w-full uppercase text-green-500 text-xs font-semibold border-t border-gray-200 tracking-widest"
+              onClick={() => {
+                if (stateFunction) {
+                  stateFunction(true);
+                }
+              }}
+            >
+              {buttonLabel ? buttonLabel : <span>See more</span>}
+            </button>
+          )}
         </div>
       )}
     </section>

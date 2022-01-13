@@ -6,7 +6,7 @@ export interface Strain {
     created: number[];
     description: string[];
     image: number[];
-    source_url: string[];
+    url: string[];
     langcode: string[];
     featured: boolean[];
     top_rated_effects: string[];

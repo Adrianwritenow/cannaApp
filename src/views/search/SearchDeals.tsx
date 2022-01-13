@@ -9,7 +9,7 @@ import ProductResultsSection from '../../components/sections/ProductsResultsSect
 export default function SearchDeals() {
   return (
     <div className="bg-gray-50">
-      <ProductFilterSlideOver />
+      <ProductFilterSlideOver setFilters={() => {}} />
       <div>
         <h3 className="p-4 text-lg font-semibold text-black">Featured Deals</h3>
 

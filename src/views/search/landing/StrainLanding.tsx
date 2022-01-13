@@ -46,7 +46,6 @@ export default function StrainLanding(props: { setStrains: Function }) {
     if (!popular) {
       getPopularItems('strains');
     }
-    console.log('FEAT', featured);
   }, [featured, popular, setFeatured]);
 
   async function handleBrowse(field: string, value: string) {

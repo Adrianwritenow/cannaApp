@@ -1,11 +1,13 @@
 import * as Yup from 'yup';
 import { Field, Formik } from 'formik';
 import { useSelector } from 'react-redux';
+import { useState } from 'react';
 
 import { AutoCompleteInput } from '@/components/forms/fields/AutoCompleteInput';
 import { ClaimState } from '@/interfaces/claim';
 import ErrorsDisplay from '@/components/error/ErrorsDisplay';
-import { getBusinessAutocomplete } from '@/actions/business';
+import { getClaimBusiness, getBusinessAutocomplete } from '@/actions/business';
+import { IAxiosReturn } from '@/interface/axios';
 import { RootState } from '@/reducers';
 import { useAxios } from '@/hooks/useAxios';
 
@@ -16,8 +18,13 @@ export function BusinessSearchForm({
   state: ClaimState;
   submitChildForm: (key: string, value: any) => void;
 }) {
+  const [businessId, setBusinessId] = useState<number>(0);
   const { businesses } = useSelector((root: RootState) => root.autocomplete);
   const [dispatchAutocomplete] = useAxios();
+  const [dispatchBusiness] = useAxios();
+  const initialValues = {
+    business: state.business.label,
+  };
 
   const schema = Yup.object().shape({
     business: Yup.string().required('Business name is required'),
@@ -28,16 +35,31 @@ export function BusinessSearchForm({
   }
 
   function handleSubmit(values: any) {
-    // @TODO: We might need the business ID eventually. The autocomplete item
-    // will need to pass that back here, probably via a passed in prop method
-    // that leverages useState from this component.
-    submitChildForm('business', values.business);
+    if (!businessId) {
+      // TODO: handle error.
+      return;
+    }
+
+    // Load business and then proceed to the next step.
+    dispatchBusiness(getClaimBusiness(businessId)).then(
+      (status: IAxiosReturn) => {
+        if (!status.success) {
+          // @TODO: Handle error.
+          return;
+        }
+
+        submitChildForm('business', {
+          id: businessId,
+          name: values.business,
+        });
+      }
+    );
   }
 
   return (
     <Formik
       validationSchema={schema}
-      initialValues={state}
+      initialValues={initialValues}
       onSubmit={handleSubmit}
       validateOnChange={false}
       validateOnBlur={true}
@@ -68,6 +90,7 @@ export function BusinessSearchForm({
                 options={businesses}
                 placeholder="Your Business Name"
                 onRequestOptions={handleBusinessAutocomplete}
+                onHandleSelect={setBusinessId}
                 component={AutoCompleteInput}
               />
             </div>

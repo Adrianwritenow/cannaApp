@@ -17,7 +17,7 @@ export function AddressForm({
     city: Yup.string().required('City is required'),
     state: Yup.string().required('State is required'),
     zip: Yup.string().required('Zip is required'),
-    country: Yup.string().required('Address line one is required'),
+    country: Yup.string().required('Country one is required'),
   });
 
   function handleSubmit(values: any) {

@@ -10,10 +10,18 @@ interface IProps extends React.HTMLAttributes<HTMLDivElement> {
   form: any;
   options: Array<AutocompleteItem>;
   onRequestOptions(value: any): any;
+  onHandleSelect(value: number): any;
 }
 
 export function AutoCompleteInput(props: IProps) {
-  const { form, field, options, onRequestOptions, placeholder } = props;
+  const {
+    form,
+    field,
+    options,
+    onHandleSelect,
+    onRequestOptions,
+    placeholder,
+  } = props;
   const { name, value } = field;
   const { setFieldValue } = form;
   const inputClasses =
@@ -26,9 +34,8 @@ export function AutoCompleteInput(props: IProps) {
 
   function handleOnSelect(event: any, value: AutocompleteItem) {
     setFieldValue(name!, value.label);
+    onHandleSelect(value.id);
   }
-
-  const lastItem: AutocompleteItem | undefined = options.at(-1);
 
   return (
     <div className={styles.root}>
@@ -60,14 +67,6 @@ export function AutoCompleteInput(props: IProps) {
               className={`${styles.icon} ${styles.iconBold} text-gray-500`}
             />
             {item.label}
-            {lastItem && lastItem.id === item.id && (
-              <div className={styles.subItem}>
-                <PlusCircleIcon
-                  className={`${styles.icon} ${styles.iconBold} text-gray-500`}
-                />
-                Add New Business
-              </div>
-            )}
           </div>
         )}
       />

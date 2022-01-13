@@ -4,6 +4,7 @@ import { Field, Formik } from 'formik';
 import { ClaimState } from '@/interfaces/claim';
 import ErrorsDisplay from '@/components/error/ErrorsDisplay';
 import { InputField } from '@/components/forms/fields/InputField';
+import { website } from '@/helpers/validation';
 
 export function WebsiteForm({
   state,
@@ -13,7 +14,7 @@ export function WebsiteForm({
   submitChildForm: (key: string, value: any) => void;
 }) {
   const schema = Yup.object().shape({
-    website: Yup.string(),
+    website: Yup.string().matches(website, 'Website URL is not valid'),
   });
 
   function handleSubmit(values: any) {
@@ -64,12 +65,20 @@ export function WebsiteForm({
               />
             )}
 
-            <button
-              type="submit"
-              className="bg-green text-white hover:bg-green-600 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2"
-            >
-              Next
-            </button>
+            <div className="flex">
+              <button
+                type="submit"
+                className="bg-green text-white hover:bg-green-600 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2"
+              >
+                Next
+              </button>
+              <button
+                type="submit"
+                className="bg-white text-green flex justify-center py-2 px-4 border border-transparent rounded-md text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2"
+              >
+                I don’t have a website
+              </button>
+            </div>
           </form>
         );
       }}

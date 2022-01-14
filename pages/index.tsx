@@ -93,7 +93,6 @@ export default function Home() {
 
   async function getDeals(data: Coupon[]) {
     const ids = data.map(index => index._source.dispensary[0]);
-    console.log('IDS', ids);
 
     const hits: SearchHits = await browseBy(
       'id',

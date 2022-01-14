@@ -23,7 +23,7 @@ export default function BusinessProductCard(data: ProductProps) {
               {product._source.name[0]}
             </h3>
             <p className=" text-base font-semibold text-gray-700">
-              {product._source.price[0]}
+              ${product._source.price[0]}
             </p>
 
             <div className="flex flex-col items-start">

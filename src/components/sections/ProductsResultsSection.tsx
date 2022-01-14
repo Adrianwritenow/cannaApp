@@ -55,7 +55,7 @@ export default function ProductResultsSection(results: Results) {
             if (type === 'COUPON') {
               return (
                 <div>
-                  <CouponCard coupon={data as Coupon} key={`pc-${index}`} />
+                  <CouponCard coupon={data as Coupon} key={`cc-${index}`} />
                 </div>
               );
             } else if (type === 'DEAL') {
@@ -68,7 +68,9 @@ export default function ProductResultsSection(results: Results) {
               );
             } else {
               return (
-                <ProductCard product={data as Product} key={`pc-${index}`} />
+                <div className="w-36" key={`pc-${index}`}>
+                  <ProductCard product={data as Product} />
+                </div>
               );
             }
           })}

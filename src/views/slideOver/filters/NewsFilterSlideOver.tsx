@@ -6,20 +6,21 @@ import DropdownFilter from '../../../components/forms/fields/DropdownFilter';
 import FilterNewsMenu from '@/components/filter/FilterNewsMenu';
 import { Filters } from '@/helpers/filters';
 
-export default function NewsFilterSlideOver() {
+export default function NewsFilterSlideOver(props: { handleFilter: Function }) {
+  const { handleFilter } = props;
   const [open, setOpen] = useState(false);
   const [savedValues, setSavedValues]: any = useState({
-    categories: [],
+    description: [],
     filters: {},
-    sort: '',
+    sort: 'Relevance',
   });
   const [filterList, setFilterList]: any = useState([]);
   const [sort, setSort] = useState(savedValues.sort);
 
   const initialValues: any = {
-    categories: [],
+    description: [],
     filters: {},
-    sort: '',
+    sort: 'Relevance',
   };
 
   // Remove filters from list to be rendered and update the form state values
@@ -42,13 +43,14 @@ export default function NewsFilterSlideOver() {
 
     setFilterList(listCopy);
     setSavedValues(stateCopy);
+    handleFilter(stateCopy.filters);
   }
 
   useEffect(() => {
     // Force values to array in order to check if they exist in case of multiple values
     const filters: any = {
       sort: [savedValues.sort],
-      categories: savedValues.categories,
+      description: savedValues.description,
     };
 
     const filter_data: string[] = Object.keys(filters).reduce(function (
@@ -78,6 +80,7 @@ export default function NewsFilterSlideOver() {
         ...prevState,
         filters,
       }));
+      handleFilter(filters);
     }
     setSort(savedValues.sort);
   }, [savedValues]);

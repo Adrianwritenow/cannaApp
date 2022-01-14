@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { combinedSearchQuery, receiveResults } from '@/actions/search';
 
 import { Dispensary } from '@/interfaces/dispensary';
 import ListingCardDropdown from '../../components/listings/ListingCardDropDown';
 import ListingSection from '../../components/sections/ListingSection';
 import ProductFilterSlideOver from '../slideOver/filters/ProductFilterSlideOver';
 import SvgEmptyState from '@/public/assets/icons/iconComponents/EmptyState';
+import { combinedSearchQuery } from '@/actions/search';
 import { useDispatch } from 'react-redux';
 
 export default function SearchStrain(props: {
@@ -16,24 +16,28 @@ export default function SearchStrain(props: {
   };
 }) {
   const { query, userCoords } = props;
-  const dispatch = useDispatch();
+
   const [dispenaries, setDispenaries] = useState<Array<Dispensary>>();
+  const [update, setUpdate] = useState(true);
+
+  const [currentQuery, setCurrentQuery] = useState('');
 
   useEffect(() => {
-    async function getProducts() {
-      const hits: any = await combinedSearchQuery({
-        search: query,
-        endpoints: ['dispenaries'],
-        total: 10,
-      });
-      setDispenaries(hits);
-      dispatch(receiveResults({ search: query, data: hits }));
-    }
-
-    if (!dispenaries) {
+    if (update || currentQuery !== query) {
       getProducts();
     }
-  }, [dispenaries]);
+  }, [update, query]);
+
+  async function getProducts() {
+    const hits: any = await combinedSearchQuery({
+      search: query,
+      endpoints: ['dispenaries'],
+      total: 10,
+    });
+    setDispenaries(hits);
+    setUpdate(false);
+    setCurrentQuery(query);
+  }
 
   return (
     <div className="bg-gray-50">

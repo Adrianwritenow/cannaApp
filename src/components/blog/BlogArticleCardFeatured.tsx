@@ -6,7 +6,6 @@ import React from 'react';
 import moment from 'moment';
 
 function BlogArticleFeatured({ post }: { post: Post }) {
-  console.log(post);
   return (
     <div key={post._source.title[0]} className="flex w-full justify-center">
       <div className="align   w-full self-center py-4">

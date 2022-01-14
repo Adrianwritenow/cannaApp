@@ -84,8 +84,8 @@ export default function FilterNewsMenu(props: FilterMenuProps) {
                         <FilterGroup
                           filters={Filters.newsCategories.list}
                           label={'Categories'}
-                          id={'categories'}
-                          values={values.filters.categories}
+                          id={'description'}
+                          values={values.filters.description}
                         />
                       </div>
                     </div>

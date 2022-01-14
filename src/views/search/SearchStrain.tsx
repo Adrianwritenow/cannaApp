@@ -8,71 +8,84 @@ import { Strain } from '@/interfaces/strain';
 import StrainFilterSlideOver from '../slideOver/filters/StrainFilterSlideOver';
 import StrainLanding from './landing/StrainLanding';
 import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/router';
 
 export default function SearchStrain(props: {
   query: string;
   products: Product[];
 }) {
+  const router = useRouter();
+
   const { query, products } = props;
+  const { category } = router.query;
   const [sort, setSort] = useState('relevance');
+  const [currentQuery, setCurrentQuery] = useState('');
+
   const [view, setView] = useState('list');
-  const [results, setResults]: any = useState([1, 2, 3]);
   const dispatch = useDispatch();
-  const [strains, setStrains] = useState<Array<Strain>>();
+  const [update, setUpdate] = useState(true);
+  const [filters, setFilters] = useState<any>({
+    category: [`${category ? category : ''}`],
+    sort: [],
+  });
+  const [strains, setStrains] = useState<Array<Strain>>([]);
+
   const sortState = {
     value: sort,
     update: setSort,
   };
+
   const viewState = {
     value: view,
     update: setView,
   };
 
   useEffect(() => {
-    async function getStrains() {
-      const hits: any = await combinedSearchQuery({
-        search: query,
-        endpoints: ['strains'],
-        total: 10,
-      });
-      setStrains(hits);
-      dispatch(receiveResults({ search: query, data: hits }));
-    }
-
-    if (!strains) {
+    if (update || currentQuery !== query) {
       getStrains();
     }
-  }, [strains]);
+  }, [update, query]);
 
-  useEffect(() => {}, [strains]);
+  async function getStrains() {
+    const hits: any = await combinedSearchQuery({
+      search: query,
+      filters: filters,
+      endpoints: ['strains'],
+      total: 10,
+    });
+    setStrains(hits);
+    setUpdate(false);
+    setCurrentQuery(query);
+  }
+
+  function handleFilter(data: any) {
+    setFilters(data);
+    setUpdate(true);
+  }
 
   return (
     <div className="bg-gray-50">
       {/* Results list x Landing Page */}
 
-      {strains && (
+      {/* Filter list */}
+      {strains.length ? (
         <>
-          {/* Filter list */}
-          {strains.length ? (
-            <>
-              <StrainFilterSlideOver />
+          <StrainFilterSlideOver handleFilter={handleFilter} />
 
-              {products.length > 0 ? (
-                <ProductResultsSection
-                  list={products}
-                  sponsored={true}
-                  label={`Shop "${query}"`}
-                />
-              ) : (
-                ''
-              )}
-              <ResultsStrain view={view} query={query} strains={strains} />
-            </>
+          {products.length > 0 ? (
+            <ProductResultsSection
+              list={products}
+              sponsored={true}
+              label={`Shop "${query}"`}
+            />
           ) : (
-            <>
-              <StrainLanding setStrains={setStrains} />
-            </>
+            ''
           )}
+          <ResultsStrain view={view} query={query} strains={strains} />
+        </>
+      ) : (
+        <>
+          <StrainLanding setStrains={setStrains} />
         </>
       )}
     </div>

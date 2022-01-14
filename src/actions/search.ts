@@ -18,11 +18,13 @@ export function combinedSearchQuery(searchProps: {
   search: string;
   coords?: any;
   distance?: string;
-  filters?: { sort: string; category: string };
+  filters?: any;
   total?: number;
   endpoints?: string[];
 }) {
   const { search, coords, distance, filters, endpoints, total } = searchProps;
+  console.log('???', filters);
+
   // const [loading, setLoading] = useState(true);
   const spatialQuery =
     coords && distance
@@ -40,31 +42,39 @@ export function combinedSearchQuery(searchProps: {
     .query('query_string', 'query', search)
     .size(total ? total : 3);
 
-  if (filters?.category) {
-    if (filters?.category[0]) {
-      query.filter('match', 'category', filters.category[0]);
-    }
-  }
-
-  if (filters?.sort) {
-    if (filters?.sort[0]) {
-      const sort = filters?.sort[0];
-      switch (sort) {
-        case 'Price: Hight to Low':
-          query.sort('price', 'desc');
-          break;
-        case 'Price: Low to High':
-          query.sort('price', 'asc');
-          break;
-        default:
-          break;
+  if (filters) {
+    Object.keys(filters).map(function (key, index) {
+      if (key === 'category') {
+        if (filters?.category[0]) {
+          query.filter('match', 'category', filters.category[0]);
+        }
       }
-    }
+      if (key === 'sort') {
+        if (filters?.sort[0]) {
+          const sort = filters?.sort[0];
+          switch (sort) {
+            case 'Price: Hight to Low':
+              query.sort('price', 'desc');
+              break;
+            case 'Price: Low to High':
+              query.sort('price', 'asc');
+              break;
+            case 'Rating':
+              query.sort('rating', 'desc');
+              break;
+            default:
+              break;
+          }
+        }
+      }
+
+      if (key !== 'category' && key !== 'sort' && filters[key][0]) {
+        query.filter('match', `${key}`, filters[key][0]);
+      }
+    });
   }
 
   const body = query.build();
-
-  console.log('BODY', body);
 
   let apis: any[] = [];
   let data: any[] = [];

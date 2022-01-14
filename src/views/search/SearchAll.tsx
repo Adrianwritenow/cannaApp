@@ -18,11 +18,19 @@ export default function SearchAll(props: {
   };
 }) {
   const { query, userCoords } = props;
-  const [results, setResults] = useState<Array<any>>();
+  const [results, setResults] = useState<Array<any>>([]);
   const [dispatchAxios, { loading, error, success }] = useAxios();
   const [lists, setLists] = useState<SearchState>();
+  const [currentQuery, setCurrentQuery] = useState('');
+  const [update, setUpdate] = useState(true);
 
   useEffect(() => {
+    if (update || currentQuery !== query) {
+      getResults();
+    }
+  }, [update, query]);
+
+  async function getResults() {
     let searchlists: SearchState = {
       news: [],
       deals: [],
@@ -32,38 +40,33 @@ export default function SearchAll(props: {
       blogs: [],
     };
 
-    async function getResults() {
-      const hits: any = await combinedSearchQuery({
-        search: query,
-        endpoints: ['products', 'dispenaries', 'strains'],
-        total: 10,
-      });
-      setResults(hits);
-    }
+    const hits: any = await combinedSearchQuery({
+      search: query,
+      endpoints: ['products', 'dispenaries', 'strains'],
+      total: 10,
+    });
 
-    if (!results) {
-      getResults();
-    }
-    if (!lists && results) {
-      results.map((result: any, index: number) => {
-        switch (true) {
-          case result._id.includes('strain_entity'):
-            searchlists.strains.push(result);
-            break;
+    hits.map((result: any, index: number) => {
+      // console.log('MAP', result);
+      switch (true) {
+        case result._id.includes('strain_entity'):
+          searchlists.strains.push(result);
+          break;
 
-          case result._id.includes('product_entity'):
-            searchlists.shopping.push(result);
-            break;
+        case result._id.includes('product_entity'):
+          searchlists.shopping.push(result);
+          break;
 
-          case result._id.includes('dispensary_entity'):
-            searchlists.dispensaries.push(result);
-            break;
-        }
+        case result._id.includes('dispensary_entity'):
+          searchlists.dispensaries.push(result);
+          break;
+      }
 
-        setLists(searchlists);
-      });
-    }
-  }, [results, lists]);
+      setLists(searchlists);
+    });
+    setCurrentQuery(query);
+    setUpdate(false);
+  }
 
   return (
     <div className="bg-gray-50">

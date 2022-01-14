@@ -22,6 +22,7 @@ import BusinessReviewSlideOver from '@/views/slideOver/business/BusinessReviewSl
 import BusinessVerificationSlideOver from '@/views/slideOver/business/BusinessVerifiedSlideOver';
 import { Dispensary } from '@/interfaces/dispensary';
 import FaqSlideOver from '../../../src/views/slideOver/FaqSlideOver';
+import ImageWithFallback from '@/components/image/ImageWithFallback';
 import Link from 'next/link';
 import ListingCardDropdown from '../../../src/components/listings/ListingCardDropDown';
 import OpenIndicator from '@/helpers/OpenStatus';
@@ -50,14 +51,12 @@ export default function BusinessDetail() {
   let today = moment.tz(timezone).format('dddd');
 
   useEffect(() => {
-    if (bid && !dispensary) {
-      getDocument(bid, 'dispenaries').then((document: SearchHits) => {
-        if (document) {
-          const result = document.hits.hits[0];
-          setDispensary(result as Dispensary);
-        }
-      });
-    }
+    getDocument(bid, 'dispenaries').then((document: SearchHits) => {
+      if (document) {
+        const result = document.hits.hits[0];
+        setDispensary(result as Dispensary);
+      }
+    });
 
     if (dispensary && lat && lng) {
       const isEmpty = Object.values({ lat, lng }).every(
@@ -106,40 +105,43 @@ export default function BusinessDetail() {
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lat, lng, dispensary, router]);
+  }, [router]);
 
   return (
     <div className="bg-white">
-      <div className="w-full h-64 relative">
-        {/* <Image
-          src={listing.image}
-          layout="fill"
-          objectFit={"cover"}
-          alt={listing.name}
-        /> */}
+      {dispensary && (
+        <div className="w-full h-64 relative">
+          <ImageWithFallback
+            src={`${process.env.API_URL}${
+              dispensary._source.url[0].includes('image_missing')
+                ? '#'
+                : dispensary._source.url[0]
+            }`}
+            alt={dispensary._source?.name}
+            layout="fill"
+            objectFit={'cover'}
+          />
 
-        <div className="absolute w-full relative h-full bg-gray-200 z-0">
-          <Sativa fill="black" opacity={0.2} className="w-full h-full" />
-        </div>
-        <button
-          onClick={() => router.back()}
-          className="bg-white rounded-full shadow-sm absolute w-10 h-10 flex items-center justify-center left-0 top-0 z-30 m-4"
-        >
-          <ArrowLeftIcon className="text-gray-700 w-4" />
-        </button>
-        <div className="absolute flex space-x-6 right-0 top-0 z-30 m-4">
-          {/****** Need saving favorites working ******/}
-          {/* <button
+          <button
+            onClick={() => router.back()}
+            className="bg-white rounded-full shadow-sm absolute w-10 h-10 flex items-center justify-center left-0 top-0 z-30 m-4"
+          >
+            <ArrowLeftIcon className="text-gray-700 w-4" />
+          </button>
+          <div className="absolute flex space-x-6 right-0 top-0 z-30 m-4">
+            {/****** Need saving favorites working ******/}
+            {/* <button
             onClick={() => router.back()}
             className="bg-white rounded-full shadow-sm  w-10 h-10 flex items-center justify-center"
           >
             <BookmarkIcon className="text-gray-700 w-4" />
           </button> */}
-          <div className="bg-white rounded-full shadow-sm  w-10 h-10 flex items-center justify-center">
-            <SocialShare iconStyles="text-gray-700 w-4" />
+            <div className="bg-white rounded-full shadow-sm  w-10 h-10 flex items-center justify-center">
+              <SocialShare iconStyles="text-gray-700 w-4" />
+            </div>
           </div>
         </div>
-      </div>
+      )}
       <div className="p-4 pb-0 shadow-md pb-2">
         <section aria-labelledby="business-heading">
           <h2 id="business-heading" className="sr-only">

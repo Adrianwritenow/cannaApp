@@ -37,20 +37,18 @@ function ProductDetailXVendor() {
   const [currentQuery, setCurrentQuery] = useState('');
 
   useEffect(() => {
-    if (productId) {
-      getDocument(productId, 'products').then(
-        (document: React.SetStateAction<Product | undefined>) => {
-          setProduct(document);
-        }
-      );
-      // Vendor not related to product
+    getDocument(productId, 'products').then(
+      (document: React.SetStateAction<Product | undefined>) => {
+        setProduct(document);
+      }
+    );
+    // Vendor not related to product
 
-      // getDocument(vendorId).then(
-      //   (document: React.SetStateAction<Dispensary | undefined>) => {
-      //     setVendor(document);
-      //   }
-      // );
-    }
+    // getDocument(vendorId).then(
+    //   (document: React.SetStateAction<Dispensary | undefined>) => {
+    //     setVendor(document);
+    //   }
+    // );
 
     let searchListUpdate: any = [];
 
@@ -65,7 +63,7 @@ function ProductDetailXVendor() {
       setSearchLists(searchListUpdate);
     }
     setCurrentQuery(query);
-  }, [router, results, searchList, currentQuery]);
+  }, [router]);
 
   return (
     <div className="max-w-7xl mx-auto bg-white">

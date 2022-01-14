@@ -19,8 +19,6 @@ import StrainCardSmall from '../../../components/strains/StrainCardSmall';
 import SvgHybrid from '../../../../public/assets/icons/iconComponents/Hybrid';
 import SvgIndica from '../../../../public/assets/icons/iconComponents/Indica';
 import SvgSativa from '../../../../public/assets/icons/iconComponents/Sativa';
-import { Terpene } from '../../../interfaces/terpene';
-import { Terpenes } from '../../../helpers/terpenes';
 import { useDispatch } from 'react-redux';
 
 export default function StrainLanding(props: { setStrains: Function }) {

@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import ImageWithFallback from '../image/ImageWithFallback';
 import Link from 'next/link';
-import { Post } from '../../interfaces/post';
+import { Post } from '@/interfaces/post';
 import React from 'react';
 import moment from 'moment';
 

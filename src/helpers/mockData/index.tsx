@@ -12,6 +12,7 @@ export const products: Array<Product> = [
     _score: 6,
     _source: {
       category: ['Dummy'],
+      manufacture: ['Dummy'],
       created: [1556767],
       description: [
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.',
@@ -42,6 +43,8 @@ export const products: Array<Product> = [
     _source: {
       category: ['Dummy'],
       created: [1556767],
+      manufacture: ['Dummy'],
+
       description: [
         'rem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.',
       ],
@@ -70,6 +73,7 @@ export const products: Array<Product> = [
     _score: 6,
     _source: {
       category: ['Dummy'],
+      manufacture: ['Dummy'],
       created: [1556767],
       description: [
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.',

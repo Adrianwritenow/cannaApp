@@ -14,37 +14,43 @@ export default function SearchShopping(props: { query: string }) {
   const { category } = router.query;
   const { query } = props;
   const dispatch = useDispatch();
-  const [products, setProducts] = useState<Array<Product>>();
+  const [products, setProducts] = useState<Array<Product>>([]);
+  const [currentQuery, setCurrentQuery] = useState('');
+  const [update, setUpdate] = useState(true);
   const [filters, setFilters] = useState<any>({
-    category: [`${category}`],
+    category: [`${category ? category : ''}`],
     sort: [],
   });
 
   useEffect(() => {
-    getProducts();
-  }, []);
+    if (update || currentQuery !== query) {
+      getProducts();
+    }
+  }, [update, query]);
 
   async function getProducts() {
     const hits: any = await combinedSearchQuery({
       search: query,
-      filters: filters.category ? filters.category[0] : '',
+      filters: filters,
       endpoints: ['products'],
       total: 10,
     });
     setProducts(hits);
+    setUpdate(false);
+    setCurrentQuery(query);
   }
 
   function handleFilter(data: any) {
     setFilters(data);
-    // getProducts();
+    setUpdate(true);
   }
 
   return (
-    <section className="bg-gray-50">
+    <section className="bg-gray/-50">
       <ProductFilterSlideOver setFilters={handleFilter} />
 
       <div>
-        {products ? (
+        {products.length ? (
           <>
             <ProductResultsSection
               list={products}

@@ -48,38 +48,6 @@ export default function Search() {
       }
     });
 
-    let searchListUpdate: SearchState = {
-      news: [],
-      deals: [],
-      shopping: [],
-      dispensaries: [],
-      strains: [],
-      blogs: [],
-    };
-
-    if (results) {
-      results.map((result: any, index: number) => {
-        switch (true) {
-          case result._id.includes('strain_entity'):
-            searchListUpdate.strains.push(result);
-            break;
-
-          case result._id.includes('product_entity'):
-            searchListUpdate.shopping.push(result);
-            break;
-
-          case result._id.includes('blog_entity'):
-            searchListUpdate.blogs.push(result);
-            break;
-
-          case result._id.includes('dispensary_entity'):
-            searchListUpdate.dispensaries.push(result);
-            break;
-        }
-      });
-    }
-    setSearchLists(searchListUpdate);
-
     setCurrentQuery(query);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [view, results]);
@@ -87,7 +55,12 @@ export default function Search() {
   return (
     <div className="bg-gray-50 ">
       <div className="overflow-visible overflow-scroll border-b border-gray-200 bg-white ">
-        <Tab.Group defaultIndex={view}>
+        <Tab.Group
+          defaultIndex={view}
+          onChange={() => {
+            router.replace({ query: '' });
+          }}
+        >
           <Tab.List className="w-full overflow-visible overflow-x-scroll border-b border-gray-200 flex">
             {tabs.map((tab, index) => (
               <Tab

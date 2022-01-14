@@ -6,10 +6,23 @@ import Image from 'next/image';
 import ImageWithFallback from '../image/ImageWithFallback';
 import Link from 'next/link';
 import { ListingProps } from '../../interfaces/listing';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import getDistanceFrom from '@/helpers/getDistanceFrom';
+import OpenIndicator from '@/helpers/OpenStatus';
 
 export default function ListingCard(data: ListingProps) {
-  const { listing, amenities, classNames, discount } = data;
+  const { listing, classNames, discount, userCoords } = data;
+  const [distanceFrom, setDistanceFrom] = useState('');
+
+  useEffect(() => {
+    if (userCoords) {
+      const distance = getDistanceFrom(userCoords, {
+        lat: listing._source.lat,
+        lon: listing._source.lon,
+      });
+      setDistanceFrom(distance);
+    }
+  }, [userCoords]);
 
   return (
     <div
@@ -18,16 +31,21 @@ export default function ListingCard(data: ListingProps) {
     >
       <div className="w-full focus:outline-none">
         <div className=" w-full h-36 relative">
-          <ImageWithFallback
-            src={`${process.env.API_URL}${
-              listing._source.url[0].includes('image_missing')
-                ? '#'
-                : listing._source.url[0]
-            }`}
-            alt={listing._source.name}
-            layout="fill"
-            objectFit={'cover'}
-          />
+          
+            <Link href={`/business/${encodeURIComponent(listing._id)}` }passHref>
+            <a>
+              <ImageWithFallback
+                src={`${process.env.API_URL}${
+                  listing._source.url[0].includes('image_missing')
+                    ? '#'
+                    : listing._source.url[0]
+                }`}
+                alt={listing._source.name}
+                layout="fill"
+                objectFit={'cover'}
+              />
+            </a>
+          </Link>
           {discount && (
             <div className="absolute bottom-2 bg-blue-500 py-1 pl-2 pr-3 rounded-r-full text-white text-sm font-semibold">
               {discount} OFF
@@ -36,8 +54,10 @@ export default function ListingCard(data: ListingProps) {
         </div>
         <div className="p-2 text-left text-sm w-full rounded-b-lg overflow-hidden border border-gray-200">
           <div className="flex justify-between">
-            <h3 className="text-lg font-semi-bold text-gray-700">
-              {listing._source.name}
+            <h3 className=" font-bold text-base text-gray-700 leading-6">
+              <Link href={`/business/${encodeURIComponent(listing._id)}`}>
+                <a>{listing._source.name}</a>
+              </Link>
             </h3>
             {/* <BookmarkIcon className="w-6 shrink-0" /> */}
           </div>
@@ -67,23 +87,18 @@ export default function ListingCard(data: ListingProps) {
               </div>
             )}
             <p className="text-sm text-gray-500 font-normal">
-              {listing._source._type}
+              Dispensary
               <span className="px-2 text-normal">&#8226;</span>
               {/* Need Distance info */}
               {/* {listing.distance} */}
-              N/A
+              {distanceFrom ? ` ${distanceFrom}` : ''}
             </p>
-            <p className="text-sm text-gray-500 font-normal">
-              <span className="text-normal text-blue-500">Open </span>
-              until
-              {/* Need Cloing time data */}
-              {/* {listing.closeTime} */}
-            </p>
+            <OpenIndicator dispensary={listing} />
 
             {/* Need Amenities */}
-            {/* {amenities && (
+            {/* {listing._source.amenities && (
               <div className="grid grid-flow-col auto-cols-max gap-2">
-                {listing.amenities.map((amenity, index) => (
+                {listing._source.amenities.map((amenity, index) => (
                   <p
                     className="flex flex-wrap items-center text-gray-500"
                     key={`amenity-${index}`}

@@ -81,14 +81,6 @@ export const destinations: Destination[] = [
       lon: 1.421416,
     },
   },
-  {
-    label: 'Kingston',
-    imgSrc: Kingston,
-    coords: {
-      lat: 17.995147,
-      lon: -76.7846006,
-    },
-  },
 
   {
     label: 'Montevideo',
@@ -96,14 +88,6 @@ export const destinations: Destination[] = [
     coords: {
       lat: -34.901112,
       lon: -56.164532,
-    },
-  },
-  {
-    label: 'Nimbin',
-    imgSrc: Nimbin,
-    coords: {
-      lat: -28.5958,
-      lon: 153.223,
     },
   },
 

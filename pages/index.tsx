@@ -3,7 +3,12 @@ import {
   LocationMarkerIcon,
   TagIcon,
 } from '@heroicons/react/solid';
-import { browseBy, combinedSearchQuery, getPopular } from '@/actions/search';
+import {
+  browseBy,
+  combinedSearchQuery,
+  getPopular,
+  receiveResults,
+} from '@/actions/search';
 import { listings, products } from '@/helpers/mockData';
 import { useEffect, useState } from 'react';
 
@@ -27,16 +32,34 @@ import { SearchHits } from '@/interfaces/searchHits';
 import SearchSlideOver from '@/components/forms/fields/SearchSlideOver';
 import { destinations } from '@/helpers/destinations';
 import { publications } from '@/helpers/publications';
-import sample from '@/helpers/mockData/articles.json';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { useRouter } from 'next/router';
 
 export default function Home() {
-  const { lat, lng } = useSelector((root: RootState) => root.location);
+  const { lat, lon } = useSelector((root: RootState) => root.location);
   const location = useSelector((root: RootState) => root.location);
   const [coupons, setCoupons] = useState<Array<Coupon>>();
   const [nearby, setNearby] = useState<Array<Dispensary>>();
   const [flower, setFlower] = useState<Array<Product>>();
   const [blogs, setBlogs] = useState<Array<Post>>();
+  const dispatch = useDispatch();
+  const router = useRouter();
+
+  async function handleDestinationClick(
+    coords: { lat: number; lon: number },
+    city: string
+  ) {
+
+    dispatch(
+      receiveResults({ searchLocation: {
+        coords: {
+          lat: coords.lat,
+          lon: coords.lon,
+          city: city
+        }
+      } })
+    );
+  }
 
   useEffect(() => {
     async function getPopularItems(type: string) {
@@ -59,7 +82,7 @@ export default function Home() {
       const hits: any = await combinedSearchQuery({
         search: location.city,
         endpoints: ['dispenaries'],
-        coords: { lat: location.lat, lon: location.lng },
+        coords: { lat: location.lat, lon: location.lon },
         distance: '10mi',
       });
 
@@ -89,6 +112,7 @@ export default function Home() {
     if (location.city && !nearby) {
       getDispensaryResults();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location, coupons, flower, blogs]);
 
   return (
@@ -262,12 +286,21 @@ export default function Home() {
             <div key={`fd-${index}`}>
               <div className="w-36 flex relative">
                 <div className="w-full h-48 rounded-md overflow-hidden">
-                  <Image
-                    src={location.imgSrc}
-                    alt={location.label}
-                    layout="fill"
-                    objectFit={'cover'}
-                  />
+                  <button
+                    onClick={() =>
+                      handleDestinationClick(
+                        location.coords,
+                        location.label
+                      ).then(() => router.push('/map'))
+                    }
+                  >
+                    <Image
+                      src={location.imgSrc}
+                      alt={location.label}
+                      layout="fill"
+                      objectFit={'cover'}
+                    />
+                  </button>
                 </div>
               </div>
               <p className=" text-center py-2 font-medium text-sm text-gray-700">
@@ -291,10 +324,14 @@ export default function Home() {
         </h2>
 
         {nearby && (
-          <div className="grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-4 pb-4">
+          <div className="grid grid-flow-col auto-cols-max  gap-2 overflow-scroll pl-4 pb-4">
             {nearby.map((listing, index) => (
               <div className="w-64" key={`lc-${listing._id}-${index}`}>
-                <ListingCard listing={listing} amenities={false} />
+                <ListingCard
+                  listing={listing}
+                  amenities={false}
+                  userCoords={{ lat: lat, lon: lon }}
+                />
               </div>
             ))}
           </div>

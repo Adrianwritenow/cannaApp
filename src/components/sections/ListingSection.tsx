@@ -3,6 +3,8 @@ import { InformationCircleIcon } from '@heroicons/react/outline';
 import ListingCardDropdown from '../listings/ListingCardDropDown';
 import ListingCardSmall from '../listings/ListingCardSmall';
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/reducers';
 
 interface Listings {
   listings: Array<Dispensary>;
@@ -10,11 +12,16 @@ interface Listings {
   query?: string;
   userCoords?: {
     lat: number;
-    lng: number;
+    lon: number;
   };
 }
 export default function ListingSection(results: Listings) {
   const { listings, sponsored, query, userCoords } = results;
+  const location = useSelector((root: RootState) => root.location);
+
+    const { searchLocation } = useSelector(
+      (root: RootState) => root.search
+    );
   return (
     <section id="listing-section">
       {sponsored ? (
@@ -26,7 +33,7 @@ export default function ListingSection(results: Listings) {
         </div>
       ) : (
         <h2 className="text-xl text-gray-700 font-semibold p-4 pb-0">
-          {`${listings.length} Results for "${query}"`}
+          {`${listings.length} Results for "${query ? query : location.city}"`}
         </h2>
       )}
 

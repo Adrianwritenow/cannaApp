@@ -59,6 +59,9 @@ export default function OpenIndicator(props: any) {
         case 'pst':
           setDispensaryTimezone('America/Los_Angeles');
           break;
+        case 'cet':
+          setDispensaryTimezone('Europe/Berlin');
+          break;
       }
     } else if (dispensary && dispensaryTimezone) {
       const todayKey = getSourceValue(
@@ -107,7 +110,7 @@ export default function OpenIndicator(props: any) {
         setWillOpenToday(true);
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispensary, dispensaryTimezone]);
 
   if (openTime === '24 Hours') {
@@ -131,13 +134,13 @@ export default function OpenIndicator(props: any) {
         </p>
       ) : (
         <>
-          <p className="text-gray-500">{!isOpen && willOpenToday ? (
-            `Opens ${openTime}`
-          ) : !isOpen && !willOpenToday ? (
-            `Opens ${tomorrowOpenTime}`
-          ) : (
-           ` Closes ${closeTime}`
-          )}</p>
+          <p className="text-gray-500">
+            {!isOpen && willOpenToday
+              ? `Opens ${openTime}`
+              : !isOpen && !willOpenToday
+              ? `Opens ${tomorrowOpenTime}`
+              : ` Closes ${closeTime}`}
+          </p>
         </>
       )}
     </div>

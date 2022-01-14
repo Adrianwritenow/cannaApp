@@ -9,12 +9,14 @@ import { SearchState } from '@/interfaces/searchState';
 import SvgEmptyState from '@/public/assets/icons/iconComponents/EmptyState';
 import { combinedSearchQuery } from '@/actions/search';
 import { useAxios } from '@/hooks/useAxios';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/reducers';
 
 export default function SearchAll(props: {
   query: string;
   userCoords: {
     lat: number;
-    lng: number;
+    lon: number;
   };
 }) {
   const { query, userCoords } = props;
@@ -23,12 +25,14 @@ export default function SearchAll(props: {
   const [lists, setLists] = useState<SearchState>();
   const [currentQuery, setCurrentQuery] = useState('');
   const [update, setUpdate] = useState(true);
+  const location = useSelector((root: RootState) => root.location);
 
   useEffect(() => {
-    if (update || currentQuery !== query) {
+    if (update || currentQuery !== query && location.city) {
       getResults();
     }
-  }, [update, query]);
+  }, [update, query, location]);
+  
 
   async function getResults() {
     let searchlists: SearchState = {
@@ -41,29 +45,30 @@ export default function SearchAll(props: {
     };
 
     const hits: any = await combinedSearchQuery({
-      search: query,
+      search: query ? query : location.city,
       endpoints: ['products', 'dispenaries', 'strains'],
       total: 10,
     });
 
-    hits.map((result: any, index: number) => {
-      // console.log('MAP', result);
-      switch (true) {
-        case result._id.includes('strain_entity'):
-          searchlists.strains.push(result);
-          break;
+    
+     if (hits) {hits.map((result: any, index: number) => {
+        switch (true) {
+          case result._id.includes('strain_entity'):
+            searchlists.strains.push(result);
+            break;
 
-        case result._id.includes('product_entity'):
-          searchlists.shopping.push(result);
-          break;
+          case result._id.includes('product_entity'):
+            searchlists.shopping.push(result);
+            break;
 
-        case result._id.includes('dispensary_entity'):
-          searchlists.dispensaries.push(result);
-          break;
-      }
+          case result._id.includes('dispensary_entity'):
+            searchlists.dispensaries.push(result);
+            break;
+        }
 
-      setLists(searchlists);
-    });
+        setLists(searchlists);
+      });
+    }
     setCurrentQuery(query);
     setUpdate(false);
   }
@@ -81,7 +86,7 @@ export default function SearchAll(props: {
                 <ProductResultsSection
                   list={lists.shopping}
                   sponsored={true}
-                  label={`Shop "${query}"`}
+                  label={`Shop "${query ? query : location.city}"`}
                 />
               ) : (
                 ''

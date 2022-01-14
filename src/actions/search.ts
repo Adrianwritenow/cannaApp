@@ -23,7 +23,6 @@ export function combinedSearchQuery(searchProps: {
   endpoints?: string[];
 }) {
   const { search, coords, distance, filters, endpoints, total } = searchProps;
-  console.log('???', filters);
 
   // const [loading, setLoading] = useState(true);
   const spatialQuery =
@@ -34,7 +33,7 @@ export function combinedSearchQuery(searchProps: {
             distance: distance,
             coordinates: { lat: coords.lat, lon: coords.lon },
           })
-          .size(15)
+          .size(total? total: 15)
           .build()
       : bodybuilder().query('query_string', 'query', search).build();
 
@@ -108,7 +107,7 @@ export function combinedSearchQuery(searchProps: {
           return flatData;
         })
         .catch((error: any) => {
-          console.log(error);
+          console.log("ERR:::",error);
         });
       data = results;
     }

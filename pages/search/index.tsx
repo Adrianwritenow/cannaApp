@@ -89,7 +89,7 @@ export default function Search() {
               {/* Search All */}
               <SearchAll
                 query={query}
-                userCoords={{ lat: location.lat, lng: location.lng }}
+                userCoords={{ lat: location.lat, lon: location.lon }}
               />
             </Tab.Panel>
             <Tab.Panel className="focus:outline-none">
@@ -115,7 +115,7 @@ export default function Search() {
               {/* Search Dispensery */}
               <SearchDispensary
                 query={query}
-                userCoords={{ lat: location.lat, lng: location.lng }}
+                userCoords={{ lat: location.lat, lon: location.lon }}
               />
             </Tab.Panel>
           </Tab.Panels>

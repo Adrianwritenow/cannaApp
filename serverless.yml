@@ -3,6 +3,6 @@ cannapagesWeb:
   inputs:
     cloudfront:
       distributionId: ${env.DISTRIBUTION}
-    bucketName: cannapages-web
+    bucketName: ${env.S3_BUCKET_NAME}
     bucketRegion: us-west-1
     removeOldLambdaVersions: true

@@ -49,7 +49,7 @@ export function ClaimVerificationMessage({ state }: { state: ClaimState }) {
       </p>
       <p className="text-lg leading-6 font-medium pb-5">
         Click the link in the email to verify ownership and save any changes
-        you've made to the business listing.
+        you&apos;ve made to the business listing.
       </p>
 
       <button

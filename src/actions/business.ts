@@ -3,6 +3,7 @@ import { IAxiosAction } from '@/interfaces/axios';
 
 export const BUSINESS_REQUEST_AUTOCOMPLETE = 'business/autocomplete';
 export const BUSINESS_REQUEST_GET = 'business/get';
+export const BUSINESS_REQUEST_PATCH = 'business/get';
 export const BUSINESS_CLAIM_REQUEST_GET = 'business/claim/get';
 export const BUSINESS_CLAIM_REQUEST_POST = 'business/claim/post';
 export const BUSINESS_CLAIM_UPDATE = 'business/claim/update';
@@ -27,6 +28,29 @@ export function getBusiness(id: number): IAxiosAction {
     config: {
       method: 'GET',
       url: `/admin/structure/dispensary_entity/${id}`,
+    },
+  };
+}
+
+export function updateBusiness(id: string, values: any): IAxiosAction {
+  const payload: any = {};
+
+  Object.keys(values).map(function (key, index) {
+    if (values[key]) {
+      if (typeof values[key] === 'object') {
+        payload[`${key}`] = values[key];
+      } else {
+        payload[`${key}`] = [{ value: values[key] }];
+      }
+    }
+  });
+
+  return {
+    type: BUSINESS_REQUEST_PATCH,
+    config: {
+      method: 'patch',
+      url: `/admin/structure/dispensary_entity/${id}`,
+      data: payload,
     },
   };
 }

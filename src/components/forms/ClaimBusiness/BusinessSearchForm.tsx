@@ -18,10 +18,12 @@ export function BusinessSearchForm({
   state: ClaimState;
   submitChildForm: (key: string, value: any) => void;
 }) {
-  const [businessId, setBusinessId] = useState<number>(0);
+  const [businessId, setBusinessId] = useState(0);
+  const [apiError, setApiError] = useState('');
   const { businesses } = useSelector((root: RootState) => root.autocomplete);
   const [dispatchAutocomplete] = useAxios();
   const [dispatchBusiness] = useAxios();
+  const genericError = 'Business could not be loaded, please try again.';
   const initialValues = {
     business: state.business.label,
   };
@@ -36,7 +38,7 @@ export function BusinessSearchForm({
 
   function handleSubmit(values: any) {
     if (!businessId) {
-      // TODO: handle error.
+      setApiError(genericError);
       return;
     }
 
@@ -44,7 +46,7 @@ export function BusinessSearchForm({
     dispatchBusiness(getClaimBusiness(businessId)).then(
       (status: IAxiosReturn) => {
         if (!status.success) {
-          // @TODO: Handle error.
+          setApiError(genericError);
           return;
         }
 
@@ -95,12 +97,14 @@ export function BusinessSearchForm({
               />
             </div>
 
-            {errorCount > 0 && (
+            {errorCount || apiError ? (
               <ErrorsDisplay
+                apiError={apiError}
                 errorCount={errorCount}
                 errorList={errorList}
-                apiError={''}
               />
+            ) : (
+              ''
             )}
 
             <button

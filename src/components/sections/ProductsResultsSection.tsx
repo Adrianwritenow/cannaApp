@@ -54,8 +54,8 @@ export default function ProductResultsSection(results: Results) {
           {list.map((data, index) => {
             if (type === 'COUPON') {
               return (
-                <div>
-                  <CouponCard coupon={data as Coupon} key={`cc-${index}`} />
+                <div key={`cc-${index}`}>
+                  <CouponCard coupon={data as Coupon}  />
                 </div>
               );
             } else if (type === 'DEAL') {

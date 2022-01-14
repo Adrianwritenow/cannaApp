@@ -1,5 +1,6 @@
 import '@/styles/main.scss';
 import 'tailwindcss/tailwind.css';
+import '@/styles/geocode.scss'
 
 import type { AppProps } from 'next/app';
 import { SessionProvider } from 'next-auth/react';

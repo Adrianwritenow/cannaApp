@@ -1,6 +1,6 @@
-import { FooterRoutes } from "../../helpers/routes";
-import Link from "next/link";
-import styles from "./Footer.module.scss";
+import { FooterRoutes } from '../../helpers/routes';
+import Link from 'next/link';
+import styles from './Footer.module.scss';
 
 export default function Footer() {
   return (
@@ -12,7 +12,7 @@ export default function Footer() {
         <div className="xl:grid xl:grid-cols-3 xl:gap-8">
           <div className="grid grid-cols-2 gap-8 xl:col-span-2">
             <div className="md:grid md:grid-cols-2 md:gap-8">
-              <div>
+              {/* <div>
                 <h3
                   className={
                     `${styles.label} ` +
@@ -32,18 +32,18 @@ export default function Footer() {
                     </li>
                   ))}
                 </ul>
-              </div>
-              <div className="mt-12 md:mt-0">
+              </div> */}
+              <div className="md:mt-0">
                 <h3
                   className={
                     `${styles.label} ` +
-                    "text-sm text-green font-semibold tracking-wider uppercase"
+                    'text-sm text-green font-semibold tracking-wider uppercase'
                   }
                 >
                   Community
                 </h3>
                 <ul role="list" className="mt-4 space-y-4">
-                  {FooterRoutes.community.map((item) => (
+                  {FooterRoutes.community.map(item => (
                     <li key={item.label}>
                       <Link href={item.href}>
                         <a className="text-base text-gray-400 hover:text-green">
@@ -60,13 +60,13 @@ export default function Footer() {
                 <h3
                   className={
                     `${styles.label} ` +
-                    "text-sm text-green font-semibold tracking-wider uppercase"
+                    'text-sm text-green font-semibold tracking-wider uppercase'
                   }
                 >
                   Listings
                 </h3>
                 <ul role="list" className="mt-4 space-y-4">
-                  {FooterRoutes.listings.map((item) => (
+                  {FooterRoutes.listings.map(item => (
                     <li key={item.label}>
                       <Link href={item.href}>
                         <a className="text-base text-gray-400 hover:text-green">
@@ -81,13 +81,13 @@ export default function Footer() {
                 <h3
                   className={
                     `${styles.label} ` +
-                    "text-sm text-green font-semibold tracking-wider uppercase"
+                    'text-sm text-green font-semibold tracking-wider uppercase'
                   }
                 >
                   CannaPages
                 </h3>
                 <ul role="list" className="mt-4 space-y-4">
-                  {FooterRoutes.cannapages.map((item) => (
+                  {FooterRoutes.cannapages.map(item => (
                     <li key={item.label}>
                       <Link href={item.href}>
                         <a className="text-base text-gray-400 hover:text-green">
@@ -104,7 +104,7 @@ export default function Footer() {
             <h3
               className={
                 `${styles.label} ` +
-                "text-sm text-green font-semibold tracking-wider uppercase"
+                'text-sm text-green font-semibold tracking-wider uppercase'
               }
             >
               Newsletter
@@ -139,7 +139,7 @@ export default function Footer() {
         </div>
         <div className="mt-8 border-t  pt-8 md:flex md:items-center md:justify-between">
           <div className="flex space-x-6 md:order-2">
-            {FooterRoutes.social.map((item) => (
+            {FooterRoutes.social.map(item => (
               <Link href={item.href} key={item.label}>
                 <a
                   key={item.label}

@@ -20,6 +20,7 @@ export default function CouponSlideOver(props: {
         sponsored={false}
         label={label ? label : 'Results'}
         buttonLabel={'See more'}
+        hideButton={true}
         stateFunction={setOpen}
         type={'COUPON'}
       />

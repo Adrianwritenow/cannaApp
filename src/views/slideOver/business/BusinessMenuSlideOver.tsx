@@ -4,12 +4,32 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { ArrowLeftIcon } from '@heroicons/react/outline';
 import { BusinessSlideoverProps } from '@/interfaces/props/businessSlideOverProps';
 import FilterMenuTabs from '../../../components/filter/FilterMenuTabs';
+import { Product } from '@/interfaces/product';
 import ProductResultsSection from '../../../components/sections/ProductsResultsSection';
+import { combinedSearchQuery } from '@/actions/search';
 import { products } from '../../../helpers/mockData';
 
 export default function BusinessMenuSlideOver(props: BusinessSlideoverProps) {
   const { dispensary } = props;
   const [open, setOpen] = useState(false);
+  const [products, setProducts] = useState<Array<Product>>([]);
+  const [update, setUpdate] = useState(true);
+
+  useEffect(() => {
+    if (update) {
+      getProducts();
+    }
+  }, [update]);
+
+  async function getProducts() {
+    const hits: any = await combinedSearchQuery({
+      search: '*',
+      endpoints: ['products'],
+      total: 10,
+    });
+    setProducts(hits);
+    setUpdate(false);
+  }
 
   return (
     <div>

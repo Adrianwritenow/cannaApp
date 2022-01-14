@@ -63,7 +63,7 @@ export default function Home() {
   const [coupons, setCoupons] = useState<Array<Coupon>>();
 
   useEffect(() => {
-    if (!coupons) {
+  if (location.city) { if (!coupons) {
       getPopularItems('coupons');
     }
     if (!flower) {
@@ -74,20 +74,6 @@ export default function Home() {
       getBlogs();
     }
 
-    async function getDispensaryResults() {
-      const hits: any = await combinedSearchQuery({
-        search: location.city,
-        endpoints: ['dispenaries'],
-        coords: { lat: location.lat, lon: location.lon },
-        distance: '10mi',
-      });
-
-      // Sort by  created date
-      hits.sort((a: any, b: any) =>
-        a._source.created[0] < b._source.created[0] ? 1 : -1
-      );
-
-      setNearby(hits);
     if (location.city && !nearby) {
       getDispensaryResults();
     }
@@ -101,15 +87,15 @@ export default function Home() {
     const hits: any = await combinedSearchQuery({
       search: location.city,
       endpoints: ['dispenaries'],
-      coords: { lat: location.lat, lon: location.lng },
+      coords: { lat: location.lat, lon: location.lon },
       distance: '10mi',
     });
 
     // Sort by  created date
-    hits.sort((a: any, b: any) =>
+   if (hits) { hits.sort((a: any, b: any) =>
       a._source.created[0] < b._source.created[0] ? 1 : -1
     );
-
+}
     setNearby(hits);
   }
 

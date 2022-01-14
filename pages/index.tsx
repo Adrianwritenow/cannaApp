@@ -62,48 +62,22 @@ export default function Home() {
       })
     );
   }
-async function getDispensaryResults() {
-  const hits: any = await combinedSearchQuery({
-    search: location.city,
-    endpoints: ['dispenaries'],
-    coords: { lat: location.lat, lon: location.lon },
-    distance: '10mi',
-  });
+  async function getDispensaryResults() {
+    const hits: any = await combinedSearchQuery({
+      search: location.city,
+      endpoints: ['dispenaries'],
+      coords: { lat: location.lat, lon: location.lon },
+      distance: '10mi',
+    });
 
-  // Sort by  created date
-  if (hits) {
-    hits.sort((a: any, b: any) =>
-      a._source.created[0] < b._source.created[0] ? 1 : -1
-    );
-  }
-  setNearby(hits);
-}
-
-  useEffect(() => {
-    if (location.city) {
-      if (!coupons) {
-        getPopularItems('coupons');
-      }
-      if (!flower) {
-        getFlower();
-      }
-
-      if (!blogs) {
-        getBlogs();
-      }
-
-      if (location.city && !nearby) {
-        getDispensaryResults();
-      }
-
-      if (coupons?.length && !deals.length) {
-        getDeals(coupons);
-      }
+    // Sort by  created date
+    if (hits) {
+      hits.sort((a: any, b: any) =>
+        a._source.created[0] < b._source.created[0] ? 1 : -1
+      );
     }
-  }, [location, coupons, flower, blogs, deals]);
-
-  
-
+    setNearby(hits);
+  }
   async function getFlower() {
     const hits: SearchHits = await browseBy('category', 'Flower', 'products');
     setFlower(hits.hits.hits);
@@ -139,6 +113,30 @@ async function getDispensaryResults() {
     const hits: SearchHits = await getPopular(type);
     setCoupons(hits.hits.hits);
   }
+
+  useEffect(() => {
+    if (location.city) {
+      if (!coupons) {
+        getPopularItems('coupons');
+      }
+      if (!flower) {
+        getFlower();
+      }
+
+      if (!blogs) {
+        getBlogs();
+      }
+
+      if (location.city && !nearby) {
+        getDispensaryResults();
+      }
+
+      if (coupons?.length && !deals.length) {
+        getDeals(coupons);
+      }
+    }
+  }, [location, coupons, flower, blogs, deals]);
+
   return (
     <div className="mx-auto space-y-2">
       {/* Search/Map Section */}

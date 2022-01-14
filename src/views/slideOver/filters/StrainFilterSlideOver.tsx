@@ -6,39 +6,29 @@ import DropdownFilter from '@/components/forms/fields/DropdownFilter';
 import FilterStrainMenu from '@/components/filter/FIlterStrainMenu';
 import { useRouter } from 'next/router';
 
-export default function StrainFilterSlideOver() {
+export default function StrainFilterSlideOver(props: {
+  handleFilter: Function;
+}) {
+  const { handleFilter } = props;
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [rated, setRated] = useState('Top Rated');
   const { type, category }: any = router.query;
   const [savedValues, setSavedValues]: any = useState({
-    strains: [],
     category: category || '',
     type: type || '',
     filters: {},
     sort: '',
-    price: '',
-    range: {
-      min_price: '',
-      max_price: '',
-    },
-    search: '',
+    top_rated_effects: '',
   });
   const [sortPricing, setSortPricing] = useState(savedValues.sort);
   const [filterList, setFilterList]: any = useState([]);
 
   const initialValues: any = {
-    strains: [],
     filters: {},
     category: '',
     type: '',
-    sort: '',
-    price: '',
-    range: {
-      min_price: '',
-      max_price: '',
-    },
-    search: '',
+    top_rated_effects: '',
   };
 
   // Remove filters from list to be rendered and update the form state values
@@ -63,6 +53,7 @@ export default function StrainFilterSlideOver() {
 
     setFilterList(listCopy);
     setSavedValues(stateCopy);
+    handleFilter(stateCopy.filters);
   }
 
   useEffect(() => {
@@ -70,27 +61,15 @@ export default function StrainFilterSlideOver() {
     const filters: any = {
       sort: [savedValues.sort],
       type: [savedValues.type],
-      strains: savedValues.strains,
       category: [savedValues.category],
-      price: [savedValues.price],
-      range: [
-        `${
-          savedValues.range.min_price ? '$' + savedValues.range.min_price : ''
-        }${
-          savedValues.range.min_price && savedValues.range.max_price
-            ? ' - '
-            : ''
-        }${
-          savedValues.range.max_price ? '$' + savedValues.range.max_price : ''
-        }`,
-      ],
+      top_rated_effects: [savedValues.top_rated_effects],
     };
 
     const filter_data: string[] = Object.keys(filters).reduce(function (
       res,
       key
     ) {
-      return res.concat(filters[key]);
+      return res.concat(filters[key]).flat(1);
     },
     []);
 
@@ -112,6 +91,7 @@ export default function StrainFilterSlideOver() {
         ...prevState,
         filters,
       }));
+      handleFilter(filters);
     }
 
     // update sort

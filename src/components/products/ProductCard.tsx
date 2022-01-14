@@ -37,7 +37,9 @@ export default function ProductCard(data: ProductProps) {
           </div>
           <div className="pt-2 pb-6 text-left text-sm w-36">
             <p className="text-blue-500">
-              {product._source?.brand ? product._source?.brand[0] : 'Unknown'}
+              {product._source?.manufacture
+                ? product._source?.manufacture[0]
+                : ''}
             </p>
             <h3 className="text-sm font-normal text-gray-700">
               {product._source?.name[0]}

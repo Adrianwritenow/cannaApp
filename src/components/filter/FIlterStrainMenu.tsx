@@ -85,8 +85,27 @@ export default function FilterStrainMenu(props: FilterMenuProps) {
                         <FilterGroup
                           filters={Filters.strains.list}
                           label={'Strain Type'}
-                          id={'strains'}
-                          values={values.filters.strains}
+                          id={'type'}
+                          type="radio"
+                          values={values.filters.type}
+                          setFieldValue={setFieldValue}
+                        />
+
+                        <FilterGroup
+                          filters={Filters.feelings.list}
+                          label={'Feelings'}
+                          id={'top_rated_effects'}
+                          type="radio"
+                          values={values.filters.top_rated_effects}
+                          setFieldValue={setFieldValue}
+                        />
+                        <FilterGroup
+                          filters={Filters.flavors.list}
+                          label={'Flavors'}
+                          id={'category'}
+                          type="radio"
+                          values={values.filters.category}
+                          setFieldValue={setFieldValue}
                         />
                       </div>
                     </div>

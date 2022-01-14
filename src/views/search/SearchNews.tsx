@@ -11,29 +11,42 @@ import sample from '@/helpers/mockData/articles.json';
 export default function SearchNews(props: { query: string }) {
   const { query } = props;
   const [blogs, setBlogs] = useState<Array<Post>>();
+  const [update, setUpdate] = useState(true);
+  const [currentQuery, setCurrentQuery] = useState('');
+  const [filters, setFilters] = useState<any>({
+    description: [],
+    sort: [],
+  });
 
   useEffect(() => {
-    async function getBlogs() {
-      const hits: any = await combinedSearchQuery({
-        search: query,
-        endpoints: ['blogs'],
-        total: 10,
-      });
-      setBlogs(hits);
-    }
-
-    if (!blogs) {
+    if (update || currentQuery !== query) {
       getBlogs();
     }
-  }, [blogs]);
+  }, [update, query]);
 
+  async function getBlogs() {
+    const hits: any = await combinedSearchQuery({
+      search: query,
+      filters: filters,
+      endpoints: ['blogs'],
+      total: 10,
+    });
+    setBlogs(hits);
+    setUpdate(false);
+    setCurrentQuery(query);
+  }
+
+  function handleFilter(data: any) {
+    setFilters(data);
+    setUpdate(true);
+  }
   return (
     <div>
       {blogs && (
         <section className="px-4 ">
           {blogs.length ? (
             <>
-              <NewsFilterSlideOver />
+              <NewsFilterSlideOver handleFilter={handleFilter} />
               <>
                 {blogs.map((post: Post, index) => (
                   <span id={`${index}`} key={`article-${index}`}>

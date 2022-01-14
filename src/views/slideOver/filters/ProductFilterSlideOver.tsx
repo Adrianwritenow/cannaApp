@@ -18,47 +18,22 @@ export default function ProductFilterSlideOver(props: {
   const { setFilters } = props;
   const router = useRouter();
   const { type, category } = router.query;
-  const { query } = useSelector((root: RootState) => root.search);
-  const dispatch = useDispatch();
 
   const [open, setOpen] = useState(false);
-  const [rated, setRated] = useState('Top Rated');
+  const [sort, setSort] = useState('Relevance');
   const [savedValues, setSavedValues]: any = useState({
     category: category || '',
     filters: {},
-    sort: '',
+    sort: sort,
   });
   const [sortPricing, setSortPricing] = useState(savedValues.sort);
   const [filterList, setFilterList]: any = useState([]);
 
   const initialValues: any = {
-    strains: [],
     filters: {},
     category: '',
-    sort: '',
+    sort: sort,
   };
-
-  // Remove filters from list to be rendered and update the form state values
-
-  function removeFilter(keyName: string, filter: string) {
-    let stateCopy = Object.assign({}, savedValues);
-    let listCopy = filterList;
-    const isArray =
-      Object.prototype.toString.call(initialValues[keyName]).indexOf('Array') >
-      1;
-
-    if (isArray) {
-      stateCopy[keyName].splice(stateCopy[keyName].indexOf(filter), 1);
-    } else {
-      stateCopy[keyName] = initialValues[keyName];
-      stateCopy.filters[keyName] = [''];
-    }
-
-    listCopy.splice(listCopy.indexOf(filter), 1);
-
-    setFilterList(listCopy);
-    setSavedValues(stateCopy);
-  }
 
   useEffect(() => {
     // Force values to array in order to check if they exist in case of multiple values
@@ -69,7 +44,7 @@ export default function ProductFilterSlideOver(props: {
 
     const filter_data: string[] = Object.keys(filters).reduce(
       function (res, key) {
-        return res.concat(filters[key]);
+        return res.concat(filters[key]).flat(1);
       },
 
       []
@@ -93,12 +68,35 @@ export default function ProductFilterSlideOver(props: {
         ...prevState,
         filters,
       }));
-      setFilters(savedValues.filters);
+      setFilters(filters);
     }
 
     // update sort
     setSortPricing(savedValues.sort);
   }, [savedValues]);
+
+  // Remove filters from list to be rendered and update the form state values
+
+  function removeFilter(keyName: string, filter: string) {
+    let stateCopy = Object.assign({}, savedValues);
+    let listCopy = filterList;
+    const isArray =
+      Object.prototype.toString.call(initialValues[keyName]).indexOf('Array') >
+      1;
+
+    if (isArray) {
+      stateCopy[keyName].splice(stateCopy[keyName].indexOf(filter), 1);
+    } else {
+      stateCopy[keyName] = initialValues[keyName];
+      stateCopy.filters[keyName] = [''];
+    }
+
+    listCopy.splice(listCopy.indexOf(filter), 1);
+
+    setFilterList(listCopy);
+    setSavedValues(stateCopy);
+    setFilters(stateCopy.filters);
+  }
 
   return (
     <div>

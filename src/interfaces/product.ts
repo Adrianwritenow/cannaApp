@@ -11,6 +11,7 @@ export interface Product {
     top_reported_flavors: string[];
     image: number[];
     rating: number[] | [0];
+    manufacture: string[];
     brand: string[] | '';
     review_count: number[] | [0];
     price: number[];

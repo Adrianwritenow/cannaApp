@@ -33,14 +33,12 @@ export default function ProductDetail() {
   const [currentQuery, setCurrentQuery] = useState('');
 
   useEffect(() => {
-    if (productId) {
-      getDocument(productId, 'products').then((document: SearchHits) => {
-        if (document) {
-          const result = document.hits.hits[0];
-          setProduct(result as unknown as Product);
-        }
-      });
-    }
+    getDocument(productId, 'products').then((document: SearchHits) => {
+      if (document) {
+        const result = document.hits.hits[0];
+        setProduct(result as unknown as Product);
+      }
+    });
 
     let searchListUpdate: any = [];
 
@@ -58,7 +56,7 @@ export default function ProductDetail() {
     }
     setCurrentQuery(query);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router, results, searchLists]);
+  }, [router]);
 
   return (
     <div className="max-w-7xl mx-auto bg-white md:px-20">
@@ -169,18 +167,19 @@ export default function ProductDetail() {
                   {product?._source.name}
                 </h2>
                 <div className="text-sm text-gray-500 pt-2">
-                  <p>
-                    <span className="text-black">Type:</span>
-                    {/* {product?._source.category[0]} */}
+                  {/* <p>
+                    <span className="text-black">Type:&nbsp;</span>
+                    {product?._source.type[0]}
                     %Type%
-                  </p>
+                  </p> */}
                   <p>
-                    <span className="text-black">Category:</span>
+                    <span className="text-black">Category:&nbsp;</span>
                     {product?._source.category[0]}
                   </p>
-                  <div className="flex">
+                  {/* Need Cannabanoids data */}
+
+                  {/* <div className="flex">
                     <p className="text-black">Cannabanoids:&nbsp;</p>
-                    {/* Need Cannabanoids data */}
                     <p>
                       THC&nbsp;
                       {Math.round(0.5 * 100)}%
@@ -190,7 +189,7 @@ export default function ProductDetail() {
                       CBD&nbsp;
                       {Math.round(0.5 * 100)}%
                     </p>
-                  </div>
+                  </div> */}
                 </div>
                 <div className="pt-2">
                   <AboutSlideOver
@@ -202,7 +201,7 @@ export default function ProductDetail() {
             </section>
             {/* Need specification data  */}
 
-            <section aria-labelledby="specifications-heading">
+            {/* <section aria-labelledby="specifications-heading">
               <h2 id="specifications-heading" className="sr-only">
                 Specifications
               </h2>
@@ -232,17 +231,17 @@ export default function ProductDetail() {
                   })}
                 </ul>
               </div>
-            </section>
+            </section> */}
           </div>
         </div>
       )}
 
-      <div className=" pt-4">
+      {/* <div className=" pt-4">
         <FaqSlideOver name={listings[0]._source.name[0]} faqs={faqs} />
       </div>
       <div className="pt-4">
         <ProductReviewsSlideOver product={product} reviews={reviews} />
-      </div>
+      </div> */}
 
       <ProductResultsSection
         list={searchLists}

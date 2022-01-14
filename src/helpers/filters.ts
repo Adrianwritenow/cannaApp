@@ -201,7 +201,7 @@ export const Filters: Record<string, Filter> = {
     value: '',
     list: [{ value: 'Sweet' }, { value: 'Savory' }, { value: 'Earthy' }],
   },
-  armoas: {
+  aromas: {
     value: '',
     list: [{ value: 'Smokey' }, { value: 'Nutty' }, { value: 'Funky' }],
   },

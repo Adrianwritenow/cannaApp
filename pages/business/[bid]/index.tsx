@@ -50,14 +50,12 @@ export default function BusinessDetail() {
   let today = moment.tz(timezone).format('dddd');
 
   useEffect(() => {
-    if (bid && !dispensary) {
-      getDocument(bid, 'dispenaries').then((document: SearchHits) => {
-        if (document) {
-          const result = document.hits.hits[0];
-          setDispensary(result as Dispensary);
-        }
-      });
-    }
+    getDocument(bid, 'dispenaries').then((document: SearchHits) => {
+      if (document) {
+        const result = document.hits.hits[0];
+        setDispensary(result as Dispensary);
+      }
+    });
 
     if (dispensary && lat && lng) {
       const isEmpty = Object.values({ lat, lng }).every(
@@ -106,7 +104,7 @@ export default function BusinessDetail() {
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lat, lng, dispensary, router]);
+  }, [router]);
 
   return (
     <div className="bg-white">

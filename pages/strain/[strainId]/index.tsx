@@ -22,14 +22,13 @@ export default function StrainDetail() {
   const [strain, setStrain] = useState<Strain>();
 
   useEffect(() => {
-    if (strainId) {
-      getDocument(strainId, 'strains').then((document: SearchHits) => {
-        if (document) {
-          const result = document.hits.hits[0];
-          setStrain(result as unknown as Strain);
-        }
-      });
-    }
+    getDocument(strainId, 'strains').then((document: SearchHits) => {
+      if (document) {
+        const result = document.hits.hits[0];
+        setStrain(result as unknown as Strain);
+      }
+    });
+
     let searchListUpdate: any = [];
 
     results.map((result: any, index: number) => {
@@ -44,7 +43,7 @@ export default function StrainDetail() {
     }
     setCurrentQuery(query);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [strainId, results, searchLists]);
+  }, [router]);
 
   return (
     <div className="bg-white">

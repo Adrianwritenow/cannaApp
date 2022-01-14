@@ -1,7 +1,8 @@
 import { BottomNavRoutes, Route } from '../../helpers/routes';
 import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 
 export default function BottomNavBar() {
@@ -23,7 +24,7 @@ export default function BottomNavBar() {
       });
       setRoutes(sessionRoutes);
     }
-  }, [session]);
+  }, [session, router]);
 
   return (
     <>

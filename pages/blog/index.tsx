@@ -1,4 +1,4 @@
-import { browseBy, combinedSearchQuery, getFeatured } from '@/actions/search';
+import { combinedSearchQuery, getFeatured } from '@/actions/search';
 import { useEffect, useState } from 'react';
 
 import BlogArticleCardFeatured from '../../src/components/blog/BlogArticleCardFeatured';
@@ -94,7 +94,7 @@ export default function Blog() {
               <div>
                 <div className="flex flex-wrap py-6 border-b-2 ">
                   {topics.map(topic => (
-                    <Link href={`/blog/category/${topic}`} key={topic} passHref>
+                    <Link href={`/blog/tag/${topic}`} key={topic} passHref>
                       <a className="px-4 py-1 mr-2 my-1 text-gray-600 bg-white text-sm border-2 border-gray-400 rounded-2xl hover:bg-green-400 hover:border-transparent hover:text-white">
                         {topic}
                       </a>

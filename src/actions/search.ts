@@ -23,6 +23,8 @@ export function combinedSearchQuery(searchProps: {
   endpoints?: string[];
 }) {
   const { search, coords, distance, filters, endpoints, total } = searchProps;
+  console.log('???', filters);
+
   // const [loading, setLoading] = useState(true);
   const spatialQuery =
     coords && distance
@@ -73,8 +75,6 @@ export function combinedSearchQuery(searchProps: {
   }
 
   const body = query.build();
-
-  console.log('BODY', body);
 
   let apis: any[] = [];
   let data: any[] = [];

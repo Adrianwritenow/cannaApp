@@ -12,7 +12,7 @@ export default function NewsFilterSlideOver(props: { handleFilter: Function }) {
   const [savedValues, setSavedValues]: any = useState({
     description: [],
     filters: {},
-    sort: '',
+    sort: 'Relevance',
   });
   const [filterList, setFilterList]: any = useState([]);
   const [sort, setSort] = useState(savedValues.sort);
@@ -20,7 +20,7 @@ export default function NewsFilterSlideOver(props: { handleFilter: Function }) {
   const initialValues: any = {
     description: [],
     filters: {},
-    sort: '',
+    sort: 'Relevance',
   };
 
   // Remove filters from list to be rendered and update the form state values

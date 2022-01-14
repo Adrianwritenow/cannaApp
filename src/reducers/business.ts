@@ -1,3 +1,4 @@
+import { BusinessState } from '@/interfaces/business';
 import { getField } from '@/helpers/getField';
 import {
   BUSINESS_CLAIM_UPDATE,
@@ -5,8 +6,7 @@ import {
   BUSINESS_REQUEST_GET,
 } from '@/actions/business';
 
-const defaultState = {
-  step: 'business',
+const defaultState: BusinessState = {
   business: {},
   claim: {
     step: 'business',
@@ -27,7 +27,7 @@ const defaultState = {
   },
 };
 
-const business = (state = defaultState, action: any) => {
+const business = (state = defaultState, action: any): BusinessState => {
   switch (action.type) {
     case BUSINESS_REQUEST_GET:
       return {

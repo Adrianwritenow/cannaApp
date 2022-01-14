@@ -4,7 +4,7 @@ import { useSession } from 'next-auth/react';
 import axios, { AxiosError, AxiosResponse, AxiosRequestConfig } from 'axios';
 import { IAxiosAction, IAxiosReturn, IAxiosState } from '@/interfaces/axios';
 
-export type DispatchAxios = (params: IAxiosAction) => void;
+export type DispatchAxios = (params: IAxiosAction) => Promise<any>;
 
 export function useAxios(): [DispatchAxios, IAxiosState] {
   const { data: session, status } = useSession();
@@ -38,7 +38,7 @@ export function useAxios(): [DispatchAxios, IAxiosState] {
     success: false,
   });
 
-  const dispatchAxios: DispatchAxios = useCallback<IAxiosReturn>(
+  const dispatchAxios: DispatchAxios = useCallback(
     (params: IAxiosAction) => {
       const action: IAxiosAction = {
         type: params.type,

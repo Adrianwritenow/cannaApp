@@ -2,6 +2,7 @@ import { ArrowLeftIcon } from '@heroicons/react/solid';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Steps } from '@/components/forms/ClaimBusiness';
+import { BusinessState } from '@/interfaces/business';
 import { ClaimVerificationMessage } from '@/components/business/ClaimVerificationMessage';
 import { ClaimState } from '@/interfaces/claim';
 import { updateBusinessClaim } from '@/actions/business';
@@ -9,12 +10,15 @@ import { RootState } from '@/reducers';
 
 export default function ClaimDetail() {
   const dispatch = useDispatch();
-  const { claim } = useSelector<ClaimState>((root: RootState) => root.business);
+  const { claim } = useSelector(
+    (root: RootState): BusinessState => root.business
+  );
 
   const handleGoBack = (step: string) => {
     return () => {
       dispatch(
         updateBusinessClaim({
+          ...claim,
           step,
         })
       );
@@ -25,6 +29,7 @@ export default function ClaimDetail() {
     return (key: string, value: any) => {
       dispatch(
         updateBusinessClaim({
+          ...claim,
           step,
           [key]: value,
         })

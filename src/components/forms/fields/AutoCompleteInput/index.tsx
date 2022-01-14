@@ -10,7 +10,7 @@ interface IProps extends React.HTMLAttributes<HTMLDivElement> {
   form: any;
   options: Array<AutocompleteItem>;
   onRequestOptions(value: any): any;
-  onHandleSelect(value: number): any;
+  onHandleSelect(value: number | string): any;
 }
 
 export function AutoCompleteInput(props: IProps) {

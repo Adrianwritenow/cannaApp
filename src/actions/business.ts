@@ -22,7 +22,7 @@ export function getBusinessAutocomplete(name: string): IAxiosAction {
   };
 }
 
-export function getBusiness(id: number): IAxiosAction {
+export function getBusiness(id: number | string): IAxiosAction {
   return {
     type: BUSINESS_REQUEST_GET,
     config: {
@@ -32,7 +32,7 @@ export function getBusiness(id: number): IAxiosAction {
   };
 }
 
-export function updateBusiness(id: string, values: any): IAxiosAction {
+export function updateBusiness(id: number | string, values: any): IAxiosAction {
   const payload: any = {};
 
   Object.keys(values).map(function (key, index) {
@@ -48,20 +48,20 @@ export function updateBusiness(id: string, values: any): IAxiosAction {
   return {
     type: BUSINESS_REQUEST_PATCH,
     config: {
-      method: 'patch',
+      method: 'PATCH',
       url: `/admin/structure/dispensary_entity/${id}`,
       data: payload,
     },
   };
 }
 
-export function getClaimBusiness(id: number): IAxiosAction {
+export function getClaimBusiness(id: number | string): IAxiosAction {
   const action: IAxiosAction = getBusiness(id);
   action.type = BUSINESS_CLAIM_REQUEST_GET;
   return action;
 }
 
-export function createClaim(id: number) {
+export function createClaim(id: number | string): IAxiosAction {
   return {
     type: BUSINESS_CLAIM_REQUEST_POST,
     config: {
@@ -75,7 +75,7 @@ export function createClaim(id: number) {
   };
 }
 
-export function verifyClaim(id: number, timestamp: number, hash: string) {
+export function verifyClaim(id: any, timestamp: any, hash: any): IAxiosAction {
   return {
     type: BUSINESS_CLAIM_VERIFY_REQUEST_POST,
     config: {

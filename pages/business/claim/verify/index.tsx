@@ -7,6 +7,7 @@ import { useSession } from 'next-auth/react';
 import { ClaimState } from '@/interfaces/claim';
 import ErrorsDisplay from '@/components/error/ErrorsDisplay';
 import { getInitialState } from 'src/helpers/persist-state';
+import { IAxiosReturn } from '@/interfaces/axios';
 import { useAxios } from '@/hooks/useAxios';
 import { updateBusiness, verifyClaim } from '@/actions/business';
 
@@ -37,7 +38,7 @@ function transformClaimForDrupal(claim: ClaimState): any {
   };
 }
 
-function Wrapper({ children }) {
+function Wrapper({ children }: { children: any }) {
   return (
     <div className="flex flex-col justify-start py-12 px-4 bg-white">
       <div className="mx-auto max-w-lg">{children}</div>
@@ -77,6 +78,7 @@ export default function Verify() {
         (status: IAxiosReturn) => {
           const finishedState = {
             complete: true,
+            failed: false,
             error: '',
           };
 
@@ -104,6 +106,7 @@ export default function Verify() {
         }
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state, query, session]);
 
   // Still running, let the user know.
@@ -116,7 +119,7 @@ export default function Verify() {
     return (
       <Wrapper>
         <p>Verification failed:</p>
-        <ErrorsDisplay apiError={state.error} errorCount={0} />
+        <ErrorsDisplay apiError={state.error} errorCount={0} errorList={[]} />
       </Wrapper>
     );
   }

@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { ClaimState } from '@/interfaces/claim';
 import { createClaim } from '@/actions/business';
+import { IAxiosReturn } from '@/interfaces/axios';
 import { persistState } from 'src/helpers/persist-state';
 import { useAxios } from '@/hooks/useAxios';
 
@@ -34,6 +35,7 @@ export function ClaimVerificationMessage({ state }: { state: ClaimState }) {
   // Run once on load.
   useEffect(() => {
     handleRecreateClaim();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

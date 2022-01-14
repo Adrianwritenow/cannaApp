@@ -7,7 +7,7 @@ import { AutoCompleteInput } from '@/components/forms/fields/AutoCompleteInput';
 import { ClaimState } from '@/interfaces/claim';
 import ErrorsDisplay from '@/components/error/ErrorsDisplay';
 import { getClaimBusiness, getBusinessAutocomplete } from '@/actions/business';
-import { IAxiosReturn } from '@/interface/axios';
+import { IAxiosReturn } from '@/interfaces/axios';
 import { RootState } from '@/reducers';
 import { useAxios } from '@/hooks/useAxios';
 
@@ -25,7 +25,7 @@ export function BusinessSearchForm({
   const [dispatchBusiness] = useAxios();
   const genericError = 'Business could not be loaded, please try again.';
   const initialValues = {
-    business: state.business.label,
+    business: state.business.name,
   };
 
   const schema = Yup.object().shape({

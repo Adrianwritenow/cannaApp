@@ -7,6 +7,7 @@ interface FormikForm {
 
 interface FormikField extends React.InputHTMLAttributes<HTMLInputElement> {
   name: string;
+  value: string | number | undefined;
 }
 
 interface FieldProps extends React.HTMLAttributes<HTMLInputElement> {
@@ -24,7 +25,6 @@ interface FieldProps extends React.HTMLAttributes<HTMLInputElement> {
   handleBlur: (event: React.SyntheticEvent) => void;
   handleChange: (event: React.SyntheticEvent) => void;
   setFieldValue: any;
-  value: string;
   maskPlaceholder: string;
 }
 
@@ -44,13 +44,12 @@ export function InputField(props: FieldProps) {
     handleBlur,
     handleChange,
     setFieldValue,
-    value,
     format,
     maskPlaceholder,
     ...rest
   } = props;
 
-  const { name } = field;
+  const { name, value } = field;
   const meta = form.getFieldMeta(name);
 
   let labelClasses = 'block text-sm font-medium text-gray-700';

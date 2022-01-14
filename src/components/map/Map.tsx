@@ -1,9 +1,7 @@
-import 'mapbox-gl/dist/mapbox-gl.css';
-
 /* eslint-disable react-hooks/exhaustive-deps */
+import 'mapbox-gl/dist/mapbox-gl.css';
 import React, { useContext, useEffect, useState } from 'react';
 import ReactMapGL, { FlyToInterpolator, Marker } from 'react-map-gl';
-
 import { ChevronDownIcon } from '@heroicons/react/outline';
 import { MapContext } from './MapContainer';
 import MapDispMarker from '@/public/assets/icons/iconComponents/MapDispMarker';
@@ -24,21 +22,13 @@ export function Map({ data, currentViewport }: any) {
     transitionInterpolator: new FlyToInterpolator(),
   });
 
-  // function getCoords(item: any) {
-  //   const coordString = item._source.coordinates[0]
-  //     .slice(6)
-  //     .slice(0, -1)
-  //     .split(' ');
-  //   return { lat: +coordString[1], lng: +coordString[0] };
-  // }
-
   const {
     activeCard,
     setActiveCard,
     swiper,
     setShowResults,
     showResults,
-    userCoordinates,
+    // userCoordinates,
   } = useContext(MapContext);
 
   useEffect(() => {
@@ -85,22 +75,22 @@ export function Map({ data, currentViewport }: any) {
         ...viewport,
         latitude: center.latitude,
         longitude: center.longitude,
-        zoom: 10,
+        zoom: 9,
       });
     }
   }, [activeCard, data, swiper]);
 
-  useEffect(() => {
-    if (!!userCoordinates) {
-      setViewport({
-        ...viewport,
-        latitude: userCoordinates.lat,
-        longitude: userCoordinates.lon - 0.005,
-        transitionDuration: 1500,
-        zoom: 9,
-      });
-    }
-  }, [userCoordinates]);
+  // useEffect(() => {
+  //   if (!!userCoordinates) {
+  //     setViewport({
+  //       ...viewport,
+  //       latitude: userCoordinates.lat,
+  //       longitude: userCoordinates.lon - 0.005,
+  //       transitionDuration: 1500,
+  //       zoom: 9,
+  //     });
+  //   }
+  // }, [userCoordinates]);
 
   // Redraw map if viewport changes
   useEffect(() => {
@@ -150,8 +140,8 @@ export function Map({ data, currentViewport }: any) {
         })}
 
         <button
-          className={`flex justify-between text-sm items-center pointer transition absolute px-4 py-4 h-7 z-50 bottom-64 duration-500 right-5 rounded-3xl  text-white bg-green-400 ${
-            !showResults ? 'transform translate-y-52' : ''
+          className={`flex justify-between text-sm items-center pointer transition absolute px-4 py-4 h-7 z-50 bottom-64 duration-500 transform translate-x-1/2 right-1/2 rounded-3xl  text-white bg-green-400 ${
+            !showResults ? ' translate-y-52' : ''
           }`}
           onClick={() => setShowResults(!showResults)}
         >

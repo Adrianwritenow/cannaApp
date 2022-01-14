@@ -6,19 +6,21 @@ import ListingSection from '../../components/sections/ListingSection';
 import ProductFilterSlideOver from '../slideOver/filters/ProductFilterSlideOver';
 import SvgEmptyState from '@/public/assets/icons/iconComponents/EmptyState';
 import { combinedSearchQuery } from '@/actions/search';
-import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/reducers';
 
 export default function SearchStrain(props: {
   query: string;
   userCoords: {
     lat: number;
-    lng: number;
+    lon: number;
   };
 }) {
   const { query, userCoords } = props;
 
   const [dispenaries, setDispenaries] = useState<Array<Dispensary>>();
   const [update, setUpdate] = useState(true);
+  const location = useSelector((root: RootState) => root.location);
 
   const [currentQuery, setCurrentQuery] = useState('');
 
@@ -30,7 +32,7 @@ export default function SearchStrain(props: {
 
   async function getProducts() {
     const hits: any = await combinedSearchQuery({
-      search: query,
+      search: query ? query : location.city ,
       endpoints: ['dispenaries'],
       total: 10,
     });
@@ -48,18 +50,18 @@ export default function SearchStrain(props: {
             <ListingSection
               listings={dispenaries}
               query={query}
-              userCoords={{ lat: userCoords.lat, lng: userCoords.lng }}
+              userCoords={{ lat: userCoords.lat, lon: userCoords.lon }}
             />
             <div className="pt-5">
               <h2 className="text-xl text-gray-700 font-semibold p-4 pb-0">
-                {`Dispensaries near "${query}"`}
+                {`Dispensaries near "${query? query : location.city}"`}
               </h2>
               <div className="grid grid-flow-row auto-rows-max gap-1 px-4">
                 {dispenaries.map((dispensary: Dispensary, index) => (
                   <ListingCardDropdown
                     listing={dispensary}
                     key={`sd-${index}`}
-                    userCoords={{ lat: userCoords.lat, lng: userCoords.lng }}
+                    userCoords={{ lat: userCoords.lat, lon: userCoords.lon }}
                   />
                 ))}
               </div>

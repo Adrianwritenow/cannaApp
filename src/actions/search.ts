@@ -33,7 +33,7 @@ export function combinedSearchQuery(searchProps: {
             distance: distance,
             coordinates: { lat: coords.lat, lon: coords.lon },
           })
-          .size(15)
+          .size(total? total: 15)
           .build()
       : bodybuilder().query('query_string', 'query', search).build();
 
@@ -107,7 +107,7 @@ export function combinedSearchQuery(searchProps: {
           return flatData;
         })
         .catch((error: any) => {
-          console.log(error);
+          console.log("ERR:::",error);
         });
       data = results;
     }
@@ -174,14 +174,12 @@ export function browseBy(
   }
 
   if (filter) {
-    console.log('?', filter);
     const value = filter.value ? filter.value : [''];
     body.orQuery('terms', `${filter.key}`, value);
   }
 
   const query = body.build();
 
-  console.log('BODY:::', query);
 
   const results = axios({
     url: `${SEARCH_URL}/elasticsearch_index_dev_cannapages_${index}/_search?size=15`,

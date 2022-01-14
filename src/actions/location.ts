@@ -18,7 +18,8 @@ export async function getLocationByIP () {
       city: response.data.city,
       state: response.data.region_code,
       lat: response.data.latitude,
-      lng: response.data.longitude,
+      lon: response.data.longitude,
+      preciseLocationSet: false
     };
   } catch (error: any) {
     return error.response;
@@ -32,7 +33,8 @@ export async function getCurrentLocation () {
       city: '',
       state: '',
       lat: location.coords.latitude,
-      lng: location.coords.longitude,
+      lon: location.coords.longitude,
+      preciseLocationSet: false,
     };
   } catch(error: any) {
     return {

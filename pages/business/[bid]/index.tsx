@@ -44,7 +44,7 @@ export default function BusinessDetail() {
   const [dispensary, setDispensary] = useState<Dispensary>();
   const [timezone, setTimezone] = useState('');
   const [sort, setSort]: any = useState('relevance');
-  const { lat, lng } = useSelector((root: RootState) => root.location);
+  const { lat, lon } = useSelector((root: RootState) => root.location);
   const location = useSelector((root: RootState) => root.location);
   const [viewed, setViewed] = useState<Array<Dispensary>>();
 
@@ -58,13 +58,13 @@ export default function BusinessDetail() {
       }
     });
 
-    if (dispensary && lat && lng) {
-      const isEmpty = Object.values({ lat, lng }).every(
+    if (dispensary && lat && lon) {
+      const isEmpty = Object.values({ lat, lon }).every(
         x => x === null || x === undefined
       );
       if (!isEmpty) {
         const distance = getDistanceFrom(
-          { lat: lat, lng: lng },
+          { lat: lat, lon: lon },
           {
             lat: dispensary._source.lat,
             lon: dispensary._source.lon,
@@ -94,7 +94,7 @@ export default function BusinessDetail() {
       const hits: any = await combinedSearchQuery({
         search: location.city,
         endpoints: ['dispenaries'],
-        coords: { lat: location.lat, lon: location.lng },
+        coords: { lat: location.lat, lon: location.lon },
         distance: '10mi',
       });
       setViewed(hits);
@@ -106,8 +106,9 @@ export default function BusinessDetail() {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router]);
+  // }, [lat, lon, dispensary, router]); //
 
-  return (
+   return ( dispensary ? (
     <div className="bg-white">
       {dispensary && (
         <div className="w-full h-64 relative">
@@ -145,14 +146,15 @@ export default function BusinessDetail() {
       <div className="p-4 pb-0 shadow-md pb-2">
         <section aria-labelledby="business-heading">
           <h2 id="business-heading" className="sr-only">
-            {dispensary?._source.name}
+            {dispensary._source.name}
           </h2>
           <h2 className="text-gray-700 text-2xl font-semibold">
-            {dispensary?._source.name}
+            {dispensary._source.name}
           </h2>
           <div className="grid gap-2 grid-flow-row auto-rows-max border-b border-gray-200 text-sm text-gray-500 pt-2 pb-4">
             <div className="flex items-center ">
-              {dispensary?._source.rating[0] !== '' ? (
+              {typeof dispensary._source.rating !== 'undefined' &&
+              dispensary._source.rating[0] !== '' ? (
                 <>
                   <StarIcon
                     className={`flex-shrink-0 h-5 w-5 text-yellow-400`}
@@ -164,7 +166,7 @@ export default function BusinessDetail() {
                         dispensary?._source.rating[0] as string
                       ).toFixed(1)}
                     </span>{' '}
-                    ({dispensary?._source.reviews_count} Reviews)
+                    ({dispensary._source.reviews_count} Reviews)
                   </p>
                 </>
               ) : (
@@ -199,7 +201,7 @@ export default function BusinessDetail() {
           </div>
           <div className="flex justify-around auto-cols-max w-full justify-center pt-3 w-full">
             <a
-              href={`tel:${dispensary?._source.phone_number}`}
+              href={`tel:${dispensary._source.phone_number}`}
               className="text-gray-500 flex flex-wrap justify-center py-2"
             >
               <PhoneIcon className="w-6 h-6" />
@@ -207,12 +209,12 @@ export default function BusinessDetail() {
             </a>
             <a
               href={`https://www.google.com/maps/dir/?api=1&destination=${
-                dispensary?._source.name
+                dispensary._source.name
               }+${
-                dispensary?._source.address_line1[0]
-                  ? dispensary?._source.address_line1[0]
-                  : dispensary?._source.coordinates
-              }&ll=${dispensary?._source.coordinates}&z=17`}
+                dispensary._source.address_line1[0]
+                  ? dispensary._source.address_line1[0]
+                  : dispensary._source.coordinates
+              }&ll=${dispensary._source.coordinates}&z=17`}
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-500 flex flex-wrap justify-center py-2"
@@ -220,9 +222,9 @@ export default function BusinessDetail() {
               <MapIcon className="w-6 h-6 " />
               <span className="w-full text-center text-xs">Directions</span>
             </a>
-            {dispensary?._source.website !== undefined && (
+            {dispensary._source.website !== undefined && (
               <a
-                href={`${dispensary?._source.website}`}
+                href={`${dispensary._source.website}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-500 flex flex-wrap justify-center py-2"
@@ -257,14 +259,14 @@ export default function BusinessDetail() {
           <h2 className="sr-only">Location</h2>
 
           <div className="w-full h-48 relative rounded-lg overflow-hidden">
-            {dispensary && (
+            
               <SmallMap
                 coords={{
-                  lat: dispensary?._source.lat[0],
-                  lon: dispensary?._source.lon[0],
+                  lat: dispensary._source.lat[0],
+                  lon: dispensary._source.lon[0],
                 }}
               />
-            )}
+           
           </div>
 
           <div className="text-lg text-gray-500 w-full grid grid-flow-row auto-rows-max gap-2">
@@ -272,23 +274,23 @@ export default function BusinessDetail() {
               Location
             </h2>
             <p className="text-gray-700 w-full">
-              {dispensary?._source.address_line1[0]}
+              {dispensary._source.address_line1[0]}
               <br />
-              {dispensary?._source.locality[0]},{' '}
-              {dispensary?._source.administrative_area}{' '}
-              {dispensary?._source.postal_code[0]}
+              {dispensary._source.locality[0]},{' '}
+              {dispensary._source.administrative_area}{' '}
+              {dispensary._source.postal_code[0]}
             </p>
             {/* <p>{listing.distance} away</p> */}
           </div>
           <div className="pt-5 w-full flex justify-center ">
             <a
               href={`https://www.google.com/maps/dir/?api=1&destination=${
-                dispensary?._source.name
+                dispensary._source.name
               }+${
-                dispensary?._source.address_line1[0]
-                  ? dispensary?._source.address_line1[0]
-                  : dispensary?._source.coordinates
-              }&ll=${dispensary?._source.coordinates}&z=17`}
+                dispensary._source.address_line1[0]
+                  ? dispensary._source.address_line1[0]
+                  : dispensary._source.coordinates
+              }&ll=${dispensary._source.coordinates}&z=17`}
               target="_blank"
               rel="noopener noreferrer"
               className="py-4 uppercase text-gray-700 text-xs font-semibold border-t border-gray-200 tracking-widest text-green w-full text-center"
@@ -298,9 +300,9 @@ export default function BusinessDetail() {
           </div>
         </section>
         {/* Socials */}
-        {dispensary?._source.facebook ||
-        dispensary?._source.twitter ||
-        dispensary?._source.instagram ? (
+        {dispensary._source.facebook ||
+        dispensary._source.twitter ||
+        dispensary._source.instagram ? (
           <section className="py-2">
             <h2 id="business-socilas" className="sr-only">
               Find us on Social Media
@@ -314,9 +316,9 @@ export default function BusinessDetail() {
 
             <div className="grid grid-flow-row auto-rows-max ">
               <div className="pt-5 ">
-                {typeof dispensary?._source.facebook !== 'undefined' && (
+                {typeof dispensary._source.facebook !== 'undefined' && (
                   <a
-                    href={`${dispensary?._source.facebook[0]}`}
+                    href={`${dispensary._source.facebook[0]}`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -326,7 +328,7 @@ export default function BusinessDetail() {
                     </button>
                   </a>
                 )}
-                {typeof dispensary?._source.twitter !== 'undefined' && (
+                {typeof dispensary._source.twitter !== 'undefined' && (
                   <a
                     href={`${dispensary?._source.twitter[0]}`}
                     target="_blank"
@@ -339,9 +341,9 @@ export default function BusinessDetail() {
                     </button>
                   </a>
                 )}
-                {typeof dispensary?._source.instagram !== 'undefined' && (
+                {typeof dispensary._source.instagram !== 'undefined' && (
                   <a
-                    href={`${dispensary?._source.instagram[0]}`}
+                    href={`${dispensary._source.instagram[0]}`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -366,7 +368,7 @@ export default function BusinessDetail() {
           >
             Opening Hours
           </h2>{' '}
-          {typeof dispensary?._source.monday_hours !== 'undefined' && (
+          {typeof dispensary._source.monday_hours !== 'undefined' && (
             <>
               <div className="text-gray-700 pt-2">
                 <p
@@ -376,8 +378,8 @@ export default function BusinessDetail() {
                 >
                   Sunday{' '}
                   <span>
-                    {dispensary?._source.sunday_hours
-                      ? dispensary?._source.sunday_hours
+                    {dispensary._source.sunday_hours
+                      ? dispensary._source.sunday_hours
                       : 'Not Available'}
                   </span>
                 </p>
@@ -388,8 +390,8 @@ export default function BusinessDetail() {
                 >
                   Monday{' '}
                   <span>
-                    {dispensary?._source.monday_hours
-                      ? dispensary?._source.monday_hours
+                    {dispensary._source.monday_hours
+                      ? dispensary._source.monday_hours
                       : 'Not Available'}
                   </span>
                 </p>
@@ -400,7 +402,7 @@ export default function BusinessDetail() {
                 >
                   Tuesday{' '}
                   <span>
-                    {dispensary?._source.tuesday_hours
+                    {dispensary._source.tuesday_hours
                       ? dispensary?._source.tuesday_hours
                       : 'Not Available'}
                   </span>
@@ -412,8 +414,8 @@ export default function BusinessDetail() {
                 >
                   Wednesday{' '}
                   <span>
-                    {dispensary?._source.wednesday_hours
-                      ? dispensary?._source.wednesday_hours
+                    {dispensary._source.wednesday_hours
+                      ? dispensary._source.wednesday_hours
                       : 'Not Available'}
                   </span>
                 </p>
@@ -424,8 +426,8 @@ export default function BusinessDetail() {
                 >
                   Thursday{' '}
                   <span>
-                    {dispensary?._source.thursday_hours
-                      ? dispensary?._source.thursday_hours
+                    {dispensary._source.thursday_hours
+                      ? dispensary._source.thursday_hours
                       : 'Not Available'}
                   </span>
                 </p>
@@ -436,8 +438,8 @@ export default function BusinessDetail() {
                 >
                   Friday{' '}
                   <span>
-                    {dispensary?._source.friday_hours
-                      ? dispensary?._source.friday_hours
+                    {dispensary._source.friday_hours
+                      ? dispensary._source.friday_hours
                       : 'Not Available'}
                   </span>
                 </p>
@@ -448,8 +450,8 @@ export default function BusinessDetail() {
                 >
                   Saturday{' '}
                   <span>
-                    {dispensary?._source.saturday_hours
-                      ? dispensary?._source.saturday_hours
+                    {dispensary._source.saturday_hours
+                      ? dispensary._source.saturday_hours
                       : 'Not Available'}
                   </span>
                 </p>
@@ -459,14 +461,16 @@ export default function BusinessDetail() {
         </section>
       </div>
       {/* Need Review FAQ  and amenities Data */}
+
       {/* <FaqSlideOver name={dispensary?._source.name[0]} faqs={faqs} /> */}
       {/* <div id="reviews-section">
         <BusinessReviewSlideOver dispensary={dispensary} reviews={reviews} />
       </div> */}
       {dispensary?._source.amenities && (
+
         <div className="px-4">
           <AmenitiesSection
-            amenities={dispensary?._source.amenities as string[]}
+            amenities={dispensary._source.amenities as string[]}
           />
         </div>
       )}
@@ -493,5 +497,5 @@ export default function BusinessDetail() {
         )}
       </section>
     </div>
-  );
+  ): null);
 }

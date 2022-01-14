@@ -6,7 +6,7 @@ function getMiles(i: number) {
 
 function getDistanceFrom(
     
-  userCoords: { lat: number; lng: number },
+  userCoords: { lat: number; lon: number },
   listingCoords: { lat: number[]; lon: number[] }
 ) {
   const distance = getDistance(
@@ -16,7 +16,7 @@ function getDistanceFrom(
     },
     {
       latitude: userCoords?.lat,
-      longitude: userCoords?.lng,
+      longitude: userCoords?.lon,
     }
   );
   return `${getMiles(distance).toFixed(1)} mi`;

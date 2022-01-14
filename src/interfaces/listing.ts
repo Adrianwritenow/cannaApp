@@ -9,7 +9,7 @@ export interface Listing {
   distance: string;
   coords?: {
     lat?: number;
-    lng?: number;
+    lon?: number;
   };
   socials: {
     facebook: string;
@@ -34,6 +34,10 @@ export interface ListingProps {
   amenities?: boolean;
   classNames?: string;
   discount?: string;
+  userCoords?: {
+    lat: number;
+    lon: number;
+  }
 }
 
 export interface DispensaryProps {
@@ -43,6 +47,6 @@ export interface DispensaryProps {
   discount?: string;
   userCoords?: {
     lat: number;
-    lng: number;
+    lon: number;
   };
 }

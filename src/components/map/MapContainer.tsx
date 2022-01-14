@@ -9,102 +9,98 @@ import MapResults from './MapResults';
 import { RootState } from '@/reducers';
 import { ViewListIcon } from '@heroicons/react/outline';
 import { useCurrentWidth } from './useCurrentWidth';
+import { Dispensary } from '@/interfaces/dispensary';
+import { setLocation } from '@/actions/location';
 
 export const MapContext = createContext<any>(null);
 
 export function MapContainer() {
   const [showMap, setShowMap] = useState(true);
-  const { results, query } = useSelector((root: RootState) => root.search);
-  const { city, lat, lng } = useSelector((root: RootState) => root.location);
+  const { searchLocation, query } = useSelector(
+    (root: RootState) => root.search
+  );
+  const { state, city, lat, lon, preciseLocationSet } = useSelector(
+    (root: RootState) => root.location
+  );
   const [dispensaryResults, setDispensaryResults] = useState<any>([]);
   const dispatch = useDispatch();
   const [resultsShouldUpdate, setResultsShouldUpdate] = useState(false);
   const [showResults, setShowResults] = useState(true);
+  const [locationMatches, setLocationMatches] = useState<Array<Dispensary>>();
   const [activeCard, setActiveCard] = useState<any>(0);
   const [currentQuery, setCurrentQuery] = useState('');
   const [swiper, setSwiper] = useState<any>(null);
+  const [update, setUpdate] = useState(true);
   const width = useCurrentWidth();
-  const [userCoordinates, setUserCoordinates] = useState<any>({
-    lat: null,
-    lon: null,
-  });
 
   useEffect(() => {
-    let searchListUpdate: any = {
-      dispensaries: [],
-    };
-
-    if (results) {
-      results.filter((result: any) => {
-        if (
-          result._id.includes('dispensary') &&
-          typeof result._source.lat !== 'undefined'
-        ) {
-          searchListUpdate.dispensaries.push(result);
-        }
+    async function getLocationMatches() {
+      const hits: any = await combinedSearchQuery({
+        search: '',
+        endpoints: ['dispenaries'],
+        coords: searchLocation.coords ? searchLocation.coords : { lat, lon },
+        distance: '15mi',
+        total: 10,
       });
-    }
-    if (currentQuery !== query) {
-      setDispensaryResults(searchListUpdate);
-    }
-    setCurrentQuery(query);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [results, dispensaryResults, userCoordinates]);
 
-  async function handleSubmit(search: any, coords: any, distance: any) {
-    const hits: any = await combinedSearchQuery({
-      search: '',
-      endpoints: ['dispenaries'],
-      coords: coords,
-      distance: distance,
-    });
-    dispatch(
-      receiveResults({
-        // search: city,
-        search: city,
-        data: hits,
-      })
-    );
-  }
+      setLocationMatches(hits);
+    }
+    if (searchLocation.label !== null) {
+      getLocationMatches();
+    }
+  }, [searchLocation.label, query]);
+
 
   const getLocation = () => {
-    setUserCoordinates({ lat: lat, lon: lng });
-    setResultsShouldUpdate(true);
-  };
-
-  // const getLocation = async () => {
-  //   if (!navigator.geolocation) {
-  //     alert('Geolocation is not supported by your browser');
-  //   } else {
-  //     navigator.geolocation.getCurrentPosition(
-  //       position => {
-  //         setResultsShouldUpdate(true);
-  //         setUserCoordinates({
-  //           lat: position.coords.latitude,
-  //           lon: position.coords.longitude,
-  //         });
-  //       },
-  //       err => console.log(err)
-  //     );
-  //   }
-  // };
-
-  useEffect(() => {
-    if (resultsShouldUpdate && results.length) {
-      setResultsShouldUpdate(false);
-
-      handleSubmit(
-        '',
-        { lat: lat, lon: lng },
-        '15mi'
+    if (!preciseLocationSet) {
+      if (!navigator.geolocation) {
+        alert('Geolocation is not supported by your browser');
+      } else {
+        navigator.geolocation.getCurrentPosition(
+          position => {
+            dispatch(
+              setLocation({
+                city: city,
+                state: state,
+                lat: position.coords.latitude,
+                lon: position.coords.longitude,
+                preciseLocationSet: true,
+              })
+            );
+            dispatch(
+              receiveResults({
+                searchLocation: {
+                  coords: {
+                    lat: position.coords.latitude,
+                    lon: position.coords.longitude,
+                  },
+                  label: city,
+                },
+              })
+            );
+          },
+          err => console.log(err)
+        );
+      }
+    } else {
+      dispatch(
+        receiveResults({
+          // search: city,
+          searchLocation: {
+            coords: {
+              lat: lat,
+              lon: lon,
+            },
+            label: city,
+          },
+        })
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userCoordinates]);
+  };
 
   return (
     <>
-      {!showMap && (
+      {/* {!showMap && (
         <div className="w-screen relative py-2 bg-gray-50 flex items-center justify-center">
           <button
             className="flex justify-between text-sm items-center px-4 py-4 h-7 rounded-3xl text-white bg-green-400"
@@ -114,9 +110,9 @@ export function MapContainer() {
             <MapIcon className="ml-2 w-6" />
           </button>
         </div>
-      )}
+      )} */}
 
-      {typeof dispensaryResults.dispensaries !== 'undefined' && (
+      {locationMatches && (
         <MapContext.Provider
           value={{
             activeCard,
@@ -125,13 +121,11 @@ export function MapContainer() {
             setSwiper,
             showResults,
             setShowResults,
-            userCoordinates,
           }}
         >
           <div className="overflow-hidden">
             <section className=" relative w-screen">
-              {typeof dispensaryResults.dispensaries !== 'undefined' &&
-              showMap ? (
+              {locationMatches && showMap ? (
                 <>
                   <button
                     onClick={() => getLocation()}
@@ -144,10 +138,10 @@ export function MapContainer() {
                     />
                   </button>
                   <Map
-                    data={dispensaryResults.dispensaries}
+                    data={locationMatches}
                     currentViewport={width}
                   />
-                  <div
+                  {/* <div
                     className={`transition-all duration-500 absolute bottom-64
                 ${
                   !showResults ? 'transform translate-y-52' : ''
@@ -160,9 +154,12 @@ export function MapContainer() {
                       List
                       <ViewListIcon className=" ml-2 w-6" />
                     </button>
-                  </div>
+                  </div> */}
                   <div className="">
-                    <MapResults data={dispensaryResults.dispensaries} userCoords={{lat: lat, lng: lng}} />
+                    <MapResults
+                      data={locationMatches}
+                      userCoords={{ lat: lat, lon: lon }}
+                    />
                   </div>
                 </>
               ) : null}

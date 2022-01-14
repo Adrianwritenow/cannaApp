@@ -6,44 +6,57 @@ import {
 } from '@heroicons/react/solid';
 import { Dialog, Transition } from '@headlessui/react';
 import { Field, FieldAttributes, Form, Formik } from 'formik';
-import React, { Fragment, Ref, useEffect, useRef, useState } from 'react';
+import React, { Fragment, useEffect, useRef, useState } from 'react';
 import { combinedSearchQuery, receiveResults } from '../../../actions/search';
 import { getLocationByIP, setLocation } from '../../../actions/location';
 import { useDispatch, useSelector } from 'react-redux';
-
 import { LocationData } from '../../../interfaces/locationData';
 import { RootState } from '@/reducers';
 import { SearchBar } from './SearchBar';
 import SearchDispensaryCard from '../../search/SearchDispensaryCard';
-import { SearchHits } from '../../../interfaces/searchHits';
 import SearchProductCard from '../../search/SearchProductCard';
 import SearchStrainCard from '../../search/SearchStrainCard';
 import { useRouter } from 'next/router';
+import mapboxgl from 'mapbox-gl';
+import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
+import Target from '@/public/assets/icons/iconComponents/Target';
 
 export default function SearchSlideOver(props: {
   searchRoute?: string;
   root?: boolean;
 }) {
   const { root } = props;
-  const [open, setOpen] = useState(false);
-  const { results, query } = useSelector((root: RootState) => root.search);
-  const location = useSelector((root: RootState) => root.location);
-  const [focus, setFocus] = useState('');
-  const [initialSearchSet, setInitialSearchSet] = useState(false);
-  const dispatch = useDispatch();
-  const [initialResultsSet, setInitialResultsSet] = useState(false);
-  const router = useRouter();
   const { searchRoute } = props;
+  const [open, setOpen] = useState(false);
+  const location = useSelector((root: RootState) => root.location);
+  const [geolocationSet, setGeolocationSet] = useState(false);
+  const [geocodeInitialized, setGeocodeInitialized] = useState(false);
+  const initialLocationCleared = useRef(false);
+  const [initialResultsSet, setInitialResultsSet] = useState(false);
+  const [focus, setFocus] = useState('');
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const { results, query, searchLocation } = useSelector(
+    (root: RootState) => root.search
+  );
+  const geocoderRef = useRef<any>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const initialValues = {
-    search: query,
-    location: '',
+    search: '',
+    // searchLocation: searchLocation,
   };
+
+  mapboxgl.accessToken = process.env.MAPBOX_ACCESS_TOKEN as string;
+  let geocoder = new MapboxGeocoder({
+    accessToken: mapboxgl.accessToken,
+    types: 'place',
+  });
 
   async function handleSubmit(search: any) {
     const hits = await combinedSearchQuery({
       search: search,
+      total: 10,
       endpoints: ['products', 'dispenaries', 'strains', 'blogs'],
     });
     if (hits) {
@@ -53,8 +66,109 @@ export default function SearchSlideOver(props: {
     }
   }
 
-  function handleSearch(search: any) {
-    handleSubmit(search);
+  useEffect(() => {
+    if (geocoderRef.current !== null && !geocodeInitialized) {
+      geocoder.addTo(geocoderRef.current);
+      setGeocodeInitialized(true);
+      if (geocoderRef.current.children[0].children[1]) {
+        geocoderRef.current.children[0].children[1].placeholder = 'Location...';
+        geocoderRef.current.children[0].children[1].value =
+          initialLocationCleared && searchLocation.label
+            ? searchLocation.label
+            : '';
+        // : '';
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [geocoderRef.current, geocodeInitialized, open]);
+
+  // prevent geocoder from rendering multiple times
+  useEffect(() => {
+    setGeocodeInitialized(false);
+  }, [open]);
+
+  // handle new location selected
+  geocoder.on('result', e => {
+    setGeolocationSet(false);
+    dispatch(
+      receiveResults({
+        searchLocation: {
+          coords: { lat: e.result.center[1], lon: e.result.center[0] },
+          label: e.result.text,
+          boundingBox: e.result.bbox,
+        },
+      })
+    );
+    router.pathname === '/map' ? setOpen(false) : router.push('/map');
+  });
+
+  async function handleLocationRequest() {
+    if (!location.preciseLocationSet) {
+      if (!navigator.geolocation) {
+        alert('Geolocation is not supported by your browser');
+      } else {
+        navigator.geolocation.getCurrentPosition(
+          position => {
+            setGeolocationSet(true);
+            setOpen(false);
+            router.pathname === '/map' ? setOpen(false) : router.push('/map');
+            dispatch(
+              setLocation({
+                city: location.city,
+                state: location.state,
+                lat: position.coords.latitude,
+                lon: position.coords.longitude,
+                preciseLocationSet: true,
+              })
+            );
+            dispatch(
+              receiveResults({
+                searchLocation: {
+                  coords: {
+                    lat: position.coords.latitude,
+                    lon: position.coords.longitude,
+                  },
+                  label: location.city,
+                },
+              })
+            );
+            if (geocoderRef.current.children[0].children[1]) {
+              geocoderRef.current.children[0].children[1].value =
+                'Your Location';
+            }
+          },
+          err => console.log(err)
+        );
+      }
+    } else {
+      dispatch(
+        receiveResults({
+          // search: city,
+          searchLocation: {
+            coords: {
+              lat: location.lat,
+              lon: location.lon,
+            },
+            label: location.city,
+          },
+        })
+      );
+      setOpen(false);
+      router.pathname === '/map' ? setOpen(false) : router.push('/map');
+    }
+  }
+
+  // adds short delay to prevent search from firing until the user has stopped typing
+  let timeout: ReturnType<typeof setTimeout>;
+  function handleSearch(e: any) {
+    if (timeout) {
+      clearTimeout(timeout);
+    }
+    timeout = setTimeout(() => {
+      if (e.target.name === 'search') {
+        handleSubmit(e.target.value);
+      }
+    }, 500);
   }
 
   // Get initial location data based on Client IP
@@ -64,7 +178,7 @@ export default function SearchSlideOver(props: {
       dispatch(setLocation(data));
     }
 
-    if (!Object.keys(location).length) {
+    if (!Object.keys(location).length && !location.preciseLocationSet) {
       getLocation();
     }
 
@@ -72,21 +186,40 @@ export default function SearchSlideOver(props: {
   }, []);
 
   useEffect(() => {
-    async function getDispensaryResults() {
-      const hits: any = await combinedSearchQuery({
-        search: location.city,
-        endpoints: ['dispenaries'],
-        coords: { lat: location.lat, lon: location.lng },
-        distance: '10mi',
-      });
-      dispatch(receiveResults({ search: location.city, data: hits }));
+    async function getInitialDispensaryResults() {
+      if (location) {
+        const hits: any = await combinedSearchQuery({
+          search: location.city,
+          endpoints: ['dispenaries'],
+          coords: { lat: location.lat, lon: location.lon },
+          distance: '10mi',
+        });
+        dispatch(
+          receiveResults({
+            search: location.city,
+            data: hits,
+            searchLocation: {
+              coords: { lat: location.lat, lon: location.lon },
+              label: location.city,
+            },
+          })
+        );
+      }
+
+    }
+    if (
+      location.city &&
+      query === '' &&
+      !initialResultsSet &&
+      router.pathname === '/map' &&
+      searchLocation.label === null
+    ) {
+      setInitialResultsSet(true);
+      getInitialDispensaryResults();
     }
 
-    if (location.city && query === '') {
-      getDispensaryResults();
-    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.city]);
+  }, [location]);
 
   function handleFocus() {
     // Wait for transition to finish then focus on input
@@ -98,6 +231,31 @@ export default function SearchSlideOver(props: {
     }, 500);
   }
 
+  function handleClearLocation() {
+    if (geocoderRef.current.children[0].children[1]) {
+      geocoderRef.current.children[0].children[1].placeholder = 'Location...';
+      geocoderRef.current.children[0].children[1].value = '';
+    }
+    initialLocationCleared.current = true;
+    dispatch(
+      receiveResults({
+        query: '',
+        searchLocation: {
+          coords: {
+            lat: null,
+            lon: null,
+          },
+          label: null,
+        },
+      })
+    );
+    setGeolocationSet(false);
+  }
+
+  function handleClearSearchTerm() {
+    dispatch(receiveResults({ data: [], query: '' }));
+  }
+
   return (
     <div>
       <div className="w-full relative pb-4">
@@ -105,7 +263,7 @@ export default function SearchSlideOver(props: {
           {router.pathname === '/map' ? (
             <button
               onClick={() => {
-                router.back();
+                router.push('/search');
               }}
             >
               <ArrowLeftIcon className="w-5 h-5 ml-3" />
@@ -217,7 +375,7 @@ export default function SearchSlideOver(props: {
                                                 e: React.ChangeEvent<HTMLInputElement>
                                               ) => {
                                                 handleChange(e);
-                                                handleSearch(e.target.value);
+                                                handleSearch(e);
                                               }}
                                               placeholder={'Search...'}
                                             />
@@ -225,14 +383,14 @@ export default function SearchSlideOver(props: {
                                         </div>
                                         <button
                                           type="button"
-                                          className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-transparent"
+                                          className="bg-white rounded-md text-gray-500 focus:outline-none focus:ring-transparent"
                                           onClick={() => {
-                                            resetForm;
-                                            setOpen(false);
+                                            resetForm();
+                                            handleClearSearchTerm();
                                           }}
                                         >
                                           <span className="sr-only">
-                                            Close panel
+                                            Clear Search
                                           </span>
                                           <XIcon
                                             className="h-6 w-6"
@@ -241,7 +399,7 @@ export default function SearchSlideOver(props: {
                                         </button>
                                       </div>
                                       <div className="flex w-full items-center">
-                                        <div>
+                                        <div className="flex justify-center items-center">
                                           <LocationMarkerIcon
                                             className={`h-6 w-6  ${
                                               focus == 'location'
@@ -251,21 +409,57 @@ export default function SearchSlideOver(props: {
                                             aria-hidden="true"
                                           />
                                         </div>
-                                        <div className="grid grid-cols-7 gap-1 w-full">
-                                          <div className={'col-span-7'}>
-                                            <Field
-                                              name={'location'}
+                                        <div className="grid grid-cols-7 gap-1 w-full relative">
+                                          {/* geocoder autocomplete field */}
+                                          <div
+                                            className={
+                                              'col-span-7 h-14 flex items-center'
+                                            }
+                                            ref={geocoderRef}
+                                          />
+                                          <button
+                                            className="absolute w-6 h-6 right-0 bottom-4"
+                                            onClick={handleClearLocation}
+                                          >
+                                            <XIcon className="text-gray-500" />
+                                          </button>
+
+                                          {/* <Field
+                                              name={'searchLocation'}
                                               type={'text'}
                                               onFocus={() => {
-                                                setFocus('location');
+                                                setFocus('searchLocation');
                                               }}
-                                              id={'location'}
+                                              
+                                              onChange={(
+                                                e: React.ChangeEvent<HTMLInputElement>
+                                              ) => {
+                                                handleChange(e);
+                                                handleSearch(e);
+                                              }}
+                                              id={'searchLocation'}
                                               className="w-full border-none p-4 focus:border-0 focus:outline-none focus:ring-transparent"
-                                              value={values.location}
+                                              value={values.searchLocation}
                                               placeholder="Location..."
-                                            />
-                                          </div>
+                                            /> */}
                                         </div>
+                                        {/* </div> */}
+                                      </div>
+                                      <div>
+                                        {!geolocationSet ? (
+                                          <button
+                                            onClick={handleLocationRequest}
+                                            className="flex w-full items-center "
+                                          >
+                                            <div className=" flex items-center justify-center">
+                                              <Target className=" text-gray-500" />
+
+                                              <p className="p-4">
+                                                Current Location
+                                              </p>
+                                            </div>
+                                          </button>
+                                        ) : null}
                                       </div>
                                     </Form>
                                     {results.length ? (
@@ -329,9 +523,7 @@ export default function SearchSlideOver(props: {
                                       key={`generalSearch`}
                                       onClick={() => {
                                         router.push(
-                                          searchRoute === '/map'
-                                            ? searchRoute
-                                            : '/search'
+                                         '/search'
                                         );
                                         setOpen(false);
                                       }}

@@ -4,6 +4,7 @@ import { Field, Formik } from 'formik';
 import { ClaimState } from '@/interfaces/claim';
 import ErrorsDisplay from '@/components/error/ErrorsDisplay';
 import { InputField } from '@/components/forms/fields/InputField';
+import { phoneNumber } from '@/helpers/validation';
 
 export function PhoneNumberForm({
   state,
@@ -13,7 +14,9 @@ export function PhoneNumberForm({
   submitChildForm: (key: string, value: any) => void;
 }) {
   const schema = Yup.object().shape({
-    phone: Yup.string().required('Phone number is required'),
+    phone: Yup.string()
+      .matches(phoneNumber, 'Phone is not valid')
+      .required('Required'),
   });
 
   function handleSubmit(values: any) {
@@ -28,7 +31,7 @@ export function PhoneNumberForm({
       validateOnChange={false}
       validateOnBlur={true}
     >
-      {({ handleSubmit, errors }) => {
+      {({ errors, handleBlur, handleChange, handleSubmit }) => {
         const errorCount = Object.keys(errors).length;
         const errorList = Object.values(errors).map((error, i) => (
           <li className="text-red-700 font-normal" key={i}>
@@ -48,9 +51,13 @@ export function PhoneNumberForm({
 
             <div className="mt-1">
               <Field
-                placeholder="000-000-0000"
                 id="phone"
                 name="phone"
+                handleBlur={handleBlur}
+                handleChange={handleChange}
+                placeholder="(000) 000-0000"
+                format="(###) ###-####"
+                mask="_"
                 type="text"
                 component={InputField}
               />

@@ -54,11 +54,13 @@ export default function ListingCard(data: ListingProps) {
         </div>
         <div className="p-2 text-left text-sm w-full rounded-b-lg overflow-hidden border border-gray-200">
           <div className="flex justify-between">
-            <h3 className=" font-bold text-base text-gray-700 leading-6">
-              <Link href={`/business/${encodeURIComponent(listing._id)}`}>
-                <a>{listing._source.name}</a>
-              </Link>
-            </h3>
+            <Link
+              href={`/business/${encodeURIComponent(listing._id as string)}`}
+            >
+              <h3 className="text-lg font-semi-bold text-gray-700">
+                {listing._source.name}
+              </h3>
+            </Link>
             {/* <BookmarkIcon className="w-6 shrink-0" /> */}
           </div>
           <div className="flex flex-col items-start">

@@ -20,7 +20,7 @@ export default function CouponDetail() {
 
   useEffect(() => {
     if (cid && !coupon) {
-      getDocument(cid, 'coupons').then((document: SearchHits) => {
+      getDocument(cid, 'dispensary').then((document: SearchHits) => {
         if (document) {
           const result = document.hits.hits[0];
           setCoupon(result as Coupon);
@@ -32,7 +32,7 @@ export default function CouponDetail() {
       const business: SearchHits = await browseBy(
         'id',
         coupon?._source.dispensary[0],
-        'dispenaries'
+        '*'
       );
 
       // setDispensary(business.hits.hits as unknown as Dispensary);

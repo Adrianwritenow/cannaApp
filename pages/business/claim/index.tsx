@@ -1,59 +1,50 @@
 import { ArrowLeftIcon } from '@heroicons/react/solid';
-import Confetti from 'react-confetti';
-import { useEffect, useState } from 'react';
-import useWindowSize from 'react-use/lib/useWindowSize';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Steps } from '@/components/forms/ClaimBusiness';
+import { BusinessState } from '@/interfaces/business';
+import { ClaimVerificationMessage } from '@/components/business/ClaimVerificationMessage';
 import { ClaimState } from '@/interfaces/claim';
-
-const defaultState: ClaimState = {
-  step: 'business',
-  business: '',
-  phone: '',
-  website: '',
-  categories: '',
-  address: {
-    line1: '',
-    city: '',
-    state: '',
-    zip: '',
-    country: '',
-  },
-};
+import { updateBusinessClaim } from '@/actions/business';
+import { RootState } from '@/reducers';
 
 export default function ClaimDetail() {
-  const [state, setState] = useState<ClaimState>(defaultState);
-  const { width, height } = useWindowSize();
+  const dispatch = useDispatch();
+  const { claim } = useSelector(
+    (root: RootState): BusinessState => root.business
+  );
 
   const handleGoBack = (step: string) => {
     return () => {
-      setState({
-        ...state,
-        step,
-      });
+      dispatch(
+        updateBusinessClaim({
+          step,
+        })
+      );
     };
   };
 
   const handleSubmitChildForm = (step: string) => {
     return (key: string, value: any) => {
-      setState({
-        ...state,
-        step,
-        [key]: value,
-      });
+      dispatch(
+        updateBusinessClaim({
+          step,
+          [key]: value,
+        })
+      );
     };
   };
 
   let stepComponent;
   let backAction;
 
-  switch (state.step) {
+  switch (claim.step) {
     case 'address':
       backAction = handleGoBack('categories');
       stepComponent = (
         <Steps.Address
-          state={state}
-          submitChildForm={handleSubmitChildForm('complete')}
+          state={claim}
+          submitChildForm={handleSubmitChildForm('verify')}
         />
       );
       break;
@@ -62,7 +53,7 @@ export default function ClaimDetail() {
       backAction = null;
       stepComponent = (
         <Steps.Business
-          state={state}
+          state={claim}
           submitChildForm={handleSubmitChildForm('phone')}
         />
       );
@@ -72,7 +63,7 @@ export default function ClaimDetail() {
       backAction = handleGoBack('business');
       stepComponent = (
         <Steps.Phone
-          state={state}
+          state={claim}
           submitChildForm={handleSubmitChildForm('website')}
         />
       );
@@ -82,7 +73,7 @@ export default function ClaimDetail() {
       backAction = handleGoBack('phone');
       stepComponent = (
         <Steps.Website
-          state={state}
+          state={claim}
           submitChildForm={handleSubmitChildForm('categories')}
         />
       );
@@ -92,37 +83,15 @@ export default function ClaimDetail() {
       backAction = handleGoBack('website');
       stepComponent = (
         <Steps.Categories
-          state={state}
+          state={claim}
           submitChildForm={handleSubmitChildForm('address')}
         />
       );
       break;
 
-    case 'complete':
+    case 'verify':
       backAction = null;
-      stepComponent = (
-        <>
-          <h1 className="text-4xl leading-10 font-extrabold pb-3">
-            Congrats, CANNACADET
-          </h1>
-          <p className="text-lg leading-6 font-medium pb-5">
-            You’ve successfully claimed {state.business}!
-          </p>
-          <p className="text-lg leading-6 font-medium pb-5">
-            Why not go ahead and make sure your listing info is up-to-date?
-          </p>
-
-          <button className="w-full bg-green text-white hover:bg-green-600 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-base leading-6 font-semibold focus:outline-none focus:ring-2 focus:ring-offset-2 mb-3">
-            Manage My Listing
-          </button>
-          <button className="w-full bg-white text-green hover:bg-green-600 hover:text-white flex justify-center py-2 px-4 border border-green rounded-md shadow-sm text-base leading-6 font-semibold focus:outline-none focus:ring-2 focus:ring-offset-2">
-            Back to CANNAPAGES
-          </button>
-          {typeof window !== 'undefined' && (
-            <Confetti width={width} height={height} />
-          )}
-        </>
-      );
+      stepComponent = <ClaimVerificationMessage state={claim} />;
       break;
 
     default:

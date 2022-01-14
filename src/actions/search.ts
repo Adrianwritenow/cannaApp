@@ -160,8 +160,28 @@ export function getFeatured(index: string) {
   return results;
 }
 
-export function browseBy(field: string, value: any, index: string) {
-  var body = bodybuilder().filter('match', `${field}`, value).build();
+export function browseBy(
+  field: string,
+  value: any,
+  index: string,
+  filter?: { key: string; value: any[] },
+  filterOnly?: boolean
+) {
+  const body = bodybuilder();
+
+  if (!filterOnly) {
+    body.filter('match', `${field}`, value);
+  }
+
+  if (filter) {
+    console.log('?', filter);
+    const value = filter.value ? filter.value : [''];
+    body.orQuery('terms', `${filter.key}`, value);
+  }
+
+  const query = body.build();
+
+  console.log('BODY:::', query);
 
   const results = axios({
     url: `${SEARCH_URL}/elasticsearch_index_dev_cannapages_${index}/_search?size=15`,
@@ -169,7 +189,7 @@ export function browseBy(field: string, value: any, index: string) {
     headers: {
       'Content-Type': 'application/json',
     },
-    data: body,
+    data: query,
   })
     .then((res: AxiosResponse) => {
       return res.data;

@@ -175,8 +175,8 @@ export default function BusinessDetail() {
             </div>
             <div className="flex">
               <p>Dispensary</p>
-              <span className="px-1 text-normal">&#8226;</span>
-              <p>$$$</p>
+              {/* <span className="px-1 text-normal">&#8226;</span>
+              <p>$$$</p> */}
               {/*****  Need current location from *****/}
               <span className="px-1 text-normal">&#8226;</span>
               {distanceFrom ? (
@@ -251,7 +251,9 @@ export default function BusinessDetail() {
       </div>
       <div className="space-y-4 px-4">
         <AboutUsSlideOver dispensary={dispensary} />
-        <BusinessVerificationSlideOver dispensary={dispensary} />
+        {dispensary?._source.licenses && (
+          <BusinessVerificationSlideOver dispensary={dispensary} />
+        )}
         {/* Map */}
         <section className="pt-10 pb-4">
           <h2 className="sr-only">Location</h2>
@@ -459,11 +461,13 @@ export default function BusinessDetail() {
         </section>
       </div>
       {/* Need Review FAQ  and amenities Data */}
-      <FaqSlideOver name={dispensary._source.name[0]} faqs={faqs} />
-      <div id="reviews-section">
+
+      {/* <FaqSlideOver name={dispensary?._source.name[0]} faqs={faqs} /> */}
+      {/* <div id="reviews-section">
         <BusinessReviewSlideOver dispensary={dispensary} reviews={reviews} />
-      </div>
-      {dispensary._source.amenities && (
+      </div> */}
+      {dispensary?._source.amenities && (
+
         <div className="px-4">
           <AmenitiesSection
             amenities={dispensary._source.amenities as string[]}

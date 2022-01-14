@@ -21,29 +21,29 @@ export const HeaderRoutes = {
 };
 
 export const FooterRoutes = {
-  business: [
-    { label: 'Why CANNAPAGES?', href: '#' },
-    { label: 'Get Listed', href: '#' },
-    { label: 'Advertise', href: '#' },
-    { label: 'Free Classifieds', href: '#' },
-    { label: 'Contact Sales', href: '#' },
-  ],
+  // business: [
+  //   { label: 'Why CANNAPAGES?', href: '#' },
+  //   { label: 'Get Listed', href: '#' },
+  //   { label: 'Advertise', href: '#' },
+  //   { label: 'Free Classifieds', href: '#' },
+  //   { label: 'Contact Sales', href: '#' },
+  // ],
   listings: [
-    { label: 'Deals', href: '/search' },
-    { label: 'Businesses', href: '#' },
-    { label: 'Strains', href: '#' },
-    { label: 'Products', href: '#' },
+    { label: 'Deals', href: '/search?view=deals' },
+    { label: 'Businesses', href: '/search?view=dispensaries' },
+    { label: 'Strains', href: '/search?view=strains' },
+    { label: 'Products', href: '/search?view=shopping' },
   ],
   community: [
     { label: 'Blog', href: '/blog' },
-    { label: 'In Print', href: '#' },
-    { label: 'Reviews', href: '#' },
-    { label: 'Forum', href: '/forum' },
-    { label: 'Buy a Subscription', href: '#' },
+    // { label: 'In Print', href: '#' },
+    // { label: 'Reviews', href: '#' },
+    // { label: 'Forum', href: '/forum' },
+    // { label: 'Buy a Subscription', href: '#' },
   ],
   cannapages: [
-    { label: 'About', href: '/about' },
-    { label: 'Jobs', href: '#' },
+    // { label: 'About', href: '/about' },
+    // { label: 'Jobs', href: '#' },
     { label: 'Contact', href: '/contact' },
     { label: 'Privacy Policy', href: '/privacy-policy' },
     { label: 'Terms of Service', href: '/terms-and-conditions' },
@@ -51,7 +51,7 @@ export const FooterRoutes = {
   social: [
     {
       label: 'Facebook',
-      href: '#',
+      href: 'https://www.facebook.com/cannapages',
       icon: function SocialIcons(props: any) {
         return (
           <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
@@ -66,7 +66,7 @@ export const FooterRoutes = {
     },
     {
       label: 'Instagram',
-      href: '#',
+      href: 'https://www.instagram.com/cannapages/',
       icon: function SocialIcons(props: any) {
         return (
           <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
@@ -81,7 +81,7 @@ export const FooterRoutes = {
     },
     {
       label: 'Twitter',
-      href: '#',
+      href: 'https://twitter.com/cannapages',
       icon: function SocialIcons(props: any) {
         return (
           <svg fill="currentColor" viewBox="0 0 24 24" {...props}>

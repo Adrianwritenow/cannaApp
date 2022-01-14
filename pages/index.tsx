@@ -41,6 +41,8 @@ export default function Home() {
   const [nearby, setNearby] = useState<Array<Dispensary>>();
   const [flower, setFlower] = useState<Array<Product>>();
   const [blogs, setBlogs] = useState<Array<Post>>();
+  const [deals, setDeals] = useState<Array<Dispensary>>([]);
+  const [coupons, setCoupons] = useState<Array<Coupon>>();
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -48,56 +50,59 @@ export default function Home() {
     coords: { lat: number; lon: number },
     city: string
   ) {
-
     dispatch(
-      receiveResults({ searchLocation: {
-        coords: {
-          lat: coords.lat,
-          lon: coords.lon,
-          city: city
-        }
-      } })
+      receiveResults({
+        searchLocation: {
+          coords: {
+            lat: coords.lat,
+            lon: coords.lon,
+            city: city,
+          },
+        },
+      })
     );
   }
-  const [deals, setDeals] = useState<Array<Dispensary>>([]);
-  const [coupons, setCoupons] = useState<Array<Coupon>>();
+async function getDispensaryResults() {
+  const hits: any = await combinedSearchQuery({
+    search: location.city,
+    endpoints: ['dispenaries'],
+    coords: { lat: location.lat, lon: location.lon },
+    distance: '10mi',
+  });
 
-  useEffect(() => {
-  if (location.city) { if (!coupons) {
-      getPopularItems('coupons');
-    }
-    if (!flower) {
-      getFlower();
-    }
-
-    if (!blogs) {
-      getBlogs();
-    }
-
-    if (location.city && !nearby) {
-      getDispensaryResults();
-    }
-
-    if (coupons?.length && !deals.length) {
-      getDeals(coupons);
-    }}
-  }, [location, coupons, flower, blogs, deals]);
-
-  async function getDispensaryResults() {
-    const hits: any = await combinedSearchQuery({
-      search: location.city,
-      endpoints: ['dispenaries'],
-      coords: { lat: location.lat, lon: location.lon },
-      distance: '10mi',
-    });
-
-    // Sort by  created date
-   if (hits) { hits.sort((a: any, b: any) =>
+  // Sort by  created date
+  if (hits) {
+    hits.sort((a: any, b: any) =>
       a._source.created[0] < b._source.created[0] ? 1 : -1
     );
-}
-    setNearby(hits);
   }
+  setNearby(hits);
+}
+
+  useEffect(() => {
+    if (location.city) {
+      if (!coupons) {
+        getPopularItems('coupons');
+      }
+      if (!flower) {
+        getFlower();
+      }
+
+      if (!blogs) {
+        getBlogs();
+      }
+
+      if (location.city && !nearby) {
+        getDispensaryResults();
+      }
+
+      if (coupons?.length && !deals.length) {
+        getDeals(coupons);
+      }
+    }
+  }, [location, coupons, flower, blogs, deals]);
+
+  
 
   async function getFlower() {
     const hits: SearchHits = await browseBy('category', 'Flower', 'products');

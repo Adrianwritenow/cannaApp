@@ -16,6 +16,7 @@ export interface Dispensary {
     twitter: string[];
     monday_hours: string[];
     tuesday_hours: string[];
+    licenses?: string[];
     wednesday_hours: string[];
     thursday_hours: string[];
     friday_hours: string[];

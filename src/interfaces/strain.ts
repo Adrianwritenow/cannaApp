@@ -5,6 +5,7 @@ export interface Strain {
   _source: {
     created: number[];
     description: string[];
+    grow_information?: string[];
     image: number[];
     url: string[];
     langcode: string[];

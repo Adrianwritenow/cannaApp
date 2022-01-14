@@ -34,11 +34,11 @@ export default function ResultsStrain(data: ResultsProps) {
             ))}
           </div>
         )}
-        <div className="px-4 ">
+        {/* <div className="px-4 ">
           <button className="py-4 w-full uppercase text-gray-700 text-xs font-bold border-t border-gray-200 tracking-widest">
             See more
           </button>
-        </div>
+        </div> */}
       </div>
     </div>
   );

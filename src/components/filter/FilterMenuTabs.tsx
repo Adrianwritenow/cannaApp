@@ -73,12 +73,13 @@ export default function FilterMenuTabs(props: FilterMenuTabsProps) {
         {({ values, setFieldValue }) => {
           return (
             <Form>
-              <div className="px-4">
+              <div className="px-4 w-full">
                 <Field
                   name={'search'}
                   component={SearchBar}
                   type={'text'}
                   placeholder="Search"
+                  className={'w-full rounded-sm'}
                   id={'search'}
                   setFieldValue={setFieldValue}
                 />

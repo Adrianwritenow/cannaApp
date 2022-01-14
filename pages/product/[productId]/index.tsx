@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { browseBy, getDocument } from '../../../src/actions/search';
 import {
   faqs,
   listings,
@@ -19,7 +20,6 @@ import { SearchHits } from '@/interfaces/searchHits';
 import { StarIcon } from '@heroicons/react/solid';
 import { Vendor } from '../../../src/interfaces/vendor';
 import VendorCard from '../../../src/components/vendor/VendorCard';
-import { getDocument } from '../../../src/actions/search';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 
@@ -28,35 +28,39 @@ export default function ProductDetail() {
   const { productId } = router.query;
   const [product, setProduct] = useState<Product>();
   const [sort, setSort]: any = useState('relevance');
-  const { results, query } = useSelector((root: RootState) => root.search);
-  const [searchLists, setSearchLists] = useState([]);
+  const [related, setRelated] = useState<Array<Product>>([]);
   const [currentQuery, setCurrentQuery] = useState('');
 
   useEffect(() => {
-    getDocument(productId, 'products').then((document: SearchHits) => {
-      if (document) {
-        const result = document.hits.hits[0];
-        setProduct(result as unknown as Product);
-      }
-    });
-
-    let searchListUpdate: any = [];
-
-    if (results.length) {
-      results.map((result: any, index: number) => {
-        switch (true) {
-          case result._id.includes('product_entity'):
-            searchListUpdate.push(result);
-            break;
+    if (!product) {
+      getDocument(productId, 'products').then((document: SearchHits) => {
+        if (document) {
+          const result = document.hits.hits[0];
+          setProduct(result as unknown as Product);
         }
       });
     }
-    if (currentQuery !== query) {
-      setSearchLists(searchListUpdate);
+
+    if (!related.length) {
+      getRelated();
     }
-    setCurrentQuery(query);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router]);
+  }, [router, related]);
+
+  async function getRelated() {
+    const hits: SearchHits = await browseBy(
+      'category',
+      `${product?._source.category[0]}`,
+      'products',
+      {
+        key: 'top_reported_flavors',
+        value: product?._source.top_reported_flavors as string[],
+      }
+    );
+
+    setRelated(hits.hits.hits);
+  }
 
   return (
     <div className="max-w-7xl mx-auto bg-white md:px-20">
@@ -85,9 +89,11 @@ export default function ProductDetail() {
               <div>
                 <h2 className="sr-only">Product information</h2>
               </div>
-              <p className="text-sm text-blue-500">
-                {product?._source?.category[0]}
-              </p>
+              {product?._source?.brand && (
+                <p className="text-sm text-blue-500">
+                  {product?._source?.brand[0]}
+                </p>
+              )}
               <h1 className="text-lg font-normal tracking-tight text-gray-900">
                 {product?._source.name[0]}
               </h1>
@@ -195,6 +201,7 @@ export default function ProductDetail() {
                   <AboutSlideOver
                     about={product._source.description[0]}
                     businessName={product._source.name[0]}
+                    title={false}
                   />
                 </div>
               </div>
@@ -244,17 +251,17 @@ export default function ProductDetail() {
       </div> */}
 
       <ProductResultsSection
-        list={searchLists}
+        list={related}
         sponsored={false}
         hideButton={true}
         label="Related Items"
       />
-      <ProductResultsSection
-        list={searchLists}
+      {/* <ProductResultsSection
+        list={related}
         sponsored={false}
         hideButton={true}
         label="Recently Viewed Items"
-      />
+      /> */}
     </div>
   );
 }

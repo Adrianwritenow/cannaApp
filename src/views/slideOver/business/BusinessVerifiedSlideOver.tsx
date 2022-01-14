@@ -81,20 +81,32 @@ export default function BusinessVerificationSlideOver(
                       {/* Replace with your content */}
                       <div className="absolute inset-0 px-4 sm:px-6">
                         <div className="h-full" aria-hidden="true">
-                          <ul className="list-none">
-                            <li className="w-full flex items justify-between py-4 border-b border-gray-200">
-                              <p className="text-gray-700">License</p>
-                              <p>0000000</p>
-                            </li>
-                            <li className="w-full flex items justify-between py-4 border-b border-gray-200">
-                              <p className="text-gray-700">Issued by</p>
-                              <p>0000000</p>
-                            </li>
-                            <li className="w-full flex items justify-between py-4 border-b border-gray-200">
-                              <p className="text-gray-700">Trade</p>
-                              <p>Dispensary</p>
-                            </li>
-                            <li className="w-full flex items justify-between py-4 border-b border-gray-200">
+                          {dispensary?._source.licenses ? (
+                            <div>
+                              {dispensary?._source.licenses.map(
+                                (license: any) => {
+                                  const value = license.split(':');
+
+                                  return (
+                                    <div className="py-4">
+                                      <ul className="list-none">
+                                        <li className="w-full flex items justify-between py-4 border-b border-gray-200">
+                                          <p className="text-gray-700">
+                                            License
+                                          </p>
+                                          <p>{value[1]}</p>
+                                        </li>
+                                        <li className="w-full flex items justify-between py-4 border-b border-gray-200">
+                                          <p className="text-gray-700">
+                                            Issued by
+                                          </p>
+                                          <p>{value[0]}</p>
+                                        </li>
+                                        <li className="w-full flex items justify-between py-4 border-b border-gray-200">
+                                          <p className="text-gray-700">Trade</p>
+                                          <p>Dispensary</p>
+                                        </li>
+                                        {/* <li className="w-full flex items justify-between py-4 border-b border-gray-200">
                               <p className="text-gray-700">
                                 Verified by CannaPages
                               </p>
@@ -103,8 +115,16 @@ export default function BusinessVerificationSlideOver(
                             <li className="w-full flex items justify-between py-4 border-b border-gray-200">
                               <p className="text-gray-700">Expires</p>
                               <time dateTime="2022-01-01">1/1/2022</time>
-                            </li>
-                          </ul>
+                            </li> */}
+                                      </ul>
+                                    </div>
+                                  );
+                                }
+                              )}
+                            </div>
+                          ) : (
+                            ''
+                          )}
                           <p className="pt-8">
                             When you pick a business on CannaPages, we want you
                             to be confident in your decision. That is why we

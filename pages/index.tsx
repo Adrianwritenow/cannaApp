@@ -33,17 +33,13 @@ import { useSelector } from 'react-redux';
 export default function Home() {
   const { lat, lng } = useSelector((root: RootState) => root.location);
   const location = useSelector((root: RootState) => root.location);
-  const [coupons, setCoupons] = useState<Array<Coupon>>();
   const [nearby, setNearby] = useState<Array<Dispensary>>();
   const [flower, setFlower] = useState<Array<Product>>();
   const [blogs, setBlogs] = useState<Array<Post>>();
+  const [deals, setDeals] = useState<Array<Dispensary>>([]);
+  const [coupons, setCoupons] = useState<Array<Coupon>>();
 
   useEffect(() => {
-    async function getPopularItems(type: string) {
-      const hits: SearchHits = await getPopular(type);
-      setCoupons(hits.hits.hits);
-    }
-
     if (!coupons) {
       getPopularItems('coupons');
     }
@@ -55,42 +51,67 @@ export default function Home() {
       getBlogs();
     }
 
-    async function getDispensaryResults() {
-      const hits: any = await combinedSearchQuery({
-        search: location.city,
-        endpoints: ['dispenaries'],
-        coords: { lat: location.lat, lon: location.lng },
-        distance: '10mi',
-      });
-
-      // Sort by  created date
-      hits.sort((a: any, b: any) =>
-        a._source.created[0] < b._source.created[0] ? 1 : -1
-      );
-
-      setNearby(hits);
-    }
-
-    async function getFlower() {
-      const hits: SearchHits = await browseBy('category', 'Flower', 'products');
-      setFlower(hits.hits.hits);
-    }
-
-    async function getBlogs() {
-      const hits: any = await combinedSearchQuery({
-        search: '*',
-        endpoints: ['blogs'],
-        total: 5,
-      });
-
-      setBlogs(hits);
-    }
-
     if (location.city && !nearby) {
       getDispensaryResults();
     }
-  }, [location, coupons, flower, blogs]);
 
+    if (coupons?.length && !deals.length) {
+      getDeals(coupons);
+    }
+  }, [location, coupons, flower, blogs, deals]);
+
+  async function getDispensaryResults() {
+    const hits: any = await combinedSearchQuery({
+      search: location.city,
+      endpoints: ['dispenaries'],
+      coords: { lat: location.lat, lon: location.lng },
+      distance: '10mi',
+    });
+
+    // Sort by  created date
+    hits.sort((a: any, b: any) =>
+      a._source.created[0] < b._source.created[0] ? 1 : -1
+    );
+
+    setNearby(hits);
+  }
+
+  async function getFlower() {
+    const hits: SearchHits = await browseBy('category', 'Flower', 'products');
+    setFlower(hits.hits.hits);
+  }
+
+  async function getBlogs() {
+    const hits: any = await combinedSearchQuery({
+      search: '*',
+      endpoints: ['blogs'],
+      total: 5,
+    });
+
+    setBlogs(hits);
+  }
+
+  async function getDeals(data: Coupon[]) {
+    const ids = data.map(index => index._source.dispensary[0]);
+    console.log('IDS', ids);
+
+    const hits: SearchHits = await browseBy(
+      'id',
+      `*`,
+      'dispenaries',
+      {
+        key: 'id',
+        value: ids,
+      },
+      true
+    );
+    setDeals(hits.hits.hits as unknown as Dispensary[]);
+  }
+
+  async function getPopularItems(type: string) {
+    const hits: SearchHits = await getPopular(type);
+    setCoupons(hits.hits.hits);
+  }
   return (
     <div className="mx-auto space-y-2">
       {/* Search/Map Section */}
@@ -208,40 +229,42 @@ export default function Home() {
       </section>
 
       {/* Deals Near me section */}
-      <section className="pb-4 pt-2">
-        <h2 id="deals-near-me" className="sr-only">
-          Deals Near Me
-        </h2>
-        <h2
-          id="deals-near-me"
-          className="text-gray-700 text-lg font-semibold px-4 py-4"
-        >
-          Deals Near Me
-        </h2>
-        <div className="grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-4 pb-4">
-          {listings.map((listing, index) => (
-            <div className="w-64" key={`lc-${listing._id}-${index}`}>
-              <ListingCard
-                discount={'50%'}
-                listing={listing}
-                amenities={false}
-              />
-            </div>
-          ))}
-        </div>
-        <div className="px-4 pt-2">
-          <Link
-            href={{ pathname: '/search', query: { view: 'deals' } }}
-            passHref
+      {deals && coupons && (
+        <section className="pb-4 pt-2">
+          <h2 id="deals-near-me" className="sr-only">
+            Deals Near Me
+          </h2>
+          <h2
+            id="deals-near-me"
+            className="text-gray-700 text-lg font-semibold px-4 py-4"
           >
-            <a>
-              <button className="py-4 w-full uppercase text-green-500 text-xs font-semibold border-t border-gray-200 tracking-widest">
-                <span>See more</span>
-              </button>
-            </a>
-          </Link>
-        </div>
-      </section>
+            Deals Near Me
+          </h2>
+          <div className="grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-4 pb-4">
+            {deals.map((listing, index) => (
+              <div className="w-64" key={`lc-${listing._id}-${index}`}>
+                <ListingCard
+                  discount={`$${coupons[index]._source.discount}`}
+                  listing={listing}
+                  amenities={false}
+                />
+              </div>
+            ))}
+          </div>
+          <div className="px-4 pt-2">
+            <Link
+              href={{ pathname: '/search', query: { view: 'deals' } }}
+              passHref
+            >
+              <a>
+                <button className="py-4 w-full uppercase text-green-500 text-xs font-semibold border-t border-gray-200 tracking-widest">
+                  <span>See more</span>
+                </button>
+              </a>
+            </Link>
+          </div>
+        </section>
+      )}
 
       {/* Deals of the Day */}
       <CouponSlideOver label="Deals of the Day" list={coupons as Coupon[]} />

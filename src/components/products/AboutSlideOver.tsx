@@ -1,28 +1,31 @@
-import { ArrowLeftIcon, XIcon } from "@heroicons/react/solid";
-import { Dialog, Transition } from "@headlessui/react";
-import React, { Fragment, useState } from "react";
+import { ArrowLeftIcon, XIcon } from '@heroicons/react/solid';
+import { Dialog, Transition } from '@headlessui/react';
+import React, { Fragment, useState } from 'react';
 
 interface AboutProps {
   businessName: string;
   about: string;
+  title?: boolean;
 }
 
 export default function AboutSlideOver(props: AboutProps) {
-  const { businessName, about } = props;
+  const { businessName, about, title } = props;
   const [open, setOpen] = useState(false);
   return (
     <div>
-      <section aria-labelledby="business-about" className="pt-4">
+      <section aria-labelledby="business-about" className="pt-2">
         <h2 id="business-about" className="sr-only">
           About
         </h2>
-        <h2
-          id="business-about"
-          className="text-lg text-gray-700 font-semibold py-2"
-        >
-          About Us
-        </h2>
-        <p className={"text-base text-gray-700 line-clamp-4"}>{about}</p>
+        {title && (
+          <h2
+            id="business-about"
+            className="text-lg text-gray-700 font-semibold py-2"
+          >
+            About Us
+          </h2>
+        )}
+        <p className={'text-base text-gray-700 line-clamp-4'}>{about}</p>
         <div className="pt-5 ">
           <button
             onClick={() => setOpen(true)}
@@ -84,7 +87,7 @@ export default function AboutSlideOver(props: AboutProps) {
                         >
                           About Us
                         </h2>
-                        <p className={"text-base text-gray-700"}>{about}</p>
+                        <p className={'text-base text-gray-700'}>{about}</p>
                       </section>
                     </div>
                   </div>

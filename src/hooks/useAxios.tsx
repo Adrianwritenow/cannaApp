@@ -2,9 +2,9 @@ import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSession } from 'next-auth/react';
 import axios, { AxiosError, AxiosResponse, AxiosRequestConfig } from 'axios';
-import { IAxiosAction, IAxiosState } from '@/interfaces/axios';
+import { IAxiosAction, IAxiosReturn, IAxiosState } from '@/interfaces/axios';
 
-export type DispatchAxios = (params: IAxiosAction) => void;
+export type DispatchAxios = (params: IAxiosAction) => Promise<any>;
 
 export function useAxios(): [DispatchAxios, IAxiosState] {
   const { data: session, status } = useSession();
@@ -61,7 +61,7 @@ export function useAxios(): [DispatchAxios, IAxiosState] {
         success: false,
       });
 
-      client(params.config)
+      return client(params.config)
         .then((response: AxiosResponse) => {
           // dispatch must come before setState
           dispatch({
@@ -77,6 +77,12 @@ export function useAxios(): [DispatchAxios, IAxiosState] {
               error: null,
             });
           }
+
+          return {
+            success: true,
+            error: null,
+            response,
+          };
         })
         .catch((error: AxiosError) => {
           // dispatch must come before setState
@@ -95,6 +101,12 @@ export function useAxios(): [DispatchAxios, IAxiosState] {
               error,
             });
           }
+
+          return {
+            success: false,
+            response: null,
+            error,
+          };
         });
     },
     [isMounted, dispatch, state, client]

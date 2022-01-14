@@ -1,4 +1,4 @@
-import { AxiosRequestConfig } from "axios";
+import { AxiosRequestConfig } from 'axios';
 
 export interface IAxiosAction {
   type: string;
@@ -15,4 +15,10 @@ export interface IAxiosState {
   success: boolean;
   data?: any;
   response?: any;
+}
+
+export interface IAxiosReturn {
+  success: boolean;
+  error: any;
+  response: any;
 }

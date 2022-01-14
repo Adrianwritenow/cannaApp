@@ -8,7 +8,10 @@ export interface BusinessAddress {
 
 export interface ClaimState {
   step: string;
-  business: string;
+  business: {
+    id: number | string;
+    name: string;
+  };
   phone: string;
   website: string;
   categories: string;

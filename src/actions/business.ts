@@ -90,7 +90,7 @@ export function verifyClaim(id: any, timestamp: any, hash: any): IAxiosAction {
   };
 }
 
-export function updateBusinessClaim(claim: ClaimState) {
+export function updateBusinessClaim(claim: Partial<ClaimState>) {
   return {
     type: BUSINESS_CLAIM_UPDATE,
     payload: claim,

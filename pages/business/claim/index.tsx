@@ -18,7 +18,6 @@ export default function ClaimDetail() {
     return () => {
       dispatch(
         updateBusinessClaim({
-          ...claim,
           step,
         })
       );
@@ -29,7 +28,6 @@ export default function ClaimDetail() {
     return (key: string, value: any) => {
       dispatch(
         updateBusinessClaim({
-          ...claim,
           step,
           [key]: value,
         })

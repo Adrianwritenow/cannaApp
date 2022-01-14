@@ -40,23 +40,23 @@ const business = (state = defaultState, action: any): BusinessState => {
         return state;
       }
 
-      const claimReponse = action.response.data;
+      const claimResponse = action.response.data;
       return {
         ...state,
         claim: {
           ...state.claim,
-          phone: getField(claimReponse, 'field_phone'),
-          website: getField(claimReponse, 'field_website', 'uri'),
+          phone: getField(claimResponse, 'field_phone_number'),
+          website: getField(claimResponse, 'field_website', 'uri'),
           address: {
-            line1: getField(claimReponse, 'field_address', 'address_line1'),
-            city: getField(claimReponse, 'field_address', 'locality'),
+            line1: getField(claimResponse, 'field_address', 'address_line1'),
+            city: getField(claimResponse, 'field_address', 'locality'),
             state: getField(
-              claimReponse,
+              claimResponse,
               'field_address',
               'administrative_area'
             ),
-            zip: getField(claimReponse, 'field_address', 'postal_code'),
-            country: getField(claimReponse, 'field_address', 'country_code'),
+            zip: getField(claimResponse, 'field_address', 'postal_code'),
+            country: getField(claimResponse, 'field_address', 'country_code'),
           },
         },
       };

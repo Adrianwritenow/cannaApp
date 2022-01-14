@@ -174,14 +174,12 @@ export function browseBy(
   }
 
   if (filter) {
-    console.log('?', filter);
     const value = filter.value ? filter.value : [''];
     body.orQuery('terms', `${filter.key}`, value);
   }
 
   const query = body.build();
 
-  console.log('BODY:::', query);
 
   const results = axios({
     url: `${SEARCH_URL}/elasticsearch_index_dev_cannapages_${index}/_search?size=15`,

@@ -7,7 +7,6 @@ import FilterMenuTabs from '../../../components/filter/FilterMenuTabs';
 import { Product } from '@/interfaces/product';
 import ProductResultsSection from '../../../components/sections/ProductsResultsSection';
 import { combinedSearchQuery } from '@/actions/search';
-import { products } from '../../../helpers/mockData';
 
 export default function BusinessMenuSlideOver(props: BusinessSlideoverProps) {
   const { dispensary } = props;
@@ -23,7 +22,7 @@ export default function BusinessMenuSlideOver(props: BusinessSlideoverProps) {
 
   async function getProducts() {
     const hits: any = await combinedSearchQuery({
-      search: '*',
+      q: '*',
       endpoints: ['products'],
       total: 10,
     });

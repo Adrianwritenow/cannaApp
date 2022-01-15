@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
 import { Dispensary } from '@/interfaces/dispensary';
-import ListingCardDropdown from '../../components/listings/ListingCardDropDown';
 import ListingSection from '../../components/sections/ListingSection';
 import ProductFilterSlideOver from '../slideOver/filters/ProductFilterSlideOver';
 import SvgEmptyState from '@/public/assets/icons/iconComponents/EmptyState';
@@ -9,7 +8,7 @@ import { combinedSearchQuery } from '@/actions/search';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/reducers';
 
-export default function SearchStrain(props: {
+export default function SearchDispensary(props: {
   query: string;
   userCoords: {
     lat: number;
@@ -26,13 +25,15 @@ export default function SearchStrain(props: {
 
   useEffect(() => {
     if (update || currentQuery !== query) {
-      getProducts();
+      getDispensaries();
     }
-  }, [update, query]);
+  }, [update, query, currentQuery, getDispensaries]);
 
-  async function getProducts() {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  async function getDispensaries() {
     const hits: any = await combinedSearchQuery({
-      search: query ? query : location.city ,
+      q: query ?? '*',
+      coords: { lat: location.lat, lon: location.lon },
       endpoints: ['dispenaries'],
       total: 10,
     });
@@ -52,25 +53,6 @@ export default function SearchStrain(props: {
               query={query}
               userCoords={{ lat: userCoords.lat, lon: userCoords.lon }}
             />
-            <div className="pt-5">
-              <h2 className="text-xl text-gray-700 font-semibold p-4 pb-0">
-                {`Dispensaries near "${query? query : location.city}"`}
-              </h2>
-              <div className="grid grid-flow-row auto-rows-max gap-1 px-4">
-                {dispenaries.map((dispensary: Dispensary, index) => (
-                  <ListingCardDropdown
-                    listing={dispensary}
-                    key={`sd-${index}`}
-                    userCoords={{ lat: userCoords.lat, lon: userCoords.lon }}
-                  />
-                ))}
-              </div>
-            </div>
-            <div className="px-4 pt-5">
-              <button className="py-4 w-full uppercase text-gray-700 text-xs font-bold border-t border-gray-200 tracking-widest">
-                See more
-              </button>
-            </div>
           </div>
         ) : (
           <div className="w-full flex items-center  flex-wrap justify-center h-full space-y-4 py-14">

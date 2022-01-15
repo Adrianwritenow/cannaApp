@@ -6,7 +6,6 @@ import BlogArticleCardSmall from '../../src/components/blog/BlogArticleCardSmall
 import Link from 'next/link';
 import { Post } from '@/interfaces/post';
 import { SearchHits } from '@/interfaces/searchHits';
-import articles from '@/helpers/mockData/articles.json';
 import moment from 'moment';
 
 const topics = [
@@ -32,12 +31,13 @@ export default function Blog() {
   useEffect(() => {
     async function getResults() {
       const hits: any = await combinedSearchQuery({
-        search: '*',
+        q: '*',
         endpoints: ['blogs'],
         total: 10,
       });
       setArticles(hits);
     }
+
     async function getFeaturedArticles() {
       const hits: SearchHits = await getFeatured('blogs');
       setFeatured(hits.hits.hits as unknown as Post[]);

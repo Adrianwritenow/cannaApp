@@ -26,11 +26,12 @@ export default function SearchShopping(props: { query: string }) {
     if (update || currentQuery !== query) {
       getProducts();
     }
-  }, [update, query]);
+  }, [update, query, currentQuery, getProducts]);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   async function getProducts() {
     const hits: any = await combinedSearchQuery({
-      search: query,
+      q: query,
       filters: filters,
       endpoints: ['products'],
       total: 10,

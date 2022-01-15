@@ -1,7 +1,6 @@
 import { Dispensary } from '@/interfaces/dispensary';
 import { InformationCircleIcon } from '@heroicons/react/outline';
 import ListingCardDropdown from '../listings/ListingCardDropDown';
-import ListingCardSmall from '../listings/ListingCardSmall';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/reducers';
@@ -19,9 +18,6 @@ export default function ListingSection(results: Listings) {
   const { listings, sponsored, query, userCoords } = results;
   const location = useSelector((root: RootState) => root.location);
 
-    const { searchLocation } = useSelector(
-      (root: RootState) => root.search
-    );
   return (
     <section id="listing-section">
       {sponsored ? (
@@ -33,40 +29,24 @@ export default function ListingSection(results: Listings) {
         </div>
       ) : (
         <h2 className="text-xl text-gray-700 font-semibold p-4 pb-0">
-          {`${listings.length} Results for "${query ? query : location.city}"`}
+          {query
+            ? `${listings.length} results for "${query}"`
+            : `${listings.length} results near "${location.city}"`}
         </h2>
       )}
 
       <div className="grid grid-flow-row auto-rows-max gap-1">
         {listings.map((listing: Dispensary, index) => {
-          if (index <= 4) {
-            return (
-              <ListingCardDropdown
-                listing={listing}
-                key={`lc-${listing._id}-${index}`}
-                classNames="p-4 pb-0"
-                userCoords={userCoords}
-              />
-            );
-          } else {
-            return (
-              <ListingCardSmall
-                listing={listing}
-                key={`lcs-${listing._id}-${index}`}
-              />
-            );
-          }
+          return (
+            <ListingCardDropdown
+              listing={listing}
+              key={`lc-${listing._id}-${index}`}
+              classNames="p-4 pb-0"
+              userCoords={userCoords}
+            />
+          );
         })}
       </div>
-      {!sponsored ? (
-        <div className="px-4 pt-5">
-          <button className="py-4 w-full uppercase text-gray-700 text-xs font-bold border-t border-gray-200 tracking-widest">
-            See more
-          </button>
-        </div>
-      ) : (
-        ''
-      )}
     </section>
   );
 }

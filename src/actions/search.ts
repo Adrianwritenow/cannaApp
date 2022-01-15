@@ -1,7 +1,5 @@
 import { AxiosError, AxiosResponse } from 'axios';
-
 import { SearchHits } from '@/interfaces/searchHits';
-import { useState } from 'react';
 
 var axios = require('axios');
 const SEARCH_URL = process.env.SEARCH_URL;
@@ -14,52 +12,63 @@ export const receiveResults = (data: any) => ({
   data,
 });
 
-export function combinedSearchQuery(searchProps: {
-  search: string;
+export async function combinedSearchQuery(searchProps: {
+  q?: string;
   coords?: any;
   distance?: string;
   filters?: any;
   total?: number;
   endpoints?: string[];
 }) {
-  const { search, coords, distance, filters, endpoints, total } = searchProps;
+  const { q, coords, distance, filters, endpoints, total } = searchProps;
+  const body = bodybuilder().size(total ?? 15);
 
-  // const [loading, setLoading] = useState(true);
-  const spatialQuery =
-    coords && distance
-      ? bodybuilder()
-          .query('match_all', {})
-          .filter('geo_distance', {
-            distance: distance,
-            coordinates: { lat: coords.lat, lon: coords.lon },
-          })
-          .size(total? total: 15)
-          .build()
-      : bodybuilder().query('query_string', 'query', search).build();
+  // If we have a query, we will use query_string
+  if (q) {
+    body.query('query_string', 'query', q);
+  } else if (q == '' || q == '*') {
+    body.query('match_all', {});
+  }
 
-  const query = bodybuilder()
-    .query('query_string', 'query', search)
-    .size(total ? total : 3);
+  /**
+   * We want to fitler by distance and then sort asceending
+   * We choose to use the plane distance type which is faster
+   * but innacurate for longer distances and near the poles,
+   * which is not a problem for our use case
+   */
+  if (coords) {
+    body.filter('geo_distance', {
+      distance: distance ?? '50mi',
+      coordinates: { lat: coords.lat, lon: coords.lon },
+    });
+
+    body.sort('_geo_distance', {
+      coordinates: { lat: coords.lat, lon: coords.lon },
+      order: 'asc',
+      unit: 'mi',
+      distance_type: 'plane',
+    });
+  }
 
   if (filters) {
     Object.keys(filters).map(function (key, index) {
       if (key === 'category') {
         if (filters?.category[0]) {
-          query.filter('match', 'category', filters.category[0]);
+          body.filter('match', 'category', filters.category[0]);
         }
       }
       if (key === 'sort') {
         if (filters?.sort[0]) {
           const sort = filters?.sort[0];
           switch (sort) {
-            case 'Price: Hight to Low':
-              query.sort('price', 'desc');
+            case 'Price: High to Low':
+              body.sort('price', 'desc');
               break;
             case 'Price: Low to High':
-              query.sort('price', 'asc');
+              body.sort('price', 'asc');
               break;
             case 'Rating':
-              query.sort('rating', 'desc');
+              body.sort('rating', 'desc');
               break;
             default:
               break;
@@ -68,12 +77,13 @@ export function combinedSearchQuery(searchProps: {
       }
 
       if (key !== 'category' && key !== 'sort' && filters[key][0]) {
-        query.filter('match', `${key}`, filters[key][0]);
+        body.filter('match', `${key}`, filters[key][0]);
       }
     });
   }
 
-  const body = query.build();
+  // Build the body (JSON payload)
+  const query = body.build();
 
   let apis: any[] = [];
   let data: any[] = [];
@@ -93,26 +103,25 @@ export function combinedSearchQuery(searchProps: {
               url: endpoint,
               headers: { 'Content-Type': 'application/json' },
               method: 'POST',
-              data: coords && distance ? spatialQuery : body,
+              data: query,
             })
           )
         )
         .then((response: AxiosResponse<SearchHits>[]) => {
+          // TODO: Document this please
           let values: any[] = response.map(r => r.data.hits.hits);
           let flatData = [].concat.apply([], values);
-
-          flatData.sort((a: any, b: any) => (a._score < b._score ? 1 : -1));
-          // setLoading(false);
-
           return flatData;
         })
         .catch((error: any) => {
-          console.log("ERR:::",error);
+          console.log('ERR:::', error);
         });
       data = results;
     }
+
     return data;
   }
+
   return data;
 }
 
@@ -179,7 +188,6 @@ export function browseBy(
   }
 
   const query = body.build();
-
 
   const results = axios({
     url: `${SEARCH_URL}/elasticsearch_index_dev_cannapages_${index}/_search?size=15`,

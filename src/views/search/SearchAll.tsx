@@ -28,12 +28,12 @@ export default function SearchAll(props: {
   const location = useSelector((root: RootState) => root.location);
 
   useEffect(() => {
-    if (update || currentQuery !== query && location.city) {
+    if (update || (currentQuery !== query && location.city)) {
       getResults();
     }
-  }, [update, query, location]);
-  
+  }, [update, query, location, currentQuery, getResults]);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   async function getResults() {
     let searchlists: SearchState = {
       news: [],
@@ -45,13 +45,13 @@ export default function SearchAll(props: {
     };
 
     const hits: any = await combinedSearchQuery({
-      search: query ? query : location.city,
+      q: query ?? location.city,
       endpoints: ['products', 'dispenaries', 'strains'],
       total: 10,
     });
 
-    
-     if (hits) {hits.map((result: any, index: number) => {
+    if (hits) {
+      hits.map((result: any) => {
         switch (true) {
           case result._id.includes('strain_entity'):
             searchlists.strains.push(result);

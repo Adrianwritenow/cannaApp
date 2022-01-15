@@ -13,7 +13,6 @@ import {
 } from '../../../public/assets/icons/iconComponents';
 import React, { useEffect, useState } from 'react';
 import { combinedSearchQuery, getDocument } from '../../../src/actions/search';
-import { faqs, reviews } from '@/helpers/mockData';
 
 import AboutUsSlideOver from '../../../src/views/slideOver/AboutUsSlideOver';
 import AmenitiesSection from '../../../src/components/sections/AmenitiesSection';
@@ -92,10 +91,8 @@ export default function BusinessDetail() {
 
     async function getDispensaryResults() {
       const hits: any = await combinedSearchQuery({
-        search: location.city,
         endpoints: ['dispenaries'],
         coords: { lat: location.lat, lon: location.lon },
-        distance: '10mi',
       });
       setViewed(hits);
     }
@@ -108,7 +105,7 @@ export default function BusinessDetail() {
   }, [router]);
   // }, [lat, lon, dispensary, router]); //
 
-   return ( dispensary ? (
+  return dispensary ? (
     <div className="bg-white">
       {dispensary && (
         <div className="w-full h-64 relative">
@@ -259,14 +256,12 @@ export default function BusinessDetail() {
           <h2 className="sr-only">Location</h2>
 
           <div className="w-full h-48 relative rounded-lg overflow-hidden">
-            
-              <SmallMap
-                coords={{
-                  lat: dispensary._source.lat[0],
-                  lon: dispensary._source.lon[0],
-                }}
-              />
-           
+            <SmallMap
+              coords={{
+                lat: dispensary._source.lat[0],
+                lon: dispensary._source.lon[0],
+              }}
+            />
           </div>
 
           <div className="text-lg text-gray-500 w-full grid grid-flow-row auto-rows-max gap-2">
@@ -467,7 +462,6 @@ export default function BusinessDetail() {
         <BusinessReviewSlideOver dispensary={dispensary} reviews={reviews} />
       </div> */}
       {dispensary?._source.amenities && (
-
         <div className="px-4">
           <AmenitiesSection
             amenities={dispensary._source.amenities as string[]}
@@ -497,5 +491,5 @@ export default function BusinessDetail() {
         )}
       </section>
     </div>
-  ): null);
+  ) : null;
 }

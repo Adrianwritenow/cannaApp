@@ -55,7 +55,7 @@ export default function SearchSlideOver(props: {
 
   async function handleSubmit(search: any) {
     const hits = await combinedSearchQuery({
-      search: search,
+      q: search,
       total: 10,
       endpoints: ['products', 'dispenaries', 'strains', 'blogs'],
     });
@@ -189,10 +189,8 @@ export default function SearchSlideOver(props: {
     async function getInitialDispensaryResults() {
       if (location) {
         const hits: any = await combinedSearchQuery({
-          search: location.city,
           endpoints: ['dispenaries'],
           coords: { lat: location.lat, lon: location.lon },
-          distance: '10mi',
         });
         dispatch(
           receiveResults({
@@ -205,7 +203,6 @@ export default function SearchSlideOver(props: {
           })
         );
       }
-
     }
     if (
       location.city &&
@@ -430,7 +427,7 @@ export default function SearchSlideOver(props: {
                                               onFocus={() => {
                                                 setFocus('searchLocation');
                                               }}
-                                              
+
                                               onChange={(
                                                 e: React.ChangeEvent<HTMLInputElement>
                                               ) => {
@@ -522,9 +519,7 @@ export default function SearchSlideOver(props: {
                                     <div
                                       key={`generalSearch`}
                                       onClick={() => {
-                                        router.push(
-                                         '/search'
-                                        );
+                                        router.push('/search');
                                         setOpen(false);
                                       }}
                                       className="text-gray-700 w-full flex px-4 py-3"

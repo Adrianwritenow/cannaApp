@@ -36,7 +36,6 @@ export function MapContainer() {
   useEffect(() => {
     async function getLocationMatches() {
       const hits: any = await combinedSearchQuery({
-        search: '',
         endpoints: ['dispenaries'],
         coords: searchLocation.coords ? searchLocation.coords : { lat, lon },
         distance: '15mi',
@@ -48,8 +47,7 @@ export function MapContainer() {
     if (searchLocation.label !== null) {
       getLocationMatches();
     }
-  }, [searchLocation.label, query]);
-
+  }, [searchLocation.label, query, searchLocation.coords, lat, lon]);
 
   const getLocation = () => {
     if (!preciseLocationSet) {
@@ -137,10 +135,7 @@ export function MapContainer() {
                       width={24}
                     />
                   </button>
-                  <Map
-                    data={locationMatches}
-                    currentViewport={width}
-                  />
+                  <Map data={locationMatches} currentViewport={width} />
                   {/* <div
                     className={`transition-all duration-500 absolute bottom-64
                 ${

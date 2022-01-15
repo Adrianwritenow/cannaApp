@@ -22,11 +22,12 @@ export default function SearchNews(props: { query: string }) {
     if (update || currentQuery !== query) {
       getBlogs();
     }
-  }, [update, query]);
+  }, [update, query, currentQuery, getBlogs]);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   async function getBlogs() {
     const hits: any = await combinedSearchQuery({
-      search: query,
+      q: query,
       filters: filters,
       endpoints: ['blogs'],
       total: 10,

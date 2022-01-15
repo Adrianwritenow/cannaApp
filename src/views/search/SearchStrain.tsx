@@ -44,11 +44,12 @@ export default function SearchStrain(props: {
     if (update || currentQuery !== query) {
       getStrains();
     }
-  }, [update, query]);
+  }, [update, query, currentQuery, getStrains]);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   async function getStrains() {
     const hits: any = await combinedSearchQuery({
-      search: query,
+      q: query,
       filters: filters,
       endpoints: ['strains'],
       total: 10,

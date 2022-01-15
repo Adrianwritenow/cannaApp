@@ -62,15 +62,15 @@ export default function Home() {
       })
     );
   }
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   async function getDispensaryResults() {
     const hits: any = await combinedSearchQuery({
-      search: location.city,
       endpoints: ['dispenaries'],
       coords: { lat: location.lat, lon: location.lon },
-      distance: '10mi',
     });
 
-    // Sort by  created date
+    // Sort by created date
     if (hits) {
       hits.sort((a: any, b: any) =>
         a._source.created[0] < b._source.created[0] ? 1 : -1
@@ -78,6 +78,7 @@ export default function Home() {
     }
     setNearby(hits);
   }
+
   async function getFlower() {
     const hits: SearchHits = await browseBy('category', 'Flower', 'products');
     setFlower(hits.hits.hits);
@@ -85,7 +86,7 @@ export default function Home() {
 
   async function getBlogs() {
     const hits: any = await combinedSearchQuery({
-      search: '*',
+      q: '*',
       endpoints: ['blogs'],
       total: 5,
     });
@@ -135,7 +136,7 @@ export default function Home() {
         getDeals(coupons);
       }
     }
-  }, [location, coupons, flower, blogs, deals]);
+  }, [location, coupons, flower, blogs, deals, nearby, getDispensaryResults]);
 
   return (
     <div className="mx-auto space-y-2">

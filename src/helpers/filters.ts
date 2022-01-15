@@ -27,7 +27,7 @@ export const Filters: Record<string, Filter> = {
     list: [
       { value: 'Relevance' },
       { value: 'Price: Low to High' },
-      { value: 'Price: Hight to Low' },
+      { value: 'Price: High to Low' },
       { value: 'Rating' },
     ],
   },

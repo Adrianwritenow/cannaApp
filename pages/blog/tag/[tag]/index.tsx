@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import BlogArticleCardFeatured from '@/components/blog/BlogArticleCardFeatured';
 import BlogArticleCardSmall from '@/components/blog/BlogArticleCardSmall';
 import { Post } from '@/interfaces/post';
-import articles from '@/helpers/mockData/articles.json';
 import { combinedSearchQuery } from '@/actions/search';
 import { useRouter } from 'next/router';
 
@@ -16,11 +15,12 @@ export default function BlogByTag() {
     if (!blogs.length && tag) {
       getBlogs();
     }
-  }, [router]);
+  }, [blogs.length, getBlogs, router, tag]);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   async function getBlogs() {
     const hits: any = await combinedSearchQuery({
-      search: `${tag}`,
+      q: `${tag}`,
       endpoints: ['blogs'],
       total: 10,
     });

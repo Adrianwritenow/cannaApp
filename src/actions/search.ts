@@ -36,7 +36,7 @@ export async function combinedSearchQuery(searchProps: {
    * but innacurate for longer distances and near the poles,
    * which is not a problem for our use case
    */
-  if (coords && coords.lat && coords.lng) {
+  if (coords && coords.lat && coords.lon) {
     body.filter('geo_distance', {
       distance: distance ?? '50mi',
       coordinates: { lat: coords.lat, lon: coords.lon },

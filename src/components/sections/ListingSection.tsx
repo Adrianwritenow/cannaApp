@@ -31,7 +31,7 @@ export default function ListingSection(results: Listings) {
         <h2 className="text-xl text-gray-700 font-semibold p-4 pb-0">
           {query
             ? `${listings.length} results for "${query}"`
-            : `${listings.length} results near "${location.city}"`}
+            : `${listings.length} results near "${location.city ?? 'you'}"`}
         </h2>
       )}
 

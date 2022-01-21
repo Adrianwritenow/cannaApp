@@ -111,10 +111,10 @@ export default function BusinessDetail() {
         <div className="w-full h-64 relative">
           <ImageWithFallback
             src={`${process.env.API_URL}${
-              dispensary._source.url[0].includes('image_missing')
-                ? '#'
-                : dispensary._source.url[0]
-            }`}
+                 typeof dispensary._source.url === 'undefined' ? "#" : dispensary._source.url[0].includes('image_missing')
+                    ? '#'
+                    : dispensary._source.url[0]
+                }`}
             alt={dispensary._source?.name}
             layout="fill"
             objectFit={'cover'}

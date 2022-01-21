@@ -136,7 +136,8 @@ export default function Home() {
         getDeals(coupons);
       }
     }
-  }, [location, coupons, flower, blogs, deals, nearby, getDispensaryResults]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location, coupons, flower, blogs, nearby]);
 
   return (
     <div className="mx-auto space-y-2">

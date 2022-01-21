@@ -44,7 +44,9 @@ export default function ListingCardDropdown(data: DispensaryProps) {
           <a>
             <ImageWithFallback
               src={`${process.env.API_URL}${
-                listing._source.url[0].includes('image_missing')
+                typeof listing._source.url === 'undefined'
+                  ? '#'
+                  : listing._source.url[0].includes('image_missing')
                   ? '#'
                   : listing._source.url[0]
               }`}

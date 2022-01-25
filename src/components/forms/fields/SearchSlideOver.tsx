@@ -166,15 +166,14 @@ export default function SearchSlideOver(props: {
           total: 10,
           endpoints: ['products', 'dispenaries', 'strains', 'blogs'],
         });
-        if (hits) {
-          if (hits.length) {
-            dispatch(
-              receiveResults({
-                search: e.target.value ? e.target.value : ' ',
-                data: hits,
-              })
-            );
-          }
+
+        if (hits?.length) {
+          dispatch(
+            receiveResults({
+              search: e.target.value ? e.target.value : ' ',
+              data: hits,
+            })
+          );
         }
       }
     }, 500);

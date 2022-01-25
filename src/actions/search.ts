@@ -1,4 +1,5 @@
 import { AxiosError, AxiosResponse } from 'axios';
+
 import { SearchHits } from '@/interfaces/searchHits';
 
 var axios = require('axios');

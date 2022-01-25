@@ -65,7 +65,9 @@ export function SearchBar(props: FieldProps) {
       <label htmlFor={id} className={labelClasses}>
         {label}
       </label>
-      <div className="relative rounded-md">
+
+      <div className="flex justify-center items-center">
+        <SearchIcon className="w-5 h-5 left-0 top-0 bottom-0 mt-auto mb-auto text-gray-500" />
         <input
           type={type}
           ref={innerRef}
@@ -76,7 +78,6 @@ export function SearchBar(props: FieldProps) {
           disabled={disabled}
           {...field}
         />
-        {/* <SearchIcon className="w-5 h-5 absolute left-0 top-0 bottom-0 mt-auto mb-auto mx-4 text-gray-500" /> */}
       </div>
     </div>
   );

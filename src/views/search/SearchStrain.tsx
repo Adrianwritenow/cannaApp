@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { combinedSearchQuery, receiveResults } from '@/actions/search';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Product } from '@/interfaces/product';
 import ProductResultsSection from '@/components/sections/ProductsResultsSection';
 import ResultsStrain from './results/ResultsStrain';
+import { RootState } from '@/reducers';
 import { Strain } from '@/interfaces/strain';
 import StrainFilterSlideOver from '../slideOver/filters/StrainFilterSlideOver';
 import StrainLanding from './landing/StrainLanding';
-import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 
 export default function SearchStrain(props: {
@@ -20,6 +21,7 @@ export default function SearchStrain(props: {
   const { category } = router.query;
   const [sort, setSort] = useState('relevance');
   const [currentQuery, setCurrentQuery] = useState('');
+  const location = useSelector((root: RootState) => root.location);
 
   const [view, setView] = useState('list');
   const dispatch = useDispatch();
@@ -77,7 +79,9 @@ export default function SearchStrain(props: {
             <ProductResultsSection
               list={products}
               sponsored={true}
-              label={`Shop "${query}"`}
+              label={`Shop ${
+                query ? `"${query}"` : location.city ? `"${location.city}"` : ''
+              }`}
             />
           ) : (
             ''

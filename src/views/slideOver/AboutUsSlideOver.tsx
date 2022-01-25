@@ -1,9 +1,9 @@
-import { ArrowLeftIcon, XIcon } from "@heroicons/react/solid";
-import { Dialog, Transition } from "@headlessui/react";
-import React, { Fragment, useState } from "react";
+import { ArrowLeftIcon, XIcon } from '@heroicons/react/solid';
+import { Dialog, Transition } from '@headlessui/react';
+import React, { Fragment, useState } from 'react';
 
-import { SlideOverProps } from "../../interfaces/props/SlideOverProps";
-import { BusinessSlideoverProps } from "@/interfaces/props/businessSlideOverProps";
+import { BusinessSlideoverProps } from '@/interfaces/props/businessSlideOverProps';
+import { SlideOverProps } from '../../interfaces/props/SlideOverProps';
 
 export default function AboutUsSlideOver(props: BusinessSlideoverProps) {
   const { dispensary } = props;
@@ -22,8 +22,8 @@ export default function AboutUsSlideOver(props: BusinessSlideoverProps) {
             >
               About Us
             </h2>
-            <p className={"text-base text-gray-700 line-clamp-4"}>
-          {dispensary?._source.description}
+            <p className={'text-base text-gray-700 line-clamp-4'}>
+              {dispensary?._source.description}
             </p>
             <div className="pt-5 ">
               <button
@@ -53,7 +53,7 @@ export default function AboutUsSlideOver(props: BusinessSlideoverProps) {
                     leaveFrom="translate-x-0"
                     leaveTo="translate-x-full"
                   >
-                    <div className="w-screen max-w-md">
+                    <div className="w-screen">
                       <div className="h-full flex flex-col py-6 bg-white shadow-xl overflow-y-scroll">
                         <div className="px-4">
                           <div className="flex items-center justify-start">
@@ -68,7 +68,7 @@ export default function AboutUsSlideOver(props: BusinessSlideoverProps) {
                               </button>
                             </div>
                             <Dialog.Title className="text-lg font-semibold text-gray-600">
-          {dispensary?._source.name}
+                              {dispensary?._source.name}
                             </Dialog.Title>
                           </div>
                         </div>
@@ -86,8 +86,8 @@ export default function AboutUsSlideOver(props: BusinessSlideoverProps) {
                             >
                               About Us
                             </h2>
-                            <p className={"text-base text-gray-700"}>
-          {dispensary?._source.description}
+                            <p className={'text-base text-gray-700'}>
+                              {dispensary?._source.description}
                             </p>
                           </section>
                         </div>

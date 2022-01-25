@@ -6,7 +6,7 @@ const defaultState = {
   searchLocation: {
     coords: {
       lat: null,
-      lon:null,
+      lon: null,
     },
     label: null,
     boundingBox: null,
@@ -30,10 +30,18 @@ const search = (state: any = defaultState, action: SearchAction) => {
   switch (action.type) {
     case SEARCH_REQUEST_GET:
       let query = action.data;
+      let search = query.search || state.query;
+
+      if (!query.data.length && !query.search) {
+        search = '';
+      }
+      console.log('query:::', query);
+
+      console.log('SEARCH', search);
       return {
         ...state,
         results: query.data || state.results,
-        query: query.search || state.query,
+        query: search,
         searchLocation: query.searchLocation || state.searchLocation,
       };
 

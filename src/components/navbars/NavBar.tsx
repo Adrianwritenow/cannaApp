@@ -16,7 +16,7 @@ export default function NavBar() {
           <div className="relative flex items-center flex-wrap justify-between">
             <div className="bg-white px-4 w-full relative ">
               <div className="flex justify-center items-center w-full py-3.5">
-                <div className="w-25 ml-auto mr-auto right-0 left-0 s">
+                <div className="w-25 ml-auto mr-auto right-0 left-0">
                   <Link href={'/'}>
                     <a className="flex items-center relative  h-6 w-auto  ">
                       <Image

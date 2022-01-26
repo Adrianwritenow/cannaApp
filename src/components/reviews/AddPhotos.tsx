@@ -52,7 +52,7 @@ export default function AddPhotots(props: {
                 leaveFrom="translate-x-0"
                 leaveTo="translate-x-full"
               >
-                <div className="w-screen max-w-md">
+                <div className="w-screen">
                   <div className="h-full flex flex-col x bg-white shadow-xl overflow-y-scroll">
                     <div className="px-4 pt-6">
                       <div className="flex items-center justify-start border-b border-gray-200 pb-5">

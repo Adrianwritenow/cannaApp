@@ -10,16 +10,20 @@ import React, { Fragment, useEffect, useRef, useState } from 'react';
 import { combinedSearchQuery, receiveResults } from '../../../actions/search';
 import { getLocationByIP, setLocation } from '../../../actions/location';
 import { useDispatch, useSelector } from 'react-redux';
+
+import Image from 'next/image';
 import { LocationData } from '../../../interfaces/locationData';
+import Logo from '@/public/assets/logos/logo.png';
+import LogoText from '@/public/assets/logos/logo-text.png';
+import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import { RootState } from '@/reducers';
 import { SearchBar } from './SearchBar';
 import SearchDispensaryCard from '../../search/SearchDispensaryCard';
 import SearchProductCard from '../../search/SearchProductCard';
 import SearchStrainCard from '../../search/SearchStrainCard';
-import { useRouter } from 'next/router';
-import mapboxgl from 'mapbox-gl';
-import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import Target from '@/public/assets/icons/iconComponents/Target';
+import mapboxgl from 'mapbox-gl';
+import { useRouter } from 'next/router';
 
 export default function SearchSlideOver(props: {
   searchRoute?: string;
@@ -43,7 +47,7 @@ export default function SearchSlideOver(props: {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const initialValues = {
-    search: '',
+    search: query,
     // searchLocation: searchLocation,
   };
 
@@ -54,16 +58,8 @@ export default function SearchSlideOver(props: {
   });
 
   async function handleSubmit(search: any) {
-    const hits = await combinedSearchQuery({
-      q: search,
-      total: 10,
-      endpoints: ['products', 'dispenaries', 'strains', 'blogs'],
-    });
-    if (hits) {
-      if (hits.length) {
-        dispatch(receiveResults({ search: search, data: hits }));
-      }
-    }
+    router.push('/search');
+    setOpen(false);
   }
 
   useEffect(() => {
@@ -99,7 +95,6 @@ export default function SearchSlideOver(props: {
         },
       })
     );
-    router.pathname === '/map' ? setOpen(false) : router.push('/map');
   });
 
   async function handleLocationRequest() {
@@ -164,9 +159,22 @@ export default function SearchSlideOver(props: {
     if (timeout) {
       clearTimeout(timeout);
     }
-    timeout = setTimeout(() => {
+    timeout = setTimeout(async () => {
       if (e.target.name === 'search') {
-        handleSubmit(e.target.value);
+        const hits = await combinedSearchQuery({
+          q: e.target.value,
+          total: 10,
+          endpoints: ['products', 'dispenaries', 'strains', 'blogs'],
+        });
+
+        if (hits?.length) {
+          dispatch(
+            receiveResults({
+              search: e.target.value ? e.target.value : ' ',
+              data: hits,
+            })
+          );
+        }
       }
     }, 500);
   }
@@ -178,7 +186,7 @@ export default function SearchSlideOver(props: {
       dispatch(setLocation(data));
     }
 
-    if (!Object.keys(location).length && !location.preciseLocationSet) {
+    if (!Object.keys(location).length && !location.fLo) {
       getLocation();
     }
 
@@ -218,6 +226,12 @@ export default function SearchSlideOver(props: {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
 
+  useEffect(() => {
+    if (open) {
+      setGeocodeInitialized(false);
+    }
+  }, [open]);
+
   function handleFocus() {
     // Wait for transition to finish then focus on input
     setTimeout(() => {
@@ -250,7 +264,7 @@ export default function SearchSlideOver(props: {
   }
 
   function handleClearSearchTerm() {
-    dispatch(receiveResults({ data: [], query: '' }));
+    dispatch(receiveResults({ data: [], search: '' }));
   }
 
   return (
@@ -318,7 +332,7 @@ export default function SearchSlideOver(props: {
                 leaveFrom="translate-x-0"
                 leaveTo="translate-x-full"
               >
-                <div className="w-screen max-w-md">
+                <div className="w-screen">
                   <div className="h-full flex flex-col bg-white shadow-xl overflow-y-scroll">
                     <div className="">
                       <div className="inset-0">
@@ -327,120 +341,119 @@ export default function SearchSlideOver(props: {
                             <Formik
                               initialValues={initialValues}
                               enableReinitialize
-                              onSubmit={() => {}}
+                              onSubmit={handleSubmit}
                             >
                               {({
                                 handleSubmit,
                                 values,
                                 handleChange,
                                 resetForm,
+                                setFieldValue,
                               }) => {
                                 return (
                                   <div className="w-full">
                                     <Form
-                                      className={
-                                        'w-full  shadow-md px-4 divide-y '
-                                      }
+                                      className={'w-full shadow-md '}
                                       onSubmit={handleSubmit}
                                     >
-                                      <div className="flex w-full">
+                                      <div className="w-full flex justify-between items-center px-4 ">
                                         <button
                                           type="button"
-                                          className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-transparent"
-                                          onClick={() => setOpen(false)}
+                                          className="font-bold text-gray-600"
+                                          onClick={() => {
+                                            setOpen(false);
+                                          }}
                                         >
-                                          <span className="sr-only">Back</span>
-                                          <ArrowLeftIcon
-                                            className="h-6 w-6"
-                                            aria-hidden="true"
-                                          />
+                                          Cancel
                                         </button>
-                                        <div className="grid grid-cols-7 gap-1 w-full">
-                                          <div className={'col-span-7'}>
-                                            <Field
-                                              name={'search'}
-                                              type={'text'}
-                                              innerRef={inputRef}
-                                              onFocus={() => {
-                                                setFocus('search');
-                                              }}
-                                              component={SearchBar}
-                                              value={values.search}
-                                              id={'search'}
-                                              className="w-full border-none p-4 focus:border-0 focus:outline-none focus:ring-transparent"
-                                              onChange={(
-                                                e: React.ChangeEvent<HTMLInputElement>
-                                              ) => {
-                                                handleChange(e);
-                                                handleSearch(e);
-                                              }}
-                                              placeholder={'Search...'}
+                                        <div className="space-x-2 pt-4 flex justify-center items-center pb-4">
+                                          <div className="h-6 w-25 relative">
+                                            <Image
+                                              src={LogoText}
+                                              alt="Image logo"
+                                              layout="intrinsic"
                                             />
                                           </div>
                                         </div>
                                         <button
-                                          type="button"
-                                          className="bg-white rounded-md text-gray-500 focus:outline-none focus:ring-transparent"
+                                          className="font-bold text-gray-600"
                                           onClick={() => {
-                                            resetForm();
-                                            handleClearSearchTerm();
+                                            handleSubmit();
                                           }}
                                         >
-                                          <span className="sr-only">
-                                            Clear Search
-                                          </span>
-                                          <XIcon
-                                            className="h-6 w-6"
-                                            aria-hidden="true"
-                                          />
+                                          Search
                                         </button>
                                       </div>
-                                      <div className="flex w-full items-center">
-                                        <div className="flex justify-center items-center">
-                                          <LocationMarkerIcon
-                                            className={`h-6 w-6  ${
-                                              focus == 'location'
-                                                ? 'text-green-500'
-                                                : 'text-gray-500'
-                                            }`}
-                                            aria-hidden="true"
-                                          />
-                                        </div>
-                                        <div className="grid grid-cols-7 gap-1 w-full relative">
-                                          {/* geocoder autocomplete field */}
-                                          <div
-                                            className={
-                                              'col-span-7 h-14 flex items-center'
-                                            }
-                                            ref={geocoderRef}
-                                          />
-                                          <button
-                                            className="absolute w-6 h-6 right-0 bottom-4"
-                                            onClick={handleClearLocation}
-                                          >
-                                            <XIcon className="text-gray-500" />
-                                          </button>
-
-                                          {/* <Field
-                                              name={'searchLocation'}
-                                              type={'text'}
-                                              onFocus={() => {
-                                                setFocus('searchLocation');
+                                      <div className="divide-y px-4">
+                                        <div className="w-full ">
+                                          <div className="flex w-full">
+                                            <div className=" w-full">
+                                              <div>
+                                                <Field
+                                                  name={'search'}
+                                                  type={'text'}
+                                                  innerRef={inputRef}
+                                                  onFocus={() => {
+                                                    setFocus('search');
+                                                  }}
+                                                  component={SearchBar}
+                                                  value={values.search}
+                                                  id={'search'}
+                                                  className="w-full border-none p-4 focus:border-0 focus:outline-none focus:ring-transparent "
+                                                  onChange={(
+                                                    e: React.ChangeEvent<HTMLInputElement>
+                                                  ) => {
+                                                    handleChange(e);
+                                                    handleSearch(e);
+                                                  }}
+                                                  placeholder={'Search...'}
+                                                />
+                                              </div>
+                                            </div>
+                                            <button
+                                              type="button"
+                                              className="bg-white rounded-md text-gray-500 focus:outline-none focus:ring-transparent"
+                                              onClick={() => {
+                                                resetForm();
+                                                handleClearSearchTerm();
+                                                setFieldValue('search', '');
                                               }}
-
-                                              onChange={(
-                                                e: React.ChangeEvent<HTMLInputElement>
-                                              ) => {
-                                                handleChange(e);
-                                                handleSearch(e);
-                                              }}
-                                              id={'searchLocation'}
-                                              className="w-full border-none p-4 focus:border-0 focus:outline-none focus:ring-transparent"
-                                              value={values.searchLocation}
-                                              placeholder="Location..."
-                                            /> */}
+                                            >
+                                              <span className="sr-only">
+                                                Clear Search
+                                              </span>
+                                              <XIcon
+                                                className="h-6 w-6"
+                                                aria-hidden="true"
+                                              />
+                                            </button>
+                                          </div>
                                         </div>
-                                        {/* </div> */}
+                                        <div className="flex w-full items-center">
+                                          <div className="flex justify-center items-center">
+                                            <LocationMarkerIcon
+                                              className={`h-6 w-6  ${
+                                                focus == 'location'
+                                                  ? 'text-green-500'
+                                                  : 'text-gray-500'
+                                              }`}
+                                              aria-hidden="true"
+                                            />
+                                          </div>
+                                          <div className="w-full relative">
+                                            {/* geocoder autocomplete field */}
+                                            <div
+                                              className={'w-full'}
+                                              ref={geocoderRef}
+                                            />
+                                            <button
+                                              className="absolute w-6 h-6 right-0 bottom-4"
+                                              onClick={handleClearLocation}
+                                            >
+                                              <XIcon className="text-gray-500" />
+                                            </button>
+                                          </div>
+                                        </div>
                                       </div>
                                       <div>
                                         {!geolocationSet ? (
@@ -459,6 +472,18 @@ export default function SearchSlideOver(props: {
                                         ) : null}
                                       </div>
                                     </Form>
+                                    <button
+                                      key={`generalSearch`}
+                                      onClick={() => {
+                                        router.push('/search');
+                                        setOpen(false);
+                                      }}
+                                      className="text-gray-700 w-full flex px-4 py-3"
+                                    >
+                                      <span className="ml-2 font-bold hover:text-green-500 hover">
+                                        Search for&nbsp; {`"${values.search}"`}
+                                      </span>
+                                    </button>
                                     {results.length ? (
                                       <ul className="px-4 ">
                                         {results.map(
@@ -516,24 +541,6 @@ export default function SearchSlideOver(props: {
                                     ) : (
                                       ''
                                     )}
-                                    <div
-                                      key={`generalSearch`}
-                                      onClick={() => {
-                                        router.push('/search');
-                                        setOpen(false);
-                                      }}
-                                      className="text-gray-700 w-full flex px-4 py-3"
-                                    >
-                                      <div className="w-6 h-6 flex items-center justify-center">
-                                        <SearchIcon className="w-4 h-4" />
-                                      </div>
-                                      <span className="ml-2">
-                                        Search for{' '}
-                                        {values.search
-                                          ? `${values.search}`
-                                          : query}
-                                      </span>
-                                    </div>
                                   </div>
                                 );
                               }}

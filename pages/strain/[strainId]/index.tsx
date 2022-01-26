@@ -15,6 +15,7 @@ export default function StrainDetail() {
   const { strainId } = router.query;
   const [myRating, setMyRating] = useState(0);
   const [currentQuery, setCurrentQuery] = useState('');
+  const location = useSelector((root: RootState) => root.location);
 
   const { results, query } = useSelector((root: RootState) => root.search);
   const [searchLists, setSearchLists] = useState([]);
@@ -99,7 +100,9 @@ export default function StrainDetail() {
         <ProductResultsSection
           list={searchLists}
           sponsored={true}
-          label={`Shop "${query}"`}
+          label={`Shop ${
+            query ? `"${query}"` : location.city ? `"${location.city}"` : ''
+          }`}
         />
       ) : (
         ''

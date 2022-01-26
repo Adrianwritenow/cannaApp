@@ -1,26 +1,26 @@
-import { KeyIcon, MailIcon } from "@heroicons/react/outline";
+import { KeyIcon, MailIcon } from '@heroicons/react/outline';
 
-import AccountSettingsForm from "../../src/components/forms/Profile/AccountSettingsForm";
-import ChangePasswordForm from "../../src/components/forms/Profile/ChangePasswordForm";
-import React from "react";
-import { Tab } from "@headlessui/react";
-import UpdateNotificationsForm from "../../src/components/forms/Profile/UpdateNotificationsForm";
-import UpdatePersonalForm from "../../src/components/forms/Profile/UpdatePersonalForm";
-import UpdateProfileForm from "../../src/components/forms/Profile/UpdateProfileForm";
-import { UserCircleIcon } from "@heroicons/react/outline";
-import { useCurrentUser } from "../../src/hooks/user";
+import AccountSettingsForm from '@/components/forms/Profile/AccountSettingsForm';
+import ChangePasswordForm from '@/components/forms/Profile/ChangePasswordForm';
+import React from 'react';
+import { Tab } from '@headlessui/react';
+import UpdateNotificationsForm from '@/components/forms/Profile/UpdateNotificationsForm';
+import UpdatePersonalForm from '@/components/forms/Profile/UpdatePersonalForm';
+import UpdateProfileForm from '@/components/forms/Profile/UpdateProfileForm';
+import { UserCircleIcon } from '@heroicons/react/outline';
+import { useCurrentUser } from '@/hooks/user';
 
 const tabs = [
   {
-    name: "Profile",
+    name: 'Profile',
     icon: <UserCircleIcon />,
   },
   {
-    name: "Account Settings",
+    name: 'Account Settings',
     icon: <MailIcon />,
   },
   {
-    name: "Password",
+    name: 'Password',
     icon: <KeyIcon />,
   },
 ];
@@ -36,7 +36,7 @@ export default function UserProfile() {
             <Tab
               key={tab.name}
               className={({ selected }) =>
-                `${selected ? "text-green bg-white " : "text-gray-700"},
+                `${selected ? 'text-green bg-white ' : 'text-gray-700'},
                    relative block rounded-lg bg-transparent p-3  w-full cursor-pointer  sm:justify-between focus:outline-none flex items-center`
               }
             >
@@ -44,7 +44,7 @@ export default function UserProfile() {
                 <div className="w-full flex items-center">
                   <div
                     className={`${
-                      selected ? "text-green" : "text-gray-500"
+                      selected ? 'text-green' : 'text-gray-500'
                     }  mr-3 w-6 h-6`}
                   >
                     {tab.icon}
@@ -76,7 +76,6 @@ export default function UserProfile() {
           </Tab.Panel>
         </Tab.Panels>
       </Tab.Group>
-
     </div>
   );
 }

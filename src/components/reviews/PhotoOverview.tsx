@@ -104,7 +104,7 @@ export default function PhotoOverview(props: {
                 leaveFrom="translate-x-0"
                 leaveTo="translate-x-full"
               >
-                <div className="w-screen max-w-md">
+                <div className="w-screen">
                   <div className="h-full flex flex-col bg-white shadow-xl overflow-y-scroll">
                     <div className="px-4 pt-6 shadow-sm">
                       <div className="flex items-center justify-start border-b border-gray-200 pb-5">

@@ -1,10 +1,10 @@
-import { ArrowLeftIcon, SearchIcon, XIcon } from "@heroicons/react/solid";
-import { Dialog, Transition } from "@headlessui/react";
-import { Field, Form, Formik } from "formik";
-import React, { Fragment, useState } from "react";
+import { ArrowLeftIcon, SearchIcon, XIcon } from '@heroicons/react/solid';
+import { Dialog, Transition } from '@headlessui/react';
+import { Field, Form, Formik } from 'formik';
+import React, { Fragment, useState } from 'react';
 
-import AvatarIcon from "../../../public/assets/icons/iconComponents/Avatar";
-import { Faq } from "../../interfaces/faq";
+import AvatarIcon from '../../../public/assets/icons/iconComponents/Avatar';
+import { Faq } from '../../interfaces/faq';
 
 interface FaqProps {
   faqs: Array<Faq>;
@@ -13,7 +13,7 @@ export default function FaqSection(props: FaqProps) {
   const { faqs } = props;
   const [open, setOpen] = useState(false);
   const initialValues = {
-    question: "",
+    question: '',
   };
   return (
     <div>
@@ -26,7 +26,7 @@ export default function FaqSection(props: FaqProps) {
       </button>
 
       <dl className="space-y-6 pb-4">
-        {faqs.map((faq) => (
+        {faqs.map(faq => (
           <div key={faq.id} className="text-sm text-gray-700">
             <dt className="font-semibold ">Q: {faq.question}</dt>
             <dd className="mt-1">
@@ -54,7 +54,7 @@ export default function FaqSection(props: FaqProps) {
                 leaveFrom="translate-x-0"
                 leaveTo="translate-x-full"
               >
-                <div className="w-screen max-w-md">
+                <div className="w-screen">
                   <div className="h-full flex flex-col py-6 bg-white shadow-xl overflow-y-scroll">
                     <div className="px-4">
                       <div className="flex items-center justify-start border-b border-gray-200 pb-5">
@@ -96,9 +96,9 @@ export default function FaqSection(props: FaqProps) {
                               <Field
                                 className="border-gray-200 rounded-md focus:outline-none w-full focus:ring-green-400 focus:border-green-400 p-2 h-48"
                                 placeholder="Ask a question or get advice from the owner and broader community"
-                                component={"textarea"}
-                                name={"review"}
-                                id={"review"}
+                                component={'textarea'}
+                                name={'review'}
+                                id={'review'}
                               />
                               <button
                                 type="submit"

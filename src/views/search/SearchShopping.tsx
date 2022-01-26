@@ -1,12 +1,13 @@
 import { combinedSearchQuery, receiveResults } from '@/actions/search';
+import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 
 import { Product } from '@/interfaces/product';
 import ProductFilterSlideOver from '../slideOver/filters/ProductFilterSlideOver';
 import ProductResultsGrid from '@/components/products/ProductResultsGrid';
 import ProductResultsSection from '@/components/sections/ProductsResultsSection';
+import { RootState } from '@/reducers';
 import SvgEmptyState from '@/public/assets/icons/iconComponents/EmptyState';
-import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 
 export default function SearchShopping(props: { query: string }) {
@@ -17,6 +18,8 @@ export default function SearchShopping(props: { query: string }) {
   const [products, setProducts] = useState<Array<Product>>([]);
   const [currentQuery, setCurrentQuery] = useState('');
   const [update, setUpdate] = useState(true);
+  const location = useSelector((root: RootState) => root.location);
+
   const [filters, setFilters] = useState<any>({
     category: [`${category ? category : ''}`],
     sort: [],
@@ -56,7 +59,9 @@ export default function SearchShopping(props: { query: string }) {
             <ProductResultsSection
               list={products}
               sponsored={true}
-              label={`Shop "${query}"`}
+              label={`Shop ${
+                query ? `"${query}"` : location.city ? `"${location.city}"` : ''
+              }`}
               hideButton={true}
             />
             <div className="px-4">

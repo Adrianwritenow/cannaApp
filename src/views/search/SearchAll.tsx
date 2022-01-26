@@ -5,12 +5,12 @@ import LearnSection from '../../components/sections/LearnSection';
 import ListingSection from '../../components/sections/ListingSection';
 import ProductResultsSection from '../../components/sections/ProductsResultsSection';
 import RelatedStrainsSection from '../../components/sections/RelatedStrainsSection';
+import { RootState } from '@/reducers';
 import { SearchState } from '@/interfaces/searchState';
 import SvgEmptyState from '@/public/assets/icons/iconComponents/EmptyState';
 import { combinedSearchQuery } from '@/actions/search';
 import { useAxios } from '@/hooks/useAxios';
 import { useSelector } from 'react-redux';
-import { RootState } from '@/reducers';
 
 export default function SearchAll(props: {
   query: string;
@@ -86,7 +86,13 @@ export default function SearchAll(props: {
                 <ProductResultsSection
                   list={lists.shopping}
                   sponsored={true}
-                  label={`Shop "${query ? query : location.city}"`}
+                  label={`Shop ${
+                    query
+                      ? `"${query}"`
+                      : location.city
+                      ? `"${location.city}"`
+                      : ''
+                  }`}
                 />
               ) : (
                 ''

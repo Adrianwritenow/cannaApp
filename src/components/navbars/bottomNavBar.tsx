@@ -1,18 +1,21 @@
-import { BottomNavRoutes, Route } from '../../helpers/routes';
-import React, { useEffect, useState } from 'react';
-
+import React, { SyntheticEvent, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
+
+import { BottomNavRoutes, Route } from '@/helpers/routes';
+import { UserCircleIcon } from '@heroicons/react/outline';
+import { useSignout } from '@/hooks/useSignout';
 
 export default function BottomNavBar() {
   const [activeTab, setActiveTab] = useState('');
   const { data: session } = useSession();
   const [routes, setRoutes] = useState<Array<Route>>([]);
-  let sessionRoutes = [];
   const router = useRouter();
+  const logout = useSignout();
 
   useEffect(() => {
+    let sessionRoutes = [];
     if (!session?.accessToken) {
       sessionRoutes = BottomNavRoutes.filter(function (obj) {
         return obj.id !== 'user' && obj.id !== 'stash';
@@ -53,6 +56,22 @@ export default function BottomNavBar() {
               </Link>
             );
           })}
+          {/** @TODO: This can be removed once we have a legit log out link */}
+          {session?.accessToken && (
+            <a
+              href="#"
+              className={
+                'text-gray-500 flex flex-wrap items-center justify-center'
+              }
+              onClick={(e: SyntheticEvent): void => {
+                e.preventDefault();
+                logout();
+              }}
+            >
+              <UserCircleIcon className="w-6 h-6 stroke-1" />
+              <span className="text-xs w-full text-center">Sign out</span>
+            </a>
+          )}
         </div>
       ) : null}
     </>

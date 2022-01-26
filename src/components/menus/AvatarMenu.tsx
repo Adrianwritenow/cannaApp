@@ -1,15 +1,16 @@
 import { Menu, Transition } from '@headlessui/react';
-import React, { Fragment, useContext, useEffect, useState } from 'react';
-import { signOut } from 'next-auth/react';
+import React, { Fragment, useEffect, useState } from 'react';
 
 import AvatarIcon from '@/public/assets/icons/iconComponents/Avatar';
 import BusinessMenu from './BusinessMenu';
 import UserMenu from './UserMenu';
 import { useCurrentUser } from '@/hooks/user';
+import { useSignout } from '@/hooks/useSignout';
 
 export default function AvatarMenu() {
   const [currentUser] = useCurrentUser(true);
   const [mounted, setMounted] = useState(false);
+  const logout = useSignout();
 
   const ref = React.createRef();
   const [menuType, setMenuType] = useState('user');
@@ -38,11 +39,11 @@ export default function AvatarMenu() {
             leaveTo="transform opacity-0 scale-95"
           >
             {menuType === 'business' ? (
-              <BusinessMenu ref={ref} handleSignOut={signOut} />
+              <BusinessMenu ref={ref} handleSignOut={logout} />
             ) : (
               <UserMenu
                 ref={ref}
-                handleSignOut={signOut}
+                handleSignOut={logout}
                 user={{
                   name: currentUser.name[0].value || '',
                   uid: '',

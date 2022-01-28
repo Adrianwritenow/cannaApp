@@ -20,7 +20,7 @@ export default function CouponDetail() {
 
   useEffect(() => {
     if (cid && !coupon) {
-      getDocument(cid, 'dispensary').then((document: SearchHits) => {
+      getDocument(cid, 'coupons').then((document: SearchHits) => {
         if (document) {
           const result = document.hits.hits[0];
           setCoupon(result as Coupon);

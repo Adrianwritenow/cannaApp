@@ -35,9 +35,6 @@ const search = (state: any = defaultState, action: SearchAction) => {
       if (!query.data.length && !query.search) {
         search = '';
       }
-      console.log('query:::', query);
-
-      console.log('SEARCH', search);
       return {
         ...state,
         results: query.data || state.results,

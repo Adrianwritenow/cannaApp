@@ -1,5 +1,6 @@
-import { Dispensary } from '@/interfaces/searchDispensary';
 import { useEffect, useState } from 'react';
+
+import { Dispensary } from '@/interfaces/searchDispensary';
 import moment from 'moment-timezone';
 
 export default function OpenIndicator(props: any) {
@@ -27,6 +28,7 @@ export default function OpenIndicator(props: any) {
       const end = endTime.endsWith('am')
         ? moment.tz(endTime, fmt, tmz).add(1, 'days')
         : moment.tz(endTime, fmt, tmz);
+
       return (
         time.isBetween(start, end) ||
         time.isBetween(start.subtract(1, 'day'), end.subtract(1, 'day')) ||
@@ -44,7 +46,6 @@ export default function OpenIndicator(props: any) {
   }
 
   useEffect(() => {
-
     if (dispensary && dispensaryTimezone === '') {
       switch (dispensary?._source.time_zone[0].toLowerCase()) {
         case 'est':

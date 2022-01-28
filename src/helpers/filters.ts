@@ -35,6 +35,15 @@ export const Filters: Record<string, Filter> = {
     value: 'Sort By',
     list: [{ value: 'Relevance' }, { value: 'Recent' }],
   },
+  sortDispensary: {
+    value: 'Sort By',
+    list: [
+      { value: 'Distance' },
+      { value: 'Highest Rated' },
+      { value: 'Most Reviewed' },
+      // { value: 'Largest Menu' },
+    ],
+  },
   price: {
     value: 'Price',
     list: [{ value: '$' }, { value: '$$' }, { value: '$$$' }],
@@ -619,6 +628,48 @@ export const Filters: Record<string, Filter> = {
         ],
       },
       { value: 'Wedding Planning' },
+    ],
+  },
+  amenities: {
+    value: 'Amenities',
+    list: [
+      { value: 'Accessible' },
+      { value: 'Onsite Security' },
+      { value: 'Lab Tested' },
+      { value: 'Social Equity' },
+      { value: 'ATM' },
+      { value: 'Best Of' },
+      { value: 'Brand Verified' },
+      { value: 'Security' },
+      { value: 'Sale' },
+      { value: 'Delivery' },
+      { value: 'Doctors' },
+      { value: 'CBD' },
+    ],
+  },
+  products: {
+    value: 'Products',
+    list: [
+      { value: 'Vape Pens' },
+      { value: 'Flower' },
+      { value: 'Concentrates' },
+      { value: 'Edibles' },
+      { value: 'CB' },
+      { value: 'Gear' },
+      { value: 'Topicals' },
+      { value: 'Pre Roll' },
+    ],
+  },
+  license: {
+    value: 'License Type',
+    list: [{ value: 'All' }, { value: 'Medical' }, { value: 'Recreational' }],
+  },
+  order: {
+    value: 'Order',
+    list: [
+      { value: 'Order Online' },
+      { value: 'Curbside Pickup' },
+      { value: 'Delivery' },
     ],
   },
 };

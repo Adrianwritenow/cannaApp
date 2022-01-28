@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 
+import DispenaryFilterSlideOver from '../slideOver/filters/DispensaryFilterSlideOver';
 import { Dispensary } from '@/interfaces/dispensary';
 import ListingSection from '../../components/sections/ListingSection';
-import ProductFilterSlideOver from '../slideOver/filters/ProductFilterSlideOver';
+import { RootState } from '@/reducers';
 import SvgEmptyState from '@/public/assets/icons/iconComponents/EmptyState';
 import { combinedSearchQuery } from '@/actions/search';
+import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
-import { RootState } from '@/reducers';
 
 export default function SearchDispensary(props: {
   query: string;
@@ -19,8 +20,15 @@ export default function SearchDispensary(props: {
 
   const [dispenaries, setDispenaries] = useState<Array<Dispensary>>();
   const [update, setUpdate] = useState(true);
-  const location = useSelector((root: RootState) => root.location);
+  const router = useRouter();
+  const { category } = router.query;
 
+  const location = useSelector((root: RootState) => root.location);
+  const [filters, setFilters] = useState<any>({
+    category: [`${category ? category : ''}`],
+    sort: [],
+    amenities: [],
+  });
   const [currentQuery, setCurrentQuery] = useState('');
 
   useEffect(() => {
@@ -33,6 +41,7 @@ export default function SearchDispensary(props: {
   async function getDispensaries() {
     const hits: any = await combinedSearchQuery({
       q: query ?? '*',
+      filters: filters,
       coords: { lat: location.lat, lon: location.lon },
       endpoints: ['dispenaries'],
       total: 10,
@@ -42,9 +51,14 @@ export default function SearchDispensary(props: {
     setCurrentQuery(query);
   }
 
+  function handleFilter(data: any) {
+    setFilters(data);
+    setUpdate(true);
+  }
+
   return (
     <div className="bg-gray-50">
-      <ProductFilterSlideOver setFilters={() => {}} />
+      <DispenaryFilterSlideOver setFilters={handleFilter} />
       <div>
         {dispenaries ? (
           <div>

@@ -37,25 +37,18 @@ export async function combinedSearchQuery(searchProps: {
    * but innacurate for longer distances and near the poles,
    * which is not a problem for our use case
    */
-  if (coords && coords.lat && coords.lon) {
-    body.filter('geo_distance', {
-      distance: distance ?? '50mi',
-      coordinates: { lat: coords.lat, lon: coords.lon },
-    });
-
-    body.sort('_geo_distance', {
-      coordinates: { lat: coords.lat, lon: coords.lon },
-      order: 'asc',
-      unit: 'mi',
-      distance_type: 'plane',
-    });
-  }
 
   if (filters) {
+    console.log('FILTERS', filters);
     Object.keys(filters).map(function (key, index) {
       if (key === 'category') {
         if (filters?.category[0]) {
           body.filter('match', 'category', filters.category[0]);
+        }
+        if (filters?.amenities[0]) {
+          filters?.amenities.map((filter: string) => {
+            body.filter('term', 'amenities', filter);
+          });
         }
       }
       if (key === 'sort') {
@@ -65,8 +58,17 @@ export async function combinedSearchQuery(searchProps: {
             case 'Price: High to Low':
               body.sort('price', 'desc');
               break;
+            case 'Highest Rated':
+              body.sort('rating', 'desc');
+              break;
+            case 'Most Reviewed':
+              body.sort('reviews_count', 'desc');
+              break;
             case 'Price: Low to High':
               body.sort('price', 'asc');
+              break;
+            case 'Rating':
+              body.sort('rating', 'desc');
               break;
             case 'Rating':
               body.sort('rating', 'desc');
@@ -83,8 +85,24 @@ export async function combinedSearchQuery(searchProps: {
     });
   }
 
+  if (coords && coords.lat && coords.lon) {
+    body.filter('geo_distance', {
+      distance: distance ?? '50mi',
+      coordinates: { lat: coords.lat, lon: coords.lon },
+    });
+
+    body.sort('_geo_distance', {
+      coordinates: { lat: coords.lat, lon: coords.lon },
+      order: 'asc',
+      unit: 'mi',
+      distance_type: 'plane',
+    });
+  }
+
   // Build the body (JSON payload)
   const query = body.build();
+
+  console.log(query);
 
   let apis: any[] = [];
   let data: any[] = [];
@@ -112,12 +130,15 @@ export async function combinedSearchQuery(searchProps: {
           // TODO: Document this please
           let values: any[] = response.map(r => r.data.hits.hits);
           let flatData = [].concat.apply([], values);
+
           return flatData;
         })
         .catch((error: any) => {
           console.log('ERR:::', error);
         });
       data = results;
+
+      console.log('DATA:::', data);
     }
 
     return data;

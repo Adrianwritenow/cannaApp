@@ -39,7 +39,6 @@ export async function combinedSearchQuery(searchProps: {
    */
 
   if (filters) {
-    console.log('FILTERS', filters);
     Object.keys(filters).map(function (key, index) {
       if (key === 'category') {
         if (filters?.category[0]) {
@@ -102,8 +101,6 @@ export async function combinedSearchQuery(searchProps: {
   // Build the body (JSON payload)
   const query = body.build();
 
-  console.log(query);
-
   let apis: any[] = [];
   let data: any[] = [];
 
@@ -137,8 +134,6 @@ export async function combinedSearchQuery(searchProps: {
           console.log('ERR:::', error);
         });
       data = results;
-
-      console.log('DATA:::', data);
     }
 
     return data;

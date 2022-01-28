@@ -36,7 +36,7 @@ export default function SearchDispensary(props: {
     if (update || currentQuery !== query) {
       getDispensaries();
     }
-  }, [update, query, currentQuery]);
+  }, [update, query, currentQuery, filters]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   async function getDispensaries() {

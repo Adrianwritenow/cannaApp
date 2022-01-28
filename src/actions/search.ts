@@ -23,7 +23,6 @@ export async function combinedSearchQuery(searchProps: {
 }) {
   const { q, coords, distance, filters, endpoints, total } = searchProps;
 
-  console.log('FILTERS', filters);
   const body = bodybuilder().size(total ?? 15);
 
   // If we have a query, we will use query_string
@@ -92,7 +91,6 @@ export async function combinedSearchQuery(searchProps: {
    */
 
   if (coords && coords.lat && coords.lon) {
-    console.log('DIS', distance);
     body.filter('geo_distance', {
       distance: distance ?? '200mi',
       coordinates: { lat: coords.lat, lon: coords.lon },

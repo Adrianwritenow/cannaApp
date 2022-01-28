@@ -32,10 +32,8 @@ export async function combinedSearchQuery(searchProps: {
   }
 
   /**
-   * We want to fitler by distance and then sort asceending
-   * We choose to use the plane distance type which is faster
-   * but innacurate for longer distances and near the poles,
-   * which is not a problem for our use case
+   *Goes through filters passed and conditionally adds onto the
+   *query to filter out based on key value.
    */
 
   if (filters) {
@@ -83,6 +81,13 @@ export async function combinedSearchQuery(searchProps: {
       }
     });
   }
+
+  /**
+   * We want to fitler by distance and then sort asceending
+   * We choose to use the plane distance type which is faster
+   * but innacurate for longer distances and near the poles,
+   * which is not a problem for our use case
+   */
 
   if (coords && coords.lat && coords.lon) {
     body.filter('geo_distance', {

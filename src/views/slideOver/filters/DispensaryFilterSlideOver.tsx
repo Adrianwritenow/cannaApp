@@ -16,20 +16,24 @@ export default function DispenaryFilterSlideOver(props: {
 
   const [open, setOpen] = useState(false);
   const [sort, setSort] = useState('Distance');
+  const [distance, setDistance] = useState('5mi');
+  const [filterList, setFilterList]: any = useState([]);
+
   const [savedValues, setSavedValues]: any = useState({
     category: category || '',
     filters: {},
     amenities: '',
     sort: sort,
+    distance: distance,
   });
   const [sortPricing, setSortPricing] = useState(savedValues.sort);
-  const [filterList, setFilterList]: any = useState([]);
 
   const initialValues: any = {
     filters: {},
     category: '',
     amenities: '',
     sort: sort,
+    distance: '',
   };
 
   useEffect(() => {
@@ -37,6 +41,8 @@ export default function DispenaryFilterSlideOver(props: {
     const filters: any = {
       sort: [savedValues.sort],
       category: [savedValues.category],
+      distance: [savedValues.distance],
+
       amenities: savedValues.amenities.length ? savedValues.amenities : [],
     };
 
@@ -135,13 +141,26 @@ export default function DispenaryFilterSlideOver(props: {
                         />
                       </div>
                       <div className="flex">
+                        <DropdownFilter
+                          setter={setDistance}
+                          id={'distance'}
+                          options={Filters.distance.list.map(filter => {
+                            return filter.value;
+                          })}
+                          current={distance}
+                          label={'Distance'}
+                          setFieldValue={setFieldValue}
+                        />
+                      </div>
+                      <div className="flex">
                         {/* Tab filters rendered */}
                         {Object.keys(savedValues.filters).map((keyName, i) => {
                           return savedValues.filters[keyName].map(
                             (filter: string, index: any) => {
                               if (
                                 savedValues.filters[keyName][index] !== '' &&
-                                keyName !== 'sort'
+                                keyName !== 'sort' &&
+                                keyName !== 'distance'
                               ) {
                                 return (
                                   <button

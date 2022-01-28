@@ -4,6 +4,7 @@ export const USER_REQUEST_GET = 'user/get';
 export const USER_REQUEST_GET_CURRENT = 'user/getCurrent';
 export const USER_REQUEST_UPDATE = 'user/update';
 export const USER_REQUEST_PASSWORD_RESET = 'user/password';
+export const USER_REQUEST_LOGOUT = 'user/logout';
 
 export interface UpdateUser {
   favorite_strains?: string;
@@ -56,6 +57,16 @@ export function updateUser(
       method: 'patch',
       url: `/user/${id}`,
       data: payload,
+    },
+  };
+}
+
+export function userLogout(): IAxiosAction {
+  return {
+    type: USER_REQUEST_LOGOUT,
+    config: {
+      method: 'POST',
+      url: `/oauth/logout`
     },
   };
 }

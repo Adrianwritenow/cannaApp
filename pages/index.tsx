@@ -10,6 +10,7 @@ import {
   receiveResults,
 } from '@/actions/search';
 import { listings, products } from '@/helpers/mockData';
+import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 
 import Background from '@/public/assets/images/png/fullBloom.png';
@@ -32,7 +33,6 @@ import { SearchHits } from '@/interfaces/searchHits';
 import SearchSlideOver from '@/components/forms/fields/SearchSlideOver';
 import { destinations } from '@/helpers/destinations';
 import { publications } from '@/helpers/publications';
-import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 
 export default function Home() {
@@ -136,13 +136,13 @@ export default function Home() {
         getDeals(coupons);
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location, coupons, flower, blogs, nearby]);
 
   return (
     <div className="mx-auto space-y-2">
       {/* Search/Map Section */}
-      <section className="relative pt-16">
+      <section className="relative pt-16 desktop:max-w-4xl desktop:rounded-md  desktop:mx-auto desktop:shadow-md">
         <Image src={Map} alt="Map" layout="fill" objectFit={'cover'} />
         <Link href="/map" passHref>
           <a className="absolute z-10 flex rounded-full bg-gray-50 shadow p-0.5 right-0 top-0 mt-2 mr-4 focus:outline-none">
@@ -268,15 +268,24 @@ export default function Home() {
             Deals Near Me
           </h2>
           <div className="grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-4 pb-4">
-            {deals.map((listing, index) => (
-              <div className="w-64" key={`lc-${listing._id}-${index}`}>
-                <ListingCard
-                  discount={`$${coupons[index]._source.discount}`}
-                  listing={listing}
-                  amenities={false}
-                />
-              </div>
-            ))}
+            {deals.map((listing, index) => {
+              const discount =
+                ((coupons[index]._source.price[0] as number) /
+                  parseFloat(coupons[index]._source.discount[0] as string)) *
+                100;
+
+              return (
+                <div className="w-64" key={`lc-${listing._id}-${index}`}>
+                  <ListingCard
+                    discount={`${
+                      discount && discount !== Infinity ? discount : 0
+                    }%`}
+                    listing={listing}
+                    amenities={false}
+                  />
+                </div>
+              );
+            })}
           </div>
           <div className="px-4 pt-2">
             <Link

@@ -3,10 +3,8 @@ import { useEffect, useState } from 'react';
 import BlogArticleSmall from '@/components/blog/BlogArticleCardSmall';
 import NewsFilterSlideOver from '../slideOver/filters/NewsFilterSlideOver';
 import { Post } from '@/interfaces/post';
-import { SearchHits } from '@/interfaces/searchHits';
 import SvgEmptyState from '@/public/assets/icons/iconComponents/EmptyState';
 import { combinedSearchQuery } from '@/actions/search';
-import sample from '@/helpers/mockData/articles.json';
 
 export default function SearchNews(props: { query: string }) {
   const { query } = props;

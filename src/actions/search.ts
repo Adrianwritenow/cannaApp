@@ -22,6 +22,7 @@ export async function combinedSearchQuery(searchProps: {
   endpoints?: string[];
 }) {
   const { q, coords, distance, filters, endpoints, total } = searchProps;
+
   const body = bodybuilder().size(total ?? 15);
 
   // If we have a query, we will use query_string
@@ -42,7 +43,7 @@ export async function combinedSearchQuery(searchProps: {
         if (filters?.category[0]) {
           body.filter('match', 'category', filters.category[0]);
         }
-        if (filters?.amenities[0]) {
+        if (filters?.amenities) {
           filters?.amenities.map((filter: string) => {
             body.filter('term', 'amenities', filter);
           });
@@ -91,7 +92,7 @@ export async function combinedSearchQuery(searchProps: {
 
   if (coords && coords.lat && coords.lon) {
     body.filter('geo_distance', {
-      distance: distance ?? '50mi',
+      distance: distance ?? '200mi',
       coordinates: { lat: coords.lat, lon: coords.lon },
     });
 

@@ -31,6 +31,10 @@ export const Filters: Record<string, Filter> = {
       { value: 'Rating' },
     ],
   },
+  distance: {
+    value: 'Distance',
+    list: [{ value: '5mi' }, { value: '10mi' }, { value: '50mi' }],
+  },
   sortNews: {
     value: 'Sort By',
     list: [{ value: 'Relevance' }, { value: 'Recent' }],

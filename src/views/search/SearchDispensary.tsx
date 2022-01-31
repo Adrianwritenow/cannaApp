@@ -28,6 +28,7 @@ export default function SearchDispensary(props: {
     category: [`${category ? category : ''}`],
     sort: [],
     amenities: [],
+    distance: [],
   });
   const [currentQuery, setCurrentQuery] = useState('');
 
@@ -35,13 +36,17 @@ export default function SearchDispensary(props: {
     if (update || currentQuery !== query) {
       getDispensaries();
     }
-  }, [update, query, currentQuery, getDispensaries]);
+  }, [update, query, currentQuery, filters]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   async function getDispensaries() {
+    let distance = filters.distance ? filters.distance[0] : '200mi';
+    let filterData = filters;
+    delete filterData.distance;
     const hits: any = await combinedSearchQuery({
       q: query ?? '*',
-      filters: filters,
+      filters: filterData,
+      distance: distance,
       coords: { lat: location.lat, lon: location.lon },
       endpoints: ['dispenaries'],
       total: 10,

@@ -8,17 +8,18 @@ import {
   combinedSearchQuery,
   receiveResults,
 } from '@/actions/search';
+import { formatDealCard, formatDispensaryCard } from '@/helpers/formatters';
+import { searchDealsNearMe, searchFeaturedDeals } from '@/actions/deals';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 
-import { DealsState } from '@/interfaces/coupon';
 import Background from '@/public/assets/images/png/fullBloom.png';
 import BlogArticleSmall from '@/components/blog/BlogArticleCardSmall';
 import ClaimBusiness from '@/public/assets/images/png/growBusiness.png';
 import { Coupon } from '@/interfaces/coupon';
 import CouponSlideOver from '@/views/slideOver/CouponsSlideOver';
+import { DealsState } from '@/interfaces/coupon';
 import { Dispensary } from '@/interfaces/dispensary';
-import { formatDealCard, formatDispensaryCard } from '@/helpers/formatters';
 import Image from 'next/image';
 import Link from 'next/link';
 import ListingCard from '@/components/listings/ListingCard';
@@ -29,7 +30,6 @@ import { Post } from '@/interfaces/post';
 import { Product } from '@/interfaces/product';
 import ProductResultsSection from '@/components/sections/ProductsResultsSection';
 import { RootState } from '@/reducers';
-import { searchDealsNearMe, searchFeaturedDeals } from '@/actions/deals';
 import { SearchHits } from '@/interfaces/searchHits';
 import SearchSlideOver from '@/components/forms/fields/SearchSlideOver';
 import { destinations } from '@/helpers/destinations';
@@ -122,7 +122,7 @@ export default function Home() {
   }, [location, flower, blogs, nearby]);
 
   return (
-    <div className="mx-auto space-y-2">
+    <div className="mx-auto space-y-2 flex flex-wrap justify-center">
       {/* Search/Map Section */}
       <section className="relative pt-16 desktop:max-w-4xl desktop:rounded-md  desktop:mx-auto desktop:shadow-md">
         <Image src={Map} alt="Map" layout="fill" objectFit={'cover'} />
@@ -282,7 +282,7 @@ export default function Home() {
       )}
 
       {/* Featured Destinations */}
-      <section className="pb-4 pt-2">
+      <section className="pb-4 pt-2 desktop:max-w-4xl">
         <h2 id="featured-destinations" className="sr-only">
           Featured Destinations
         </h2>
@@ -292,7 +292,7 @@ export default function Home() {
         >
           Featured Destinations
         </h2>
-        <div className="grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-4 pb-4">
+        <div className="grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-4 pb-4 desktop:max-w-4xl">
           {destinations.map((location, index) => (
             <div key={`fd-${index}`}>
               <div className="w-36 flex relative">
@@ -323,7 +323,7 @@ export default function Home() {
       </section>
 
       {/* New Locations nearby */}
-      <section className="pb-4 pt-2">
+      <section className="pb-4 pt-2 desktop:max-w-4xl">
         <h2 id="locations-near-me" className="sr-only">
           New Locations Nearby
         </h2>
@@ -344,21 +344,38 @@ export default function Home() {
           </div>
         )}
       </section>
-      <ProductResultsSection
-        list={flower as Product[]}
-        sponsored={false}
-        label={`Shop Flower near ${location.city}`}
-        link={'/search?category=Flower&view=shopping'}
-      />
+      <div className="desktop:max-w-4xl">
+        <ProductResultsSection
+          list={flower as Product[]}
+          sponsored={false}
+          label={`Shop Flower near ${location.city}`}
+          link={'/search?category=Flower&view=shopping'}
+        />
+      </div>
 
       {/* News Section */}
       {blogs && (
-        <section>
-          {blogs.map((post: Post, index) => (
-            <div id={`${index}`} key={`article-${index}`} className="px-4">
-              <BlogArticleSmall post={post} />
-            </div>
-          ))}
+        <section className="desktop:max-w-4xl ">
+          <h2 id="blogs" className="sr-only">
+            Dispatches from the Highlands
+          </h2>
+          <h2
+            id="blogs"
+            className="text-gray-700 text-lg font-semibold px-4 py-4"
+          >
+            Dispatches from the Highlands
+          </h2>
+          <div className="desktop:grid desktop:grid-flow-rows desktop:grid-cols-3 desktop:grid-cols-3">
+            {blogs.map((post: Post, index) => (
+              <div
+                id={`${index}`}
+                key={`article-${index}`}
+                className="col-span-1"
+              >
+                <BlogArticleSmall post={post} />
+              </div>
+            ))}
+          </div>
           <div className="px-4 pt-2">
             <Link href="/blog" passHref>
               <a>
@@ -372,7 +389,7 @@ export default function Home() {
       )}
 
       {/* Print Publication */}
-      <section className="pb-4 pt-2">
+      <section className="pb-4 pt-2 desktop:max-w-4xl ">
         <h2 id="publications" className="sr-only">
           Subscribe to our Print Publication
         </h2>

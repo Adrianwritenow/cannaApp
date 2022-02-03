@@ -3,14 +3,15 @@ import { combinedSearchQuery, receiveResults } from '@/actions/search';
 import { useDispatch, useSelector } from 'react-redux';
 
 import BullseyeIcon from '@/public/assets/icons/iconComponents/Bullseye';
+import DispenaryFilterSlideOver from '@/views/slideOver/filters/DispensaryFilterSlideOver';
+import { Dispensary } from '@/interfaces/dispensary';
 import { Map } from './Map';
 import { MapIcon } from '@heroicons/react/solid';
 import MapResults from './MapResults';
 import { RootState } from '@/reducers';
 import { ViewListIcon } from '@heroicons/react/outline';
-import { useCurrentWidth } from './useCurrentWidth';
-import { Dispensary } from '@/interfaces/dispensary';
 import { setLocation } from '@/actions/location';
+import { useCurrentWidth } from './useCurrentWidth';
 
 export const MapContext = createContext<any>(null);
 
@@ -32,22 +33,29 @@ export function MapContainer() {
   const [swiper, setSwiper] = useState<any>(null);
   const [update, setUpdate] = useState(true);
   const width = useCurrentWidth();
+  const [filters, setFilters] = useState<any>({
+    category: [`${query ? query : ''}`],
+    sort: [],
+    amenities: [],
+    distance: [`15mi`],
+  });
 
   useEffect(() => {
-    async function getLocationMatches() {
-      const hits: any = await combinedSearchQuery({
-        endpoints: ['dispenaries'],
-        coords: searchLocation.coords ? searchLocation.coords : { lat, lon },
-        distance: '15mi',
-        total: 10,
-      });
-
-      setLocationMatches(hits);
-    }
     if (searchLocation.label !== null) {
       getLocationMatches();
     }
-  }, [searchLocation.label, query, searchLocation.coords, lat, lon]);
+    if (update || currentQuery !== query) {
+      getLocationMatches();
+    }
+  }, [
+    searchLocation.label,
+    query,
+    searchLocation.coords,
+    lat,
+    lon,
+    update,
+    filters,
+  ]);
 
   const getLocation = () => {
     if (!preciseLocationSet) {
@@ -96,6 +104,27 @@ export function MapContainer() {
     }
   };
 
+  async function getLocationMatches() {
+    const distance = filters.distance ? filters.distance[0] : '15mi';
+    let filterData = filters;
+    delete filterData.distance;
+
+    const hits: any = await combinedSearchQuery({
+      endpoints: ['dispenaries'],
+      coords: searchLocation.coords ? searchLocation.coords : { lat, lon },
+      filters: filterData,
+      distance: distance,
+      total: 10,
+    });
+
+    setLocationMatches(hits);
+  }
+
+  function handleFilter(data: any) {
+    setFilters(data);
+    setUpdate(true);
+  }
+
   return (
     <>
       {/* {!showMap && (
@@ -111,32 +140,35 @@ export function MapContainer() {
       )} */}
 
       {locationMatches && (
-        <MapContext.Provider
-          value={{
-            activeCard,
-            setActiveCard,
-            swiper,
-            setSwiper,
-            showResults,
-            setShowResults,
-          }}
-        >
-          <div className="overflow-hidden">
-            <section className=" relative w-screen">
-              {locationMatches && showMap ? (
-                <>
-                  <button
-                    onClick={() => getLocation()}
-                    className="z-10 right-5 top-5 bg-green-400 h-10 w-10 flex items-center justify-center rounded-3xl absolute"
-                  >
-                    <BullseyeIcon
-                      className="text-white"
-                      height={24}
-                      width={24}
-                    />
-                  </button>
-                  <Map data={locationMatches} currentViewport={width} />
-                  {/* <div
+        <>
+          <DispenaryFilterSlideOver setFilters={handleFilter} />
+
+          <MapContext.Provider
+            value={{
+              activeCard,
+              setActiveCard,
+              swiper,
+              setSwiper,
+              showResults,
+              setShowResults,
+            }}
+          >
+            <div className="overflow-hidden">
+              <section className=" relative w-screen">
+                {locationMatches && showMap ? (
+                  <>
+                    <button
+                      onClick={() => getLocation()}
+                      className="z-10 right-5 top-5 bg-green-400 h-10 w-10 flex items-center justify-center rounded-3xl absolute"
+                    >
+                      <BullseyeIcon
+                        className="text-white"
+                        height={24}
+                        width={24}
+                      />
+                    </button>
+                    <Map data={locationMatches} currentViewport={width} />
+                    {/* <div
                     className={`transition-all duration-500 absolute bottom-64
                 ${
                   !showResults ? 'transform translate-y-52' : ''
@@ -150,17 +182,18 @@ export function MapContainer() {
                       <ViewListIcon className=" ml-2 w-6" />
                     </button>
                   </div> */}
-                  <div className="">
-                    <MapResults
-                      data={locationMatches}
-                      userCoords={{ lat: lat, lon: lon }}
-                    />
-                  </div>
-                </>
-              ) : null}
-            </section>
-          </div>
-        </MapContext.Provider>
+                    <div className="">
+                      <MapResults
+                        data={locationMatches}
+                        userCoords={{ lat: lat, lon: lon }}
+                      />
+                    </div>
+                  </>
+                ) : null}
+              </section>
+            </div>
+          </MapContext.Provider>
+        </>
       )}
     </>
   );

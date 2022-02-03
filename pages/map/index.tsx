@@ -1,23 +1,24 @@
-import MapFilterSlideOver from '@/views/slideOver/MapFilterSlideOver';
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+
+import DispenaryFilterSlideOver from '@/views/slideOver/filters/DispensaryFilterSlideOver';
+import { MapContainer } from '@/components/map/MapContainer';
+import MapFilterSlideOver from '@/views/slideOver/MapFilterSlideOver';
 import { RootState } from '@/reducers';
 import SvgEmptyState from '@/public/assets/icons/iconComponents/EmptyState';
-import { MapContainer } from '@/components/map/MapContainer';
+import { useSelector } from 'react-redux';
 
 function Map() {
-
   return (
     <div className="bg-grey-50">
-     
-        <div>
-          {/* <div className="pt-4">
+      <div>
+        {/* <div className="pt-4">
             <MapFilterSlideOver />
           </div> */}
-          <MapContainer/>
-        </div>
 
-        {/* <div className="w-full flex items-center  flex-wrap justify-center h-full space-y-4 py-14">
+        <MapContainer />
+      </div>
+
+      {/* <div className="w-full flex items-center  flex-wrap justify-center h-full space-y-4 py-14">
           <SvgEmptyState className="w-40 h-40" />
           <div className="w-full space-y-3">
             <h2 className="text-lg text-gray-700 font-semibold text-center w-56 ml-auto mr-auto">
@@ -28,7 +29,6 @@ function Map() {
             </p>
           </div>
         </div> */}
-
     </div>
   );
 }

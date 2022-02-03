@@ -56,7 +56,7 @@ export default function CouponSlideOver(props: {
                             <ArrowLeftIcon className="text-gray-700 w-6 h-6" />
                           </button>
                         </div>
-                        <Dialog.Title className="text-lg font-semibold text-gray-600">
+                        <Dialog.Title className="text-lg lg:text-2xl font-semibold text-gray-600">
                           {label}
                         </Dialog.Title>
                       </div>

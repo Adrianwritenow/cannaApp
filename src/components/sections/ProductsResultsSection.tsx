@@ -42,7 +42,9 @@ export default function ProductResultsSection(results: Results) {
       ) : (
         ''
       )}
-      <h2 className="text-xl  text-gray-700 font-semibold p-4 ">{label}</h2>
+      <h2 className="text-xl lg:text-2xl  text-gray-700 font-semibold p-4 ">
+        {label}
+      </h2>
       {list && (
         <div
           className={`${

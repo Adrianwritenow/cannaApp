@@ -1,12 +1,12 @@
-import { formatImageWithFallback } from '@/helpers/formatters';
 import ImageWithFallback from '@/components/image/ImageWithFallback';
 import Link from 'next/link';
 import { Post } from '@/interfaces/post';
 import React from 'react';
+import { formatImageWithFallback } from '@/helpers/formatters';
 
 function BlogArticleCardSlide({ post }: { post: Post }) {
   return (
-    <div key={post._source.title[0]} className="flex w-full justify-center">
+    <div key={post._source.title[0]} className="flex w-full justify-center ">
       <div className="border-b-2 align border rounded-lg w-full self-center pb-4 ">
         <div>
           <div className="pb-4">

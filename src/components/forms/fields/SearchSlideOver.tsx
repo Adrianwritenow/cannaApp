@@ -322,7 +322,7 @@ export default function SearchSlideOver(props: {
           <div className="absolute inset-0 overflow-hidden">
             <Dialog.Overlay className="absolute inset-0" />
 
-            <div className="fixed inset-y-0 right-0 max-w-full flex">
+            <div className="fixed inset-y-0 right-0 max-w-full lg:max-w-2xl	flex">
               <Transition.Child
                 as={Fragment}
                 enter="transform transition ease-in-out duration-500 sm:duration-700"
@@ -440,14 +440,14 @@ export default function SearchSlideOver(props: {
                                               aria-hidden="true"
                                             />
                                           </div>
-                                          <div className="w-full relative">
+                                          <div className="w-full flex items-center relative">
                                             {/* geocoder autocomplete field */}
                                             <div
                                               className={'w-full'}
                                               ref={geocoderRef}
                                             />
                                             <button
-                                              className="absolute w-6 h-6 right-0 bottom-4"
+                                              className="w-6 h-6 right-0 flex items-center"
                                               onClick={handleClearLocation}
                                             >
                                               <XIcon className="text-gray-500" />
@@ -485,7 +485,7 @@ export default function SearchSlideOver(props: {
                                       </span>
                                     </button>
                                     {results.length ? (
-                                      <ul className="px-4 ">
+                                      <ul className="px-4 lg:max-w-2xl">
                                         {results.map(
                                           (result: any, index: number) => {
                                             switch (true) {

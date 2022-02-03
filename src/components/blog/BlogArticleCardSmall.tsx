@@ -6,6 +6,7 @@ import React from 'react';
 import moment from 'moment';
 
 function BlogArticleSmall({ post }: { post: Post }) {
+  console.log(post);
   return (
     <div key={post._source.title[0]}>
       <div className="grid gap-4 grid-cols-3 justify-between items-center w-full  py-4">
@@ -22,7 +23,7 @@ function BlogArticleSmall({ post }: { post: Post }) {
           </p>
         </div>
         <div className=" col-span-1 ">
-          <div className="relative flex justify-end">
+          <div className="relative flex justify-end w-20 h-20 lg:w-32 lg:h-32 ml-auto">
             <Link href={`/blog/${encodeURIComponent(post._id)}`} passHref>
               <a>
                 <ImageWithFallback
@@ -31,9 +32,7 @@ function BlogArticleSmall({ post }: { post: Post }) {
                       ? '#'
                       : post._source.image_url[0]
                   }`}
-                  layout="intrinsic"
-                  height={130}
-                  width={130}
+                  layout="fill"
                   objectFit="cover"
                   alt={post._source.title[0]}
                   className="rounded-lg"

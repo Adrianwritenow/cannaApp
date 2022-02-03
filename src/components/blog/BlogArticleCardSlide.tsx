@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import ImageWithFallback from '../image/ImageWithFallback';
 import Link from 'next/link';
 import { Post } from '../../interfaces/post';
 import React from 'react';
@@ -6,17 +7,19 @@ import moment from 'moment';
 
 function BlogArticleCardSlide({ post }: { post: Post }) {
   return (
-    <div key={post._source.title[0]} className="flex w-full justify-center">
+    <div key={post._source.title[0]} className="flex w-full justify-center ">
       <div className="border-b-2 align border rounded-lg w-full self-center pb-4 ">
         <div>
-          <div className="pb-4">
+          <div className="relative h-200 w-full h-52 mb-4">
             <Link href={`/blog/${encodeURIComponent(post._id)}`} passHref>
               <a>
-                <Image
-                  src={post._source.image_url[0]}
-                  layout="intrinsic"
-                  height={200}
-                  width={300}
+                <ImageWithFallback
+                  src={`${process.env.API_URL}${
+                    post._source.image_url[0].includes('image_missing')
+                      ? '#'
+                      : post._source.image_url[0]
+                  }`}
+                  layout="fill"
                   objectFit="cover"
                   alt={post._source.main_alt[0]}
                   className="rounded-t-lg"

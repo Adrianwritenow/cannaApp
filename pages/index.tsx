@@ -23,6 +23,7 @@ import CouponSlideOver from '@/views/slideOver/CouponsSlideOver';
 import { DealsState } from '@/interfaces/coupon';
 import { Dispensary } from '@/interfaces/dispensary';
 import Image from 'next/image';
+import ImageWithFallback from '@/components/image/ImageWithFallback';
 import Link from 'next/link';
 import ListingCard from '@/components/listings/ListingCard';
 import Logo from '@/public/assets/logos/logo.png';
@@ -143,7 +144,7 @@ export default function Home() {
                 <polygon points="50,0 100,0 50,100 0,100" />
               </svg>
 
-              <main className="mx-auto max-w-7xl px-4 sm:px-6  bg-white">
+              <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 bg-white">
                 <div className="sm:text-center lg:text-left">
                   <div className="space-x-2 flex justify-center items-center pb-4">
                     <div>

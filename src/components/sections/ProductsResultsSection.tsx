@@ -46,11 +46,38 @@ export default function ProductResultsSection(results: Results) {
       ) : (
         ''
       )}
-      <div className="pt-2 w-full ">
-        <div className="lg:h-auto lg:rounded-md lg:flex lg:flex-wrap  lg:w-64 flex-shrink-0">
-          <h2 className="text-gray-700 text-lg lg:text-2xl font-semibold px-4 py-4">
-            {label}
-          </h2>
+      <h2 className="text-xl lg:text-2xl  text-gray-700 font-semibold p-4 ">
+        {label}
+      </h2>
+      {list && (
+        <div
+          className={`${
+            type === 'COUPON' ? 'pb-6' : ''
+          } grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-6 `}
+        >
+          {list.map((data, index) => {
+            if (type === 'COUPON') {
+              return (
+                <div key={`cc-${index}`}>
+                  <CouponCard coupon={data as Coupon} />
+                </div>
+              );
+            } else if (type === 'DEAL') {
+              return (
+                <ProductCard
+                  product={data as Product}
+                  key={`pc-${index}`}
+                  deal={deal}
+                />
+              );
+            } else {
+              return (
+                <div className="w-36" key={`pc-${index}`}>
+                  <ProductCard product={data as Product} />
+                </div>
+              );
+            }
+          })}
         </div>
         {list && (
           <div

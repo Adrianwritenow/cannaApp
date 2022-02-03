@@ -11,14 +11,12 @@ function BlogArticleCardSlide({ post }: { post: Post }) {
     <div key={post._source.title[0]} className="flex w-full justify-center ">
       <div className="border-b-2 align border rounded-lg w-full self-center pb-4 ">
         <div>
-          <div className="pb-4">
-            <Link href={`/blog/${post._source.id}`} passHref>
+          <div className="relative h-200 w-full h-52 mb-4">
+            <Link href={`/blog/${encodeURIComponent(post._id)}`} passHref>
               <a>
                 <ImageWithFallback
                   src={formatImageWithFallback(post._source.image)}
-                  layout="intrinsic"
-                  height={200}
-                  width={300}
+                  layout="fill"
                   objectFit="cover"
                   alt={post._source.main_alt[0]}
                   className="rounded-t-lg"

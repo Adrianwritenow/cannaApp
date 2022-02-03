@@ -25,14 +25,12 @@ function BlogArticleSmall({ post }: { post: Post }) {
           </p>
         </div>
         <div className=" col-span-1 ">
-          <div className="relative flex justify-end">
-            <Link href={`/blog/${post._source.id}`} passHref>
+          <div className="relative flex justify-end w-20 h-20 lg:w-32 lg:h-32 ml-auto">
+            <Link href={`/blog/${encodeURIComponent(post._id)}`} passHref>
               <a>
                 <ImageWithFallback
                   src={formatImageWithFallback(post._source.image)}
-                  layout="intrinsic"
-                  height={130}
-                  width={130}
+                  layout="fill"
                   objectFit="cover"
                   alt={post._source.title[0]}
                   className="rounded-lg"

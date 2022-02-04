@@ -22,6 +22,7 @@ module.exports = {
     CLIENT_ID: process.env.CLIENT_ID,
     CLIENT_SECRET: process.env.CLIENT_SECRET,
     SEARCH_URL: process.env.SEARCH_URL,
+    SEARCH_INDEX_PREFIX: process.env.SEARCH_INDEX_PREFIX || 'dev_cannapages',
     MAPBOX_ACCESS_TOKEN: process.env.MAPBOX_ACCESS_TOKEN,
     NEXTAUTH_URL: process.env.NEXTAUTH_URL,
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,

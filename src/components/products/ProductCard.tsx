@@ -23,7 +23,9 @@ export default function ProductCard(data: ProductProps) {
             {/* Replace placeholder with */}
             <ImageWithFallback
               src={`${
-                product._source.image[0].includes('image_missing')
+                typeof product._source.image === 'undefined'
+                  ? '#'
+                  : product._source.image[0].includes('image_missing')
                   ? '#'
                   : product._source.image[0]
               }`}

@@ -4,7 +4,6 @@ import BlogArticleCardFeatured from '@/components/blog/BlogArticleCardFeatured';
 import BlogArticleCardSmall from '@/components/blog/BlogArticleCardSmall';
 import { Post } from '@/interfaces/post';
 import { SearchHits } from '@/interfaces/searchHits';
-import articles from '@/helpers/mockData/articles.json';
 import { browseBy } from '@/actions/search';
 import { useRouter } from 'next/router';
 
@@ -22,6 +21,7 @@ export default function BlogByAuthor() {
         }
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router, articles]);
 
   return (

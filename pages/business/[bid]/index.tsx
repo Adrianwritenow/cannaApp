@@ -10,26 +10,26 @@ import {
   IconFacebook,
   IconInsta,
   Sativa,
-} from '../../../public/assets/icons/iconComponents';
+} from '@/public/assets/icons/iconComponents';
 import React, { useEffect, useState } from 'react';
-import { combinedSearchQuery, getDocument } from '../../../src/actions/search';
+import { combinedSearchQuery, getDocument } from '@/actions/search';
 
-import AboutUsSlideOver from '../../../src/views/slideOver/AboutUsSlideOver';
-import AmenitiesSection from '../../../src/components/sections/AmenitiesSection';
-import BusinessMenuSlideOver from '../../../src/views/slideOver/business/BusinessMenuSlideOver';
+import AboutUsSlideOver from '@/views/slideOver/AboutUsSlideOver';
+import AmenitiesSection from '@/components/sections/AmenitiesSection';
+import BusinessMenuSlideOver from '@/views/slideOver/business/BusinessMenuSlideOver';
 import BusinessReviewSlideOver from '@/views/slideOver/business/BusinessReviewSlideOver';
 import BusinessVerificationSlideOver from '@/views/slideOver/business/BusinessVerifiedSlideOver';
 import { Dispensary } from '@/interfaces/dispensary';
-import FaqSlideOver from '../../../src/views/slideOver/FaqSlideOver';
+import FaqSlideOver from '@/views/slideOver/FaqSlideOver';
 import ImageWithFallback from '@/components/image/ImageWithFallback';
 import Link from 'next/link';
-import ListingCardDropdown from '../../../src/components/listings/ListingCardDropDown';
+import ListingCardDropdown from '@/components/listings/ListingCardDropDown';
 import OpenIndicator from '@/helpers/OpenStatus';
 import { RootState } from '@/reducers';
 import { SearchHits } from '@/interfaces/searchHits';
 import SmallMap from '@/components/map/businessPageMap/SmallMap';
 import SocialShare from '@/components/share/SocialShare';
-import SvgIconTwitter from '../../../public/assets/icons/iconComponents/IconTwitter';
+import SvgIconTwitter from '@/public/assets/icons/iconComponents/IconTwitter';
 import getDistanceFrom from '@/helpers/getDistanceFrom';
 import moment from 'moment-timezone';
 import { useRouter } from 'next/router';
@@ -111,10 +111,12 @@ export default function BusinessDetail() {
         <div className="w-full h-64 relative">
           <ImageWithFallback
             src={`${process.env.API_URL}${
-                 typeof dispensary._source.url === 'undefined' ? "#" : dispensary._source.url[0].includes('image_missing')
-                    ? '#'
-                    : dispensary._source.url[0]
-                }`}
+              typeof dispensary._source.url === 'undefined'
+                ? '#'
+                : dispensary._source.url[0].includes('image_missing')
+                ? '#'
+                : dispensary._source.url[0]
+            }`}
             alt={dispensary._source?.name}
             layout="fill"
             objectFit={'cover'}
@@ -150,8 +152,7 @@ export default function BusinessDetail() {
           </h2>
           <div className="grid gap-2 grid-flow-row auto-rows-max border-b border-gray-200 text-sm text-gray-500 pt-2 pb-4">
             <div className="flex items-center ">
-              {typeof dispensary._source.rating !== 'undefined' &&
-              dispensary._source.rating[0] !== '' ? (
+              {typeof dispensary._source.rating !== 'undefined' ? (
                 <>
                   <StarIcon
                     className={`flex-shrink-0 h-5 w-5 text-yellow-400`}
@@ -159,9 +160,7 @@ export default function BusinessDetail() {
                   />
                   <p className="p">
                     <span className="font-bold text-gray-700">
-                      {parseFloat(
-                        dispensary?._source.rating[0] as string
-                      ).toFixed(1)}
+                      {dispensary?._source.rating[0]}
                     </span>{' '}
                     ({dispensary._source.reviews_count} Reviews)
                   </p>

@@ -6,19 +6,19 @@ import {
 import {
   browseBy,
   combinedSearchQuery,
-  getPopular,
   receiveResults,
 } from '@/actions/search';
-import { listings, products } from '@/helpers/mockData';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 
+import { DealsState } from '@/interfaces/coupon';
 import Background from '@/public/assets/images/png/fullBloom.png';
 import BlogArticleSmall from '@/components/blog/BlogArticleCardSmall';
 import ClaimBusiness from '@/public/assets/images/png/growBusiness.png';
 import { Coupon } from '@/interfaces/coupon';
 import CouponSlideOver from '@/views/slideOver/CouponsSlideOver';
 import { Dispensary } from '@/interfaces/dispensary';
+import { formatDealCard, formatDispensaryCard } from '@/helpers/formatters';
 import Image from 'next/image';
 import Link from 'next/link';
 import ListingCard from '@/components/listings/ListingCard';
@@ -29,21 +29,23 @@ import { Post } from '@/interfaces/post';
 import { Product } from '@/interfaces/product';
 import ProductResultsSection from '@/components/sections/ProductsResultsSection';
 import { RootState } from '@/reducers';
+import { searchDealsNearMe, searchFeaturedDeals } from '@/actions/deals';
 import { SearchHits } from '@/interfaces/searchHits';
 import SearchSlideOver from '@/components/forms/fields/SearchSlideOver';
 import { destinations } from '@/helpers/destinations';
 import { publications } from '@/helpers/publications';
+import { useAxios } from '@/hooks/useAxios';
 import { useRouter } from 'next/router';
 
 export default function Home() {
-  const { lat, lon } = useSelector((root: RootState) => root.location);
+  const { deals, featuredDeals } = useSelector((root: RootState): DealsState => root.deals);
   const location = useSelector((root: RootState) => root.location);
   const [nearby, setNearby] = useState<Array<Dispensary>>();
   const [flower, setFlower] = useState<Array<Product>>();
   const [blogs, setBlogs] = useState<Array<Post>>();
-  const [deals, setDeals] = useState<Array<Dispensary>>([]);
   const [coupons, setCoupons] = useState<Array<Coupon>>();
   const dispatch = useDispatch();
+  const [dispatchSearch] = useAxios(false);
   const router = useRouter();
 
   async function handleDestinationClick(
@@ -94,32 +96,13 @@ export default function Home() {
     setBlogs(hits);
   }
 
-  async function getDeals(data: Coupon[]) {
-    const ids = data.map(index => index._source.dispensary[0]);
-
-    const hits: SearchHits = await browseBy(
-      'id',
-      `*`,
-      'dispenaries',
-      {
-        key: 'id',
-        value: ids,
-      },
-      true
-    );
-    setDeals(hits.hits.hits as unknown as Dispensary[]);
-  }
-
-  async function getPopularItems(type: string) {
-    const hits: SearchHits = await getPopular(type);
-    setCoupons(hits.hits.hits);
+  function getDeals() {
+    dispatchSearch(searchDealsNearMe('All'));
+    dispatchSearch(searchFeaturedDeals());
   }
 
   useEffect(() => {
     if (location.city) {
-      if (!coupons) {
-        getPopularItems('coupons');
-      }
       if (!flower) {
         getFlower();
       }
@@ -132,12 +115,10 @@ export default function Home() {
         getDispensaryResults();
       }
 
-      if (coupons?.length && !deals.length) {
-        getDeals(coupons);
-      }
+      getDeals();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location, coupons, flower, blogs, nearby]);
+  }, [location, flower, blogs, nearby]);
 
   return (
     <div className="mx-auto space-y-2">
@@ -256,7 +237,7 @@ export default function Home() {
       </section>
 
       {/* Deals Near me section */}
-      {deals && coupons && (
+      {deals.length > 0 && (
         <section className="pb-4 pt-2">
           <h2 id="deals-near-me" className="sr-only">
             Deals Near Me
@@ -269,20 +250,9 @@ export default function Home() {
           </h2>
           <div className="grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-4 pb-4">
             {deals.map((listing, index) => {
-              const discount =
-                ((coupons[index]._source.price[0] as number) /
-                  parseFloat(coupons[index]._source.discount[0] as string)) *
-                100;
-
               return (
                 <div className="w-64" key={`lc-${listing._id}-${index}`}>
-                  <ListingCard
-                    discount={`${
-                      discount && discount !== Infinity ? discount : 0
-                    }%`}
-                    listing={listing}
-                    amenities={false}
-                  />
+                  <ListingCard {...formatDealCard(listing)} />
                 </div>
               );
             })}
@@ -303,7 +273,9 @@ export default function Home() {
       )}
 
       {/* Deals of the Day */}
-      <CouponSlideOver label="Deals of the Day" list={coupons as Coupon[]} />
+      {featuredDeals.length > 0 &&
+        <CouponSlideOver label="Deals of the Day" list={featuredDeals as Coupon[]} />
+      }
 
       {/* Featured Destinations */}
       <section className="pb-4 pt-2">
@@ -362,11 +334,7 @@ export default function Home() {
           <div className="grid grid-flow-col auto-cols-max  gap-2 overflow-scroll pl-4 pb-4">
             {nearby.map((listing, index) => (
               <div className="w-64" key={`lc-${listing._id}-${index}`}>
-                <ListingCard
-                  listing={listing}
-                  amenities={false}
-                  userCoords={{ lat: lat, lon: lon }}
-                />
+                <ListingCard {...formatDispensaryCard(listing)} />
               </div>
             ))}
           </div>

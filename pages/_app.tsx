@@ -1,6 +1,6 @@
 import '@/styles/main.scss';
 import 'tailwindcss/tailwind.css';
-import '@/styles/geocode.scss'
+import '@/styles/geocode.scss';
 
 import type { AppProps } from 'next/app';
 import { SessionProvider } from 'next-auth/react';
@@ -25,10 +25,12 @@ export default function MyApp({
           <>
             <Navigation>
               <PrivateRoute>
-                <Component {...pageProps} />
+                <div className="max-w-7xl mx-auto">
+                  <Component {...pageProps} />
+                </div>
               </PrivateRoute>
             </Navigation>
-            <div className="pb-6">
+            <div className="pb-6 print:hidden">
               <Footer />
             </div>
           </>

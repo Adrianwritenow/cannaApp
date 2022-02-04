@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import ImageWithFallback from '../image/ImageWithFallback';
 import Link from 'next/link';
-import { Post } from '../../interfaces/post';
+import { Post } from '@/interfaces/post';
 import React from 'react';
 import moment from 'moment';
 
@@ -11,7 +11,7 @@ function BlogArticleFeatured({ post }: { post: Post }) {
       <div className="align   w-full self-center py-4">
         <div>
           <div className="pb-4">
-            <Link href={`/blog/${encodeURIComponent(post._id)}`} passHref>
+            <Link href={`/blog/${post._source.id}`} passHref>
               <a>
                 <ImageWithFallback
                   src={`${process.env.API_URL}${
@@ -33,7 +33,7 @@ function BlogArticleFeatured({ post }: { post: Post }) {
         <div className="w-full">
           <p className="text-xs text-gray-700">By {post._source.author}</p>
           <h2 className="font-bold text-gray-700 leading-6 py-1 hover:underline">
-            <Link href={`/blog/${encodeURIComponent(post._id)}`} passHref>
+            <Link href={`/blog/${post._source.id}`} passHref>
               <a className="no-underline hover:underline">
                 {post._source.title}
               </a>

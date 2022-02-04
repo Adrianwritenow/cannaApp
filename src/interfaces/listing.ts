@@ -1,5 +1,6 @@
 import { Dispensary } from './dispensary';
 import { Faq } from './faq';
+import { LocationHoursFields } from './locationData';
 import { Review } from './review';
 
 export interface Listing {
@@ -30,14 +31,32 @@ export interface Listing {
 }
 
 export interface ListingProps {
-  listing: Dispensary;
-  amenities?: boolean;
+  id: number;
+  image: string;
+  url: string;
+  title: string;
+  lat: number;
+  lon: number;
+  thumbnail?: string;
+  name?: string;
+  eyebrow?: string;
+  city?: string;
+  state?: string;
+  type?: string;
+  categories?: string[];
+  rating?: number;
+  reviews_count?: number;
+  price?: number;
+  price_label?: string;
+  amenities?: string;
   classNames?: string;
   discount?: string;
+  dispensary?: Dispensary;
+  hours?: LocationHoursFields;
   userCoords?: {
     lat: number;
     lon: number;
-  }
+  };
 }
 
 export interface DispensaryProps {

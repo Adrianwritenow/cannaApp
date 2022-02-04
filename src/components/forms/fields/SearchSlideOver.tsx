@@ -5,22 +5,22 @@ import {
   XIcon,
 } from '@heroicons/react/solid';
 import { Dialog, Transition } from '@headlessui/react';
-import { Field, FieldAttributes, Form, Formik } from 'formik';
+import { Field, Form, Formik } from 'formik';
 import React, { Fragment, useEffect, useRef, useState } from 'react';
-import { combinedSearchQuery, receiveResults } from '../../../actions/search';
-import { getLocationByIP, setLocation } from '../../../actions/location';
+import { combinedSearchQuery, receiveResults } from '@/actions/search';
+import { getLocationByIP, setLocation } from '@/actions/location';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Image from 'next/image';
-import { LocationData } from '../../../interfaces/locationData';
-import Logo from '@/public/assets/logos/logo.png';
+import { LocationData } from '@/interfaces/locationData';
 import LogoText from '@/public/assets/logos/logo-text.png';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import { RootState } from '@/reducers';
 import { SearchBar } from './SearchBar';
-import SearchDispensaryCard from '../../search/SearchDispensaryCard';
-import SearchProductCard from '../../search/SearchProductCard';
-import SearchStrainCard from '../../search/SearchStrainCard';
+import SearchDealCard from '@/components/search/SearchDealCard';
+import SearchDispensaryCard from '@/components/search/SearchDispensaryCard';
+import SearchProductCard from '@/components/search/SearchProductCard';
+import SearchStrainCard from '@/components/search/SearchStrainCard';
 import Target from '@/public/assets/icons/iconComponents/Target';
 import mapboxgl from 'mapbox-gl';
 import { useRouter } from 'next/router';
@@ -72,7 +72,6 @@ export default function SearchSlideOver(props: {
           initialLocationCleared && searchLocation.label
             ? searchLocation.label
             : '';
-        // : '';
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -164,7 +163,7 @@ export default function SearchSlideOver(props: {
         const hits = await combinedSearchQuery({
           q: e.target.value,
           total: 10,
-          endpoints: ['products', 'dispenaries', 'strains', 'blogs'],
+          endpoints: ['products', 'dispenaries', 'strains', 'blogs', 'coupons'],
         });
 
         if (hits?.length) {
@@ -268,7 +267,7 @@ export default function SearchSlideOver(props: {
   }
 
   return (
-    <div>
+    <div className="print:hidden">
       <div className="w-full relative pb-4">
         <div className="flex flex-row border-solid border border-gray-400 text-gray-500 rounded-md focus:outline-none focus:ring-0 shadow-sm items-center justify-center">
           {router.pathname === '/map' ? (
@@ -530,6 +529,21 @@ export default function SearchSlideOver(props: {
                                                     }}
                                                   >
                                                     <SearchDispensaryCard
+                                                      data={result}
+                                                    />
+                                                  </li>
+                                                );
+                                              case result._id.includes(
+                                                'coupon'
+                                              ):
+                                                return (
+                                                  <li
+                                                    key={`result-${index}`}
+                                                    onClick={() => {
+                                                      setOpen(false);
+                                                    }}
+                                                  >
+                                                    <SearchDealCard
                                                       data={result}
                                                     />
                                                   </li>

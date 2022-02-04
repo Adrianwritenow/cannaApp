@@ -1,8 +1,11 @@
-export interface Dispensary {
+import { ResultWithLocationHours } from './locationData';
+
+export type Dispensary = ResultWithLocationHours & {
   _id: string;
   _index: string;
   _score: number;
   _source: {
+    id: number;
     address_line1: string[];
     address_line2: string[];
     amenities: string[];
@@ -10,18 +13,11 @@ export interface Dispensary {
     created_: number[];
     description: string[];
     delivery_and_pickup_info: string[];
-    image: number[];
+    image: string[];
     facebook: string[];
     instagram: string[];
     twitter: string[];
-    monday_hours: string[];
-    tuesday_hours: string[];
     licenses?: string[];
-    wednesday_hours: string[];
-    thursday_hours: string[];
-    friday_hours: string[];
-    saturday_hours: string[];
-    sunday_hours: string[];
     phone_number: string[];
     website: string[];
     postal_code: string[];
@@ -29,12 +25,11 @@ export interface Dispensary {
     lon: number[];
     email: string[];
     coordinates: string[];
-    rating: string[];
+    rating: number[];
     reviews_count: number[] | [0];
     url: string[];
     sponsored: boolean[];
     langcode: string[];
-    time_zone: string[];
     name: string[];
     status: boolean[];
     _language: string;
@@ -42,4 +37,4 @@ export interface Dispensary {
     locality: string[];
     administrative_area: string[];
   };
-}
+};

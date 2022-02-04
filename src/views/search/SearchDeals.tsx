@@ -1,69 +1,38 @@
-import { browseBy, getPopular } from '@/actions/search';
-import { listings, products } from '../../helpers/mockData';
+import { DealsState } from '@/interfaces/coupon';
+import { formatDealCard } from '@/helpers/formatters';
+import ListingCard from '@/components/listings/ListingCard';
+import ProductFilterSlideOver from '@/views/slideOver/filters/ProductFilterSlideOver';
+import { RootState } from '@/reducers';
+import { searchDealsNearMe } from '@/actions/deals';
+import { Tab } from '@headlessui/react';
+import { useAxios } from '@/hooks/useAxios';
 import { useEffect, useState } from 'react';
-
-import { Coupon } from '@/interfaces/coupon';
-import CouponSlideOver from '../slideOver/CouponsSlideOver';
-import { Dispensary } from '@/interfaces/dispensary';
-import ListingCard from '../../components/listings/ListingCard';
-import ProductDealsCard from '../../components/deals/ProductDealsCard';
-import ProductFilterSlideOver from '../slideOver/filters/ProductFilterSlideOver';
-import ProductResultsSection from '../../components/sections/ProductsResultsSection';
-import { SearchHits } from '@/interfaces/searchHits';
+import { useSelector } from 'react-redux';
 
 export default function SearchDeals() {
-  const [deals, setDeals] = useState<Array<Dispensary>>([]);
-  const [coupons, setCoupons] = useState<Array<Coupon>>([]);
+  const [currentFilter, setCurrentFilter] = useState('All');
+  const { deals, filters, total } = useSelector((root: RootState): DealsState => root.deals);
+  const [dispatchSearch] = useAxios(false);
+
+  function fetchDeals() {
+    dispatchSearch(searchDealsNearMe(currentFilter, total));
+  }
+
+  function handleChangeFilter(index: number) {
+    setCurrentFilter(filters[index]);
+    fetchDeals();
+  }
+
   useEffect(() => {
-    if (!coupons.length) {
-      getPopularItems('coupons');
-    }
+    fetchDeals();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-    if (coupons?.length && !deals.length) {
-      getDeals(coupons);
-    }
-  }, [coupons, deals]);
-  async function getDeals(data: Coupon[]) {
-    const ids = data.map(index => index._source.dispensary[0]);
-
-    const hits: SearchHits = await browseBy(
-      'id',
-      `*`,
-      'dispenaries',
-      {
-        key: 'id',
-        value: ids,
-      },
-      true
-    );
-    setDeals(hits.hits.hits as unknown as Dispensary[]);
-  }
-
-  async function getPopularItems(type: string) {
-    const hits: SearchHits = await getPopular(type);
-    setCoupons(hits.hits.hits);
-  }
   return (
     <div className="bg-gray-50">
       <ProductFilterSlideOver setFilters={() => {}} />
       <div>
-        {/* <section className="px-4 pb-2.5">
-          <h3 className="text-lg font-semibold text-black">Featured Deals</h3>
-
-          {products.map((product, index) => {
-            return (
-              <ProductDealsCard
-                product={product}
-                key={`${product._id}-${index}`}
-              />
-            );
-          })}
-        </section> */}
         <div>
-          {/* <CouponSlideOver label="Coupons on Pipes" />
-
-          <CouponSlideOver label="Coupons on Concentrates" /> */}
-
           <section className="pb-4 pt-2">
             <h2 id="deals-near-me" className="sr-only">
               Deals Near Me
@@ -74,44 +43,40 @@ export default function SearchDeals() {
             >
               Deals Near Me
             </h2>
-            <div className="grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-4 pb-4">
+            <div className="overflow-visible overflow-scroll border-b border-gray-200 mb-5 mx-4">
+              <Tab.Group
+                onChange={handleChangeFilter}
+              >
+                <Tab.List className="w-full overflow-visible overflow-x-scroll border-b border-gray-200 flex">
+                  {filters.map((filter, index) => (
+                    <Tab
+                      key={`filter-${index}`}
+                      className={({ selected }) =>
+                        `${
+                          selected
+                            ? 'border-green text-green'
+                            : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                        }  whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm w-auto focus:outline-none`
+                      }
+                    >
+                      {filter}
+                    </Tab>
+                  ))}
+                </Tab.List>
+              </Tab.Group>
+            </div>
+            <div className="grid grid-cols-2 tablet:grid-cols-4 desktop:grid-cols-5 gap-4 px-4">
               {deals.map((listing, index) => (
-                <div className="w-64" key={`lc-${listing._id}-${index}`}>
-                  <ListingCard
-                    discount={`$${coupons[index]._source.discount}`}
-                    listing={listing}
-                    amenities={false}
-                  />
+                <div key={`lc-${listing._id}-${index}`}>
+                  <ListingCard {...formatDealCard(listing)} />
                 </div>
               ))}
             </div>
-            {/* <div className="px-4">
-              <button
-                className="py-4 w-full uppercase text-green-500 text-xs font-semibold border-t border-gray-200 tracking-widest"
-                onClick={() => {}}
-              >
-                <span>See more</span>
-              </button>
-            </div> */}
+
+            <div>
+              <button onClick={fetchDeals}>Load More</button>
+            </div>
           </section>
-          {/* <section>
-            <ProductResultsSection
-              list={products}
-              sponsored={false}
-              label="Up to 50% off %Brand% Edibles"
-              type="DEAL"
-              deal="$11.00"
-            />
-          </section>
-          <section>
-            <ProductResultsSection
-              list={products}
-              sponsored={false}
-              label="Bulk Deals on Flower"
-              type="DEAL"
-              deal="$9.00"
-            />
-          </section> */}
         </div>
       </div>
     </div>

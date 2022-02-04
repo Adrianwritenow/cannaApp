@@ -13,7 +13,7 @@ export default function ProductDealsCard(data: ProductProps) {
   const { product } = data;
 
   return (
-    <Link href={`/deal/${encodeURIComponent(product._id as string)}`} passHref>
+    <Link href={`/deal/${product._source.id}`} passHref>
       <a>
         <div
           className="relative w-full flex py-4 space-x-4 "

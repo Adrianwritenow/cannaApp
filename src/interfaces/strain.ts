@@ -3,6 +3,7 @@ export interface Strain {
   _index: string;
   _score: number;
   _source: {
+    id: number;
     created: number[];
     description: string[];
     grow_information?: string[];

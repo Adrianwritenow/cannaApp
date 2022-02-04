@@ -14,6 +14,7 @@ module.exports = {
     screens: {
       tablet: '640px',
       desktop: '1024px',
+      print: { raw: 'print' },
     },
     textIndent: (theme, { negative }) => ({
       ...{

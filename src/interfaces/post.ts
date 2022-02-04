@@ -3,6 +3,7 @@ export interface Post {
   _index: string;
   _score: number;
   _source: {
+    id: number;
     author: string[];
     content: string[];
     description: string[];

@@ -10,7 +10,7 @@ export default function SearchStrainCard(props: SearchProductProps) {
   const { data } = props;
 
   return (
-    <Link href={`/strain/${encodeURIComponent(data._id as string)}`} passHref>
+    <Link href={`/strain/${data._source.id}`} passHref>
       <a className="flex items-center shrink-0">
         <div className=" grid grid-cols-12 py-3 w-full">
           <div className="bg-green-500 rounded-sm p-0.5 mt-0.5 w-6 h-6 flex items-center justify-center">

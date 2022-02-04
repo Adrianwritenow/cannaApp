@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 
 import { BookmarkIcon } from '@heroicons/react/outline';
 import { Disclosure } from '@headlessui/react';
-import { DispensaryProps } from '../../interfaces/listing';
+import { DispensaryProps } from '@/interfaces/listing';
 import ImageWithFallback from '../image/ImageWithFallback';
 import Link from 'next/link';
 import OpenIndicator from '@/helpers/OpenStatus';
@@ -40,7 +40,7 @@ export default function ListingCardDropdown(data: DispensaryProps) {
     //     <Disclosure.Button className="w-full focus:outline-none">
     <div className={`relative w-full flex flex-wrap ${classNames} pt-4`}>
       <div className="rounded-lg overflow-hidden w-full h-36 relative">
-        <Link href={`/business/${encodeURIComponent(listing._id)}`} passHref>
+        <Link href={`/business/${listing._source.id}`} passHref>
           <a>
             <ImageWithFallback
               src={`${process.env.API_URL}${
@@ -60,10 +60,7 @@ export default function ListingCardDropdown(data: DispensaryProps) {
       <div className="pt-2.5 text-left text-sm w-full">
         <div className="flex flex-wrap justify-between">
           <h3 className=" font-bold text-base text-gray-700 leading-6">
-            <Link
-              href={`/business/${encodeURIComponent(listing._id)}`}
-              passHref
-            >
+            <Link href={`/business/${listing._source.id}`} passHref>
               <a>{listing._source?.name}</a>
             </Link>
           </h3>
@@ -86,7 +83,7 @@ export default function ListingCardDropdown(data: DispensaryProps) {
                   <StarIcon
                     key={rating}
                     className={`    ${
-                      parseFloat(listing._source?.rating[0]) > rating
+                      listing._source?.rating[0] > rating
                         ? 'text-yellow-400'
                         : 'text-gray-200'
                     }
@@ -130,7 +127,7 @@ export default function ListingCardDropdown(data: DispensaryProps) {
     </div>
     // <Disclosure.Panel as="div">
     //   <Link
-    //     href={`/business/${encodeURIComponent(listing._id)}`}
+    //     href={`/business/${listing._source.id}`}
     //     passHref
     //   >
     //     <a>

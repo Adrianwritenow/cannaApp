@@ -6,7 +6,7 @@ import { IAxiosAction, IAxiosReturn, IAxiosState } from '@/interfaces/axios';
 
 export type DispatchAxios = (params: IAxiosAction) => Promise<any>;
 
-export function useAxios(): [DispatchAxios, IAxiosState] {
+export function useAxios(internal: boolean = true): [DispatchAxios, IAxiosState] {
   const { data: session, status } = useSession();
   const dispatch = useDispatch();
   const isMounted = useRef(true);
@@ -19,14 +19,17 @@ export function useAxios(): [DispatchAxios, IAxiosState] {
     config.headers = config.headers || {};
     config.headers['Content-Type'] = 'application/json';
 
-    if (session?.accessToken) {
-      config.headers.Authorization = `Bearer ${session.accessToken}`;
-    }
+    // Internal requests need tokens and other parameters added in.
+    if (internal) {
+      if (session?.accessToken) {
+        config.headers.Authorization = `Bearer ${session.accessToken}`;
+      }
 
-    if (session?.provider) {
-      config.url += `?_format=json&auth_type=${session.provider}`;
-    } else {
-      config.url += `?_format=json`;
+      if (session?.provider) {
+        config.url += `?_format=json&auth_type=${session.provider}`;
+      } else {
+        config.url += `?_format=json`;
+      }
     }
 
     return config;
@@ -35,6 +38,7 @@ export function useAxios(): [DispatchAxios, IAxiosState] {
   const [state, setState] = useState<IAxiosState>({
     loading: false,
     error: null,
+    response: null,
     success: false,
   });
 
@@ -57,6 +61,7 @@ export function useAxios(): [DispatchAxios, IAxiosState] {
       setState({
         ...state,
         error: null,
+        response: null,
         loading: true,
         success: false,
       });
@@ -75,6 +80,7 @@ export function useAxios(): [DispatchAxios, IAxiosState] {
               loading: false,
               success: true,
               error: null,
+              response,
             });
           }
 
@@ -98,6 +104,7 @@ export function useAxios(): [DispatchAxios, IAxiosState] {
               ...state,
               loading: false,
               success: false,
+              response: null,
               error,
             });
           }

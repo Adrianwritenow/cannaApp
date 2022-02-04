@@ -12,7 +12,7 @@ function BlogArticleSmall({ post }: { post: Post }) {
         <div className="basis-3/4 w-full col-span-2">
           <p className="text-xs text-gray-700">By {post._source.author}</p>
           <h2 className="font-bold text-gray-700 leading-6 py-1">
-            <Link href={`/blog/${encodeURIComponent(post._id)}`} passHref>
+            <Link href={`/blog/${post._source.id}`} passHref>
               <a className="hover:underline">{post._source.title}</a>
             </Link>
           </h2>
@@ -23,7 +23,7 @@ function BlogArticleSmall({ post }: { post: Post }) {
         </div>
         <div className=" col-span-1 ">
           <div className="relative flex justify-end">
-            <Link href={`/blog/${encodeURIComponent(post._id)}`} passHref>
+            <Link href={`/blog/${post._source.id}`} passHref>
               <a>
                 <ImageWithFallback
                   src={`${process.env.API_URL}${

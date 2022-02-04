@@ -250,7 +250,7 @@ export default function Home() {
             <Image src={Map} alt="Map" layout="fill" objectFit={'cover'} />
           </div>
           <Link href="/map" passHref>
-            <a className="absolute z-10 flex rounded-full bg-gray-50 shadow p-1 right-0 bottom-0 mb-4 mr-4 focus:outline-none">
+            <a className="absolute z-10 flex rounded-full bg-gray-50 shadow p-1 right-0 bottom-0 mb-4 mr-4 focus:outline-none lg:animate-bounce	">
               <button className="focus:outline-none">
                 <ArrowsExpandIcon className="w-8 h-8 text-gray-700" />
               </button>

@@ -1,11 +1,12 @@
 import { AxiosError, AxiosResponse } from 'axios';
 import bodybuilder from 'bodybuilder';
 
-import { IAxiosAction } from './../interfaces/axios';
+import { IAxiosAction } from '@/interfaces/axios';
 import { SearchHits } from '@/interfaces/searchHits';
 
 var axios = require('axios');
 const SEARCH_URL = process.env.SEARCH_URL;
+const SEARCH_INDEX_PREFIX = process.env.SEARCH_INDEX_PREFIX;
 
 export const SEARCH_REQUEST_GET = 'search/get';
 export const SEARCH_REQUEST_GET_DOCUMENTS = 'search/getDocuments';
@@ -115,8 +116,7 @@ export async function combinedSearchQuery(searchProps: {
   if (endpoints) {
     if (endpoints.length) {
       apis = endpoints.map(function (value) {
-        // return `${SEARCH_URL}/elasticsearch_index_dev_cannapages_${value}/_search`;
-        return `${SEARCH_URL}/elasticsearch_index_database_${value}/_search`;
+        return `${SEARCH_URL}/elasticsearch_index_${SEARCH_INDEX_PREFIX}_${value}/_search`;
       });
     }
 
@@ -157,8 +157,7 @@ export function getDocument(id: string | string[] | undefined, api: string) {
     .build();
 
   const results = axios({
-    // url: `${SEARCH_URL}/elasticsearch_index_dev_cannapages_${api}/_search?size=1`,
-    url: `${SEARCH_URL}/elasticsearch_index_database_${api}/_search?size=1`,
+    url: `${SEARCH_URL}/elasticsearch_index_${SEARCH_INDEX_PREFIX}_${api}/_search?size=1`,
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -186,8 +185,7 @@ export function getDocuments(
     type: SEARCH_REQUEST_GET_DOCUMENTS,
     config: {
       method: 'POST',
-      // url: `${SEARCH_URL}/elasticsearch_index_dev_cannapages_${api}/_search`,
-      url: `${SEARCH_URL}/elasticsearch_index_database_${api}/_search`,
+      url: `${SEARCH_URL}/elasticsearch_index_${SEARCH_INDEX_PREFIX}_${api}/_search`,
       data,
     },
   };
@@ -196,8 +194,7 @@ export function getDocuments(
 export function getFeatured(index: string) {
   var body = bodybuilder().filter('match', 'featured', true).build();
   const results = axios({
-    // url: `${SEARCH_URL}/elasticsearch_index_dev_cannapages_${index}/_search?size=1`,
-    url: `${SEARCH_URL}/elasticsearch_index_database_${index}/_search?size=1`,
+    url: `${SEARCH_URL}/elasticsearch_index_${SEARCH_INDEX_PREFIX}_${index}/_search?size=1`,
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -235,8 +232,7 @@ export function browseBy(
   const query = body.build();
 
   const results = axios({
-    // url: `${SEARCH_URL}/elasticsearch_index_dev_cannapages_${index}/_search?size=15`,
-    url: `${SEARCH_URL}/elasticsearch_index_database_${index}/_search?size=15`,
+    url: `${SEARCH_URL}/elasticsearch_index_${SEARCH_INDEX_PREFIX}_${index}/_search?size=15`,
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -265,8 +261,7 @@ export function getPopular(type: string) {
     },
   };
   const results = axios({
-    // url: `${SEARCH_URL}/elasticsearch_index_dev_cannapages_${type}/_search?size=15`,
-    url: `${SEARCH_URL}/elasticsearch_index_database_${type}/_search?size=15`,
+    url: `${SEARCH_URL}/elasticsearch_index_${SEARCH_INDEX_PREFIX}_${type}/_search?size=15`,
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

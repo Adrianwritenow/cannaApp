@@ -1,6 +1,8 @@
 import { IAxiosAction } from '@/interfaces/axios';
 
 const SEARCH_URL = process.env.SEARCH_URL;
+const SEARCH_INDEX_PREFIX = process.env.SEARCH_INDEX_PREFIX;
+
 export const DEALS_REQUEST_SEARCH_NEAR_ME = 'deals/searchNearMe';
 export const DEALS_REQUEST_SEARCH_FEATURED = 'deals/searchFeatured';
 
@@ -47,8 +49,7 @@ export function searchDealsNearMe(
     type: DEALS_REQUEST_SEARCH_NEAR_ME,
     config: {
       method: 'POST',
-      // url: `${SEARCH_URL}/elasticsearch_index_dev_cannapages_coupons/_search`,
-      url: `${SEARCH_URL}/elasticsearch_index_database_coupons/_search`,
+      url: `${SEARCH_URL}/elasticsearch_index_${SEARCH_INDEX_PREFIX}_coupons/_search`,
       data,
     },
   };
@@ -83,8 +84,7 @@ export function searchFeaturedDeals(): IAxiosAction {
     type: DEALS_REQUEST_SEARCH_FEATURED,
     config: {
       method: 'POST',
-      // url: `${SEARCH_URL}/elasticsearch_index_dev_cannapages_coupons/_search`,
-      url: `${SEARCH_URL}/elasticsearch_index_database_coupons/_search`,
+      url: `${SEARCH_URL}/elasticsearch_index_${SEARCH_INDEX_PREFIX}_coupons/_search`,
       data,
     },
   };

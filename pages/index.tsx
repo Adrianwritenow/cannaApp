@@ -174,7 +174,7 @@ export default function Home() {
                       }}
                       passHref
                     >
-                      <a className="rounded-full text-sm text-green-400 border border-green-400 py-2 pr-4 pl-2.5 bg-white z-10 flex items-center space-x-1">
+                      <a className="rounded-full text-sm text-green-400 border border-green-400 py-2 pr-4 pl-2.5 bg-white z-10 flex hover:bg-green-50 ease-in-out transition-all duration-200	 items-center space-x-1-full text-sm text-green-400 border border-green-400 py-2 pr-4 pl-2.5 bg-white z-10 flex items-center space-x-1">
                         <LocationMarkerIcon className="w-3.5 h-3.5 " />
                         <span>Dispensaries</span>
                       </a>
@@ -186,7 +186,7 @@ export default function Home() {
                       }}
                       passHref
                     >
-                      <a className="rounded-full text-sm text-green-400 border border-green-400 py-2 pr-4 pl-2.5 bg-white z-10 flex items-center space-x-1">
+                      <a className="rounded-full text-sm text-green-400 border border-green-400 py-2 pr-4 pl-2.5 bg-white z-10 flex hover:bg-green-50 ease-in-out transition-all duration-200	 items-center space-x-1">
                         <TagIcon className="w-3.5 h-3.5 " />
                         <span>Edibles</span>
                       </a>
@@ -198,7 +198,7 @@ export default function Home() {
                       }}
                       passHref
                     >
-                      <a className="rounded-full text-sm text-green-400 border border-green-400 py-2 pr-4 pl-2.5 bg-white z-10 flex items-center space-x-1">
+                      <a className="rounded-full text-sm text-green-400 border border-green-400 py-2 pr-4 pl-2.5 bg-white z-10 flex hover:bg-green-50 ease-in-out transition-all duration-200	 items-center space-x-1">
                         <TagIcon className="w-3.5 h-3.5 " />
                         <span>Deals</span>
                       </a>
@@ -210,7 +210,7 @@ export default function Home() {
                       }}
                       passHref
                     >
-                      <a className="rounded-full text-sm text-green-400 border border-green-400 py-2 pr-4 pl-2.5 bg-white z-10 flex items-center space-x-1">
+                      <a className="rounded-full text-sm text-green-400 border border-green-400 py-2 pr-4 pl-2.5 bg-white z-10 flex hover:bg-green-50 ease-in-out transition-all duration-200	 items-center space-x-1">
                         <TagIcon className="w-3.5 h-3.5 " />
                         <span>Budder</span>
                       </a>
@@ -222,7 +222,7 @@ export default function Home() {
                       }}
                       passHref
                     >
-                      <a className="rounded-full text-sm text-green-400 border border-green-400 py-2 pr-4 pl-2.5 bg-white z-10 flex items-center space-x-1">
+                      <a className="rounded-full text-sm text-green-400 border border-green-400 py-2 pr-4 pl-2.5 bg-white z-10 flex hover:bg-green-50 ease-in-out transition-all duration-200	 items-center space-x-1">
                         <TagIcon className="w-3.5 h-3.5 " />
                         <span>Fragrances</span>
                       </a>
@@ -234,7 +234,7 @@ export default function Home() {
                       }}
                       passHref
                     >
-                      <a className="rounded-full text-sm text-green-400 border border-green-400 py-2 pr-4 pl-2.5 bg-white z-10 flex items-center space-x-1">
+                      <a className="rounded-full text-sm text-green-400 border border-green-400 py-2 pr-4 pl-2.5 bg-white z-10 flex hover:bg-green-50 ease-in-out transition-all duration-200	 items-center space-x-1">
                         <TagIcon className="w-3.5 h-3.5" />
                         <span>Flower</span>
                       </a>
@@ -248,7 +248,7 @@ export default function Home() {
             <Image src={Map} alt="Map" layout="fill" objectFit={'cover'} />
           </div>
           <Link href="/map" passHref>
-            <a className="absolute z-10 flex rounded-full bg-gray-50 shadow p-1 right-0 bottom-0 mb-4 mr-4 focus:outline-none">
+            <a className="absolute z-10 flex rounded-full bg-gray-50 shadow p-1 right-0 bottom-0 mb-4 mr-4 focus:outline-none lg:animate-bounce	">
               <button className="focus:outline-none">
                 <ArrowsExpandIcon className="w-8 h-8 text-gray-700" />
               </button>

@@ -32,7 +32,7 @@ export default function BottomNavBar() {
   return (
     <>
       {router.pathname !== '/map' ? (
-        <div className="fixed w-full bg-white px-2 py-3 pb-6 bottom-0 grid grid-flow-col border-t border-gray-200 z-10">
+        <div className="fixed w-full bg-white px-2 py-3 pb-6 bottom-0 grid grid-flow-col border-t border-gray-200 z-10 print:hidden">
           {routes.map((route, i) => {
             return (
               <Link

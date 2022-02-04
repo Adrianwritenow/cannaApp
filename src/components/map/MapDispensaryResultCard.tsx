@@ -33,12 +33,12 @@ export function MapResultCard({ listing, userCoords }: any) {
         <div className="h-28 relative rounded-t-lg overflow-hidden">
           <ImageWithFallback
             objectFit="cover"
-            src={`${process.env.API_URL}${
-              typeof listing._source.url === 'undefined'
+            src={`${
+              typeof listing._source.image === 'undefined'
                 ? '#'
-                : listing._source.url[0].includes('image_missing')
+                : listing._source.image[0].includes('image_missing')
                 ? '#'
-                : listing._source.url[0]
+                : listing._source.image[0]
             }`}
             alt={`listing ${listing._id}`}
             layout="fill"
@@ -48,10 +48,7 @@ export function MapResultCard({ listing, userCoords }: any) {
 
       <div className="text-left text-sm leading-4 flex-col p-2">
         <div className="flex justify-between">
-          <Link
-            href={`/business/${encodeURIComponent(listing._id as string)}`}
-            passHref
-          >
+          <Link href={`/business/${listing._source.id}`} passHref>
             <h3 className="text-md underline font-semibold text-gray-700 mb-2">
               {listing._source.name}
             </h3>

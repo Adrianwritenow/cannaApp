@@ -11,7 +11,7 @@ export default function StrainCard(data: StrainProps) {
   const { strain } = data;
 
   return (
-    <Link href={`/strain/${encodeURIComponent(strain._id as string)}`} passHref>
+    <Link href={`/strain/${strain._source.id}`} passHref>
       <a>
         <div
           key={strain._id}

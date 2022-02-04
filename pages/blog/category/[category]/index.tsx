@@ -1,6 +1,5 @@
 import BlogArticleCardFeatured from '@/components/blog/BlogArticleCardFeatured';
 import BlogArticleCardSmall from '@/components/blog/BlogArticleCardSmall';
-import articles from '@/helpers/mockData/articles.json';
 import { useRouter } from 'next/router';
 
 export default function BlogByCategory() {

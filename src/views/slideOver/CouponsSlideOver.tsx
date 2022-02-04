@@ -3,9 +3,8 @@ import { Fragment, useState } from 'react';
 
 import { ArrowLeftIcon } from '@heroicons/react/outline';
 import { Coupon } from '@/interfaces/coupon';
-import ProductResultsSection from '../../components/sections/ProductsResultsSection';
-import { SlideOverProps } from '../../interfaces/props/SlideOverProps';
-import { coupons } from '../../helpers/mockData';
+import ProductResultsSection from '@/components/sections/ProductsResultsSection';
+import { SlideOverProps } from '@/interfaces/props/SlideOverProps';
 
 export default function CouponSlideOver(props: {
   label: string;

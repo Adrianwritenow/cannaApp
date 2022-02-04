@@ -2,7 +2,7 @@ import { CheckIcon, StarIcon } from '@heroicons/react/solid';
 
 import { BookmarkIcon } from '@heroicons/react/outline';
 import { Disclosure } from '@headlessui/react';
-import { DispensaryProps } from '../../interfaces/listing';
+import { DispensaryProps } from '@/interfaces/listing';
 import ImageWithFallback from '../image/ImageWithFallback';
 import Link from 'next/link';
 import React from 'react';
@@ -22,15 +22,15 @@ export default function ListingCardSmall(props: DispensaryProps) {
       <div className="rounded-lg overflow-hidden w-20 h-20 relative flex-shrink-0 mr-3">
         {/* <Disclosure.Button className="w-full flex focus:outline-none">
             <div className="rounded-lg overflow-hidden w-20 h-20 relative flex-shrink-0 mr-3"> */}
-        <Link href={`/business/${encodeURIComponent(listing._id)}`} passHref>
+        <Link href={`/business/${listing._source.id}`} passHref>
           <a>
             <ImageWithFallback
-              src={`${process.env.API_URL}${
-                typeof listing._source.url === 'undefined'
+              src={`${
+                typeof listing._source.image === 'undefined'
                   ? '#'
-                  : listing._source.url[0].includes('image_missing')
+                  : listing._source.image[0].includes('image_missing')
                   ? '#'
-                  : listing._source.url[0]
+                  : listing._source.image[0]
               }`}
               alt={listing._source.name[0]}
               layout="fill"
@@ -42,10 +42,7 @@ export default function ListingCardSmall(props: DispensaryProps) {
       <div className="text-left text-sm w-full">
         <div className="flex flex-wrap justify-between">
           <h3 className="text-lg font-semobold text-gray-700">
-            <Link
-              href={`/business/${encodeURIComponent(listing._id)}`}
-              passHref
-            >
+            <Link href={`/business/${listing._source.id}`} passHref>
               <a>{listing._source.name}</a>
             </Link>
           </h3>
@@ -67,7 +64,7 @@ export default function ListingCardSmall(props: DispensaryProps) {
                 <StarIcon
                   key={rating}
                   className={`    ${
-                    parseFloat(listing._source.rating[0]) > rating
+                    listing._source.rating[0] > rating
                       ? 'text-yellow-400'
                       : 'text-gray-200'
                   }
@@ -91,7 +88,7 @@ export default function ListingCardSmall(props: DispensaryProps) {
     // </Disclosure.Button>
     // <Disclosure.Panel as="div" className="w-full pt-4">
     //   <Link
-    //     href={`/business/${encodeURIComponent(listing._id)}`}
+    //     href={`/business/${listing._source.id}`}
     //     passHref
     //   >
     //     <a>

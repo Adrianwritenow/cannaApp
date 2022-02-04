@@ -89,10 +89,7 @@ export default function LearnSection(data: LearnProps) {
         )}
       </div>
       <div className="px-4 ">
-        <Link
-          href={`/strain/${encodeURIComponent(strain._id as string)}`}
-          passHref
-        >
+        <Link href={`/strain/${strain._source.id}`} passHref>
           <a>
             <button className="py-4 w-full uppercase text-gray-700 text-xs font-bold border-t border-gray-200 tracking-widest">
               Learn more

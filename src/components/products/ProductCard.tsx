@@ -13,10 +13,7 @@ interface ProductProps {
 export default function ProductCard(data: ProductProps) {
   const { product, deal } = data;
   return (
-    <Link
-      href={`/product/${encodeURIComponent(product._id as string)}`}
-      passHref
-    >
+    <Link href={`/product/${product._source.id}`} passHref>
       <a>
         <div
           className="relative w-full flex flex-wrap"
@@ -25,10 +22,10 @@ export default function ProductCard(data: ProductProps) {
           <div className="rounded-lg overflow-hidden w-full h-36 relative">
             {/* Replace placeholder with */}
             <ImageWithFallback
-              src={`${process.env.API_URL}${
-                product._source.url[0].includes('image_missing')
+              src={`${
+                product._source.image[0].includes('image_missing')
                   ? '#'
-                  : product._source.url[0]
+                  : product._source.image[0]
               }`}
               alt={product._source?.name[0]}
               layout="fill"

@@ -15,7 +15,7 @@ export default function StrainCardSmall(data: StrainProps) {
   const { strain, strainAlt } = data;
 
   return (
-    <Link href={`/strain/${encodeURIComponent(strain._id as string)}`} passHref>
+    <Link href={`/strain/${strain._source.id}`} passHref>
       <a className="flex">
         <div className="w-full flex p-2 items-center">
           <div className="rounded-lg overflow-hidden w-12 h-12 relative flex-shrink-0 mr-3">

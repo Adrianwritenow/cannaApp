@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { Post } from '../../interfaces/post';
+import { Post } from '@/interfaces/post';
 import React from 'react';
 import moment from 'moment';
 
@@ -10,7 +10,7 @@ function BlogArticleCardSlide({ post }: { post: Post }) {
       <div className="border-b-2 align border rounded-lg w-full self-center pb-4 ">
         <div>
           <div className="pb-4">
-            <Link href={`/blog/${encodeURIComponent(post._id)}`} passHref>
+            <Link href={`/blog/${post._source.id}`} passHref>
               <a>
                 <Image
                   src={post._source.image_url[0]}
@@ -28,7 +28,7 @@ function BlogArticleCardSlide({ post }: { post: Post }) {
         <div className="w-full h-32 px-4">
           <p className="text-xs text-green-600">{post._source.author}</p>
           <h2 className="font-bold text-green-600 leading-6 py-1 hover:underline">
-            <Link href={`/blog/${encodeURIComponent(post._id)}`} passHref>
+            <Link href={`/blog/${post._source.id}`} passHref>
               <a className="no-underline text-green-600 hover:underline">
                 {post._source.title}
               </a>

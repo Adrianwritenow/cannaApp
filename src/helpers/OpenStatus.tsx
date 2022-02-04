@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { Dispensary } from '@/interfaces/searchDispensary';
+import { ResultWithLocationHours } from '@/interfaces/locationData';
 import moment from 'moment-timezone';
 
 export default function OpenIndicator(props: any) {
@@ -38,16 +38,17 @@ export default function OpenIndicator(props: any) {
   };
 
   // function to associate dispensary._source key with correct day time string
-  function getSourceValue(key: keyof Dispensary['_source']) {
+  function getSourceValue(key: keyof ResultWithLocationHours['_source']) {
     if (dispensary && Object.keys(dispensary._source).includes(key)) {
-      return key as keyof Dispensary['_source'];
+      return key as keyof ResultWithLocationHours['_source'];
     }
     throw Error('key not found');
   }
 
   useEffect(() => {
     if (dispensary && dispensaryTimezone === '') {
-      switch (dispensary?._source.time_zone[0].toLowerCase()) {
+      const entityTimeZone = dispensary?._source.time_zone || [''];
+      switch (entityTimeZone[0].toLowerCase()) {
         case 'est':
           setDispensaryTimezone('America/New_York');
           break;
@@ -69,14 +70,14 @@ export default function OpenIndicator(props: any) {
         `${now
           .tz(dispensaryTimezone)
           .format('dddd')
-          .toLowerCase()}_hours` as keyof Dispensary['_source']
+          .toLowerCase()}_hours` as keyof ResultWithLocationHours['_source']
       );
       const tomorrowKey = getSourceValue(
         `${moment()
           .add(1, 'days')
           .tz(dispensaryTimezone)
           .format('dddd')
-          .toLowerCase()}_hours` as keyof Dispensary['_source']
+          .toLowerCase()}_hours` as keyof ResultWithLocationHours['_source']
       );
 
       const todayHours = (dispensary?._source[todayKey][0] as string).split(

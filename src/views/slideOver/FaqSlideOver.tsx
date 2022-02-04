@@ -1,20 +1,13 @@
-import { ArrowLeftIcon, XIcon } from '@heroicons/react/solid';
+import { ArrowLeftIcon } from '@heroicons/react/solid';
 import { Dialog, Transition } from '@headlessui/react';
-import { Field, Form, Formik } from 'formik';
 import React, { Fragment, useState } from 'react';
 
 import { BusinessSlideoverProps } from '@/interfaces/props/businessSlideOverProps';
-import FaqSection from '../../components/sections/FaqSection';
-import { listings } from '../../../src/helpers/mockData';
+import FaqSection from '@/components/sections/FaqSection';
 
 export default function FaqSlideOver(props: BusinessSlideoverProps) {
   const { faqs, name } = props;
-  const business = listings[0];
-
   const [open, setOpen] = useState(false);
-  const initialValues = {
-    search: '',
-  };
 
   return (
     <section>

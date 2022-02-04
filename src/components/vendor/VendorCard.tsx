@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import ImageWithFallback from '../image/ImageWithFallback';
 import Link from 'next/link';
 import { Product } from '@/interfaces/product';
-import { Vendor } from '../../interfaces/vendor';
+import { Vendor } from '@/interfaces/vendor';
 import { getDocument } from '@/actions/search';
 
 interface VendorProps {
@@ -85,10 +85,7 @@ export default function VendorCard(props: VendorProps) {
           </p>
         </div>
       </div>
-      <Link
-        href={`/product/${encodeURIComponent(productId as string)}/0`}
-        passHref
-      >
+      <Link href={`/product/${productId}/0`} passHref>
         <button
           type="button"
           className="w-full text-center justify-center py-2 border border-transparent text-sm font-medium w-full rounded shadow-sm text-white bg-green hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green mt-5"

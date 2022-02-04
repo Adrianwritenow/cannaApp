@@ -54,11 +54,7 @@ export default function BusinessProductCard(data: ProductProps) {
           </div>
           <div className="rounded-lg overflow-hidden w-25 h-25 relative flex-shrink-0">
             <ImageWithFallback
-              src={`${process.env.API_URL}${
-                product._source.url[0].includes('image_missing')
-                  ? '#'
-                  : product._source.url[0]
-              }`}
+              src={`${product._source.image ? product._source.image[0] : '#'}`}
               alt={product._source.name}
               layout="fill"
               objectFit={'cover'}

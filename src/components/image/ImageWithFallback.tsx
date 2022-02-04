@@ -9,7 +9,7 @@ const ImageWithFallback = (props: any) => {
 
   return (
     <>
-      {imgStatus ? (
+      {imgStatus && src ? (
         <Image
           {...rest}
           src={`${src}`}

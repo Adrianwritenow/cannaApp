@@ -1,4 +1,4 @@
-import { Coupon } from '../../interfaces/coupon';
+import { Coupon } from '@/interfaces/coupon';
 import Image from 'next/image';
 import ImageWithFallback from '../image/ImageWithFallback';
 import Link from 'next/link';
@@ -30,7 +30,7 @@ export default function CouponCard(props: CouponCardProps) {
           {coupon._source.title}
         </h3> */}
         <div className="flex flex-col items-start">
-          <Link href={`/coupon/${encodeURIComponent(coupon._id)}`} passHref>
+          <Link href={`/coupon/${coupon._source.id}`} passHref>
             <a>
               <button
                 type="button"

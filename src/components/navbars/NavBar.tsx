@@ -10,10 +10,13 @@ export default function NavBar() {
   const router = useRouter();
 
   return (
-    <Disclosure as="nav" className="shadow">
+    <Disclosure as="nav">
       {({ open }) => (
         <div className="max-w-7xl mx-auto">
-          <div className="relative flex items-center flex-wrap justify-between">
+          <div className="w-12 hidden print:block absolute l-0 t-0">
+            <Image unoptimized layout="intrinsic" src={Logo} alt="CannaPages" />
+          </div>
+          <div className="relative flex items-center flex-wrap justify-between print:hidden">
             <div className="bg-white px-4 w-full relative ">
               <div className="flex justify-center items-center w-full py-3.5">
                 <div className="w-25 ml-auto mr-auto right-0 left-0">

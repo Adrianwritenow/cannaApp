@@ -6,16 +6,14 @@ import {
 import { Dialog, Transition } from '@headlessui/react';
 import React, { Fragment, useState } from 'react';
 
-import DropdownFilter from '../../../components/forms/fields/DropdownFilter';
+import DropdownFilter from '@/components/forms/fields/DropdownFilter';
 import { ProductSlideoverProps } from '@/interfaces/props/ProductSlideOverProps';
-import ReviewCard from '../../../components/reviews/ReviewCard';
-import ReviewFormSlideOver from '../../../components/reviews/product/ReviewFormSlideOver';
-import { listings } from '../../../helpers/mockData';
+import ReviewCard from '@/components/reviews/ReviewCard';
+import ReviewFormSlideOver from '@/components/reviews/product/ReviewFormSlideOver';
 
 export default function ProductReviewsSlideOver(props: ProductSlideoverProps) {
   const { product, reviews, name } = props;
   const [open, setOpen] = useState(false);
-  const business = listings[0];
 
   const [sort, setSort] = useState('');
   const [type, setType] = useState('');

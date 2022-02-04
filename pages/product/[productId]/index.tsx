@@ -1,25 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { browseBy, getDocument } from '../../../src/actions/search';
-import {
-  faqs,
-  listings,
-  products,
-  reviews,
-} from '../../../src/helpers/mockData';
+import { browseBy, getDocument } from '@/actions/search';
 
-import AboutSlideOver from '../../../src/components/products/AboutSlideOver';
-import DropdownFilter from '../../../src/components/forms/fields/DropdownFilter';
-import FaqSlideOver from '../../../src/views/slideOver/FaqSlideOver';
-import ImageSlider from '../../../src/components/slider/ImageSlider';
+import AboutSlideOver from '@/components/products/AboutSlideOver';
+import DropdownFilter from '@/components/forms/fields/DropdownFilter';
+import FaqSlideOver from '@/views/slideOver/FaqSlideOver';
+import ImageSlider from '@/components/slider/ImageSlider';
 import ImageWithFallback from '@/components/image/ImageWithFallback';
-import { Product } from '../../../src/interfaces/product';
-import ProductResultsSection from '../../../src/components/sections/ProductsResultsSection';
+import { Product } from '@/interfaces/product';
+import ProductResultsSection from '@/components/sections/ProductsResultsSection';
 import ProductReviewsSlideOver from '@/views/slideOver/product/ProductReviewSlideOver';
 import { RootState } from '@/reducers';
 import { SearchHits } from '@/interfaces/searchHits';
 import { StarIcon } from '@heroicons/react/solid';
-import { Vendor } from '../../../src/interfaces/vendor';
-import VendorCard from '../../../src/components/vendor/VendorCard';
+import { Vendor } from '@/interfaces/vendor';
+import VendorCard from '@/components/vendor/VendorCard';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 
@@ -72,10 +66,10 @@ export default function ProductDetail() {
           {/* <ImageSlider images={[]} /> */}
           <div className="relative w-full pb-full">
             <ImageWithFallback
-              src={`${process.env.API_URL}${
-                product._source.url[0].includes('image_missing')
+              src={`${
+                product._source.image[0].includes('image_missing')
                   ? '#'
-                  : product._source.url[0]
+                  : product._source.image[0]
               }`}
               alt={product._source?.name[0]}
               layout="fill"

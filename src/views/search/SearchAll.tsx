@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { listings, products, strains } from '../../helpers/mockData';
 
-import LearnSection from '../../components/sections/LearnSection';
-import ListingSection from '../../components/sections/ListingSection';
-import ProductResultsSection from '../../components/sections/ProductsResultsSection';
-import RelatedStrainsSection from '../../components/sections/RelatedStrainsSection';
+import LearnSection from '@/components/sections/LearnSection';
+import ListingSection from '@/components/sections/ListingSection';
+import ProductResultsSection from '@/components/sections/ProductsResultsSection';
+import RelatedStrainsSection from '@/components/sections/RelatedStrainsSection';
 import { RootState } from '@/reducers';
 import { SearchState } from '@/interfaces/searchState';
 import SvgEmptyState from '@/public/assets/icons/iconComponents/EmptyState';

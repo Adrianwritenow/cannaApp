@@ -6,10 +6,8 @@ import BullseyeIcon from '@/public/assets/icons/iconComponents/Bullseye';
 import DispenaryFilterSlideOver from '@/views/slideOver/filters/DispensaryFilterSlideOver';
 import { Dispensary } from '@/interfaces/dispensary';
 import { Map } from './Map';
-import { MapIcon } from '@heroicons/react/solid';
 import MapResults from './MapResults';
 import { RootState } from '@/reducers';
-import { ViewListIcon } from '@heroicons/react/outline';
 import { setLocation } from '@/actions/location';
 import { useCurrentWidth } from './useCurrentWidth';
 
@@ -37,14 +35,14 @@ export function MapContainer() {
     category: [`${query ? query : ''}`],
     sort: [],
     amenities: [],
-    distance: [`15mi`],
+    distance: [`5mi`],
   });
 
   useEffect(() => {
     if (searchLocation.label !== null) {
       getLocationMatches();
     }
-    if (update || currentQuery !== query) {
+    if (update) {
       getLocationMatches();
     }
   }, [
@@ -105,19 +103,18 @@ export function MapContainer() {
   };
 
   async function getLocationMatches() {
-    const distance = filters.distance ? filters.distance[0] : '15mi';
-    let filterData = filters;
-    delete filterData.distance;
-
+    const range = filters.distance ? filters.distance[0] : '5mi';
+    const { distance, ...filterData } = filters;
     const hits: any = await combinedSearchQuery({
       endpoints: ['dispenaries'],
       coords: searchLocation.coords ? searchLocation.coords : { lat, lon },
       filters: filterData,
-      distance: distance,
+      distance: range,
       total: 10,
     });
 
     setLocationMatches(hits);
+    setUpdate(false);
   }
 
   function handleFilter(data: any) {

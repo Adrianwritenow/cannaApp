@@ -32,7 +32,7 @@ const search = (state: any = defaultState, action: SearchAction) => {
       let query = action.data;
       let search = query.search || state.query;
 
-      if (!query.data.length && !query.search) {
+      if (!query.data?.length && !query.search) {
         search = '';
       }
 

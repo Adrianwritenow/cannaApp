@@ -40,13 +40,12 @@ export default function SearchDispensary(props: {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   async function getDispensaries() {
-    let distance = filters.distance ? filters.distance[0] : '200mi';
-    let filterData = filters;
-    delete filterData.distance;
+    const range = filters.distance ? filters.distance[0] : '5mi';
+    const { distance, ...filterData } = filters;
     const hits: any = await combinedSearchQuery({
       q: query ?? '*',
       filters: filterData,
-      distance: distance,
+      distance: range,
       coords: { lat: location.lat, lon: location.lon },
       endpoints: ['dispenaries'],
       total: 10,

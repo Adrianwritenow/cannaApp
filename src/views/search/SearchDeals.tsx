@@ -34,16 +34,18 @@ export default function SearchDeals() {
         }
 
         const searchResponse = status.response.data;
-        // Build filters.
-        const dealsAgg = searchResponse?.aggregations?.category.buckets || [];
-        const dealsFilters = dealsAgg.map((item: FilterBucket) => {
-          return item.key;
-        });
-
-        dealsFilters.unshift('All');
-        setFilters(dealsFilters);
-
         setTotal(searchResponse.hits?.total.value || 0);
+
+        // Build filters.
+        if (!filters.length) {
+          const dealsAgg = searchResponse?.aggregations?.category.buckets || [];
+          const dealsFilters = dealsAgg.map((item: FilterBucket) => {
+            return item.key;
+          });
+
+          dealsFilters.unshift('All');
+          setFilters(dealsFilters);
+        }
 
         // Build results.
         const hits = searchResponse.hits?.hits || [];

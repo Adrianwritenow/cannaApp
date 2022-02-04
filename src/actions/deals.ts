@@ -19,9 +19,6 @@ export function searchDealsNearMe(
             filter: [],
           },
         },
-        boost: '5',
-        random_score: {},
-        boost_mode: 'multiply',
       },
     },
     aggs: {

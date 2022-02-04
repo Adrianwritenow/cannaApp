@@ -31,9 +31,5 @@ export type Coupon = ResultWithLocationHours & {
   };
 };
 export interface DealsState {
-  deals: Coupon[] | [];
   featuredDeals: Coupon[] | [];
-  filters: [];
-  total: number;
-  activeFilter?: string;
 }

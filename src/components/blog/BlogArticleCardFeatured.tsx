@@ -15,9 +15,9 @@ function BlogArticleFeatured({ post }: { post: Post }) {
               <a>
                 <ImageWithFallback
                   src={`${process.env.API_URL}${
-                    post._source.image_url[0].includes('image_missing')
+                    post._source.image[0].includes('image_missing')
                       ? '#'
-                      : post._source.image_url[0]
+                      : post._source.image[0]
                   }`}
                   layout="responsive"
                   height={200}

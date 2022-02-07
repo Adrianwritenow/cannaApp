@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 
-import { formatImageWithFallback } from '@/helpers/formatters';
 import { IconFacebook } from '@/public/assets/icons/iconComponents';
 import ImageWithFallback from '@/components/image/ImageWithFallback';
 import Link from 'next/link';
 import { Post } from '@/interfaces/post';
 import SocialShare from '@/components/share/SocialShare';
 import SvgIconTwitter from '@/public/assets/icons/iconComponents/IconTwitter';
+import { formatImageWithFallback } from '@/helpers/formatters';
 import styles from './styles.module.scss';
 
 export default function BlogArticle({ post }: { post: Post }) {

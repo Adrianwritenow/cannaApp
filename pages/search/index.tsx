@@ -57,7 +57,7 @@ export default function Search() {
   }
 
   return (
-    <div className="bg-gray-50">
+    <div className="bg-white ">
       <div className="overflow-visible overflow-scroll border-b border-gray-200 bg-white">
         <Tab.Group
           defaultIndex={view}
@@ -65,7 +65,7 @@ export default function Search() {
             router.replace({ query: '' });
           }}
         >
-          <Tab.List className="w-full overflow-visible overflow-x-scroll border-b border-gray-200 flex">
+          <Tab.List className="w-full overflow-visible overflow-x-scroll border-b border-gray-200 flex max-w-7xl mx-auto">
             {tabs.map((tab, index) => (
               <Tab
                 key={tab.name}
@@ -88,7 +88,7 @@ export default function Search() {
             ))}
           </Tab.List>
           {/* Panels that control the view by index */}
-          <Tab.Panels className="focus:outline-none">
+          <Tab.Panels className="focus:outline-none bg-gray-50">
             <Tab.Panel className="focus:outline-none">
               {/* Search All */}
               <SearchAll

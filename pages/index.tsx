@@ -1,4 +1,5 @@
 import {
+  ArrowRightIcon,
   ArrowsExpandIcon,
   LocationMarkerIcon,
   TagIcon,
@@ -22,7 +23,6 @@ import CouponSlideOver from '@/views/slideOver/CouponsSlideOver';
 import { DealsState } from '@/interfaces/coupon';
 import { Dispensary } from '@/interfaces/dispensary';
 import Image from 'next/image';
-import ImageWithFallback from '@/components/image/ImageWithFallback';
 import Link from 'next/link';
 import ListingCard from '@/components/listings/ListingCard';
 import Logo from '@/public/assets/logos/logo.png';
@@ -73,6 +73,7 @@ export default function Home() {
   async function getDispensaryResults() {
     const hits: any = await combinedSearchQuery({
       endpoints: ['dispenaries'],
+      distance: '5mi',
       coords: { lat: location.lat, lon: location.lon },
     });
 
@@ -248,12 +249,15 @@ export default function Home() {
             <Image src={Map} alt="Map" layout="fill" objectFit={'cover'} />
           </div>
           <Link href="/map" passHref>
-            <a className="absolute z-10 flex rounded-full bg-gray-50 shadow p-1 right-0 bottom-0 mb-4 mr-4 focus:outline-none lg:animate-bounce	">
+            <a className="absolute z-10 flex rounded-full bg-gray-50 shadow p-1 right-0 bottom-0 mb-4 mr-4 focus:outline-none">
               <button className="focus:outline-none">
                 <ArrowsExpandIcon className="w-8 h-8 text-gray-700" />
               </button>
             </a>
           </Link>
+          <div className="absolute z-0 p-1 flex rounded-full bg-green-100 bottom-0 right-0 mb-4 mr-4 animate-ping">
+            <span className=" w-8 h-8"></span>
+          </div>
         </div>
       </div>
       {/* Search/Map Section Mobile */}
@@ -391,7 +395,7 @@ export default function Home() {
               );
             })}
           </div>
-          <div className="px-4 pt-2">
+          <div className="px-4 pt-2 lg:hidden">
             <Link
               href={{ pathname: '/search', query: { view: 'deals' } }}
               passHref
@@ -415,17 +419,19 @@ export default function Home() {
       )}
 
       {/* Featured Destinations */}
-      <section className="pb-4 pt-2 lg:px-8 w-full overflow-scroll">
-        <h2 id="featured-destinations" className="sr-only">
-          Featured Destinations
-        </h2>
-        <h2
-          id="featured-destinations"
-          className="text-gray-700 text-lg lg:text-2xl font-semibold px-4 py-4"
-        >
-          Featured Destinations
-        </h2>
-        <div className="grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-4 pb-4">
+      <section className="pt-2 lg:px-8 w-full lg:flex  lg:mx-auto">
+        <div className="lg:h-auto lg:rounded-md lg:bg-green-100 lg:flex lg:flex-wrap  justify-center lg:w-64 flex-shrink-0">
+          <h2 id="featured-destinations" className="sr-only">
+            Featured Destinations
+          </h2>
+          <h2
+            id="featured-destinations"
+            className="text-gray-700 text-lg lg:text-2xl font-semibold px-4 py-4"
+          >
+            Featured Destinations
+          </h2>
+        </div>
+        <div className="grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-4 lg:flex lg:flex-wrap">
           {destinations.map((location, index) => (
             <div key={`fd-${index}`}>
               <div className="w-36 flex relative">
@@ -456,19 +462,20 @@ export default function Home() {
       </section>
 
       {/* New Locations nearby */}
-      <section className="pb-4 pt-2 lg:px-8 w-full overflow-scroll">
-        <h2 id="locations-near-me" className="sr-only">
-          New Locations Nearby
-        </h2>
-        <h2
-          id="locations-near-me"
-          className="text-gray-700 text-lg lg:text-2xl font-semibold px-4 py-4"
-        >
-          New Locations Nearby
-        </h2>
-
+      <section className="pt-2 lg:px-8 w-full lg:flex  lg:mx-auto">
+        <div className="lg:h-auto lg:rounded-md lg:bg-green-100 lg:flex lg:flex-wrap  justify-center lg:w-64 flex-shrink-0">
+          <h2 id="locations-near-me" className="sr-only">
+            New Locations Nearby
+          </h2>
+          <h2
+            id="locations-near-me"
+            className="text-gray-700 text-lg lg:text-2xl font-semibold px-4 py-4"
+          >
+            New Locations Nearby
+          </h2>
+        </div>
         {nearby && (
-          <div className="grid grid-flow-col auto-cols-max  gap-2 overflow-scroll pl-4 pb-4 ">
+          <div className="grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-4 lg:flex lg:flex-wrap">
             {nearby.map((listing, index) => (
               <div className="w-64" key={`lc-${listing._id}-${index}`}>
                 <ListingCard {...formatDispensaryCard(listing)} />
@@ -477,6 +484,8 @@ export default function Home() {
           </div>
         )}
       </section>
+
+      {/* Flower Near me section */}
       <div className="lg:px-8 w-full overflow-scroll">
         <ProductResultsSection
           list={flower as Product[]}
@@ -488,19 +497,31 @@ export default function Home() {
 
       {/* News Section */}
       {blogs && (
-        <section className="lg:px-8 w-full">
-          <h2 id="blogs" className="sr-only">
-            Dispatches from the Highlands
-          </h2>
-          <h2
-            id="blogs"
-            className="text-gray-700 text-lg lg:text-2xl font-semibold px-4 py-4"
-          >
-            Dispatches from the Highlands
-          </h2>
-          <div className=" hidden lg:grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-6 ">
+        <section className="pt-2 lg:px-8 w-full lg:flex  lg:mx-auto">
+          <div className="lg:h-auto lg:rounded-md lg:bg-green-100 lg:flex lg:flex-wrap lg:w-64 flex-shrink-0 ">
+            <h2 id="blogs" className="sr-only">
+              Dispatches from the Highlands
+            </h2>
+            <h2
+              id="blogs"
+              className="text-gray-700 text-lg lg:text-2xl font-semibold px-4 py-4"
+            >
+              Dispatches from the Highlands
+            </h2>
+            <div className="px-4 pt-2 hidden lg:block mt-auto">
+              <Link href={{ pathname: '/blog' }} passHref>
+                <a className="flex w-full hover:animate-ping">
+                  <button className="py-4 w-full uppercase text-green-500 text-sm font-semibold tracking-widest flex justify-center items-center">
+                    <span>See more articles</span>
+                    <ArrowRightIcon className="ml-2 w-4 h-4" />
+                  </button>
+                </a>
+              </Link>
+            </div>
+          </div>
+          <div className="grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-4 lg:flex lg:flex-wrap">
             {blogs.map((post: Post, index) => (
-              <div id={`${index}`} key={`article-${index}`}>
+              <div id={`${index}`} key={`article-${index}`} className="w-64">
                 <BlogArticleCardSlide post={post} />
               </div>
             ))}
@@ -516,7 +537,7 @@ export default function Home() {
               </div>
             ))}
           </div>
-          <div className="px-4 pt-2">
+          <div className="px-4 pt-2 lg:hidden">
             <Link href="/blog" passHref>
               <a>
                 <button className="py-4 w-full uppercase text-gray-700 text-xs  text-green-500 font-bold border-t border-gray-200 tracking-widest">
@@ -529,7 +550,7 @@ export default function Home() {
       )}
 
       {/* Print Publication Mobile*/}
-      <section className="pb-4 pt-2 lg:px-8 w-full overflow-scroll lg:hidden">
+      <section className="pb-4 pt-2 lg:px-8 w-full lg:hidden">
         <h2 id="publications" className="sr-only">
           Subscribe to our Print Publication
         </h2>
@@ -568,23 +589,25 @@ export default function Home() {
 
       <section className=" w-full relative overflow-hidden hidden lg:block">
         <div className="max-w-7xl mx-auto w-full grid grid-flow-col gap-2">
-          <div className="z-10 relative h-full">
-            <div className="absolute bottom-8 right-0">
-              <h2 id="publications" className="sr-only">
-                Subscribe to our Print Publication
-              </h2>
-              <h2
-                id="publications"
-                className="text-white text-4xl font-semibold"
-              >
-                Subscribe to our Print Publication
-              </h2>
-              <button
-                className="p-4 mt-4 rounded-md bg-green-100 w-max  text-green-600 text-sm font-semibold border-gray-200"
-                onClick={() => {}}
-              >
-                <span>Subscribe Now</span>
-              </button>
+          <div className="z-10 relative mt-auto w-full h-full">
+            <div className="absolute bottom-0 right-0 p-4  h-3/5 w-full flex flex-wrap jutify-center items-center">
+              <div>
+                <h2 id="publications" className="sr-only">
+                  Subscribe to our Print Publication
+                </h2>
+                <h2
+                  id="publications"
+                  className="text-white text-4xl font-semibold"
+                >
+                  Subscribe to our Print Publication
+                </h2>
+                <button
+                  className="p-4 mt-4 rounded-md bg-green-100 w-max  text-green-600 text-sm font-semibold border-gray-200"
+                  onClick={() => {}}
+                >
+                  <span>Subscribe Now</span>
+                </button>
+              </div>
             </div>
           </div>
           <div className="relative h-72 w-full overflow-hidden">

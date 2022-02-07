@@ -73,7 +73,7 @@ export default function SearchAll(props: {
   }
 
   return (
-    <div className="bg-gray-50">
+    <div className="bg-gray-50  max-w-7xl mx-auto">
       {/* Shop Query Section */}
       {lists && (
         <>
@@ -101,7 +101,7 @@ export default function SearchAll(props: {
                 <>
                   <LearnSection strain={lists.strains[0]} query={query} />
                   {/* Related Strains Secrtion */}
-                  <RelatedStrainsSection strains={lists.strains} />
+                  <RelatedStrainsSection strains={lists.strains.slice(0, 5)} />
                 </>
               ) : (
                 ''

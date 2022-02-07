@@ -16,7 +16,7 @@ export default function CouponDetail() {
   const router = useRouter();
   const { cid } = router.query;
   const [coupon, setCoupon] = useState<Coupon>();
-  const [dispensary, setDispensary] = useState<Dispensary>();
+  const [dispensary, setDispensary] = useState<Dispensary[]>([]);
 
   useEffect(() => {
     if (cid && !coupon) {
@@ -34,11 +34,12 @@ export default function CouponDetail() {
         coupon?._source.dispensary[0],
         '*'
       );
+      console.log(business);
 
-      // setDispensary(business.hits.hits as unknown as Dispensary);
+      setDispensary(business.hits.hits as unknown as Dispensary[]);
     }
 
-    if (coupon && !dispensary) {
+    if (coupon && !dispensary.length) {
       handleBrowse();
     }
 
@@ -46,14 +47,14 @@ export default function CouponDetail() {
   }, [router, coupon]);
 
   return (
-    <div className="bg-gray-50 px-4 py-6">
+    <div className="bg-gray-50 px-4 py-6 lg:max-w-7xl mx-auto">
       <section className="border-b border-gray-200 space-y-6">
         <div className="flex items-center space-x-2">
-          <div className="flex justify-center items-center rounded-full overflow-hidden w-10 h-10 border border-gray-200">
+          <div className="flex justify-center items-center rounded-full overflow-hidden w-10 h-10 border border-gray-200 bg-white shadow-sm">
             <Business fill="green" className="w-4 h-4" />
           </div>
           <div className="text-sm">
-            <h3 className="font-semibold">Brand/Location</h3>
+            <h3 className="font-semibold">{dispensary[0]?._source.name[0]}</h3>
             <p className="text-green-500">
               More deals from this brand/location
             </p>
@@ -63,11 +64,11 @@ export default function CouponDetail() {
           {coupon?._source.title}
         </h2>
 
-        <div className="space-y-2 pb-6">
+        <div className="space-y-2  lg:space-y-0 lg:space-x-2 pb-6 lg:flex">
           <button
             onClick={() => setSaved(true)}
             type="button"
-            className="w-full bg-white text-green-500 hover:bg-gray-50 flex justify-center py-2 px-4 border-2 border-green-500 rounded-md shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green"
+            className="w-full lg:w-auto bg-white text-green-500 hover:bg-gray-50 flex justify-center py-2 px-4 border-2 border-green-500 rounded-md shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green"
           >
             {!saved ? 'Save Coupon' : 'View Coupons'}
           </button>
@@ -75,7 +76,7 @@ export default function CouponDetail() {
           <button
             type="button"
             onClick={() => setRedeemed(true)}
-            className="w-full bg-green text-white hover:bg-green-600 flex justify-center py-2 px-4   border-2 border-green-500 rounded-md shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green"
+            className="w-full lg:w-auto bg-green text-white hover:bg-green-600 flex justify-center py-2 px-4   border-2 border-green-500 rounded-md shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green"
           >
             {!redeemed ? (
               'Apply Coupon to Cart'
@@ -89,9 +90,10 @@ export default function CouponDetail() {
         </div>
       </section>
 
-      <section>
+      {/* Need Qualifying Items */}
+      {/* <section>
         <ProductResultsGrid label={'Qualifying Items'} list={products} />
-      </section>
+      </section> */}
     </div>
   );
 }

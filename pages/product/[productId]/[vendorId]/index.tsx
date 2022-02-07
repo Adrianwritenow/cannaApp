@@ -75,7 +75,7 @@ function ProductDetailXVendor() {
           {/* <ImageSlider images={[]} /> */}
           <div className="relative w-full pb-full">
             <ImageWithFallback
-              src={`${
+              src={`${process.env.API_URL}${
                 product._source.image[0].includes('image_missing')
                   ? '#'
                   : product._source.image[0]

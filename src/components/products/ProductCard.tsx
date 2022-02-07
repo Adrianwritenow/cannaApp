@@ -1,9 +1,9 @@
-import { formatImageWithFallback } from '@/helpers/formatters';
 import ImageWithFallback from '@/components/image/ImageWithFallback';
 import Link from 'next/link';
 import { Product } from '@/interfaces/product';
 import React from 'react';
 import StarRating from '@/components/rating/StarRating';
+import { formatImageWithFallback } from '@/helpers/formatters';
 
 interface ProductProps {
   product: Product;

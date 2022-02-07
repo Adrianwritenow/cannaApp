@@ -99,7 +99,7 @@ export default function StrainFilterSlideOver(props: {
   }, [savedValues]);
 
   return (
-    <div>
+    <div className="max-w-7xl mx-auto">
       <Formik
         initialValues={savedValues}
         onSubmit={() => {}}

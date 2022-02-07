@@ -13,18 +13,22 @@ export default function ResultsStrain(data: ResultsProps) {
   const { view, strains, query } = data;
 
   return (
-    <div>
+    <div className="max-w-7xl mx-auto">
       <div>
         <h2 className="text-xl text-gray-700 font-semibold p-4">
           {`${strains.length} Results for ${query}`}
         </h2>
         {view === 'list' ? (
-          <div className=" grid grid-flow-row auto-rows-max">
+          <div className=" grid grid-flow-row auto-rows-max lg:flex lg:flex-wrap lg:gap-4">
             {strains.map((strain: Strain) => (
-              <StrainCardSmall
-                strain={strain}
-                key={`strain-card-${strain._id}`}
-              />
+              <div key={`strain-card-${strain._id}`}>
+                <div className="lg:hidden">
+                  <StrainCardSmall strain={strain} />
+                </div>
+                <div className="w-64 hidden lg:block">
+                  <StrainCard strain={strain} />
+                </div>
+              </div>
             ))}
           </div>
         ) : (

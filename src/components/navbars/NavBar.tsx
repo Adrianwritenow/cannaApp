@@ -10,7 +10,7 @@ export default function NavBar() {
   const router = useRouter();
 
   return (
-    <Disclosure as="nav" className="shadow">
+    <Disclosure as="nav" className="bg-white">
       {({ open }) => (
         <div className="max-w-7xl mx-auto">
           <div className="relative flex items-center flex-wrap justify-between">

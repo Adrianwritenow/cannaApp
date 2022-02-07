@@ -10,7 +10,7 @@ export interface Dispensary {
     created_: number[];
     description: string[];
     delivery_and_pickup_info: string[];
-    image: number[];
+    image: string[];
     facebook: string[];
     instagram: string[];
     twitter: string[];
@@ -31,7 +31,6 @@ export interface Dispensary {
     coordinates: string[];
     rating: string[];
     reviews_count: number[] | [0];
-    url: string[];
     sponsored: boolean[];
     langcode: string[];
     time_zone: string[];

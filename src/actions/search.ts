@@ -213,7 +213,7 @@ export function browseBy(
   const query = body.build();
 
   const results = axios({
-    url: `${SEARCH_URL}/elasticsearch_index_dev_cannapages_${index}/_search?size=15`,
+    url: `${SEARCH_URL}/elasticsearch_index_dev_cannapages_${index}/_search?size=5`,
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

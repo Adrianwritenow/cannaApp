@@ -61,9 +61,9 @@ export default function BlogArticle({ post }: { post: Post }) {
           <div className="relative flex justify-center mt-4">
             <ImageWithFallback
               src={`${process.env.API_URL}${
-                post._source.image_url[0].includes('image_missing')
+                post._source.image[0].includes('image_missing')
                   ? '#'
-                  : post._source.image_url[0]
+                  : post._source.image[0]
               }`}
               layout="intrinsic"
               height={1000}

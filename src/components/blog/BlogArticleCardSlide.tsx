@@ -6,6 +6,7 @@ import React from 'react';
 import moment from 'moment';
 
 function BlogArticleCardSlide({ post }: { post: Post }) {
+  console.log(post);
   return (
     <div key={post._source.title[0]} className="flex w-full justify-center ">
       <div className="border-b-2 align border rounded-lg w-full self-center pb-4 ">
@@ -15,9 +16,9 @@ function BlogArticleCardSlide({ post }: { post: Post }) {
               <a>
                 <ImageWithFallback
                   src={`${process.env.API_URL}${
-                    post._source.image_url[0].includes('image_missing')
+                    post._source.image[0].includes('image_missing')
                       ? '#'
-                      : post._source.image_url[0]
+                      : post._source.image[0]
                   }`}
                   layout="fill"
                   objectFit="cover"
@@ -28,18 +29,20 @@ function BlogArticleCardSlide({ post }: { post: Post }) {
             </Link>
           </div>
         </div>
-        <div className="w-full h-32 px-4">
-          <p className="text-xs text-green-600">{post._source.author}</p>
-          <h2 className="font-bold text-green-600 leading-6 py-1 hover:underline">
-            <Link href={`/blog/${encodeURIComponent(post._id)}`} passHref>
-              <a className="no-underline text-green-600 hover:underline">
-                {post._source.title}
-              </a>
-            </Link>
-          </h2>
-          {/* <p className="text-green-600 text-xs">
-            {moment(post.published).format('MMMM Do, YYYY')}
-          </p> */}
+        <div className="w-full h-32 px-4 flex flex-wrap">
+          <div>
+            <p className="text-xs text-green-600">{post._source.author}</p>
+            <h2 className="font-bold text-green-600 leading-6 py-1 hover:underline">
+              <Link href={`/blog/${encodeURIComponent(post._id)}`} passHref>
+                <a className="no-underline text-green-600 hover:underline">
+                  {post._source.title}
+                </a>
+              </Link>
+            </h2>
+          </div>
+          <p className="text-green-600 text-xs mt-auto">
+            {moment.unix(post._source.created[0]).format('MMMM Do, YYYY')}
+          </p>
         </div>
       </div>
     </div>

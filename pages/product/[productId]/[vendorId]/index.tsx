@@ -76,9 +76,9 @@ function ProductDetailXVendor() {
           <div className="relative w-full pb-full">
             <ImageWithFallback
               src={`${process.env.API_URL}${
-                product._source.url[0].includes('image_missing')
+                product._source.image[0].includes('image_missing')
                   ? '#'
-                  : product._source.url[0]
+                  : product._source.image[0]
               }`}
               alt={product._source?.name[0]}
               layout="fill"

@@ -1,9 +1,9 @@
 import Image from 'next/image';
-import ImageWithFallback from '../image/ImageWithFallback';
+import ImageWithFallback from '@/components/image/ImageWithFallback';
 import Link from 'next/link';
 import { Product } from '@/interfaces/product';
 import React from 'react';
-import { StarIcon } from '@heroicons/react/solid';
+import StarRating from '@/components/rating/StarRating';
 
 interface ProductProps {
   product: Product;
@@ -45,29 +45,16 @@ export default function ProductDealsCard(data: ProductProps) {
             </div>
 
             <div className="flex flex-col items-start">
-              <p className="sr-only">
-                {product._source.rating[0]} out of 5 stars
-              </p>
-              <div className="flex items-center">
-                <span className="font-normal text-gray-500">
-                  {product._source.rating[0]}
-                </span>
-                {[0, 1, 2, 3, 4].map(rating => (
-                  <StarIcon
-                    key={rating}
-                    className={`    ${
-                      product._source.rating[0] > rating
-                        ? 'text-yellow-400'
-                        : 'text-gray-200'
-                    }
-                  flex-shrink-0 h-3.5 w-3.5`}
-                    aria-hidden="true"
-                  />
-                ))}
-                <p className="font-normal text-gray-500">
-                  ({product._source.review_count[0]})
-                </p>
-              </div>
+              {typeof product._source.rating !== 'undefined' && (
+                <StarRating
+                  rating={product._source.rating[0]}
+                  reviews_count={
+                    product._source.reviews_count
+                      ? product._source.reviews_count[0]
+                      : undefined
+                  }
+                />
+              )}
             </div>
           </div>
         </div>

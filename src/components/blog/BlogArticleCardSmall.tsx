@@ -1,9 +1,8 @@
-import Image from 'next/image';
-import ImageWithFallback from '../image/ImageWithFallback';
+import { formatImageWithFallback } from '@/helpers/formatters';
+import ImageWithFallback from '@/components/image/ImageWithFallback';
 import Link from 'next/link';
 import { Post } from '@/interfaces/post';
 import React from 'react';
-import moment from 'moment';
 
 function BlogArticleSmall({ post }: { post: Post }) {
   return (
@@ -26,13 +25,7 @@ function BlogArticleSmall({ post }: { post: Post }) {
             <Link href={`/blog/${post._source.id}`} passHref>
               <a>
                 <ImageWithFallback
-                  src={`${process.env.API_URL}${
-                    typeof post._source.image_url === 'undefined'
-                      ? '#'
-                      : post._source.image_url[0].includes('image_missing')
-                      ? '#'
-                      : post._source.image_url[0]
-                  }`}
+                  src={formatImageWithFallback(post._source.image)}
                   layout="intrinsic"
                   height={130}
                   width={130}

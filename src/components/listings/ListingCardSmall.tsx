@@ -3,7 +3,8 @@ import { CheckIcon, StarIcon } from '@heroicons/react/solid';
 import { BookmarkIcon } from '@heroicons/react/outline';
 import { Disclosure } from '@headlessui/react';
 import { DispensaryProps } from '@/interfaces/listing';
-import ImageWithFallback from '../image/ImageWithFallback';
+import { formatImageWithFallback } from '@/helpers/formatters';
+import ImageWithFallback from '@/components/image/ImageWithFallback';
 import Link from 'next/link';
 import React from 'react';
 
@@ -25,13 +26,7 @@ export default function ListingCardSmall(props: DispensaryProps) {
         <Link href={`/business/${listing._source.id}`} passHref>
           <a>
             <ImageWithFallback
-              src={`${
-                typeof listing._source.image === 'undefined'
-                  ? '#'
-                  : listing._source.image[0].includes('image_missing')
-                  ? '#'
-                  : listing._source.image[0]
-              }`}
+              src={formatImageWithFallback(listing._source.image)}
               alt={listing._source.name[0]}
               layout="fill"
               objectFit={'cover'}

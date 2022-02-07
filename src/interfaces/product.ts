@@ -13,7 +13,7 @@ export interface Product {
     rating: number[] | [0];
     manufacture: string[];
     brand: string[] | '';
-    review_count: number[] | [0];
+    reviews_count: number[] | [0];
     price: number[];
     price_label: string[];
     image: string[];

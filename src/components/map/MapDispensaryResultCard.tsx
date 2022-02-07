@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
-import Image from 'next/image';
-import ImageWithFallback from '../image/ImageWithFallback';
+import { formatImageWithFallback } from '@/helpers/formatters';
+import ImageWithFallback from '@/components/image/ImageWithFallback';
 import Link from 'next/link';
 import OpenIndicator from '@/helpers/OpenStatus';
 import { StarIcon } from '@heroicons/react/solid';
@@ -33,13 +33,7 @@ export function MapResultCard({ listing, userCoords }: any) {
         <div className="h-28 relative rounded-t-lg overflow-hidden">
           <ImageWithFallback
             objectFit="cover"
-            src={`${
-              typeof listing._source.image === 'undefined'
-                ? '#'
-                : listing._source.image[0].includes('image_missing')
-                ? '#'
-                : listing._source.image[0]
-            }`}
+            src={formatImageWithFallback(listing._source.image)}
             alt={`listing ${listing._id}`}
             layout="fill"
           />

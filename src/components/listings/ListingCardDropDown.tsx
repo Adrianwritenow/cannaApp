@@ -4,7 +4,8 @@ import React, { useEffect, useState } from 'react';
 import { BookmarkIcon } from '@heroicons/react/outline';
 import { Disclosure } from '@headlessui/react';
 import { DispensaryProps } from '@/interfaces/listing';
-import ImageWithFallback from '../image/ImageWithFallback';
+import { formatImageWithFallback } from '@/helpers/formatters';
+import ImageWithFallback from '@/components/image/ImageWithFallback';
 import Link from 'next/link';
 import OpenIndicator from '@/helpers/OpenStatus';
 import getDistanceFrom from '@/helpers/getDistanceFrom';
@@ -43,13 +44,7 @@ export default function ListingCardDropdown(data: DispensaryProps) {
         <Link href={`/business/${listing._source.id}`} passHref>
           <a>
             <ImageWithFallback
-              src={`${process.env.API_URL}${
-                typeof listing._source.url === 'undefined'
-                  ? '#'
-                  : listing._source.url[0].includes('image_missing')
-                  ? '#'
-                  : listing._source.url[0]
-              }`}
+              src={formatImageWithFallback(listing._source.image)}
               alt={listing._source?.name}
               layout="fill"
               objectFit={'cover'}

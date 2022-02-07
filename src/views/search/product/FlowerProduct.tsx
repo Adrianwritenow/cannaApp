@@ -1,9 +1,9 @@
 import { Field, Form, Formik } from 'formik';
 
-import { Product } from '../../../interfaces/product';
-import { ProductOptionTabs } from '../../../components/forms/fields/ProductOptionTabs';
-import QuantityField from '../../../components/forms/fields/QuantityField';
-import { StarIcon } from '@heroicons/react/solid';
+import { Product } from '@/interfaces/product';
+import { ProductOptionTabs } from '@/components/forms/fields/ProductOptionTabs';
+import QuantityField from '@/components/forms/fields/QuantityField';
+import StarRating from '@/components/rating/StarRating';
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
@@ -33,34 +33,16 @@ export default function FlowerProduct(props: { product: Product }) {
       {/* Reviews */}
       <h3 className="sr-only">Reviews</h3>
       <div className="flex items-center">
-        <div className="flex items-center">
-          <span className="font-normal text-gray-500 mr-1">
-            {product._source.rating ? product._source.rating[0] : 0}
-          </span>
-          {[0, 1, 2, 3, 4].map(rating => (
-            <StarIcon
-              key={rating}
-              className={classNames(
-                product._source.rating
-                  ? product._source.rating[0] > rating
-                    ? 'text-gray-900'
-                    : 'text-gray-200'
-                  : '',
-                'h-3.5 w-3.5 flex-shrink-0'
-              )}
-              aria-hidden="true"
-            />
-          ))}
-          <span className="font-normal text-gray-500">
-            ({' '}
-            {product._source.review_count ? product._source.review_count[0] : 0}
-            )
-          </span>
-        </div>
-        <p className="sr-only">
-          {product._source.rating ? product._source.rating[0] : 0}
-          out of 5 stars
-        </p>
+        {typeof product._source.rating !== 'undefined' && (
+          <StarRating
+            rating={product._source.rating[0]}
+            reviews_count={
+              product._source.reviews_count
+                ? product._source.reviews_count[0]
+                : undefined
+            }
+          />
+        )}
       </div>
       <p className="text-xl font-bold text-black">
         {product._source.price ? product._source.price[0] : '$$$ Not Set'}

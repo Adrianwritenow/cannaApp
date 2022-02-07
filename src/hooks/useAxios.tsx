@@ -1,12 +1,14 @@
-import { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSession } from 'next-auth/react';
 import axios, { AxiosError, AxiosResponse, AxiosRequestConfig } from 'axios';
-import { IAxiosAction, IAxiosReturn, IAxiosState } from '@/interfaces/axios';
+import { IAxiosAction, IAxiosState } from '@/interfaces/axios';
 
 export type DispatchAxios = (params: IAxiosAction) => Promise<any>;
 
-export function useAxios(internal: boolean = true): [DispatchAxios, IAxiosState] {
+export function useAxios(
+  internal: boolean = true
+): [DispatchAxios, IAxiosState] {
   const { data: session, status } = useSession();
   const dispatch = useDispatch();
   const isMounted = useRef(true);

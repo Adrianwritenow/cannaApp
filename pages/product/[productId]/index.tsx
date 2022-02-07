@@ -4,6 +4,7 @@ import { browseBy, getDocument } from '@/actions/search';
 import AboutSlideOver from '@/components/products/AboutSlideOver';
 import DropdownFilter from '@/components/forms/fields/DropdownFilter';
 import FaqSlideOver from '@/views/slideOver/FaqSlideOver';
+import { formatImageWithFallback } from '@/helpers/formatters';
 import ImageSlider from '@/components/slider/ImageSlider';
 import ImageWithFallback from '@/components/image/ImageWithFallback';
 import { Product } from '@/interfaces/product';
@@ -66,11 +67,7 @@ export default function ProductDetail() {
           {/* <ImageSlider images={[]} /> */}
           <div className="relative w-full pb-full">
             <ImageWithFallback
-              src={`${
-                product._source.image[0].includes('image_missing')
-                  ? '#'
-                  : product._source.image[0]
-              }`}
+              src={formatImageWithFallback(product._source.image)}
               alt={product._source?.name[0]}
               layout="fill"
               objectFit={'cover'}

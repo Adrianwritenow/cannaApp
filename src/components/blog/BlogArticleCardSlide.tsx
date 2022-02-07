@@ -1,8 +1,8 @@
-import Image from 'next/image';
+import { formatImageWithFallback } from '@/helpers/formatters';
+import ImageWithFallback from '@/components/image/ImageWithFallback';
 import Link from 'next/link';
 import { Post } from '@/interfaces/post';
 import React from 'react';
-import moment from 'moment';
 
 function BlogArticleCardSlide({ post }: { post: Post }) {
   return (
@@ -12,8 +12,8 @@ function BlogArticleCardSlide({ post }: { post: Post }) {
           <div className="pb-4">
             <Link href={`/blog/${post._source.id}`} passHref>
               <a>
-                <Image
-                  src={post._source.image_url[0]}
+                <ImageWithFallback
+                  src={formatImageWithFallback(post._source.image)}
                   layout="intrinsic"
                   height={200}
                   width={300}

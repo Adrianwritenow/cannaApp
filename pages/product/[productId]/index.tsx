@@ -11,7 +11,7 @@ import ProductResultsSection from '@/components/sections/ProductsResultsSection'
 import ProductReviewsSlideOver from '@/views/slideOver/product/ProductReviewSlideOver';
 import { RootState } from '@/reducers';
 import { SearchHits } from '@/interfaces/searchHits';
-import { StarIcon } from '@heroicons/react/solid';
+import StarRating from '@/components/rating/StarRating';
 import { Vendor } from '@/interfaces/vendor';
 import VendorCard from '@/components/vendor/VendorCard';
 import { useRouter } from 'next/router';
@@ -26,7 +26,7 @@ export default function ProductDetail() {
   const [currentQuery, setCurrentQuery] = useState('');
 
   useEffect(() => {
-    if (!product) {
+    if (!product || (productId && product._source.id !== +productId)) {
       getDocument(productId, 'products').then((document: SearchHits) => {
         if (document) {
           const result = document.hits.hits[0];
@@ -96,36 +96,17 @@ export default function ProductDetail() {
               <h3 className="sr-only">Reviews</h3>
               <div className="flex items-center">
                 <div className="flex items-center">
-                  <span className="font-normal text-gray-500 mr-1">
-                    {product?._source.rating ? product?._source.rating : 0}
-                  </span>
-                  {[0, 1, 2, 3, 4].map(rating => (
-                    <StarIcon
-                      key={rating}
-                      className={`${
-                        product._source?.rating
-                          ? product._source?.rating[0]
-                          : 0 > rating
-                          ? 'text-yellow-400'
-                          : 'text-gray-200'
+                  {product && typeof product._source.rating !== 'undefined' && (
+                    <StarRating
+                      rating={product._source.rating[0]}
+                      reviews_count={
+                        product._source.reviews_count
+                          ? product._source.reviews_count[0]
+                          : undefined
                       }
-                        'h-3.5 w-3.5 flex-shrink-0'
-                      `}
-                      aria-hidden="true"
                     />
-                  ))}
-                  <span className="font-normal text-gray-500">
-                    (
-                    {product._source.review_count
-                      ? product._source.review_count[0]
-                      : 0}
-                    )
-                  </span>
+                  )}
                 </div>
-                <p className="sr-only">
-                  {product._source.rating ? product._source.rating[0] : 0} out
-                  of 5 stars
-                </p>
               </div>
             </section>
 

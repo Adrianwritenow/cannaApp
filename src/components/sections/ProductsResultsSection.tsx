@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from 'react';
-
-import { Coupon } from '../../interfaces/coupon';
-import CouponCard from '../coupons/CouponCard';
+import { Coupon } from '@/interfaces/coupon';
+import CouponCard from '@/components/coupons/CouponCard';
 import { InformationCircleIcon } from '@heroicons/react/outline';
 import Link from 'next/link';
 import { Product } from '@/interfaces/product';
@@ -55,7 +53,7 @@ export default function ProductResultsSection(results: Results) {
             if (type === 'COUPON') {
               return (
                 <div key={`cc-${index}`}>
-                  <CouponCard coupon={data as Coupon}  />
+                  <CouponCard coupon={data as Coupon} />
                 </div>
               );
             } else if (type === 'DEAL') {

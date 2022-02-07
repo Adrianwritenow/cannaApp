@@ -38,12 +38,13 @@ import { useAxios } from '@/hooks/useAxios';
 import { useRouter } from 'next/router';
 
 export default function Home() {
-  const { deals, featuredDeals } = useSelector((root: RootState): DealsState => root.deals);
+  const { deals, featuredDeals } = useSelector(
+    (root: RootState): DealsState => root.deals
+  );
   const location = useSelector((root: RootState) => root.location);
   const [nearby, setNearby] = useState<Array<Dispensary>>();
   const [flower, setFlower] = useState<Array<Product>>();
   const [blogs, setBlogs] = useState<Array<Post>>();
-  const [coupons, setCoupons] = useState<Array<Coupon>>();
   const dispatch = useDispatch();
   const [dispatchSearch] = useAxios(false);
   const router = useRouter();
@@ -273,9 +274,12 @@ export default function Home() {
       )}
 
       {/* Deals of the Day */}
-      {featuredDeals.length > 0 &&
-        <CouponSlideOver label="Deals of the Day" list={featuredDeals as Coupon[]} />
-      }
+      {featuredDeals.length > 0 && (
+        <CouponSlideOver
+          label="Deals of the Day"
+          list={featuredDeals as Coupon[]}
+        />
+      )}
 
       {/* Featured Destinations */}
       <section className="pb-4 pt-2">

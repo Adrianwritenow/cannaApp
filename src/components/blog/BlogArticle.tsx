@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react';
 
+import { formatImageWithFallback } from '@/helpers/formatters';
 import { IconFacebook } from '@/public/assets/icons/iconComponents';
-import Image from 'next/image';
-import ImageWithFallback from '../image/ImageWithFallback';
+import ImageWithFallback from '@/components/image/ImageWithFallback';
 import Link from 'next/link';
 import { Post } from '@/interfaces/post';
 import SocialShare from '@/components/share/SocialShare';
 import SvgIconTwitter from '@/public/assets/icons/iconComponents/IconTwitter';
-import moment from 'moment';
 import styles from './styles.module.scss';
 
 export default function BlogArticle({ post }: { post: Post }) {
@@ -60,11 +59,7 @@ export default function BlogArticle({ post }: { post: Post }) {
           </div>
           <div className="relative flex justify-center mt-4">
             <ImageWithFallback
-              src={`${process.env.API_URL}${
-                post._source.image_url[0].includes('image_missing')
-                  ? '#'
-                  : post._source.image_url[0]
-              }`}
+              src={formatImageWithFallback(post._source.image)}
               layout="intrinsic"
               height={1000}
               width={1000}

@@ -9,7 +9,7 @@ export interface Post {
     description: string[];
     exclusive: boolean[];
     featured: boolean[];
-    image_url: string[];
+    image: string[];
     main_alt: string[];
     title: string[];
     _language: string;

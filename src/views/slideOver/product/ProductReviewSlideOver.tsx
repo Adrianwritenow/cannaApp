@@ -1,8 +1,4 @@
-import {
-  ArrowLeftIcon,
-  EmojiHappyIcon,
-  StarIcon,
-} from '@heroicons/react/solid';
+import { ArrowLeftIcon, EmojiHappyIcon } from '@heroicons/react/solid';
 import { Dialog, Transition } from '@headlessui/react';
 import React, { Fragment, useState } from 'react';
 
@@ -79,7 +75,7 @@ export default function ProductReviewsSlideOver(props: ProductSlideoverProps) {
             onClick={() => setOpen(true)}
             className="py-4 w-full uppercase text-green-500 text-xs font-semibold border-t border-gray-200 tracking-widest"
           >
-            See All {product?._source.review_count} Reviews
+            See All {product?._source.reviews_count} Reviews
           </button>
         </div>
       )}
@@ -138,7 +134,7 @@ export default function ProductReviewsSlideOver(props: ProductSlideoverProps) {
                               <EmojiHappyIcon className="w-6 h-6" />
                               <span className="px-1">Very Positive</span>
                               <span className="font-normal text-gray-500">
-                                (90% of {`${product?._source.review_count}`})
+                                (90% of {`${product?._source.reviews_count}`})
                               </span>
                             </p>
                           </div>

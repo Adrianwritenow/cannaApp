@@ -1,5 +1,5 @@
-import Image from 'next/image';
-import ImageWithFallback from '../image/ImageWithFallback';
+import { formatImageWithFallback } from '@/helpers/formatters';
+import ImageWithFallback from '@/components/image/ImageWithFallback';
 import Link from 'next/link';
 import { Post } from '@/interfaces/post';
 import React from 'react';
@@ -14,11 +14,7 @@ function BlogArticleFeatured({ post }: { post: Post }) {
             <Link href={`/blog/${post._source.id}`} passHref>
               <a>
                 <ImageWithFallback
-                  src={`${process.env.API_URL}${
-                    post._source.image_url[0].includes('image_missing')
-                      ? '#'
-                      : post._source.image_url[0]
-                  }`}
+                  src={formatImageWithFallback(post._source.image)}
                   layout="responsive"
                   height={200}
                   width={300}

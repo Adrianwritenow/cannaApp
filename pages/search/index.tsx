@@ -1,14 +1,14 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Link from 'next/link';
 import { RootState } from '@/reducers';
-import SearchAll from '../../src/views/search/SearchAll';
-import SearchDeals from '../../src/views/search/SearchDeals';
-import SearchDispensary from '../../src/views/search/SearchDispensary';
+import SearchAll from '@/views/search/SearchAll';
+import SearchDeals from '@/views/search/SearchDeals';
+import SearchDispensary from '@/views/search/SearchDispensary';
 import SearchNews from '@/views/search/SearchNews';
 import SearchShopping from '@/views/search/SearchShopping';
 import { SearchState } from '@/interfaces/searchState';
-import SearchStrain from '../../src/views/search/SearchStrain';
+import SearchStrain from '@/views/search/SearchStrain';
 import { Tab } from '@headlessui/react';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';

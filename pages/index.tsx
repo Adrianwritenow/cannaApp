@@ -23,7 +23,6 @@ import CouponSlideOver from '@/views/slideOver/CouponsSlideOver';
 import { DealsState } from '@/interfaces/coupon';
 import { Dispensary } from '@/interfaces/dispensary';
 import Image from 'next/image';
-import ImageWithFallback from '@/components/image/ImageWithFallback';
 import Link from 'next/link';
 import ListingCard from '@/components/listings/ListingCard';
 import Logo from '@/public/assets/logos/logo.png';
@@ -250,7 +249,7 @@ export default function Home() {
             <Image src={Map} alt="Map" layout="fill" objectFit={'cover'} />
           </div>
           <Link href="/map" passHref>
-            <a className="absolute z-10 flex rounded-full bg-gray-50 shadow p-1 right-0 bottom-0 mb-4 mr-4 focus:outline-none lg:animate-bounce	">
+            <a className="absolute z-10 flex rounded-full bg-gray-50 shadow p-1 right-0 bottom-0 mb-4 mr-4 focus:outline-none">
               <button className="focus:outline-none">
                 <ArrowsExpandIcon className="w-8 h-8 text-gray-700" />
               </button>
@@ -390,7 +389,7 @@ export default function Home() {
           <div className="grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-4 pb-4">
             {deals.map((listing, index) => {
               return (
-                <div className="w-64" key={`lc-${listing._id}-${index}`}>
+                <div className="w-64 h-min" key={`lc-${listing._id}-${index}`}>
                   <ListingCard {...formatDealCard(listing)} />
                 </div>
               );

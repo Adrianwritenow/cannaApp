@@ -14,7 +14,15 @@ function BlogArticleFeatured({ post }: { post: Post }) {
             <Link href={`/blog/${post._source.id}`} passHref>
               <a>
                 <ImageWithFallback
+<<<<<<< HEAD
                   src={formatImageWithFallback(post._source.image)}
+=======
+                  src={`${process.env.API_URL}${
+                    post._source.image[0].includes('image_missing')
+                      ? '#'
+                      : post._source.image[0]
+                  }`}
+>>>>>>> feat: update responsiveness on -Business overview
                   layout="responsive"
                   height={200}
                   width={300}

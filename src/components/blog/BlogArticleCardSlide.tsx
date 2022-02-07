@@ -6,7 +6,6 @@ import { formatImageWithFallback } from '@/helpers/formatters';
 import moment from 'moment';
 
 function BlogArticleCardSlide({ post }: { post: Post }) {
-  console.log(post);
   return (
     <div key={post._source.title[0]} className="flex w-full justify-center ">
       <div className="border-b-2 align border rounded-lg w-full self-center pb-4 ">

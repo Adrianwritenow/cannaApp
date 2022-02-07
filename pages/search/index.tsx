@@ -50,11 +50,15 @@ export default function Search() {
 
     setCurrentQuery(query);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [view, results]);
+  }, [view, results, router]);
+
+  if (!router.isReady) {
+    return <div>Loading...</div>;
+  }
 
   return (
-    <div className="bg-gray-50 ">
-      <div className="overflow-visible overflow-scroll border-b border-gray-200 bg-white ">
+    <div className="bg-gray-50">
+      <div className="overflow-visible overflow-scroll border-b border-gray-200 bg-white">
         <Tab.Group
           defaultIndex={view}
           onChange={() => {

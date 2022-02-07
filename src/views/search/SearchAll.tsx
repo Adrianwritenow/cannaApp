@@ -64,11 +64,11 @@ export default function SearchAll(props: {
             searchlists.dispensaries.push(result);
             break;
         }
-
-        setLists(searchlists);
       });
+
+      setLists(searchlists);
     }
-    setCurrentQuery(query);
+    setCurrentQuery(query ?? location.city);
     setUpdate(false);
   }
 

@@ -61,7 +61,7 @@ export default function Search() {
             router.replace({ query: '' });
           }}
         >
-          <Tab.List className="w-full overflow-visible overflow-x-scroll border-b border-gray-200 flex max-w-7xl mx-auto">
+          <Tab.List className="w-full overflow-visible overflow-x-scroll  flex max-w-7xl mx-auto">
             {tabs.map((tab, index) => (
               <Tab
                 key={tab.name}

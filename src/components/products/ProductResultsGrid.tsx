@@ -12,9 +12,11 @@ export default function ProductResultsGrid(props: ResultsProps) {
       <div>
         <h2 className="text-xl text-gray-700 font-semibold py-4">{label}</h2>
 
-        <div className=" grid grid-cols-2 gap-4">
+        <div className=" grid grid-cols-2 gap-4 lg:flex lg:flex-wrap ">
           {list.map((product: Product, index) => (
-            <ProductCard product={product} key={`pc-${index}`} />
+            <div className="w-36" key={`pc-${index}`}>
+              <ProductCard product={product} />
+            </div>
           ))}
         </div>
       </div>

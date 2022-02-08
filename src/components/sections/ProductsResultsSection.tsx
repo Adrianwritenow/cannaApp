@@ -35,7 +35,7 @@ export default function ProductResultsSection(results: Results) {
   } = results;
 
   return (
-    <section id="results-section" className="w-full  max-w-7xl mx-auto">
+    <section id="results-section" className="w-full  max-w-7xl mx-auto ">
       {sponsored ? (
         <div className="flex flex-wrap items-center px-4 pt-3">
           <h5 className="text-xs text-gray-500 font-semibold pr-1">

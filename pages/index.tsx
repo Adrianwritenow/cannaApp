@@ -376,7 +376,7 @@ export default function Home() {
 
       {/* Deals Near me section */}
       {deals.length > 0 && (
-        <section className="pb-4 pt-2  max-w-7xl mx-auto">
+        <section className="pb-4 pt-2  max-w-7xl mx-auto desktop:border-b-2 border-gray-200 pb-6">
           <h2 id="deals-near-me" className="sr-only">
             Deals Near Me
           </h2>
@@ -553,7 +553,7 @@ export default function Home() {
               Dispatches from the Highlands
             </h2>
           </div>
-          <div className="grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-4 desktop:flex desktop:flex-wrap">
+          <div className="hidden gap-2  pl-4 desktop:flex desktop:flex-wrap">
             {blogs.map((post: Post, index) => (
               <div id={`${index}`} key={`article-${index}`} className="w-64">
                 <BlogArticleCardSlide post={post} />

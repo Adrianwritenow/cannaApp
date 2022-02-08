@@ -13,14 +13,16 @@ export default function CouponSlideOver(props: {
   const { label, list } = props;
   const [open, setOpen] = useState(false);
   return (
-    <ProductResultsSection
-      list={list}
-      sponsored={false}
-      label={label ? label : 'Results'}
-      buttonLabel={'See more'}
-      hideButton={true}
-      stateFunction={setOpen}
-      type={'COUPON'}
-    />
+    <div className="desktop:border-b-2 border-gray-200 pb-6">
+      <ProductResultsSection
+        list={list}
+        sponsored={false}
+        label={label ? label : 'Results'}
+        buttonLabel={'See more'}
+        hideButton={true}
+        stateFunction={setOpen}
+        type={'COUPON'}
+      />
+    </div>
   );
 }

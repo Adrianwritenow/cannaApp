@@ -282,7 +282,7 @@ export default function BusinessDetail() {
           <BusinessVerificationSlideOver dispensary={dispensary} />
         )}
       </div>
-      <div className="space-y-4 px-4 desktop:max-w-7xl mx-auto desktop:grid grid-cols-2 gap-8 desktop:items-end">
+      <div className="space-y-4 px-4 desktop:max-w-7xl mx-auto desktop:grid grid-cols-2 gap-8 desktop:items-start">
         {/* Map */}
         <section className="pt-10 desktop:pt-0 pb-4 desktop:pb-0s">
           <h2 className="sr-only">Location</h2>
@@ -355,7 +355,7 @@ export default function BusinessDetail() {
             </h2>
             <h2
               id="business-socilas"
-              className="text-lg text-gray-700 font-semibold"
+              className="text-lg text-gray-700 font-semibold desktop:text-2xl"
             >
               Find us on Social Media
             </h2>
@@ -520,7 +520,7 @@ export default function BusinessDetail() {
         </div>
       )}
       {/* Also Viewed */}
-      <section className="max-w-7xl pb-4 pt-2  w-full desktop:flex  desktop:mx-auto">
+      <section className="max-w-7xl pb-4 pt-2  w-full   desktop:mx-auto">
         <h2 id="related-businesses" className="sr-only">
           People Also Viewed
         </h2>
@@ -530,7 +530,7 @@ export default function BusinessDetail() {
         >
           People Also Viewed
         </h2>
-        <div className="desktop:h-auto desktop:rounded-md desktop:bg-green-100 desktop:flex desktop:flex-wrap  desktop:w-64 flex-shrink-0	">
+        <div className="desktop:h-auto">
           <h2 id="deals-near-me" className="sr-only">
             People Also Viewed
           </h2>

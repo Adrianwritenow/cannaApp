@@ -9,9 +9,9 @@ export default function RelatedStrainsSection(results: Strains) {
   const { strains } = results;
   return (
     <section id="shop-section">
-      <div className="pt-2 w-full lg:flex lg:mx-auto">
-        <div className="lg:h-auto lg:rounded-md lg:bg-green-100 lg:flex lg:flex-wrap  lg:w-64 flex-shrink-0">
-          <h2 className="text-xl  text-gray-700 font-semibold p-4">
+      <div className="pt-2 w-full ">
+        <div className="lg:h-auto">
+          <h2 className="text-xl  text-gray-700 font-semibold p-4 lg:text-2xl">
             Related Strains
           </h2>
         </div>

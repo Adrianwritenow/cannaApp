@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
+import ImageWithFallback from '@/components/image/ImageWithFallback';
 import ProductResultsSection from '../../../src/components/sections/ProductsResultsSection';
 import { RootState } from '@/reducers';
 import { Sativa } from '../../../public/assets/icons/iconComponents';
@@ -47,33 +48,31 @@ export default function StrainDetail() {
   }, [router]);
 
   return (
-    <div className="bg-white">
-      <div className="w-full h-64 relative">
-        {/* <Image
-          src={strain.images[0]}
-          layout="fill"
-          objectFit={"cover"}
-          alt={strain.title}
-        /> */}
-        <div className="absolute w-full relative h-full bg-gray-200 z-0">
-          <Sativa fill="black" opacity={0.2} className="w-full h-full" />
+    <div className="bg-gray-50 max-w-7xl mx-auto">
+      <div className="lg:grid grid-cols-6 lg:gap-8">
+        <div className="w-full pb-auto relative col-span-2">
+          <ImageWithFallback
+            src={strain?._source?.image ? strain._source.image[0] : 'undefined'}
+            layout="fill"
+            objectFit={'cover'}
+            alt={strain?._source.name}
+          />
         </div>
-      </div>
-      <div className="p-4">
-        <section
-          aria-labelledby="strains-heading"
-          className="border-gray-200 border-b pb-4"
-        >
-          <h2 id="strains-heading" className="sr-only">
-            {strain?._source.name}
-          </h2>
-          <h2 className="text-gray-700 text-3xl font-normal">
-            {strain?._source.name}
-          </h2>
-          <p className="text-base text-gray-500 capitalize">
-            {strain?._source.type}
-          </p>
-          {/* <div className="flex items-center pt-4">
+        <div className="p-4 col-span-4">
+          <section
+            aria-labelledby="strains-heading"
+            className="border-gray-200 border-b pb-4"
+          >
+            <h2 id="strains-heading" className="sr-only">
+              {strain?._source.name}
+            </h2>
+            <h2 className="text-gray-700 text-3xl font-normal">
+              {strain?._source.name}
+            </h2>
+            <p className="text-base text-gray-500 capitalize">
+              {strain?._source.type}
+            </p>
+            {/* <div className="flex items-center pt-4">
             {[0, 1, 2, 3, 4].map(rating => (
               <StarIcon
                 key={rating}
@@ -86,15 +85,16 @@ export default function StrainDetail() {
               />
             ))}
           </div> */}
-        </section>
-        <section aria-labelledby="strains-about" className="pt-4">
-          <h2 id="strains-about" className="sr-only">
-            {strain?._source.name}
-          </h2>
-          <p className="text-base text-gray-700">
-            {strain?._source.description}
-          </p>
-        </section>
+          </section>
+          <section aria-labelledby="strains-about" className="pt-4">
+            <h2 id="strains-about" className="sr-only">
+              {strain?._source.name}
+            </h2>
+            <p className="text-base text-gray-700">
+              {strain?._source.description}
+            </p>
+          </section>
+        </div>
       </div>
       {searchLists.length ? (
         <ProductResultsSection

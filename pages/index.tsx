@@ -160,7 +160,7 @@ export default function Home() {
                 <polygon points="50,0 100,0 50,100 0,100" />
               </svg>
 
-              <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 bg-white">
+              <main className="mx-auto max-w-7xl px-4 sm:px-6  bg-white">
                 <div className="sm:text-center lg:text-left">
                   <div className="space-x-2 flex justify-center items-center pb-4">
                     <div>
@@ -278,7 +278,7 @@ export default function Home() {
         </div>
       </div>
       {/* Search/Map Section Mobile */}
-      <section className="lg:hidden relative pt-16 lg:max-w-4xl lg:rounded-md  lg:mx-auto lg:shadow-md ">
+      <section className="lg:hidden relative pt-16 lg:max-w-4xl lg:rounded-md  lg:mx-auto lg:shadow-md mx-auto">
         <Image src={Map} alt="Map" layout="fill" objectFit={'cover'} />
         <Link href="/map" passHref>
           <a className="absolute z-10 flex rounded-full bg-gray-50 shadow p-0.5 right-0 top-0 mt-2 mr-4 focus:outline-none">
@@ -393,8 +393,8 @@ export default function Home() {
 
       {/* Deals Near me section */}
       {deals && coupons && (
-        <section className="pb-4 pt-2 lg:px-8 w-full lg:flex  lg:mx-auto">
-          <div className="lg:h-auto lg:rounded-md lg:bg-green-100 lg:flex lg:flex-wrap  lg:w-64 flex-shrink-0	">
+        <section className="pb-4 pt-2  w-full max-w-7xl mx-auto lg:border-b-2 border-gray-200 ">
+          <div className="lg:h-auto lg:rounded-md lg:flex lg:flex-wrap  lg:w-64 flex-shrink-0	">
             <h2 id="deals-near-me" className="sr-only">
               Deals Near Me
             </h2>
@@ -404,19 +404,6 @@ export default function Home() {
             >
               Deals Near Me
             </h2>
-            <div className="px-4 pt-2 hidden lg:block mt-auto">
-              <Link
-                href={{ pathname: '/search', query: { view: 'deals' } }}
-                passHref
-              >
-                <a className="flex w-full hover:animate-ping">
-                  <button className="py-4 w-full uppercase text-green-500 text-sm font-semibold tracking-widest flex justify-center items-center">
-                    <span>See more</span>
-                    <ArrowRightIcon className="ml-2 w-4 h-4" />
-                  </button>
-                </a>
-              </Link>
-            </div>
           </div>
           <div className="grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-4 lg:flex lg:flex-wrap">
             {deals.map((listing, index) => {
@@ -450,17 +437,30 @@ export default function Home() {
               </a>
             </Link>
           </div>
+          <div className="px-4 pt-2 hidden lg:block w-full flex">
+            <Link
+              href={{ pathname: '/search', query: { view: 'deals' } }}
+              passHref
+            >
+              <a className="flex hover:animate-ping  w-full">
+                <button className="py-4 uppercase text-green-500 text-sm font-semibold tracking-widest flex justify-center items-center ml-auto">
+                  <span>See more</span>
+                  <ArrowRightIcon className="ml-2 w-4 h-4" />
+                </button>
+              </a>
+            </Link>
+          </div>
         </section>
       )}
 
       {/* Deals of the Day */}
-      <div className="lg:px-8 w-full">
+      <div className=" w-full max-w-7xl mx-auto  lg:border-b-2 border-gray-200">
         <CouponSlideOver label="Deals of the Day" list={coupons as Coupon[]} />
       </div>
 
       {/* Featured Destinations */}
-      <section className="pt-2 lg:px-8 w-full lg:flex  lg:mx-auto">
-        <div className="lg:h-auto lg:rounded-md lg:bg-green-100 lg:flex lg:flex-wrap  justify-center lg:w-64 flex-shrink-0">
+      <section className="pt-2  w-full g:mx-auto max-w-7xl mx-auto lg:border-b-2 border-gray-200 pb-6">
+        <div className="lg:h-auto justify-center flex-shrink-0">
           <h2 id="featured-destinations" className="sr-only">
             Featured Destinations
           </h2>
@@ -502,8 +502,8 @@ export default function Home() {
       </section>
 
       {/* New Locations nearby */}
-      <section className="pt-2 lg:px-8 w-full lg:flex  lg:mx-auto">
-        <div className="lg:h-auto lg:rounded-md lg:bg-green-100 lg:flex lg:flex-wrap  justify-center lg:w-64 flex-shrink-0">
+      <section className="pt-2  w-full max-w-7xl mx-auto lg:border-b-2 border-gray-200 pb-6 ">
+        <div className="justify-center  flex-shrink-0">
           <h2 id="locations-near-me" className="sr-only">
             New Locations Nearby
           </h2>
@@ -515,7 +515,7 @@ export default function Home() {
           </h2>
         </div>
         {nearby && (
-          <div className="grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-4 lg:flex lg:flex-wrap">
+          <div className="grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-4 lg:flex lg:flex-wrap ">
             {nearby.map((listing, index) => (
               <div className="w-64" key={`lc-${listing._id}-${index}`}>
                 <ListingCard
@@ -530,19 +530,50 @@ export default function Home() {
       </section>
 
       {/* Flower Near me section */}
-      <div className="lg:px-8 w-full overflow-scroll">
+      <div className=" w-full overflow-scroll max-w-7xl mx-auto lg:border-b-2 border-gray-200 pb-6">
         <ProductResultsSection
           list={flower as Product[]}
           sponsored={false}
           label={`Shop Flower near ${location.city}`}
-          link={'/search?category=Flower&view=shopping'}
+          // link={'/search?category=Flower&view=shopping'}
         />
+        <div className="px-4 pt-2 lg:hidden">
+          <Link
+            href={{
+              pathname: '/search?category=Flower&view=shopping',
+              query: { view: 'deals', category: 'Flower' },
+            }}
+            passHref
+          >
+            <a>
+              <button className="py-4 w-full uppercase text-green-500 text-xs font-semibold border-t border-gray-200 tracking-widest">
+                <span>See more</span>
+              </button>
+            </a>
+          </Link>
+        </div>
+        <div className="px-4 pt-2 hidden lg:block w-full flex">
+          <Link
+            href={{
+              pathname: '/search',
+              query: { view: 'deals', category: 'Flower' },
+            }}
+            passHref
+          >
+            <a className="flex hover:animate-ping  w-full">
+              <button className="py-4 uppercase text-green-500 text-sm font-semibold tracking-widest flex justify-center items-center ml-auto">
+                <span>See more</span>
+                <ArrowRightIcon className="ml-2 w-4 h-4" />
+              </button>
+            </a>
+          </Link>
+        </div>
       </div>
 
       {/* News Section */}
       {blogs && (
-        <section className="pt-2 lg:px-8 w-full lg:flex  lg:mx-auto">
-          <div className="lg:h-auto lg:rounded-md lg:bg-green-100 lg:flex lg:flex-wrap lg:w-64 flex-shrink-0 ">
+        <section className="pt-2  w-full  lg:mx-auto max-w-7xl  lg:border-b-2 border-gray-200 pb-6">
+          <div className="lg:h-auto lg:rounded-md  flex-shrink-0">
             <h2 id="blogs" className="sr-only">
               Dispatches from the Highlands
             </h2>
@@ -552,16 +583,6 @@ export default function Home() {
             >
               Dispatches from the Highlands
             </h2>
-            <div className="px-4 pt-2 hidden lg:block mt-auto">
-              <Link href={{ pathname: '/blog' }} passHref>
-                <a className="flex w-full hover:animate-ping">
-                  <button className="py-4 w-full uppercase text-green-500 text-sm font-semibold tracking-widest flex justify-center items-center">
-                    <span>See more articles</span>
-                    <ArrowRightIcon className="ml-2 w-4 h-4" />
-                  </button>
-                </a>
-              </Link>
-            </div>
           </div>
           <div className="grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-4 lg:flex lg:flex-wrap">
             {blogs.map((post: Post, index) => (
@@ -590,11 +611,21 @@ export default function Home() {
               </a>
             </Link>
           </div>
+          <div className="px-4 pt-2 hidden lg:block w-full flex">
+            <Link href="/blog" passHref>
+              <a className="flex hover:animate-ping  w-full">
+                <button className="py-4 uppercase text-green-500 text-sm font-semibold tracking-widest flex justify-center items-center ml-auto">
+                  <span>See more Articles</span>
+                  <ArrowRightIcon className="ml-2 w-4 h-4" />
+                </button>
+              </a>
+            </Link>
+          </div>
         </section>
       )}
 
       {/* Print Publication Mobile*/}
-      <section className="pb-4 pt-2 lg:px-8 w-full lg:hidden">
+      <section className="pb-4 pt-2  w-full lg:hidden">
         <h2 id="publications" className="sr-only">
           Subscribe to our Print Publication
         </h2>

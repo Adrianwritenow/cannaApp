@@ -6,6 +6,7 @@ import { formatImageWithFallback } from '@/helpers/formatters';
 import moment from 'moment';
 
 function BlogArticleSmall({ post }: { post: Post }) {
+  console.log(post);
   return (
     <div key={post._source.title[0]}>
       <div className="grid gap-4 grid-cols-3 justify-between items-center w-full  py-4">

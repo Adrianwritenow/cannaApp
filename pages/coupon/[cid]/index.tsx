@@ -34,8 +34,6 @@ export default function CouponDetail() {
         coupon?._source.dispensary[0],
         '*'
       );
-      console.log(business);
-
       setDispensary(business.hits.hits as unknown as Dispensary[]);
     }
 

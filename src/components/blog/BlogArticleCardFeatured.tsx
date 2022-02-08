@@ -35,9 +35,9 @@ function BlogArticleFeatured({ post }: { post: Post }) {
               </a>
             </Link>
           </h2>
-          {/* <p className="text-gray-700 text-xs">
-            {moment(post.published).format('MMMM Do, YYYY')}
-          </p> */}
+          <p className="text-gray-700 text-xs">
+            {moment.unix(post._source.created[0]).format('MMMM Do, YYYY')}
+          </p>
         </div>
       </div>
     </div>

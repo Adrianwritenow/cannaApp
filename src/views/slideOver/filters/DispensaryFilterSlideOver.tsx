@@ -96,7 +96,7 @@ export default function DispenaryFilterSlideOver(props: {
   }
 
   return (
-    <div>
+    <div className="max-w-7xl mx-auto">
       <Formik
         initialValues={savedValues}
         onSubmit={() => {}}

@@ -15,7 +15,7 @@ export default function ResultsStrain(data: ResultsProps) {
   return (
     <div className="max-w-7xl mx-auto">
       <div>
-        <h2 className="text-xl text-gray-700 font-semibold p-4">
+        <h2 className="text-xl text-gray-700 font-semibold p-4  lg:text-2xl">
           {`${strains.length} Results for ${query}`}
         </h2>
         {view === 'list' ? (

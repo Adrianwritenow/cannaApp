@@ -44,7 +44,7 @@ export default function SearchNews(props: { query: string }) {
     <div>
       {blogs && (
         <section className="px-4 ">
-          {blogs.length ? (
+          {blogs?.length ? (
             <>
               <NewsFilterSlideOver handleFilter={handleFilter} />
               <div className="max-w-7xl mx-auto">

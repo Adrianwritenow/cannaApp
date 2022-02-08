@@ -13,22 +13,11 @@ export default function LearnSection(data: LearnProps) {
   const { strain, query } = data;
   return (
     <section id="learn-section">
-      <div className="pt-2 w-full lg:flex lg:mx-auto">
-        <div className="lg:h-auto lg:rounded-md lg:bg-green-100 lg:flex lg:flex-wrap  lg:w-64 flex-shrink-0">
-          <h2 className="text-xl  text-gray-700 font-semibold p-4">
+      <div className="pt-2 w-full">
+        <div className="">
+          <h2 className="text-xl  text-gray-700 font-semibold p-4 lg:text-2xl">
             {`Learn ${query ? `"${query}"` : ''}`}
           </h2>
-          <Link
-            href={`/strain/${encodeURIComponent(strain._id as string)}`}
-            passHref
-          >
-            <a className=" mt-auto w-full">
-              <button className="p-4 hidden lg:flex rounded-md bg-green-100   text-green-600 text-sm font-semibold border-gray-200 items-center justify-between w-full">
-                <span> Learn more</span>
-                <ArrowRightIcon className=" w-4 h-4" />
-              </button>
-            </a>
-          </Link>
         </div>
 
         <div className="lg:flex flex-wrap">
@@ -95,11 +84,27 @@ export default function LearnSection(data: LearnProps) {
         </div>
       </div>
 
-      <div className="px-4 ">
-        <Link href={`/strain/${strain._source.id}`} passHref>
+      <div className="px-4 lg:hidden">
+        <Link
+          href={`/strain/${encodeURIComponent(strain._id as string)}`}
+          passHref
+        >
           <a>
-            <button className="py-4 w-full uppercase text-gray-700 text-xs font-bold border-t border-gray-200 tracking-widest lg:hidden">
+            <button className="py-4 w-full uppercase text-gray-700 text-xs font-bold border-t border-gray-200 tracking-widest">
               Learn more
+            </button>
+          </a>
+        </Link>
+      </div>
+      <div className="px-4 pt-2 hidden lg:block w-full flex">
+        <Link
+          href={`/strain/${encodeURIComponent(strain._id as string)}`}
+          passHref
+        >
+          <a className="flex hover:animate-ping  w-full">
+            <button className="py-4 uppercase text-green-500 text-sm font-semibold tracking-widest flex justify-center items-center ml-auto">
+              <span>Learn more</span>
+              <ArrowRightIcon className="ml-2 w-4 h-4" />
             </button>
           </a>
         </Link>

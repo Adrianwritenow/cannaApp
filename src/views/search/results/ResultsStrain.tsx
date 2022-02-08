@@ -25,7 +25,7 @@ export default function ResultsStrain(data: ResultsProps) {
                 <div className="desktop:hidden">
                   <StrainCardSmall strain={strain} />
                 </div>
-                <div className="w-64 hidden desktop:block">
+                <div className="hidden desktop:block">
                   <StrainCard strain={strain} />
                 </div>
               </div>

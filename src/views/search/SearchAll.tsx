@@ -8,6 +8,7 @@ import { RootState } from '@/reducers';
 import SvgEmptyState from '@/public/assets/icons/iconComponents/EmptyState';
 import { searchMulti } from '@/actions/search';
 import { useAxios } from '@/hooks/useAxios';
+import { useSearchLocation } from '@/hooks/useSearchLocation';
 import { useSelector } from 'react-redux';
 
 export default function SearchAll(props: {
@@ -19,14 +20,14 @@ export default function SearchAll(props: {
 }) {
   const { query, userCoords } = props;
   const [dispatchSearch, { loading }] = useAxios(false);
-  const location = useSelector((root: RootState) => root.location);
   const { listResults } = useSelector((root: RootState) => root.search);
+  const location = useSearchLocation();
 
   useEffect(() => {
     dispatchSearch(
       searchMulti({
         q: query,
-        coords: location.city ? location : undefined,
+        coords: location[1] ? location[1] : undefined,
         endpoints: [
           { name: 'products' },
           { name: 'dispenaries', geolocate: true },

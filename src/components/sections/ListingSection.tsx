@@ -2,8 +2,7 @@ import { Dispensary } from '@/interfaces/dispensary';
 import { InformationCircleIcon } from '@heroicons/react/outline';
 import ListingCardDropdown from '../listings/ListingCardDropDown';
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/reducers';
+import { useSearchLocation } from '@/hooks/useSearchLocation';
 
 interface Listings {
   listings: Array<Dispensary>;
@@ -16,7 +15,7 @@ interface Listings {
 }
 export default function ListingSection(results: Listings) {
   const { listings, sponsored, query, userCoords } = results;
-  const location = useSelector((root: RootState) => root.location);
+  const [locationLabel] = useSearchLocation();
 
   return (
     <section id="listing-section">
@@ -31,7 +30,7 @@ export default function ListingSection(results: Listings) {
         <h2 className="text-xl text-gray-700 font-semibold p-4 pb-0">
           {query
             ? `${listings.length} results for "${query}"`
-            : `${listings.length} results near "${location.city ?? 'you'}"`}
+            : `${listings.length} results near "${locationLabel ?? 'you'}"`}
         </h2>
       )}
 

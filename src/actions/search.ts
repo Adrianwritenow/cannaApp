@@ -1,6 +1,7 @@
 import { AxiosError, AxiosResponse } from 'axios';
 import bodybuilder from 'bodybuilder';
 
+import { combinedQueryBody } from '@/helpers/searchQuery';
 import { IAxiosAction } from '@/interfaces/axios';
 import { SearchHits } from '@/interfaces/searchHits';
 
@@ -10,6 +11,7 @@ const SEARCH_INDEX_PREFIX = process.env.SEARCH_INDEX_PREFIX;
 
 export const SEARCH_REQUEST_GET = 'search/get';
 export const SEARCH_REQUEST_GET_DOCUMENTS = 'search/getDocuments';
+export const SEARCH_REQUEST_GET_COMBINED = 'search/getCombined';
 
 export const receiveResults = (data: any) => ({
   type: SEARCH_REQUEST_GET,
@@ -276,4 +278,53 @@ export function getPopular(type: string) {
       console.log('ERR:::', error);
     });
   return results;
+}
+
+interface EndpointProps {
+  name: string;
+  geolocate?: boolean | undefined;
+}
+
+export function searchMulti(searchProps: {
+  q?: string;
+  coords?: any;
+  distance?: string;
+  filters?: any;
+  total?: number;
+  endpoints?: EndpointProps[];
+}): IAxiosAction {
+  const { q, coords, distance, filters, total, endpoints } = searchProps;
+
+  if (!endpoints || !endpoints.length) {
+    throw new Error(
+      'You must specify endpoints when searching multiple indexes.'
+    );
+  }
+
+  let data = '';
+  endpoints.forEach((api: EndpointProps) => {
+    const index = `elasticsearch_index_${SEARCH_INDEX_PREFIX}_${api.name}`;
+    const body = combinedQueryBody({
+      q,
+      distance,
+      filters,
+      total,
+      coords: !api.geolocate ? undefined : coords,
+    });
+
+    data += JSON.stringify({ index }) + '\n';
+    data += JSON.stringify(body) + '\n';
+  });
+
+  return {
+    type: SEARCH_REQUEST_GET_COMBINED,
+    config: {
+      method: 'POST',
+      url: `${SEARCH_URL}/_msearch`,
+      headers: {
+        'Content-Type': 'application/x-ndjson',
+      },
+      data,
+    },
+  };
 }

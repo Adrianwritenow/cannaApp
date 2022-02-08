@@ -19,7 +19,10 @@ export function useAxios(
 
   client.interceptors.request.use((config: AxiosRequestConfig) => {
     config.headers = config.headers || {};
-    config.headers['Content-Type'] = 'application/json';
+
+    if (!config.headers['Content-Type']) {
+      config.headers['Content-Type'] = 'application/json';
+    }
 
     // Internal requests need tokens and other parameters added in.
     if (internal) {

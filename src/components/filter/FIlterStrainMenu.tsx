@@ -75,7 +75,7 @@ export default function FilterStrainMenu(props: FilterMenuProps) {
                         {/* // Field sets based on type of filter  if multiple nested filters then pass setFieldValue*/}
                         {/* Pass the filters ket of values to set Checked */}
                         <FilterGroup
-                          filters={Filters.sort.list}
+                          filters={Filters.sortStrain.list}
                           label={'Sort By'}
                           id={'sort'}
                           type="radio"

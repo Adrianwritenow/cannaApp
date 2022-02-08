@@ -65,7 +65,9 @@ export default function StrainCard(data: StrainProps) {
                   )
                 </p>
               </div>
-              <p className="text-sm text-gray-500">{strain._source?.type}</p>
+              <p className="text-sm text-gray-500 capitalize">
+                {strain._source?.type}
+              </p>
             </div>
           </div>
         </div>

@@ -21,7 +21,7 @@ export default function StrainFilterSlideOver(props: {
     sort: '',
     top_rated_effects: '',
   });
-  const [sortPricing, setSortPricing] = useState(savedValues.sort);
+  const [sort, setSort] = useState(savedValues.sort);
   const [filterList, setFilterList]: any = useState([]);
 
   const initialValues: any = {
@@ -95,7 +95,7 @@ export default function StrainFilterSlideOver(props: {
     }
 
     // update sort
-    setSortPricing(savedValues.sort);
+    setSort(savedValues.sort);
   }, [savedValues]);
 
   return (
@@ -161,7 +161,7 @@ export default function StrainFilterSlideOver(props: {
                                     }}
                                     className="flex rounded-full border-2 border-gray-200 items-center px-4 py-2   text-sm font-medium bg-white text-gray-900 mx-1 w-max"
                                   >
-                                    <span>{filter}</span>
+                                    <span className="capitalize">{filter}</span>
                                     <span className="sr-only">
                                       Remove filter for label
                                     </span>

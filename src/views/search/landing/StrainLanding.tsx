@@ -45,11 +45,10 @@ export default function StrainLanding(props: { setStrains: Function }) {
     if (!popular) {
       getPopularItems('strains');
     }
-  }, [featured, popular, setFeatured]);
+  }, [featured, popular]);
 
   async function handleBrowse(field: string, value: string) {
     const hits: SearchHits = await browseBy(field, value, 'strains');
-    dispatch(receiveResults({ search: value, data: hits.hits.hits }));
     setStrains(hits.hits.hits);
   }
 
@@ -129,20 +128,14 @@ export default function StrainLanding(props: { setStrains: Function }) {
                 <div className="w-full">
                   <div className="grid grid-flow-col auto-cols-max grid-rows-4 w-full gap-1 desktop:flex desktop:flex-wrap desktop:gap-4">
                     {popular.map((strain: Strain, index) => (
-                      <>
-                        <div
-                          className="w-max relative desktop:hidden"
-                          key={`${strain}-${index}`}
-                        >
+                      <div key={`${strain}-${index}`}>
+                        <div className="w-max relative desktop:hidden">
                           <StrainCardSmall strain={strain} />
                         </div>
-                        <div
-                          className="w-max relative hidden desktop:flex"
-                          key={`${strain}-${index}`}
-                        >
+                        <div className="w-max relative hidden desktop:flex">
                           <StrainCard strain={strain} />
                         </div>
-                      </>
+                      </div>
                     ))}
                   </div>
                 </div>

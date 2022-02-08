@@ -49,10 +49,10 @@ export default function ProductResultsSection(results: Results) {
             type === 'COUPON' ? 'pb-6' : ''
           } grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-6 `}
         >
-          {list.map((data, index) => {
+          {list.map(data => {
             if (type === 'COUPON') {
               return (
-                <div key={`cc-${index}`}>
+                <div key={`cc-${data._id}`}>
                   <CouponCard coupon={data as Coupon} />
                 </div>
               );
@@ -60,13 +60,13 @@ export default function ProductResultsSection(results: Results) {
               return (
                 <ProductCard
                   product={data as Product}
-                  key={`pc-${index}`}
+                  key={`pc-${data._id}`}
                   deal={deal}
                 />
               );
             } else {
               return (
-                <div className="w-36" key={`pc-${index}`}>
+                <div className="w-36" key={`pc-${data._id}`}>
                   <ProductCard product={data as Product} />
                 </div>
               );

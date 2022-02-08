@@ -9,11 +9,8 @@ import {
   combinedSearchQuery,
   receiveResults,
 } from '@/actions/search';
-<<<<<<< HEAD
 import { formatDealCard, formatDispensaryCard } from '@/helpers/formatters';
 import { searchDealsNearMe, searchFeaturedDeals } from '@/actions/deals';
-=======
->>>>>>> 35245e33eab21c0dad363cdf3a41bb5eb1e37275
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 
@@ -91,7 +88,6 @@ export default function Home() {
 
   async function getFlower() {
     const hits: SearchHits = await browseBy('category', 'Flower', 'products');
-    console.log('HITS:::', hits);
     setFlower(hits.hits.hits);
   }
 
@@ -379,7 +375,6 @@ export default function Home() {
       </section>
 
       {/* Deals Near me section */}
-<<<<<<< HEAD
       {deals.length > 0 && (
         <section className="pb-4 pt-2  max-w-7xl mx-auto">
           <h2 id="deals-near-me" className="sr-only">
@@ -392,36 +387,10 @@ export default function Home() {
             Deals Near Me
           </h2>
           <div className="grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-4 pb-4">
-=======
-      {deals && coupons && (
-        <section className="pb-4 pt-2  w-full max-w-7xl mx-auto lg:border-b-2 border-gray-200 ">
-          <div className="lg:h-auto lg:rounded-md lg:flex lg:flex-wrap  lg:w-64 flex-shrink-0	">
-            <h2 id="deals-near-me" className="sr-only">
-              Deals Near Me
-            </h2>
-            <h2
-              id="deals-near-me"
-              className="text-gray-700 text-lg lg:text-2xl  font-semibold px-4 py-4"
-            >
-              Deals Near Me
-            </h2>
-          </div>
-          <div className="grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-4 lg:flex lg:flex-wrap">
->>>>>>> 35245e33eab21c0dad363cdf3a41bb5eb1e37275
             {deals.map((listing, index) => {
               return (
                 <div className="w-64 h-min" key={`lc-${listing._id}-${index}`}>
-<<<<<<< HEAD
                   <ListingCard {...formatDealCard(listing)} />
-=======
-                  <ListingCard
-                    discount={`${
-                      discount && discount !== Infinity ? discount : 0
-                    }%`}
-                    listing={listing}
-                    amenities={false}
-                  />
->>>>>>> 35245e33eab21c0dad363cdf3a41bb5eb1e37275
                 </div>
               );
             })}
@@ -455,18 +424,12 @@ export default function Home() {
       )}
 
       {/* Deals of the Day */}
-<<<<<<< HEAD
       {featuredDeals.length > 0 && (
         <CouponSlideOver
           label="Deals of the Day"
           list={featuredDeals as Coupon[]}
         />
       )}
-=======
-      <div className=" w-full max-w-7xl mx-auto  lg:border-b-2 border-gray-200">
-        <CouponSlideOver label="Deals of the Day" list={coupons as Coupon[]} />
-      </div>
->>>>>>> 35245e33eab21c0dad363cdf3a41bb5eb1e37275
 
       {/* Featured Destinations */}
       <section className="pt-2  w-full g:mx-auto max-w-7xl mx-auto lg:border-b-2 border-gray-200 pb-6">

@@ -386,7 +386,7 @@ export default function Home() {
           >
             Deals Near Me
           </h2>
-          <div className="grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-4 pb-4">
+          <div className="grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-4 pb-4 lg:flex lg:flex-wrap lg:gap-4">
             {deals.map((listing, index) => {
               return (
                 <div className="w-64 h-min" key={`lc-${listing._id}-${index}`}>

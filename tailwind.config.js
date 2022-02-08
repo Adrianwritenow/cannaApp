@@ -83,6 +83,11 @@ module.exports = {
         sans: ['Inter'],
         serif: ['Corben'],
       },
+      screens: {
+        tablet: '640px',
+        desktop: '1024px',
+        print: { raw: 'print' },
+      },
     },
   },
   variants: {

@@ -1,11 +1,12 @@
+import { useEffect, useState } from 'react';
+
 import { Coupon } from '@/interfaces/coupon';
-import { formatDealCard } from '@/helpers/formatters';
 import { IAxiosReturn } from '@/interfaces/axios';
 import ListingCard from '@/components/listings/ListingCard';
-import { searchDealsNearMe } from '@/actions/deals';
 import { Tab } from '@headlessui/react';
+import { formatDealCard } from '@/helpers/formatters';
+import { searchDealsNearMe } from '@/actions/deals';
 import { useAxios } from '@/hooks/useAxios';
-import { useEffect, useState } from 'react';
 
 interface FilterBucket {
   key: string;
@@ -75,7 +76,7 @@ export default function SearchDeals() {
 
   return (
     <div className="bg-gray-50">
-      <section className="pb-20 pt-2">
+      <section className="pb-20 pt-2 max-w-7xl mx-auto">
         <h2 id="deals-near-me" className="sr-only">
           Deals Near Me
         </h2>

@@ -88,7 +88,7 @@ export default function Search() {
             ))}
           </Tab.List>
           {/* Panels that control the view by index */}
-          <Tab.Panels className="focus:outline-none bg-gray-50">
+          <Tab.Panels className="focus:outline-none bg-gray-50 pb-8">
             <Tab.Panel className="focus:outline-none">
               {/* Search All */}
               <SearchAll

@@ -174,7 +174,7 @@ export default function BusinessDetail() {
             <div className="grid gap-2 grid-flow-row auto-rows-max border-b border-gray-200 text-sm text-gray-500 pt-2 pb-4">
               <div className="flex items-center ">
                 {typeof dispensary._source.rating !== 'undefined' &&
-                dispensary._source.rating[0] !== '' ? (
+                dispensary._source.rating[0] ? (
                   <>
                     <StarIcon
                       className={`flex-shrink-0 h-5 w-5 text-yellow-400`}
@@ -183,7 +183,7 @@ export default function BusinessDetail() {
                     <p className="p">
                       <span className="font-bold text-gray-700">
                         {parseFloat(
-                          dispensary?._source.rating[0] as string
+                          dispensary?._source.rating[0] as unknown as string
                         ).toFixed(1)}
                       </span>{' '}
                       ({dispensary._source.reviews_count} Reviews)

@@ -35,7 +35,7 @@ export default function ProductResultsSection(results: Results) {
   } = results;
 
   return (
-    <section id="results-section" className="w-full">
+    <section id="results-section" className="w-full  max-w-7xl mx-auto">
       {sponsored ? (
         <div className="flex flex-wrap items-center px-4 pt-3">
           <h5 className="text-xs text-gray-500 font-semibold pr-1">
@@ -47,7 +47,7 @@ export default function ProductResultsSection(results: Results) {
         ''
       )}
       <div className="pt-2 w-full ">
-        <div className="lg:h-auto lg:rounded-md lg:flex lg:flex-wrap  lg:w-64 flex-shrink-0">
+        <div className="lg:h-auto lg:rounded-md lg:flex lg:flex-wrap  flex-shrink-0">
           <h2 className="text-gray-700 text-lg lg:text-2xl font-semibold px-4 py-4">
             {label}
           </h2>

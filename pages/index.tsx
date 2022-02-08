@@ -88,6 +88,7 @@ export default function Home() {
 
   async function getFlower() {
     const hits: SearchHits = await browseBy('category', 'Flower', 'products');
+    console.log('HITS:::', hits);
     setFlower(hits.hits.hits);
   }
 
@@ -376,7 +377,7 @@ export default function Home() {
 
       {/* Deals Near me section */}
       {deals.length > 0 && (
-        <section className="pb-4 pt-2">
+        <section className="pb-4 pt-2  max-w-7xl mx-auto">
           <h2 id="deals-near-me" className="sr-only">
             Deals Near Me
           </h2>

@@ -123,7 +123,6 @@ export const listings: Array<Dispensary> = [
       rating: [4.5],
       reviews_count: [123],
       image: ['#'],
-      url: ['#'],
       sponsored: [false],
       lat: [39.635418],
       lon: [-76.27047],
@@ -172,7 +171,7 @@ export const listings: Array<Dispensary> = [
       rating: [4.5],
       reviews_count: [123],
       image: ['#'],
-      url: ['#'],
+
       sponsored: [false],
       lat: [39.635418],
       lon: [-76.27047],
@@ -221,7 +220,7 @@ export const listings: Array<Dispensary> = [
       rating: [4.5],
       reviews_count: [123],
       image: ['#'],
-      url: ['#'],
+
       sponsored: [false],
       lat: [39.635418],
       lon: [-76.27047],
@@ -269,7 +268,7 @@ export const listings: Array<Dispensary> = [
       rating: [4.5],
       reviews_count: [123],
       image: ['#'],
-      url: ['#'],
+
       sponsored: [false],
       lat: [39.635418],
       lon: [-76.27047],
@@ -316,7 +315,7 @@ export const listings: Array<Dispensary> = [
       rating: [4.5],
       reviews_count: [123],
       image: ['#'],
-      url: ['#'],
+
       sponsored: [false],
       lat: [39.635418],
       lon: [-76.27047],
@@ -350,7 +349,6 @@ export const strain: Strain = {
   _source: {
     id: 1430,
     created: [1635912414],
-
     image: [123],
     rating: [3.5],
     review_count: [123],
@@ -361,6 +359,7 @@ export const strain: Strain = {
     top_rated_effects: ['Aroused', 'Sleepy', 'Creative'],
     top_reported_flavors: ['Woody', 'Nutty', 'Skunk'],
     url: ['#'],
+
     langcode: ['en'],
     name: ['Fake Strain'],
     status: [true],
@@ -381,6 +380,7 @@ export const strains: Array<Strain> = [
       image: [123],
       rating: [3.5],
       featured: [false],
+      url: ['#'],
 
       review_count: [123],
 
@@ -389,7 +389,7 @@ export const strains: Array<Strain> = [
       ],
       top_rated_effects: ['Aroused', 'Sleepy', 'Creative'],
       top_reported_flavors: ['Woody', 'Nutty', 'Skunk'],
-      url: ['#'],
+
       langcode: ['en'],
       name: ['Fake Strain'],
       status: [true],
@@ -406,6 +406,7 @@ export const strains: Array<Strain> = [
       id: 1430,
       created: [1635912414],
       featured: [false],
+      url: ['#'],
 
       description: [
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.',
@@ -416,7 +417,7 @@ export const strains: Array<Strain> = [
 
       top_rated_effects: ['Aroused', 'Sleepy', 'Creative'],
       top_reported_flavors: ['Woody', 'Nutty', 'Skunk'],
-      url: ['#'],
+
       langcode: ['en'],
 
       name: ['Fake Strain'],
@@ -434,6 +435,7 @@ export const strains: Array<Strain> = [
       id: 1430,
       created: [1635912414],
       featured: [false],
+      url: ['#'],
 
       description: [
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.',
@@ -444,7 +446,7 @@ export const strains: Array<Strain> = [
 
       top_rated_effects: ['Aroused', 'Sleepy', 'Creative'],
       top_reported_flavors: ['Woody', 'Nutty', 'Skunk'],
-      url: ['#'],
+
       langcode: ['en'],
       name: ['Fake Strain'],
       status: [true],
@@ -461,7 +463,7 @@ export const strains: Array<Strain> = [
       id: 1430,
       created: [1635912414],
       featured: [false],
-
+      url: ['#'],
       description: [
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.',
       ],
@@ -471,7 +473,7 @@ export const strains: Array<Strain> = [
 
       top_rated_effects: ['Aroused', 'Sleepy', 'Creative'],
       top_reported_flavors: ['Woody', 'Nutty', 'Skunk'],
-      url: ['#'],
+
       langcode: ['en'],
       name: ['Fake Strain'],
       status: [true],

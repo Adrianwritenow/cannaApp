@@ -3,14 +3,14 @@ import 'tailwindcss/tailwind.css';
 import '@/styles/geocode.scss';
 
 import type { AppProps } from 'next/app';
-import { SessionProvider } from 'next-auth/react';
+import CookieDisclaimer from '@/components/cookieConsent';
 import Footer from '@/components/footer/Footer';
 import { Navigation } from '@/components/layouts/Navigation';
 import PrivateRoute from '@/components/PrivateRoute';
 import { Provider } from 'react-redux';
 import React from 'react';
+import { SessionProvider } from 'next-auth/react';
 import { store } from '@/store';
-import CookieDisclaimer from '@/components/cookieConsent';
 
 export default function MyApp({
   Component,
@@ -25,7 +25,7 @@ export default function MyApp({
           <>
             <Navigation>
               <PrivateRoute>
-                <div className="max-w-7xl mx-auto">
+                <div className="">
                   <Component {...pageProps} />
                 </div>
               </PrivateRoute>

@@ -90,7 +90,7 @@ export default function LearnSection(data: LearnProps) {
           passHref
         >
           <a>
-            <button className="py-4 w-full uppercase text-gray-700 text-xs font-bold border-t border-gray-200 tracking-widest lg:hidden">
+            <button className="py-4 w-full uppercase text-gray-700 text-xs font-bold border-t border-gray-200 tracking-widest">
               Learn more
             </button>
           </a>

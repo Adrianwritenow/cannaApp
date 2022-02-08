@@ -143,7 +143,7 @@ export default function Home() {
                 <polygon points="50,0 100,0 50,100 0,100" />
               </svg>
 
-              <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 bg-white">
+              <main className="mx-auto max-w-7xl px-4 sm:px-6  bg-white">
                 <div className="sm:text-center lg:text-left">
                   <div className="space-x-2 flex justify-center items-center pb-4">
                     <div>

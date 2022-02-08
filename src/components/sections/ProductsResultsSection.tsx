@@ -47,8 +47,8 @@ export default function ProductResultsSection(results: Results) {
         ''
       )}
       <div className="pt-2 w-full ">
-        <div className="lg:h-auto lg:rounded-md lg:flex lg:flex-wrap  flex-shrink-0">
-          <h2 className="text-gray-700 text-lg lg:text-2xl font-semibold px-4 py-4">
+        <div className="desktop:h-auto desktop:rounded-md desktop:flex desktop:flex-wrap  flex-shrink-0">
+          <h2 className="text-gray-700 text-lg desktop:text-2xl font-semibold px-4 py-4">
             {label}
           </h2>
         </div>
@@ -56,7 +56,7 @@ export default function ProductResultsSection(results: Results) {
           <div
             className={`${
               type === 'COUPON' ? 'pb-6' : ''
-            } grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-4 pb-4 lg:flex lg:flex-wrap `}
+            } grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-4 pb-4 desktop:flex desktop:flex-wrap `}
           >
             {list.map((data, index) => {
               if (type === 'COUPON') {

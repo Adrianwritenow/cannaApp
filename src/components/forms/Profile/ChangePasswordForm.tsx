@@ -1,30 +1,30 @@
-import * as Yup from "yup";
+import * as Yup from 'yup';
 
-import { CheckIcon, XIcon } from "@heroicons/react/outline";
-import { Field, Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
+import { CheckIcon, XIcon } from '@heroicons/react/outline';
+import { Field, Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
 
-import ErrorsDisplay from "../../error/ErrorsDisplay";
-import { InputField } from "../fields/InputField";
-import { RootState } from "../../../reducers";
-import { updateUser } from "../../../actions/user";
-import { useAxios } from "../../../hooks/useAxios";
-import { useSelector } from "react-redux";
+import ErrorsDisplay from '../../error/ErrorsDisplay';
+import { InputField } from '../fields/InputField';
+import { RootState } from '../../../reducers';
+import { updateUser } from '../../../actions/user';
+import { useAxios } from '../../../hooks/useAxios';
+import { useSelector } from 'react-redux';
 
 export default function ChangePasswordForm() {
   const [dispatchAxios, { loading, error, success }] = useAxios();
   const { currentUser } = useSelector((root: RootState) => root.user);
-  const [apiError, setApiError] = useState("");
+  const [apiError, setApiError] = useState('');
   const [status, setStatus] = useState(false);
 
   const [initialValues, setInitialValues] = useState({
-    password: "",
-    newPassword: "",
+    password: '',
+    newPassword: '',
   });
 
   const schema = Yup.object().shape({
-    password: Yup.string().required("Password is required"),
-    newPassword: Yup.string().required("New Password is required"),
+    password: Yup.string().required('Password is required'),
+    newPassword: Yup.string().required('New Password is required'),
   });
 
   useEffect(() => {
@@ -34,7 +34,7 @@ export default function ChangePasswordForm() {
   }, [initialValues, currentUser, apiError, error]);
 
   async function handleSubmit(values: any) {
-    setApiError("");
+    setApiError('');
     dispatchAxios(updateUser(currentUser.uid[0].value, values));
     setStatus(true);
   }
@@ -57,7 +57,7 @@ export default function ChangePasswordForm() {
         ));
         return (
           <Form className="bg-white shadow">
-            <div className="grid grid-cols-1 gap-y-6 sm:grid-cols-6 sm:gap-x-6 py-6 px-4 sm:px-6 lg:py-12 lg:px-8">
+            <div className="grid grid-cols-1 gap-y-6 sm:grid-cols-6 sm:gap-x-6 py-6 px-4 sm:px-6 desktop:py-12 desktop:px-8">
               <div className="sm:col-span-6">
                 <h2 className="text-xl font-medium text-gray-900">
                   Change Your Password
@@ -100,15 +100,15 @@ export default function ChangePasswordForm() {
                 />
               </div>
             ) : (
-              ""
+              ''
             )}
             <div className=" bg-gray-50  py-3 flex justify-end pr-4">
               {(error || success || errorCount) && status ? (
                 <>
                   {(error || errorCount) && (
                     <button
-                      type={"button"}
-                      onClick={(e) => {
+                      type={'button'}
+                      onClick={e => {
                         e.preventDefault();
                         setStatus(false);
                       }}
@@ -119,8 +119,8 @@ export default function ChangePasswordForm() {
                   )}
                   {success && (
                     <button
-                      type={"button"}
-                      onClick={(e) => {
+                      type={'button'}
+                      onClick={e => {
                         e.preventDefault();
                         setStatus(false);
                       }}

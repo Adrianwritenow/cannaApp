@@ -321,7 +321,7 @@ export default function SearchSlideOver(props: {
           <div className="absolute inset-0 overflow-hidden">
             <Dialog.Overlay className="absolute inset-0" />
 
-            <div className="fixed inset-y-0 right-0 max-w-full lg:max-w-2xl	flex">
+            <div className="fixed inset-y-0 right-0 max-w-full desktop:max-w-2xl	flex">
               <Transition.Child
                 as={Fragment}
                 enter="transform transition ease-in-out duration-500 sm:duration-700"
@@ -484,7 +484,7 @@ export default function SearchSlideOver(props: {
                                       </span>
                                     </button>
                                     {results.length ? (
-                                      <ul className="px-4 lg:max-w-2xl">
+                                      <ul className="px-4 desktop:max-w-2xl">
                                         {results.map(
                                           (result: any, index: number) => {
                                             switch (true) {

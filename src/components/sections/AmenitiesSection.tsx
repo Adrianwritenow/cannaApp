@@ -13,7 +13,7 @@ export default function AmenitiesSection(props: AmenitiesProps) {
       </h2>
       <h2
         id="business-amenities"
-        className="text-lg text-gray-700 font-semibold pt-3 lg:text-2xl"
+        className="text-lg text-gray-700 font-semibold pt-3 desktop:text-2xl"
       >
         Amenities
       </h2>
@@ -21,13 +21,13 @@ export default function AmenitiesSection(props: AmenitiesProps) {
       {/* General Amenities */}
 
       <div className="grid grid-flow-row auto-rows-max space-y-2">
-        <div className="border-b border-gray-200  lg:pb-4">
+        <div className="border-b border-gray-200  desktop:pb-4">
           <h3 id="business-amenities-general" className="sr-only">
             General
           </h3>
           <h3
             id="business-amenities-general"
-            className="text-sm text-green block pt-3 lg:text-lg"
+            className="text-sm text-green block pt-3 desktop:text-lg"
           >
             General
           </h3>
@@ -35,9 +35,9 @@ export default function AmenitiesSection(props: AmenitiesProps) {
             {amenities.map((amenity, index) => (
               <div
                 key={`amenity-${index}`}
-                className="lg:bg-gray-200 p-1 rounded-md "
+                className="desktop:bg-gray-200 p-1 rounded-md "
               >
-                <p className="flex flex-wrap items-center text-gray-500 py-2 px-3 text-sm lg:text-base ">
+                <p className="flex flex-wrap items-center text-gray-500 py-2 px-3 text-sm desktop:text-base ">
                   <span className="text-green">
                     <CheckIcon className="w-4 mr-2" />
                   </span>

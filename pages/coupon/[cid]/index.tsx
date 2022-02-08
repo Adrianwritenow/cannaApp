@@ -47,7 +47,7 @@ export default function CouponDetail() {
   }, [router, coupon]);
 
   return (
-    <div className="bg-gray-50 px-4 py-6 lg:max-w-7xl mx-auto">
+    <div className="bg-gray-50 px-4 py-6 desktop:max-w-7xl mx-auto">
       <section className="border-b border-gray-200 space-y-6">
         <div className="flex items-center space-x-2">
           <div className="flex justify-center items-center rounded-full overflow-hidden w-10 h-10 border border-gray-200 bg-white shadow-sm">
@@ -64,11 +64,11 @@ export default function CouponDetail() {
           {coupon?._source.title}
         </h2>
 
-        <div className="space-y-2  lg:space-y-0 lg:space-x-2 pb-6 lg:flex">
+        <div className="space-y-2  desktop:space-y-0 desktop:space-x-2 pb-6 desktop:flex">
           <button
             onClick={() => setSaved(true)}
             type="button"
-            className="w-full lg:w-auto bg-white text-green-500 hover:bg-gray-50 flex justify-center py-2 px-4 border-2 border-green-500 rounded-md shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green"
+            className="w-full desktop:w-auto bg-white text-green-500 hover:bg-gray-50 flex justify-center py-2 px-4 border-2 border-green-500 rounded-md shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green"
           >
             {!saved ? 'Save Coupon' : 'View Coupons'}
           </button>
@@ -76,7 +76,7 @@ export default function CouponDetail() {
           <button
             type="button"
             onClick={() => setRedeemed(true)}
-            className="w-full lg:w-auto bg-green text-white hover:bg-green-600 flex justify-center py-2 px-4   border-2 border-green-500 rounded-md shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green"
+            className="w-full desktop:w-auto bg-green text-white hover:bg-green-600 flex justify-center py-2 px-4   border-2 border-green-500 rounded-md shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green"
           >
             {!redeemed ? (
               'Apply Coupon to Cart'

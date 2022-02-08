@@ -63,11 +63,11 @@ export default function StrainLanding(props: { setStrains: Function }) {
             <h1 id="featured-strain-heading" className="sr-only">
               Featured Strain
             </h1>
-            <h1 className="text-gray-700 text-xl font-semibold py-4 lg:text-2xl">
+            <h1 className="text-gray-700 text-xl font-semibold py-4 desktop:text-2xl">
               Featured Strain
             </h1>
             {/* Image */}
-            <div className="lg:flex ">
+            <div className="desktop:flex ">
               <div className="w-full h-48 relative rounded-lg overflow-hidden">
                 <ImageWithFallback
                   src={'#'}
@@ -78,7 +78,7 @@ export default function StrainLanding(props: { setStrains: Function }) {
               </div>
 
               {/* Strain info */}
-              <div className="pt-4 lg:pt-0 lg:pl-4">
+              <div className="pt-4 desktop:pt-0 desktop:pl-4">
                 <h1 className="text-xl font-normal text-gray-700">
                   {featured._source.name}
                 </h1>
@@ -122,22 +122,22 @@ export default function StrainLanding(props: { setStrains: Function }) {
                 Popular Strains
               </h2>
 
-              <h2 className="text-gray-700 text-xl font-semibold py-4 lg:text-2xl">
+              <h2 className="text-gray-700 text-xl font-semibold py-4 desktop:text-2xl">
                 Popular Strains
               </h2>
               <div className="w-full overflow-x-scroll">
                 <div className="w-full">
-                  <div className="grid grid-flow-col auto-cols-max grid-rows-4 w-full gap-1 lg:flex lg:flex-wrap lg:gap-4">
+                  <div className="grid grid-flow-col auto-cols-max grid-rows-4 w-full gap-1 desktop:flex desktop:flex-wrap desktop:gap-4">
                     {popular.map((strain: Strain, index) => (
                       <>
                         <div
-                          className="w-max relative lg:hidden"
+                          className="w-max relative desktop:hidden"
                           key={`${strain}-${index}`}
                         >
                           <StrainCardSmall strain={strain} />
                         </div>
                         <div
-                          className="w-max relative hidden lg:flex"
+                          className="w-max relative hidden desktop:flex"
                           key={`${strain}-${index}`}
                         >
                           <StrainCard strain={strain} />
@@ -155,7 +155,7 @@ export default function StrainLanding(props: { setStrains: Function }) {
             <h2 id="browse-strains-type" className="sr-only">
               Browse by type
             </h2>
-            <h2 className="text-black text-xl font-semibold py-4 text-gray-700 lg:text-2xl">
+            <h2 className="text-black text-xl font-semibold py-4 text-gray-700 desktop:text-2xl">
               Browse by Type
             </h2>
             <div className="grid grid-cols-3 gap-4">
@@ -167,7 +167,7 @@ export default function StrainLanding(props: { setStrains: Function }) {
                 <div className="bg-green flex items-center justify-center rounded-lg p-4">
                   <SvgIndica className="w-20 h-20" />
                 </div>
-                <p className="text-center pt-2 text-sm text-green font-medium lg:text-base">
+                <p className="text-center pt-2 text-sm text-green font-medium desktop:text-base">
                   Indica
                 </p>
               </button>
@@ -179,7 +179,7 @@ export default function StrainLanding(props: { setStrains: Function }) {
                 <div className="bg-green flex items-center justify-center rounded-lg p-4">
                   <SvgSativa className="w-20 h-20 text-green-100" />
                 </div>
-                <p className="text-center pt-2 text-sm text-green font-medium lg:text-base">
+                <p className="text-center pt-2 text-sm text-green font-medium desktop:text-base">
                   Sativa
                 </p>
               </button>
@@ -191,7 +191,7 @@ export default function StrainLanding(props: { setStrains: Function }) {
                 <div className="bg-green flex items-center justify-center rounded-lg p-4">
                   <SvgHybrid className="w-20 h-20" />
                 </div>
-                <p className="text-center pt-2 text-sm text-green font-medium lg:text-base">
+                <p className="text-center pt-2 text-sm text-green font-medium desktop:text-base">
                   Hybrid
                 </p>
               </button>
@@ -210,7 +210,7 @@ export default function StrainLanding(props: { setStrains: Function }) {
 
             <div className="w-full overflow-x-scroll">
               <div className="w-full">
-                <div className="grid grid-flow-col auto-cols-max grid-rows-4 w-full gap-4 lg:flex lg:flex-wrap">
+                <div className="grid grid-flow-col auto-cols-max grid-rows-4 w-full gap-4 desktop:flex desktop:flex-wrap">
                   {Feelings.map((feeling: Feeling, index) => {
                     return (
                       <button
@@ -252,7 +252,7 @@ export default function StrainLanding(props: { setStrains: Function }) {
 
             <div className="w-full overflow-x-scroll">
               <div className="w-full">
-                <div className="grid grid-flow-col auto-cols-max grid-rows-3 w-full gap-4 lg:flex lg:flex-wrap">
+                <div className="grid grid-flow-col auto-cols-max grid-rows-3 w-full gap-4 desktop:flex desktop:flex-wrap">
                   {Flavors.map((flavor: Flavor, index) => {
                     return (
                       <button

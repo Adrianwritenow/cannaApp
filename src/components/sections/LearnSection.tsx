@@ -15,12 +15,12 @@ export default function LearnSection(data: LearnProps) {
     <section id="learn-section">
       <div className="pt-2 w-full">
         <div className="">
-          <h2 className="text-xl  text-gray-700 font-semibold p-4 lg:text-2xl">
+          <h2 className="text-xl  text-gray-700 font-semibold p-4 desktop:text-2xl">
             {`Learn ${query ? `"${query}"` : ''}`}
           </h2>
         </div>
 
-        <div className="lg:flex flex-wrap">
+        <div className="desktop:flex flex-wrap">
           <div className="grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-6 pb-3">
             <div
               className="rounded-lg overflow-hidden w-24 h-24 relative"
@@ -84,7 +84,7 @@ export default function LearnSection(data: LearnProps) {
         </div>
       </div>
 
-      <div className="px-4 lg:hidden">
+      <div className="px-4 desktop:hidden">
         <Link
           href={`/strain/${encodeURIComponent(strain._id as string)}`}
           passHref
@@ -96,7 +96,7 @@ export default function LearnSection(data: LearnProps) {
           </a>
         </Link>
       </div>
-      <div className="px-4 pt-2 hidden lg:block w-full flex">
+      <div className="px-4 pt-2 hidden desktop:block w-full flex">
         <Link
           href={`/strain/${encodeURIComponent(strain._id as string)}`}
           passHref

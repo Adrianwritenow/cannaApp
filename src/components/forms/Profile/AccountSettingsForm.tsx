@@ -1,27 +1,27 @@
-import * as Yup from "yup";
+import * as Yup from 'yup';
 
-import { Field, Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
+import { Field, Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
 
-import { CheckIcon } from "@heroicons/react/solid";
-import ErrorsDisplay from "../../error/ErrorsDisplay";
-import { InputField } from "../fields/InputField";
-import { RootState } from "../../../reducers";
-import { XIcon } from "@heroicons/react/outline";
-import { updateUser } from "../../../actions/user";
-import { useAxios } from "../../../hooks/useAxios";
-import { useSelector } from "react-redux";
+import { CheckIcon } from '@heroicons/react/solid';
+import ErrorsDisplay from '../../error/ErrorsDisplay';
+import { InputField } from '../fields/InputField';
+import { RootState } from '../../../reducers';
+import { XIcon } from '@heroicons/react/outline';
+import { updateUser } from '../../../actions/user';
+import { useAxios } from '../../../hooks/useAxios';
+import { useSelector } from 'react-redux';
 
 export default function AccountSettingsForm() {
   const [dispatchAxios, { loading, error, success }] = useAxios();
   const { currentUser } = useSelector((root: RootState) => root.user);
-  const [apiError, setApiError] = useState("");
+  const [apiError, setApiError] = useState('');
   const [status, setStatus] = useState(false);
 
   const [initialValues, setInitialValues] = useState({
-    name: "",
-    mail: "",
-    password: "",
+    name: '',
+    mail: '',
+    password: '',
   });
 
   const schema = Yup.object().shape({
@@ -32,13 +32,13 @@ export default function AccountSettingsForm() {
 
   useEffect(() => {
     const isEmpty = Object.values(initialValues).every(
-      (x) => x === null || x === ""
+      x => x === null || x === ''
     );
     if (isEmpty) {
       setInitialValues({
-        name: currentUser.name[0]?.value || "",
-        mail: currentUser.mail[0]?.value || "",
-        password: "",
+        name: currentUser.name[0]?.value || '',
+        mail: currentUser.mail[0]?.value || '',
+        password: '',
       });
     }
 
@@ -48,7 +48,7 @@ export default function AccountSettingsForm() {
   }, [initialValues, currentUser, apiError, error, status]);
 
   async function handleSubmit(values: any) {
-    setApiError("");
+    setApiError('');
     dispatchAxios(updateUser(currentUser.uid[0].value, values));
 
     setStatus(true);
@@ -72,7 +72,7 @@ export default function AccountSettingsForm() {
         ));
         return (
           <Form className="bg-white shadow">
-            <div className="grid grid-cols-1 gap-y-6 sm:grid-cols-6 sm:gap-x-6 py-6 px-4 sm:px-6 lg:py-12 lg:px-8">
+            <div className="grid grid-cols-1 gap-y-6 sm:grid-cols-6 sm:gap-x-6 py-6 px-4 sm:px-6 desktop:py-12 desktop:px-8">
               <div className="sm:col-span-6">
                 <p className="text-sm text-gray-500">
                   You can update your e-mail. You must use your current password
@@ -124,7 +124,7 @@ export default function AccountSettingsForm() {
                 />
               </div>
             ) : (
-              ""
+              ''
             )}
             <div className=" bg-gray-50  py-3 flex justify-end pr-4">
               {(error || success || errorCount) && status ? (
@@ -132,7 +132,7 @@ export default function AccountSettingsForm() {
                   {(error || errorCount) && (
                     <button
                       type="button"
-                      onClick={(e) => {
+                      onClick={e => {
                         e.preventDefault();
                         setStatus(false);
                       }}
@@ -144,7 +144,7 @@ export default function AccountSettingsForm() {
                   {success && (
                     <button
                       type="button"
-                      onClick={(e) => {
+                      onClick={e => {
                         e.preventDefault();
                         setStatus(false);
                       }}

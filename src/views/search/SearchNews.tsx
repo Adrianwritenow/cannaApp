@@ -52,12 +52,12 @@ export default function SearchNews(props: { query: string }) {
                   <span
                     id={`${index}`}
                     key={`article-${index}`}
-                    className="lg:hidden"
+                    className="desktop:hidden"
                   >
                     <BlogArticleSmall post={post} />
                   </span>
                 ))}
-                <div className="hidden lg:flex flex-wrap gap-4">
+                <div className="hidden desktop:flex flex-wrap gap-4">
                   {blogs.map((post: Post, index) => (
                     <span
                       id={`${index}`}

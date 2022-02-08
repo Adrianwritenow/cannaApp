@@ -57,7 +57,7 @@ export default function ProductDetail() {
       {/* Product */}
 
       {product && (
-        <div className="lg:grid grid-cols-6 lg:gap-8">
+        <div className="desktop:grid grid-cols-6 desktop:gap-8">
           {/* Image gallery */}
           {/* <ImageSlider images={[]} /> */}
           <div className="relative w-full pb-auto col-span-2">

@@ -78,14 +78,9 @@ export default function SearchDeals() {
     <div className="bg-gray-50">
       <section className="pb-20 pt-2 max-w-7xl mx-auto">
         <h2 id="deals-near-me" className="sr-only">
-          Deals Near Me
+          Deals
         </h2>
-        <h2
-          id="deals-near-me"
-          className="text-gray-700 text-lg font-semibold px-4 py-4"
-        >
-          Deals Near Me
-        </h2>
+
         <div className="overflow-visible overflow-scroll border-b border-gray-200 mb-5 mx-4">
           <Tab.Group onChange={handleChangeFilter}>
             <Tab.List className="w-full overflow-visible overflow-x-scroll border-b border-gray-200 flex">
@@ -100,7 +95,7 @@ export default function SearchDeals() {
                     }  whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm w-auto focus:outline-none`
                   }
                 >
-                  {filter}
+                  <span className="px-4">{filter}</span>
                 </Tab>
               ))}
             </Tab.List>

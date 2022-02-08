@@ -22,7 +22,7 @@ export default function BlogArticle({ post }: { post: Post }) {
     <div className="relative  bg-white overflow-hidden">
       {renderHtml ? (
         <>
-          <div className="relative px-4 sm:px-6 lg:px-8">
+          <div className="relative px-4 sm:px-6 desktop:px-8">
             <div className="text-lg max-w-prose mx-auto">
               <h1>
                 <span className="mt-2 block font-serif text-4xl leading-10  text-green-500 text-5xl">

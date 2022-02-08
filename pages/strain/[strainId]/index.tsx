@@ -49,7 +49,7 @@ export default function StrainDetail() {
 
   return (
     <div className="bg-gray-50 max-w-7xl mx-auto">
-      <div className="lg:grid grid-cols-6 lg:gap-8">
+      <div className="desktop:grid grid-cols-6 desktop:gap-8">
         <div className="w-full pb-auto relative col-span-2">
           <ImageWithFallback
             src={strain?._source?.image ? strain._source.image[0] : 'undefined'}

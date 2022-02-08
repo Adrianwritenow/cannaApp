@@ -15,17 +15,17 @@ export default function ResultsStrain(data: ResultsProps) {
   return (
     <div className="max-w-7xl mx-auto">
       <div>
-        <h2 className="text-xl text-gray-700 font-semibold p-4  lg:text-2xl">
+        <h2 className="text-xl text-gray-700 font-semibold p-4  desktop:text-2xl">
           {`${strains.length} Results for ${query}`}
         </h2>
         {view === 'list' ? (
-          <div className=" grid grid-flow-row auto-rows-max lg:flex lg:flex-wrap lg:gap-4">
+          <div className=" grid grid-flow-row auto-rows-max desktop:flex desktop:flex-wrap desktop:gap-4">
             {strains.map((strain: Strain) => (
               <div key={`strain-card-${strain._id}`}>
-                <div className="lg:hidden">
+                <div className="desktop:hidden">
                   <StrainCardSmall strain={strain} />
                 </div>
-                <div className="w-64 hidden lg:block">
+                <div className="w-64 hidden desktop:block">
                   <StrainCard strain={strain} />
                 </div>
               </div>

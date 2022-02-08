@@ -157,7 +157,7 @@ export default function NavBar() {
                               </a>
                             </Link>
 
-                            <div className="hidden lg:block lg:ml-6">
+                            <div className="hidden desktop:block desktop:ml-6">
                               <div className="flex space-x-4 text-sm">
                                 {Object.entries(HeaderRoutes).map(
                                   ([key, value], index) => {
@@ -289,7 +289,7 @@ export default function NavBar() {
             </Formik>
           </div>
 
-          <Disclosure.Panel className="lg:hidden ">
+          <Disclosure.Panel className="desktop:hidden ">
             <div className="pt-2 pb-3 space-y-1">
               {Object.entries(HeaderRoutes).map(([key, value], index) => {
                 const href = value.href;

@@ -25,7 +25,7 @@ function BlogArticleSmall({ post }: { post: Post }) {
           </p>
         </div>
         <div className=" col-span-1 ">
-          <div className="relative flex justify-end w-20 h-20 lg:w-32 lg:h-32 ml-auto">
+          <div className="relative flex justify-end w-20 h-20 desktop:w-32 desktop:h-32 ml-auto">
             <Link href={`/blog/${encodeURIComponent(post._id)}`} passHref>
               <a>
                 <ImageWithFallback

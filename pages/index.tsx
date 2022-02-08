@@ -129,10 +129,10 @@ export default function Home() {
     <div className="space-y-2">
       {/* Search/Map Section Desktop*/}
 
-      <div className="bg-white overflow-hidden hidden lg:inline">
+      <div className="bg-white overflow-hidden hidden desktop:inline">
         <div className="w-full h-min relative bg-white">
           <div className="max-w-7xl mx-auto">
-            <div className="relative bg-white pb-8 lg:max-w-2xl lg:w-full py-20 z-10">
+            <div className="relative bg-white pb-8 desktop:max-w-2xl desktop:w-full py-20 z-10">
               <svg
                 className="block absolute right-0 inset-y-0 h-full w-48 text-white transform translate-x-1/2 text-white z-0"
                 fill="currentColor"
@@ -144,7 +144,7 @@ export default function Home() {
               </svg>
 
               <main className="mx-auto max-w-7xl px-4 sm:px-6  bg-white">
-                <div className="sm:text-center lg:text-left">
+                <div className="sm:text-center desktop:text-left">
                   <div className="space-x-2 flex justify-center items-center pb-4">
                     <div>
                       <Image
@@ -261,7 +261,7 @@ export default function Home() {
         </div>
       </div>
       {/* Search/Map Section Mobile */}
-      <section className="lg:hidden relative pt-16 lg:max-w-4xl lg:rounded-md  lg:mx-auto lg:shadow-md mx-auto">
+      <section className="desktop:hidden relative pt-16 desktop:max-w-4xl desktop:rounded-md  desktop:mx-auto desktop:shadow-md mx-auto">
         <Image src={Map} alt="Map" layout="fill" objectFit={'cover'} />
         <Link href="/map" passHref>
           <a className="absolute z-10 flex rounded-full bg-gray-50 shadow p-0.5 right-0 top-0 mt-2 mr-4 focus:outline-none">
@@ -382,11 +382,11 @@ export default function Home() {
           </h2>
           <h2
             id="deals-near-me"
-            className="text-gray-700 text-lg lg:text-2xl  font-semibold px-4 py-4"
+            className="text-gray-700 text-lg desktop:text-2xl  font-semibold px-4 py-4"
           >
             Deals Near Me
           </h2>
-          <div className="grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-4 pb-4 lg:flex lg:flex-wrap lg:gap-4">
+          <div className="grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-4 pb-4 desktop:flex desktop:flex-wrap desktop:gap-4">
             {deals.map((listing, index) => {
               return (
                 <div className="w-64 h-min" key={`lc-${listing._id}-${index}`}>
@@ -395,7 +395,7 @@ export default function Home() {
               );
             })}
           </div>
-          <div className="px-4 pt-2 lg:hidden">
+          <div className="px-4 pt-2 desktop:hidden">
             <Link
               href={{ pathname: '/search', query: { view: 'deals' } }}
               passHref
@@ -407,7 +407,7 @@ export default function Home() {
               </a>
             </Link>
           </div>
-          <div className="px-4 pt-2 hidden lg:block w-full flex">
+          <div className="px-4 pt-2 hidden desktop:block w-full flex">
             <Link
               href={{ pathname: '/search', query: { view: 'deals' } }}
               passHref
@@ -432,19 +432,19 @@ export default function Home() {
       )}
 
       {/* Featured Destinations */}
-      <section className="pt-2  w-full g:mx-auto max-w-7xl mx-auto lg:border-b-2 border-gray-200 pb-6">
-        <div className="lg:h-auto justify-center flex-shrink-0">
+      <section className="pt-2  w-full g:mx-auto max-w-7xl mx-auto desktop:border-b-2 border-gray-200 pb-6">
+        <div className="desktop:h-auto justify-center flex-shrink-0">
           <h2 id="featured-destinations" className="sr-only">
             Featured Destinations
           </h2>
           <h2
             id="featured-destinations"
-            className="text-gray-700 text-lg lg:text-2xl font-semibold px-4 py-4"
+            className="text-gray-700 text-lg desktop:text-2xl font-semibold px-4 py-4"
           >
             Featured Destinations
           </h2>
         </div>
-        <div className="grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-4 lg:flex lg:flex-wrap">
+        <div className="grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-4 desktop:flex desktop:flex-wrap">
           {destinations.map((location, index) => (
             <div key={`fd-${index}`}>
               <div className="w-36 flex relative">
@@ -475,20 +475,20 @@ export default function Home() {
       </section>
 
       {/* New Locations nearby */}
-      <section className="pt-2  w-full max-w-7xl mx-auto lg:border-b-2 border-gray-200 pb-6 ">
+      <section className="pt-2  w-full max-w-7xl mx-auto desktop:border-b-2 border-gray-200 pb-6 ">
         <div className="justify-center  flex-shrink-0">
           <h2 id="locations-near-me" className="sr-only">
             New Locations Nearby
           </h2>
           <h2
             id="locations-near-me"
-            className="text-gray-700 text-lg lg:text-2xl font-semibold px-4 py-4"
+            className="text-gray-700 text-lg desktop:text-2xl font-semibold px-4 py-4"
           >
             New Locations Nearby
           </h2>
         </div>
         {nearby && (
-          <div className="grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-4 lg:flex lg:flex-wrap ">
+          <div className="grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-4 desktop:flex desktop:flex-wrap ">
             {nearby.map((listing, index) => (
               <div className="w-64" key={`lc-${listing._id}-${index}`}>
                 <ListingCard {...formatDispensaryCard(listing)} />
@@ -499,14 +499,14 @@ export default function Home() {
       </section>
 
       {/* Flower Near me section */}
-      <div className=" w-full overflow-scroll max-w-7xl mx-auto lg:border-b-2 border-gray-200 pb-6">
+      <div className=" w-full overflow-scroll max-w-7xl mx-auto desktop:border-b-2 border-gray-200 pb-6">
         <ProductResultsSection
           list={flower as Product[]}
           sponsored={false}
           label={`Shop Flower near ${location.city}`}
           // link={'/search?category=Flower&view=shopping'}
         />
-        <div className="px-4 pt-2 lg:hidden">
+        <div className="px-4 pt-2 desktop:hidden">
           <Link
             href={{
               pathname: '/search?category=Flower&view=shopping',
@@ -521,7 +521,7 @@ export default function Home() {
             </a>
           </Link>
         </div>
-        <div className="px-4 pt-2 hidden lg:block w-full flex">
+        <div className="px-4 pt-2 hidden desktop:block w-full flex">
           <Link
             href={{
               pathname: '/search',
@@ -541,26 +541,26 @@ export default function Home() {
 
       {/* News Section */}
       {blogs && (
-        <section className="pt-2  w-full  lg:mx-auto max-w-7xl  lg:border-b-2 border-gray-200 pb-6">
-          <div className="lg:h-auto lg:rounded-md  flex-shrink-0">
+        <section className="pt-2  w-full  desktop:mx-auto max-w-7xl  desktop:border-b-2 border-gray-200 pb-6">
+          <div className="desktop:h-auto desktop:rounded-md  flex-shrink-0">
             <h2 id="blogs" className="sr-only">
               Dispatches from the Highlands
             </h2>
             <h2
               id="blogs"
-              className="text-gray-700 text-lg lg:text-2xl font-semibold px-4 py-4"
+              className="text-gray-700 text-lg desktop:text-2xl font-semibold px-4 py-4"
             >
               Dispatches from the Highlands
             </h2>
           </div>
-          <div className="grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-4 lg:flex lg:flex-wrap">
+          <div className="grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-4 desktop:flex desktop:flex-wrap">
             {blogs.map((post: Post, index) => (
               <div id={`${index}`} key={`article-${index}`} className="w-64">
                 <BlogArticleCardSlide post={post} />
               </div>
             ))}
           </div>
-          <div className="lg:hidden block p-4">
+          <div className="desktop:hidden block p-4">
             {blogs.map((post: Post, index) => (
               <div
                 id={`${index}`}
@@ -571,7 +571,7 @@ export default function Home() {
               </div>
             ))}
           </div>
-          <div className="px-4 pt-2 lg:hidden">
+          <div className="px-4 pt-2 desktop:hidden">
             <Link href="/blog" passHref>
               <a>
                 <button className="py-4 w-full uppercase text-gray-700 text-xs  text-green-500 font-bold border-t border-gray-200 tracking-widest">
@@ -580,7 +580,7 @@ export default function Home() {
               </a>
             </Link>
           </div>
-          <div className="px-4 pt-2 hidden lg:block w-full flex">
+          <div className="px-4 pt-2 hidden desktop:block w-full flex">
             <Link href="/blog" passHref>
               <a className="flex hover:animate-ping  w-full">
                 <button className="py-4 uppercase text-green-500 text-sm font-semibold tracking-widest flex justify-center items-center ml-auto">
@@ -594,21 +594,21 @@ export default function Home() {
       )}
 
       {/* Print Publication Mobile*/}
-      <section className="pb-4 pt-2  w-full lg:hidden">
+      <section className="pb-4 pt-2  w-full desktop:hidden">
         <h2 id="publications" className="sr-only">
           Subscribe to our Print Publication
         </h2>
         <h2
           id="publications"
-          className="text-gray-700 text-lg lg:text-2xl font-semibold px-4 py-4"
+          className="text-gray-700 text-lg desktop:text-2xl font-semibold px-4 py-4"
         >
           Subscribe to our Print Publication
         </h2>
         <div className="grid grid-flow-col auto-cols-max grid-flow-auto gap-2 overflow-scroll pl-4 pb-4">
           {publications.map((publication, index) => (
             <div key={`lc-${index}`} className="col-span-1">
-              <div className="w-36 lg:w-48 flex relative">
-                <div className="w-full h-48 lg:h-64 rounded-md overflow-hidden">
+              <div className="w-36 desktop:w-48 flex relative">
+                <div className="w-full h-48 desktop:h-64 rounded-md overflow-hidden">
                   <Image
                     src={publication.imgSrc}
                     alt={publication.label}
@@ -631,7 +631,7 @@ export default function Home() {
       </section>
       {/* Print Publication Desktop*/}
 
-      <section className=" w-full relative overflow-hidden hidden lg:block">
+      <section className=" w-full relative overflow-hidden hidden desktop:block">
         <div className="max-w-7xl mx-auto w-full grid grid-flow-col gap-2">
           <div className="z-10 relative mt-auto w-full h-full">
             <div className="absolute bottom-0 right-0 p-4  h-3/5 w-full flex flex-wrap jutify-center items-center">
@@ -671,9 +671,9 @@ export default function Home() {
       </section>
 
       {/* Start Growing your Business */}
-      <div className="lg:py-16">
-        <section className="p-4 bg-gray-800 lg:max-w-7xl lg:rounded-md mx-auto lg:grid lg:grid lg:grid-flow-col gap-4 lg:shadow-md">
-          <div className="w-full pb-full lg:h-64 lg:w-64 rounded-md relative overflow-hidden mb-5 lg:mb-0 ">
+      <div className="desktop:py-16">
+        <section className="p-4 bg-gray-800 desktop:max-w-7xl desktop:rounded-md mx-auto desktop:grid desktop:grid desktop:grid-flow-col gap-4 desktop:shadow-md">
+          <div className="w-full pb-full desktop:h-64 desktop:w-64 rounded-md relative overflow-hidden mb-5 desktop:mb-0 ">
             <Image
               src={ClaimBusiness}
               alt={'Claim Business'}
@@ -683,10 +683,10 @@ export default function Home() {
           </div>
 
           <div className="p-4 w-auto">
-            <h2 className="text-green-100 text-2xl lg:text-4xl font-bold pb-2.5">
+            <h2 className="text-green-100 text-2xl desktop:text-4xl font-bold pb-2.5">
               Start Growing Your Business
             </h2>
-            <p className="text-lg lg:text-2xl text-white pb-6 whitespace-normal">
+            <p className="text-lg desktop:text-2xl text-white pb-6 whitespace-normal">
               People are looking for businesses just like yours. Claim and
               manage your listing on Cannapages and make it easier for people to
               find you.

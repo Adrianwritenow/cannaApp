@@ -1,13 +1,14 @@
 import * as Yup from 'yup';
+
 import { Field, Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
 
 import { InputField } from '@/components/forms/fields/InputField';
-import { getField } from '@/helpers/getField';
 import SelectDropdown from '@/components/forms/fields/SelectDropdown';
+import { getField } from '@/helpers/getField';
 import { updateUser } from '@/actions/user';
-import { useCurrentUser } from '@/hooks/user';
 import { useAxios } from '@/hooks/useAxios';
+import { useCurrentUser } from '@/hooks/user';
 
 export default function UpdatePersonalForm() {
   const [initialValues, setInitialValues] = useState({
@@ -77,7 +78,7 @@ export default function UpdatePersonalForm() {
       {({ values, handleBlur, handleChange, setFieldValue }) => {
         return (
           <Form className="bg-white shadow">
-            <div className="grid grid-cols-1 gap-y-6 sm:grid-cols-6 sm:gap-x-6 py-6 px-4 sm:px-6 lg:py-12 lg:px-8">
+            <div className="grid grid-cols-1 gap-y-6 sm:grid-cols-6 sm:gap-x-6 py-6 px-4 sm:px-6 desktop:py-12 desktop:px-8">
               <div className="sm:col-span-6">
                 <h2 className="text-xl font-medium text-gray-900">
                   Personal info

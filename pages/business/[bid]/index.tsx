@@ -108,9 +108,9 @@ export default function BusinessDetail() {
 
   return dispensary ? (
     <div className="bg-gray-50">
-      <div className="max-w-7xl flex flex-wrap relative lg:flex-nowrap mx-auto lg:rounded-md overflow-hidden lg:shadow-md">
+      <div className="max-w-7xl flex flex-wrap relative desktop:flex-nowrap mx-auto desktop:rounded-md overflow-hidden desktop:shadow-md">
         {dispensary && (
-          <div className="w-full h-64 lg:w-64 relative">
+          <div className="w-full h-64 desktop:w-64 relative">
             <ImageWithFallback
               src={`${process.env.API_URL}${
                 typeof dispensary._source.image === 'undefined'
@@ -126,11 +126,11 @@ export default function BusinessDetail() {
 
             <button
               onClick={() => router.back()}
-              className="bg-white rounded-full  absolute w-10 h-10 flex items-center justify-center left-0 top-0 z-30 m-4 lg:hidden"
+              className="bg-white rounded-full  absolute w-10 h-10 flex items-center justify-center left-0 top-0 z-30 m-4 desktop:hidden"
             >
               <ArrowLeftIcon className="text-gray-700 w-4" />
             </button>
-            <div className="absolute flex space-x-6 right-0 top-0 z-30 m-4 lg:hidden">
+            <div className="absolute flex space-x-6 right-0 top-0 z-30 m-4 desktop:hidden">
               {/****** Need saving favorites working ******/}
               {/* <button
             onClick={() => router.back()}
@@ -145,7 +145,7 @@ export default function BusinessDetail() {
           </div>
         )}
 
-        <div className="absolute  space-x-6 right-0 top-0 z-30 m-4 hidden lg:flex">
+        <div className="absolute  space-x-6 right-0 top-0 z-30 m-4 hidden desktop:flex">
           <button
             onClick={() => router.back()}
             className="bg-white rounded-full  w-10 h-10 flex items-center justify-center flex shadow-md hover:bg-green-100 transition duration-150 ease-in-out "
@@ -163,7 +163,7 @@ export default function BusinessDetail() {
             <SocialShare iconStyles="text-gray-700 w-4" />
           </div>
         </div>
-        <div className="p-4 pb-0 shadow-md  lg:shadow-none pb-2 w-full">
+        <div className="p-4 pb-0 shadow-md  desktop:shadow-none pb-2 w-full">
           <section aria-labelledby="business-heading">
             <h2 id="business-heading" className="sr-only">
               {dispensary._source.name}
@@ -203,11 +203,11 @@ export default function BusinessDetail() {
                   <p>{distanceFrom ? distanceFrom : null}les away</p>
                 ) : null}
               </div>
-              <div className="flex justify-between lg:block ">
+              <div className="flex justify-between desktop:block ">
                 {typeof dispensary?._source !== 'undefined' && (
                   <OpenIndicator dispensary={dispensary} />
                 )}
-                <div className="flex lg:pt-2">
+                <div className="flex desktop:pt-2">
                   <Link href="#business-hours" passHref>
                     <a className="flex">
                       <InformationCircleIcon className=" w-5 h-5 stroke-2 mr-1" />
@@ -223,7 +223,7 @@ export default function BusinessDetail() {
                 className="text-gray-500 flex flex-wrap justify-center py-2"
               >
                 <PhoneIcon className="w-6 h-6" />
-                <span className="w-full text-center text-xs lg:text-base">
+                <span className="w-full text-center text-xs desktop:text-base">
                   Call
                 </span>
               </a>
@@ -240,7 +240,7 @@ export default function BusinessDetail() {
                 className="text-gray-500 flex flex-wrap justify-center py-2"
               >
                 <MapIcon className="w-6 h-6 " />
-                <span className="w-full text-center text-xs lg:text-base">
+                <span className="w-full text-center text-xs desktop:text-base">
                   Directions
                 </span>
               </a>
@@ -252,7 +252,7 @@ export default function BusinessDetail() {
                   className="text-gray-500 flex flex-wrap justify-center py-2"
                 >
                   <GlobeIcon className="w-6 h-6 " />
-                  <span className="w-full text-center text-xs lg:text-base">
+                  <span className="w-full text-center text-xs desktop:text-base">
                     Website
                   </span>
                 </a>
@@ -260,7 +260,7 @@ export default function BusinessDetail() {
               <Link href="#reviews-section" passHref>
                 <a className="text-gray-500 flex flex-wrap justify-center py-2">
                   <StarIconOutline className="w-6 h-6 " />
-                  <span className="w-full text-center text-xs lg:text-base">
+                  <span className="w-full text-center text-xs desktop:text-base">
                     Review
                   </span>
                 </a>
@@ -269,24 +269,24 @@ export default function BusinessDetail() {
           </section>
         </div>
       </div>
-      <div className="py-4 lg:max-w-7xl mx-auto">
+      <div className="py-4 desktop:max-w-7xl mx-auto">
         <BusinessMenuSlideOver
           dispensary={dispensary}
           active={view === 'menu' ? true : false}
           setView={setView}
         />
       </div>
-      <div className="space-y-4 px-4 lg:max-w-7xl mx-auto">
+      <div className="space-y-4 px-4 desktop:max-w-7xl mx-auto">
         {/* <AboutUsSlideOver dispensary={dispensary} /> */}
         {dispensary?._source.licenses && (
           <BusinessVerificationSlideOver dispensary={dispensary} />
         )}
       </div>
-      <div className="space-y-4 px-4 lg:max-w-7xl mx-auto lg:grid grid-cols-2 gap-8 lg:items-end">
+      <div className="space-y-4 px-4 desktop:max-w-7xl mx-auto desktop:grid grid-cols-2 gap-8 desktop:items-end">
         {/* Map */}
-        <section className="pt-10 lg:pt-0 pb-4 lg:pb-0s">
+        <section className="pt-10 desktop:pt-0 pb-4 desktop:pb-0s">
           <h2 className="sr-only">Location</h2>
-          <h2 className="text-lg text-gray-700 font-semibold pb-4 pt-1 w-full border-b border-gray-200 pb-2 hidden lg:flex text-2xl">
+          <h2 className="text-lg text-gray-700 font-semibold pb-4 pt-1 w-full border-b border-gray-200 pb-2 hidden desktop:flex text-2xl">
             Location
           </h2>
 
@@ -300,10 +300,10 @@ export default function BusinessDetail() {
           </div>
 
           <div className="text-lg text-gray-500 w-full grid grid-flow-row auto-rows-max gap-2">
-            <h2 className="text-lg text-gray-700 font-semibold pt-3 lg:hidden">
+            <h2 className="text-lg text-gray-700 font-semibold pt-3 desktop:hidden">
               Location
             </h2>
-            <p className="text-gray-700 w-full lg:mt-4">
+            <p className="text-gray-700 w-full desktop:mt-4">
               {dispensary._source.address_line1[0]}
               <br />
               {dispensary._source.locality[0]},{' '}
@@ -312,7 +312,7 @@ export default function BusinessDetail() {
             </p>
             {/* <p>{listing.distance} away</p> */}
           </div>
-          <div className="pt-5 w-full flex justify-center lg:hidden">
+          <div className="pt-5 w-full flex justify-center desktop:hidden">
             <a
               href={`https://www.google.com/maps/dir/?api=1&destination=${
                 dispensary._source.name
@@ -328,7 +328,7 @@ export default function BusinessDetail() {
               <span>Get Directions</span>
             </a>
           </div>
-          <div className="ml-auto hidden lg:flex items-center hidden lg:flex mt-4">
+          <div className="ml-auto hidden desktop:flex items-center hidden desktop:flex mt-4">
             <a
               className="  p-4  rounded-md bg-green-100 w-max  text-green-600 text-sm font-semibold border-gray-200"
               href={`https://www.google.com/maps/dir/?api=1&destination=${
@@ -410,7 +410,7 @@ export default function BusinessDetail() {
           </h2>
           <h2
             id="business-hours"
-            className="text-lg text-gray-700 font-semibold pb-4 pt-1 w-full border-b border-gray-200 lg:text-2xl"
+            className="text-lg text-gray-700 font-semibold pb-4 pt-1 w-full border-b border-gray-200 desktop:text-2xl"
           >
             Opening Hours
           </h2>{' '}
@@ -513,36 +513,36 @@ export default function BusinessDetail() {
         <BusinessReviewSlideOver dispensary={dispensary} reviews={reviews} />
       </div> */}
       {dispensary?._source.amenities && (
-        <div className="px-4 lg:max-w-7xl mx-auto">
+        <div className="px-4 desktop:max-w-7xl mx-auto">
           <AmenitiesSection
             amenities={dispensary._source.amenities as string[]}
           />
         </div>
       )}
       {/* Also Viewed */}
-      <section className="max-w-7xl pb-4 pt-2  w-full lg:flex  lg:mx-auto">
+      <section className="max-w-7xl pb-4 pt-2  w-full desktop:flex  desktop:mx-auto">
         <h2 id="related-businesses" className="sr-only">
           People Also Viewed
         </h2>
         <h2
           id="related-businesses"
-          className="text-gray-700 text-lg font-semibold px-4 pb-5 lg:hidden"
+          className="text-gray-700 text-lg font-semibold px-4 pb-5 desktop:hidden"
         >
           People Also Viewed
         </h2>
-        <div className="lg:h-auto lg:rounded-md lg:bg-green-100 lg:flex lg:flex-wrap  lg:w-64 flex-shrink-0	">
+        <div className="desktop:h-auto desktop:rounded-md desktop:bg-green-100 desktop:flex desktop:flex-wrap  desktop:w-64 flex-shrink-0	">
           <h2 id="deals-near-me" className="sr-only">
             People Also Viewed
           </h2>
           <h2
             id="deals-near-me"
-            className="text-gray-700 text-lg lg:text-2xl  font-semibold px-4 py-4"
+            className="text-gray-700 text-lg desktop:text-2xl  font-semibold px-4 py-4"
           >
             People Also Viewed
           </h2>
         </div>
         {viewed && (
-          <div className="grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-4 lg:flex lg:flex-wrap">
+          <div className="grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-4 desktop:flex desktop:flex-wrap">
             {/* location  Based*/}
             {viewed.map((listing, index) => (
               <div className="w-64" key={`lc-${listing._id}-${index}`}>

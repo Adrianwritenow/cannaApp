@@ -35,15 +35,15 @@ export default function FilterNewsMenu(props: FilterMenuProps) {
         <div className="absolute inset-0 overflow-hidden">
           <Dialog.Overlay className="absolute inset-0" />
 
-          <div className="fixed inset-y-0 right-0 max-w-full flex lg:max-w-2xl">
+          <div className="fixed inset-y-0 right-0 max-w-full flex desktop:max-w-2xl">
             <Transition.Child
               as={Fragment}
               enter="transform transition ease-in-out duration-500 sm:duration-700"
-              enterFrom="-translate-x-full lg:translate-x-full"
+              enterFrom="-translate-x-full desktop:translate-x-full"
               enterTo="translate-x-0"
               leave="transform transition ease-in-out duration-500 sm:duration-700"
               leaveFrom="translate-x-0"
-              leaveTo="-translate-x-full lg:translate-x-full"
+              leaveTo="-translate-x-full desktop:translate-x-full"
             >
               <div className="w-screen z-50">
                 <div className="h-full flex flex-col pt-6 bg-gray-50 overflow-y-scroll">

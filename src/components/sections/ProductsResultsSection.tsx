@@ -45,53 +45,11 @@ export default function ProductResultsSection(results: Results) {
       ) : (
         ''
       )}
-      <div className="pt-2 w-full lg:flex lg:mx-auto">
-        <div className="lg:h-auto lg:rounded-md lg:bg-green-100 lg:flex lg:flex-wrap  lg:w-64 flex-shrink-0">
+      <div className="pt-2 w-full ">
+        <div className="lg:h-auto lg:rounded-md lg:flex lg:flex-wrap  lg:w-64 flex-shrink-0">
           <h2 className="text-gray-700 text-lg lg:text-2xl font-semibold px-4 py-4">
             {label}
           </h2>
-          {hideButton || sponsored ? (
-            ''
-          ) : (
-            <div className="flex justify-center">
-              {link ? (
-                <div className="px-4 pt-2 hidden lg:block mt-auto">
-                  <Link
-                    href={{ pathname: link, query: { view: 'deals' } }}
-                    passHref
-                  >
-                    <a className="flex w-full">
-                      <button className="py-4 w-full uppercase text-green-500 text-sm font-semibold tracking-widest flex justify-center items-center">
-                        {buttonLabel ? buttonLabel : <span>See more</span>}
-                        <ArrowRightIcon className="ml-2 w-4 h-4" />
-                      </button>
-                    </a>
-                  </Link>
-                </div>
-              ) : (
-                <div className="px-4 pt-2 hidden lg:block mt-auto">
-                  <Link
-                    href={{ pathname: link, query: { view: 'deals' } }}
-                    passHref
-                  >
-                    <a className="flex w-full">
-                      <button
-                        className="py-4 w-full uppercase text-green-500 text-sm font-semibold tracking-widest flex justify-center items-center"
-                        onClick={() => {
-                          if (stateFunction) {
-                            stateFunction(true);
-                          }
-                        }}
-                      >
-                        {buttonLabel ? buttonLabel : <span>See more</span>}
-                        <ArrowRightIcon className="ml-2 w-4 h-4" />
-                      </button>
-                    </a>
-                  </Link>
-                </div>
-              )}
-            </div>
-          )}
         </div>
         {list && (
           <div
@@ -127,8 +85,8 @@ export default function ProductResultsSection(results: Results) {
         {hideButton || sponsored ? (
           ''
         ) : (
-          <div className={'px-4 lg:hidden'}>
-            {link ? (
+          <div className={'px-4'}>
+            {link && (
               <Link href={link} passHref>
                 <a>
                   <button
@@ -143,7 +101,8 @@ export default function ProductResultsSection(results: Results) {
                   </button>
                 </a>
               </Link>
-            ) : (
+            )}
+            {stateFunction && (
               <button
                 className="py-4 w-full uppercase text-green-500 text-xs font-semibold border-t border-gray-200 tracking-widest"
                 onClick={() => {

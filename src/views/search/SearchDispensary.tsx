@@ -65,7 +65,7 @@ export default function SearchDispensary(props: {
     <div className="bg-gray-50">
       <DispenaryFilterSlideOver setFilters={handleFilter} />
       <div>
-        {dispenaries ? (
+        {dispenaries?.length ? (
           <div>
             <ListingSection
               listings={dispenaries}

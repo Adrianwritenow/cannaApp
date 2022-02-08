@@ -10,7 +10,9 @@ export default function ProductResultsGrid(props: ResultsProps) {
   return (
     <div>
       <div>
-        <h2 className="text-xl text-gray-700 font-semibold py-4">{label}</h2>
+        <h2 className="text-xl text-gray-700 font-semibold py-4 lg:text-2xl">
+          {label}
+        </h2>
 
         <div className=" grid grid-cols-2 gap-4 lg:flex lg:flex-wrap ">
           {list.map((product: Product, index) => (

@@ -1,8 +1,8 @@
 export default function DeliveryReturns() {
   return (
     <div className="max-w-7xl mx-auto py-24">
-      <div className="hidden lg:block lg:absolute lg:inset-y-0 lg:h-full lg:w-full"></div>
-      <div className="relative px-4 sm:px-6 lg:px-8">
+      <div className="hidden desktop:block desktop:absolute desktop:inset-y-0 desktop:h-full desktop:w-full"></div>
+      <div className="relative px-4 sm:px-6 desktop:px-8">
         <div className="text-lg mx-auto prose">
           <h1>
             <span className="block text-base text-start text-green-600 font-semibold tracking-wide uppercase">
@@ -15,11 +15,11 @@ export default function DeliveryReturns() {
         </div>
         <div className="mt-6 prose prose-green prose-lg text-gray-500 mx-auto">
           <p>
-            Faucibus commodo massa rhoncus, volutpat. <strong>Dignissim</strong>{" "}
+            Faucibus commodo massa rhoncus, volutpat. <strong>Dignissim</strong>{' '}
             sed <strong>eget risus enim</strong>. Mattis mauris semper sed amet
             vitae sed turpis id. Id dolor praesent donec est. Odio penatibus
             risus viverra tellus varius sit neque erat velit. Faucibus commodo
-            massa rhoncus, volutpat. Dignissim sed eget risus enim.{" "}
+            massa rhoncus, volutpat. Dignissim sed eget risus enim.{' '}
             <a href="#">Mattis mauris semper</a> sed amet vitae sed turpis id.
           </p>
           <ul role="list">
@@ -37,7 +37,7 @@ export default function DeliveryReturns() {
             elit interdum dignissim.
           </p>
         </div>
-        <div className="relative px-4 pt-16 sm:px-6 lg:px-8">
+        <div className="relative px-4 pt-16 sm:px-6 desktop:px-8">
           <div className="text-lg mx-auto prose">
             <h1>
               <span className="block text-base text-start text-green-600 font-semibold tracking-wide uppercase">

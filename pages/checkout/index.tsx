@@ -44,10 +44,10 @@ export default function Checkout() {
   );
 
   return (
-    <div className="max-w-7xl mx-auto py-24  px-6 lg:px-8">
+    <div className="max-w-7xl mx-auto py-24  px-6 desktop:px-8">
       <h2 className="sr-only">Checkout</h2>
 
-      <form className="lg:grid lg:grid-cols-2 lg:gap-x-12 xl:gap-x-16">
+      <form className="desktop:grid desktop:grid-cols-2 desktop:gap-x-12 xl:gap-x-16">
         <div>
           <div>
             <h2 className="text-lg font-medium text-gray-900">
@@ -444,7 +444,7 @@ export default function Checkout() {
         </div>
 
         {/* Order summary */}
-        <div className="mt-10 lg:mt-0 h-full">
+        <div className="mt-10 desktop:mt-0 h-full">
           <StickyBox offsetTop={20}>
             <h2 className="text-lg font-medium text-gray-900">Order summary</h2>
 

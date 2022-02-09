@@ -1,16 +1,16 @@
-import Image from "next/image";
+import Image from 'next/image';
 
 /* This example requires Tailwind CSS v2.0+ */
 const products = [
   {
     id: 1,
-    name: "Basic Tee",
-    href: "#",
-    price: "$36.00",
-    color: "Charcoal",
-    size: "L",
+    name: 'Basic Tee',
+    href: '#',
+    price: '$36.00',
+    color: 'Charcoal',
+    size: 'L',
     imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/confirmation-page-06-product-01.jpg",
+      'https://tailwindui.com/img/ecommerce-images/confirmation-page-06-product-01.jpg',
     imageAlt: "Model wearing men's charcoal basic tee in large.",
   },
   // More products...
@@ -18,10 +18,10 @@ const products = [
 
 export default function Confirmation() {
   return (
-    <main className="max-w-7xl mx-auto py-24  px-6 lg:px-8">
+    <main className="max-w-7xl mx-auto py-24  px-6 desktop:px-8">
       <div>
         <div className="mx-auto6 px-4 ">
-          <div className="lg:col-start-2">
+          <div className="desktop:col-start-2">
             <h1 className="text-sm font-medium text-green-600">
               Payment successful
             </h1>
@@ -42,7 +42,7 @@ export default function Confirmation() {
               role="list"
               className="mt-6 text-sm font-medium text-gray-500 border-t border-gray-200 divide-y divide-gray-200"
             >
-              {products.map((product) => (
+              {products.map(product => (
                 <li key={product.id} className="flex py-6 space-x-6">
                   <div className="flex-none w-24 h-24 bg-gray-100 rounded-md object-center relative overflow-hidden">
                     <Image

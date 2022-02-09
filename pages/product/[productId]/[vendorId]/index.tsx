@@ -1,25 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import {
-  faqs,
-  listings,
-  products,
-  reviews,
-} from '../../../../src/helpers/mockData';
+import { faqs, listings, products, reviews } from '@/helpers/mockData';
 
 import { ArrowRightIcon } from '@heroicons/react/solid';
-import ClothingProduct from '../../../../src/views/search/product/ClothingProduct';
+import ClothingProduct from '@/views/search/product/ClothingProduct';
 import { Dispensary } from '@/interfaces/dispensary';
 import FaqSlideOver from '@/views/slideOver/FaqSlideOver';
-import FlowerProduct from '../../../../src/views/search/product/FlowerProduct';
-import GeneralProduct from '../../../../src/views/search/product/GeneralProduct';
-import ImageSlider from '../../../../src/components/slider/ImageSlider';
+import FlowerProduct from '@/views/search/product/FlowerProduct';
+import GeneralProduct from '@/views/search/product/GeneralProduct';
+import ImageSlider from '@/components/slider/ImageSlider';
 import ImageWithFallback from '@/components/image/ImageWithFallback';
 import Link from 'next/link';
-import { Product } from '../../../../src/interfaces/product';
-import ProductResultsSection from '../../../../src/components/sections/ProductsResultsSection';
+import { Product } from '@/interfaces/product';
+import ProductResultsSection from '@/components/sections/ProductsResultsSection';
 import ProductReviewsSlideOver from '@/views/slideOver/product/ProductReviewSlideOver';
 import { RootState } from '@/reducers';
-import { getDocument } from '../../../../src/actions/search';
+import { formatImageWithFallback } from '@/helpers/formatters';
+import { getDocument } from '@/actions/search';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 
@@ -75,11 +71,7 @@ function ProductDetailXVendor() {
           {/* <ImageSlider images={[]} /> */}
           <div className="relative w-full pb-full">
             <ImageWithFallback
-              src={`${
-                product._source.image[0].includes('image_missing')
-                  ? '#'
-                  : product._source.image[0]
-              }`}
+              src={formatImageWithFallback(product._source.image)}
               alt={product._source?.name[0]}
               layout="fill"
               objectFit={'cover'}

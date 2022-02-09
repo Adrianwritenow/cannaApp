@@ -11,11 +11,6 @@ module.exports = {
 
   darkMode: false, // or 'media' or 'class'
   theme: {
-    screens: {
-      tablet: '640px',
-      desktop: '1024px',
-      print: { raw: 'print' },
-    },
     textIndent: (theme, { negative }) => ({
       ...{
         sm: '2rem',
@@ -87,6 +82,11 @@ module.exports = {
       fontFamily: {
         sans: ['Inter'],
         serif: ['Corben'],
+      },
+      screens: {
+        tablet: '640px',
+        desktop: '1024px',
+        print: { raw: 'print' },
       },
     },
   },

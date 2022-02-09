@@ -1,9 +1,9 @@
 import { AxiosError, AxiosResponse } from 'axios';
-import bodybuilder from 'bodybuilder';
 
 import { combinedQueryBody } from '@/helpers/searchQuery';
 import { IAxiosAction } from '@/interfaces/axios';
 import { SearchHits } from '@/interfaces/searchHits';
+import bodybuilder from 'bodybuilder';
 
 var axios = require('axios');
 const SEARCH_URL = process.env.SEARCH_URL;

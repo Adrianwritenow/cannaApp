@@ -12,7 +12,7 @@ export default function StrainCard(data: StrainProps) {
 
   return (
     <Link href={`/strain/${strain._source.id}`} passHref>
-      <a>
+      <a className="flex w-min">
         <div
           key={strain._id}
           className="relative w-full flex flex-wrap min-w-36"
@@ -30,7 +30,7 @@ export default function StrainCard(data: StrainProps) {
             />
           </div>
           <div className="pt-2 pb-6 text-left text-sm">
-            <h3 className="text-sm font-normal text-gray-700">
+            <h3 className="text-sm font-normal text-gray-700 line-clamp-1">
               {strain._source?.name}
             </h3>
             <div className="flex flex-col items-start">
@@ -65,7 +65,9 @@ export default function StrainCard(data: StrainProps) {
                   )
                 </p>
               </div>
-              <p className="text-sm text-gray-500">{strain._source?.type}</p>
+              <p className="text-sm text-gray-500 capitalize">
+                {strain._source?.type}
+              </p>
             </div>
           </div>
         </div>

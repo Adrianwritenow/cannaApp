@@ -10,28 +10,43 @@ export default function BusinessVerificationSlideOver(
   const { dispensary } = props;
   const [open, setOpen] = useState(false);
   return (
-    <section>
-      <h2 id="business-verified" className="sr-only">
-        Verified License
-      </h2>
-      <h2
-        id="business-verified"
-        className="text-lg text-gray-700 font-semibold py-2"
-      >
-        Verified License
-      </h2>
-      <div className="w-full grid grid-cols-5">
-        <div className="col-span-4">
-          <p>
-            CannaPages has verified this businsess posesses a valid trade
-            licesnse.
-          </p>
+    <section className="max-w-7xl desktop:rounded-md desktop:bg-gray-50 mx-auto desktop:p-4 desktop:rounded-md relative">
+      <div className="desktop:flex">
+        <div className="hidden desktop:flex my-auto">
+          <BadgeCheckIcon className="text-green w-full w-20 h-20" />
         </div>
-        <div className="col-span-1">
-          <BadgeCheckIcon className="text-green w-full" />
+        <div>
+          <h2 id="business-verified" className="sr-only">
+            Verified License
+          </h2>
+          <h2
+            id="business-verified"
+            className="text-lg text-gray-700 font-semibold py-2 desktop:text-2xl"
+          >
+            Verified License
+          </h2>
+          <div className="w-full grid grid-cols-5">
+            <div className="col-span-4 desktop:col-span-5">
+              <p>
+                CannaPages has verified this business possesses a valid trade
+                license.
+              </p>
+            </div>
+            <div className="col-span-1 desktop:hidden">
+              <BadgeCheckIcon className="text-green w-full" />
+            </div>
+          </div>
+        </div>
+        <div className="ml-auto hidden desktop:flex items-center">
+          <button
+            className="  p-4  rounded-md bg-green-100 w-max  text-green-600 text-sm font-semibold border-gray-200"
+            onClick={() => setOpen(true)}
+          >
+            <span>See license information</span>
+          </button>
         </div>
       </div>
-      <div className="pt-5">
+      <div className="pt-5 desktop:hidden">
         <button
           onClick={() => setOpen(true)}
           className="py-4 w-full uppercase text-green text-xs font-semibold border-t border-gray-200 tracking-widest"
@@ -39,6 +54,7 @@ export default function BusinessVerificationSlideOver(
           See license information
         </button>
       </div>
+
       <Transition.Root show={open} as={Fragment}>
         <Dialog
           as="div"
@@ -48,7 +64,7 @@ export default function BusinessVerificationSlideOver(
           <div className="absolute inset-0 overflow-hidden">
             <Dialog.Overlay className="absolute inset-0" />
 
-            <div className="fixed inset-y-0 right-0 max-w-full flex">
+            <div className="fixed inset-y-0 right-0 max-w-full flex  desktop:max-w-2xl ">
               <Transition.Child
                 as={Fragment}
                 enter="transform transition ease-in-out duration-500 sm:duration-700"

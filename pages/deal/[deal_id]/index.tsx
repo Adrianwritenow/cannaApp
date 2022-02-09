@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
-
 import { formatDealCard, formatProductCard } from '@/helpers/formatters';
 import { getDocument, getDocuments } from '@/actions/search';
+import { useEffect, useState } from 'react';
+
 import { IAxiosReturn } from '@/interfaces/axios';
 import ImageWithFallback from '@/components/image/ImageWithFallback';
 import ListingCard from '@/components/listings/ListingCard';
@@ -54,7 +54,7 @@ export default function DealOverview() {
 
   return (
     <div className="bg-gray-50">
-      <div className="grid grid-cols-1 tablet:grid-cols-2 tablet:gap-20 px-4 py-10">
+      <div className="grid grid-cols-1 tablet:grid-cols-2 tablet:gap-20 px-4 py-10 max-w-7xl mx-auto ">
         {/* Left Column */}
         <section aria-labelledby="dispensary-information-grouping">
           <div className="w-full h-36 tablet:h-80 relative mb-2">
@@ -80,10 +80,15 @@ export default function DealOverview() {
                 </div>
                 <div>
                   <p className="font-bold">{deal.name}</p>
-                  {deal.rating &&
-                    <StarRating rating={deal.rating} reviews_count={deal.reviews_count} />
-                  }
-                  <p className="text-sm text-gray-500 font-normal">{deal.city}, {deal.state}</p>
+                  {deal.rating && (
+                    <StarRating
+                      rating={deal.rating}
+                      reviews_count={deal.reviews_count}
+                    />
+                  )}
+                  <p className="text-sm text-gray-500 font-normal">
+                    {deal.city}, {deal.state}
+                  </p>
                 </div>
               </div>
             </div>
@@ -93,7 +98,9 @@ export default function DealOverview() {
         {/* Right Column */}
         <section aria-labelledby="deal-information-grouping">
           <section aria-labelledby="deal-information">
-            <div className="sr-only"><h1>Product information</h1></div>
+            <div className="sr-only">
+              <h1>Product information</h1>
+            </div>
             <h1 className="text-lg font-normal tracking-tight text-gray-900">
               {deal.title}
             </h1>
@@ -101,14 +108,17 @@ export default function DealOverview() {
             {/* Reviews */}
             <h3 className="sr-only">Reviews</h3>
             <div className="flex items-center">
-              {typeof deal.rating !== 'undefined' &&
-                <StarRating rating={deal.rating} reviews_count={deal.reviews_count} />
-              }
+              {typeof deal.rating !== 'undefined' && (
+                <StarRating
+                  rating={deal.rating}
+                  reviews_count={deal.reviews_count}
+                />
+              )}
             </div>
 
             <div className="print:hidden">
               <button
-                onClick={(e) => window.print()}
+                onClick={e => window.print()}
                 className="w-full bg-green-500 text-white hover:bg-green-600 flex justify-center py-2 px-4 mt-5 border border-green rounded-md shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green"
               >
                 Print Coupon
@@ -135,7 +145,7 @@ export default function DealOverview() {
                 </p>
               </div>
 
-              {products && products.length > 0 &&
+              {products && products.length > 0 && (
                 <div className="pt-6">
                   <h2 className="text-gray-700 text-lg font-semibold">
                     Applies To
@@ -151,18 +161,19 @@ export default function DealOverview() {
                     ))}
                   </div>
                 </div>
-              }
+              )}
             </div>
             <div className="py-6">
               <p className="text-lg">How to Apply Deal?</p>
               <p className="text-sm text-gray-700 pt-2">
-                You may print out a copy or just show it to the budtender from your mobile screen.
+                You may print out a copy or just show it to the budtender from
+                your mobile screen.
               </p>
             </div>
           </section>
 
           {/* Hours of Operation */}
-          {deal.hours &&
+          {deal.hours && (
             <section className="pt-6 pb-12 print:hidden">
               <h2 id="business-hours" className="sr-only">
                 Opening Hours
@@ -197,7 +208,7 @@ export default function DealOverview() {
                 </p>
               </div>
             </section>
-          }
+          )}
         </section>
       </div>
     </div>

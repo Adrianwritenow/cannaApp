@@ -52,10 +52,9 @@ export default function SearchShopping(props: { query: string }) {
   return (
     <section className="bg-gray/-50">
       <ProductFilterSlideOver setFilters={handleFilter} />
-
       <div>
         {products.length ? (
-          <>
+          <div className="max-w-7xl mx-auto">
             <ProductResultsSection
               list={products}
               sponsored={true}
@@ -70,7 +69,7 @@ export default function SearchShopping(props: { query: string }) {
                 list={products}
               />
             </div>
-          </>
+          </div>
         ) : (
           <div className="w-full flex items-center  flex-wrap justify-center h-full space-y-4 py-14">
             <SvgEmptyState className="w-40 h-40" />

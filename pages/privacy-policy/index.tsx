@@ -1,7 +1,7 @@
 export default function PrivacyPolicy() {
   return (
     <div className="max-w-7xl mx-auto py-12 bg-white">
-      <div className="relative px-4 sm:px-6 lg:px-8">
+      <div className="relative px-4 sm:px-6 desktop:px-8">
         <div className="text-lg mx-auto prose">
           <h1 className="flex-wrap flex">
             <span className="block text-base text-start text-green-600 font-semibold tracking-wide uppercase">

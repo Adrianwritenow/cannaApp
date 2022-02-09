@@ -1,5 +1,3 @@
-import React, { useEffect } from 'react';
-
 import LearnSection from '@/components/sections/LearnSection';
 import ListingSection from '@/components/sections/ListingSection';
 import ProductResultsSection from '@/components/sections/ProductsResultsSection';
@@ -8,6 +6,7 @@ import { RootState } from '@/reducers';
 import SvgEmptyState from '@/public/assets/icons/iconComponents/EmptyState';
 import { searchMulti } from '@/actions/search';
 import { useAxios } from '@/hooks/useAxios';
+import { useEffect } from 'react';
 import { useSearchLocation } from '@/hooks/useSearchLocation';
 import { useSelector } from 'react-redux';
 
@@ -30,7 +29,7 @@ export default function SearchAll(props: {
         coords: location[1] ? location[1] : undefined,
         endpoints: [
           { name: 'products' },
-          { name: 'dispenaries', geolocate: true },
+          { name: 'dispensaries', geolocate: true },
           { name: 'strains' },
         ],
         total: 10,
@@ -40,7 +39,7 @@ export default function SearchAll(props: {
   }, []);
 
   return (
-    <div className="bg-gray-50">
+    <div className="bg-gray-50 max-w-7xl mx-auto">
       {/* Shop Query Section */}
       {listResults && (
         <>
@@ -62,7 +61,9 @@ export default function SearchAll(props: {
                 <>
                   <LearnSection strain={listResults.strains[0]} query={query} />
                   {/* Related Strains Secrtion */}
-                  <RelatedStrainsSection strains={listResults.strains} />
+                  <RelatedStrainsSection
+                    strains={listResults.strains.slice(0, 5)}
+                  />
                 </>
               ) : (
                 ''
@@ -89,7 +90,7 @@ export default function SearchAll(props: {
               )}
             </>
           ) : (
-            <div className="w-full flex items-center  flex-wrap justify-center h-full space-y-4 py-14">
+            <div className="w-full flex items-center flex-wrap justify-center h-full space-y-4 py-14">
               <SvgEmptyState className="w-40 h-40" />
               {loading ? (
                 <div className="w-full space-y-3">

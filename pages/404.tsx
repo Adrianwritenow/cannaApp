@@ -1,6 +1,6 @@
 export default function Custom404() {
   return (
-    <div className="bg-white min-h-screen px-4 py-16 sm:px-6 sm:py-24 md:grid md:place-items-center lg:px-8">
+    <div className="bg-white min-h-screen px-4 py-16 sm:px-6 sm:py-24 md:grid md:place-items-center desktop:px-8">
       <div className="max-w-max mx-auto">
         <main className="sm:flex">
           <p className="text-4xl font-extrabold text-green-600 sm:text-5xl">

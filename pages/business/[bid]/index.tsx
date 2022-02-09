@@ -6,11 +6,7 @@ import {
   PhoneIcon,
   StarIcon as StarIconOutline,
 } from '@heroicons/react/outline';
-import {
-  IconFacebook,
-  IconInsta,
-  Sativa,
-} from '@/public/assets/icons/iconComponents';
+import { IconFacebook, IconInsta } from '@/public/assets/icons/iconComponents';
 import React, { useEffect, useState } from 'react';
 import { combinedSearchQuery, getDocument } from '@/actions/search';
 
@@ -124,7 +120,7 @@ export default function BusinessDetail() {
 
           <button
             onClick={() => router.back()}
-            className="bg-white rounded-full shadow-sm absolute w-10 h-10 flex items-center justify-center left-0 top-0 z-30 m-4"
+            className="bg-white rounded-full shadow-sm absolute w-10 h-10 flex items-center justify-center left-0 top-0 z-5 m-4"
           >
             <ArrowLeftIcon className="text-gray-700 w-4" />
           </button>
@@ -239,11 +235,7 @@ export default function BusinessDetail() {
         </section>
       </div>
       <div className="py-4">
-        <BusinessMenuSlideOver
-          dispensary={dispensary}
-          active={view === 'menu' ? true : false}
-          setView={setView}
-        />
+        <BusinessMenuSlideOver dispensary={dispensary} />
       </div>
       <div className="space-y-4 px-4">
         <AboutUsSlideOver dispensary={dispensary} />

@@ -1,9 +1,9 @@
-import { formatImageWithFallback } from '@/helpers/formatters';
 import ImageWithFallback from '../image/ImageWithFallback';
 import Link from 'next/link';
 import { Product } from '@/interfaces/product';
 import React from 'react';
 import StarRating from '@/components/rating/StarRating';
+import { formatImageWithFallback } from '@/helpers/formatters';
 
 interface ProductProps {
   product: Product;
@@ -11,7 +11,6 @@ interface ProductProps {
 
 export default function BusinessProductCard(data: ProductProps) {
   const { product } = data;
-
   return (
     <Link href="/product/entity%3Aproduct_entity%2F101%3Aen/0" passHref>
       <a>
@@ -24,7 +23,9 @@ export default function BusinessProductCard(data: ProductProps) {
               {product._source.name[0]}
             </h3>
             <p className=" text-base font-semibold text-gray-700">
-              ${product._source.price[0]}
+              {product._source.price
+                ? `$${product._source.price[0]}`
+                : 'Unknown'}
             </p>
 
             <div className="flex flex-col items-start">

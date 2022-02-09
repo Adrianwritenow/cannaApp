@@ -1,45 +1,50 @@
 import { Dialog, Transition } from '@headlessui/react';
 import React, { Fragment, useEffect, useState } from 'react';
+import { combinedSearchQuery, getBusinessProducts } from '@/actions/search';
 
 import { ArrowLeftIcon } from '@heroicons/react/outline';
 import { BusinessSlideoverProps } from '@/interfaces/props/businessSlideOverProps';
+import { Dispensary } from '@/interfaces/dispensary';
 import FilterMenuTabs from '../../../components/filter/FilterMenuTabs';
 import { Product } from '@/interfaces/product';
 import ProductResultsSection from '../../../components/sections/ProductsResultsSection';
-import { combinedSearchQuery } from '@/actions/search';
 
-export default function BusinessMenuSlideOver(props: BusinessSlideoverProps) {
+export default function BusinessMenuSlideOver(props: {
+  dispensary: Dispensary;
+}) {
   const { dispensary } = props;
   const [open, setOpen] = useState(false);
   const [products, setProducts] = useState<Array<Product>>([]);
-  const [update, setUpdate] = useState(true);
 
   useEffect(() => {
-    if (update) {
+    if (!products.length) {
       getProducts();
     }
-  }, [update]);
+  }, [products]);
 
   async function getProducts() {
-    const hits: any = await combinedSearchQuery({
-      q: '*',
-      endpoints: ['products'],
-      total: 10,
-    });
-    setProducts(hits);
-    setUpdate(false);
+    const product_ids = dispensary._source.products;
+
+    if (product_ids?.length) {
+      const hits: any = await getBusinessProducts(product_ids);
+      setProducts(hits.hits.hits);
+    }
   }
+
+  console.log(products);
 
   return (
     <div>
       {/* Need Products related to business */}
-      <ProductResultsSection
-        list={products}
-        sponsored={false}
-        label={'Explore our Products'}
-        buttonLabel={'See all Products'}
-        stateFunction={setOpen}
-      />
+      {products.length && (
+        <ProductResultsSection
+          list={products.slice(0, 5)}
+          sponsored={false}
+          label={'Explore our Products'}
+          buttonLabel={'See all Products'}
+          stateFunction={setOpen}
+        />
+      )}
       <Transition.Root show={open} as={Fragment}>
         <Dialog
           as="div"

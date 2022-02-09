@@ -1,8 +1,8 @@
 import { AxiosError, AxiosResponse } from 'axios';
-import bodybuilder from 'bodybuilder';
 
 import { IAxiosAction } from '@/interfaces/axios';
 import { SearchHits } from '@/interfaces/searchHits';
+import bodybuilder from 'bodybuilder';
 
 var axios = require('axios');
 const SEARCH_URL = process.env.SEARCH_URL;
@@ -233,6 +233,28 @@ export function browseBy(
 
   const results = axios({
     url: `${SEARCH_URL}/elasticsearch_index_${SEARCH_INDEX_PREFIX}_${index}/_search?size=15`,
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: query,
+  })
+    .then((res: AxiosResponse) => {
+      return res.data;
+    })
+    .catch((error: AxiosError) => {
+      // dispatch must come before setState
+      console.log('ERR:::', error);
+    });
+  return results;
+}
+
+export function getBusinessProducts(products: number[]) {
+  var body = bodybuilder().query('terms', 'id', products);
+  const query = body.build();
+
+  const results = axios({
+    url: `${SEARCH_URL}/elasticsearch_index_${SEARCH_INDEX_PREFIX}_products/_search`,
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

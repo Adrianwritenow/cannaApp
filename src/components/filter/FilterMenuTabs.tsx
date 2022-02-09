@@ -20,7 +20,14 @@ export default function FilterMenuTabs(props: FilterMenuTabsProps) {
   const [pricing, setPricing] = useState('On Sale');
   const [view, setView] = useState(0);
 
-  const tabs = ['Deals', 'Flower', 'Concentrates', 'Edibles', 'Topicals'];
+  const tabs = [
+    'All',
+    'Deals',
+    'Flower',
+    'Concentrates',
+    'Edibles',
+    'Topicals',
+  ];
   const initialValues = {
     filters: {
       types: [],
@@ -63,6 +70,7 @@ export default function FilterMenuTabs(props: FilterMenuTabsProps) {
     setFilterTabs(filter_array);
   }, [savedValues, open, values]);
 
+  console.log(products);
   return (
     <div>
       <Formik
@@ -170,6 +178,28 @@ export default function FilterMenuTabs(props: FilterMenuTabsProps) {
                   <div>
                     {/* Panels that control the view by index */}
                     <Tab.Panels className="focus:outline-none px-4">
+                      <Tab.Panel className="focus:outline-none">
+                        <section className="py-2">
+                          <h2 id="business-all" className="sr-only">
+                            All
+                          </h2>
+                          <div className="flex items-center pb-1">
+                            <h2
+                              id="business-all"
+                              className="text-2xl text-gray-700 font-semibold py-2"
+                            >
+                              All
+                            </h2>
+                          </div>
+
+                          {products.map((product: Product, index) => (
+                            <BusinessProductCard
+                              product={product}
+                              key={`pc-${index}`}
+                            />
+                          ))}
+                        </section>
+                      </Tab.Panel>
                       <Tab.Panel className="focus:outline-none">
                         <section className="py-2">
                           <h2 id="business-deals" className="sr-only">

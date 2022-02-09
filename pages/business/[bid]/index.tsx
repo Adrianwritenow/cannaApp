@@ -124,7 +124,7 @@ export default function BusinessDetail() {
           >
             <ArrowLeftIcon className="text-gray-700 w-4" />
           </button>
-          <div className="absolute flex space-x-6 right-0 top-0 z-30 m-4">
+          <div className="absolute flex space-x-6 right-0 top-0 z-5 m-4">
             {/****** Need saving favorites working ******/}
             {/* <button
             onClick={() => router.back()}

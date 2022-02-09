@@ -18,7 +18,7 @@ export default function SearchDispensary(props: {
 }) {
   const { query, userCoords } = props;
 
-  const [dispenaries, setDispenaries] = useState<Array<Dispensary>>();
+  const [dispensaries, setdispensaries] = useState<Array<Dispensary>>();
   const [update, setUpdate] = useState(true);
   const router = useRouter();
   const { category } = router.query;
@@ -47,10 +47,10 @@ export default function SearchDispensary(props: {
       filters: filterData,
       distance: range,
       coords: { lat: location.lat, lon: location.lon },
-      endpoints: ['dispenaries'],
+      endpoints: ['dispensaries'],
       total: 10,
     });
-    setDispenaries(hits);
+    setdispensaries(hits);
     setUpdate(false);
     setCurrentQuery(query);
   }
@@ -64,10 +64,10 @@ export default function SearchDispensary(props: {
     <div className="bg-gray-50">
       <DispenaryFilterSlideOver setFilters={handleFilter} />
       <div>
-        {dispenaries?.length ? (
+        {dispensaries?.length ? (
           <div>
             <ListingSection
-              listings={dispenaries}
+              listings={dispensaries}
               query={query}
               userCoords={{ lat: userCoords.lat, lon: userCoords.lon }}
             />

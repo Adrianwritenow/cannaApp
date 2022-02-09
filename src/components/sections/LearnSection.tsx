@@ -1,8 +1,8 @@
 import { ArrowRightIcon } from '@heroicons/react/solid';
-import Image from 'next/image';
-import ImageWithFallback from '../image/ImageWithFallback';
+import ImageWithFallback from '@/components/image/ImageWithFallback';
 import Link from 'next/link';
 import { Strain } from '@/interfaces/strain';
+import { formatImageWithFallback } from '@/helpers/formatters';
 
 interface LearnProps {
   strain: Strain;
@@ -27,7 +27,7 @@ export default function LearnSection(data: LearnProps) {
               key={`image-placeholder`}
             >
               <ImageWithFallback
-                src={'/'}
+                src={formatImageWithFallback(strain._source.image)}
                 alt={strain._source.name}
                 layout="fill"
                 objectFit={'cover'}
@@ -85,10 +85,7 @@ export default function LearnSection(data: LearnProps) {
       </div>
 
       <div className="px-4 desktop:hidden">
-        <Link
-          href={`/strain/${encodeURIComponent(strain._id as string)}`}
-          passHref
-        >
+        <Link href={`/strain/${strain._source.id}`} passHref>
           <a>
             <button className="py-4 w-full uppercase text-gray-700 text-xs font-bold border-t border-gray-200 tracking-widest">
               Learn more
@@ -97,10 +94,7 @@ export default function LearnSection(data: LearnProps) {
         </Link>
       </div>
       <div className="px-4 pt-2 hidden desktop:block w-full flex">
-        <Link
-          href={`/strain/${encodeURIComponent(strain._id as string)}`}
-          passHref
-        >
+        <Link href={`/strain/${strain._source.id}`} passHref>
           <a className="flex hover:animate-ping  w-full">
             <button className="py-4 uppercase text-green-500 text-sm font-semibold tracking-widest flex justify-center items-center ml-auto">
               <span>Learn more</span>

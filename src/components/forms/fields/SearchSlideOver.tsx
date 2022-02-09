@@ -7,8 +7,8 @@ import {
 import { Dialog, Transition } from '@headlessui/react';
 import { Field, Form, Formik } from 'formik';
 import React, { Fragment, useEffect, useRef, useState } from 'react';
-import { receiveResults, searchMulti } from '@/actions/search';
 import { getLocationByIP, setLocation } from '@/actions/location';
+import { receiveResults, searchMulti } from '@/actions/search';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Image from 'next/image';
@@ -184,7 +184,7 @@ export default function SearchSlideOver(props: {
         endpoints: [
           { name: 'products' },
           { name: 'coupons', geolocate: true },
-          { name: 'dispenaries', geolocate: true },
+          { name: 'dispensaries', geolocate: true },
           { name: 'strains' },
           { name: 'blogs' },
         ],

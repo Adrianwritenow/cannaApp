@@ -349,7 +349,7 @@ export const strain: Strain = {
   _source: {
     id: 1430,
     created: [1635912414],
-    image: [123],
+    image: ['123'],
     rating: [3.5],
     review_count: [123],
     description: [
@@ -377,7 +377,7 @@ export const strains: Array<Strain> = [
     _source: {
       id: 1430,
       created: [1635912414],
-      image: [123],
+      image: ['123'],
       rating: [3.5],
       featured: [false],
       url: ['#'],
@@ -411,7 +411,7 @@ export const strains: Array<Strain> = [
       description: [
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.',
       ],
-      image: [123],
+      image: ['123'],
       rating: [3.5],
       review_count: [123],
 
@@ -440,7 +440,7 @@ export const strains: Array<Strain> = [
       description: [
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.',
       ],
-      image: [123],
+      image: ['123'],
       rating: [3.5],
       review_count: [123],
 
@@ -467,7 +467,7 @@ export const strains: Array<Strain> = [
       description: [
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.',
       ],
-      image: [123],
+      image: ['123'],
       rating: [3.5],
       review_count: [123],
 

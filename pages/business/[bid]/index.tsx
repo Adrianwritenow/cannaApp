@@ -50,7 +50,7 @@ export default function BusinessDetail() {
   let today = moment.tz(timezone).format('dddd');
 
   useEffect(() => {
-    getDocument(bid, 'dispenaries').then((document: SearchHits) => {
+    getDocument(bid, 'dispensaries').then((document: SearchHits) => {
       if (document) {
         const result = document.hits.hits[0];
         setDispensary(result as Dispensary);
@@ -91,7 +91,7 @@ export default function BusinessDetail() {
 
     async function getDispensaryResults() {
       const hits: any = await combinedSearchQuery({
-        endpoints: ['dispenaries'],
+        endpoints: ['dispensaries'],
         total: 4,
         coords: { lat: location.lat, lon: location.lon },
       });

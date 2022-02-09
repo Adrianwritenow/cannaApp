@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { browseBy, getDocument } from '../../../src/actions/search';
+import { browseBy, getDocument } from '@/actions/search';
 
-import AboutSlideOver from '../../../src/components/products/AboutSlideOver';
-import FaqSlideOver from '../../../src/views/slideOver/FaqSlideOver';
-import ImageSlider from '../../../src/components/slider/ImageSlider';
+import AboutSlideOver from '@/components/products/AboutSlideOver';
+import FaqSlideOver from '@/views/slideOver/FaqSlideOver';
+import ImageSlider from '@/components/slider/ImageSlider';
 import ImageWithFallback from '@/components/image/ImageWithFallback';
 import { Product } from '@/interfaces/product';
 import ProductResultsSection from '@/components/sections/ProductsResultsSection';
 import ProductReviewsSlideOver from '@/views/slideOver/product/ProductReviewSlideOver';
 import { SearchHits } from '@/interfaces/searchHits';
 import { StarIcon } from '@heroicons/react/solid';
+import StarRating from '@/components/rating/StarRating';
 import { formatImageWithFallback } from '@/helpers/formatters';
 import { useRouter } from 'next/router';
 
@@ -60,7 +61,7 @@ export default function ProductDetail() {
         <div className="desktop:grid grid-cols-6 desktop:gap-8">
           {/* Image gallery */}
           {/* <ImageSlider images={[]} /> */}
-          <div className="relative w-full pb-auto col-span-2">
+          <div className="relative w-full pb-full lg:pb-0 col-span-2">
             <ImageWithFallback
               src={formatImageWithFallback(product._source.image)}
               alt={product._source?.name[0]}
@@ -89,24 +90,9 @@ export default function ProductDetail() {
                 <h3 className="sr-only">Reviews</h3>
                 <div className="flex items-center">
                   <div className="flex items-center">
-                    <span className="font-normal text-gray-500 mr-1">
-                      {product?._source.rating ? product?._source.rating : 0}
-                    </span>
-                    {[0, 1, 2, 3, 4].map(rating => (
-                      <StarIcon
-                        key={rating}
-                        className={`${
-                          product._source?.rating
-                            ? product._source?.rating[0]
-                            : 0 > rating
-                            ? 'text-yellow-400'
-                            : 'text-gray-200'
-                        }
-                        'h-3.5 w-3.5 flex-shrink-0'
-                      `}
-                        aria-hidden="true"
-                      />
-                    ))}
+                    {product?._source?.rating && (
+                      <StarRating rating={product?._source?.rating[0]} />
+                    )}
                     <span className="font-normal text-gray-500">
                       (
                       {product._source.reviews_count

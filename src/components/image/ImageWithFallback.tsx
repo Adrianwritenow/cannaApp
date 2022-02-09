@@ -16,10 +16,11 @@ const ImageWithFallback = (props: any) => {
           onError={() => {
             setImgStatus(fallbackSrc);
           }}
+          className="w-full h-full"
           alt={alt}
         />
       ) : (
-        <div className="absolute w-full relative h-full bg-gray-200 z-0">
+        <div className="absolute w-full  h-full bg-gray-200 z-0">
           <Sativa fill="black" opacity={0.2} className="w-full h-full" />
         </div>
       )}

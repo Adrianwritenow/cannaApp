@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import LearnSection from '@/components/sections/LearnSection';
 import ListingSection from '@/components/sections/ListingSection';
 import ProductResultsSection from '@/components/sections/ProductsResultsSection';
@@ -7,6 +6,7 @@ import { RootState } from '@/reducers';
 import SvgEmptyState from '@/public/assets/icons/iconComponents/EmptyState';
 import { searchMulti } from '@/actions/search';
 import { useAxios } from '@/hooks/useAxios';
+import { useEffect } from 'react';
 import { useSearchLocation } from '@/hooks/useSearchLocation';
 import { useSelector } from 'react-redux';
 
@@ -29,7 +29,7 @@ export default function SearchAll(props: {
         coords: location[1] ? location[1] : undefined,
         endpoints: [
           { name: 'products' },
-          { name: 'dispenaries', geolocate: true },
+          { name: 'dispensaries', geolocate: true },
           { name: 'strains' },
         ],
         total: 10,

@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 
 import ImageWithFallback from '@/components/image/ImageWithFallback';
-import ProductResultsSection from '../../../src/components/sections/ProductsResultsSection';
+import ProductResultsSection from '@/components/sections/ProductsResultsSection';
 import { RootState } from '@/reducers';
-import { Sativa } from '../../../public/assets/icons/iconComponents';
 import { SearchHits } from '@/interfaces/searchHits';
 import { StarIcon } from '@heroicons/react/solid';
 import { Strain } from '@/interfaces/strain';
-import { getDocument } from '../../../src/actions/search';
+import { formatImageWithFallback } from '@/helpers/formatters';
+import { getDocument } from '@/actions/search';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 
@@ -50,9 +50,9 @@ export default function StrainDetail() {
   return (
     <div className="bg-gray-50 max-w-7xl mx-auto">
       <div className="desktop:grid grid-cols-6 desktop:gap-8">
-        <div className="w-full pb-auto relative col-span-2">
+        <div className="relative w-full pb-auto lg:pb-0  col-span-2">
           <ImageWithFallback
-            src={strain?._source?.image ? strain._source.image[0] : 'undefined'}
+            src={formatImageWithFallback(strain?._source.image)}
             layout="fill"
             objectFit={'cover'}
             alt={strain?._source.name}

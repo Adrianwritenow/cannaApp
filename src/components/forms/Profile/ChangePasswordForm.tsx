@@ -4,11 +4,11 @@ import { CheckIcon, XIcon } from '@heroicons/react/outline';
 import { Field, Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
 
-import ErrorsDisplay from '../../error/ErrorsDisplay';
-import { InputField } from '../fields/InputField';
-import { RootState } from '../../../reducers';
-import { updateUser } from '../../../actions/user';
-import { useAxios } from '../../../hooks/useAxios';
+import ErrorsDisplay from '@/components/error/ErrorsDisplay';
+import { InputField } from '@/components/forms/fields/InputField';
+import { RootState } from '@/reducers';
+import { updateUser } from '@/actions/user';
+import { useAxios } from '@/hooks/useAxios';
 import { useSelector } from 'react-redux';
 
 export default function ChangePasswordForm() {

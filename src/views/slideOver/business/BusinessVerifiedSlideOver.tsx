@@ -28,8 +28,8 @@ export default function BusinessVerificationSlideOver(
           <div className="w-full grid grid-cols-5">
             <div className="col-span-4 desktop:col-span-5">
               <p>
-                CannaPages has verified this businsess posesses a valid trade
-                licesnse.
+                CannaPages has verified this business possesses a valid trade
+                license.
               </p>
             </div>
             <div className="col-span-1 desktop:hidden">

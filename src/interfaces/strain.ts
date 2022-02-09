@@ -7,7 +7,7 @@ export interface Strain {
     created: number[];
     description: string[];
     grow_information?: string[];
-    image: number[];
+    image: string[];
     url: string[];
     langcode: string[];
     featured: boolean[];

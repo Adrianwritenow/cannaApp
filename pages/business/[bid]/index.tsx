@@ -91,7 +91,7 @@ export default function BusinessDetail() {
 
     async function getDispensaryResults() {
       const hits: any = await combinedSearchQuery({
-        endpoints: ['dispensaries'],
+        endpoints: ['dispenaries'],
         total: 4,
         coords: { lat: location.lat, lon: location.lon },
       });

@@ -47,7 +47,7 @@ export default function SearchDispensary(props: {
       filters: filterData,
       distance: range,
       coords: { lat: location.lat, lon: location.lon },
-      endpoints: ['dispensaries'],
+      endpoints: ['dispenaries'],
       total: 10,
     });
     setdispensaries(hits);

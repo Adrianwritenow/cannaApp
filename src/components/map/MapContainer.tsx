@@ -106,7 +106,7 @@ export function MapContainer() {
     const range = filters.distance ? filters.distance[0] : '5mi';
     const { distance, ...filterData } = filters;
     const hits: any = await combinedSearchQuery({
-      endpoints: ['dispensaries'],
+      endpoints: ['dispenaries'],
       coords: searchLocation.coords ? searchLocation.coords : { lat, lon },
       filters: filterData,
       distance: range,

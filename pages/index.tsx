@@ -72,7 +72,7 @@ export default function Home() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   async function getDispensaryResults() {
     const hits: any = await combinedSearchQuery({
-      endpoints: ['dispensaries'],
+      endpoints: ['dispenaries'],
       distance: '5mi',
       coords: { lat: location.lat, lon: location.lon },
     });

@@ -1,10 +1,6 @@
-import {
-  ArrowRightIcon,
-  InformationCircleIcon,
-} from '@heroicons/react/outline';
-
 import { Coupon } from '@/interfaces/coupon';
 import CouponCard from '@/components/coupons/CouponCard';
+import { InformationCircleIcon } from '@heroicons/react/outline';
 import Link from 'next/link';
 import { Product } from '@/interfaces/product';
 import ProductCard from '@/components/products/ProductCard';
@@ -35,19 +31,19 @@ export default function ProductResultsSection(results: Results) {
   } = results;
 
   return (
-    <section id="results-section" className="w-full  max-w-7xl mx-auto ">
+    <section id="results-section" className="w-full max-w-7xl mx-auto">
       {sponsored ? (
         <div className="flex flex-wrap items-center px-4 pt-3">
           <h5 className="text-xs text-gray-500 font-semibold pr-1">
             Sponsored Result
           </h5>
-          <InformationCircleIcon className="w-5 h-5 text-gray-500 " />
+          <InformationCircleIcon className="w-5 h-5 text-gray-500" />
         </div>
       ) : (
         ''
       )}
       <div className="pt-2 w-full ">
-        <div className="desktop:h-auto desktop:rounded-md desktop:flex desktop:flex-wrap  flex-shrink-0">
+        <div className="desktop:h-auto desktop:rounded-md desktop:flex desktop:flex-wrap flex-shrink-0">
           <h2 className="text-gray-700 text-lg desktop:text-2xl font-semibold px-4 py-4">
             {label}
           </h2>
@@ -56,7 +52,7 @@ export default function ProductResultsSection(results: Results) {
           <div
             className={`${
               type === 'COUPON' ? 'pb-6' : ''
-            } grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-4 pb-4 desktop:flex desktop:flex-wrap `}
+            } grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-4 pb-4 desktop:flex desktop:flex-wrap`}
           >
             {list.map(data => {
               if (type === 'COUPON') {

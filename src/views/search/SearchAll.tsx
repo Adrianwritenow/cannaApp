@@ -39,7 +39,7 @@ export default function SearchAll(props: {
   }, []);
 
   return (
-    <div className="bg-gray-50  max-w-7xl mx-auto">
+    <div className="bg-gray-50 max-w-7xl mx-auto">
       {/* Shop Query Section */}
       {listResults && (
         <>
@@ -90,7 +90,7 @@ export default function SearchAll(props: {
               )}
             </>
           ) : (
-            <div className="w-full flex items-center  flex-wrap justify-center h-full space-y-4 py-14">
+            <div className="w-full flex items-center flex-wrap justify-center h-full space-y-4 py-14">
               <SvgEmptyState className="w-40 h-40" />
               {loading ? (
                 <div className="w-full space-y-3">

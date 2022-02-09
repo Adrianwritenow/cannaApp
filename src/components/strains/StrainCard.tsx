@@ -18,7 +18,7 @@ export default function StrainCard(data: StrainProps) {
           className="relative w-full flex flex-wrap min-w-36"
           id={`strain-${strain._id}`}
         >
-          <div className="rounded-lg overflow-hidden relative w-full">
+          <div className="rounded-lg overflow-hidden relative pb-full w-full">
             <ImageWithFallback
               src={
                 strain._source?.image ? strain._source.image[0] : 'undefined'

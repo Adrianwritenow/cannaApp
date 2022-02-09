@@ -8,7 +8,7 @@ const ImageWithFallback = (props: any) => {
   const [imgStatus, setImgStatus] = useState(true);
 
   return (
-    <>
+    <div className="">
       {imgStatus && src ? (
         <Image
           {...rest}
@@ -16,15 +16,15 @@ const ImageWithFallback = (props: any) => {
           onError={() => {
             setImgStatus(fallbackSrc);
           }}
-          className="w-full h-full"
+          className="w-full"
           alt={alt}
         />
       ) : (
-        <div className="absolute w-full  h-full bg-gray-200 z-0">
+        <div className="absolute w-full bg-gray-200 z-0">
           <Sativa fill="black" opacity={0.2} className="w-full h-full" />
         </div>
       )}
-    </>
+    </div>
   );
 };
 

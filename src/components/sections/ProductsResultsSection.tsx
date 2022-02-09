@@ -7,7 +7,7 @@ import { Coupon } from '@/interfaces/coupon';
 import CouponCard from '@/components/coupons/CouponCard';
 import Link from 'next/link';
 import { Product } from '@/interfaces/product';
-import ProductCard from '../products/ProductCard';
+import ProductCard from '@/components/products/ProductCard';
 
 interface Results {
   list: Array<Product> | Array<Coupon>;
@@ -58,10 +58,10 @@ export default function ProductResultsSection(results: Results) {
               type === 'COUPON' ? 'pb-6' : ''
             } grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-4 pb-4 desktop:flex desktop:flex-wrap `}
           >
-            {list.map((data, index) => {
+            {list.map(data => {
               if (type === 'COUPON') {
                 return (
-                  <div key={`cc-${index}`}>
+                  <div key={`cc-${data._id}`}>
                     <CouponCard coupon={data as Coupon} />
                   </div>
                 );
@@ -69,13 +69,13 @@ export default function ProductResultsSection(results: Results) {
                 return (
                   <ProductCard
                     product={data as Product}
-                    key={`pc-${index}`}
+                    key={`pc-${data._id}`}
                     deal={deal}
                   />
                 );
               } else {
                 return (
-                  <div className="w-36" key={`pc-${index}`}>
+                  <div className="w-36" key={`pc-${data._id}`}>
                     <ProductCard product={data as Product} />
                   </div>
                 );

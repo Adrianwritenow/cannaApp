@@ -7,7 +7,7 @@ import {
 import { Dialog, Transition } from '@headlessui/react';
 import { Field, Form, Formik } from 'formik';
 import React, { Fragment, useEffect, useRef, useState } from 'react';
-import { combinedSearchQuery, receiveResults } from '@/actions/search';
+import { receiveResults, searchMulti } from '@/actions/search';
 import { getLocationByIP, setLocation } from '@/actions/location';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -23,6 +23,7 @@ import SearchProductCard from '@/components/search/SearchProductCard';
 import SearchStrainCard from '@/components/search/SearchStrainCard';
 import Target from '@/public/assets/icons/iconComponents/Target';
 import mapboxgl from 'mapbox-gl';
+import { useAxios } from '@/hooks/useAxios';
 import { useRouter } from 'next/router';
 
 export default function SearchSlideOver(props: {
@@ -30,17 +31,16 @@ export default function SearchSlideOver(props: {
   root?: boolean;
 }) {
   const { root } = props;
-  const { searchRoute } = props;
+  const [dispatchSearch] = useAxios(false);
   const [open, setOpen] = useState(false);
   const location = useSelector((root: RootState) => root.location);
   const [geolocationSet, setGeolocationSet] = useState(false);
   const [geocodeInitialized, setGeocodeInitialized] = useState(false);
   const initialLocationCleared = useRef(false);
-  const [initialResultsSet, setInitialResultsSet] = useState(false);
   const [focus, setFocus] = useState('');
   const dispatch = useDispatch();
   const router = useRouter();
-  const { results, query, searchLocation } = useSelector(
+  const { listResults, query, searchLocation } = useSelector(
     (root: RootState) => root.search
   );
   const geocoderRef = useRef<any>(null);
@@ -48,8 +48,13 @@ export default function SearchSlideOver(props: {
 
   const initialValues = {
     search: query,
-    // searchLocation: searchLocation,
   };
+
+  // Flatten search lists.
+  let results: any = [];
+  Object.values(listResults).forEach(resultsByList => {
+    results = results.concat(resultsByList);
+  });
 
   mapboxgl.accessToken = process.env.MAPBOX_ACCESS_TOKEN as string;
   let geocoder = new MapboxGeocoder({
@@ -85,15 +90,15 @@ export default function SearchSlideOver(props: {
   // handle new location selected
   geocoder.on('result', e => {
     setGeolocationSet(false);
-    dispatch(
-      receiveResults({
-        searchLocation: {
-          coords: { lat: e.result.center[1], lon: e.result.center[0] },
-          label: e.result.text,
-          boundingBox: e.result.bbox,
-        },
-      })
-    );
+    // Run new search in case user closes before they change
+    // their search query.
+    executeSearchQuery(query, {
+      searchLocation: {
+        coords: { lat: e.result.center[1], lon: e.result.center[0] },
+        label: e.result.text,
+        boundingBox: e.result.bbox,
+      },
+    });
   });
 
   async function handleLocationRequest() {
@@ -137,7 +142,6 @@ export default function SearchSlideOver(props: {
     } else {
       dispatch(
         receiveResults({
-          // search: city,
           searchLocation: {
             coords: {
               lat: location.lat,
@@ -158,24 +162,42 @@ export default function SearchSlideOver(props: {
     if (timeout) {
       clearTimeout(timeout);
     }
-    timeout = setTimeout(async () => {
+    timeout = setTimeout(() => {
       if (e.target.name === 'search') {
-        const hits = await combinedSearchQuery({
-          q: e.target.value,
-          total: 10,
-          endpoints: ['products', 'dispenaries', 'strains', 'blogs', 'coupons'],
-        });
-
-        if (hits?.length) {
-          dispatch(
-            receiveResults({
-              search: e.target.value ? e.target.value : ' ',
-              data: hits,
-            })
-          );
-        }
+        executeSearchQuery(e.target.value);
       }
     }, 500);
+  }
+
+  function executeSearchQuery(q: string, resultProps: any = {}) {
+    let coords = location.city ? location : undefined;
+
+    // Use new location coords if available.
+    if (resultProps?.searchLocation?.coords) {
+      coords = resultProps.searchLocation.coords;
+    }
+
+    dispatchSearch(
+      searchMulti({
+        q,
+        coords,
+        endpoints: [
+          { name: 'products' },
+          { name: 'coupons', geolocate: true },
+          { name: 'dispenaries', geolocate: true },
+          { name: 'strains' },
+          { name: 'blogs' },
+        ],
+        total: 10,
+      })
+    );
+
+    dispatch(
+      receiveResults({
+        search: q,
+        ...resultProps,
+      })
+    );
   }
 
   // Get initial location data based on Client IP
@@ -188,42 +210,8 @@ export default function SearchSlideOver(props: {
     if (!Object.keys(location).length && !location.fLo) {
       getLocation();
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useEffect(() => {
-    async function getInitialDispensaryResults() {
-      if (location) {
-        const hits: any = await combinedSearchQuery({
-          endpoints: ['dispenaries'],
-          coords: { lat: location.lat, lon: location.lon },
-        });
-        dispatch(
-          receiveResults({
-            search: location.city,
-            data: hits,
-            searchLocation: {
-              coords: { lat: location.lat, lon: location.lon },
-              label: location.city,
-            },
-          })
-        );
-      }
-    }
-    if (
-      location.city &&
-      query === '' &&
-      !initialResultsSet &&
-      router.pathname === '/map' &&
-      searchLocation.label === null
-    ) {
-      setInitialResultsSet(true);
-      getInitialDispensaryResults();
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location]);
 
   useEffect(() => {
     if (open) {
@@ -249,7 +237,6 @@ export default function SearchSlideOver(props: {
     initialLocationCleared.current = true;
     dispatch(
       receiveResults({
-        query: '',
         searchLocation: {
           coords: {
             lat: null,

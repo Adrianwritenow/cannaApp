@@ -70,7 +70,7 @@ export default function DealOverview() {
             <p className="text-md text-gray-500 mb-2">Deal offered by</p>
             <div className="border p-4">
               <div className="flex items-center">
-                <div className="w-20 mr-5">
+                <div className="w-20 h-20 mr-5 relative ">
                   <ImageWithFallback
                     src={deal.thumbnail}
                     alt={deal.name}

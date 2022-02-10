@@ -101,7 +101,7 @@ export function MapResultCard({ listing, userCoords }: any) {
             </p>
           </div>
           <p className="text-sm text-gray-500 font-normal">
-            {listing.category ? ` ${listing.category} •` : ''}
+            {listing.category ? ` ${listing.category} • ` : 'Dispensary • '}
             {distanceFrom}
           </p>
           {/* <p className="text-sm text-gray-500 font-normal"> */}

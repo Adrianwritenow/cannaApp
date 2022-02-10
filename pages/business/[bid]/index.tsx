@@ -50,7 +50,7 @@ export default function BusinessDetail() {
   let today = moment.tz(timezone).format('dddd');
 
   useEffect(() => {
-    getDocument(bid, 'dispensaries').then((document: SearchHits) => {
+    getDocument(bid, 'dispenaries').then((document: SearchHits) => {
       if (document) {
         const result = document.hits.hits[0];
         setDispensary(result as Dispensary);

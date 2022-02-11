@@ -1,11 +1,11 @@
 import { AxiosError, AxiosResponse } from 'axios';
 
 import { Dispensary } from '@/interfaces/dispensary';
-import { combinedQueryBody } from '@/helpers/searchQuery';
 import { IAxiosAction } from '@/interfaces/axios';
 import { Product } from '@/interfaces/product';
 import { SearchHits } from '@/interfaces/searchHits';
 import bodybuilder from 'bodybuilder';
+import { combinedQueryBody } from '@/helpers/searchQuery';
 
 var axios = require('axios');
 const SEARCH_URL = process.env.SEARCH_URL;
@@ -150,11 +150,8 @@ export async function combinedSearchQuery(searchProps: {
 
           let responseData = flatData;
 
-          if (
-            filters.productType &&
-            filters.productType.length &&
-            filters.productType[0]
-          ) {
+          // Check if filters exists and it has a productType field with a value
+          if (filters && filters.productType && filters.productType[0]) {
             let products = flatData
               .map((dispensary: Dispensary) => dispensary._source.products)
               .flat(1)
@@ -189,6 +186,7 @@ export async function combinedSearchQuery(searchProps: {
             });
             responseData = primeData;
           }
+
           return responseData;
         })
         .catch((error: any) => {

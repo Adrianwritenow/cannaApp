@@ -35,7 +35,7 @@ export default function BusinessMenuSlideOver(props: {
   return (
     <div>
       {/* Need Products related to business */}
-      {products.length && (
+      {products.length ? (
         <ProductResultsSection
           list={products.slice(0, 5)}
           sponsored={false}
@@ -43,17 +43,28 @@ export default function BusinessMenuSlideOver(props: {
           buttonLabel={'See all Products'}
           stateFunction={setOpen}
         />
+      ) : (
+        ''
       )}
       <Transition.Root show={open} as={Fragment}>
         <Dialog
           as="div"
-          className="fixed inset-0 overflow-hidden"
+          className="fixed inset-0 overflow-hidden z-30"
           onClose={setOpen}
         >
           <div className="absolute inset-0 overflow-hidden">
-            <Dialog.Overlay className="absolute inset-0" />
-
-            <div className="fixed inset-y-0 right-0 max-w-full flex">
+            <Transition.Child
+              as={Fragment}
+              enter="ease-in-out duration-500"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="ease-in-out duration-500"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <Dialog.Overlay className="absolute inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+            </Transition.Child>
+            <div className="fixed inset-y-0 right-0 max-w-full flex  max-w-full desktop:max-w-2xl">
               <Transition.Child
                 as={Fragment}
                 enter="transform transition ease-in-out duration-500 sm:duration-700"

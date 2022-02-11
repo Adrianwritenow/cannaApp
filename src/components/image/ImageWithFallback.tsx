@@ -18,9 +18,11 @@ const ImageWithFallback = (props: any) => {
           }}
           className="w-full"
           alt={alt}
+          layout="fill"
+          objectFit={'cover'}
         />
       ) : (
-        <div className="absolute w-full bg-gray-200 z-0">
+        <div className=" absolute w-full h-full bg-gray-200 z-0">
           <Sativa fill="black" opacity={0.2} className="w-full h-full" />
         </div>
       )}

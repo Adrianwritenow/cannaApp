@@ -104,9 +104,9 @@ export default function BusinessDetail() {
 
   return dispensary ? (
     <div className="bg-gray-50">
-      <div className="max-w-7xl flex flex-wrap relative desktop:flex-nowrap mx-auto desktop:rounded-md overflow-hidden desktop:shadow-md">
+      <div className="max-w-7xl flex flex-wrap relative desktop:flex-nowrap mx-auto desktop:rounded-md overflow-hidden desktop:shadow-md desktop:mt-4">
         {dispensary && (
-          <div className="w-full h-64 desktop:w-64 relative">
+          <div className="w-full pb-full desktop:h-64 desktop:pb-0 desktop:w-64 relative">
             <ImageWithFallback
               src={`${process.env.API_URL}${
                 typeof dispensary._source.image === 'undefined'
@@ -122,7 +122,7 @@ export default function BusinessDetail() {
 
             <button
               onClick={() => router.back()}
-              className="bg-white rounded-full  absolute w-10 h-10 flex items-center justify-center left-0 top-0 z-30 m-4 desktop:hidden"
+              className="bg-white rounded-full  absolute w-10 h-10 flex items-center justify-center left-0 top-0 z-10 m-4 desktop:hidden"
             >
               <ArrowLeftIcon className="text-gray-700 w-4" />
             </button>
@@ -134,7 +134,7 @@ export default function BusinessDetail() {
           >
             <BookmarkIcon className="text-gray-700 w-4" />
           </button> */}
-              <div className="bg-white rounded-full  w-10 h-10 flex items-center justify-center">
+              <div className="bg-white rounded-full  w-10 h-10 flex items-center justify-center z-10s">
                 <SocialShare iconStyles="text-gray-700 w-4" />
               </div>
             </div>
@@ -144,13 +144,6 @@ export default function BusinessDetail() {
         <div className="absolute  space-x-6 right-0 top-0 z-30 m-4 hidden desktop:flex">
           <button
             onClick={() => router.back()}
-            className="bg-white rounded-full shadow-sm absolute w-10 h-10 flex items-center justify-center left-0 top-0 z-5 m-4"
-          >
-            <ArrowLeftIcon className="text-gray-700 w-4" />
-          </button>
-          <div className="absolute flex space-x-6 right-0 top-0 z-5 m-4">
-            {/****** Need saving favorites working ******/}
-            {/* <button
             className="bg-white rounded-full  w-10 h-10 flex items-center justify-center flex shadow-md hover:bg-green-100 transition duration-150 ease-in-out "
           >
             <ArrowLeftIcon className="text-gray-700 w-4" />
@@ -272,9 +265,8 @@ export default function BusinessDetail() {
           </section>
         </div>
       </div>
-      <div className="py-4">
+      <div className="py-4 desktop:max-w-7xl mx-auto">
         <BusinessMenuSlideOver dispensary={dispensary} />
-
       </div>
       <div className="space-y-4 px-4 desktop:max-w-7xl mx-auto">
         {/* <AboutUsSlideOver dispensary={dispensary} /> */}
@@ -282,15 +274,15 @@ export default function BusinessDetail() {
           <BusinessVerificationSlideOver dispensary={dispensary} />
         )}
       </div>
-      <div className="space-y-4 px-4 desktop:max-w-7xl mx-auto desktop:grid grid-cols-2 gap-8 desktop:items-start">
+      <div className="space-y-4 px-4 desktop:max-w-7xl mx-auto desktop:grid grid-cols-2 gap-8 desktop:items-baseline">
         {/* Map */}
-        <section className="pt-10 desktop:pt-0 pb-4 desktop:pb-0s">
+        <section className="pt-10 desktop:pt-0 pb-4 desktop:pb-0">
           <h2 className="sr-only">Location</h2>
-          <h2 className="text-lg text-gray-700 font-semibold pb-4 pt-1 w-full border-b border-gray-200 pb-2 hidden desktop:flex text-2xl">
+          <h2 className="text-lg text-gray-700 font-semibold pb-4 pt-1 w-full pb-4 pt-1 w-full border-b border-gray-200idden desktop:flex text-2xl">
             Location
           </h2>
 
-          <div className="w-full h-48 relative rounded-lg overflow-hidden">
+          <div className="w-full h-48 relative rounded-lg overflow-hidden pt-2">
             <SmallMap
               coords={{
                 lat: dispensary._source.lat[0],
@@ -355,7 +347,7 @@ export default function BusinessDetail() {
             </h2>
             <h2
               id="business-socilas"
-              className="text-lg text-gray-700 font-semibold desktop:text-2xl"
+              className="text-lg text-gray-700 font-semibold pb-4 pt-1 w-full pb-4 pt-1 w-full border-b border-gray-200idden desktop:flex text-2xl"
             >
               Find us on Social Media
             </h2>
@@ -505,20 +497,21 @@ export default function BusinessDetail() {
             </>
           )}
         </section>
-      </div>
-      {/* Need Review FAQ  and amenities Data */}
+        {/* Need Review FAQ  and amenities Data */}
 
-      {/* <FaqSlideOver name={dispensary?._source.name[0]} faqs={faqs} /> */}
-      {/* <div id="reviews-section">
+        {/* <FaqSlideOver name={dispensary?._source.name[0]} faqs={faqs} /> */}
+        {/* <div id="reviews-section">
         <BusinessReviewSlideOver dispensary={dispensary} reviews={reviews} />
       </div> */}
-      {dispensary?._source.amenities && (
-        <div className="px-4 desktop:max-w-7xl mx-auto">
-          <AmenitiesSection
-            amenities={dispensary._source.amenities as string[]}
-          />
-        </div>
-      )}
+        {dispensary?._source.amenities && (
+          <div className="mx-auto">
+            <AmenitiesSection
+              amenities={dispensary._source.amenities as string[]}
+            />
+          </div>
+        )}
+      </div>
+
       {/* Also Viewed */}
       <section className="max-w-7xl pb-4 pt-2  w-full   desktop:mx-auto">
         <h2 id="related-businesses" className="sr-only">

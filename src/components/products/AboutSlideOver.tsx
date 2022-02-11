@@ -29,11 +29,18 @@ export default function AboutSlideOver(props: AboutProps) {
         <div className="pt-5 ">
           <button
             onClick={() => setOpen(true)}
-            className="py-4 w-full uppercase text-green-500 text-xs font-semibold border-t border-gray-200 tracking-widest"
+            className="py-4 w-full uppercase text-green-500 text-xs font-semibold border-t border-gray-200 tracking-widest hidden desktop:hidden"
           >
             Learn more
           </button>
         </div>
+
+        <button
+          className="p-4 hidden desktop:flex rounded-md bg-green-100 w-max  text-green-600 text-sm font-semibold border-gray-200"
+          onClick={() => setOpen(true)}
+        >
+          <span>Learn More</span>
+        </button>
       </section>
       <Transition.Root show={open} as={Fragment}>
         <Dialog
@@ -44,7 +51,7 @@ export default function AboutSlideOver(props: AboutProps) {
           <div className="absolute inset-0 overflow-hidden">
             <Dialog.Overlay className="absolute inset-0" />
 
-            <div className="fixed inset-y-0 right-0 max-w-full flex">
+            <div className="fixed inset-y-0 right-0 max-w-full flex desktop:max-w-2xl">
               <Transition.Child
                 as={Fragment}
                 enter="transform transition ease-in-out duration-500 sm:duration-700"

@@ -70,7 +70,7 @@ export default function FilterGroup(data: Filters) {
                                           'focus:ring-green h-4 w-4 text-green border-gray-300 rounded-full'
                                         }
                                       />
-                                      <span className="ml-2">
+                                      <span className="ml-2 capitalize">
                                         {filter.value}
                                       </span>
                                     </Disclosure.Button>

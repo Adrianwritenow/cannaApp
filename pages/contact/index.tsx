@@ -1,8 +1,8 @@
-import { Switch } from "@headlessui/react";
-import { useState } from "react";
+import { Switch } from '@headlessui/react';
+import { useState } from 'react';
 
 function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(" ");
+  return classes.filter(Boolean).join(' ');
 }
 
 export default function Contact() {
@@ -12,8 +12,8 @@ export default function Contact() {
     <div className="min-h-screen bg-white">
       {/* Header */}
       <div className="py-24 bg-gray-50 sm:py-32">
-        <div className="max-w-md mx-auto pl-4 pr-8 sm:max-w-lg sm:px-6 lg:max-w-7xl lg:px-8">
-          <h1 className="text-4xl leading-10 font-extrabold tracking-tight text-gray-900 text-center sm:text-5xl sm:leading-none lg:text-6xl">
+        <div className="max-w-md mx-auto pl-4 pr-8 sm:max-w-lg sm:px-6 desktop:max-w-7xl desktop:px-8">
+          <h1 className="text-4xl leading-10 font-extrabold tracking-tight text-gray-900 text-center sm:text-5xl sm:leading-none desktop:text-6xl">
             Get in touch
           </h1>
           <p className="mt-6 max-w-3xl mx-auto text-xl leading-normal text-gray-500 text-center">
@@ -25,7 +25,7 @@ export default function Contact() {
       </div>
 
       {/* Contact Section */}
-      <div className="max-w-5xl mx-auto py-24  px-6 lg:px-8">
+      <div className="max-w-5xl mx-auto py-24  px-6 desktop:px-8">
         <form
           action="#"
           method="POST"
@@ -144,7 +144,7 @@ export default function Contact() {
                 name="message"
                 rows={4}
                 className="py-3 px-4 block w-full shadow-sm focus:ring-green-500 focus:border-green-500 border border-gray-300 rounded-md"
-                defaultValue={""}
+                defaultValue={''}
               />
             </div>
           </div>
@@ -155,27 +155,27 @@ export default function Contact() {
                   checked={agreed}
                   onChange={setAgreed}
                   className={classNames(
-                    agreed ? "bg-green" : "bg-gray-200",
-                    "relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                    agreed ? 'bg-green' : 'bg-gray-200',
+                    'relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500'
                   )}
                 >
                   <span className="sr-only">Agree to policies</span>
                   <span
                     aria-hidden="true"
                     className={classNames(
-                      agreed ? "translate-x-5" : "translate-x-0",
-                      "inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200"
+                      agreed ? 'translate-x-5' : 'translate-x-0',
+                      'inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200'
                     )}
                   />
                 </Switch>
               </div>
               <div className="ml-3">
                 <p className="text-base text-gray-500">
-                  By selecting this, you agree to the{" "}
+                  By selecting this, you agree to the{' '}
                   <a href="#" className="font-medium text-gray-700 underline">
                     Privacy Policy
-                  </a>{" "}
-                  and{" "}
+                  </a>{' '}
+                  and{' '}
                   <a href="#" className="font-medium text-gray-700 underline">
                     Cookie Policy
                   </a>

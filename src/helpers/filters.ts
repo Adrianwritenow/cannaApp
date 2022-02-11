@@ -3,7 +3,7 @@ import { Filter } from '../interfaces/filter';
 export const Filters: Record<string, Filter> = {
   strains: {
     value: 'Strains',
-    list: [{ value: 'Indica' }, { value: 'Sativa' }, { value: 'Hybrid' }],
+    list: [{ value: 'indica' }, { value: 'sativa' }, { value: 'hybrid' }],
   },
   reviews: {
     value: 'Reviews',
@@ -29,6 +29,14 @@ export const Filters: Record<string, Filter> = {
       { value: 'Price: Low to High' },
       { value: 'Price: High to Low' },
       { value: 'Rating' },
+    ],
+  },
+  sortStrain: {
+    value: 'Sort By',
+    list: [
+      { value: 'Most Reviewed' },
+      { value: 'Top Rated' },
+      { value: 'Lowest Rated' },
     ],
   },
   distance: {

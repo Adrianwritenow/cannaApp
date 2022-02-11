@@ -121,13 +121,13 @@ const products = [
 
 export default function Cart() {
   return (
-    <div className="max-w-7xl mx-auto py-24  px-6 lg:px-8">
+    <div className="max-w-7xl mx-auto py-24  px-6 desktop:px-8">
       <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
         Shopping Cart
       </h1>
 
-      <form className="mt-12 lg:grid lg:grid-cols-12 lg:gap-x-12 lg:items-start xl:gap-x-16">
-        <section aria-labelledby="cart-heading" className="lg:col-span-7">
+      <form className="mt-12 desktop:grid desktop:grid-cols-12 desktop:gap-x-12 desktop:items-start xl:gap-x-16">
+        <section aria-labelledby="cart-heading" className="desktop:col-span-7">
           <h2 id="cart-heading" className="sr-only">
             Items in your shopping cart
           </h2>
@@ -234,11 +234,11 @@ export default function Cart() {
         </section>
 
         {/* Order summary */}
-        <div className="lg:col-span-5 h-full">
+        <div className="desktop:col-span-5 h-full">
           <StickyBox offsetTop={20}>
             <section
               aria-labelledby="summary-heading"
-              className="mt-16 bg-gray-50 rounded-lg px-4 py-6 sm:p-6 lg:p-8 lg:mt-0"
+              className="mt-16 bg-gray-50 rounded-lg px-4 py-6 sm:p-6 desktop:p-8 desktop:mt-0"
             >
               <h2
                 id="summary-heading"

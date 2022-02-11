@@ -7,7 +7,6 @@ import SearchDeals from '@/views/search/SearchDeals';
 import SearchDispensary from '@/views/search/SearchDispensary';
 import SearchNews from '@/views/search/SearchNews';
 import SearchShopping from '@/views/search/SearchShopping';
-import { SearchState } from '@/interfaces/searchState';
 import SearchStrain from '@/views/search/SearchStrain';
 import { Tab } from '@headlessui/react';
 import { useRouter } from 'next/router';
@@ -16,18 +15,8 @@ import { useSelector } from 'react-redux';
 export default function Search() {
   const router = useRouter();
   const [view, setView] = useState(0);
-  const { results, query } = useSelector((root: RootState) => root.search);
+  const { listResults, query } = useSelector((root: RootState) => root.search);
   const location = useSelector((root: RootState) => root.location);
-  const [currentQuery, setCurrentQuery] = useState('');
-  const [searchLists, setSearchLists] = useState<SearchState>({
-    news: [],
-    deals: [],
-    shopping: [],
-    dispensaries: [],
-    strains: [],
-    blogs: [],
-  });
-
   const path = router.query;
 
   const tabs = [
@@ -47,17 +36,15 @@ export default function Search() {
         setView(index);
       }
     });
-
-    setCurrentQuery(query);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [view, results, router]);
+  }, [view, listResults, router]);
 
   if (!router.isReady) {
     return <div>Loading...</div>;
   }
 
   return (
-    <div className="bg-gray-50">
+    <div className="bg-white ">
       <div className="overflow-visible overflow-scroll border-b border-gray-200 bg-white">
         <Tab.Group
           defaultIndex={view}
@@ -65,7 +52,7 @@ export default function Search() {
             router.replace({ query: '' });
           }}
         >
-          <Tab.List className="w-full overflow-visible overflow-x-scroll border-b border-gray-200 flex">
+          <Tab.List className="w-full overflow-visible overflow-x-scroll  flex max-w-7xl mx-auto">
             {tabs.map((tab, index) => (
               <Tab
                 key={tab.name}
@@ -88,7 +75,7 @@ export default function Search() {
             ))}
           </Tab.List>
           {/* Panels that control the view by index */}
-          <Tab.Panels className="focus:outline-none">
+          <Tab.Panels className="focus:outline-none bg-gray-50 pb-8">
             <Tab.Panel className="focus:outline-none">
               {/* Search All */}
               <SearchAll
@@ -113,7 +100,7 @@ export default function Search() {
             </Tab.Panel>
             <Tab.Panel className="focus:outline-none">
               {/* Search Strain */}
-              <SearchStrain query={query} products={searchLists.shopping} />
+              <SearchStrain query={query} products={listResults.shopping} />
             </Tab.Panel>
             <Tab.Panel className="focus:outline-none">
               {/* Search Dispensery */}

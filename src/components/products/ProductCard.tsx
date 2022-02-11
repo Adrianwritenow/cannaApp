@@ -1,9 +1,9 @@
-import { formatImageWithFallback } from '@/helpers/formatters';
 import ImageWithFallback from '@/components/image/ImageWithFallback';
 import Link from 'next/link';
 import { Product } from '@/interfaces/product';
 import React from 'react';
 import StarRating from '@/components/rating/StarRating';
+import { formatImageWithFallback } from '@/helpers/formatters';
 
 interface ProductProps {
   product: Product;
@@ -34,7 +34,7 @@ export default function ProductCard(data: ProductProps) {
                 ? product._source?.manufacture[0]
                 : ''}
             </p>
-            <h3 className="text-sm font-normal text-gray-700">
+            <h3 className="text-sm font-normal text-gray-700 line-clamp-1">
               {product._source?.name[0]}
             </h3>
             <p className="font-normal text-gray-500">

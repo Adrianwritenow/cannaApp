@@ -23,8 +23,8 @@ export default function CouponCard(props: CouponCardProps) {
         />
       </div>
       <div className="pt-2 pb-6 text-left text-sm w-36">
-        <p className="text-blue-500 font-semibold">
-          Save {coupon._source.title} on
+        <p className="text-blue-500 font-semibold line-clamp-2">
+          {coupon._source.title}
         </p>
         {/* <h3 className="text-sm font-normal text-gray-700 pt-1 pb-2">
           {coupon._source.title}
@@ -34,7 +34,7 @@ export default function CouponCard(props: CouponCardProps) {
             <a>
               <button
                 type="button"
-                className="inline-flex items-center mt-2 px-2.5 py-1.5 border border-green-500 shadow-sm text-xs font-medium rounded text-green-500 bg-white  focus:outline-none focus:ring-2 focus:ring-offset-2 "
+                className="inline-flex items-center mt-2 px-2.5 py-1.5 border border-green-500 shadow-sm text-xs font-medium rounded text-green-500 bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 "
               >
                 View Coupon
               </button>

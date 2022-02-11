@@ -7,6 +7,7 @@ export interface Post {
     author: string[];
     content: string[];
     description: string[];
+    created: number[];
     exclusive: boolean[];
     featured: boolean[];
     image: string[];

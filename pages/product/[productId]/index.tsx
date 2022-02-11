@@ -2,21 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { browseBy, getDocument } from '@/actions/search';
 
 import AboutSlideOver from '@/components/products/AboutSlideOver';
-import DropdownFilter from '@/components/forms/fields/DropdownFilter';
 import FaqSlideOver from '@/views/slideOver/FaqSlideOver';
-import { formatImageWithFallback } from '@/helpers/formatters';
 import ImageSlider from '@/components/slider/ImageSlider';
 import ImageWithFallback from '@/components/image/ImageWithFallback';
 import { Product } from '@/interfaces/product';
 import ProductResultsSection from '@/components/sections/ProductsResultsSection';
 import ProductReviewsSlideOver from '@/views/slideOver/product/ProductReviewSlideOver';
-import { RootState } from '@/reducers';
 import { SearchHits } from '@/interfaces/searchHits';
+import { StarIcon } from '@heroicons/react/solid';
 import StarRating from '@/components/rating/StarRating';
-import { Vendor } from '@/interfaces/vendor';
-import VendorCard from '@/components/vendor/VendorCard';
+import { formatImageWithFallback } from '@/helpers/formatters';
 import { useRouter } from 'next/router';
-import { useSelector } from 'react-redux';
 
 export default function ProductDetail() {
   const router = useRouter();
@@ -58,14 +54,14 @@ export default function ProductDetail() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto bg-white md:px-20">
+    <div className="max-w-7xl mx-auto bg-gray-50 md:px-20">
       {/* Product */}
 
       {product && (
-        <div className="">
+        <div className="desktop:grid grid-cols-6 desktop:gap-8">
           {/* Image gallery */}
           {/* <ImageSlider images={[]} /> */}
-          <div className="relative w-full pb-full">
+          <div className="relative w-full pb-full lg:pb-0 col-span-2">
             <ImageWithFallback
               src={formatImageWithFallback(product._source.image)}
               alt={product._source?.name[0]}
@@ -75,39 +71,44 @@ export default function ProductDetail() {
           </div>
 
           {/* Product info */}
-          <div className="mt-4 px-4 space-y-4">
-            <section>
-              <div>
-                <h2 className="sr-only">Product information</h2>
-              </div>
-              {product?._source?.brand && (
-                <p className="text-sm text-blue-500">
-                  {product?._source?.brand[0]}
-                </p>
-              )}
-              <h1 className="text-lg font-normal tracking-tight text-gray-900">
-                {product?._source.name[0]}
-              </h1>
-
-              {/* Reviews */}
-              <h3 className="sr-only">Reviews</h3>
-              <div className="flex items-center">
-                <div className="flex items-center">
-                  {product && typeof product._source.rating !== 'undefined' && (
-                    <StarRating
-                      rating={product._source.rating[0]}
-                      reviews_count={
-                        product._source.reviews_count
-                          ? product._source.reviews_count[0]
-                          : undefined
-                      }
-                    />
-                  )}
+          <div className="col-span-4">
+            <div className="mt-4 px-4 space-y-4">
+              <section>
+                <div>
+                  <h2 className="sr-only">Product information</h2>
                 </div>
-              </div>
-            </section>
+                {product?._source?.brand && (
+                  <p className="text-sm text-blue-500">
+                    {product?._source?.brand[0]}
+                  </p>
+                )}
+                <h1 className="text-lg font-normal tracking-tight text-gray-900">
+                  {product?._source.name[0]}
+                </h1>
 
-            {/* <section aria-labelledby="vendors-heading">
+                {/* Reviews */}
+                <h3 className="sr-only">Reviews</h3>
+                <div className="flex items-center">
+                  <div className="flex items-center">
+                    {product?._source?.rating && (
+                      <StarRating rating={product?._source?.rating[0]} />
+                    )}
+                    <span className="font-normal text-gray-500">
+                      (
+                      {product._source.reviews_count
+                        ? product._source.reviews_count[0]
+                        : 0}
+                      )
+                    </span>
+                  </div>
+                  <p className="sr-only">
+                    {product._source.rating ? product._source.rating[0] : 0} out
+                    of 5 stars
+                  </p>
+                </div>
+              </section>
+
+              {/* <section aria-labelledby="vendors-heading">
               <h2 id="vendors-heading" className="sr-only">
                 Vendors with this product
               </h2>
@@ -134,29 +135,29 @@ export default function ProductDetail() {
                 );
               })}
             </section> */}
-          </div>
-          <div className="space-y-6 px-4">
-            <section aria-labelledby="details-heading ">
-              <h2 id="details-heading" className="sr-only">
-                Product details
-              </h2>
-              <div className="pt-6">
-                <h2 className="text-gray-700 text-lg font-semibold">
-                  {product?._source.name}
+            </div>
+            <div className="space-y-6 px-4">
+              <section aria-labelledby="details-heading ">
+                <h2 id="details-heading" className="sr-only">
+                  Product details
                 </h2>
-                <div className="text-sm text-gray-500 pt-2">
-                  {/* <p>
+                <div className="pt-6">
+                  <h2 className="text-gray-700 text-lg font-semibold">
+                    {product?._source.name}
+                  </h2>
+                  <div className="text-sm text-gray-500 pt-2">
+                    {/* <p>
                     <span className="text-black">Type:&nbsp;</span>
                     {product?._source.type[0]}
                     %Type%
                   </p> */}
-                  <p>
-                    <span className="text-black">Category:&nbsp;</span>
-                    {product?._source.category[0]}
-                  </p>
-                  {/* Need Cannabanoids data */}
+                    <p>
+                      <span className="text-black">Category:&nbsp;</span>
+                      {product?._source.category[0]}
+                    </p>
+                    {/* Need Cannabanoids data */}
 
-                  {/* <div className="flex">
+                    {/* <div className="flex">
                     <p className="text-black">Cannabanoids:&nbsp;</p>
                     <p>
                       THC&nbsp;
@@ -168,19 +169,19 @@ export default function ProductDetail() {
                       {Math.round(0.5 * 100)}%
                     </p>
                   </div> */}
+                  </div>
+                  <div className="pt-2">
+                    <AboutSlideOver
+                      about={product._source.description[0]}
+                      businessName={product._source.name[0]}
+                      title={false}
+                    />
+                  </div>
                 </div>
-                <div className="pt-2">
-                  <AboutSlideOver
-                    about={product._source.description[0]}
-                    businessName={product._source.name[0]}
-                    title={false}
-                  />
-                </div>
-              </div>
-            </section>
-            {/* Need specification data  */}
+              </section>
+              {/* Need specification data  */}
 
-            {/* <section aria-labelledby="specifications-heading">
+              {/* <section aria-labelledby="specifications-heading">
               <h2 id="specifications-heading" className="sr-only">
                 Specifications
               </h2>
@@ -211,6 +212,7 @@ export default function ProductDetail() {
                 </ul>
               </div>
             </section> */}
+            </div>
           </div>
         </div>
       )}

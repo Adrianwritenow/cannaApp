@@ -16,12 +16,13 @@ export default function ListingCard(data: ListingProps) {
 
   return (
     <div
-      className={`relative w-full flex flex-wrap ${data.classNames ?? ''} rounded-t-lg overflow-hidden`}
+      className={`relative w-full flex flex-wrap ${
+        data.classNames ?? ''
+      } rounded-t-lg overflow-hidden`}
       id={`listing-${data.id}`}
     >
       <div className="w-full focus:outline-none">
         <div className="w-full h-36 relative">
-
           <Link href={data.url}>
             <a>
               <ImageWithFallback
@@ -39,42 +40,46 @@ export default function ListingCard(data: ListingProps) {
           )}
         </div>
         <div className="p-2 text-left text-sm w-full rounded-b-lg overflow-hidden border border-gray-200">
-          <Link
-            href={data.url}
-            passHref
-          >
+          <Link href={data.url} passHref>
             <a>
-              {data.eyebrow &&
+              {data.eyebrow && (
                 <div className="text-sm leading-6 font-normal text-gray-900">
                   {data.eyebrow}
                 </div>
-              }
-              <div className="text-lg leading-6 font-semi-bold text-gray-700">
+              )}
+              <div className="text-lg leading-6 font-semi-bold text-gray-700 line-clamp-1">
                 {data.title}
               </div>
-              {data.price &&
+              {data.price && (
                 <p>
-                  <span className="text-sm leading-6 text-gray-700 font-bold">${data.price}&nbsp;</span>
-                  <span className="text-xs text-gray-900">{data.price_label}</span>
+                  <span className="text-sm leading-6 text-gray-700 font-bold">
+                    ${data.price}&nbsp;
+                  </span>
+                  <span className="text-xs text-gray-900">
+                    {data.price_label}
+                  </span>
                 </p>
-              }
+              )}
             </a>
           </Link>
           <div className="flex flex-col items-start">
-            {typeof data.rating !== 'undefined' &&
-              <StarRating rating={data.rating} reviews_count={data.reviews_count} />
-            }
-            {distanceFrom &&
+            {typeof data.rating !== 'undefined' && (
+              <StarRating
+                rating={data.rating}
+                reviews_count={data.reviews_count}
+              />
+            )}
+            {distanceFrom && (
               <p className="text-sm text-gray-500 font-normal">
                 Dispensary
-                {distanceFrom &&
-                  <span className="px-2 text-normal">&#8226; {distanceFrom}</span>
-                }
+                {distanceFrom && (
+                  <span className="px-2 text-normal">
+                    &#8226; {distanceFrom}
+                  </span>
+                )}
               </p>
-            }
-            {data.dispensary &&
-              <OpenIndicator dispensary={data.dispensary} />
-            }
+            )}
+            {data.dispensary && <OpenIndicator dispensary={data.dispensary} />}
           </div>
         </div>
       </div>

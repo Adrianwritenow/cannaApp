@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 
-import { formatImageWithFallback } from '@/helpers/formatters';
 import { IconFacebook } from '@/public/assets/icons/iconComponents';
 import ImageWithFallback from '@/components/image/ImageWithFallback';
 import Link from 'next/link';
 import { Post } from '@/interfaces/post';
 import SocialShare from '@/components/share/SocialShare';
 import SvgIconTwitter from '@/public/assets/icons/iconComponents/IconTwitter';
+import { formatImageWithFallback } from '@/helpers/formatters';
 import styles from './styles.module.scss';
 
 export default function BlogArticle({ post }: { post: Post }) {
@@ -22,7 +22,7 @@ export default function BlogArticle({ post }: { post: Post }) {
     <div className="relative  bg-white overflow-hidden">
       {renderHtml ? (
         <>
-          <div className="relative px-4 sm:px-6 lg:px-8">
+          <div className="relative px-4 sm:px-6 desktop:px-8">
             <div className="text-lg max-w-prose mx-auto">
               <h1>
                 <span className="mt-2 block font-serif text-4xl leading-10  text-green-500 text-5xl">

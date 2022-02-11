@@ -28,7 +28,6 @@ export type Dispensary = ResultWithLocationHours & {
     coordinates: string[];
     rating: number[];
     reviews_count: number[] | [0];
-    url: string[];
     sponsored: boolean[];
     langcode: string[];
     name: string[];

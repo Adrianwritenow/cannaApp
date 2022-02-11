@@ -22,6 +22,7 @@ export default function SearchStrain(props: {
   const [sort, setSort] = useState('relevance');
   const [currentQuery, setCurrentQuery] = useState('');
   const location = useSelector((root: RootState) => root.location);
+  const [total, setTotal] = useState(0);
 
   const [view, setView] = useState('list');
   const dispatch = useDispatch();
@@ -32,11 +33,6 @@ export default function SearchStrain(props: {
   });
   const [strains, setStrains] = useState<Array<Strain>>([]);
 
-  const sortState = {
-    value: sort,
-    update: setSort,
-  };
-
   const viewState = {
     value: view,
     update: setView,
@@ -46,7 +42,7 @@ export default function SearchStrain(props: {
     if (update || currentQuery !== query) {
       getStrains();
     }
-  }, [update, query, currentQuery, getStrains]);
+  }, [update, query, currentQuery]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   async function getStrains() {
@@ -71,7 +67,7 @@ export default function SearchStrain(props: {
       {/* Results list x Landing Page */}
 
       {/* Filter list */}
-      {strains.length ? (
+      {strains?.length ? (
         <>
           <StrainFilterSlideOver handleFilter={handleFilter} />
 

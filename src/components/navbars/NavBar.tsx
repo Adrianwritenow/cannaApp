@@ -10,7 +10,7 @@ export default function NavBar() {
   const router = useRouter();
 
   return (
-    <Disclosure as="nav">
+    <Disclosure as="nav" className="bg-white">
       {({ open }) => (
         <div className="max-w-7xl mx-auto">
           <div className="w-12 hidden print:block absolute l-0 t-0">

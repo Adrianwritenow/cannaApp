@@ -25,15 +25,15 @@ export default function BlogByAuthor() {
   }, [router, articles]);
 
   return (
-    <div className="bg-gray-50 pt-6 pb-20 px-4 sm:px-6 lg:pt-24 lg:pb-28 lg:px-8">
-      <div className="relative max-w-lg mx-auto lg:max-w-7xl">
+    <div className="bg-gray-50 pt-6 pb-20 px-4 sm:px-6 desktop:pt-24 desktop:pb-28 desktop:px-8">
+      <div className="relative max-w-lg mx-auto desktop:max-w-7xl">
         <div>
           <h2 className="text-2xl tracking-tight font-semibold text-gray-700 sm:text-4xl">
             {author}
           </h2>
         </div>
         {articles && (
-          <div className=" grid gap-0 lg:grid-cols-3 lg:gap-x-5 lg:gap-y-12">
+          <div className=" grid gap-0 desktop:grid-cols-3 desktop:gap-x-5 desktop:gap-y-12">
             {articles.map((post, idx) => (
               <BlogArticleCardFeatured
                 post={post}

@@ -2,8 +2,8 @@ name: '[STAGE] Build and Deploy'
 
 on:
   push:
-    branches:
-      - staging
+    tags:
+      - v[12].[0-9]+.[0-9]+
 
 jobs:
   deploy:
@@ -36,6 +36,6 @@ jobs:
           GOOGLE_CLIENT_ID: ${{ secrets.DEV_GOOGLE_CLIENT_ID }}
           GOOGLE_CLIENT_SECRET: ${{ secrets.DEV_GOOGLE_CLIENT_SECRET }}
           SEARCH_URL: ${{ secrets.DEV_SEARCH_URL }}
-          NEXTAUTH_URL: ${{ secrets.DEV_NEXTAUTH_URL }}
+          NEXTAUTH_URL: 'https://staging.cannapages.com'
           IPSTACK_API_URL: ${{secrets.IPSTACK_API_URL}}
           IPSTACK_ACCESS_KEY: ${{ secrets.IPSTACK_ACCESS_KEY }}

@@ -1,7 +1,20 @@
-import { SEARCH_REQUEST_GET } from '../actions/search';
+import { SearchHits } from '@/interfaces/searchHits';
+import {
+  SEARCH_REQUEST_GET,
+  SEARCH_REQUEST_GET_COMBINED,
+} from '@/actions/search';
 
 const defaultState = {
   results: [],
+  listResults: {
+    // Changing this order can impact certain pages.
+    strains: [],
+    dispensaries: [],
+    deals: [],
+    blogs: [],
+    news: [],
+    shopping: [],
+  },
   query: '',
   searchLocation: {
     coords: {
@@ -26,7 +39,7 @@ export interface SearchAction {
   type: string;
 }
 
-const search = (state: any = defaultState, action: SearchAction) => {
+const search = (state: any = defaultState, action: any) => {
   switch (action.type) {
     case SEARCH_REQUEST_GET:
       let query = action.data;
@@ -42,6 +55,47 @@ const search = (state: any = defaultState, action: SearchAction) => {
         query: search,
         searchLocation: query.searchLocation || state.searchLocation,
       };
+
+    case SEARCH_REQUEST_GET_COMBINED:
+      if (action.response && action.response.data) {
+        const allResultsResponse = action.response.data.responses || [];
+        const currentListResults = state.listResults;
+
+        allResultsResponse.forEach((result: SearchHits) => {
+          const results = result.hits?.hits || [];
+          const firstResult = results[0] || {};
+
+          if (firstResult._id) {
+            switch (true) {
+              case firstResult._id.includes('coupon'):
+                currentListResults.deals = results;
+                break;
+
+              case firstResult._id.includes('product_entity'):
+                currentListResults.shopping = results;
+                break;
+
+              case firstResult._id.includes('dispensary_entity'):
+                currentListResults.dispensaries = results;
+                break;
+
+              case firstResult._id.includes('strain_entity'):
+                currentListResults.strains = results;
+                break;
+
+              case firstResult._id.includes('blog'):
+                currentListResults.blogs = results;
+                break;
+            }
+          }
+        });
+
+        return {
+          ...state,
+          listResults: currentListResults,
+        };
+      }
+      return state;
 
     default:
       return state;

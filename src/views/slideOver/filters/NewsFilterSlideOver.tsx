@@ -86,7 +86,7 @@ export default function NewsFilterSlideOver(props: { handleFilter: Function }) {
   }, [savedValues]);
 
   return (
-    <div>
+    <div className="max-w-7xl mx-auto">
       <Formik
         initialValues={savedValues}
         onSubmit={() => {}}

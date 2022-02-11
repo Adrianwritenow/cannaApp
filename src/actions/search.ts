@@ -153,7 +153,9 @@ export async function combinedSearchQuery(searchProps: {
           // Check if filters exists and it has a productType field with a value
           if (filters && filters.productType && filters.productType[0]) {
             let products = flatData
-              .map((dispensary: Dispensary) => dispensary._source.products)
+              .map((dispensary: Dispensary) =>
+                dispensary._source.products ? dispensary._source.products : []
+              )
               .flat(1)
               .filter(productId => productId);
 
@@ -174,7 +176,7 @@ export async function combinedSearchQuery(searchProps: {
                   return (
                     business._source.products &&
                     filteredProductIds.some(productId =>
-                      business._source.products.includes(productId)
+                      business._source.products?.includes(productId)
                     )
                   );
                 }

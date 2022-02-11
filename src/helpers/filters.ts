@@ -19,7 +19,7 @@ export const Filters: Record<string, Filter> = {
       { value: 'Cartridge' },
       { value: 'Flower' },
       { value: 'Clothing' },
-      { value: 'Edible' },
+      { value: 'Edibles' },
     ],
   },
   sort: {

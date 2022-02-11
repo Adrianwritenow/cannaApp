@@ -12,7 +12,7 @@ interface ProductProps {
 export default function BusinessProductCard(data: ProductProps) {
   const { product } = data;
   return (
-    <Link href="/product/entity%3Aproduct_entity%2F101%3Aen/0" passHref>
+    <Link href={`/product/${product._source.id}`} passHref>
       <a>
         <div
           className="relative w-full flex py-4 border-b border-gray-200"
@@ -29,16 +29,14 @@ export default function BusinessProductCard(data: ProductProps) {
             </p>
 
             <div className="flex flex-col items-start">
-              {typeof product._source.rating !== 'undefined' && (
-                <StarRating
-                  rating={product._source.rating[0]}
-                  reviews_count={
-                    product._source.reviews_count
-                      ? product._source.reviews_count[0]
-                      : undefined
-                  }
-                />
-              )}
+              <StarRating
+                rating={product._source.rating ? product._source.rating[0] : 0}
+                reviews_count={
+                  product._source.reviews_count
+                    ? product._source.reviews_count[0]
+                    : 0
+                }
+              />
             </div>
           </div>
           <div className="rounded-lg overflow-hidden w-25 h-25 relative flex-shrink-0">

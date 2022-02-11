@@ -7,7 +7,7 @@ import FilterDispensaryMenu from '@/components/filter/FilterDispensaryMenu';
 import { Filters } from '../../../helpers/filters';
 import { useRouter } from 'next/router';
 
-export default function DispenaryFilterSlideOver(props: {
+export default function DispensaryFilterSlideOver(props: {
   setFilters: Function;
 }) {
   const { setFilters } = props;
@@ -20,7 +20,7 @@ export default function DispenaryFilterSlideOver(props: {
   const [filterList, setFilterList]: any = useState([]);
 
   const [savedValues, setSavedValues]: any = useState({
-    category: category || '',
+    productType: category || '',
     filters: {},
     amenities: '',
     sort: sort,
@@ -30,7 +30,7 @@ export default function DispenaryFilterSlideOver(props: {
 
   const initialValues: any = {
     filters: {},
-    category: '',
+    productType: '',
     amenities: '',
     sort: sort,
     distance: '',
@@ -40,9 +40,8 @@ export default function DispenaryFilterSlideOver(props: {
     // Force values to array in order to check if they exist in case of multiple values
     const filters: any = {
       sort: [savedValues.sort],
-      category: [savedValues.category],
+      productType: [savedValues.productType],
       distance: [savedValues.distance],
-
       amenities: savedValues.amenities.length ? savedValues.amenities : [],
     };
 
@@ -84,11 +83,17 @@ export default function DispenaryFilterSlideOver(props: {
   function removeFilter(keyName: string, filter: string) {
     let stateCopy = Object.assign({}, savedValues);
     let listCopy = filterList;
+
     const isArray =
-      Object.prototype.toString.call(initialValues[keyName]).indexOf('Array') >
-      1;
-    stateCopy[keyName].splice(stateCopy[keyName].indexOf(filter), 1);
-    listCopy.splice(listCopy.indexOf(filter), 1);
+      Object.prototype.toString.call(savedValues[keyName]).indexOf('Array') > 1;
+
+    // If a list of a filter type is expected remove filter and update tags based on list
+    if (isArray) {
+      stateCopy[keyName].splice(stateCopy[keyName].indexOf(filter), 1);
+    } else {
+      stateCopy.filters[keyName] = [''];
+      stateCopy[keyName] = initialValues[keyName];
+    }
 
     setFilterList(listCopy);
     setSavedValues(stateCopy);

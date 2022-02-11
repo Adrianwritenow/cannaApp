@@ -3,7 +3,6 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { combinedSearchQuery, getBusinessProducts } from '@/actions/search';
 
 import { ArrowLeftIcon } from '@heroicons/react/outline';
-import { BusinessSlideoverProps } from '@/interfaces/props/businessSlideOverProps';
 import { Dispensary } from '@/interfaces/dispensary';
 import FilterMenuTabs from '../../../components/filter/FilterMenuTabs';
 import { Product } from '@/interfaces/product';
@@ -15,9 +14,10 @@ export default function BusinessMenuSlideOver(props: {
   const { dispensary } = props;
   const [open, setOpen] = useState(false);
   const [products, setProducts] = useState<Array<Product>>([]);
+  const [update, setUpdate] = useState(true);
 
   useEffect(() => {
-    if (!products.length) {
+    if (update) {
       getProducts();
     }
   }, [products]);
@@ -29,9 +29,8 @@ export default function BusinessMenuSlideOver(props: {
       const hits: any = await getBusinessProducts(product_ids);
       setProducts(hits.hits.hits);
     }
+    setUpdate(false);
   }
-
-  console.log(products);
 
   return (
     <div>

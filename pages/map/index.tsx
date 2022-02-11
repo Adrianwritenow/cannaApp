@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 
-import DispenaryFilterSlideOver from '@/views/slideOver/filters/DispensaryFilterSlideOver';
 import { MapContainer } from '@/components/map/MapContainer';
 import MapFilterSlideOver from '@/views/slideOver/MapFilterSlideOver';
 import { RootState } from '@/reducers';

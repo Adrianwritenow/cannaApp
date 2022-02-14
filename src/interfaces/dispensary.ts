@@ -21,6 +21,7 @@ export type Dispensary = ResultWithLocationHours & {
     phone_number: string[];
     website: string[];
     postal_code: string[];
+    products?: number[];
     lat: number[];
     lon: number[];
     email: string[];

@@ -54,7 +54,7 @@ export default function ProductDetail() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto bg-gray-50 md:px-20">
+    <div className="max-w-7xl mx-auto bg-gray-50 md:px-20 desktop:mt-4">
       {/* Product */}
 
       {product && (

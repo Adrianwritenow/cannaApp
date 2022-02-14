@@ -139,14 +139,14 @@ export default function FilterDispensaryMenu(props: FilterMenuProps) {
                           values={values.filters.category}
                           setFieldValue={setFieldValue}
                         /> */}
-                        {/* <FilterGroup
+                        <FilterGroup
                           filters={Filters.products.list}
                           label={'Products'}
-                          id={'category'}
+                          id={'productType'}
                           type="radio"
-                          values={values.filters.category}
+                          values={values.filters.productType}
                           setFieldValue={setFieldValue}
-                        /> */}
+                        />
                         <FilterGroup
                           filters={Filters.amenities.list}
                           label={'Amenities'}

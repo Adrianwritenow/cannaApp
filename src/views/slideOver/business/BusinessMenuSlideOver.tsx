@@ -1,14 +1,16 @@
 import { Dialog, Transition } from '@headlessui/react';
 import React, { Fragment, useEffect, useState } from 'react';
+import { combinedSearchQuery, getBusinessProducts } from '@/actions/search';
 
 import { ArrowLeftIcon } from '@heroicons/react/outline';
-import { BusinessSlideoverProps } from '@/interfaces/props/businessSlideOverProps';
+import { Dispensary } from '@/interfaces/dispensary';
 import FilterMenuTabs from '../../../components/filter/FilterMenuTabs';
 import { Product } from '@/interfaces/product';
 import ProductResultsSection from '../../../components/sections/ProductsResultsSection';
-import { combinedSearchQuery } from '@/actions/search';
 
-export default function BusinessMenuSlideOver(props: BusinessSlideoverProps) {
+export default function BusinessMenuSlideOver(props: {
+  dispensary: Dispensary;
+}) {
   const { dispensary } = props;
   const [open, setOpen] = useState(false);
   const [products, setProducts] = useState<Array<Product>>([]);
@@ -18,38 +20,51 @@ export default function BusinessMenuSlideOver(props: BusinessSlideoverProps) {
     if (update) {
       getProducts();
     }
-  }, [update]);
+  }, [products]);
 
   async function getProducts() {
-    const hits: any = await combinedSearchQuery({
-      q: '*',
-      endpoints: ['products'],
-      total: 10,
-    });
-    setProducts(hits);
+    const product_ids = dispensary._source.products;
+
+    if (product_ids?.length) {
+      const hits: any = await getBusinessProducts(product_ids);
+      setProducts(hits.hits.hits);
+    }
     setUpdate(false);
   }
 
   return (
     <div>
       {/* Need Products related to business */}
-      <ProductResultsSection
-        list={products}
-        sponsored={false}
-        label={'Explore our Products'}
-        buttonLabel={'See all Products'}
-        stateFunction={setOpen}
-      />
+      {products.length ? (
+        <ProductResultsSection
+          list={products.slice(0, 5)}
+          sponsored={false}
+          label={'Explore our Products'}
+          buttonLabel={'See all Products'}
+          stateFunction={setOpen}
+        />
+      ) : (
+        ''
+      )}
       <Transition.Root show={open} as={Fragment}>
         <Dialog
           as="div"
-          className="fixed inset-0 overflow-hidden"
+          className="fixed inset-0 overflow-hidden z-30"
           onClose={setOpen}
         >
           <div className="absolute inset-0 overflow-hidden">
-            <Dialog.Overlay className="absolute inset-0" />
-
-            <div className="fixed inset-y-0 right-0 max-w-full flex">
+            <Transition.Child
+              as={Fragment}
+              enter="ease-in-out duration-500"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="ease-in-out duration-500"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <Dialog.Overlay className="absolute inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+            </Transition.Child>
+            <div className="fixed inset-y-0 right-0 max-w-full flex  max-w-full desktop:max-w-2xl">
               <Transition.Child
                 as={Fragment}
                 enter="transform transition ease-in-out duration-500 sm:duration-700"

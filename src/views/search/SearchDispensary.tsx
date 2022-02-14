@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
-import DispenaryFilterSlideOver from '../slideOver/filters/DispensaryFilterSlideOver';
 import { Dispensary } from '@/interfaces/dispensary';
+import DispensaryFilterSlideOver from '../slideOver/filters/DispensaryFilterSlideOver';
 import ListingSection from '../../components/sections/ListingSection';
 import { RootState } from '@/reducers';
 import SvgEmptyState from '@/public/assets/icons/iconComponents/EmptyState';
@@ -25,7 +25,7 @@ export default function SearchDispensary(props: {
 
   const location = useSelector((root: RootState) => root.location);
   const [filters, setFilters] = useState<any>({
-    category: [`${category ? category : ''}`],
+    productType: [`${category ? category : ''}`],
     sort: [],
     amenities: [],
     distance: [],
@@ -62,7 +62,7 @@ export default function SearchDispensary(props: {
 
   return (
     <div className="bg-gray-50">
-      <DispenaryFilterSlideOver setFilters={handleFilter} />
+      <DispensaryFilterSlideOver setFilters={handleFilter} />
       <div>
         {dispensaries?.length ? (
           <div>

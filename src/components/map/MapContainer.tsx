@@ -3,8 +3,8 @@ import { combinedSearchQuery, receiveResults } from '@/actions/search';
 import { useDispatch, useSelector } from 'react-redux';
 
 import BullseyeIcon from '@/public/assets/icons/iconComponents/Bullseye';
-import DispenaryFilterSlideOver from '@/views/slideOver/filters/DispensaryFilterSlideOver';
 import { Dispensary } from '@/interfaces/dispensary';
+import DispensaryFilterSlideOver from '@/views/slideOver/filters/DispensaryFilterSlideOver';
 import { Map } from './Map';
 import MapResults from './MapResults';
 import { RootState } from '@/reducers';
@@ -138,7 +138,7 @@ export function MapContainer() {
 
       {locationMatches && (
         <>
-          <DispenaryFilterSlideOver setFilters={handleFilter} />
+          <DispensaryFilterSlideOver setFilters={handleFilter} />
 
           <MapContext.Provider
             value={{

@@ -19,7 +19,7 @@ export const Filters: Record<string, Filter> = {
       { value: 'Cartridge' },
       { value: 'Flower' },
       { value: 'Clothing' },
-      { value: 'Edible' },
+      { value: 'Edibles' },
     ],
   },
   sort: {
@@ -85,8 +85,9 @@ export const Filters: Record<string, Filter> = {
           { value: 'Chewing Gum & Bubblegum' },
           { value: 'Ginger Candy' },
           { value: 'Hard Candy & Lollipops' },
+          { value: 'Pods' },
           { value: 'Halva' },
-          { value: 'Jelly Beans & Gummy Candy' },
+          { value: 'Gummies' },
           { value: 'Marshmallows' },
           { value: 'Mints' },
           { value: 'Sour Candy' },
@@ -94,7 +95,7 @@ export const Filters: Record<string, Filter> = {
         ],
       },
       {
-        value: 'Beverages',
+        value: 'Drinks',
         subList: [
           { value: 'Soft Drinks' },
           { value: 'Energy' },
@@ -136,6 +137,7 @@ export const Filters: Record<string, Filter> = {
           { value: 'Eau Fraiche' },
           { value: 'Eau de Parfum' },
           { value: 'Eau de Toilette' },
+          { value: 'Balms & Salves' },
         ],
       },
       {

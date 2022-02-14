@@ -1,9 +1,11 @@
 import { AxiosError, AxiosResponse } from 'axios';
 
-import { combinedQueryBody } from '@/helpers/searchQuery';
+import { Dispensary } from '@/interfaces/dispensary';
 import { IAxiosAction } from '@/interfaces/axios';
+import { Product } from '@/interfaces/product';
 import { SearchHits } from '@/interfaces/searchHits';
 import bodybuilder from 'bodybuilder';
+import { combinedQueryBody } from '@/helpers/searchQuery';
 
 var axios = require('axios');
 const SEARCH_URL = process.env.SEARCH_URL;
@@ -81,8 +83,12 @@ export async function combinedSearchQuery(searchProps: {
           }
         }
       }
-
-      if (key !== 'category' && key !== 'sort' && filters[key][0]) {
+      if (
+        key !== 'category' &&
+        key !== 'sort' &&
+        key !== 'productType' &&
+        filters[key][0]
+      ) {
         body.filter('match', `${key}`, filters[key][0]);
       }
     });
@@ -115,6 +121,8 @@ export async function combinedSearchQuery(searchProps: {
   let apis: any[] = [];
   let data: any[] = [];
 
+  // Check endpoints for selective searching,
+  // if multiple are given we search through each
   if (endpoints) {
     if (endpoints.length) {
       apis = endpoints.map(function (value) {
@@ -134,12 +142,54 @@ export async function combinedSearchQuery(searchProps: {
             })
           )
         )
-        .then((response: AxiosResponse<SearchHits>[]) => {
+        .then(async (response: AxiosResponse<SearchHits>[]) => {
           // TODO: Document this please
+
           let values: any[] = response.map(r => r.data.hits.hits);
           let flatData = [].concat.apply([], values);
 
-          return flatData;
+          let responseData = flatData;
+
+          // Check if filters exists and it has a productType field with a value
+          if (filters && filters.productType && filters.productType[0]) {
+            let products = flatData
+              .map((dispensary: Dispensary) =>
+                dispensary._source.products ? dispensary._source.products : []
+              )
+              .flat(1)
+              .filter(productId => productId);
+
+            // With the list of product ids we can now  provide the list to find these products to check their category and the category to filter by
+            let primeData = await getBusinessProducts(
+              products,
+              filters.productType[0]
+            ).then((subResponse: SearchHits) => {
+              let businessProducts = subResponse.hits.hits;
+              // Grab Ids from products to filter through
+              let filteredProductIds = businessProducts
+                .map((product: Product) => product._source.id)
+                .flat(1);
+
+              // Filter through business to see if they have the matching products of filter type
+              let businessWithProduct = responseData.filter(
+                (business: Dispensary) => {
+                  return (
+                    business._source.products &&
+                    filteredProductIds.some(productId =>
+                      business._source.products?.includes(productId)
+                    )
+                  );
+                }
+              );
+
+              // Reset value of return data
+              primeData = businessWithProduct;
+              return primeData;
+            });
+            responseData = primeData;
+          }
+
+          return responseData;
         })
         .catch((error: any) => {
           console.log('ERR:::', error);
@@ -251,6 +301,34 @@ export function browseBy(
   return results;
 }
 
+export function getBusinessProducts(products: number[], filter?: string) {
+  var body = bodybuilder().query('terms', 'id', products);
+
+  // If a category is provided use it to filter by
+  if (filter) {
+    body.filter('match', 'category', filter);
+  }
+
+  const query = body.build();
+
+  const results = axios({
+    url: `${SEARCH_URL}/elasticsearch_index_${SEARCH_INDEX_PREFIX}_products/_search`,
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: query,
+  })
+    .then((res: AxiosResponse) => {
+      return res.data;
+    })
+    .catch((error: AxiosError) => {
+      // dispatch must come before setState
+      console.log('ERR:::', error);
+    });
+  return results;
+}
+
 export function getPopular(type: string) {
   var body = {
     query: {
@@ -274,9 +352,9 @@ export function getPopular(type: string) {
       return res.data;
     })
     .catch((error: AxiosError) => {
-      // dispatch must come before setState
       console.log('ERR:::', error);
     });
+
   return results;
 }
 

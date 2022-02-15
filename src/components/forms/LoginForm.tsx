@@ -2,18 +2,17 @@ import * as Yup from 'yup';
 
 import { EyeIcon, EyeOffIcon } from '@heroicons/react/outline';
 import { Field, Form, Formik } from 'formik';
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { signIn } from 'next-auth/react';
 
 import ErrorsDisplay from '@/components/error/ErrorsDisplay';
 import { InputField } from '@/components/forms/fields/InputField';
-import { useRouter } from 'next/router';
+import Link from 'next/link';
 import sureThing from '@/helpers/sureThing';
 
 export default function LoginForm() {
   const [apiError, setApiError] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const router = useRouter();
   const schema = Yup.object().shape({
     email: Yup.string()
       .email('Email address does not look complete')
@@ -125,9 +124,11 @@ export default function LoginForm() {
               </div>
 
               <div className="text-sm">
-                <a href="#" className="font-medium text-green">
-                  Forgot your password?
-                </a>
+                <Link href="/user/password">
+                  <a className="font-medium text-green">
+                    Forgot your password?
+                  </a>
+                </Link>
               </div>
             </div>
             {errorCount || apiError ? (

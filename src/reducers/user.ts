@@ -1,7 +1,6 @@
 import {
   USER_REQUEST_GET,
   USER_REQUEST_GET_CURRENT,
-  USER_REQUEST_PASSWORD_RESET,
   USER_REQUEST_UPDATE,
 } from '../actions/user';
 

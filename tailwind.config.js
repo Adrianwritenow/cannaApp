@@ -93,6 +93,10 @@ module.exports = {
   variants: {
     // all the following default to ['responsive']
     textIndent: ['responsive'],
+    extend: {
+      backgroundColor: ['disabled'],
+      textColor: ['disabled']
+    },
   },
 
   plugins: [

@@ -654,6 +654,7 @@ export const Filters: Record<string, Filter> = {
       { value: 'Lab Tested' },
       { value: 'Social Equity' },
       { value: 'ATM' },
+      { value: 'Curbside Pickup' },
       { value: 'Best Of' },
       { value: 'Brand Verified' },
       { value: 'Security' },

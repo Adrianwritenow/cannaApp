@@ -504,7 +504,7 @@ export default function BusinessDetail() {
         <BusinessReviewSlideOver dispensary={dispensary} reviews={reviews} />
       </div> */}
         {dispensary?._source.amenities && (
-          <div className="mx-auto">
+          <div>
             <AmenitiesSection
               amenities={dispensary._source.amenities as string[]}
             />

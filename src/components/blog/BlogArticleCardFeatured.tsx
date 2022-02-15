@@ -13,15 +13,14 @@ function BlogArticleFeatured({ post }: { post: Post }) {
           <div className="pb-4">
             <Link href={`/blog/${post._source.id}`} passHref>
               <a>
-                <ImageWithFallback
-                  src={formatImageWithFallback(post._source.image)}
-                  layout="responsive"
-                  height={200}
-                  width={300}
-                  objectFit="cover"
-                  alt={post._source.main_alt[0]}
-                  className="rounded-lg"
-                />
+                <div className="h-48 w-72 relative">
+                  <ImageWithFallback
+                    src={formatImageWithFallback(post._source.image)}
+                    objectFit="cover"
+                    alt={post._source.main_alt[0]}
+                    className="rounded-lg"
+                  />
+                </div>
               </a>
             </Link>
           </div>

@@ -253,7 +253,7 @@ export function getDocuments(
 export function getFeatured(index: string) {
   var body = bodybuilder().filter('match', 'featured', true).build();
   const results = axios({
-    url: `${SEARCH_URL}/elasticsearch_index_${SEARCH_INDEX_PREFIX}_${index}/_search?size=1`,
+    url: `${SEARCH_URL}/elasticsearch_index_${SEARCH_INDEX_PREFIX}_${index}/_search?`,
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

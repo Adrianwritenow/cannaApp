@@ -3,7 +3,8 @@ import { IAxiosAction } from '@/interfaces/axios';
 export const USER_REQUEST_GET = 'user/get';
 export const USER_REQUEST_GET_CURRENT = 'user/getCurrent';
 export const USER_REQUEST_UPDATE = 'user/update';
-export const USER_REQUEST_PASSWORD_RESET = 'user/password';
+export const USER_REQUEST_LOST_PASSWORD = 'user/lostPassword';
+export const USER_REQUEST_LOST_PASSWORD_RESET = 'user/lostPasswordReset';
 export const USER_REQUEST_LOGOUT = 'user/logout';
 
 export interface UpdateUser {
@@ -66,7 +67,33 @@ export function userLogout(): IAxiosAction {
     type: USER_REQUEST_LOGOUT,
     config: {
       method: 'POST',
-      url: `/oauth/logout`
+      url: `/oauth/logout`,
+    },
+  };
+}
+
+export function userLostPassword(mail: string): IAxiosAction {
+  return {
+    type: USER_REQUEST_LOST_PASSWORD,
+    config: {
+      method: 'POST',
+      url: `/user/lost-password`,
+      data: { mail },
+    },
+  };
+}
+
+export function userLostPasswordReset(data: {
+  name: string;
+  temp_pass: string;
+  new_pass: string;
+}): IAxiosAction {
+  return {
+    type: USER_REQUEST_LOST_PASSWORD_RESET,
+    config: {
+      method: 'POST',
+      url: `/user/lost-password-reset`,
+      data,
     },
   };
 }

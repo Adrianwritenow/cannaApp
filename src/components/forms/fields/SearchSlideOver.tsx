@@ -184,7 +184,7 @@ export default function SearchSlideOver(props: {
         endpoints: [
           { name: 'products' },
           { name: 'coupons', geolocate: true },
-          { name: 'dispensaries', geolocate: true },
+          { name: 'dispenaries', geolocate: true },
           { name: 'strains' },
           { name: 'blogs' },
         ],

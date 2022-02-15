@@ -81,7 +81,8 @@ export default function ProductFilterSlideOver(props: {
     let stateCopy = Object.assign({}, savedValues);
     let listCopy = filterList;
     const isArray =
-      Object.prototype.toString.call(savedValues[keyName]).indexOf('Array') > 1;
+      Object.prototype.toString.call(initialValues[keyName]).indexOf('Array') >
+      1;
 
     if (isArray) {
       stateCopy[keyName].splice(stateCopy[keyName].indexOf(filter), 1);

@@ -66,6 +66,13 @@ export async function combinedSearchQuery(searchProps: {
             case 'Highest Rated':
               body.sort('rating', 'desc');
               break;
+            case 'Largest Menu':
+              body.sort('_script', {
+                type: 'number',
+                script: 'doc.products.size()',
+                order: 'desc',
+              });
+              break;
             case 'Most Reviewed':
               body.sort('reviews_count', 'desc');
               break;

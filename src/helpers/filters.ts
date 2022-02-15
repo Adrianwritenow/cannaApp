@@ -53,6 +53,8 @@ export const Filters: Record<string, Filter> = {
       { value: 'Distance' },
       { value: 'Highest Rated' },
       { value: 'Most Reviewed' },
+      { value: 'Largest Menu' },
+
       // { value: 'Largest Menu' },
     ],
   },

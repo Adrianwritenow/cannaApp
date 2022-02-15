@@ -69,7 +69,7 @@ export default function Blog() {
               </div>
 
               {featured.length && (
-                <div className=" grid gap-0  desktop:grid-cols-3 desktop:gap-x-5 desktop:gap-y-12">
+                <div className=" grid gap-0  desktop:grid-cols-3 desktop:gap-x-5 desktop:gap-y-12 divide-y-2">
                   {featured
                     .slice(0, 5)
                     .map((post, idx) =>
@@ -82,7 +82,7 @@ export default function Blog() {
                         <BlogArticleCardSmall post={post} />
                       )
                     )}
-                  <BlogArticleCardSmall post={articles[0]} />
+                  <div></div>
                 </div>
               )}
 

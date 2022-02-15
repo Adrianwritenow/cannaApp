@@ -26,7 +26,6 @@ export default function DispensaryFilterSlideOver(props: {
     sort: sort,
     distance: distance,
   });
-  const [sortPricing, setSortPricing] = useState(savedValues.sort);
 
   const initialValues: any = {
     filters: {},
@@ -75,7 +74,7 @@ export default function DispensaryFilterSlideOver(props: {
     }
 
     // update sort
-    setSortPricing(savedValues.sort);
+    setSort(savedValues.sort);
   }, [savedValues]);
 
   // Remove filters from list to be rendered and update the form state values
@@ -135,12 +134,12 @@ export default function DispensaryFilterSlideOver(props: {
                     <div className="flex">
                       <div className="flex">
                         <DropdownFilter
-                          setter={setSortPricing}
+                          setter={setSort}
                           id={'sort'}
                           options={Filters.sortDispensary.list.map(filter => {
                             return filter.value;
                           })}
-                          current={sortPricing}
+                          current={sort}
                           label={'Sort by'}
                           setFieldValue={setFieldValue}
                         />

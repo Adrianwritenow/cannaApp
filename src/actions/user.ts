@@ -84,9 +84,9 @@ export function userLostPassword(mail: string): IAxiosAction {
 }
 
 export function userLostPasswordReset(data: {
-  name: string;
-  temp_pass: string;
-  new_pass: string;
+  name?: string | string[];
+  temp_pass?: string | string[];
+  new_pass?: string | string[];
 }): IAxiosAction {
   return {
     type: USER_REQUEST_LOST_PASSWORD_RESET,

@@ -4,31 +4,38 @@ import { Field, Formik } from 'formik';
 import { IAxiosReturn } from '@/interfaces/axios';
 import { InputField } from '@/components/forms/fields/InputField';
 import Link from 'next/link';
-import { userLostPassword } from '@/actions/user';
+import { userLostPasswordReset } from '@/actions/user';
 import { useAxios } from '@/hooks/useAxios';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 
-export default function ForgotPassword() {
+export default function PasswordReset() {
+  const router = useRouter();
+  const { name, temp_pass } = router.query;
   const [apiError, setApiError] = useState('');
   const [dispatchAxios, { loading, success }] = useAxios();
   const initialValues = {
-    email: '',
+    password: '',
   };
 
   const schema = Yup.object().shape({
-    email: Yup.string().required('Email is required'),
+    password: Yup.string().required('Email is required'),
   });
 
   function handleSubmit(values: any) {
     // Load business and then proceed to the next step.
-    dispatchAxios(userLostPassword(values.email)).then(
-      (status: IAxiosReturn) => {
-        if (!status.success) {
-          setApiError('Password reset request failed, please try again later.');
-          return;
-        }
+    const data = {
+      name,
+      temp_pass,
+      new_pass: values.password,
+    };
+
+    dispatchAxios(userLostPasswordReset(data)).then((status: IAxiosReturn) => {
+      if (!status.success) {
+        setApiError('Password reset request failed, please try again later.');
+        return;
       }
-    );
+    });
   }
 
   if (success) {
@@ -36,12 +43,10 @@ export default function ForgotPassword() {
       <div className="flex flex-col justify-start py-12 px-4 bg-white">
         <div className="mx-auto max-w-lg">
           <div className="space-y-6">
-            <h1 className="text-2xl leading-8 font-bold">
-              Reset Instructions Sent
-            </h1>
+            <h1 className="text-2xl leading-8 font-bold">Password Changed</h1>
             <p className="text-lg leading-6 font-normal">
-              We delivered instructions to your email to help you reset your
-              password.
+              We have updated your password. You may now use it to log in to
+              your account.
             </p>
             <Link href="/login">
               <a className="bg-green text-white hover:bg-green-600 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2">
@@ -74,25 +79,22 @@ export default function ForgotPassword() {
           <div className="flex flex-col justify-start py-12 px-4 bg-white">
             <div className="mx-auto max-w-lg">
               <form className="space-y-6" onSubmit={handleSubmit}>
-                <h1 className="text-2xl leading-8 font-bold">
-                  Forgot Your Password?
-                </h1>
+                <h1 className="text-2xl leading-8 font-bold">Reset Password</h1>
                 <p className="text-lg leading-6 font-normal">
-                  Enter the email associated with this account and we&apos;ll
-                  send a password reset link.
+                  Choose a new password for your account.
                 </p>
 
                 <div className="mt-1">
                   <label
-                    htmlFor="email"
+                    htmlFor="password"
                     className={'block text-sm font-medium text-gray-700'}
                   >
-                    Your email address
+                    New Password
                   </label>
                   <Field
-                    id="email"
-                    name="email"
-                    type="email"
+                    id="password"
+                    name="password"
+                    type="password"
                     component={InputField}
                   />
                 </div>
@@ -114,12 +116,6 @@ export default function ForgotPassword() {
                     ? 'Resetting Your Password...'
                     : 'Reset Your Password'}
                 </button>
-
-                <Link href="/login">
-                  <a className="w-full bg-white text-green flex justify-center py-2 px-4 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2">
-                    Back to Log In
-                  </a>
-                </Link>
               </form>
             </div>
           </div>

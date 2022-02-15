@@ -19,7 +19,7 @@ export default function PasswordReset() {
   };
 
   const schema = Yup.object().shape({
-    password: Yup.string().required('Email is required'),
+    password: Yup.string().required('Password is required'),
   });
 
   function handleSubmit(values: any) {

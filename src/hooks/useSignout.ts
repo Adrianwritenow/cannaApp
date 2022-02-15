@@ -16,7 +16,9 @@ export function useSignout() {
       dispatchAxios(userLogout());
     }
 
-    signOut();
+    signOut({
+      callbackUrl: `${window.location.origin}`,
+    });
   };
 
   return logout;

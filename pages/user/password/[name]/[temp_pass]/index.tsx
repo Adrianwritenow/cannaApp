@@ -23,7 +23,6 @@ export default function PasswordReset() {
   });
 
   function handleSubmit(values: any) {
-    // Load business and then proceed to the next step.
     const data = {
       name,
       temp_pass,

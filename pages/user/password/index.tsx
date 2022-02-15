@@ -20,7 +20,6 @@ export default function ForgotPassword() {
   });
 
   function handleSubmit(values: any) {
-    // Load business and then proceed to the next step.
     dispatchAxios(userLostPassword(values.email)).then(
       (status: IAxiosReturn) => {
         if (!status.success) {

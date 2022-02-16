@@ -98,30 +98,7 @@ export default function FilterDispensaryMenu(props: FilterMenuProps) {
                             Open now
                           </span>
                         </label> */}
-                        {/* <label
-                          className=" text-sm text-gray-900 w-full flex items-center"
-                          onClick={() => {
-                            if (setFieldValue) {
-                              setFieldValue('category', 'Storefront');
-                            }
-                          }}
-                        >
-                          <Field
-                            id={`storeFront`}
-                            name={'storeFront'}
-                            value={`${values.filters.category}`}
-                            checked={values?.filters.category?.includes(
-                              'Storefront'
-                            )}
-                            type={'checkbox'}
-                            className={
-                              'focus:ring-green h-4 w-4 text-green border-gray-300 rounded-md'
-                            }
-                          />
-                          <span className="text-sm font-semibold text-gray-700 text-left py-2 pl-4">
-                            Storefronts
-                          </span>
-                        </label> */}
+
                         <FilterGroup
                           filters={Filters.sortDispensary.list}
                           label={'Sort By'}
@@ -131,14 +108,14 @@ export default function FilterDispensaryMenu(props: FilterMenuProps) {
                           setFieldValue={setFieldValue}
                         />
 
-                        {/* <FilterGroup
+                        <FilterGroup
                           filters={Filters.license.list}
                           label={'License Type'}
-                          id={'category'}
+                          id={'license_type'}
                           type="radio"
-                          values={values.filters.category}
+                          values={values.filters.license_type}
                           setFieldValue={setFieldValue}
-                        /> */}
+                        />
                         <FilterGroup
                           filters={Filters.products.list}
                           label={'Products'}
@@ -153,6 +130,19 @@ export default function FilterDispensaryMenu(props: FilterMenuProps) {
                           id={'amenities'}
                           values={values.filters.amenities}
                         />
+                        <label className=" text-sm text-gray-900 w-full flex items-center">
+                          <Field
+                            id={`featured`}
+                            name={'featured'}
+                            type="checkbox"
+                            className={
+                              'focus:ring-green h-4 w-4 text-green border-gray-300 rounded-md'
+                            }
+                          />
+                          <span className="text-sm font-semibold text-gray-700 text-left py-2 pl-4">
+                            Featured
+                          </span>
+                        </label>
                       </div>
                     </div>
                     {/* /End Body */}

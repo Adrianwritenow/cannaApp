@@ -23,6 +23,8 @@ export default function DispensaryFilterSlideOver(props: {
     productType: category || '',
     filters: {},
     amenities: '',
+    featured: '',
+    license_type: '',
     sort: sort,
     distance: distance,
   });
@@ -31,6 +33,8 @@ export default function DispensaryFilterSlideOver(props: {
     filters: {},
     productType: '',
     amenities: '',
+    license_type: '',
+    featured: '',
     sort: sort,
     distance: '',
   };
@@ -40,6 +44,8 @@ export default function DispensaryFilterSlideOver(props: {
     const filters: any = {
       sort: [savedValues.sort],
       productType: [savedValues.productType],
+      license_type: [savedValues.license_type],
+      featured: [savedValues.featured],
       distance: [savedValues.distance],
       amenities: savedValues.amenities.length ? savedValues.amenities : [],
     };
@@ -54,7 +60,7 @@ export default function DispensaryFilterSlideOver(props: {
 
     // Remove initial empty values
     const filterArray = filter_data.filter(function (entry: any) {
-      return entry.trim() != '';
+      return `${entry}`.trim() !== '';
     });
     setFilterList(filterArray);
 
@@ -164,7 +170,8 @@ export default function DispensaryFilterSlideOver(props: {
                               if (
                                 savedValues.filters[keyName][index] !== '' &&
                                 keyName !== 'sort' &&
-                                keyName !== 'distance'
+                                keyName !== 'distance' &&
+                                keyName !== 'featured'
                               ) {
                                 return (
                                   <button
@@ -176,6 +183,27 @@ export default function DispensaryFilterSlideOver(props: {
                                     className="flex rounded-full border-2 border-gray-200 items-center px-4 py-2   text-sm font-medium bg-white text-gray-900 mx-1 w-max"
                                   >
                                     <span>{filter}</span>
+                                    <span className="sr-only">
+                                      Remove filter for label
+                                    </span>
+                                  </button>
+                                );
+                              }
+
+                              if (
+                                keyName == 'featured' &&
+                                savedValues.featured
+                              ) {
+                                return (
+                                  <button
+                                    type="button"
+                                    key={`${keyName}_${index}`}
+                                    onClick={() => {
+                                      removeFilter(keyName, filter);
+                                    }}
+                                    className="flex rounded-full border-2 border-gray-200 items-center px-4 py-2  text-sm font-medium bg-white text-gray-900 mx-1 w-max"
+                                  >
+                                    <span>Featured</span>
                                     <span className="sr-only">
                                       Remove filter for label
                                     </span>

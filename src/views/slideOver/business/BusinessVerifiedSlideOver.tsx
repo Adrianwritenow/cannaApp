@@ -121,15 +121,21 @@ export default function BusinessVerificationSlideOver(
                                           </p>
                                           <p>{value[1]}</p>
                                         </li>
-                                        <li className="w-full flex items justify-between py-4 border-b border-gray-200">
+                                        {/* Need Issuer info */}
+                                        {/* <li className="w-full flex items justify-between py-4 border-b border-gray-200">
                                           <p className="text-gray-700">
                                             Issued by
                                           </p>
                                           <p>{value[0]}</p>
-                                        </li>
+                                        </li> */}
                                         <li className="w-full flex items justify-between py-4 border-b border-gray-200">
                                           <p className="text-gray-700">Trade</p>
-                                          <p>Dispensary</p>
+                                          <p>
+                                            {dispensary._source.license_type
+                                              ? dispensary._source
+                                                  .license_type[0]
+                                              : value[0]}
+                                          </p>
                                         </li>
                                         {/* <li className="w-full flex items justify-between py-4 border-b border-gray-200">
                               <p className="text-gray-700">

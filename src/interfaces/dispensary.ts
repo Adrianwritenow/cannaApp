@@ -18,6 +18,8 @@ export type Dispensary = ResultWithLocationHours & {
     instagram: string[];
     twitter: string[];
     licenses?: string[];
+    license_type: string[];
+    featured: [boolean];
     phone_number: string[];
     website: string[];
     postal_code: string[];

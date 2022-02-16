@@ -46,12 +46,14 @@ export default function BusinessDetail() {
   let today = moment.tz(timezone).format('dddd');
 
   useEffect(() => {
-    getDocument(bid, 'dispenaries').then((document: SearchHits) => {
-      if (document) {
-        const result = document.hits.hits[0];
-        setDispensary(result as Dispensary);
-      }
-    });
+    if (!dispensary) {
+      getDocument(bid, 'dispenaries').then((document: SearchHits) => {
+        if (document) {
+          const result = document.hits.hits[0];
+          setDispensary(result as Dispensary);
+        }
+      });
+    }
 
     if (dispensary && lat && lon) {
       const isEmpty = Object.values({ lat, lon }).every(
@@ -65,6 +67,7 @@ export default function BusinessDetail() {
             lon: dispensary._source.lon,
           }
         );
+
         setDistanceFrom(distance);
       }
       if (dispensary && timezone === '') {
@@ -85,26 +88,23 @@ export default function BusinessDetail() {
       }
     }
 
-    async function getDispensaryResults() {
-      const hits: any = await combinedSearchQuery({
-        endpoints: ['dispenaries'],
-        total: 4,
-        coords: { lat: location.lat, lon: location.lon },
-      });
-      setViewed(hits);
-    }
-
     if (location.city && !viewed) {
       getDispensaryResults();
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router]);
-  // }, [lat, lon, dispensary, router]); //
+  }, [lat, lon, dispensary, router]);
+  async function getDispensaryResults() {
+    const hits: any = await combinedSearchQuery({
+      endpoints: ['dispenaries'],
+      total: 4,
+      coords: { lat: location.lat, lon: location.lon },
+    });
+    setViewed(hits);
+  }
 
   return dispensary ? (
     <div className="bg-gray-50">
-      <div className="max-w-7xl flex flex-wrap relative desktop:flex-nowrap mx-auto desktop:rounded-md overflow-hidden desktop:shadow-md desktop:mt-4">
+      <div className="max-w-7xl flex flex-wrap relative desktop:flex-nowrap mx-auto desktop:rounded-md desktop:overflow-hidden desktop:shadow-md desktop:mt-4 ">
         {dispensary && (
           <div className="w-full pb-full desktop:h-64 desktop:pb-0 desktop:w-64 relative">
             <ImageWithFallback
@@ -298,11 +298,11 @@ export default function BusinessDetail() {
             <p className="text-gray-700 w-full desktop:mt-4">
               {dispensary._source.address_line1[0]}
               <br />
-              {dispensary._source.locality[0]},{' '}
-              {dispensary._source.administrative_area}{' '}
+              {dispensary._source.locality[0]},
+              {dispensary._source.administrative_area}
               {dispensary._source.postal_code[0]}
             </p>
-            {/* <p>{listing.distance} away</p> */}
+            <p>{distanceFrom}les away</p>
           </div>
           <div className="pt-5 w-full flex justify-center desktop:hidden">
             <a

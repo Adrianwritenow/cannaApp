@@ -678,6 +678,7 @@ export const Filters: Record<string, Filter> = {
     value: 'License Type',
     list: [{ value: 'All' }, { value: 'Medical' }, { value: 'Recreational' }],
   },
+
   order: {
     value: 'Order',
     list: [

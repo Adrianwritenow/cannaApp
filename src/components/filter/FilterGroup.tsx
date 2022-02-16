@@ -80,14 +80,7 @@ export default function FilterGroup(data: Filters) {
                                     className="flex items-center w-full focus:outline-none  "
                                     id={id}
                                   >
-                                    <label
-                                      className=" text-sm text-gray-900 w-full flex items-center"
-                                      onClick={() => {
-                                        if (setFieldValue) {
-                                          setFieldValue(id, filter.value);
-                                        }
-                                      }}
-                                    >
+                                    <label className=" text-sm text-gray-900 w-full flex items-center">
                                       <Field
                                         id={`${id}_${index}`}
                                         name={id}

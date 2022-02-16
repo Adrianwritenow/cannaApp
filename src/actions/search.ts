@@ -83,11 +83,13 @@ export async function combinedSearchQuery(searchProps: {
           }
         }
       }
+
       if (
         key !== 'category' &&
         key !== 'sort' &&
         key !== 'productType' &&
-        filters[key][0]
+        filters[key][0] &&
+        filters[key][0] !== 'All'
       ) {
         body.filter('match', `${key}`, filters[key][0]);
       }

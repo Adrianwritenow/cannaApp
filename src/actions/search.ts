@@ -100,6 +100,9 @@ export async function combinedSearchQuery(searchProps: {
       ) {
         body.filter('match', `${key}`, filters[key][0]);
       }
+      if (filters[key][0] == 'All') {
+        body.query('exists', 'field', 'license_type');
+      }
     });
   }
 

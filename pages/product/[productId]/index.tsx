@@ -19,11 +19,11 @@ export default function ProductDetail() {
   const { productId } = router.query;
   const [product, setProduct] = useState<Product>();
   const [sort, setSort]: any = useState('relevance');
-  const [related, setRelated] = useState<Array<Product>>([]);
+  const [related, setRelated] = useState<Array<Product>>();
   const [currentQuery, setCurrentQuery] = useState('');
 
   useEffect(() => {
-    if (!product || (productId && product._source.id !== +productId)) {
+    if (!product) {
       getDocument(productId, 'products').then((document: SearchHits) => {
         if (document) {
           const result = document.hits.hits[0];
@@ -31,15 +31,15 @@ export default function ProductDetail() {
         }
       });
     }
-
-    if (!related.length) {
+    if (!related && product) {
       getRelated();
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router, related]);
+  }, [router, related, product]);
 
   async function getRelated() {
+    console.log('PRODUCT', product);
     const hits: SearchHits = await browseBy(
       'category',
       `${product?._source.category[0]}`,
@@ -49,8 +49,12 @@ export default function ProductDetail() {
         value: product?._source.top_reported_flavors as string[],
       }
     );
-
-    setRelated(hits.hits.hits);
+    if (hits) {
+      console.log('HITS', hits);
+      setRelated(hits.hits.hits);
+    } else {
+      setRelated([]);
+    }
   }
 
   return (
@@ -225,7 +229,7 @@ export default function ProductDetail() {
       </div> */}
 
       <ProductResultsSection
-        list={related}
+        list={related ? related : []}
         sponsored={false}
         hideButton={true}
         label="Related Items"

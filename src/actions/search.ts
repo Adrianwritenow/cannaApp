@@ -277,17 +277,24 @@ export function browseBy(
   value: any,
   index: string,
   filter?: { key: string; value: any[] },
-  filterOnly?: boolean
+  sort?: { field: string; direction: string }
 ) {
   const body = bodybuilder();
 
-  if (!filterOnly) {
-    body.filter('match', `${field}`, value);
+  if (field) {
+    console.log('!!!!');
+    body.query('match', `${field}`, value);
+  } else {
+    body.query('query_string', 'query', value);
   }
 
   if (filter) {
     const value = filter.value ? filter.value : [''];
-    body.orQuery('terms', `${filter.key}`, value);
+    body.filter('terms', `${filter.key}`, value);
+  }
+
+  if (sort) {
+    body.sort(sort.field, sort.direction);
   }
 
   const query = body.build();
@@ -349,6 +356,7 @@ export function getPopular(type: string) {
       },
     },
   };
+
   const results = axios({
     url: `${SEARCH_URL}/elasticsearch_index_${SEARCH_INDEX_PREFIX}_${type}/_search?size=15`,
     method: 'POST',

@@ -1,3 +1,4 @@
+import { Router, useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 import { ArrowRightIcon } from '@heroicons/react/outline';
@@ -10,7 +11,9 @@ import { access } from 'fs';
 import { browseBy } from '@/actions/search';
 import { categories } from '@/helpers/categories';
 
-export default function ExploreProducts() {
+export default function ExploreProducts(props: { categoryFilter: Function }) {
+  const router = useRouter();
+  const { categoryFilter } = props;
   const [fudge, setFudge] = useState<Array<Product>>();
   const [accessories, setAccessoires] = useState<Array<Product>>();
   const [preRolls, setPreRolls] = useState<Array<Product>>();
@@ -167,7 +170,19 @@ export default function ExploreProducts() {
             <div key={`fd-${index}`}>
               <div className="w-36 flex relative">
                 <div className="w-full h-48 rounded-md overflow-hidden">
-                  <button onClick={() => {}}>
+                  <button
+                    onClick={() => {
+                      categoryFilter(``);
+                      router.push({
+                        pathname: '/search',
+                        query: {
+                          category: category.label,
+                          view: 'shopping',
+                          sortQuery: 'Rating',
+                        },
+                      });
+                    }}
+                  >
                     <Image
                       src={category.imgSrc}
                       alt={category.label}

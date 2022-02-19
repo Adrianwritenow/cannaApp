@@ -19,8 +19,8 @@ export const categories: Category[] = [
   { label: 'Pipes', imgSrc: Pipes },
   { label: 'Vape Pens', imgSrc: Vapes },
   { label: 'Concentrates', imgSrc: Concentrate },
-  { label: 'Rigs', imgSrc: Rigs },
-  { label: 'Personal Care', imgSrc: Care },
+  { label: 'Bongs', imgSrc: Rigs },
+  { label: 'Topicals', imgSrc: Care },
   { label: 'Rolling Papers', imgSrc: Papers },
-  { label: 'Herb Grinders', imgSrc: Grinders },
+  { label: 'Grinders', imgSrc: Grinders },
 ];

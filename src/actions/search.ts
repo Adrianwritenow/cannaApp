@@ -282,7 +282,6 @@ export function browseBy(
   const body = bodybuilder();
 
   if (field) {
-    console.log('!!!!');
     body.query('match', `${field}`, value);
   } else {
     body.query('query_string', 'query', value);

@@ -23,7 +23,7 @@ export default function FilterProductMenu(props: FilterMenuProps) {
   // Add filters to list to be rendered and update the form state values
   useEffect(() => {
     setSavedValues(values);
-  }, [values, setSavedValues]);
+  }, [values]);
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -140,7 +140,7 @@ export default function FilterProductMenu(props: FilterMenuProps) {
                         />
                         <FilterGroup
                           filters={Filters.topicals.list}
-                          label={'Beauty & Personal Care'}
+                          label={'Personal Care'}
                           id={'category'}
                           type="radio"
                           values={values.filters.category}
@@ -156,7 +156,7 @@ export default function FilterProductMenu(props: FilterMenuProps) {
                         />
                         <FilterGroup
                           filters={Filters.herbGrinders.list}
-                          label={'Herb Grinders'}
+                          label={'Grinders'}
                           id={'category'}
                           type="radio"
                           values={values.filters.category}

@@ -39,7 +39,6 @@ export default function ProductFilterSlideOver(props: {
         sort: sortQuery,
       });
     }
-    console.log(savedValues);
   }, [category, sortQuery, router]);
 
   function updateFilter(values: any) {
@@ -61,12 +60,10 @@ export default function ProductFilterSlideOver(props: {
       return entry.trim() != '';
     });
     setFilterList(filterArray);
-    console.log('B4', savedValues);
     setSavedValues(() => ({
       ...values,
       filters,
     }));
-    console.log('AFTR', savedValues);
     setFilters(filters);
     // update sort
     setSort(sort);

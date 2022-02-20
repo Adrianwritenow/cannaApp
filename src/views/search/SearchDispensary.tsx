@@ -35,9 +35,6 @@ export default function SearchDispensary(props: {
   const [currentQuery, setCurrentQuery] = useState('');
 
   useEffect(() => {
-    console.log('LOCATION:::', location);
-
-    console.log('USER COORDS:::', userCoords);
     getDispensaries();
   }, [update, query, currentQuery, filters, userCoords, location]);
 

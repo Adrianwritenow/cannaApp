@@ -64,8 +64,6 @@ export default function SearchSlideOver(props: {
   });
 
   function handleSubmit(search: any) {
-    console.log('SUBMIT');
-
     router.push('/search');
     setOpen(false);
   }
@@ -97,7 +95,6 @@ export default function SearchSlideOver(props: {
 
   // handle new location selected
   geocoder.on('result', e => {
-    console.log('E>RES', e.result);
     setGeolocationSet(false);
     // Run new search in case user closes before they change
     // their search query.

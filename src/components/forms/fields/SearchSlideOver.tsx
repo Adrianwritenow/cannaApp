@@ -1,5 +1,6 @@
 import {
   ArrowLeftIcon,
+  ChevronDoubleRightIcon,
   LocationMarkerIcon,
   SearchIcon,
   XIcon,
@@ -79,6 +80,7 @@ export default function SearchSlideOver(props: {
             : '';
       }
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [geocoderRef.current, geocodeInitialized, open]);
 
@@ -131,6 +133,7 @@ export default function SearchSlideOver(props: {
                 },
               })
             );
+
             if (geocoderRef.current.children[0].children[1]) {
               geocoderRef.current.children[0].children[1].value =
                 'Your Location';

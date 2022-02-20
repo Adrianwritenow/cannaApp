@@ -63,23 +63,29 @@ export default function SearchSlideOver(props: {
     types: 'place',
   });
 
-  async function handleSubmit(search: any) {
+  function handleSubmit(search: any) {
+    console.log('SUBMIT');
+
     router.push('/search');
     setOpen(false);
   }
 
   useEffect(() => {
-    if (geocoderRef.current !== null && !geocodeInitialized) {
-      geocoder.addTo(geocoderRef.current);
-      setGeocodeInitialized(true);
-      if (geocoderRef.current.children[0].children[1]) {
-        geocoderRef.current.children[0].children[1].placeholder = 'Location...';
-        geocoderRef.current.children[0].children[1].value =
-          initialLocationCleared && searchLocation.label
-            ? searchLocation.label
-            : '';
+    // Wait for transition to complete so ref exists
+    setTimeout(() => {
+      if (geocoderRef.current !== null && !geocodeInitialized && open) {
+        geocoder.addTo(geocoderRef.current);
+        setGeocodeInitialized(true);
+        if (geocoderRef.current.children[0].children[1]) {
+          geocoderRef.current.children[0].children[1].placeholder =
+            'Location...';
+          geocoderRef.current.children[0].children[1].value =
+            initialLocationCleared && searchLocation.label
+              ? searchLocation.label
+              : '';
+        }
       }
-    }
+    }, 300);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [geocoderRef.current, geocodeInitialized, open]);
@@ -91,6 +97,7 @@ export default function SearchSlideOver(props: {
 
   // handle new location selected
   geocoder.on('result', e => {
+    console.log('E>RES', e.result);
     setGeolocationSet(false);
     // Run new search in case user closes before they change
     // their search query.
@@ -111,7 +118,6 @@ export default function SearchSlideOver(props: {
         navigator.geolocation.getCurrentPosition(
           position => {
             setGeolocationSet(true);
-            setOpen(false);
             router.pathname === '/map' ? setOpen(false) : router.push('/map');
             dispatch(
               setLocation({
@@ -154,7 +160,6 @@ export default function SearchSlideOver(props: {
           },
         })
       );
-      setOpen(false);
       router.pathname === '/map' ? setOpen(false) : router.push('/map');
     }
   }

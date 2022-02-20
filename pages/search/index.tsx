@@ -16,7 +16,9 @@ export default function Search() {
   const router = useRouter();
   const [view, setView] = useState(0);
   const { listResults, query } = useSelector((root: RootState) => root.search);
-  const location = useSelector((root: RootState) => root.location);
+  const location = useSelector(
+    (root: RootState) => root.search.searchLocation.coords
+  );
   const path = router.query;
 
   const tabs = [

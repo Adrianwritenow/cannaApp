@@ -22,8 +22,10 @@ export default function SearchDispensary(props: {
   const [update, setUpdate] = useState(true);
   const router = useRouter();
   const { category } = router.query;
+  const location = useSelector(
+    (root: RootState) => root.search.searchLocation.coords
+  );
 
-  const { searchLocation } = useSelector((root: RootState) => root.search);
   const [filters, setFilters] = useState<any>({
     productType: [`${category ? category : ''}`],
     sort: [],
@@ -33,22 +35,21 @@ export default function SearchDispensary(props: {
   const [currentQuery, setCurrentQuery] = useState('');
 
   useEffect(() => {
-    if (update || currentQuery !== query) {
-      getDispensaries();
-    }
-  }, [update, query, currentQuery, filters]);
+    console.log('LOCATION:::', location);
+
+    console.log('USER COORDS:::', userCoords);
+    getDispensaries();
+  }, [update, query, currentQuery, filters, userCoords, location]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   async function getDispensaries() {
-    console.log('LOCATION:::', searchLocation);
-
     const range = filters.distance ? filters.distance[0] : '5mi';
     const { distance, ...filterData } = filters;
     const hits: any = await combinedSearchQuery({
       q: query ?? '*',
       filters: filterData,
       distance: range,
-      coords: { lat: searchLocation.lat, lon: searchLocation.lon },
+      coords: { lat: userCoords.lat, lon: userCoords.lon },
       endpoints: ['dispenaries'],
       total: 10,
     });

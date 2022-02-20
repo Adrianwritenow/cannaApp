@@ -7,9 +7,6 @@ import CouponSlideOver from '../CouponsSlideOver';
 import DropdownFilter from '../../../components/forms/fields/DropdownFilter';
 import FilterProductMenu from '@/components/filter/FilterProductMenu';
 import { Filters } from '../../../helpers/filters';
-import { RootState } from '@/reducers';
-import { SearchHits } from '@/interfaces/searchHits';
-import { receiveResults } from '@/actions/search';
 import { useRouter } from 'next/router';
 
 export default function ProductFilterSlideOver(props: {
@@ -18,15 +15,12 @@ export default function ProductFilterSlideOver(props: {
   const { setFilters } = props;
   const router = useRouter();
   const { type, category, sortQuery } = router.query;
-  const [sort, setSort] = useState(
-    sortQuery ? (sortQuery as string) : 'Relevance'
-  );
-
+  const [sort, setSort] = useState('Relevance');
   const [open, setOpen] = useState(false);
   const [savedValues, setSavedValues]: any = useState({
     category: category || '',
     filters: {},
-    sort: sortQuery ? sortQuery : sort,
+    sort: sortQuery || sort,
   });
 
   const [filterList, setFilterList]: any = useState([]);
@@ -34,64 +28,51 @@ export default function ProductFilterSlideOver(props: {
   const initialValues: any = {
     filters: {},
     category: '',
-    sort: sortQuery ? sortQuery : sort,
+    sort: sort,
   };
 
   useEffect(() => {
-    setSavedValues((prevState: any) => ({
-      ...prevState,
-      category: category || savedValues.category,
-      sort: sortQuery || savedValues.sort,
-    }));
+    if (category || sortQuery) {
+      updateFilter({
+        ...savedValues,
+        category: category,
+        sort: sortQuery,
+      });
+    }
     console.log(savedValues);
-  }, [category]);
+  }, [category, sortQuery, router]);
 
-  useEffect(() => {
-    // Force values to array in order to check if they exist in case of multiple values
+  function updateFilter(values: any) {
+    // // Force values to array in order to check if they exist in case of multiple values
     const filters: any = {
-      sort: [savedValues.sort],
-      category: [savedValues.category],
+      sort: [values.sort],
+      category: [values.category],
     };
 
-    console.log('FILT', filters);
-
-    const filter_data: string[] = Object.keys(filters).reduce(
-      function (res, key) {
-        return res.concat(filters[key]).flat(1);
-      },
-
-      []
-    );
-
-    console.log(filter_data);
+    const filter_data: string[] = Object.keys(filters).reduce(function (
+      res,
+      key
+    ) {
+      return res.concat(filters[key]).flat(1);
+    },
+    []);
     // Remove initial empty values
     const filterArray = filter_data.filter(function (entry: string) {
       return entry.trim() != '';
     });
     setFilterList(filterArray);
-
-    // Check to see if value is unique if not update
-    const is_same =
-      filterArray.length == filterList.length &&
-      filterArray.every(function (element, index) {
-        return element === filterList[index];
-      });
-
-    if (!is_same) {
-      console.log('???????');
-      setSavedValues((prevState: any) => ({
-        ...prevState,
-        filters,
-      }));
-      setFilters(filters);
-
-      // update sort
-      setSort(savedValues.sort);
-    }
-  }, [savedValues]);
+    console.log('B4', savedValues);
+    setSavedValues(() => ({
+      ...values,
+      filters,
+    }));
+    console.log('AFTR', savedValues);
+    setFilters(filters);
+    // update sort
+    setSort(sort);
+  }
 
   // Remove filters from list to be rendered and update the form state values
-
   function removeFilter(keyName: string, filter: string) {
     let stateCopy = Object.assign({}, savedValues);
     let listCopy = filterList;
@@ -119,19 +100,21 @@ export default function ProductFilterSlideOver(props: {
         initialValues={savedValues}
         onSubmit={() => {}}
         enableReinitialize={true}
+        validate={updateFilter}
+        validateOnChange={true}
       >
-        {({ values, setFieldValue }) => {
+        {({ values, setFieldValue, errors }) => {
           return (
             <Form>
               <div>
-                {/* <FilterProductMenu
+                <FilterProductMenu
                   open={open}
-                  values={values}
+                  values={savedValues}
                   setOpen={setOpen}
                   label="Filters"
                   setSavedValues={setSavedValues}
                   setFieldValue={setFieldValue}
-                /> */}
+                />
                 {/* Filter Tabs list */}
                 <div className="flex items-center py-3.5 relative overflow-x-scroll">
                   <div className="w-full flex">
@@ -153,7 +136,7 @@ export default function ProductFilterSlideOver(props: {
                           options={Filters.sort.list.map(filter => {
                             return filter.value;
                           })}
-                          current={sort}
+                          current={values.sort}
                           label={'Sort by'}
                           setFieldValue={setFieldValue}
                         />

@@ -1,8 +1,9 @@
+import React, { useEffect } from 'react';
+
 import { ChevronRightIcon } from '@heroicons/react/solid';
 import { Disclosure } from '@headlessui/react';
 import { Field } from 'formik';
 import { Filters } from '../../interfaces/filter';
-import React from 'react';
 
 export default function FilterGroup(data: Filters) {
   const { filters, label, id, type, values, setFieldValue } = data;

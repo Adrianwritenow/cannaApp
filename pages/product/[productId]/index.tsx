@@ -39,7 +39,6 @@ export default function ProductDetail() {
   }, [router, related, product]);
 
   async function getRelated() {
-    console.log('PRODUCT', product);
     const hits: SearchHits = await browseBy(
       'category',
       `${product?._source.category[0]}`,
@@ -50,7 +49,6 @@ export default function ProductDetail() {
       }
     );
     if (hits) {
-      console.log('HITS', hits);
       setRelated(hits.hits.hits);
     } else {
       setRelated([]);

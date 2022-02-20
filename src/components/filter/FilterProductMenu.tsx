@@ -5,6 +5,7 @@ import FilterGroup from './FilterGroup';
 import { Filters } from '../../helpers/filters';
 import StrainsIcon from '../../../public/assets/icons/iconComponents/Strains';
 import { XIcon } from '@heroicons/react/solid';
+import { useRouter } from 'next/router';
 
 interface FilterMenuProps {
   open: boolean;
@@ -19,11 +20,6 @@ interface FilterMenuProps {
 export default function FilterProductMenu(props: FilterMenuProps) {
   const { open, values, setOpen, icon, label, setSavedValues, setFieldValue } =
     props;
-
-  // Add filters to list to be rendered and update the form state values
-  useEffect(() => {
-    setSavedValues(values);
-  }, [values]);
 
   return (
     <Transition.Root show={open} as={Fragment}>

@@ -170,26 +170,31 @@ export default function ExploreProducts(props: { categoryFilter: Function }) {
             <div key={`fd-${index}`}>
               <div className="w-36 flex relative">
                 <div className="w-full h-48 rounded-md overflow-hidden">
-                  <button
-                    onClick={() => {
-                      categoryFilter(``);
-                      router.push({
-                        pathname: '/search',
-                        query: {
-                          category: category.label,
-                          view: 'shopping',
-                          sortQuery: 'Rating',
-                        },
-                      });
+                  <Link
+                    href={{
+                      pathname: '/search',
+                      query: {
+                        category: category.label,
+                        view: 'shopping',
+                        sortQuery: 'Rating',
+                      },
                     }}
+                    passHref
                   >
-                    <Image
-                      src={category.imgSrc}
-                      alt={category.label}
-                      layout="fill"
-                      objectFit={'cover'}
-                    />
-                  </button>
+                    <a>
+                      <button>
+                        <Image
+                          src={category.imgSrc}
+                          alt={category.label}
+                          layout="fill"
+                          objectFit={'cover'}
+                          onClick={() => {
+                            categoryFilter(``);
+                          }}
+                        />
+                      </button>
+                    </a>
+                  </Link>
                 </div>
               </div>
               <p className=" text-center py-2 font-medium text-sm text-gray-700">

@@ -5,7 +5,6 @@ import FilterGroup from './FilterGroup';
 import { Filters } from '../../helpers/filters';
 import StrainsIcon from '../../../public/assets/icons/iconComponents/Strains';
 import { XIcon } from '@heroicons/react/solid';
-import { useRouter } from 'next/router';
 
 interface FilterMenuProps {
   open: boolean;

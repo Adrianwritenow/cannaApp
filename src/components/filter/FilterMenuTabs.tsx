@@ -239,7 +239,6 @@ export default function FilterMenuTabs(props: FilterMenuTabsProps) {
                     values={values}
                     setOpen={setOpen}
                     label="Filters"
-                    setSavedValues={setSavedValues}
                     setFieldValue={setFieldValue}
                   />
                   {/* Filter Tabs list */}

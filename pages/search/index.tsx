@@ -80,37 +80,28 @@ export default function Search() {
           {/* Panels that control the view by index */}
           <Tab.Panels className="focus:outline-none bg-gray-50 pb-8">
             <Tab.Panel className="focus:outline-none">
-              {/* Search All */}
               <SearchAll
                 query={query}
                 userCoords={{ lat: location.lat, lon: location.lon }}
               />
             </Tab.Panel>
             <Tab.Panel className="focus:outline-none">
-              {/* Search Shopping */}
               <SearchShopping query={query} />
             </Tab.Panel>
             <Tab.Panel className="focus:outline-none">
-              {/* Search Dispensery */}
               <SearchDispensary
                 query={query}
                 userCoords={{ lat: location.lat, lon: location.lon }}
               />
             </Tab.Panel>
             <Tab.Panel className="focus:outline-none">
-              {/* Search Strain */}
               <SearchStrain query={query} products={listResults.shopping} />
             </Tab.Panel>
-
+            <Tab.Panel className="focus:outline-none"></Tab.Panel>
             <Tab.Panel className="focus:outline-none">
-              {/* Link to Map */}
-            </Tab.Panel>
-            <Tab.Panel className="focus:outline-none">
-              {/* Search All */}
               <SearchNews query={query} />
             </Tab.Panel>
             <Tab.Panel className="focus:outline-none">
-              {/* Search Deals */}
               <SearchDeals />
             </Tab.Panel>
           </Tab.Panels>

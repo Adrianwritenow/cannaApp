@@ -227,7 +227,7 @@ export default function ProductDetail() {
       </div> */}
 
       <ProductResultsSection
-        list={related ? related : []}
+        list={related ?? []}
         sponsored={false}
         hideButton={true}
         label="Related Items"

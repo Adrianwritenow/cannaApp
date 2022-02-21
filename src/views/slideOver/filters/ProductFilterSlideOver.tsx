@@ -1,7 +1,5 @@
 import { Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-
 import { AdjustmentsIcon } from '@heroicons/react/solid';
 import CouponSlideOver from '../CouponsSlideOver';
 import DropdownFilter from '../../../components/forms/fields/DropdownFilter';
@@ -64,9 +62,8 @@ export default function ProductFilterSlideOver(props: {
       ...values,
       filters,
     }));
+    // Update Filters
     setFilters(filters);
-    // update sort
-    setSort(sort);
   }
 
   // Remove filters from list to be rendered and update the form state values
@@ -109,7 +106,6 @@ export default function ProductFilterSlideOver(props: {
                   values={savedValues}
                   setOpen={setOpen}
                   label="Filters"
-                  setSavedValues={setSavedValues}
                   setFieldValue={setFieldValue}
                 />
                 {/* Filter Tabs list */}

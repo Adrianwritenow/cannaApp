@@ -8,6 +8,7 @@ import SvgEmptyState from '@/public/assets/icons/iconComponents/EmptyState';
 import { combinedSearchQuery } from '@/actions/search';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
+import { useSearchLocation } from '@/hooks/useSearchLocation';
 
 export default function SearchDispensary(props: {
   query: string;
@@ -22,9 +23,7 @@ export default function SearchDispensary(props: {
   const [update, setUpdate] = useState(true);
   const router = useRouter();
   const { category } = router.query;
-  const location = useSelector(
-    (root: RootState) => root.search.searchLocation.coords
-  );
+  const location = useSearchLocation();
 
   const [filters, setFilters] = useState<any>({
     productType: [`${category ? category : ''}`],

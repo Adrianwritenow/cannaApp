@@ -11,15 +11,13 @@ interface FilterMenuProps {
   open: boolean;
   values: any;
   setOpen: Function;
-  setSavedValues: Function;
   icon?: boolean;
   label?: string;
   setFieldValue: Function;
 }
 
 export default function FilterProductMenu(props: FilterMenuProps) {
-  const { open, values, setOpen, icon, label, setSavedValues, setFieldValue } =
-    props;
+  const { open, values, setOpen, icon, label, setFieldValue } = props;
 
   return (
     <Transition.Root show={open} as={Fragment}>

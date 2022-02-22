@@ -1,22 +1,26 @@
-import FacebookIcon from '../../public/assets/icons/iconComponents/IconFacebook';
-import GoogleIcon from '../../public/assets/icons/iconComponents/IconGoogle';
+import FacebookIcon from '@/public/assets/icons/iconComponents/IconFacebook';
+import GoogleIcon from '@/public/assets/icons/iconComponents/IconGoogle';
 import Image from 'next/image';
 import Link from 'next/link';
-import Logo from '../../public/assets/logos/logo.png';
+import Logo from '@/public/assets/logos/logo.png';
 import React from 'react';
-import RegisterForm from '../../src/components/forms/RegisterForm';
+import RegisterForm from '@/components/forms/RegisterForm';
 
 export default function Register() {
   return (
     <div className="flex flex-col justify-center max-w-5xl mx-auto py-12 bg-white px-4">
       <div className="grid grid-cols-6 gap-0">
         <div className="h-12 w-12 relative col-span-1">
-          <Image
-            src={Logo}
-            alt="CannaPages"
-            layout={'responsive'}
-            unoptimized={true}
-          />
+          <Link href={'/'} passHref>
+            <a>
+              <Image
+                src={Logo}
+                alt="CannaPages"
+                layout={'responsive'}
+                unoptimized={true}
+              />
+            </a>
+          </Link>
         </div>
 
         <span className="flex justify-end items-center col-span-5 font-normal text-gray-500">

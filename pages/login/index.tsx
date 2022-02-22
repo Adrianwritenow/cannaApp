@@ -1,7 +1,4 @@
 import { signIn, useSession } from 'next-auth/react';
-
-import FacebookIcon from '@/public/assets/icons/iconComponents/IconFacebook';
-import GoogleIcon from '@/public/assets/icons/iconComponents/IconGoogle';
 import IconFacebook from '@/public/assets/icons/iconComponents/IconFacebook';
 import IconGoogle from '@/public/assets/icons/iconComponents/IconGoogle';
 import Image from 'next/image';
@@ -25,12 +22,16 @@ export default function Login() {
     <div className="flex flex-col justify-start max-w-5xl mx-auto py-12 bg-white px-4">
       <div className="grid grid-cols-6 gap-0">
         <div className="h-12 w-12 relative col-span-1">
-          <Image
-            src={Logo}
-            alt="CannaPages"
-            layout={'responsive'}
-            unoptimized={true}
-          />
+          <Link href={'/'} passHref>
+            <a>
+              <Image
+                src={Logo}
+                alt="CannaPages"
+                layout={'responsive'}
+                unoptimized={true}
+              />
+            </a>
+          </Link>
         </div>
 
         <span className="flex justify-end items-center col-span-5 font-normal text-gray-500">

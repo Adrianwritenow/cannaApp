@@ -40,6 +40,8 @@ export default function LoginForm() {
       })
     );
 
+    console.log('RESPONSE', response);
+
     if (response.error) {
       setApiError(response.error.toString());
     }

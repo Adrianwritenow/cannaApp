@@ -89,10 +89,7 @@ export default function Search() {
               <SearchShopping query={query} />
             </Tab.Panel>
             <Tab.Panel className="focus:outline-none">
-              <SearchDispensary
-                query={query}
-                userCoords={{ lat: location.lat, lon: location.lon }}
-              />
+              <SearchDispensary query={query} />
             </Tab.Panel>
             <Tab.Panel className="focus:outline-none">
               <SearchStrain query={query} products={listResults.shopping} />

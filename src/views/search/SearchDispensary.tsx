@@ -1,41 +1,42 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 import { Dispensary } from '@/interfaces/dispensary';
 import DispensaryFilterSlideOver from '../slideOver/filters/DispensaryFilterSlideOver';
 import ListingSection from '../../components/sections/ListingSection';
-import { RootState } from '@/reducers';
 import SvgEmptyState from '@/public/assets/icons/iconComponents/EmptyState';
 import { combinedSearchQuery } from '@/actions/search';
 import { useRouter } from 'next/router';
-import { useSelector } from 'react-redux';
 import { useSearchLocation } from '@/hooks/useSearchLocation';
 
-export default function SearchDispensary(props: {
-  query: string;
-  userCoords: {
-    lat: number;
-    lon: number;
-  };
-}) {
-  const { query, userCoords } = props;
-
-  const [dispensaries, setdispensaries] = useState<Array<Dispensary>>();
-  const [update, setUpdate] = useState(true);
+export default function SearchDispensary(props: { query: string }) {
+  const { query } = props;
+  const [dispensaries, setDispensaries] = useState<Array<Dispensary>>();
   const router = useRouter();
   const { category } = router.query;
   const location = useSearchLocation();
+  const userCoords = location[1];
+  const firstRender = useRef(true);
 
   const [filters, setFilters] = useState<any>({
     productType: [`${category ? category : ''}`],
     sort: [],
     amenities: [],
-    distance: [],
+    distance: '',
   });
-  const [currentQuery, setCurrentQuery] = useState('');
 
   useEffect(() => {
+    // Without this the request always runs twice on the initial render since
+    // the `filters` value changes as a side effect from another component.
+    // This is sort of a workaround, ideally we can remove if we can convert
+    // the search request to `useAxios` and check if the request is already
+    // loading.
+    if (firstRender.current) {
+      firstRender.current = false;
+      return;
+    }
     getDispensaries();
-  }, [update, query, currentQuery, filters, userCoords, location]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query, filters, userCoords]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   async function getDispensaries() {
@@ -49,14 +50,11 @@ export default function SearchDispensary(props: {
       endpoints: ['dispenaries'],
       total: 10,
     });
-    setdispensaries(hits);
-    setUpdate(false);
-    setCurrentQuery(query);
+    setDispensaries(hits);
   }
 
   function handleFilter(data: any) {
     setFilters(data);
-    setUpdate(true);
   }
 
   return (

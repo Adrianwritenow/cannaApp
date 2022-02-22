@@ -8,6 +8,7 @@ import SvgEmptyState from '@/public/assets/icons/iconComponents/EmptyState';
 import { combinedSearchQuery } from '@/actions/search';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
+import { useSearchLocation } from '@/hooks/useSearchLocation';
 
 export default function SearchDispensary(props: {
   query: string;
@@ -22,8 +23,8 @@ export default function SearchDispensary(props: {
   const [update, setUpdate] = useState(true);
   const router = useRouter();
   const { category } = router.query;
+  const location = useSearchLocation();
 
-  const location = useSelector((root: RootState) => root.location);
   const [filters, setFilters] = useState<any>({
     productType: [`${category ? category : ''}`],
     sort: [],
@@ -33,10 +34,8 @@ export default function SearchDispensary(props: {
   const [currentQuery, setCurrentQuery] = useState('');
 
   useEffect(() => {
-    if (update || currentQuery !== query) {
-      getDispensaries();
-    }
-  }, [update, query, currentQuery, filters]);
+    getDispensaries();
+  }, [update, query, currentQuery, filters, userCoords, location]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   async function getDispensaries() {
@@ -46,7 +45,7 @@ export default function SearchDispensary(props: {
       q: query ?? '*',
       filters: filterData,
       distance: range,
-      coords: { lat: location.lat, lon: location.lon },
+      coords: { lat: userCoords.lat, lon: userCoords.lon },
       endpoints: ['dispenaries'],
       total: 10,
     });

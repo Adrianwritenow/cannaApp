@@ -53,6 +53,31 @@ export default function FilterMenuTabs(props: FilterMenuTabsProps) {
     return savedValues[key].length === 0;
   });
 
+  function updateFilter(values: any) {
+    // // Force values to array in order to check if they exist in case of multiple values
+    const filters: any = {
+      sort: [values.sort],
+      category: [values.category],
+    };
+
+    const filter_data: string[] = Object.keys(filters).reduce(function (
+      res,
+      key
+    ) {
+      return res.concat(filters[key]).flat(1);
+    },
+    []);
+    // Remove initial empty values
+    const filterArray = filter_data.filter(function (entry: string) {
+      return entry.trim() != '';
+    });
+    setFilterList(filterArray);
+    setSavedValues(() => ({
+      ...values,
+      filters,
+    }));
+  }
+
   // Remove filters from list to be rendered and update the form state values
   function removeFilter(keyName: string, filter: string) {
     let stateCopy = Object.assign({}, savedValues);
@@ -136,40 +161,6 @@ export default function FilterMenuTabs(props: FilterMenuTabsProps) {
   }
 
   useEffect(() => {
-    // Force values to array in order to check if they exist in case of multiple values
-    const filters: any = {
-      sort: [savedValues.sort],
-      category: [savedValues.category],
-    };
-
-    const filter_data: string[] = Object.keys(filters).reduce(function (
-      res,
-      key
-    ) {
-      return res.concat(filters[key]).flat(1);
-    },
-    []);
-
-    // Remove initial empty values
-    const filterArray = filter_data.filter(function (entry: string) {
-      return entry.trim() != '';
-    });
-    setFilterList(filterArray);
-
-    // Check to see if value is unique if not update
-    const is_same =
-      filterArray.length == filterList.length &&
-      filterArray.every(function (element, index) {
-        return element === filterList[index];
-      });
-
-    if (!is_same) {
-      setSavedValues((prevState: any) => ({
-        ...prevState,
-        filters,
-      }));
-    }
-
     if (savedValues.filters.category[0]) {
       // If filter exists filter based on category provided
       const filtered = productResults.filter(
@@ -182,8 +173,6 @@ export default function FilterMenuTabs(props: FilterMenuTabsProps) {
       // If no tags reset the search based on term
       searchThroughProducts(products, searchTerm);
     }
-    // update sort
-    setSort(savedValues.sort);
   }, [savedValues, searchTerm]);
 
   return (
@@ -192,6 +181,8 @@ export default function FilterMenuTabs(props: FilterMenuTabsProps) {
         initialValues={!allEmpty ? savedValues : initialValues}
         onSubmit={() => {}}
         enableReinitialize={true}
+        validateOnChange={true}
+        validate={updateFilter}
       >
         {({ values, setFieldValue, handleChange }) => {
           return (
@@ -239,7 +230,6 @@ export default function FilterMenuTabs(props: FilterMenuTabsProps) {
                     values={values}
                     setOpen={setOpen}
                     label="Filters"
-                    setSavedValues={setSavedValues}
                     setFieldValue={setFieldValue}
                   />
                   {/* Filter Tabs list */}

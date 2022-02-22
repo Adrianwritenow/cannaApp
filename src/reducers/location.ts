@@ -1,7 +1,7 @@
 import { LOCATION_SET } from '../actions/location';
 import { LocationData } from '../interfaces/locationData';
 
-const defaultState = { };
+const defaultState = {};
 
 export interface LocationAction {
   type: string;

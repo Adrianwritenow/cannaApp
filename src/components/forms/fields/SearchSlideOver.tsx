@@ -1,5 +1,6 @@
 import {
   ArrowLeftIcon,
+  ChevronDoubleRightIcon,
   LocationMarkerIcon,
   SearchIcon,
   XIcon,
@@ -62,23 +63,28 @@ export default function SearchSlideOver(props: {
     types: 'place',
   });
 
-  async function handleSubmit(search: any) {
+  function handleSubmit(search: any) {
     router.push('/search');
     setOpen(false);
   }
 
   useEffect(() => {
-    if (geocoderRef.current !== null && !geocodeInitialized) {
-      geocoder.addTo(geocoderRef.current);
-      setGeocodeInitialized(true);
-      if (geocoderRef.current.children[0].children[1]) {
-        geocoderRef.current.children[0].children[1].placeholder = 'Location...';
-        geocoderRef.current.children[0].children[1].value =
-          initialLocationCleared && searchLocation.label
-            ? searchLocation.label
-            : '';
+    // Wait for transition to complete so ref exists
+    setTimeout(() => {
+      if (geocoderRef.current !== null && !geocodeInitialized && open) {
+        geocoder.addTo(geocoderRef.current);
+        setGeocodeInitialized(true);
+        if (geocoderRef.current.children[0].children[1]) {
+          geocoderRef.current.children[0].children[1].placeholder =
+            'Location...';
+          geocoderRef.current.children[0].children[1].value =
+            initialLocationCleared && searchLocation.label
+              ? searchLocation.label
+              : '';
+        }
       }
-    }
+    }, 300);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [geocoderRef.current, geocodeInitialized, open]);
 
@@ -109,7 +115,6 @@ export default function SearchSlideOver(props: {
         navigator.geolocation.getCurrentPosition(
           position => {
             setGeolocationSet(true);
-            setOpen(false);
             router.pathname === '/map' ? setOpen(false) : router.push('/map');
             dispatch(
               setLocation({
@@ -131,6 +136,7 @@ export default function SearchSlideOver(props: {
                 },
               })
             );
+
             if (geocoderRef.current.children[0].children[1]) {
               geocoderRef.current.children[0].children[1].value =
                 'Your Location';
@@ -151,7 +157,6 @@ export default function SearchSlideOver(props: {
           },
         })
       );
-      setOpen(false);
       router.pathname === '/map' ? setOpen(false) : router.push('/map');
     }
   }

@@ -65,6 +65,7 @@ export const Filters: Record<string, Filter> = {
   concentrates: {
     value: 'Concentrates',
     list: [
+      { value: 'Concentrates' },
       { value: 'Budder' },
       { value: 'Crumble' },
       { value: 'Crystalline' },
@@ -130,6 +131,7 @@ export const Filters: Record<string, Filter> = {
   topicals: {
     value: 'Topicals',
     list: [
+      { value: 'Topicals' },
       {
         value: 'Fragrances',
         subList: [
@@ -252,6 +254,8 @@ export const Filters: Record<string, Filter> = {
   pipes: {
     value: 'Pipes',
     list: [
+      { value: 'Pipes' },
+
       {
         value: 'Water Pipes',
         subList: [
@@ -418,6 +422,8 @@ export const Filters: Record<string, Filter> = {
   rigs: {
     value: 'Rigs',
     list: [
+      { value: 'Rigs' },
+
       {
         value: 'Percolator',
         subList: [
@@ -519,6 +525,7 @@ export const Filters: Record<string, Filter> = {
   vapePens: {
     value: 'Vape Pens',
     list: [
+      { value: 'Vape Pens' },
       { value: 'Dry Herb' },
       { value: 'Cartridges' },
       { value: 'Juice & Thin Oils' },
@@ -546,6 +553,7 @@ export const Filters: Record<string, Filter> = {
   rollingPapers: {
     value: 'Rolling Papers',
     list: [
+      { value: 'Rolling Papers' },
       { value: 'Hemp' },
       { value: 'Flavored' },
       { value: 'Pre-Rolled Cones' },
@@ -561,8 +569,9 @@ export const Filters: Record<string, Filter> = {
     ],
   },
   herbGrinders: {
-    value: 'Herb Grinders',
+    value: 'Grinders',
     list: [
+      { value: 'Grinders' },
       { value: 'Crank' },
       { value: 'Electric' },
       { value: 'Grater' },

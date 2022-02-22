@@ -2,6 +2,7 @@ import { combinedSearchQuery, receiveResults } from '@/actions/search';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 
+import ExploreProducts from './explore/ExploreProducts';
 import { Product } from '@/interfaces/product';
 import ProductFilterSlideOver from '../slideOver/filters/ProductFilterSlideOver';
 import ProductResultsGrid from '@/components/products/ProductResultsGrid';
@@ -12,24 +13,24 @@ import { useRouter } from 'next/router';
 
 export default function SearchShopping(props: { query: string }) {
   const router = useRouter();
-  const { category } = router.query;
+  const { category, sortQuery } = router.query;
   const { query } = props;
   const dispatch = useDispatch();
-  const [products, setProducts] = useState<Array<Product>>([]);
+  const [products, setProducts] = useState<Array<Product>>();
   const [currentQuery, setCurrentQuery] = useState('');
   const [update, setUpdate] = useState(true);
   const location = useSelector((root: RootState) => root.location);
 
   const [filters, setFilters] = useState<any>({
     category: [`${category ? category : ''}`],
-    sort: [],
+    sort: [`${sortQuery ? sortQuery : ''}`],
   });
 
   useEffect(() => {
     if (update || currentQuery !== query) {
       getProducts();
     }
-  }, [update, query, currentQuery, getProducts]);
+  }, [update, query, currentQuery, filters]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   async function getProducts() {
@@ -44,6 +45,14 @@ export default function SearchShopping(props: { query: string }) {
     setCurrentQuery(query);
   }
 
+  function categoryFilter(categoryQuery: string) {
+    dispatch(
+      receiveResults({
+        search: categoryQuery,
+      })
+    );
+  }
+
   function handleFilter(data: any) {
     setFilters(data);
     setUpdate(true);
@@ -51,37 +60,39 @@ export default function SearchShopping(props: { query: string }) {
 
   return (
     <section className="bg-gray/-50">
-      <ProductFilterSlideOver setFilters={handleFilter} />
       <div>
-        {products.length ? (
-          <div className="max-w-7xl mx-auto">
-            <ProductResultsSection
-              list={products}
-              sponsored={true}
-              label={`Shop ${
-                query ? `"${query}"` : location.city ? `"${location.city}"` : ''
-              }`}
-              hideButton={true}
-            />
-            <div className="px-4">
-              <ProductResultsGrid
-                label={`${products.length} Results for "${query}"`}
-                list={products}
-              />
-            </div>
-          </div>
+        <ProductFilterSlideOver setFilters={handleFilter} />
+        {products ? (
+          <>
+            {products.length ? (
+              <div>
+                <div className="max-w-7xl mx-auto">
+                  <ProductResultsSection
+                    list={products}
+                    sponsored={true}
+                    label={`Shop ${
+                      query
+                        ? `"${query}"`
+                        : location.city
+                        ? `"${location.city}"`
+                        : ''
+                    }`}
+                    hideButton={true}
+                  />
+                  <div className="px-4">
+                    <ProductResultsGrid
+                      label={`${products.length} Results for "${query}"`}
+                      list={products}
+                    />
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <ExploreProducts categoryFilter={categoryFilter} />
+            )}
+          </>
         ) : (
-          <div className="w-full flex items-center  flex-wrap justify-center h-full space-y-4 py-14">
-            <SvgEmptyState className="w-40 h-40" />
-            <div className="w-full space-y-3">
-              <h2 className="text-lg text-gray-700 font-semibold text-center w-56 ml-auto mr-auto">
-                Sorry, there are no results for this search.
-              </h2>
-              <p className="text-sm text-gray-500 text-center w-56 ml-auto mr-auto">
-                Please try again with different or more general keywords.
-              </p>
-            </div>
-          </div>
+          ''
         )}
       </div>
     </section>

@@ -24,7 +24,12 @@ export default function Login() {
         <div className="h-12 w-12 relative col-span-1">
           <Link href={'/'} passHref>
             <a>
-              <Image src={Logo} alt="CannaPages" layout={'responsive'} />
+              <Image
+                src={Logo}
+                alt="CannaPages"
+                layout={'responsive'}
+                unoptimized={true}
+              />
             </a>
           </Link>
         </div>

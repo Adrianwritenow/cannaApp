@@ -1,10 +1,10 @@
-import FacebookIcon from '../../public/assets/icons/iconComponents/IconFacebook';
-import GoogleIcon from '../../public/assets/icons/iconComponents/IconGoogle';
+import FacebookIcon from '@/public/assets/icons/iconComponents/IconFacebook';
+import GoogleIcon from '@/public/assets/icons/iconComponents/IconGoogle';
 import Image from 'next/image';
 import Link from 'next/link';
 import Logo from '@/public/assets/logos/logo.png';
 import React from 'react';
-import RegisterForm from '../../src/components/forms/RegisterForm';
+import RegisterForm from '@/components/forms/RegisterForm';
 
 export default function Register() {
   return (
@@ -13,7 +13,12 @@ export default function Register() {
         <div className="h-12 w-12 relative col-span-1">
           <Link href={'/'} passHref>
             <a>
-              <Image src={Logo} alt="CannaPages" layout={'responsive'} />
+              <Image
+                src={Logo}
+                alt="CannaPages"
+                layout={'responsive'}
+                unoptimized={true}
+              />
             </a>
           </Link>
         </div>

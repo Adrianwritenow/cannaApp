@@ -12,7 +12,7 @@ import { useState } from 'react';
 export default function PasswordReset() {
   const router = useRouter();
   const { name, temp_pass } = router.query;
-  const [apiError, setApiError] = useState('');
+  const [apiError, setApiError] = useState<any>('');
   const [dispatchAxios, { loading, success }] = useAxios();
   const initialValues = {
     password: '',
@@ -46,7 +46,7 @@ export default function PasswordReset() {
 
     dispatchAxios(userLostPasswordReset(data)).then((status: IAxiosReturn) => {
       if (!status.success) {
-        setApiError('Password reset request failed, please try again later.');
+        setApiError(['Password reset request failed, please try again later.']);
         return;
       }
     });
@@ -82,13 +82,19 @@ export default function PasswordReset() {
       validateOnBlur={true}
     >
       {({ handleSubmit, errors }) => {
-        const errorCount = Object.keys(errors).length;
-        const errorList = Object.values(errors).map((error, i) => (
-          <li className="text-red-700 font-normal" key={i}>
-            {error}
-          </li>
-        ));
-
+        const errorCount = Object.keys(errors).length + apiError.length;
+        const errorList = [
+          Object.values(errors).map((error, i) => (
+            <li className="text-red-700 font-normal" key={i}>
+              {error}
+            </li>
+          )),
+          Object.values(apiError).map((apiError, i) => (
+            <li className="text-red-700 font-normal" key={`api_${i}`}>
+              {apiError as string}
+            </li>
+          )),
+        ].flat(1);
         return (
           <div className="flex flex-col justify-start py-12 px-4 bg-white">
             <div className="mx-auto max-w-lg">

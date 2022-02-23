@@ -40,13 +40,6 @@ export default function LoginForm() {
       })
     );
 
-    console.log('RES:::', response);
-
-    // useEffect(() => {
-    //   console.log(apiError);
-    // }, [apiError]);
-
-    console.log('RESPONSE', response);
     if (!response.result.ok) {
       switch (response.result.status) {
         case 401:

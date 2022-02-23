@@ -16,7 +16,6 @@ export default function Login() {
   const { data: session, status } = useSession();
 
   useEffect(() => {
-    console.log('SESSION:::', session);
     if (session?.accessToken) {
       router.push('/');
     }

@@ -1,45 +1,38 @@
-import * as Yup from "yup";
+import * as Yup from 'yup';
 
-import { Field, Formik } from "formik";
-import React, { useState } from "react";
+import { Field, Formik } from 'formik';
+import React, { useState } from 'react';
 
-import ErrorsDisplay from "../error/ErrorsDisplay";
-import { InputField } from "./fields/InputField";
-import { register } from "../../actions/register";
-import { useRouter } from "next/router";
+import ErrorsDisplay from '../error/ErrorsDisplay';
+import { InputField } from './fields/InputField';
+import { register } from '../../actions/register';
+import { useRouter } from 'next/router';
+import { schema } from '@/helpers/passwordSchema';
 
 export default function RegisterForm() {
-  const [apiError, setApiError] = useState("");
+  const [apiError, setApiError] = useState('');
 
   const router = useRouter();
-  const schema = Yup.object().shape({
-    email: Yup.string()
-      .email("Email address does not look complete")
-      .required("Email address is required"),
-    username: Yup.string()
-      .required("Username is required"),
-    password: Yup.string().required("Password is required"),
-    confirmPassword: Yup.string().oneOf(
-      [Yup.ref("password"), null],
-      "That doesn't match your New Password"
-    ),
-  });
 
   const initialValues = {
-    email: "",
-    username: "",
-    password: "",
-    confirmPassword: "",
+    email: '',
+    username: '',
+    password: '',
+    confirmPassword: '',
   };
 
   async function handleSubmit(values: any) {
-    setApiError("");
+    setApiError('');
 
-    const response = await register(values.email, values.username, values.password);
+    const response = await register(
+      values.email,
+      values.username,
+      values.password
+    );
     const encodedEmail = encodeURIComponent(values.email);
 
     if (response.status == 200) {
-      router.push("/register/verify?email=" + encodedEmail);
+      router.push('/register/verify?email=' + encodedEmail);
     } else {
       setApiError(response.data.message);
     }
@@ -54,12 +47,19 @@ export default function RegisterForm() {
       validateOnBlur={true}
     >
       {({ handleSubmit, errors }) => {
-        const errorCount = Object.keys(errors).length;
-        const errorList = Object.values(errors).map((error, i) => (
-          <li className="text-red-700 font-normal" key={i}>
-            {error}
-          </li>
-        ));
+        const errorCount = Object.keys(errors).length + apiError.length;
+        const errorList = [
+          Object.values(errors).map((error, i) => (
+            <li className="text-red-700 font-normal" key={i}>
+              {error}
+            </li>
+          )),
+          Object.values(apiError).map((apiError, i) => (
+            <li className="text-red-700 font-normal" key={`api_${i}`}>
+              {apiError}
+            </li>
+          )),
+        ].flat(1);
 
         return (
           <form
@@ -115,7 +115,7 @@ export default function RegisterForm() {
                 errorList={errorList}
               />
             ) : (
-              ""
+              ''
             )}
 
             <button

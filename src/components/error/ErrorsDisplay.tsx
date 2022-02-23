@@ -8,6 +8,7 @@ interface ErrorsProps {
 export default function ErrorsDisplay(props: ErrorsProps) {
   const { errorList, errorCount, apiError } = props;
 
+  console.log(errorList);
   return (
     <div className="flex items-start bg-red-50 block w-full rounded-md  sm:text-sm p-5 gap-5">
       <div className="flex justify-center">
@@ -25,15 +26,13 @@ export default function ErrorsDisplay(props: ErrorsProps) {
       </div>
 
       <div className="">
-        {errorCount ? (
+        {errorCount && (
           <>
             <p className="text-red-800 font-medium">
               There were {errorCount} errors with your submission
             </p>
             <ul className={styles.errorList}>{errorList}</ul>
           </>
-        ) : (
-          <p className="text-red-800 font-medium mr-4">{apiError}</p>
         )}
       </div>
     </div>

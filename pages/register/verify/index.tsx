@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import Logo from '../../../public/assets/logos/logo.png';
+import Logo from '@/public/assets/logos/logo.png';
 import React, { useEffect } from 'react';
-import RegisterVerifyForm from '../../../src/components/forms/RegisterVerifyForm';
+import RegisterVerifyForm from '@/components/forms/RegisterVerifyForm';
 import { useRouter } from 'next/router';
 
 export default function RegisterVerify() {
@@ -13,7 +13,16 @@ export default function RegisterVerify() {
     <div className="flex flex-col justify-center max-w-3xl mx-auto py-12 bg-white px-4">
       <div className="grid grid-cols-6 gap-0">
         <div className="h-12 w-12 relative col-span-1">
-          <Image src={Logo} alt="CannaPages" layout={'responsive'} />
+          <Link href={'/'} passHref>
+            <a>
+              <Image
+                src={Logo}
+                alt="CannaPages"
+                layout={'responsive'}
+                unoptimized={true}
+              />
+            </a>
+          </Link>
         </div>
       </div>
 

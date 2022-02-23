@@ -7,8 +7,6 @@ interface ErrorsProps {
 }
 export default function ErrorsDisplay(props: ErrorsProps) {
   const { errorList, errorCount, apiError } = props;
-
-  console.log(errorList);
   return (
     <div className="flex items-start bg-red-50 block w-full rounded-md  sm:text-sm p-5 gap-5">
       <div className="flex justify-center">

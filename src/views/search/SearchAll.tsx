@@ -20,13 +20,13 @@ export default function SearchAll(props: {
   const { query, userCoords } = props;
   const [dispatchSearch, { loading }] = useAxios(false);
   const { listResults } = useSelector((root: RootState) => root.search);
-  const location = useSearchLocation();
+  const { label, coords } = useSearchLocation();
 
   useEffect(() => {
     dispatchSearch(
       searchMulti({
         q: query,
-        coords: location[1] ? location[1] : undefined,
+        coords: coords ? coords : undefined,
         endpoints: [
           { name: 'products' },
           { name: 'dispensaries', geolocate: true },

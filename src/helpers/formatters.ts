@@ -62,8 +62,8 @@ export const formatDealCard = (listing: Coupon): ListingProps => {
   return {
     url: `/deal/${listing._source.id}`,
     id: listing._source.id,
+    dispensary_id: listing._source.dispensary[0],
     image: formatImageWithFallback(listing._source.deal_image),
-    dispensary: listing._source.dispensary[0],
     thumbnail: listing._source?.dispensary_image
       ? listing._source.dispensary_image[0]
       : '',

@@ -70,7 +70,7 @@ export default function DealOverview() {
           <div className="w-full py-6">
             <p className="text-md text-gray-500 mb-2">Deal offered by</p>
             <div className="border p-4">
-              <Link href={`/business/${deal.dispensary}`} passHref>
+              <Link href={`/business/${deal.dispensary_id}`} passHref>
                 <a className="flex items-center">
                   <div className="w-20 h-20 mr-5 relative ">
                     <ImageWithFallback

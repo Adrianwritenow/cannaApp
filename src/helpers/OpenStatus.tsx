@@ -47,6 +47,7 @@ export default function OpenIndicator(props: any) {
 
   useEffect(() => {
     if (dispensary && dispensaryTimezone === '') {
+      console.log(dispensary);
       const entityTimeZone = dispensary?._source.time_zone || [''];
       switch (entityTimeZone[0].toLowerCase()) {
         case 'est':

@@ -40,6 +40,7 @@ export interface ListingProps {
   thumbnail?: string;
   name?: string;
   eyebrow?: string;
+  dispensary_id?: number;
   city?: string;
   state?: string;
   type?: string;
@@ -51,7 +52,7 @@ export interface ListingProps {
   amenities?: string;
   classNames?: string;
   discount?: string;
-  dispensary?: number;
+  dispensary?: Dispensary;
   hours?: LocationHoursFields;
   userCoords?: {
     lat: number;

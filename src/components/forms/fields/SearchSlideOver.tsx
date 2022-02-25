@@ -159,8 +159,10 @@ export default function SearchSlideOver(props: {
                 },
               })
             );
-            console.log('!!!', geocoderRef.current);
-            geocoderRef.current.children[0].children[1].value = 'Your Location';
+            if (geolocationSet && geocoderRef.current) {
+              geocoderRef.current.children[0].children[1].value =
+                'Your Location';
+            }
           },
           err => console.log(err)
         );

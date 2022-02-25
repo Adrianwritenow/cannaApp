@@ -27,6 +27,14 @@ a {
   padding-bottom: 100%;
 }
 
+.mapboxgl-ctrl {
+  width: 100% !important;
+
+  .suggestions-wrapper {
+    display: none !important;
+  }
+}
+
 @font-face {
   font-family: 'Roboto';
   font-style: normal;

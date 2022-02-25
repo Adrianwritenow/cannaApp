@@ -21,6 +21,7 @@ export function MapResultCard({ listing, userCoords }: any) {
           lat: listing._source.lat,
           lon: listing._source.lon,
         });
+
         setDistanceFrom(distance);
       }
     }

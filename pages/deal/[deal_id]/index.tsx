@@ -11,6 +11,7 @@ import { SearchHits } from '@/interfaces/searchHits';
 import StarRating from '@/components/rating/StarRating';
 import { useAxios } from '@/hooks/useAxios';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 export default function DealOverview() {
   const router = useRouter();
@@ -69,28 +70,30 @@ export default function DealOverview() {
           <div className="w-full py-6">
             <p className="text-md text-gray-500 mb-2">Deal offered by</p>
             <div className="border p-4">
-              <div className="flex items-center">
-                <div className="w-20 h-20 mr-5 relative ">
-                  <ImageWithFallback
-                    src={deal.thumbnail}
-                    alt={deal.name}
-                    layout="fill"
-                    objectFit={'cover'}
-                  />
-                </div>
-                <div>
-                  <p className="font-bold">{deal.name}</p>
-                  {deal.rating && (
-                    <StarRating
-                      rating={deal.rating}
-                      reviews_count={deal.reviews_count}
+              <Link href={`/business/${deal.dispensary}`} passHref>
+                <a className="flex items-center">
+                  <div className="w-20 h-20 mr-5 relative ">
+                    <ImageWithFallback
+                      src={deal.thumbnail}
+                      alt={deal.name}
+                      layout="fill"
+                      objectFit={'cover'}
                     />
-                  )}
-                  <p className="text-sm text-gray-500 font-normal">
-                    {deal.city}, {deal.state}
-                  </p>
-                </div>
-              </div>
+                  </div>
+                  <div>
+                    <p className="font-bold">{deal.name}</p>
+                    {deal.rating && (
+                      <StarRating
+                        rating={deal.rating}
+                        reviews_count={deal.reviews_count}
+                      />
+                    )}
+                    <p className="text-sm text-gray-500 font-normal">
+                      {deal.city}, {deal.state}
+                    </p>
+                  </div>
+                </a>
+              </Link>
             </div>
           </div>
         </section>

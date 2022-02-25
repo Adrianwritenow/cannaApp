@@ -51,7 +51,7 @@ export interface ListingProps {
   amenities?: string;
   classNames?: string;
   discount?: string;
-  dispensary?: Dispensary;
+  dispensary?: number;
   hours?: LocationHoursFields;
   userCoords?: {
     lat: number;

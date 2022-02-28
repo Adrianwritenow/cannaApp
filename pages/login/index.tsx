@@ -19,7 +19,7 @@ export default function Login() {
   }, [session, router]);
 
   return (
-    <div className="flex flex-col justify-start max-w-5xl mx-auto py-12 bg-white px-4">
+    <div className="flex flex-col justify-start max-w-3xl mx-auto py-12 bg-white px-4">
       <div className="grid grid-cols-6 gap-0">
         <div className="h-12 w-12 relative col-span-1">
           <Link href={'/'} passHref>
@@ -52,7 +52,7 @@ export default function Login() {
         </p>
       </div>
 
-      <div className="pt-8 ">
+      <div className="pt-8">
         <p className="text-sm font-medium	text-gray-900 py-1">Log in with</p>
         <div className="grid grid-cols-2 gap-3">
           <Link href="#">

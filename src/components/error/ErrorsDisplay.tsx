@@ -1,4 +1,4 @@
-import styles from "./Errors.module.scss";
+import styles from './Errors.module.scss';
 
 interface ErrorsProps {
   errorList: JSX.Element[];
@@ -7,13 +7,12 @@ interface ErrorsProps {
 }
 export default function ErrorsDisplay(props: ErrorsProps) {
   const { errorList, errorCount, apiError } = props;
-
   return (
-    <div className="grid grid-cols-6  bg-red-50 block w-full rounded-md  sm:text-sm py-5 ">
-      <div className="col-span-1 flex justify-center">
+    <div className="flex items-start bg-red-50 block w-full rounded-md  sm:text-sm p-5 gap-5">
+      <div className="flex justify-center">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-5 w-5 fill-current text-red-400 mt-1"
+          className="h-5 w-5 fill-current text-red-400"
           viewBox="0 0 20 20"
         >
           <path
@@ -24,16 +23,14 @@ export default function ErrorsDisplay(props: ErrorsProps) {
         </svg>
       </div>
 
-      <div className="col-span-5">
-        {errorCount ? (
+      <div className="">
+        {errorCount && (
           <>
             <p className="text-red-800 font-medium">
               There were {errorCount} errors with your submission
             </p>
             <ul className={styles.errorList}>{errorList}</ul>
           </>
-        ) : (
-          <p className="text-red-800 font-medium mr-4">{apiError}</p>
         )}
       </div>
     </div>

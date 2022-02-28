@@ -2,7 +2,7 @@ import * as Yup from 'yup';
 
 import { EyeIcon, EyeOffIcon } from '@heroicons/react/outline';
 import { Field, Form, Formik } from 'formik';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { signIn } from 'next-auth/react';
 
 import ErrorsDisplay from '@/components/error/ErrorsDisplay';
@@ -11,7 +11,7 @@ import Link from 'next/link';
 import sureThing from '@/helpers/sureThing';
 
 export default function LoginForm() {
-  const [apiError, setApiError] = useState('');
+  const [apiError, setApiError] = useState<any>('');
   const [passwordVisible, setPasswordVisible] = useState(false);
   const schema = Yup.object().shape({
     email: Yup.string()
@@ -40,9 +40,20 @@ export default function LoginForm() {
       })
     );
 
-    if (response.error) {
-      setApiError(response.error.toString());
+    if (!response.result.ok) {
+      switch (response.result.status) {
+        case 401:
+          setApiError(['Email or Password is Incorrect']);
+          break;
+        case 500:
+          setApiError(["Can't send this request, Please try again later"]);
+          break;
+        default:
+          setApiError(['Something went wrong, Please try again later']);
+          break;
+      }
     }
+    console.log(apiError);
   };
 
   return (
@@ -53,13 +64,20 @@ export default function LoginForm() {
       validateOnBlur={true}
     >
       {({ handleSubmit, errors, values }) => {
-        const errorCount = Object.keys(errors).length;
+        const errorCount = Object.keys(errors).length + apiError.length;
         const passwordError = Object.keys(errors).includes('password');
-        const errorList = Object.values(errors).map((error, i) => (
-          <li className="text-red-900 font-normal" key={i}>
-            {error}
-          </li>
-        ));
+        const errorList = [
+          Object.values(errors).map((error, i) => (
+            <li className="text-red-700 font-normal" key={i}>
+              {error}
+            </li>
+          )),
+          Object.values(apiError).map((apiError, i) => (
+            <li className="text-red-700 font-normal" key={`api_${i}`}>
+              {apiError as string}
+            </li>
+          )),
+        ].flat(1);
 
         return (
           <Form className="space-y-6" method="POST" onSubmit={handleSubmit}>

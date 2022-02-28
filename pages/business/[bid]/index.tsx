@@ -2,6 +2,7 @@ import { ArrowLeftIcon, StarIcon } from '@heroicons/react/solid';
 import {
   GlobeIcon,
   InformationCircleIcon,
+  MailIcon,
   MapIcon,
   PhoneIcon,
   StarIcon as StarIconOutline,
@@ -388,6 +389,16 @@ export default function BusinessDetail() {
                     </button>
                   </a>
                 )}
+                {typeof dispensary._source.email !== 'undefined' && (
+                  <a href={`mailto:${dispensary._source.email[0]}`}>
+                    <button className="py-4 w-full text-gray-700 flex items-center justify-start ">
+                      <MailIcon className="w-10 h-10 text-gray-400" />
+                      <span className="pl-4 text-sm">
+                        {dispensary._source.email[0]}
+                      </span>
+                    </button>
+                  </a>
+                )}
               </div>
             </div>
           </section>
@@ -511,15 +522,6 @@ export default function BusinessDetail() {
 
       {/* Also Viewed */}
       <section className="max-w-7xl pb-4 pt-2  w-full   desktop:mx-auto">
-        <h2 id="related-businesses" className="sr-only">
-          People Also Viewed
-        </h2>
-        <h2
-          id="related-businesses"
-          className="text-gray-700 text-lg font-semibold px-4 pb-5 desktop:hidden"
-        >
-          People Also Viewed
-        </h2>
         <div className="desktop:h-auto">
           <h2 id="deals-near-me" className="sr-only">
             People Also Viewed

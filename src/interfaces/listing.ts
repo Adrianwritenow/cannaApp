@@ -40,6 +40,7 @@ export interface ListingProps {
   thumbnail?: string;
   name?: string;
   eyebrow?: string;
+  dispensary_id?: number;
   city?: string;
   state?: string;
   type?: string;

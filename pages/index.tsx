@@ -130,7 +130,7 @@ export default function Home() {
       {/* Search/Map Section Desktop*/}
 
       <div className="bg-white overflow-hidden hidden desktop:inline">
-        <div className="w-full h-min relative bg-white">
+        <div className="w-full h-min relative bg-white overflow-hidden">
           <div className="max-w-7xl mx-auto">
             <div className="relative bg-white pb-8 desktop:max-w-2xl desktop:w-full py-20 z-10">
               <svg

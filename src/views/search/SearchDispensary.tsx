@@ -13,8 +13,7 @@ export default function SearchDispensary(props: { query: string }) {
   const [dispensaries, setDispensaries] = useState<Array<Dispensary>>();
   const router = useRouter();
   const { category } = router.query;
-  const location = useSearchLocation();
-  const userCoords = location[1];
+  const { label, coords } = useSearchLocation();
   const firstRender = useRef(true);
 
   const [filters, setFilters] = useState<any>({
@@ -36,7 +35,7 @@ export default function SearchDispensary(props: { query: string }) {
     }
     getDispensaries();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [query, filters, userCoords]);
+  }, [query, filters, coords]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   async function getDispensaries() {
@@ -46,7 +45,7 @@ export default function SearchDispensary(props: { query: string }) {
       q: query ?? '*',
       filters: filterData,
       distance: range,
-      coords: { lat: userCoords.lat, lon: userCoords.lon },
+      coords: coords,
       endpoints: ['dispenaries'],
       total: 10,
     });
@@ -66,7 +65,7 @@ export default function SearchDispensary(props: { query: string }) {
             <ListingSection
               listings={dispensaries}
               query={query}
-              userCoords={{ lat: userCoords.lat, lon: userCoords.lon }}
+              userCoords={coords}
             />
           </div>
         ) : (

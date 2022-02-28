@@ -8,9 +8,6 @@ import { ArrowCircleLeftIcon, ArrowLeftIcon } from '@heroicons/react/solid';
 function MapResults({ data, userCoords }: any) {
   const { swiper, setSwiper, setActiveCard, showResults, activeCard } =
     useContext(MapContext);
-
-    
-
   return (
     <>
       <div
@@ -65,7 +62,7 @@ function MapResults({ data, userCoords }: any) {
                   transition: 'all 100ms linear',
                 }}
               >
-                <MapResultCard listing={listing} userCoords={userCoords}/>
+                <MapResultCard listing={listing} userCoords={userCoords} />
               </SwiperSlide>
             );
           })}

@@ -10,26 +10,26 @@ import MapResults from './MapResults';
 import { RootState } from '@/reducers';
 import { setLocation } from '@/actions/location';
 import { useCurrentWidth } from './useCurrentWidth';
+import { useSearchLocation } from '@/hooks/useSearchLocation';
 
 export const MapContext = createContext<any>(null);
 
 export function MapContainer() {
   const [showMap, setShowMap] = useState(true);
-  const { searchLocation, query } = useSelector(
-    (root: RootState) => root.search
-  );
+  const { query } = useSelector((root: RootState) => root.search);
+
   const { state, city, lat, lon, preciseLocationSet } = useSelector(
     (root: RootState) => root.location
   );
-  const [dispensaryResults, setDispensaryResults] = useState<any>([]);
+
   const dispatch = useDispatch();
-  const [resultsShouldUpdate, setResultsShouldUpdate] = useState(false);
   const [showResults, setShowResults] = useState(true);
   const [locationMatches, setLocationMatches] = useState<Array<Dispensary>>();
   const [activeCard, setActiveCard] = useState<any>(0);
-  const [currentQuery, setCurrentQuery] = useState('');
   const [swiper, setSwiper] = useState<any>(null);
   const [update, setUpdate] = useState(true);
+  const { label, coords } = useSearchLocation();
+
   const width = useCurrentWidth();
   const [filters, setFilters] = useState<any>({
     category: [`${query ? query : ''}`],
@@ -39,21 +39,13 @@ export function MapContainer() {
   });
 
   useEffect(() => {
-    if (searchLocation.label !== null) {
+    if (label !== null) {
       getLocationMatches();
     }
     if (update) {
       getLocationMatches();
     }
-  }, [
-    searchLocation.label,
-    query,
-    searchLocation.coords,
-    lat,
-    lon,
-    update,
-    filters,
-  ]);
+  }, [label, query, lat, lon, update, filters]);
 
   const getLocation = () => {
     if (!preciseLocationSet) {
@@ -107,7 +99,7 @@ export function MapContainer() {
     const { distance, ...filterData } = filters;
     const hits: any = await combinedSearchQuery({
       endpoints: ['dispenaries'],
-      coords: searchLocation.coords ? searchLocation.coords : { lat, lon },
+      coords: coords ? coords : { lat, lon },
       filters: filterData,
       distance: range,
       total: 10,
@@ -180,10 +172,7 @@ export function MapContainer() {
                     </button>
                   </div> */}
                     <div className="">
-                      <MapResults
-                        data={locationMatches}
-                        userCoords={{ lat: lat, lon: lon }}
-                      />
+                      <MapResults data={locationMatches} userCoords={coords} />
                     </div>
                   </>
                 ) : null}

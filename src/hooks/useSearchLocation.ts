@@ -8,9 +8,12 @@ export function useSearchLocation() {
 
   return useMemo(() => {
     if (searchLocation?.label) {
-      return [searchLocation.label, searchLocation.coords];
+      return { label: searchLocation.label, coords: searchLocation.coords };
     }
 
-    return [location.city, { lat: location.lat, lon: location.lon }];
+    return {
+      label: location.city,
+      coords: { lat: location.lat, lon: location.lon },
+    };
   }, [location, searchLocation]);
 }

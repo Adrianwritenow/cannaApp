@@ -14,7 +14,7 @@ interface Listings {
 }
 export default function ListingSection(results: Listings) {
   const { listings, sponsored, query, userCoords } = results;
-  const [locationLabel] = useSearchLocation();
+  const { label } = useSearchLocation();
 
   return (
     <section id="listing-section" className="max-w-7xl mx-auto">
@@ -29,7 +29,7 @@ export default function ListingSection(results: Listings) {
         <h2 className="text-xl text-gray-700 font-semibold p-4 pb-0 desktop:text-2xl">
           {query
             ? `${listings.length} results for "${query}"`
-            : `${listings.length} results near "${locationLabel ?? 'you'}"`}
+            : `${listings.length} results near "${label ?? 'you'}"`}
         </h2>
       )}
 

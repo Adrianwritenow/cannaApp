@@ -30,6 +30,7 @@ import getDistanceFrom from '@/helpers/getDistanceFrom';
 import moment from 'moment-timezone';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
+import { useSearchLocation } from '@/hooks/useSearchLocation';
 
 export default function BusinessDetail() {
   const router = useRouter();
@@ -39,8 +40,7 @@ export default function BusinessDetail() {
   const [dispensary, setDispensary] = useState<Dispensary>();
   const [timezone, setTimezone] = useState('');
   const [sort, setSort]: any = useState('relevance');
-  const { lat, lon } = useSelector((root: RootState) => root.location);
-  const location = useSelector((root: RootState) => root.location);
+  const { label, coords } = useSearchLocation();
   const [viewed, setViewed] = useState<Array<Dispensary>>();
 
   let today = moment.tz(timezone).format('dddd');
@@ -55,18 +55,15 @@ export default function BusinessDetail() {
       });
     }
 
-    if (dispensary && lat && lon) {
-      const isEmpty = Object.values({ lat, lon }).every(
+    if (dispensary && coords) {
+      const isEmpty = Object.values(coords).every(
         x => x === null || x === undefined
       );
       if (!isEmpty) {
-        const distance = getDistanceFrom(
-          { lat: lat, lon: lon },
-          {
-            lat: dispensary._source.lat,
-            lon: dispensary._source.lon,
-          }
-        );
+        const distance = getDistanceFrom(coords, {
+          lat: dispensary._source.lat,
+          lon: dispensary._source.lon,
+        });
 
         setDistanceFrom(distance);
       }
@@ -88,16 +85,16 @@ export default function BusinessDetail() {
       }
     }
 
-    if (location.city && !viewed) {
+    if (label && !viewed) {
       getDispensaryResults();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lat, lon, dispensary, router]);
+  }, [coords, dispensary, router]);
   async function getDispensaryResults() {
     const hits: any = await combinedSearchQuery({
       endpoints: ['dispenaries'],
       total: 4,
-      coords: { lat: location.lat, lon: location.lon },
+      coords: coords,
     });
     setViewed(hits);
   }
@@ -269,7 +266,7 @@ export default function BusinessDetail() {
         <BusinessMenuSlideOver dispensary={dispensary} />
       </div>
       <div className="space-y-4 px-4 desktop:max-w-7xl mx-auto">
-        {/* <AboutUsSlideOver dispensary={dispensary} /> */}
+        <AboutUsSlideOver dispensary={dispensary} />
         {dispensary?._source.licenses && (
           <BusinessVerificationSlideOver dispensary={dispensary} />
         )}

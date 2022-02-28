@@ -11,7 +11,6 @@ import React, { Fragment, useEffect, useRef, useState } from 'react';
 import { getLocationByIP, setLocation } from '@/actions/location';
 import { receiveResults, searchMulti } from '@/actions/search';
 import { useDispatch, useSelector } from 'react-redux';
-
 import Image from 'next/image';
 import { LocationData } from '@/interfaces/locationData';
 import LogoText from '@/public/assets/logos/logo-text.png';
@@ -26,6 +25,10 @@ import Target from '@/public/assets/icons/iconComponents/Target';
 import mapboxgl from 'mapbox-gl';
 import { useAxios } from '@/hooks/useAxios';
 import { useRouter } from 'next/router';
+import { useSearchLocation } from '@/hooks/useSearchLocation';
+import { FeatureCollection } from 'geojson';
+import { Feature } from '@/interfaces/feature';
+import SearchLocationCard from '@/components/search/SearchLocationCard';
 
 export default function SearchSlideOver(props: {
   searchRoute?: string;
@@ -41,11 +44,11 @@ export default function SearchSlideOver(props: {
   const [focus, setFocus] = useState('');
   const dispatch = useDispatch();
   const router = useRouter();
-  const { listResults, query, searchLocation } = useSelector(
-    (root: RootState) => root.search
-  );
+  const { listResults, query } = useSelector((root: RootState) => root.search);
+  const { label, coords } = useSearchLocation();
   const geocoderRef = useRef<any>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const [locationOptions, setLocationOptions] = useState<Feature[]>();
 
   const initialValues = {
     search: query,
@@ -64,48 +67,68 @@ export default function SearchSlideOver(props: {
   });
 
   function handleSubmit(search: any) {
-    router.push('/search');
+    if (router.pathname !== '/search' && router.pathname !== '/map') {
+      router.push('/search');
+    }
     setOpen(false);
   }
+
+  geocoder.on('results', function (results: FeatureCollection) {
+    setLocationOptions(results.features as unknown as Feature[]);
+  });
 
   useEffect(() => {
     // Wait for transition to complete so ref exists
     setTimeout(() => {
       if (geocoderRef.current !== null && !geocodeInitialized && open) {
         geocoder.addTo(geocoderRef.current);
+        // Set input and query to label value
+        geocoder.setInput(label);
+        geocoder.query(label);
+
         setGeocodeInitialized(true);
         if (geocoderRef.current.children[0].children[1]) {
           geocoderRef.current.children[0].children[1].placeholder =
             'Location...';
           geocoderRef.current.children[0].children[1].value =
-            initialLocationCleared && searchLocation.label
-              ? searchLocation.label
-              : '';
+            initialLocationCleared && label ? label : '';
         }
       }
-    }, 300);
+      if (geolocationSet && geocoderRef.current) {
+        // If geolocater is set use your location value
+        geocoderRef.current.children[0].children[1].value = 'Your Location';
+      }
+    }, 200);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [geocoderRef.current, geocodeInitialized, open]);
+  }, [
+    geocoderRef.current,
+    geocodeInitialized,
+    open,
+    geolocationSet,
+    locationOptions,
+  ]);
 
   // prevent geocoder from rendering multiple times
   useEffect(() => {
     setGeocodeInitialized(false);
   }, [open]);
 
-  // handle new location selected
-  geocoder.on('result', e => {
-    setGeolocationSet(false);
-    // Run new search in case user closes before they change
-    // their search query.
-    executeSearchQuery(query, {
-      searchLocation: {
-        coords: { lat: e.result.center[1], lon: e.result.center[0] },
-        label: e.result.text,
-        boundingBox: e.result.bbox,
-      },
-    });
-  });
+  useEffect(() => {}, [focus, open, locationOptions]);
+
+  // Get initial location data based on Client IP
+  useEffect(() => {
+    async function getLocation() {
+      const data: LocationData = await getLocationByIP();
+      dispatch(setLocation(data));
+    }
+
+    if (!Object.keys(location).length && !location.fLo) {
+      getLocation();
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   async function handleLocationRequest() {
     if (!location.preciseLocationSet) {
@@ -115,7 +138,7 @@ export default function SearchSlideOver(props: {
         navigator.geolocation.getCurrentPosition(
           position => {
             setGeolocationSet(true);
-            router.pathname === '/map' ? setOpen(false) : router.push('/map');
+            router.pathname === '/map' ? router.push('/map') : '';
             dispatch(
               setLocation({
                 city: location.city,
@@ -136,8 +159,7 @@ export default function SearchSlideOver(props: {
                 },
               })
             );
-
-            if (geocoderRef.current.children[0].children[1]) {
+            if (geolocationSet && geocoderRef.current) {
               geocoderRef.current.children[0].children[1].value =
                 'Your Location';
             }
@@ -157,8 +179,10 @@ export default function SearchSlideOver(props: {
           },
         })
       );
-      router.pathname === '/map' ? setOpen(false) : router.push('/map');
+      router.pathname === '/map' ? router.push('/map') : '';
     }
+
+    setGeolocationSet(true);
   }
 
   // adds short delay to prevent search from firing until the user has stopped typing
@@ -205,25 +229,6 @@ export default function SearchSlideOver(props: {
     );
   }
 
-  // Get initial location data based on Client IP
-  useEffect(() => {
-    async function getLocation() {
-      const data: LocationData = await getLocationByIP();
-      dispatch(setLocation(data));
-    }
-
-    if (!Object.keys(location).length && !location.fLo) {
-      getLocation();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    if (open) {
-      setGeocodeInitialized(false);
-    }
-  }, [open]);
-
   function handleFocus() {
     // Wait for transition to finish then focus on input
     setTimeout(() => {
@@ -232,6 +237,29 @@ export default function SearchSlideOver(props: {
         node.focus();
       }
     }, 500);
+  }
+
+  function handleDispatchLocation(location: Feature) {
+    if (geocoderRef.current.children[0].children[1]) {
+      geocoderRef.current.children[0].children[1].placeholder = 'Location...';
+      geocoderRef.current.children[0].children[1].value = location.place_name;
+    }
+    dispatch(
+      receiveResults({
+        searchLocation: {
+          coords: {
+            lon: location.geometry.coordinates[0],
+            lat: location.geometry.coordinates[1],
+          },
+          label: location.place_name,
+        },
+      })
+    );
+    setGeolocationSet(false);
+  }
+
+  function handleClearSearchTerm() {
+    dispatch(receiveResults({ data: [], search: '' }));
   }
 
   function handleClearLocation() {
@@ -254,10 +282,6 @@ export default function SearchSlideOver(props: {
     setGeolocationSet(false);
   }
 
-  function handleClearSearchTerm() {
-    dispatch(receiveResults({ data: [], search: '' }));
-  }
-
   return (
     <div className="print:hidden">
       <div className="w-full relative pb-4">
@@ -265,7 +289,7 @@ export default function SearchSlideOver(props: {
           {router.pathname === '/map' ? (
             <button
               onClick={() => {
-                router.push('/search');
+                router.back;
               }}
             >
               <ArrowLeftIcon className="w-5 h-5 ml-3" />
@@ -311,7 +335,7 @@ export default function SearchSlideOver(props: {
           onClose={() => setOpen(false)}
         >
           <div className="absolute inset-0 overflow-hidden">
-            <Dialog.Overlay className="absolute inset-0" />
+            <Dialog.Overlay className="absolute inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
 
             <div className="fixed inset-y-0 right-0 max-w-full desktop:max-w-2xl	flex">
               <Transition.Child
@@ -375,7 +399,7 @@ export default function SearchSlideOver(props: {
                                           Search
                                         </button>
                                       </div>
-                                      <div className="divide-y px-4">
+                                      <div className="divide-y px-4 relative">
                                         <div className="w-full ">
                                           <div className="flex w-full">
                                             <div className=" w-full">
@@ -436,47 +460,41 @@ export default function SearchSlideOver(props: {
                                             <div
                                               className={'w-full'}
                                               ref={geocoderRef}
+                                              onFocus={() => {
+                                                setFocus('location');
+                                              }}
                                             />
                                             <button
                                               className="w-6 h-6 right-0 flex items-center"
-                                              onClick={handleClearLocation}
+                                              onClick={(e: any) => {
+                                                e.preventDefault();
+                                                handleClearLocation();
+                                              }}
                                             >
                                               <XIcon className="text-gray-500" />
                                             </button>
                                           </div>
                                         </div>
                                       </div>
-                                      <div>
-                                        {!geolocationSet ? (
-                                          <button
-                                            onClick={handleLocationRequest}
-                                            className="flex w-full items-center "
-                                          >
-                                            <div className=" flex items-center justify-center">
-                                              <Target className=" text-gray-500" />
-
-                                              <p className="p-4">
-                                                Current Location
-                                              </p>
-                                            </div>
-                                          </button>
-                                        ) : null}
-                                      </div>
                                     </Form>
-                                    <button
-                                      key={`generalSearch`}
-                                      onClick={() => {
-                                        router.push('/search');
-                                        setOpen(false);
-                                      }}
-                                      className="text-gray-700 w-full flex px-4 py-3"
-                                    >
-                                      <span className="ml-2 font-bold hover:text-green-500 hover">
-                                        Search for&nbsp; {`"${values.search}"`}
-                                      </span>
-                                    </button>
-                                    {results.length ? (
+
+                                    {results.length && focus !== 'location' ? (
                                       <ul className="px-4 desktop:max-w-2xl">
+                                        <li>
+                                          <button
+                                            key={`generalSearch`}
+                                            onClick={() => {
+                                              router.push('/search');
+                                              setOpen(false);
+                                            }}
+                                            className="text-gray-700 w-full flex px-4 py-3"
+                                          >
+                                            <span className="ml-2 font-bold hover:text-green-500 hover">
+                                              Search for&nbsp;{' '}
+                                              {`"${values.search}"`}
+                                            </span>
+                                          </button>
+                                        </li>
                                         {results.map(
                                           (result: any, index: number) => {
                                             switch (true) {
@@ -541,6 +559,51 @@ export default function SearchSlideOver(props: {
                                                   </li>
                                                 );
                                             }
+                                          }
+                                        )}
+                                      </ul>
+                                    ) : (
+                                      ''
+                                    )}
+                                    {/* Location Results */}
+                                    {locationOptions?.length &&
+                                    focus == 'location' ? (
+                                      <ul className="px-4 desktop:max-w-2xl">
+                                        {!geolocationSet ? (
+                                          <li className="">
+                                            <button
+                                              onClick={handleLocationRequest}
+                                              className="flex w-full items-center "
+                                            >
+                                              <div className=" flex items-center justify-center">
+                                                <Target className=" text-green-500" />
+
+                                                <p className="p-4 text-green-500 font-medium">
+                                                  Current Location
+                                                </p>
+                                              </div>
+                                            </button>
+                                          </li>
+                                        ) : (
+                                          ''
+                                        )}
+                                        {locationOptions.map(
+                                          (location: Feature, index: any) => {
+                                            return (
+                                              <li
+                                                key={`lcoation-result-${index}`}
+                                                onClick={() => {
+                                                  // setOpen(false);
+                                                  handleDispatchLocation(
+                                                    location
+                                                  );
+                                                }}
+                                              >
+                                                <SearchLocationCard
+                                                  data={location}
+                                                />
+                                              </li>
+                                            );
                                           }
                                         )}
                                       </ul>

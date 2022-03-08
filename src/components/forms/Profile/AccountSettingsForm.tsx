@@ -45,7 +45,7 @@ export default function AccountSettingsForm() {
     if (error) {
       setApiError(error.response.data);
     }
-  }, [initialValues, currentUser, apiError, error, status]);
+  }, [initialValues, currentUser, error, status]);
 
   async function handleSubmit(values: any) {
     setApiError('');

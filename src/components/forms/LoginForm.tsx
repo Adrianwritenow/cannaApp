@@ -53,7 +53,6 @@ export default function LoginForm() {
           break;
       }
     }
-    console.log(apiError);
   };
 
   return (

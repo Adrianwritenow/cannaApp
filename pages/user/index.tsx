@@ -2,13 +2,14 @@ import { KeyIcon, MailIcon } from '@heroicons/react/outline';
 
 import AccountSettingsForm from '@/components/forms/Profile/AccountSettingsForm';
 import ChangePasswordForm from '@/components/forms/Profile/ChangePasswordForm';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Tab } from '@headlessui/react';
 import UpdateNotificationsForm from '@/components/forms/Profile/UpdateNotificationsForm';
 import UpdatePersonalForm from '@/components/forms/Profile/UpdatePersonalForm';
 import UpdateProfileForm from '@/components/forms/Profile/UpdateProfileForm';
 import { UserCircleIcon } from '@heroicons/react/outline';
-import { useCurrentUser } from '@/hooks/user';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
 
 const tabs = [
   {
@@ -26,7 +27,15 @@ const tabs = [
 ];
 
 export default function UserProfile() {
-  const [currentUser, loading] = useCurrentUser(true);
+  const { data: session } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!session?.accessToken) {
+      router.push('/');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [session]);
 
   return (
     <div className="bg-gray-100 ">

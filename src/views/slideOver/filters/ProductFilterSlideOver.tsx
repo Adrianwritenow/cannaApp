@@ -42,8 +42,8 @@ export default function ProductFilterSlideOver(props: {
   function updateFilter(values: any) {
     // // Force values to array in order to check if they exist in case of multiple values
     const filters: any = {
-      sort: [values.sort],
-      category: [values.category],
+      sort: [values.sort ? values.sort : ''],
+      category: [values.category ? values.category : ''],
     };
 
     const filter_data: string[] = Object.keys(filters).reduce(function (

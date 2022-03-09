@@ -1,12 +1,17 @@
 import { Dialog, Transition } from '@headlessui/react';
 import React, { Fragment, useEffect, useState } from 'react';
-import { combinedSearchQuery, getBusinessProducts } from '@/actions/search';
+import {
+  browseBy,
+  combinedSearchQuery,
+  getBusinessProducts,
+} from '@/actions/search';
 
 import { ArrowLeftIcon } from '@heroicons/react/outline';
 import { Dispensary } from '@/interfaces/dispensary';
 import FilterMenuTabs from '../../../components/filter/FilterMenuTabs';
 import { Product } from '@/interfaces/product';
 import ProductResultsSection from '../../../components/sections/ProductsResultsSection';
+import { Coupon } from '@/interfaces/coupon';
 
 export default function BusinessMenuSlideOver(props: {
   dispensary: Dispensary;
@@ -14,13 +19,26 @@ export default function BusinessMenuSlideOver(props: {
   const { dispensary } = props;
   const [open, setOpen] = useState(false);
   const [products, setProducts] = useState<Array<Product>>([]);
+  const [coupons, setCoupons] = useState<Array<Coupon>>([]);
+
   const [update, setUpdate] = useState(true);
 
   useEffect(() => {
     if (update) {
       getProducts();
+      getDeals();
     }
-  }, [products]);
+  }, [products, coupons]);
+
+  async function getDeals() {
+    const hits: any = await browseBy(
+      'dispensary',
+      dispensary._source.id.toString(),
+      'coupons'
+    );
+
+    setCoupons(hits.hits.hits);
+  }
 
   async function getProducts() {
     const product_ids = dispensary._source.products;
@@ -35,12 +53,13 @@ export default function BusinessMenuSlideOver(props: {
   return (
     <div>
       {/* Need Products related to business */}
-      {products.length ? (
+      {products.length || coupons.length ? (
         <ProductResultsSection
-          list={products.slice(0, 5)}
+          list={products.length ? products.slice(0, 5) : coupons.slice(0, 5)}
           sponsored={false}
           label={'Explore our Products'}
           buttonLabel={'See all Products'}
+          type={products.length ? '' : 'COUPON'}
           stateFunction={setOpen}
         />
       ) : (
@@ -95,7 +114,7 @@ export default function BusinessMenuSlideOver(props: {
                     </div>
                     <div className="mt-6 relative flex-1">
                       <section className="w-full">
-                        <FilterMenuTabs products={products} />
+                        <FilterMenuTabs products={products} coupons={coupons} />
                       </section>
                       <div className="px-4 grid grid-flow-row auto-rows-max gap-9"></div>
                     </div>

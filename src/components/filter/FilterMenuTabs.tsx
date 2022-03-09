@@ -10,20 +10,30 @@ import { Product } from '@/interfaces/product';
 import { SearchBar } from '../forms/fields/SearchBar';
 import { Tab } from '@headlessui/react';
 import { filterFlatten } from '@/helpers/filterFlatten';
+import { Coupon } from '@/interfaces/coupon';
+import CouponCard from '../coupons/CouponCard';
 
 interface FilterMenuTabsProps {
   products: Product[];
+  coupons: Coupon[];
 }
 
 export default function FilterMenuTabs(props: FilterMenuTabsProps) {
-  const { products } = props;
+  const { products, coupons } = props;
   const [open, setOpen] = useState(false);
   const [sort, setSort] = useState('Relevance');
   const [view, setView] = useState(0);
   const [productResults, setProductResults] = useState(products);
   const [filterList, setFilterList]: any = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const tabs = ['All', 'Flower', 'Concentrates', 'Edibles', 'Topicals'];
+  const tabs = [
+    'All',
+    'Deals',
+    'Flower',
+    'Concentrates',
+    'Edibles',
+    'Topicals',
+  ];
 
   const [savedValues, setSavedValues]: any = useState({
     category: '',
@@ -318,7 +328,7 @@ export default function FilterMenuTabs(props: FilterMenuTabsProps) {
                           ))}
                         </section>
                       </Tab.Panel>
-                      {/* <Tab.Panel className="focus:outline-none">
+                      <Tab.Panel className="focus:outline-none">
                         <section className="py-2">
                           <h2 id="business-deals" className="sr-only">
                             Deals
@@ -332,15 +342,13 @@ export default function FilterMenuTabs(props: FilterMenuTabsProps) {
                               Deals
                             </h2>
                           </div>
-
-                          {products.map((product: Product, index) => (
-                            <BusinessProductCard
-                              product={product}
-                              key={`pc-${index}`}
-                            />
-                          ))}
+                          <div className="flex flex-wrap gap-8 py-4">
+                            {coupons.map((coupon: Coupon, index) => (
+                              <CouponCard coupon={coupon} key={`pc-${index}`} />
+                            ))}
+                          </div>
                         </section>
-                      </Tab.Panel> */}
+                      </Tab.Panel>
                       <Tab.Panel className="focus:outline-none">
                         <section>
                           <h2 id="business-flower" className="sr-only">

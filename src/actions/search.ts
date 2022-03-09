@@ -327,6 +327,8 @@ export function getBusinessProducts(products: number[], filter?: string) {
     body.filter('match', 'category', filter);
   }
 
+  body.size(1000);
+
   const query = body.build();
 
   const results = axios({

@@ -30,8 +30,6 @@ export default function ProductFilterSlideOver(props: {
   };
 
   useEffect(() => {
-    console.log('Category:::', category);
-
     if (category || sortQuery) {
       updateFilter({
         ...savedValues,
@@ -47,8 +45,6 @@ export default function ProductFilterSlideOver(props: {
       sort: [values.sort ? values.sort : ''],
       category: [values.category ? values.category : ''],
     };
-
-    console.log('FILTERS:::', filters);
 
     const filter_data: string[] = Object.keys(filters).reduce(function (
       res,

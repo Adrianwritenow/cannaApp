@@ -639,7 +639,7 @@ export const reviews: Review[] = [
     by: 'Jon Doe',
     caption: 'Great place',
     review:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.',
+      "I ordered three items, when I went to pick up 2 weren't available. The person behind the counter was very nice and helped with a replacement. It was all good.",
     time: '12:00pm',
     date: '1/01/2022',
   },
@@ -647,8 +647,7 @@ export const reviews: Review[] = [
     recommended: true,
     by: 'Jane Doe',
     caption: 'Great place',
-    review:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.',
+    review: 'Loving coming here always got good deals',
     time: '12:00pm',
     date: '1/01/2022',
   },
@@ -657,7 +656,7 @@ export const reviews: Review[] = [
     by: 'Jack Doe',
     caption: 'Great place',
     review:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lobortis et eros et scelerisque. Maecenas vitae augue quis tortor luctus fermentum eget non quam.',
+      "Need Customer service training BAD. No knowledge I've been smoking longer than these kids budtending. It's a money grab now. No. Patient friendly",
     time: '12:00pm',
     date: '1/01/2022',
   },

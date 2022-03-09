@@ -32,6 +32,7 @@ import moment from 'moment-timezone';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import { useSearchLocation } from '@/hooks/useSearchLocation';
+import { reviews } from '@/helpers/mockData';
 
 export default function BusinessDetail() {
   const router = useRouter();
@@ -508,9 +509,9 @@ export default function BusinessDetail() {
         {/* Need Review FAQ  and amenities Data */}
 
         {/* <FaqSlideOver name={dispensary?._source.name[0]} faqs={faqs} /> */}
-        {/* <div id="reviews-section">
-        <BusinessReviewSlideOver dispensary={dispensary} reviews={reviews} />
-      </div> */}
+        <div id="reviews-section" className="col-span-2">
+          <BusinessReviewSlideOver dispensary={dispensary} reviews={reviews} />
+        </div>
         {dispensary?._source.amenities && (
           <div>
             <AmenitiesSection

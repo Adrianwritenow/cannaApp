@@ -109,11 +109,14 @@ export default function BusinessVerificationSlideOver(
                           {dispensary?._source.licenses ? (
                             <div>
                               {dispensary?._source.licenses.map(
-                                (license: any) => {
+                                (license: any, index) => {
                                   const value = license.split(':');
 
                                   return (
-                                    <div className="py-4">
+                                    <div
+                                      className="py-4"
+                                      key={`license-${index}`}
+                                    >
                                       <ul className="list-none">
                                         <li className="w-full flex items justify-between py-4 border-b border-gray-200">
                                           <p className="text-gray-700">

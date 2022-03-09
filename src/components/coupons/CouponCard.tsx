@@ -2,6 +2,7 @@ import { Coupon } from '@/interfaces/coupon';
 import Image from 'next/image';
 import ImageWithFallback from '../image/ImageWithFallback';
 import Link from 'next/link';
+import { formatImageWithFallback } from '@/helpers/formatters';
 
 interface CouponCardProps {
   coupon: Coupon;
@@ -16,7 +17,7 @@ export default function CouponCard(props: CouponCardProps) {
     >
       <div className="rounded-lg overflow-hidden w-36 h-36 relative">
         <ImageWithFallback
-          src={coupon._source.deal_image}
+          src={formatImageWithFallback(coupon._source.deal_image)}
           alt={'Coupon Image'}
           layout="fill"
           objectFit={'cover'}
@@ -24,13 +25,13 @@ export default function CouponCard(props: CouponCardProps) {
       </div>
       <div className="pt-2 pb-6 text-left text-sm w-36">
         <p className="text-blue-500 font-semibold line-clamp-2">
-          {coupon._source.title}
+          {/* {coupon._source.} */}
         </p>
-        {/* <h3 className="text-sm font-normal text-gray-700 pt-1 pb-2">
+        <h3 className="text-sm font-normal text-gray-700 pt-1 mb-2 line-clamp-2">
           {coupon._source.title}
-        </h3> */}
+        </h3>
         <div className="flex flex-col items-start">
-          <Link href={`/coupon/${coupon._source.id}`} passHref>
+          <Link href={`/deal/${coupon._source.id}`} passHref>
             <a>
               <button
                 type="button"

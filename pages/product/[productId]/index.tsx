@@ -13,6 +13,7 @@ import { StarIcon } from '@heroicons/react/solid';
 import StarRating from '@/components/rating/StarRating';
 import { formatImageWithFallback } from '@/helpers/formatters';
 import { useRouter } from 'next/router';
+import { reviews } from '@/helpers/mockData';
 
 export default function ProductDetail() {
   const router = useRouter();
@@ -221,10 +222,10 @@ export default function ProductDetail() {
 
       {/* <div className=" pt-4">
         <FaqSlideOver name={listings[0]._source.name[0]} faqs={faqs} />
-      </div>
+      </div> */}
       <div className="pt-4">
         <ProductReviewsSlideOver product={product} reviews={reviews} />
-      </div> */}
+      </div>
 
       <ProductResultsSection
         list={related ?? []}

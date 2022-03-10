@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { combinedSearchQuery, receiveResults } from '@/actions/search';
-import { useDispatch, useSelector } from 'react-redux';
+import { searchMulti } from '@/actions/search';
+import { useSelector } from 'react-redux';
 
 import { Product } from '@/interfaces/product';
 import ProductResultsSection from '@/components/sections/ProductsResultsSection';
@@ -10,6 +10,8 @@ import { Strain } from '@/interfaces/strain';
 import StrainFilterSlideOver from '../slideOver/filters/StrainFilterSlideOver';
 import StrainLanding from './landing/StrainLanding';
 import { useRouter } from 'next/router';
+import { useAxios } from '@/hooks/useAxios';
+import { useSearchLocation } from '@/hooks/useSearchLocation';
 
 export default function SearchStrain(props: {
   query: string;
@@ -19,74 +21,64 @@ export default function SearchStrain(props: {
 
   const { query, products } = props;
   const { category } = router.query;
-  const [sort, setSort] = useState('relevance');
   const [currentQuery, setCurrentQuery] = useState('');
-  const location = useSelector((root: RootState) => root.location);
-  const [total, setTotal] = useState(0);
+  const { label } = useSearchLocation();
 
   const [view, setView] = useState('list');
-  const dispatch = useDispatch();
-  const [update, setUpdate] = useState(true);
+  const [dispatchSearch, { loading }] = useAxios(false);
+  const { listResults } = useSelector((root: RootState) => root.search);
+  const strains: Strain[] = listResults.strains || [];
+  const labelText = query ? query : label ? label : '';
+
   const [filters, setFilters] = useState<any>({
     category: [`${category ? category : ''}`],
     sort: [],
   });
-  const [strains, setStrains] = useState<Array<Strain>>([]);
 
-  const viewState = {
-    value: view,
-    update: setView,
-  };
-
-  useEffect(() => {
-    if (update || currentQuery !== query) {
-      getStrains();
-    }
-  }, [update, query, currentQuery]);
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  async function getStrains() {
-    const hits: any = await combinedSearchQuery({
-      q: query,
-      filters: filters,
-      endpoints: ['strains'],
-      total: 10,
-    });
-    setStrains(hits);
-    setUpdate(false);
+  function getStrains() {
+    dispatchSearch(
+      searchMulti({
+        q: query,
+        filters,
+        endpoints: [{ name: 'strains' }],
+        total: 10,
+      })
+    );
     setCurrentQuery(query);
   }
 
   function handleFilter(data: any) {
     setFilters(data);
-    setUpdate(true);
   }
+
+  useEffect(() => {
+    if (!loading && query && currentQuery !== query) {
+      getStrains();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query, currentQuery, filters]);
 
   return (
     <div className="bg-gray-50">
       {/* Results list x Landing Page */}
 
       {/* Filter list */}
-      {strains?.length ? (
+      {strains.length > 0 ? (
         <>
           <StrainFilterSlideOver handleFilter={handleFilter} />
 
-          {products.length > 0 ? (
+          {products.length > 0 && (
             <ProductResultsSection
               list={products}
               sponsored={true}
-              label={`Shop ${
-                query ? `"${query}"` : location.city ? `"${location.city}"` : ''
-              }`}
+              label={`Shop ${labelText}`}
             />
-          ) : (
-            ''
           )}
-          <ResultsStrain view={view} query={query} strains={strains} />
+          <ResultsStrain view={view} query={labelText} strains={strains} />
         </>
       ) : (
         <>
-          <StrainLanding setStrains={setStrains} />
+          <StrainLanding />
         </>
       )}
     </div>

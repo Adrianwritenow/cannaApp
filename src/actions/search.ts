@@ -82,9 +82,6 @@ export async function combinedSearchQuery(searchProps: {
             case 'Rating':
               body.sort('rating', 'desc');
               break;
-            case 'Rating':
-              body.sort('rating', 'desc');
-              break;
             default:
               break;
           }
@@ -381,19 +378,27 @@ export function getPopular(type: string) {
 
 interface EndpointProps {
   name: string;
+  q?: string;
+  body?: any;
   geolocate?: boolean | undefined;
+  distance?: string;
   key?: string;
+  filters?: any;
+  total?: number;
 }
 
+// @todo: Use extended EndpointProps.
 export function searchMulti(searchProps: {
   q?: string;
+  body?: any;
   coords?: any;
   distance?: string;
   filters?: any;
   total?: number;
   endpoints?: EndpointProps[];
 }): IAxiosAction {
-  const { q, coords, distance, filters, total, endpoints } = searchProps;
+  const { q, body, coords, distance, filters, total, endpoints } = searchProps;
+  const batchOrder: IAxiosBatchRequest[] = [];
 
   if (!endpoints || !endpoints.length) {
     throw new Error(
@@ -401,24 +406,29 @@ export function searchMulti(searchProps: {
     );
   }
 
-  const batchOrder: IAxiosBatchRequest[] = [];
   let data = '';
-
   endpoints.forEach((api: EndpointProps) => {
     let key = api.key || api.name;
     batchOrder.push({ key });
 
     const index = `elasticsearch_index_${SEARCH_INDEX_PREFIX}_${api.name}`;
-    const body = combinedQueryBody({
-      q,
-      distance,
-      filters,
-      total,
-      coords: !api.geolocate ? undefined : coords,
-    });
+    const endpointQuery = api.q || q;
+    const endpointFilters = api.filters || filters;
+    const endpointDistance = api.distance || distance;
+    const endpointTotal = api.total || total;
+    const customBody = api.body || body;
+    const endpointBody =
+      customBody ||
+      combinedQueryBody({
+        q: endpointQuery,
+        distance: endpointDistance,
+        total: endpointTotal,
+        filters: endpointFilters,
+        coords: !api.geolocate ? undefined : coords,
+      });
 
     data += JSON.stringify({ index }) + '\n';
-    data += JSON.stringify(body) + '\n';
+    data += JSON.stringify(endpointBody) + '\n';
   });
 
   return {

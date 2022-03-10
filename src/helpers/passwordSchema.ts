@@ -13,7 +13,10 @@ export const schema = Yup.object().shape({
     .matches(/(?=.*[a-z])/, 'Must contain at least one lowercase letter')
     .matches(/(?=.*[A-Z])/, 'Must contain at least one Uppercase letter')
     .matches(/(?=.*[0-9])/, 'Must contain at least one Number')
-    .matches(/(?=.*[@#$%^&+=])/, 'Must contain at least one Special character'),
+    .matches(
+      /(?=.*[^a-zA-Z0-9])/,
+      'Must contain at least one Special character'
+    ),
   confirmPassword: Yup.string().oneOf(
     [Yup.ref('password'), null],
     "That doesn't match your New Password"

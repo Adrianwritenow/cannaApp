@@ -1,55 +1,85 @@
 import React, { useEffect, useState } from 'react';
-import {
-  browseBy,
-  getFeatured,
-  getPopular,
-  receiveResults,
-} from '@/actions/search';
+import { searchMulti } from '@/actions/search';
 
 import { ArrowRightIcon } from '@heroicons/react/solid';
-import { Feeling } from '../../../interfaces/feeling';
-import { Feelings } from '../../../helpers/feelings';
-import { Flavor } from '../../../interfaces/flavor';
-import { Flavors } from '../../../helpers/flavors';
+import { Feeling } from '@/interfaces/feeling';
+import { Feelings } from '@/helpers/feelings';
+import { Flavor } from '@/interfaces/flavor';
+import { Flavors } from '@/helpers/flavors';
 import Image from 'next/image';
 import ImageWithFallback from '@/components/image/ImageWithFallback';
-import { SearchHits } from '@/interfaces/searchHits';
 import { Strain } from '@/interfaces/strain';
 import StrainCard from '@/components/strains/StrainCard';
-import StrainCardSmall from '../../../components/strains/StrainCardSmall';
-import SvgHybrid from '../../../../public/assets/icons/iconComponents/Hybrid';
-import SvgIndica from '../../../../public/assets/icons/iconComponents/Indica';
-import SvgSativa from '../../../../public/assets/icons/iconComponents/Sativa';
-import { useDispatch } from 'react-redux';
+import StrainCardSmall from '@/components/strains/StrainCardSmall';
+import SvgHybrid from '@/public/assets/icons/iconComponents/Hybrid';
+import SvgIndica from '@/public/assets/icons/iconComponents/Indica';
+import SvgSativa from '@/public/assets/icons/iconComponents/Sativa';
+import { useSelector } from 'react-redux';
+import { useAxios } from '@/hooks/useAxios';
+import { RootState } from '@/reducers';
 
-export default function StrainLanding(props: { setStrains: Function }) {
-  const { setStrains } = props;
-  const [featured, setFeatured] = useState<Strain>();
+export default function StrainLanding() {
   const [clamp, setClamp] = useState(true);
-  const dispatch = useDispatch();
-  const [popular, setPopular] = useState<Array<Strain>>();
+  const [dispatchSearch, { loading }] = useAxios(false);
+  const { listResults } = useSelector((root: RootState) => root.search);
+  const popular: Strain[] = listResults.strainsPopular || [];
+  const featuredStrains: Strain[] = listResults.strainsFeatured || [];
+  const featured: Strain | undefined = featuredStrains.length
+    ? featuredStrains[0]
+    : undefined;
+
+  function getResults() {
+    dispatchSearch(
+      searchMulti({
+        q: '',
+        endpoints: [
+          {
+            name: 'strains',
+            key: 'strainsFeatured',
+            filters: {
+              featured: [true],
+            },
+          },
+          {
+            name: 'strains',
+            key: 'strainsPopular',
+            body: {
+              query: {
+                function_score: {
+                  query: { match_all: {} },
+                  boost: '5',
+                  random_score: {},
+                  boost_mode: 'multiply',
+                },
+              },
+            },
+          },
+        ],
+        total: 10,
+      })
+    );
+  }
 
   useEffect(() => {
-    async function getFeaturedItems() {
-      const hits: SearchHits = await getFeatured('strains');
-      setFeatured(hits.hits.hits[0] as unknown as Strain);
-    }
-    async function getPopularItems(type: string) {
-      const hits: SearchHits = await getPopular(type);
-      setPopular(hits.hits.hits);
-    }
+    getResults();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-    if (!featured) {
-      getFeaturedItems();
-    }
-    if (!popular) {
-      getPopularItems('strains');
-    }
-  }, [featured, popular]);
-
-  async function handleBrowse(field: string, value: string) {
-    const hits: SearchHits = await browseBy(field, value, 'strains');
-    setStrains(hits.hits.hits);
+  function handleBrowse(field: string, value: string) {
+    dispatchSearch(
+      searchMulti({
+        q: '',
+        endpoints: [
+          {
+            name: 'strains',
+            filters: {
+              [field]: [value],
+            },
+          },
+        ],
+        total: 10,
+      })
+    );
   }
 
   return (

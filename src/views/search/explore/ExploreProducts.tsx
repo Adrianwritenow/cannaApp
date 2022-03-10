@@ -1,153 +1,164 @@
-import { Router, useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import { ArrowRightIcon } from '@heroicons/react/outline';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Product } from '@/interfaces/product';
 import ProductResultsSection from '@/components/sections/ProductsResultsSection';
-import { SearchHits } from '@/interfaces/searchHits';
-import { access } from 'fs';
-import { browseBy } from '@/actions/search';
+import { searchMulti } from '@/actions/search';
 import { categories } from '@/helpers/categories';
+import { useAxios } from '@/hooks/useAxios';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/reducers';
 
 export default function ExploreProducts(props: { categoryFilter: Function }) {
-  const router = useRouter();
   const { categoryFilter } = props;
-  const [fudge, setFudge] = useState<Array<Product>>();
-  const [accessories, setAccessoires] = useState<Array<Product>>();
-  const [preRolls, setPreRolls] = useState<Array<Product>>();
-  const [drinks, setDrinks] = useState<Array<Product>>();
-  const [papers, setPapers] = useState<Array<Product>>();
-  const [crumble, setCrumble] = useState<Array<Product>>();
-  const [candy, setCandy] = useState<Array<Product>>();
+  const [dispatchSearch] = useAxios(false);
+  const { listResults } = useSelector((root: RootState) => root.search);
+  const fudge: Product[] = listResults.fudge || [];
+  const accessories: Product[] = listResults.accessories || [];
+  const drinks: Product[] = listResults.drinks || [];
+  const papers: Product[] = listResults.papers || [];
+  const preRolls: Product[] = listResults.preRolls || [];
+  const crumble: Product[] = listResults.crumble || [];
+  const candy: Product[] = listResults.candy || [];
 
-  async function getFudge() {
-    const hits: SearchHits = await browseBy(
-      '',
-      'Chocolate Fudge',
-      'products',
-      {
-        key: 'category',
-        value: [
-          'Chocolate^2',
-          'Chocolates^2',
-          'Chocolate & Fudge^2',
-          'Fudge^2',
-          'Candy',
+  const fudgeFilters = {
+    name: 'products',
+    key: 'fudge',
+    q: 'Chocolate Fudge',
+    filters: {
+      category: [
+        'Chocolate^2',
+        'Chocolates^2',
+        'Chocolate & Fudge^2',
+        'Fudge^2',
+        'Candy',
+      ],
+      sorts: [
+        {
+          key: 'created',
+          value: 'desc',
+        },
+      ],
+    },
+    total: 10,
+  };
+
+  const accessoryFilters = {
+    name: 'products',
+    key: 'accessories',
+    q: 'Accessories',
+    filters: {
+      category: ['Rig', 'Accessories'],
+      sorts: [
+        {
+          key: 'rating',
+          value: 'desc',
+        },
+      ],
+    },
+    total: 10,
+  };
+
+  const drinksFilters = {
+    name: 'products',
+    key: 'drinks',
+    q: 'CBD Drinks Soft Pop',
+    filters: {
+      category: ['CBD', 'Drinks'],
+      sorts: [
+        {
+          key: 'reviews_count',
+          value: 'desc',
+        },
+      ],
+    },
+    total: 10,
+  };
+
+  const papersFilters = {
+    name: 'products',
+    key: 'papers',
+    q: 'Rolling Paper',
+    filters: {
+      category: ['Rolling Papers'],
+      sorts: [
+        {
+          key: 'rating',
+          value: 'desc',
+        },
+      ],
+    },
+    total: 10,
+  };
+
+  const preRollsFilters = {
+    name: 'products',
+    key: 'preRolls',
+    q: 'Pre Roll',
+    filters: {
+      category: ['Pre Roll', 'Pre Rolls'],
+      sorts: [
+        {
+          key: 'reviews_count',
+          value: 'desc',
+        },
+      ],
+    },
+    total: 10,
+  };
+
+  const crumbleFilters = {
+    name: 'products',
+    key: 'crumble',
+    q: 'Crumble',
+    filters: {
+      category: ['Crumble'],
+      sorts: [
+        {
+          key: 'reviews_count',
+          value: 'desc',
+        },
+      ],
+    },
+    total: 10,
+  };
+
+  const candyFilters = {
+    name: 'products',
+    key: 'candy',
+    q: 'Candy',
+    filters: {
+      category: ['Candy'],
+      sorts: [
+        {
+          key: 'reviews_count',
+          value: 'desc',
+        },
+      ],
+    },
+    total: 10,
+  };
+
+  function getResults() {
+    dispatchSearch(
+      searchMulti({
+        endpoints: [
+          fudgeFilters,
+          accessoryFilters,
+          drinksFilters,
+          papersFilters,
+          preRollsFilters,
+          crumbleFilters,
+          candyFilters,
         ],
-      },
-      { field: 'created', direction: 'desc' }
+      })
     );
-    if (hits) {
-      setFudge(hits.hits.hits);
-    }
-  }
-
-  async function getAccessories() {
-    const hits: SearchHits = await browseBy(
-      '',
-      'Accessories',
-      'products',
-      {
-        key: 'category',
-        value: ['Rig', 'Accessories'],
-      },
-      { field: 'rating', direction: 'desc' }
-    );
-    if (hits) {
-      setAccessoires(hits.hits.hits);
-    }
-  }
-
-  async function getDrinks() {
-    const hits: SearchHits = await browseBy(
-      '',
-      'CBD Drinks Soft Pop',
-      'products',
-      {
-        key: 'category',
-        value: ['CBD', 'Drinks'],
-      },
-      { field: 'reviews_count', direction: 'desc' }
-    );
-    if (hits) {
-      setDrinks(hits.hits.hits);
-    }
-  }
-
-  async function getPapers() {
-    const hits: SearchHits = await browseBy(
-      '',
-      'Rolling Paper',
-      'products',
-      {
-        key: 'category',
-        value: ['Rolling Papers'],
-      },
-      { field: 'rating', direction: 'desc' }
-    );
-    if (hits) {
-      setPapers(hits.hits.hits);
-    }
-  }
-
-  async function getPreRolls() {
-    const hits: SearchHits = await browseBy(
-      '',
-      'Pre Roll',
-      'products',
-      {
-        key: 'category',
-        value: ['Pre Rolls', 'Pre Roll'],
-      },
-      { field: 'reviews_count', direction: 'desc' }
-    );
-    if (hits) {
-      setPreRolls(hits.hits.hits);
-    }
-  }
-
-  async function getCrumble() {
-    const hits: SearchHits = await browseBy(
-      '',
-      'Crumble',
-      'products',
-      {
-        key: 'category',
-        value: ['Crumble'],
-      },
-      { field: 'reviews_count', direction: 'desc' }
-    );
-    if (hits) {
-      setCrumble(hits.hits.hits);
-    }
-  }
-
-  async function getCandy() {
-    const hits: SearchHits = await browseBy(
-      '',
-      'Candy',
-      'products',
-      {
-        key: 'category',
-        value: ['Candy'],
-      },
-      { field: 'reviews_count', direction: 'desc' }
-    );
-    if (hits) {
-      setCandy(hits.hits.hits);
-    }
   }
 
   useEffect(() => {
-    getFudge();
-    getAccessories();
-    getDrinks();
-    getPapers();
-    getPreRolls();
-    getCrumble();
-    getCandy();
+    getResults();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -208,7 +219,7 @@ export default function ExploreProducts(props: { categoryFilter: Function }) {
       {/* Pre Rolls section */}
       <div className=" w-full overflow-scroll max-w-7xl mx-auto desktop:border-b-2 border-gray-200 pb-6">
         <ProductResultsSection
-          list={preRolls ? preRolls : []}
+          list={preRolls}
           sponsored={false}
           label={'Popular Pre Rolls'}
         />
@@ -248,7 +259,7 @@ export default function ExploreProducts(props: { categoryFilter: Function }) {
       {/* Crumble section */}
       <div className=" w-full overflow-scroll max-w-7xl mx-auto desktop:border-b-2 border-gray-200 pb-6">
         <ProductResultsSection
-          list={crumble ? crumble : []}
+          list={crumble}
           sponsored={false}
           label={'Popular Crumble'}
         />
@@ -288,7 +299,7 @@ export default function ExploreProducts(props: { categoryFilter: Function }) {
       {/* Candy section */}
       <div className="w-full overflow-scroll max-w-7xl mx-auto desktop:border-b-2 border-gray-200 pb-6">
         <ProductResultsSection
-          list={candy ? candy : []}
+          list={candy}
           sponsored={false}
           label={'Popular Candy'}
         />
@@ -328,7 +339,7 @@ export default function ExploreProducts(props: { categoryFilter: Function }) {
       {/* 4*+ section */}
       <div className=" w-full overflow-scroll max-w-7xl mx-auto desktop:border-b-2 border-gray-200 pb-6">
         <ProductResultsSection
-          list={accessories ? accessories : []}
+          list={accessories}
           sponsored={false}
           label={'4+ Star Rig Accesories'}
         />
@@ -367,7 +378,7 @@ export default function ExploreProducts(props: { categoryFilter: Function }) {
       {/* Chocolate & Fudge section */}
       <div className=" w-full overflow-scroll max-w-7xl mx-auto desktop:border-b-2 border-gray-200 pb-6">
         <ProductResultsSection
-          list={fudge ? fudge : []}
+          list={fudge}
           sponsored={false}
           label={'Discvover New Chocolate & Fudge'}
         />
@@ -406,7 +417,7 @@ export default function ExploreProducts(props: { categoryFilter: Function }) {
       {/* CBD Drinks section */}
       <div className=" w-full overflow-scroll max-w-7xl mx-auto desktop:border-b-2 border-gray-200 pb-6">
         <ProductResultsSection
-          list={drinks ? drinks : []}
+          list={drinks}
           sponsored={false}
           label={'Trending CBD drinks'}
         />
@@ -445,7 +456,7 @@ export default function ExploreProducts(props: { categoryFilter: Function }) {
       {/* Rolling Papers section */}
       <div className=" w-full overflow-scroll max-w-7xl mx-auto desktop:border-b-2 border-gray-200 pb-6">
         <ProductResultsSection
-          list={papers ? papers : []}
+          list={papers}
           sponsored={false}
           label={'Top Rated Rolling Papers'}
         />

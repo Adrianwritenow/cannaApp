@@ -54,6 +54,7 @@ export default function SearchSlideOver(props: {
   };
 
   // Flatten search lists.
+  // @todo: Remove this and use list key.
   let results: any = [];
   Object.values(listResults).forEach(resultsByList => {
     results = results.concat(resultsByList);
@@ -511,21 +512,6 @@ export default function SearchSlideOver(props: {
                                                         }}
                                                       >
                                                         <SearchStrainCard
-                                                          data={result}
-                                                        />
-                                                      </li>
-                                                    );
-                                                  case result._id.includes(
-                                                    'product_entity'
-                                                  ):
-                                                    return (
-                                                      <li
-                                                        key={`result-${index}`}
-                                                        onClick={() => {
-                                                          setOpen(false);
-                                                        }}
-                                                      >
-                                                        <SearchProductCard
                                                           data={result}
                                                         />
                                                       </li>

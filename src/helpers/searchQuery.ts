@@ -1,4 +1,5 @@
 import bodybuilder from 'bodybuilder';
+import { string } from 'yup';
 
 export const combinedQueryBody = (searchProps: {
   q?: string;
@@ -21,7 +22,11 @@ export const combinedQueryBody = (searchProps: {
     Object.keys(filters).map((key, index) => {
       if (key === 'category') {
         if (filters?.category[0]) {
-          body.filter('match', 'category', filters.category[0]);
+          if (filters.category.length === 1) {
+            body.filter('match', 'category', filters.category[0]);
+          } else {
+            body.filter('terms', 'category', filters.category);
+          }
         }
         if (filters?.amenities) {
           filters.amenities.map((filter: string) => {
@@ -42,6 +47,14 @@ export const combinedQueryBody = (searchProps: {
             body.sort('rating', 'desc');
             break;
 
+          case 'Largest Menu':
+            body.sort('_script', {
+              type: 'number',
+              script: 'doc.products.size()',
+              order: 'desc',
+            });
+            break;
+
           case 'Most Reviewed':
             body.sort('reviews_count', 'desc');
             break;
@@ -54,17 +67,34 @@ export const combinedQueryBody = (searchProps: {
             body.sort('rating', 'desc');
             break;
 
-          case 'Rating':
-            body.sort('rating', 'desc');
-            break;
-
           default:
             break;
         }
       }
 
-      if (key !== 'category' && key !== 'sort' && filters[key][0]) {
-        body.filter('match', `${key}`, filters[key][0]);
+      if (key === 'sorts') {
+        filters.sorts.forEach((sort: { key: string; value: string }) => {
+          body.sort(sort.key, sort.value);
+        });
+      }
+
+      if (
+        key !== 'category' &&
+        key !== 'sort' &&
+        key !== 'sorts' &&
+        key !== 'productType' &&
+        filters[key][0] &&
+        filters[key][0] !== 'All'
+      ) {
+        if (filters[key].length === 1) {
+          body.filter('match', `${key}`, filters[key][0]);
+        } else {
+          body.filter('terms', `${key}`, filters[key]);
+        }
+      }
+
+      if (filters[key][0] == 'All') {
+        body.query('exists', 'field', 'license_type');
       }
     });
   }

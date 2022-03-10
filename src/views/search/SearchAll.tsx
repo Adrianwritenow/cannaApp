@@ -9,27 +9,28 @@ import { useAxios } from '@/hooks/useAxios';
 import { useEffect } from 'react';
 import { useSearchLocation } from '@/hooks/useSearchLocation';
 import { useSelector } from 'react-redux';
+import { Strain } from '@/interfaces/strain';
+import { Product } from '@/interfaces/product';
+import { Dispensary } from '@/interfaces/dispensary';
 
-export default function SearchAll(props: {
-  query: string;
-  userCoords: {
-    lat: number;
-    lon: number;
-  };
-}) {
-  const { query, userCoords } = props;
+export default function SearchAll(props: { query: string }) {
+  const { query } = props;
+  const { coords: userCoords } = useSearchLocation();
   const [dispatchSearch, { loading }] = useAxios(false);
   const { listResults } = useSelector((root: RootState) => root.search);
-  const { label, coords } = useSearchLocation();
+  const products: Product[] = listResults.products || [];
+  const dispensaries: Dispensary[] = listResults.dispensaries || [];
+  const strains: Strain[] = listResults.strains || [];
+  const hasProducts = products.length >= 3;
 
   useEffect(() => {
     dispatchSearch(
       searchMulti({
         q: query,
-        coords: coords ? coords : undefined,
+        coords: userCoords ? userCoords : undefined,
         endpoints: [
           { name: 'products' },
-          { name: 'dispensaries', geolocate: true },
+          { name: 'dispenaries', key: 'dispensaries', geolocate: true },
           { name: 'strains' },
         ],
         total: 10,
@@ -41,76 +42,58 @@ export default function SearchAll(props: {
   return (
     <div className="bg-gray-50 max-w-7xl mx-auto">
       {/* Shop Query Section */}
-      {listResults && (
+      {hasProducts && (
+        <ProductResultsSection
+          list={products}
+          sponsored={false}
+          label={`${query ? 'Shop "' + query + '"' : 'Shop'}`}
+        />
+      )}
+      {/* Learn Query Section */}
+      {strains.length > 0 && (
         <>
-          {listResults.shopping.length ||
-          listResults.strains.length ||
-          listResults.dispensaries.length ? (
-            <>
-              {listResults.shopping.length ? (
-                <ProductResultsSection
-                  list={listResults.shopping}
-                  sponsored={true}
-                  label={`${query ? 'Shop "' + query + '"' : 'Shop'}`}
-                />
-              ) : (
-                ''
-              )}
-              {/* Learn Query Section */}
-              {listResults.strains.length ? (
-                <>
-                  <LearnSection strain={listResults.strains[0]} query={query} />
-                  {/* Related Strains Secrtion */}
-                  <RelatedStrainsSection
-                    strains={listResults.strains.slice(0, 5)}
-                  />
-                </>
-              ) : (
-                ''
-              )}
-              {/* Sponsered Listings Section */}
-
-              {listResults.dispensaries.length ? (
-                <>
-                  <ListingSection
-                    listings={listResults.dispensaries}
-                    sponsored={true}
-                    query={query}
-                    userCoords={userCoords}
-                  />
-                  {/* Listings Section */}
-                  <ListingSection
-                    listings={listResults.dispensaries}
-                    query={query}
-                    userCoords={userCoords}
-                  />
-                </>
-              ) : (
-                ''
-              )}
-            </>
+          <LearnSection strain={strains[0]} query={query} />
+          {/* Related Strains Secrtion */}
+          <RelatedStrainsSection strains={strains.slice(0, 5)} />
+        </>
+      )}
+      {/* Sponsered Listings Section */}
+      {dispensaries.length > 0 && (
+        <>
+          <ListingSection
+            listings={dispensaries}
+            sponsored={true}
+            query={query}
+            userCoords={userCoords}
+          />
+          {/* Listings Section */}
+          <ListingSection
+            listings={dispensaries}
+            query={query}
+            userCoords={userCoords}
+          />
+        </>
+      )}
+      {!hasProducts && !strains.length && !dispensaries.length && (
+        <div className="w-full flex items-center flex-wrap justify-center h-full space-y-3 py-14">
+          <SvgEmptyState className="w-40 h-40" />
+          {loading ? (
+            <div className="w-full space-y-3">
+              <h2 className="text-lg text-gray-700 font-semibold text-center w-56 ml-auto mr-auto">
+                Searching...
+              </h2>
+            </div>
           ) : (
-            <div className="w-full flex items-center flex-wrap justify-center h-full space-y-4 py-14">
-              <SvgEmptyState className="w-40 h-40" />
-              {loading ? (
-                <div className="w-full space-y-3">
-                  <h2 className="text-lg text-gray-700 font-semibold text-center w-56 ml-auto mr-auto">
-                    Searching...
-                  </h2>
-                </div>
-              ) : (
-                <div className="w-full space-y-3">
-                  <h2 className="text-lg text-gray-700 font-semibold text-center w-56 ml-auto mr-auto">
-                    Sorry, there are no results for this search.
-                  </h2>
-                  <p className="text-sm text-gray-500 text-center w-56 ml-auto mr-auto">
-                    Please try again with different or more general keywords.
-                  </p>
-                </div>
-              )}
+            <div className="w-full space-y-3">
+              <h2 className="text-lg text-gray-700 font-semibold text-center w-56 ml-auto mr-auto">
+                Sorry, there are no results for this search.
+              </h2>
+              <p className="text-sm text-gray-500 text-center w-56 ml-auto mr-auto">
+                Please try again with different or more general keywords.
+              </p>
             </div>
           )}
-        </>
+        </div>
       )}
     </div>
   );

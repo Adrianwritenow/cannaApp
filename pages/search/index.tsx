@@ -80,10 +80,7 @@ export default function Search() {
           {/* Panels that control the view by index */}
           <Tab.Panels className="focus:outline-none bg-gray-50 pb-8">
             <Tab.Panel className="focus:outline-none">
-              <SearchAll
-                query={query}
-                userCoords={{ lat: location.lat, lon: location.lon }}
-              />
+              <SearchAll query={query} />
             </Tab.Panel>
             <Tab.Panel className="focus:outline-none">
               <SearchShopping query={query} />

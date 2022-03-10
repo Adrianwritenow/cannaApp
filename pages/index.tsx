@@ -4,15 +4,10 @@ import {
   LocationMarkerIcon,
   TagIcon,
 } from '@heroicons/react/solid';
-import {
-  browseBy,
-  combinedSearchQuery,
-  receiveResults,
-} from '@/actions/search';
+import { searchMulti, receiveResults } from '@/actions/search';
 import { formatDealCard, formatDispensaryCard } from '@/helpers/formatters';
-import { searchDealsNearMe, searchFeaturedDeals } from '@/actions/deals';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import Background from '@/public/assets/images/png/fullBloom.png';
 import BlogArticleCardSlide from '@/components/blog/BlogArticleCardSlide';
@@ -20,7 +15,6 @@ import BlogArticleSmall from '@/components/blog/BlogArticleCardSmall';
 import ClaimBusiness from '@/public/assets/images/png/growBusiness.png';
 import { Coupon } from '@/interfaces/coupon';
 import CouponSlideOver from '@/views/slideOver/CouponsSlideOver';
-import { DealsState } from '@/interfaces/coupon';
 import { Dispensary } from '@/interfaces/dispensary';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -33,24 +27,25 @@ import { Post } from '@/interfaces/post';
 import { Product } from '@/interfaces/product';
 import ProductResultsSection from '@/components/sections/ProductsResultsSection';
 import { RootState } from '@/reducers';
-import { SearchHits } from '@/interfaces/searchHits';
 import SearchSlideOver from '@/components/forms/fields/SearchSlideOver';
 import { destinations } from '@/helpers/destinations';
 import { publications } from '@/helpers/publications';
 import { useAxios } from '@/hooks/useAxios';
 import { useRouter } from 'next/router';
+import { useSearchLocation } from '@/hooks/useSearchLocation';
 
 export default function Home() {
-  const { deals, featuredDeals } = useSelector(
-    (root: RootState): DealsState => root.deals
-  );
-  const location = useSelector((root: RootState) => root.location);
-  const [nearby, setNearby] = useState<Array<Dispensary>>();
-  const [flower, setFlower] = useState<Array<Product>>();
-  const [blogs, setBlogs] = useState<Array<Post>>();
+  const { label: currentLocationLabel, coords: currentCoords } =
+    useSearchLocation();
   const dispatch = useDispatch();
-  const [dispatchSearch] = useAxios(false);
+  const [dispatchSearch, { loading }] = useAxios(false);
   const router = useRouter();
+  const { listResults } = useSelector((root: RootState) => root.search);
+  const dealsNearMe: Coupon[] = listResults.dealsNearMe || [];
+  const dealsFeatured: Coupon[] = listResults.dealsFeatured || [];
+  const products: Product[] = listResults.flowerProducts || [];
+  const dispensaries: Dispensary[] = listResults.dispensaries || [];
+  const blogs: Post[] = listResults.blogs || [];
 
   async function handleDestinationClick(
     coords: { lat: number; lon: number },
@@ -69,61 +64,47 @@ export default function Home() {
     );
   }
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  async function getDispensaryResults() {
-    const hits: any = await combinedSearchQuery({
-      endpoints: ['dispenaries'],
-      distance: '5mi',
-      coords: { lat: location.lat, lon: location.lon },
-    });
-
-    // Sort by created date
-    if (hits) {
-      hits.sort((a: any, b: any) =>
-        a._source.created[0] < b._source.created[0] ? 1 : -1
-      );
-    }
-    setNearby(hits);
-  }
-
-  async function getFlower() {
-    const hits: SearchHits = await browseBy('category', 'Flower', 'products');
-    setFlower(hits.hits.hits);
-  }
-
-  async function getBlogs() {
-    const hits: any = await combinedSearchQuery({
-      q: '*',
-      endpoints: ['blogs'],
-      total: 5,
-    });
-
-    setBlogs(hits);
-  }
-
-  function getDeals() {
-    dispatchSearch(searchDealsNearMe('All'));
-    dispatchSearch(searchFeaturedDeals());
+  function getResults(lat: number | string = 0, lon: number | string = 0) {
+    dispatchSearch(
+      searchMulti({
+        q: '*',
+        distance: '5mi',
+        coords: { lat, lon },
+        endpoints: [
+          {
+            name: 'products',
+            key: 'flowerProducts',
+            filters: { category: ['Flower'] },
+          },
+          {
+            name: 'dispenaries',
+            key: 'dispensaries',
+            geolocate: lat && lon ? true : false,
+            total: 5,
+          },
+          {
+            name: 'coupons',
+            key: 'dealsNearMe',
+            geolocate: lat && lon ? true : false,
+          },
+          {
+            name: 'coupons',
+            key: 'dealsFeatured',
+            filters: { showcased: [true] },
+          },
+          { name: 'blogs', total: 5 },
+        ],
+        total: 15,
+      })
+    );
   }
 
   useEffect(() => {
-    if (location.city) {
-      if (!flower) {
-        getFlower();
-      }
-
-      if (!blogs) {
-        getBlogs();
-      }
-
-      if (location.city && !nearby) {
-        getDispensaryResults();
-      }
-
-      getDeals();
+    if (currentCoords.lat && currentCoords.lon && !loading) {
+      getResults(currentCoords.lat, currentCoords.lon);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location, flower, blogs, nearby]);
+  }, [currentCoords]);
 
   return (
     <div className="space-y-2">
@@ -375,7 +356,7 @@ export default function Home() {
       </section>
 
       {/* Deals Near me section */}
-      {deals.length > 0 && (
+      {dealsNearMe.length > 0 && (
         <section className="pb-4 pt-2  max-w-7xl mx-auto desktop:border-b-2 border-gray-200 pb-6">
           <h2 id="deals-near-me" className="sr-only">
             Deals Near Me
@@ -387,7 +368,7 @@ export default function Home() {
             Deals Near Me
           </h2>
           <div className="grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-4 pb-4 desktop:flex desktop:flex-wrap desktop:gap-4">
-            {deals.map((listing, index) => {
+            {dealsNearMe.map((listing, index) => {
               return (
                 <div className="w-64 h-min" key={`lc-${listing._id}-${index}`}>
                   <ListingCard {...formatDealCard(listing)} />
@@ -424,11 +405,8 @@ export default function Home() {
       )}
 
       {/* Deals of the Day */}
-      {featuredDeals.length > 0 && (
-        <CouponSlideOver
-          label="Deals of the Day"
-          list={featuredDeals as Coupon[]}
-        />
+      {dealsFeatured.length > 0 && (
+        <CouponSlideOver label="Deals of the Day" list={dealsFeatured} />
       )}
 
       {/* Featured Destinations */}
@@ -487,9 +465,9 @@ export default function Home() {
             New Locations Nearby
           </h2>
         </div>
-        {nearby && (
+        {dispensaries && (
           <div className="grid grid-flow-col auto-cols-max gap-2 overflow-scroll pl-4 desktop:flex desktop:flex-wrap ">
-            {nearby.map((listing, index) => (
+            {dispensaries.map((listing, index) => (
               <div className="w-64" key={`lc-${listing._id}-${index}`}>
                 <ListingCard {...formatDispensaryCard(listing)} />
               </div>
@@ -501,9 +479,9 @@ export default function Home() {
       {/* Flower Near me section */}
       <div className=" w-full overflow-scroll max-w-7xl mx-auto desktop:border-b-2 border-gray-200 pb-6">
         <ProductResultsSection
-          list={flower as Product[]}
+          list={products}
           sponsored={false}
-          label={`Shop Flower near ${location.city}`}
+          label={`Shop Flower near ${currentLocationLabel}`}
           // link={'/search?category=Flower&view=shopping'}
         />
         <div className="px-4 pt-2 desktop:hidden">

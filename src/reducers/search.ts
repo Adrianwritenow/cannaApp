@@ -61,33 +61,10 @@ const search = (state: any = defaultState, action: any) => {
         const allResultsResponse = action.response.data.responses || [];
         const currentListResults = state.listResults;
 
-        allResultsResponse.forEach((result: SearchHits) => {
+        allResultsResponse.forEach((result: SearchHits, index: number) => {
           const results = result.hits?.hits || [];
-          const firstResult = results[0] || {};
-
-          if (firstResult._id) {
-            switch (true) {
-              case firstResult._id.includes('coupon'):
-                currentListResults.deals = results;
-                break;
-
-              case firstResult._id.includes('product_entity'):
-                currentListResults.shopping = results;
-                break;
-
-              case firstResult._id.includes('dispensary_entity'):
-                currentListResults.dispensaries = results;
-                break;
-
-              case firstResult._id.includes('strain_entity'):
-                currentListResults.strains = results;
-                break;
-
-              case firstResult._id.includes('blog'):
-                currentListResults.blogs = results;
-                break;
-            }
-          }
+          const resultSetName = action.batchOrder[index].key;
+          currentListResults[resultSetName] = results;
         });
 
         return {

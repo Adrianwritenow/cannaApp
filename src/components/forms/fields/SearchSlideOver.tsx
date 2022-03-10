@@ -1,6 +1,5 @@
 import {
   ArrowLeftIcon,
-  ChevronDoubleRightIcon,
   LocationMarkerIcon,
   SearchIcon,
   XIcon,
@@ -495,71 +494,76 @@ export default function SearchSlideOver(props: {
                                             </span>
                                           </button>
                                         </li>
-                                        {results.map(
-                                          (result: any, index: number) => {
-                                            switch (true) {
-                                              case result._id.includes(
-                                                'strain_entity'
-                                              ):
-                                                return (
-                                                  <li
-                                                    key={`result-${index}`}
-                                                    onClick={() => {
-                                                      setOpen(false);
-                                                    }}
-                                                  >
-                                                    <SearchStrainCard
-                                                      data={result}
-                                                    />
-                                                  </li>
-                                                );
-                                              case result._id.includes(
-                                                'product_entity'
-                                              ):
-                                                return (
-                                                  <li
-                                                    key={`result-${index}`}
-                                                    onClick={() => {
-                                                      setOpen(false);
-                                                    }}
-                                                  >
-                                                    <SearchProductCard
-                                                      data={result}
-                                                    />
-                                                  </li>
-                                                );
-                                              case result._id.includes(
-                                                'dispensary_entity'
-                                              ):
-                                                return (
-                                                  <li
-                                                    key={`result-${index}`}
-                                                    onClick={() => {
-                                                      setOpen(false);
-                                                    }}
-                                                  >
-                                                    <SearchDispensaryCard
-                                                      data={result}
-                                                    />
-                                                  </li>
-                                                );
-                                              case result._id.includes(
-                                                'coupon'
-                                              ):
-                                                return (
-                                                  <li
-                                                    key={`result-${index}`}
-                                                    onClick={() => {
-                                                      setOpen(false);
-                                                    }}
-                                                  >
-                                                    <SearchDealCard
-                                                      data={result}
-                                                    />
-                                                  </li>
-                                                );
-                                            }
-                                          }
+
+                                        {query && (
+                                          <>
+                                            {results.map(
+                                              (result: any, index: number) => {
+                                                switch (true) {
+                                                  case result._id.includes(
+                                                    'strain_entity'
+                                                  ):
+                                                    return (
+                                                      <li
+                                                        key={`result-${index}`}
+                                                        onClick={() => {
+                                                          setOpen(false);
+                                                        }}
+                                                      >
+                                                        <SearchStrainCard
+                                                          data={result}
+                                                        />
+                                                      </li>
+                                                    );
+                                                  case result._id.includes(
+                                                    'product_entity'
+                                                  ):
+                                                    return (
+                                                      <li
+                                                        key={`result-${index}`}
+                                                        onClick={() => {
+                                                          setOpen(false);
+                                                        }}
+                                                      >
+                                                        <SearchProductCard
+                                                          data={result}
+                                                        />
+                                                      </li>
+                                                    );
+                                                  case result._id.includes(
+                                                    'dispensary_entity'
+                                                  ):
+                                                    return (
+                                                      <li
+                                                        key={`result-${index}`}
+                                                        onClick={() => {
+                                                          setOpen(false);
+                                                        }}
+                                                      >
+                                                        <SearchDispensaryCard
+                                                          data={result}
+                                                        />
+                                                      </li>
+                                                    );
+                                                  case result._id.includes(
+                                                    'coupon'
+                                                  ):
+                                                    return (
+                                                      <li
+                                                        key={`result-${index}`}
+                                                        onClick={() => {
+                                                          setOpen(false);
+                                                        }}
+                                                      >
+                                                        <SearchDealCard
+                                                          data={result}
+                                                        />
+                                                      </li>
+                                                    );
+                                                }
+                                              }
+                                            )}
+                                          </>
                                         )}
                                       </ul>
                                     ) : (

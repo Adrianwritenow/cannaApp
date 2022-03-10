@@ -212,8 +212,8 @@ export default function SearchSlideOver(props: {
         coords,
         endpoints: [
           { name: 'products' },
-          { name: 'coupons', geolocate: true },
-          { name: 'dispenaries', geolocate: true },
+          { name: 'coupons', key: 'deals', geolocate: true },
+          { name: 'dispenaries', key: 'dispensaries', geolocate: true },
           { name: 'strains' },
           { name: 'blogs' },
         ],

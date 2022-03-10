@@ -52,6 +52,7 @@ export function useAxios(
       const action: IAxiosAction = {
         type: params.type,
         config: params.config,
+        batchOrder: params.batchOrder || [],
       };
 
       if (params.data) {

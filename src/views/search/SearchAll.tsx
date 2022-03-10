@@ -29,7 +29,7 @@ export default function SearchAll(props: {
         coords: coords ? coords : undefined,
         endpoints: [
           { name: 'products' },
-          { name: 'dispensaries', geolocate: true },
+          { name: 'dispenaries', key: 'dispensaries', geolocate: true },
           { name: 'strains' },
         ],
         total: 10,
@@ -43,13 +43,13 @@ export default function SearchAll(props: {
       {/* Shop Query Section */}
       {listResults && (
         <>
-          {listResults.shopping.length ||
+          {listResults.products.length ||
           listResults.strains.length ||
           listResults.dispensaries.length ? (
             <>
-              {listResults.shopping.length ? (
+              {listResults.products.length ? (
                 <ProductResultsSection
-                  list={listResults.shopping}
+                  list={listResults.products}
                   sponsored={true}
                   label={`${query ? 'Shop "' + query + '"' : 'Shop'}`}
                 />

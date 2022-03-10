@@ -1,7 +1,7 @@
 import { AxiosError, AxiosResponse } from 'axios';
 
 import { Dispensary } from '@/interfaces/dispensary';
-import { IAxiosAction } from '@/interfaces/axios';
+import { IAxiosAction, IAxiosBatchRequest } from '@/interfaces/axios';
 import { Product } from '@/interfaces/product';
 import { SearchHits } from '@/interfaces/searchHits';
 import bodybuilder from 'bodybuilder';
@@ -382,6 +382,7 @@ export function getPopular(type: string) {
 interface EndpointProps {
   name: string;
   geolocate?: boolean | undefined;
+  key?: string;
 }
 
 export function searchMulti(searchProps: {
@@ -400,8 +401,13 @@ export function searchMulti(searchProps: {
     );
   }
 
+  const batchOrder: IAxiosBatchRequest[] = [];
   let data = '';
+
   endpoints.forEach((api: EndpointProps) => {
+    let key = api.key || api.name;
+    batchOrder.push({ key });
+
     const index = `elasticsearch_index_${SEARCH_INDEX_PREFIX}_${api.name}`;
     const body = combinedQueryBody({
       q,
@@ -417,6 +423,7 @@ export function searchMulti(searchProps: {
 
   return {
     type: SEARCH_REQUEST_GET_COMBINED,
+    batchOrder,
     config: {
       method: 'POST',
       url: `${SEARCH_URL}/_msearch`,

@@ -27,7 +27,7 @@ export default function SearchStrain(props: {
   const [view, setView] = useState('list');
   const [dispatchSearch, { loading }] = useAxios(false);
   const { listResults } = useSelector((root: RootState) => root.search);
-  const strains: Strain[] = listResults.strains || [];
+  const strains: Strain[] = listResults.strainsSearch || [];
   const labelText = query ? query : label ? label : '';
 
   const [filters, setFilters] = useState<any>({
@@ -40,7 +40,7 @@ export default function SearchStrain(props: {
       searchMulti({
         q: query,
         filters,
-        endpoints: [{ name: 'strains' }],
+        endpoints: [{ name: 'strains', key: 'strainsSearch' }],
         total: 10,
       })
     );

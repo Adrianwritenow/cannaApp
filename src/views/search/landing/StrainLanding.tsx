@@ -72,6 +72,7 @@ export default function StrainLanding() {
         endpoints: [
           {
             name: 'strains',
+            key: 'strainsSearch',
             filters: {
               [field]: [value],
             },

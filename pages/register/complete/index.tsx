@@ -9,14 +9,16 @@ export default function RegisterComplete() {
   return (
     <div className="min-h-screen flex flex-col max-w-5xl mx-auto py-12 bg-white px-4">
       <div className="grid grid-cols-6 gap-0">
-        <div className="h-12 w-12 relative col-span-1">
-          <Image
-            src={Logo}
-            alt="CannaPages"
-            layout={'responsive'}
-            unoptimized={true}
-          />
-        </div>
+        <Link href={'/'} passHref>
+          <a className="h-12 w-12 relative col-span-1">
+            <Image
+              src={Logo}
+              alt="CannaPages"
+              layout={'responsive'}
+              unoptimized={true}
+            />
+          </a>
+        </Link>
       </div>
       <div className="sm:mx-auto sm:max-w-md ">
         <h2 className="mt-6 text-3xl font-extrabold text-gray-900">

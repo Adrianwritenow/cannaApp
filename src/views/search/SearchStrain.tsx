@@ -52,7 +52,7 @@ export default function SearchStrain(props: {
   }
 
   useEffect(() => {
-    if (!loading && query && currentQuery !== query) {
+    if (!loading && query) {
       getStrains();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -96,6 +96,7 @@ export default function StrainFilterSlideOver(props: {
 
     // update sort
     setSort(savedValues.sort);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [savedValues]);
 
   return (

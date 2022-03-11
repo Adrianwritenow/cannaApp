@@ -23,7 +23,7 @@ export default function SearchAll(props: { query: string }) {
   const dispensaries: Dispensary[] = listResults.dispensaries || [];
   const strains: Strain[] = listResults.strains || [];
   const hasProducts = products.length >= 3;
-  const [sponsored, setSponsored] = useState<Array<Dispensary>>();
+  const [featured, setFeatured] = useState<Array<Dispensary>>();
   const [related, setRelated] = useState<Array<Strain>>();
   const [strain, setStrain] = useState<Strain>();
 
@@ -41,17 +41,17 @@ export default function SearchAll(props: { query: string }) {
           total: 10,
         })
       );
-      getSponsored();
+      getFeatured();
       getFeaturedStrain();
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userCoords]);
 
-  async function getSponsored() {
-    const hits: SearchHits = await browseBy('sponsored', true, 'dispenaries');
+  async function getFeatured() {
+    const hits: SearchHits = await browseBy('featured', true, 'dispenaries');
     if (hits) {
-      setSponsored(hits.hits.hits);
+      setFeatured(hits.hits.hits);
     }
   }
 
@@ -93,9 +93,9 @@ export default function SearchAll(props: { query: string }) {
         </>
       )}
       {/* Sponsered Listings Section */}
-      {sponsored && sponsored.length > 0 && (
+      {featured && featured.length > 0 && (
         <ListingSection
-          listings={sponsored}
+          listings={featured}
           sponsored={true}
           query={query}
           userCoords={userCoords}

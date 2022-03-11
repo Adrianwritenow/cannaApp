@@ -4,7 +4,7 @@ import ProductResultsSection from '@/components/sections/ProductsResultsSection'
 import RelatedStrainsSection from '@/components/sections/RelatedStrainsSection';
 import { RootState } from '@/reducers';
 import SvgEmptyState from '@/public/assets/icons/iconComponents/EmptyState';
-import { browseBy, searchMulti } from '@/actions/search';
+import { searchMulti } from '@/actions/search';
 import { useAxios } from '@/hooks/useAxios';
 import { useEffect, useState } from 'react';
 import { useSearchLocation } from '@/hooks/useSearchLocation';
@@ -12,7 +12,6 @@ import { useSelector } from 'react-redux';
 import { Strain } from '@/interfaces/strain';
 import { Product } from '@/interfaces/product';
 import { Dispensary } from '@/interfaces/dispensary';
-import { SearchHits } from '@/interfaces/searchHits';
 
 export default function SearchAll(props: { query: string }) {
   const { query } = props;
@@ -67,7 +66,7 @@ export default function SearchAll(props: { query: string }) {
         />
       )}
       {/* Learn Query Section */}
-      {strainsFeatured && strainsFeatured.length && (
+      {strainsFeatured && strainsFeatured.length > 0 && (
         <>
           <LearnSection strain={strainsFeatured[0]} query={query} />
           {/* Related Strains Secrtion */}

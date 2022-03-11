@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { searchMulti } from '@/actions/search';
+import { browseBy, searchMulti } from '@/actions/search';
 import { useSelector } from 'react-redux';
 
 import { Product } from '@/interfaces/product';
@@ -12,6 +12,7 @@ import StrainLanding from './landing/StrainLanding';
 import { useRouter } from 'next/router';
 import { useAxios } from '@/hooks/useAxios';
 import { useSearchLocation } from '@/hooks/useSearchLocation';
+import { SearchHits } from '@/interfaces/searchHits';
 
 export default function SearchStrain(props: {
   query: string;
@@ -29,6 +30,7 @@ export default function SearchStrain(props: {
   const { listResults } = useSelector((root: RootState) => root.search);
   const strains: Strain[] = listResults.strainsSearch || [];
   const labelText = query ? query : label ? label : '';
+  const [sponsored, setSponsored] = useState<Array<Product>>();
 
   const [filters, setFilters] = useState<any>({
     category: [`${category ? category : ''}`],
@@ -55,8 +57,16 @@ export default function SearchStrain(props: {
     if (!loading && query) {
       getStrains();
     }
+    getSponsored();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query, currentQuery, filters]);
+
+  async function getSponsored() {
+    const hits: SearchHits = await browseBy('sponsored', true, 'products');
+    if (hits) {
+      setSponsored(hits.hits.hits);
+    }
+  }
 
   return (
     <div className="bg-gray-50">
@@ -67,9 +77,9 @@ export default function SearchStrain(props: {
         <>
           <StrainFilterSlideOver handleFilter={handleFilter} />
 
-          {products.length > 0 && (
+          {sponsored && sponsored.length && (
             <ProductResultsSection
-              list={products}
+              list={sponsored}
               sponsored={true}
               label={`Shop ${labelText}`}
             />

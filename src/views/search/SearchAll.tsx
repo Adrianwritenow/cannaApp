@@ -6,7 +6,7 @@ import { RootState } from '@/reducers';
 import SvgEmptyState from '@/public/assets/icons/iconComponents/EmptyState';
 import { searchMulti } from '@/actions/search';
 import { useAxios } from '@/hooks/useAxios';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSearchLocation } from '@/hooks/useSearchLocation';
 import { useSelector } from 'react-redux';
 import { Strain } from '@/interfaces/strain';
@@ -20,24 +20,40 @@ export default function SearchAll(props: { query: string }) {
   const { listResults } = useSelector((root: RootState) => root.search);
   const products: Product[] = listResults.products || [];
   const dispensaries: Dispensary[] = listResults.dispensaries || [];
+  const dispensariesFeatured: Dispensary[] =
+    listResults.dispensariesFeatured || [];
+  const strainsFeatured: Strain[] = listResults.strainsFeatured || [];
   const strains: Strain[] = listResults.strains || [];
   const hasProducts = products.length >= 3;
 
   useEffect(() => {
-    dispatchSearch(
-      searchMulti({
-        q: query,
-        coords: userCoords ? userCoords : undefined,
-        endpoints: [
-          { name: 'products' },
-          { name: 'dispenaries', key: 'dispensaries', geolocate: true },
-          { name: 'strains' },
-        ],
-        total: 10,
-      })
-    );
+    if (userCoords.lat && userCoords.lon) {
+      dispatchSearch(
+        searchMulti({
+          q: query,
+          coords: userCoords,
+          endpoints: [
+            { name: 'products' },
+            { name: 'dispenaries', key: 'dispensaries', geolocate: true },
+            {
+              name: 'dispenaries',
+              key: 'dispensariesFeatured',
+              filters: { featured: [true] },
+            },
+            { name: 'strains' },
+            {
+              name: 'strains',
+              key: 'strainsFeatured',
+              filters: { featured: [true] },
+            },
+          ],
+          total: 10,
+        })
+      );
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [userCoords]);
 
   return (
     <div className="bg-gray-50 max-w-7xl mx-auto">
@@ -50,30 +66,30 @@ export default function SearchAll(props: { query: string }) {
         />
       )}
       {/* Learn Query Section */}
-      {strains.length > 0 && (
+      {strainsFeatured && strainsFeatured.length > 0 && (
         <>
-          <LearnSection strain={strains[0]} query={query} />
+          <LearnSection strain={strainsFeatured[0]} query={query} />
           {/* Related Strains Secrtion */}
           <RelatedStrainsSection strains={strains.slice(0, 5)} />
         </>
       )}
       {/* Sponsered Listings Section */}
-      {dispensaries.length > 0 && (
-        <>
-          <ListingSection
-            listings={dispensaries}
-            sponsored={true}
-            query={query}
-            userCoords={userCoords}
-          />
-          {/* Listings Section */}
-          <ListingSection
-            listings={dispensaries}
-            query={query}
-            userCoords={userCoords}
-          />
-        </>
+      {dispensariesFeatured && dispensariesFeatured.length > 0 && (
+        <ListingSection
+          listings={dispensariesFeatured}
+          sponsored={true}
+          query={query}
+          userCoords={userCoords}
+        />
       )}
+      {dispensaries.length > 0 && (
+        <ListingSection
+          listings={dispensaries}
+          query={query}
+          userCoords={userCoords}
+        />
+      )}
+
       {!hasProducts && !strains.length && !dispensaries.length && (
         <div className="w-full flex items-center flex-wrap justify-center h-full space-y-3 py-14">
           <SvgEmptyState className="w-40 h-40" />

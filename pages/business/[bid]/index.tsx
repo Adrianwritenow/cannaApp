@@ -105,7 +105,7 @@ export default function BusinessDetail() {
     <div className="bg-gray-50">
       <div className="max-w-7xl flex flex-wrap relative desktop:flex-nowrap mx-auto desktop:rounded-md desktop:overflow-hidden desktop:shadow-md desktop:mt-4 ">
         {dispensary && (
-          <div className="w-full pb-full desktop:h-64 desktop:pb-0 desktop:w-64 relative">
+          <div className="w-full pb-full desktop:h-64 desktop:pb-0 desktop:w-64 relative bg-white">
             <ImageWithFallback
               src={`${process.env.API_URL}${
                 typeof dispensary._source.image === 'undefined'
@@ -116,7 +116,7 @@ export default function BusinessDetail() {
               }`}
               alt={dispensary._source?.name}
               layout="fill"
-              objectFit={'cover'}
+              objectFit={'contain'}
             />
 
             <button

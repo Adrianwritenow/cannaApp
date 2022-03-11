@@ -21,11 +21,11 @@ export default function SearchAll(props: { query: string }) {
   const { listResults } = useSelector((root: RootState) => root.search);
   const products: Product[] = listResults.products || [];
   const dispensaries: Dispensary[] = listResults.dispensaries || [];
+  const dispensariesFeatured: Dispensary[] =
+    listResults.dispensariesFeatured || [];
+  const strainsFeatured: Strain[] = listResults.strainsFeatured || [];
   const strains: Strain[] = listResults.strains || [];
   const hasProducts = products.length >= 3;
-  const [featured, setFeatured] = useState<Array<Dispensary>>();
-  const [related, setRelated] = useState<Array<Strain>>();
-  const [strain, setStrain] = useState<Strain>();
 
   useEffect(() => {
     if (userCoords.lat && userCoords.lon) {
@@ -36,44 +36,26 @@ export default function SearchAll(props: { query: string }) {
           endpoints: [
             { name: 'products' },
             { name: 'dispenaries', key: 'dispensaries', geolocate: true },
+            {
+              name: 'dispenaries',
+              key: 'dispensariesFeatured',
+              filters: { featured: [true] },
+            },
             { name: 'strains' },
+            {
+              name: 'strains',
+              key: 'strainsFeatured',
+              filters: { featured: [true] },
+            },
           ],
           total: 10,
         })
       );
-      getFeatured();
-      getFeaturedStrain();
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userCoords]);
 
-  async function getFeatured() {
-    const hits: SearchHits = await browseBy('featured', true, 'dispenaries');
-    if (hits) {
-      setFeatured(hits.hits.hits);
-    }
-  }
-
-  async function getFeaturedStrain() {
-    const hits: SearchHits = await browseBy('featured', true, 'strains');
-    if (hits) {
-      setStrain(hits.hits.hits[0]);
-      getRelated(hits.hits.hits[0] as Strain);
-    }
-  }
-
-  async function getRelated(featuredStrain: Strain) {
-    const hits: SearchHits = await browseBy('', '*', 'strains', {
-      key: 'top_reported_flavors',
-      value: featuredStrain._source.top_reported_flavors,
-    });
-    if (hits) {
-      setRelated(hits.hits.hits);
-    } else {
-      setRelated([]);
-    }
-  }
   return (
     <div className="bg-gray-50 max-w-7xl mx-auto">
       {/* Shop Query Section */}
@@ -85,17 +67,17 @@ export default function SearchAll(props: { query: string }) {
         />
       )}
       {/* Learn Query Section */}
-      {strain && related && related.length && (
+      {strainsFeatured && strainsFeatured.length && (
         <>
-          <LearnSection strain={strain} query={query} />
+          <LearnSection strain={strainsFeatured[0]} query={query} />
           {/* Related Strains Secrtion */}
-          <RelatedStrainsSection strains={related.slice(0, 5)} />
+          <RelatedStrainsSection strains={strains.slice(0, 5)} />
         </>
       )}
       {/* Sponsered Listings Section */}
-      {featured && featured.length > 0 && (
+      {dispensariesFeatured && dispensariesFeatured.length > 0 && (
         <ListingSection
-          listings={featured}
+          listings={dispensariesFeatured}
           sponsored={true}
           query={query}
           userCoords={userCoords}

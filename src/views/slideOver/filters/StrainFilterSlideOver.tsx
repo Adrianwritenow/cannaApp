@@ -135,11 +135,7 @@ export default function StrainFilterSlideOver(props: {
                       <div className="flex">
                         <DropdownFilter
                           setter={setRated}
-                          options={[
-                            'Most Reviewed',
-                            'Top Rated',
-                            'Lowest rated',
-                          ]}
+                          options={['Top Rated', 'Lowest rated']}
                           current={rated}
                           label={'Sort by'}
                         />

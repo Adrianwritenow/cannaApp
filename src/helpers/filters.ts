@@ -33,11 +33,7 @@ export const Filters: Record<string, Filter> = {
   },
   sortStrain: {
     value: 'Sort By',
-    list: [
-      { value: 'Most Reviewed' },
-      { value: 'Top Rated' },
-      { value: 'Lowest Rated' },
-    ],
+    list: [{ value: 'Top Rated' }, { value: 'Lowest Rated' }],
   },
   distance: {
     value: 'Distance',

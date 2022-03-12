@@ -33,6 +33,7 @@ import { publications } from '@/helpers/publications';
 import { useAxios } from '@/hooks/useAxios';
 import { useRouter } from 'next/router';
 import { useSearchLocation } from '@/hooks/useSearchLocation';
+import { setLocation } from '@/actions/location';
 
 export default function Home() {
   const { label: currentLocationLabel, coords: currentCoords } =
@@ -52,14 +53,12 @@ export default function Home() {
     city: string
   ) {
     dispatch(
-      receiveResults({
-        searchLocation: {
-          coords: {
-            lat: coords.lat,
-            lon: coords.lon,
-            city: city,
-          },
-        },
+      setLocation({
+        lat: coords.lat,
+        lon: coords.lon,
+        city: city,
+        state: '',
+        preciseLocationSet: true,
       })
     );
   }

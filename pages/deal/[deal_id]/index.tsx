@@ -49,7 +49,8 @@ export default function DealOverview() {
   }, [router, deal_id, deal]);
 
   if (!deal) {
-    // TODO: This is barely noticeable but maybe something better?
+    // TODO: This is barely noticeable but maybe something better? Skeleton
+    // loading?
     return 'Loading deal...';
   }
 

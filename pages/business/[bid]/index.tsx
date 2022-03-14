@@ -9,7 +9,7 @@ import {
 } from '@heroicons/react/outline';
 import { IconFacebook, IconInsta } from '@/public/assets/icons/iconComponents';
 import React, { useEffect, useState } from 'react';
-import { combinedSearchQuery, getDocument } from '@/actions/search';
+import { searchMulti } from '@/actions/search';
 
 import AboutUsSlideOver from '@/views/slideOver/AboutUsSlideOver';
 import AmenitiesSection from '@/components/sections/AmenitiesSection';
@@ -23,7 +23,6 @@ import Link from 'next/link';
 import ListingCardDropdown from '@/components/listings/ListingCardDropDown';
 import OpenIndicator from '@/helpers/OpenStatus';
 import { RootState } from '@/reducers';
-import { SearchHits } from '@/interfaces/searchHits';
 import SmallMap from '@/components/map/businessPageMap/SmallMap';
 import SocialShare from '@/components/share/SocialShare';
 import SvgIconTwitter from '@/public/assets/icons/iconComponents/IconTwitter';
@@ -33,73 +32,85 @@ import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import { useSearchLocation } from '@/hooks/useSearchLocation';
 import { reviews } from '@/helpers/mockData';
+import { useAxios } from '@/hooks/useAxios';
 
 export default function BusinessDetail() {
   const router = useRouter();
   const { bid } = router.query;
-  const [view, setView] = useState('');
   const [distanceFrom, setDistanceFrom] = useState('');
-  const [dispensary, setDispensary] = useState<Dispensary>();
   const [timezone, setTimezone] = useState('');
-  const [sort, setSort]: any = useState('relevance');
-  const { label, coords } = useSearchLocation();
-  const [viewed, setViewed] = useState<Array<Dispensary>>();
+  const { coords } = useSearchLocation();
+
+  const [dispatchSearch, { loading }] = useAxios(false);
+  const { listResults } = useSelector((root: RootState) => root.search);
+  const viewed: Dispensary[] = listResults.dispensariesViewed || [];
+  const dispensaryResult: Dispensary[] = listResults.dispensary || [];
+  const dispensary: Dispensary | undefined = dispensaryResult.length
+    ? dispensaryResult[0]
+    : undefined;
 
   let today = moment.tz(timezone).format('dddd');
 
   useEffect(() => {
-    if (!dispensary) {
-      getDocument(bid, 'dispenaries').then((document: SearchHits) => {
-        if (document) {
-          const result = document.hits.hits[0];
-          setDispensary(result as Dispensary);
-        }
-      });
+    if (loading || !bid) {
+      return;
     }
 
-    if (dispensary && coords) {
-      const isEmpty = Object.values(coords).every(
-        x => x === null || x === undefined
-      );
-      if (!isEmpty) {
-        const distance = getDistanceFrom(coords, {
-          lat: dispensary._source.lat,
-          lon: dispensary._source.lon,
-        });
-
-        setDistanceFrom(distance);
-      }
-      if (dispensary && timezone === '') {
-        switch (dispensary?._source.time_zone[0]) {
-          case 'EST':
-            setTimezone('America/New_York');
-            break;
-          case 'CST':
-            setTimezone('America/Chicago');
-            break;
-          case 'MST':
-            setTimezone('America/Denver');
-            break;
-          case 'PST':
-            setTimezone('America/Los_Angeles');
-            break;
-        }
-      }
-    }
-
-    if (label && !viewed) {
-      getDispensaryResults();
-    }
+    dispatchSearch(
+      searchMulti({
+        coords,
+        endpoints: [
+          {
+            name: 'dispenaries',
+            key: 'dispensary',
+            filters: {
+              id: [bid],
+            },
+            total: 1,
+          },
+          {
+            name: 'dispenaries',
+            key: 'dispensariesViewed',
+            geolocate: true,
+            total: 4,
+          },
+        ],
+      })
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [coords, dispensary, router]);
-  async function getDispensaryResults() {
-    const hits: any = await combinedSearchQuery({
-      endpoints: ['dispenaries'],
-      total: 4,
-      coords: coords,
-    });
-    setViewed(hits);
-  }
+  }, [coords, bid]);
+
+  useEffect(() => {
+    if (!dispensary || !coords.lat || !coords.lon) {
+      return;
+    }
+
+    const isEmpty = Object.values(coords).every(
+      x => x === null || x === undefined
+    );
+    if (!isEmpty) {
+      const distance = getDistanceFrom(coords, {
+        lat: dispensary._source.lat,
+        lon: dispensary._source.lon,
+      });
+
+      setDistanceFrom(distance);
+    }
+    switch (dispensary._source.time_zone[0]) {
+      case 'EST':
+        setTimezone('America/New_York');
+        break;
+      case 'CST':
+        setTimezone('America/Chicago');
+        break;
+      case 'MST':
+        setTimezone('America/Denver');
+        break;
+      case 'PST':
+        setTimezone('America/Los_Angeles');
+        break;
+    }
+  }, [dispensary, coords]);
 
   return dispensary ? (
     <div className="bg-gray-50">

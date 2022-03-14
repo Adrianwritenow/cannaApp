@@ -1,54 +1,61 @@
 import { Dialog, Transition } from '@headlessui/react';
 import React, { Fragment, useEffect, useState } from 'react';
-import {
-  browseBy,
-  combinedSearchQuery,
-  getBusinessProducts,
-} from '@/actions/search';
+import { searchMulti } from '@/actions/search';
 
 import { ArrowLeftIcon } from '@heroicons/react/outline';
 import { Dispensary } from '@/interfaces/dispensary';
-import FilterMenuTabs from '../../../components/filter/FilterMenuTabs';
+import FilterMenuTabs from '@/components/filter/FilterMenuTabs';
 import { Product } from '@/interfaces/product';
-import ProductResultsSection from '../../../components/sections/ProductsResultsSection';
+import ProductResultsSection from '@/components/sections/ProductsResultsSection';
 import { Coupon } from '@/interfaces/coupon';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/reducers';
+import { useAxios } from '@/hooks/useAxios';
 
 export default function BusinessMenuSlideOver(props: {
   dispensary: Dispensary;
 }) {
   const { dispensary } = props;
+  const bid = dispensary._source.id;
   const [open, setOpen] = useState(false);
-  const [products, setProducts] = useState<Array<Product>>([]);
-  const [coupons, setCoupons] = useState<Array<Coupon>>([]);
+  const [dispatchSearch] = useAxios(false);
+  const { listResults } = useSelector((root: RootState) => root.search);
+  const products: Product[] = listResults[`businessProducts${bid}`] || [];
+  const coupons: Coupon[] = listResults.businessCoupons || [];
 
-  const [update, setUpdate] = useState(true);
+  function getResults() {
+    const endpoints: any = [
+      {
+        name: 'coupons',
+        key: 'businessCoupons',
+        filters: {
+          dispensary: [dispensary._source.id.toString()],
+        },
+      },
+    ];
+
+    const product_ids = dispensary._source.products;
+    if (product_ids?.length) {
+      endpoints.push({
+        name: 'products',
+        key: `businessProducts${bid}`,
+        filters: { id: product_ids },
+        total: 1000,
+      });
+    }
+
+    dispatchSearch(
+      searchMulti({
+        endpoints,
+        total: 10,
+      })
+    );
+  }
 
   useEffect(() => {
-    if (update) {
-      getProducts();
-      getDeals();
-    }
-  }, [products, coupons]);
-
-  async function getDeals() {
-    const hits: any = await browseBy(
-      'dispensary',
-      dispensary._source.id.toString(),
-      'coupons'
-    );
-
-    setCoupons(hits.hits.hits);
-  }
-
-  async function getProducts() {
-    const product_ids = dispensary._source.products;
-
-    if (product_ids?.length) {
-      const hits: any = await getBusinessProducts(product_ids);
-      setProducts(hits.hits.hits);
-    }
-    setUpdate(false);
-  }
+    getResults();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispensary]);
 
   return (
     <div>

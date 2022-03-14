@@ -1,28 +1,42 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import BlogArticleCardFeatured from '@/components/blog/BlogArticleCardFeatured';
 import BlogArticleCardSmall from '@/components/blog/BlogArticleCardSmall';
 import { Post } from '@/interfaces/post';
-import { SearchHits } from '@/interfaces/searchHits';
-import { browseBy } from '@/actions/search';
+import { searchMulti } from '@/actions/search';
 import { useRouter } from 'next/router';
+import { useAxios } from '@/hooks/useAxios';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/reducers';
 
 export default function BlogByAuthor() {
   const router = useRouter();
   const { author } = router.query;
-  const [articles, setArticles] = useState<Array<Post>>();
+
+  const [dispatchSearch, { loading }] = useAxios(false);
+  const { listResults } = useSelector((root: RootState) => root.search);
+  const articlesKey = `articlesByAuthor${author}`;
+  const articles: Post[] = listResults[articlesKey] || [];
 
   useEffect(() => {
-    if (author && !articles) {
-      browseBy('author', `${author}`, 'blogs').then((document: SearchHits) => {
-        if (document) {
-          const result = document.hits.hits;
-          setArticles(result as unknown as Post[]);
-        }
-      });
+    if (!loading && author) {
+      dispatchSearch(
+        searchMulti({
+          endpoints: [
+            {
+              name: 'blogs',
+              key: articlesKey,
+              filters: {
+                author: [author],
+              },
+              total: 20,
+            },
+          ],
+        })
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router, articles]);
+  }, [author]);
 
   return (
     <div className="bg-gray-50 pt-6 pb-20 px-4 sm:px-6 desktop:pt-24 desktop:pb-28 desktop:px-8">

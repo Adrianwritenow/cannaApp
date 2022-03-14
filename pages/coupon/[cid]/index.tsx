@@ -1,46 +1,72 @@
-import { browseBy, getDocument } from '@/actions/search';
+// TODO: Is this component/page still needed? Seems like we use
+// `deals/[deal_id]` instead.
+import { searchMulti } from '@/actions/search';
 import { useEffect, useState } from 'react';
 
-import { Business } from '../../../public/assets/icons/iconComponents';
+import { Business } from '@/public/assets/icons/iconComponents';
 import { CheckCircleIcon } from '@heroicons/react/solid';
 import { Coupon } from '@/interfaces/coupon';
 import { Dispensary } from '@/interfaces/dispensary';
-import ProductResultsGrid from '../../../src/components/products/ProductResultsGrid';
-import { SearchHits } from '@/interfaces/searchHits';
-import { products } from '@/helpers/mockData';
+import ProductResultsGrid from '@/components/products/ProductResultsGrid';
 import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/reducers';
+import { useAxios } from '@/hooks/useAxios';
 
 export default function CouponDetail() {
   const [redeemed, setRedeemed] = useState(false);
   const [saved, setSaved] = useState(false);
   const router = useRouter();
   const { cid } = router.query;
-  const [coupon, setCoupon] = useState<Coupon>();
-  const [dispensary, setDispensary] = useState<Dispensary[]>([]);
+
+  const [dispatchCoupon, { loading: loadingCoupon }] = useAxios(false);
+  const [dispatchDispensary, { loading: loadingDispensary }] = useAxios(false);
+  const { listResults } = useSelector((root: RootState) => root.search);
+  const couponKey = `couponResult${cid}`;
+  const couponResult: Coupon[] = listResults[couponKey] || [];
+  const coupon: Coupon | undefined = couponResult.length
+    ? couponResult[0]
+    : undefined;
+  const dispensaryKey = `dispensaryResult${cid}`;
+  const dispensaryResult: Dispensary[] = listResults[dispensaryKey] || [];
+  const dispensary: Dispensary | undefined = dispensaryResult.length
+    ? dispensaryResult[0]
+    : undefined;
 
   useEffect(() => {
-    if (cid && !coupon) {
-      getDocument(cid, 'coupons').then((document: SearchHits) => {
-        if (document) {
-          const result = document.hits.hits[0];
-          setCoupon(result as Coupon);
-        }
-      });
-    }
-
-    async function handleBrowse() {
-      const business: SearchHits = await browseBy(
-        'id',
-        coupon?._source.dispensary[0],
-        '*'
+    if (!loadingCoupon && cid) {
+      dispatchCoupon(
+        searchMulti({
+          endpoints: [
+            {
+              name: 'coupons',
+              key: couponKey,
+              filters: {
+                id: [cid],
+              },
+              total: 1,
+            },
+          ],
+        })
       );
-      setDispensary(business.hits.hits as unknown as Dispensary[]);
     }
 
-    if (coupon && !dispensary.length) {
-      handleBrowse();
+    if (!loadingDispensary && coupon?._source.dispensary[0]) {
+      dispatchDispensary(
+        searchMulti({
+          endpoints: [
+            {
+              name: 'dispenaries',
+              key: dispensaryKey,
+              filters: {
+                id: [coupon._source.dispensary[0]],
+              },
+              total: 1,
+            },
+          ],
+        })
+      );
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router, coupon]);
 
@@ -52,7 +78,9 @@ export default function CouponDetail() {
             <Business fill="green" className="w-4 h-4" />
           </div>
           <div className="text-sm">
-            <h3 className="font-semibold">{dispensary[0]?._source.name[0]}</h3>
+            <h3 className="font-semibold">
+              {dispensary && dispensary._source?.name[0]}
+            </h3>
             <p className="text-green-500">
               More deals from this brand/location
             </p>

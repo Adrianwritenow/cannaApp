@@ -272,50 +272,6 @@ export function getFeatured(index: string) {
   return results;
 }
 
-export function browseBy(
-  field: string,
-  value: any,
-  index: string,
-  filter?: { key: string; value: any[] },
-  sort?: { field: string; direction: string }
-) {
-  const body = bodybuilder();
-
-  if (field) {
-    body.query('match', `${field}`, value);
-  } else {
-    body.query('query_string', 'query', value);
-  }
-
-  if (filter) {
-    const value = filter.value ? filter.value : [''];
-    body.filter('terms', `${filter.key}`, value);
-  }
-
-  if (sort) {
-    body.sort(sort.field, sort.direction);
-  }
-
-  const query = body.build();
-
-  const results = axios({
-    url: `${SEARCH_URL}/elasticsearch_index_${SEARCH_INDEX_PREFIX}_${index}/_search?size=15`,
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    data: query,
-  })
-    .then((res: AxiosResponse) => {
-      return res.data;
-    })
-    .catch((error: AxiosError) => {
-      // dispatch must come before setState
-      console.log('ERR:::', error);
-    });
-  return results;
-}
-
 export function getBusinessProducts(products: number[], filter?: string) {
   var body = bodybuilder().query('terms', 'id', products);
 
@@ -385,6 +341,7 @@ interface EndpointProps {
   key?: string;
   filters?: any;
   total?: number;
+  skipOnEmpty?: boolean;
 }
 
 // @todo: Use extended EndpointProps.
@@ -395,10 +352,12 @@ export function searchMulti(searchProps: {
   distance?: string;
   filters?: any;
   total?: number;
+  skipOnEmpty?: boolean;
   endpoints?: EndpointProps[];
 }): IAxiosAction {
   const { q, body, coords, distance, filters, total, endpoints } = searchProps;
   const batchOrder: IAxiosBatchRequest[] = [];
+  const skipOnEmpty = searchProps.skipOnEmpty || false;
 
   if (!endpoints || !endpoints.length) {
     throw new Error(
@@ -408,15 +367,21 @@ export function searchMulti(searchProps: {
 
   let data = '';
   endpoints.forEach((api: EndpointProps) => {
-    let key = api.key || api.name;
-    batchOrder.push({ key });
+    const endpointQuery = api.q || q;
+    const endpointSkipOnEmpty = api.skipOnEmpty || skipOnEmpty;
+    // Allow endpoints to skip if query is empty.
+    if (endpointSkipOnEmpty && !endpointQuery) {
+      return;
+    }
 
     const index = `elasticsearch_index_${SEARCH_INDEX_PREFIX}_${api.name}`;
-    const endpointQuery = api.q || q;
     const endpointFilters = api.filters || filters;
     const endpointDistance = api.distance || distance;
     const endpointTotal = api.total || total;
     const customBody = api.body || body;
+    let key = api.key || api.name;
+    batchOrder.push({ key });
+
     const endpointBody =
       customBody ||
       combinedQueryBody({

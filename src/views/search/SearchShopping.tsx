@@ -1,8 +1,4 @@
-import {
-  browseBy,
-  combinedSearchQuery,
-  receiveResults,
-} from '@/actions/search';
+import { receiveResults, searchMulti } from '@/actions/search';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 
@@ -13,41 +9,42 @@ import ProductResultsGrid from '@/components/products/ProductResultsGrid';
 import ProductResultsSection from '@/components/sections/ProductsResultsSection';
 import { RootState } from '@/reducers';
 import { useRouter } from 'next/router';
-import { SearchHits } from '@/interfaces/searchHits';
+import { useAxios } from '@/hooks/useAxios';
+import { useSearchLocation } from '@/hooks/useSearchLocation';
 
 export default function SearchShopping(props: { query: string }) {
   const router = useRouter();
   const { category, sortQuery } = router.query;
   const { query } = props;
   const dispatch = useDispatch();
-  const [products, setProducts] = useState<Array<Product>>();
+  const [dispatchSearch, { loading }] = useAxios(false);
   const [currentQuery, setCurrentQuery] = useState('');
-  const [update, setUpdate] = useState(true);
-  const location = useSelector((root: RootState) => root.location);
-  const [sponsored, setSponsored] = useState<Array<Product>>();
+  const { label: locationLabel } = useSearchLocation();
+  const { listResults } = useSelector((root: RootState) => root.search);
+  const products: Product[] = listResults.products || [];
+  const sponsored: Product[] = listResults.productsSponsored || [];
+  const queryLabel = query ? query : locationLabel;
 
   const [filters, setFilters] = useState<any>({
     category: [`${category ? category : ''}`],
     sort: [`${sortQuery ? sortQuery : ''}`],
   });
 
-  useEffect(() => {
-    if (update || currentQuery !== query) {
-      getProducts();
-      getSponsored();
-    }
-  }, [update, query, currentQuery, filters]);
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  async function getProducts() {
-    const hits: any = await combinedSearchQuery({
-      q: query,
-      filters: filters,
-      endpoints: ['products'],
-      total: 10,
-    });
-    setProducts(hits);
-    setUpdate(false);
+  function getResults() {
+    dispatchSearch(
+      searchMulti({
+        q: query,
+        endpoints: [
+          { name: 'products', filters },
+          {
+            name: 'products',
+            key: 'productsSponsored',
+            filters: { sponsored: [true] },
+          },
+        ],
+        total: 10,
+      })
+    );
     setCurrentQuery(query);
   }
 
@@ -61,55 +58,43 @@ export default function SearchShopping(props: { query: string }) {
 
   function handleFilter(data: any) {
     setFilters(data);
-    setUpdate(true);
   }
 
-  async function getSponsored() {
-    const hits: SearchHits = await browseBy('sponsored', true, 'products');
-    if (hits) {
-      setSponsored(hits.hits.hits);
+  useEffect(() => {
+    if (!loading || currentQuery !== query) {
+      getResults();
     }
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query, currentQuery, filters]);
 
   return (
     <section className="bg-gray/-50">
       <div>
         <ProductFilterSlideOver setFilters={handleFilter} />
-        {products ? (
-          <>
-            {products.length ? (
-              <div>
-                <div className="max-w-7xl mx-auto">
-                  {sponsored && sponsored.length && (
-                    <>
-                      <ProductResultsSection
-                        list={sponsored}
-                        sponsored={true}
-                        label={`Shop ${
-                          query
-                            ? `"${query}"`
-                            : location.city
-                            ? `"${location.city}"`
-                            : ''
-                        }`}
-                        hideButton={true}
-                      />
-                    </>
-                  )}
-                  <div className="px-4">
-                    <ProductResultsGrid
-                      label={`${products.length} Results for "${query}"`}
-                      list={products}
-                    />
-                  </div>
-                </div>
+        {products.length > 0 && (
+          <div>
+            <div className="max-w-7xl mx-auto">
+              {sponsored && sponsored.length > 0 && (
+                <>
+                  <ProductResultsSection
+                    list={sponsored}
+                    sponsored={true}
+                    label={`Shop ${queryLabel}`}
+                    hideButton={true}
+                  />
+                </>
+              )}
+              <div className="px-4">
+                <ProductResultsGrid
+                  label={`${products.length} Results for "${queryLabel}"`}
+                  list={products}
+                />
               </div>
-            ) : (
-              <ExploreProducts categoryFilter={categoryFilter} />
-            )}
-          </>
-        ) : (
-          ''
+            </div>
+          </div>
+        )}
+        {!loading && !products.length && (
+          <ExploreProducts categoryFilter={categoryFilter} />
         )}
       </div>
     </section>

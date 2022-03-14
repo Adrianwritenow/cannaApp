@@ -21,7 +21,6 @@ export default function StrainFilterSlideOver(props: {
     sort: '',
     top_rated_effects: '',
   });
-  const [sort, setSort] = useState(savedValues.sort);
   const [filterList, setFilterList]: any = useState([]);
 
   const initialValues: any = {
@@ -93,9 +92,6 @@ export default function StrainFilterSlideOver(props: {
       }));
       handleFilter(filters);
     }
-
-    // update sort
-    setSort(savedValues.sort);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [savedValues]);
 

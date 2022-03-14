@@ -16,9 +16,6 @@ export default function Search() {
   const router = useRouter();
   const [view, setView] = useState(0);
   const { listResults, query } = useSelector((root: RootState) => root.search);
-  const location = useSelector(
-    (root: RootState) => root.search.searchLocation.coords
-  );
   const path = router.query;
 
   const tabs = [
@@ -89,7 +86,7 @@ export default function Search() {
               <SearchDispensary query={query} />
             </Tab.Panel>
             <Tab.Panel className="focus:outline-none">
-              <SearchStrain query={query} products={listResults.shopping} />
+              <SearchStrain query={query} />
             </Tab.Panel>
             <Tab.Panel className="focus:outline-none"></Tab.Panel>
             <Tab.Panel className="focus:outline-none">

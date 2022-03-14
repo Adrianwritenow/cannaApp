@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { browseBy, searchMulti } from '@/actions/search';
+import { searchMulti } from '@/actions/search';
 import { useSelector } from 'react-redux';
 
 import { Product } from '@/interfaces/product';
@@ -12,37 +12,45 @@ import StrainLanding from './landing/StrainLanding';
 import { useRouter } from 'next/router';
 import { useAxios } from '@/hooks/useAxios';
 import { useSearchLocation } from '@/hooks/useSearchLocation';
-import { SearchHits } from '@/interfaces/searchHits';
 
-export default function SearchStrain(props: {
-  query: string;
-  products: Product[];
-}) {
+export default function SearchStrain(props: { query: string }) {
   const router = useRouter();
 
-  const { query, products } = props;
+  const { query } = props;
   const { category } = router.query;
+  const [update, setUpdate] = useState(false);
   const [currentQuery, setCurrentQuery] = useState('');
-  const { label } = useSearchLocation();
-
   const [view, setView] = useState('list');
   const [dispatchSearch, { loading }] = useAxios(false);
+  const { label: locationLabel } = useSearchLocation();
   const { listResults } = useSelector((root: RootState) => root.search);
   const strains: Strain[] = listResults.strainsSearch || [];
-  const labelText = query ? query : label ? label : '';
-  const [sponsored, setSponsored] = useState<Array<Product>>();
+  const sponsored: Product[] = listResults.productsSponsored || [];
+  const queryLabel = query ? query : locationLabel;
 
   const [filters, setFilters] = useState<any>({
     category: [`${category ? category : ''}`],
     sort: [],
   });
 
-  function getStrains() {
+  function getResults() {
     dispatchSearch(
       searchMulti({
         q: query,
-        filters,
-        endpoints: [{ name: 'strains', key: 'strainsSearch' }],
+        endpoints: [
+          {
+            name: 'strains',
+            key: 'strainsSearch',
+            filters,
+            skipOnEmpty: !update,
+          },
+          {
+            name: 'products',
+            key: 'productsSponsored',
+            filters: { sponsored: [true] },
+            skipOnEmpty: !update,
+          },
+        ],
         total: 10,
       })
     );
@@ -51,22 +59,15 @@ export default function SearchStrain(props: {
 
   function handleFilter(data: any) {
     setFilters(data);
+    setUpdate(true);
   }
 
   useEffect(() => {
-    if (!loading && query) {
-      getStrains();
+    if (!loading) {
+      getResults();
     }
-    getSponsored();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query, currentQuery, filters]);
-
-  async function getSponsored() {
-    const hits: SearchHits = await browseBy('sponsored', true, 'products');
-    if (hits) {
-      setSponsored(hits.hits.hits);
-    }
-  }
 
   return (
     <div className="bg-gray-50">
@@ -77,14 +78,14 @@ export default function SearchStrain(props: {
         <>
           <StrainFilterSlideOver handleFilter={handleFilter} />
 
-          {sponsored && sponsored.length && (
+          {sponsored.length > 0 && (
             <ProductResultsSection
               list={sponsored}
               sponsored={true}
-              label={`Shop ${labelText}`}
+              label={`Shop ${queryLabel}`}
             />
           )}
-          <ResultsStrain view={view} query={labelText} strains={strains} />
+          <ResultsStrain view={view} query={queryLabel} strains={strains} />
         </>
       ) : (
         <>

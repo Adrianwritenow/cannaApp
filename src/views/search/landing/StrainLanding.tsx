@@ -60,11 +60,6 @@ export default function StrainLanding() {
     );
   }
 
-  useEffect(() => {
-    getResults();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   function handleBrowse(field: string, value: string) {
     dispatchSearch(
       searchMulti({
@@ -82,6 +77,11 @@ export default function StrainLanding() {
       })
     );
   }
+
+  useEffect(() => {
+    getResults();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="max-w-7xl bg-gray-50 pb-5 mx-auto">

@@ -1,5 +1,5 @@
+// TODO: Too much if/else logic in here; try to clean up if possible.
 import bodybuilder from 'bodybuilder';
-import { string } from 'yup';
 
 export const combinedQueryBody = (searchProps: {
   q?: string;

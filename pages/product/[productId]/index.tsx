@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { browseBy, getDocument } from '@/actions/search';
+import React, { useEffect } from 'react';
+import { searchMulti } from '@/actions/search';
 
 import AboutSlideOver from '@/components/products/AboutSlideOver';
 import FaqSlideOver from '@/views/slideOver/FaqSlideOver';
@@ -8,53 +8,73 @@ import ImageWithFallback from '@/components/image/ImageWithFallback';
 import { Product } from '@/interfaces/product';
 import ProductResultsSection from '@/components/sections/ProductsResultsSection';
 import ProductReviewsSlideOver from '@/views/slideOver/product/ProductReviewSlideOver';
-import { SearchHits } from '@/interfaces/searchHits';
-import { StarIcon } from '@heroicons/react/solid';
 import StarRating from '@/components/rating/StarRating';
 import { formatImageWithFallback } from '@/helpers/formatters';
 import { useRouter } from 'next/router';
 import { reviews } from '@/helpers/mockData';
+import { useAxios } from '@/hooks/useAxios';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/reducers';
 
 export default function ProductDetail() {
   const router = useRouter();
   const { productId } = router.query;
-  const [product, setProduct] = useState<Product>();
-  const [sort, setSort]: any = useState('relevance');
-  const [related, setRelated] = useState<Array<Product>>();
-  const [currentQuery, setCurrentQuery] = useState('');
+
+  const [dispatchProduct, { loading: loadingProduct }] = useAxios(false);
+  const [dispatchRelated, { loading: loadingRelated }] = useAxios(false);
+  const { listResults } = useSelector((root: RootState) => root.search);
+  const relatedKey = `productRelated${productId}`;
+  const related: Product[] = listResults[relatedKey] || [];
+  const productKey = `productResult${productId}`;
+  const productResult: Product[] = listResults[productKey] || [];
+  const product: Product | undefined = productResult.length
+    ? productResult[0]
+    : undefined;
 
   useEffect(() => {
-    if (!product) {
-      getDocument(productId, 'products').then((document: SearchHits) => {
-        if (document) {
-          const result = document.hits.hits[0];
-          setProduct(result as unknown as Product);
-        }
-      });
+    if (!loadingProduct && productId) {
+      dispatchProduct(
+        searchMulti({
+          endpoints: [
+            {
+              name: 'products',
+              key: productKey,
+              filters: {
+                id: [productId],
+              },
+              total: 1,
+            },
+          ],
+        })
+      );
     }
-    if (!related && product) {
-      getRelated();
-    }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router, related, product]);
+  }, [productId]);
 
-  async function getRelated() {
-    const hits: SearchHits = await browseBy(
-      'category',
-      `${product?._source.category[0]}`,
-      'products',
-      {
-        key: 'top_reported_flavors',
-        value: product?._source.top_reported_flavors as string[],
+  useEffect(() => {
+    if (!loadingRelated && product?._source.category) {
+      const relatedFilters: any = {
+        category: product?._source.category,
+      };
+      if (product?._source.top_reported_flavors) {
+        relatedFilters.top_reported_flavors =
+          product?._source.top_reported_flavors;
       }
-    );
-    if (hits) {
-      setRelated(hits.hits.hits);
-    } else {
-      setRelated([]);
+
+      dispatchRelated(
+        searchMulti({
+          endpoints: [
+            {
+              name: 'products',
+              key: relatedKey,
+              filters: relatedFilters,
+            },
+          ],
+        })
+      );
     }
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [product]);
 
   return (
     <div className="max-w-7xl mx-auto bg-gray-50 md:px-20 desktop:mt-4">

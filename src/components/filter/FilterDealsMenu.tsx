@@ -1,13 +1,13 @@
 import { Dialog, Transition } from '@headlessui/react';
-import React, { Fragment, useEffect } from 'react';
+import { Fragment, useEffect } from 'react';
 
-import { Field } from 'formik';
 import FilterGroup from './FilterGroup';
-import { Filters } from '@/helpers/filters';
 import StrainsIcon from '@/public/assets/icons/iconComponents/Strains';
 import { XIcon } from '@heroicons/react/solid';
 
 interface FilterMenuProps {
+  categories: string[];
+  filters: any;
   open: boolean;
   values: any;
   setOpen: Function;
@@ -17,11 +17,24 @@ interface FilterMenuProps {
   setFieldValue: Function;
 }
 
-export default function FilterDispensaryMenu(props: FilterMenuProps) {
-  const { open, values, setOpen, icon, label, setSavedValues, setFieldValue } =
-    props;
+export default function FilterDealsMenu(props: FilterMenuProps) {
+  const {
+    categories,
+    filters,
+    open,
+    values,
+    setOpen,
+    icon,
+    label,
+    setSavedValues,
+    setFieldValue,
+  } = props;
 
-  // Add filters to list to be rendered and update the form state values
+  const categoryFilter = categories.map(category => ({
+    value: category,
+  }));
+
+  // Add filters to list to be rendered and update the form state values.
   useEffect(() => {
     setSavedValues(values);
   }, [values, setSavedValues]);
@@ -72,77 +85,14 @@ export default function FilterDispensaryMenu(props: FilterMenuProps) {
                     {/* Body content */}
                     <div className="relative w-full h-full inset-0 flex flex-wrap content-between bg-gray-50">
                       <div className="grid w-full grid-flow-row auto-rows-max  px-4 pb-2 pt-12">
-                        {/* // Field sets based on type of filter  if multiple nested filters then pass setFieldValue*/}
-                        {/* Pass the filters ket of values to set Checked */}
-                        {/* <label
-                          className=" text-sm text-gray-900 w-full flex items-center"
-                          onClick={() => {
-                            if (setFieldValue) {
-                              setFieldValue('category', 'Open Now');
-                            }
-                          }}
-                        >
-                          <Field
-                            id={`openNow`}
-                            name={'openNow'}
-                            value={`${values.filters?.category}`}
-                            checked={values.filters?.category?.includes(
-                              'Open Now'
-                            )}
-                            type={'checkbox'}
-                            className={
-                              'focus:ring-green h-4 w-4 text-green border-gray-300 rounded-md'
-                            }
-                          />
-                          <span className="text-sm font-semibold text-gray-700 text-left py-2 pl-4">
-                            Open now
-                          </span>
-                        </label> */}
-
                         <FilterGroup
-                          filters={Filters.sortDispensary.list}
-                          label={'Sort By'}
-                          id={'sort'}
+                          filters={categoryFilter}
+                          label="Category"
+                          id="category"
                           type="radio"
-                          values={values.filters.sort}
+                          values={filters.category}
                           setFieldValue={setFieldValue}
                         />
-
-                        <FilterGroup
-                          filters={Filters.license.list}
-                          label={'License Type'}
-                          id={'license_type'}
-                          type="radio"
-                          values={values.filters.license_type}
-                          setFieldValue={setFieldValue}
-                        />
-                        <FilterGroup
-                          filters={Filters.products.list}
-                          label={'Products'}
-                          id={'productType'}
-                          type="radio"
-                          values={values.filters.productType}
-                          setFieldValue={setFieldValue}
-                        />
-                        <FilterGroup
-                          filters={Filters.amenities.list}
-                          label={'Amenities'}
-                          id={'amenities'}
-                          values={values.filters.amenities}
-                        />
-                        <label className=" text-sm text-gray-900 w-full flex items-center">
-                          <Field
-                            id={`featured`}
-                            name={'featured'}
-                            type="checkbox"
-                            className={
-                              'focus:ring-green h-4 w-4 text-green border-gray-300 rounded-md'
-                            }
-                          />
-                          <span className="text-sm font-semibold text-gray-700 text-left py-2 pl-4">
-                            Featured
-                          </span>
-                        </label>
                       </div>
                     </div>
                     {/* /End Body */}

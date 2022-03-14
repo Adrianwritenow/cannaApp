@@ -2,9 +2,9 @@ import { Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
 
 import { AdjustmentsIcon } from '@heroicons/react/solid';
-import DropdownFilter from '../../../components/forms/fields/DropdownFilter';
+import DropdownFilter from '@/components/forms/fields/DropdownFilter';
 import FilterDispensaryMenu from '@/components/filter/FilterDispensaryMenu';
-import { Filters } from '../../../helpers/filters';
+import { Filters } from '@/helpers/filters';
 import { useRouter } from 'next/router';
 
 export default function DispensaryFilterSlideOver(props: {
@@ -81,6 +81,7 @@ export default function DispensaryFilterSlideOver(props: {
 
     // update sort
     setSort(savedValues.sort);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [savedValues]);
 
   // Remove filters from list to be rendered and update the form state values

@@ -126,3 +126,76 @@ export const combinedQueryBody = (searchProps: {
   // Build the body (JSON payload).
   return body.build();
 };
+
+/**
+ * Query body for "Deals Near Me"
+ *
+ * @param {string} key - The key to store results to in redux.
+ * @param {string} filter - The query filter.
+ * @param {number} from - Results from number.
+ * @param {object} coords - Lat/Lon to geolocate results.
+ * @param {string} distance - Geo distance.
+ * @returns {object}
+ */
+export const dealsNearMe = (
+  key: string = 'couponsFiltered',
+  filter: string = 'All',
+  from: number = 0,
+  coords: any = {},
+  distance: string = '100mi'
+) => {
+  const name = 'coupons';
+  const body: any = {
+    query: {
+      function_score: {
+        query: {
+          bool: {
+            must: {
+              match_all: {},
+            },
+            filter: [],
+          },
+        },
+      },
+    },
+    aggs: {
+      category: {
+        terms: {
+          field: 'category',
+          size: 15,
+        },
+      },
+    },
+    size: 15,
+    from,
+  };
+
+  if (filter !== 'All') {
+    body.query.function_score.query.bool.filter.push({
+      term: {
+        category: filter,
+      },
+    });
+  }
+
+  if (coords && coords.lat && coords.lon) {
+    body.query.function_score.query.bool.filter.push({
+      geo_distance: {
+        distance,
+        coordinates: coords,
+      },
+    });
+
+    body.sort = [
+      {
+        _geo_distance: { coordinates: coords },
+      },
+    ];
+  }
+
+  return {
+    name,
+    key,
+    body,
+  };
+};

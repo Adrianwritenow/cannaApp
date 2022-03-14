@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 
 import { Dispensary } from '@/interfaces/dispensary';
-import DispensaryFilterSlideOver from '../slideOver/filters/DispensaryFilterSlideOver';
-import ListingSection from '../../components/sections/ListingSection';
+import DispensaryFilterSlideOver from '@/views/slideOver/filters/DispensaryFilterSlideOver';
+import ListingSection from '@/components/sections/ListingSection';
 import SvgEmptyState from '@/public/assets/icons/iconComponents/EmptyState';
 import { combinedSearchQuery } from '@/actions/search';
 import { useRouter } from 'next/router';
@@ -37,7 +37,6 @@ export default function SearchDispensary(props: { query: string }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query, filters, coords]);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   async function getDispensaries() {
     const range = filters.distance ? filters.distance[0] : '5mi';
     const { distance, ...filterData } = filters;

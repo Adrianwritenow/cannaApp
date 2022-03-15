@@ -28,12 +28,28 @@ import { useSearchLocation } from '@/hooks/useSearchLocation';
 import { FeatureCollection } from 'geojson';
 import { Feature } from '@/interfaces/feature';
 import SearchLocationCard from '@/components/search/SearchLocationCard';
+import { useQueryParam, StringParam, withDefault } from 'next-query-params';
+import { useSearchFilters } from '@/hooks/useSearchFilters';
 
 export default function SearchSlideOver(props: {
   searchRoute?: string;
   root?: boolean;
 }) {
   const { root } = props;
+
+  const router = useRouter();
+  const { type: searchType } = router.query;
+  const locationSearch = useSearchFilters();
+  const [query, setQuery] = useQueryParam('qs', withDefault(StringParam, ''));
+  const [coordsVal, setCoordsVal] = useQueryParam(
+    'qsCoords',
+    withDefault(StringParam, '')
+  );
+  const [cityVal, setCityVal] = useQueryParam(
+    'qsCity',
+    withDefault(StringParam, '')
+  );
+
   const [dispatchSearch] = useAxios(false);
   const [open, setOpen] = useState(false);
   const location = useSelector((root: RootState) => root.location);
@@ -42,8 +58,7 @@ export default function SearchSlideOver(props: {
   const initialLocationCleared = useRef(false);
   const [focus, setFocus] = useState('');
   const dispatch = useDispatch();
-  const router = useRouter();
-  const { listResults, query } = useSelector((root: RootState) => root.search);
+  const { listResults } = useSelector((root: RootState) => root.search);
   const { label, coords } = useSearchLocation();
   const geocoderRef = useRef<any>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -67,8 +82,9 @@ export default function SearchSlideOver(props: {
   });
 
   function handleSubmit(search: any) {
-    if (router.pathname !== '/search' && router.pathname !== '/map') {
-      router.push('/search');
+    const pathPrefix = router.pathname.substring(0, 7);
+    if ('/search' !== pathPrefix) {
+      router.push('/search/all' + locationSearch);
     }
     setOpen(false);
   }
@@ -138,7 +154,9 @@ export default function SearchSlideOver(props: {
         navigator.geolocation.getCurrentPosition(
           position => {
             setGeolocationSet(true);
-            router.pathname === '/map' ? router.push('/map') : '';
+            if (searchType !== 'map') {
+              router.push('/search/all' + locationSearch);
+            }
             dispatch(
               setLocation({
                 city: location.city,
@@ -159,6 +177,11 @@ export default function SearchSlideOver(props: {
                 },
               })
             );
+
+            setCoordsVal(
+              `${position.coords.latitude},${position.coords.longitude}`
+            );
+
             if (geolocationSet && geocoderRef.current) {
               geocoderRef.current.children[0].children[1].value =
                 'Your Location';
@@ -179,13 +202,18 @@ export default function SearchSlideOver(props: {
           },
         })
       );
-      router.pathname === '/map' ? router.push('/map') : '';
+      setCoordsVal(`${location.lat},${location.lon}`);
+      setCityVal(location.city);
+      if (searchType !== 'map') {
+        router.push('/search/all' + locationSearch);
+      }
     }
 
     setGeolocationSet(true);
   }
 
-  // adds short delay to prevent search from firing until the user has stopped typing
+  // Adds short delay to prevent search from firing until the user has stopped
+  // typing.
   let timeout: ReturnType<typeof setTimeout>;
   function handleSearch(e: any) {
     if (timeout) {
@@ -227,6 +255,7 @@ export default function SearchSlideOver(props: {
         ...resultProps,
       })
     );
+    setQuery(q);
   }
 
   function handleFocus() {
@@ -244,21 +273,25 @@ export default function SearchSlideOver(props: {
       geocoderRef.current.children[0].children[1].placeholder = 'Location...';
       geocoderRef.current.children[0].children[1].value = location.place_name;
     }
+    const geoCoords = location.geometry.coordinates;
     dispatch(
       receiveResults({
         searchLocation: {
           coords: {
-            lon: location.geometry.coordinates[0],
-            lat: location.geometry.coordinates[1],
+            lon: geoCoords[0],
+            lat: geoCoords[1],
           },
           label: location.place_name,
         },
       })
     );
+    setCoordsVal(`${geoCoords[1]},${geoCoords[0]}`);
+    setCityVal(location.place_name);
     setGeolocationSet(false);
   }
 
   function handleClearSearchTerm() {
+    setQuery('');
     dispatch(receiveResults({ data: [], search: '' }));
   }
 
@@ -279,6 +312,8 @@ export default function SearchSlideOver(props: {
         },
       })
     );
+    setCoordsVal('');
+    setCityVal('');
     setGeolocationSet(false);
   }
 
@@ -286,10 +321,10 @@ export default function SearchSlideOver(props: {
     <div className="print:hidden">
       <div className="w-full relative pb-4">
         <div className="flex flex-row border-solid border border-gray-400 text-gray-500 rounded-md focus:outline-none focus:ring-0 shadow-sm items-center justify-center">
-          {router.pathname === '/map' ? (
+          {searchType === 'map' ? (
             <button
               onClick={() => {
-                router.back;
+                router.back();
               }}
             >
               <ArrowLeftIcon className="w-5 h-5 ml-3" />
@@ -484,7 +519,9 @@ export default function SearchSlideOver(props: {
                                           <button
                                             key={`generalSearch`}
                                             onClick={() => {
-                                              router.push('/search');
+                                              router.push(
+                                                '/search/all' + locationSearch
+                                              );
                                               setOpen(false);
                                             }}
                                             className="text-gray-700 w-full flex px-4 py-3"

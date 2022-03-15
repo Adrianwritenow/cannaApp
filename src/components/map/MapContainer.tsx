@@ -11,12 +11,16 @@ import { RootState } from '@/reducers';
 import { setLocation } from '@/actions/location';
 import { useCurrentWidth } from './useCurrentWidth';
 import { useSearchLocation } from '@/hooks/useSearchLocation';
+import { useQueryParam, StringParam, withDefault } from 'next-query-params';
+import { useRouter } from 'next/router';
 
 export const MapContext = createContext<any>(null);
 
 export function MapContainer() {
+  const router = useRouter();
+  const { isReady } = router;
+  const [query] = useQueryParam('qs', withDefault(StringParam, ''));
   const [showMap, setShowMap] = useState(true);
-  const { query } = useSelector((root: RootState) => root.search);
 
   const { state, city, lat, lon, preciseLocationSet } = useSelector(
     (root: RootState) => root.location
@@ -39,13 +43,11 @@ export function MapContainer() {
   });
 
   useEffect(() => {
-    if (label !== null) {
+    if (isReady && (label !== null || update)) {
       getLocationMatches();
     }
-    if (update) {
-      getLocationMatches();
-    }
-  }, [label, query, lat, lon, update, filters]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [label, isReady, query, lat, lon, update, filters]);
 
   const getLocation = () => {
     if (!preciseLocationSet) {
@@ -98,6 +100,7 @@ export function MapContainer() {
     const range = filters.distance ? filters.distance[0] : '5mi';
     const { distance, ...filterData } = filters;
     const hits: any = await combinedSearchQuery({
+      q: query,
       endpoints: ['dispenaries'],
       coords: coords ? coords : { lat, lon },
       filters: filterData,

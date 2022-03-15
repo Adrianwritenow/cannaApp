@@ -8,6 +8,8 @@ import { searchMulti } from '@/actions/search';
 import { useAxios } from '@/hooks/useAxios';
 import { useEffect, useState } from 'react';
 import { useSearchLocation } from '@/hooks/useSearchLocation';
+import { useQueryParam, StringParam, withDefault } from 'next-query-params';
+import { useRouter } from 'next/router';
 
 interface FilterBucket {
   key: string;
@@ -15,6 +17,9 @@ interface FilterBucket {
 }
 
 export default function SearchDeals() {
+  const router = useRouter();
+  const { isReady } = router;
+  const [query] = useQueryParam('qs', withDefault(StringParam, ''));
   const { coords } = useSearchLocation();
   const [dispatchSearch, { loading }] = useAxios(false);
   const [currentDeals, setCurrentDeals] = useState<Coupon[]>([]);
@@ -32,6 +37,7 @@ export default function SearchDeals() {
       searchMulti({
         endpoints: [
           dealsNearMe(
+            query,
             'couponsFiltered',
             filters.category,
             from,
@@ -77,9 +83,11 @@ export default function SearchDeals() {
   }
 
   useEffect(() => {
-    fetchDeals(0);
+    if (isReady && !loading) {
+      fetchDeals(0);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [coords, filters]);
+  }, [coords, filters, query, isReady]);
 
   return (
     <div className="bg-gray-50">
@@ -104,7 +112,10 @@ export default function SearchDeals() {
 
         {!loading && !currentDeals.length && (
           <div className="flex justify-center py-10">
-            <h3>No deals found in your area. Try broadening your search.</h3>
+            <h3>
+              No deals found in your area. Try broadening your search
+              {!query ? '' : ' or removing your search query'}.
+            </h3>
           </div>
         )}
 

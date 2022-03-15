@@ -130,6 +130,7 @@ export const combinedQueryBody = (searchProps: {
 /**
  * Query body for "Deals Near Me"
  *
+ * @param {string} query - A query string to search for.
  * @param {string} key - The key to store results to in redux.
  * @param {string} filter - The query filter.
  * @param {number} from - Results from number.
@@ -138,6 +139,7 @@ export const combinedQueryBody = (searchProps: {
  * @returns {object}
  */
 export const dealsNearMe = (
+  query: string = '',
   key: string = 'couponsFiltered',
   filter: string = 'All',
   from: number = 0,
@@ -145,14 +147,16 @@ export const dealsNearMe = (
   distance: string = '5mi'
 ) => {
   const name = 'coupons';
+  let must: any = { match_all: {} };
+  if (query) {
+    must = { query_string: { query } };
+  }
   const body: any = {
     query: {
       function_score: {
         query: {
           bool: {
-            must: {
-              match_all: {},
-            },
+            must,
             filter: [],
           },
         },

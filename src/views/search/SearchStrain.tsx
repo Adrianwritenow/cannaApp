@@ -12,14 +12,14 @@ import StrainLanding from './landing/StrainLanding';
 import { useRouter } from 'next/router';
 import { useAxios } from '@/hooks/useAxios';
 import { useSearchLocation } from '@/hooks/useSearchLocation';
+import { useQueryParam, StringParam, withDefault } from 'next-query-params';
 
-export default function SearchStrain(props: { query: string }) {
+export default function SearchStrain() {
+  const [query] = useQueryParam('qs', withDefault(StringParam, ''));
   const router = useRouter();
-
-  const { query } = props;
+  const { isReady } = router;
   const { category } = router.query;
   const [update, setUpdate] = useState(false);
-  const [currentQuery, setCurrentQuery] = useState('');
   const [view, setView] = useState('list');
   const [dispatchSearch, { loading }] = useAxios(false);
   const { label: locationLabel } = useSearchLocation();
@@ -54,7 +54,6 @@ export default function SearchStrain(props: { query: string }) {
         total: 10,
       })
     );
-    setCurrentQuery(query);
   }
 
   function handleFilter(data: any) {
@@ -63,11 +62,11 @@ export default function SearchStrain(props: { query: string }) {
   }
 
   useEffect(() => {
-    if (!loading) {
+    if (!loading && isReady) {
       getResults();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [query, currentQuery, filters]);
+  }, [query, isReady, filters]);
 
   return (
     <div className="bg-gray-50">

@@ -85,7 +85,9 @@ export default function StrainFilterSlideOver(props: {
         return element === filterList[index];
       });
 
-    if (!is_same) {
+    // Filter list will be empty if this was triggered by the next router taking
+    // a minute to propagate.
+    if (!is_same && filterList.length) {
       setSavedValues((prevState: any) => ({
         ...prevState,
         filters,

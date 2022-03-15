@@ -1,5 +1,5 @@
-import { receiveResults, searchMulti } from '@/actions/search';
-import { useDispatch, useSelector } from 'react-redux';
+import { searchMulti } from '@/actions/search';
+import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 
 import ExploreProducts from './explore/ExploreProducts';
@@ -11,14 +11,14 @@ import { RootState } from '@/reducers';
 import { useRouter } from 'next/router';
 import { useAxios } from '@/hooks/useAxios';
 import { useSearchLocation } from '@/hooks/useSearchLocation';
+import { useQueryParam, StringParam, withDefault } from 'next-query-params';
 
-export default function SearchShopping(props: { query: string }) {
+export default function SearchShopping() {
   const router = useRouter();
-  const { category, sortQuery } = router.query;
-  const { query } = props;
-  const dispatch = useDispatch();
+  const [query, setQuery] = useQueryParam('qs', withDefault(StringParam, ''));
+
+  const { category, sortQuery, qs } = router.query;
   const [dispatchSearch, { loading }] = useAxios(false);
-  const [currentQuery, setCurrentQuery] = useState('');
   const { label: locationLabel } = useSearchLocation();
   const { listResults } = useSelector((root: RootState) => root.search);
   const products: Product[] = listResults.products || [];
@@ -45,15 +45,10 @@ export default function SearchShopping(props: { query: string }) {
         total: 10,
       })
     );
-    setCurrentQuery(query);
   }
 
   function categoryFilter(categoryQuery: string) {
-    dispatch(
-      receiveResults({
-        search: categoryQuery,
-      })
-    );
+    setQuery(categoryQuery);
   }
 
   function handleFilter(data: any) {
@@ -61,11 +56,11 @@ export default function SearchShopping(props: { query: string }) {
   }
 
   useEffect(() => {
-    if (!loading || currentQuery !== query) {
+    if (!loading) {
       getResults();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [query, currentQuery, filters]);
+  }, [query, filters]);
 
   return (
     <section className="bg-gray/-50">

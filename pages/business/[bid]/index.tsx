@@ -29,7 +29,6 @@ import SvgIconTwitter from '@/public/assets/icons/iconComponents/IconTwitter';
 import getDistanceFrom from '@/helpers/getDistanceFrom';
 import moment from 'moment-timezone';
 import { useRouter } from 'next/router';
-import { useSelector } from 'react-redux';
 import { useSearchLocation } from '@/hooks/useSearchLocation';
 import { reviews } from '@/helpers/mockData';
 import { useAxios } from '@/hooks/useAxios';

@@ -1,19 +1,18 @@
-import { useEffect } from 'react';
-
 import { ArrowRightIcon } from '@heroicons/react/outline';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Product } from '@/interfaces/product';
 import ProductResultsSection from '@/components/sections/ProductsResultsSection';
-import { searchMulti } from '@/actions/search';
-import { categories } from '@/helpers/categories';
-import { useAxios } from '@/hooks/useAxios';
-import { useSelector } from 'react-redux';
 import { RootState } from '@/reducers';
+import { categories } from '@/helpers/categories';
 import { imageLoader } from '@/helpers/localImageLoader';
+import { searchMulti } from '@/actions/search';
+import { useAxios } from '@/hooks/useAxios';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
-export default function ExploreProducts(props: { categoryFilter: Function }) {
-  const { categoryFilter } = props;
+export default function ExploreProducts(props: { handleFilter: Function }) {
+  const { handleFilter } = props;
   const [dispatchSearch] = useAxios(false);
   const { listResults } = useSelector((root: RootState) => root.search);
   const fudge: Product[] = listResults.fudge || [];

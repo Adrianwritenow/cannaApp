@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { searchMulti } from '@/actions/search';
-import { useSelector } from 'react-redux';
+import { Strain, StrainResults } from '@/interfaces/strain';
+import { StringParam, useQueryParam, withDefault } from 'next-query-params';
 
 import { Product } from '@/interfaces/product';
 import ProductResultsSection from '@/components/sections/ProductsResultsSection';
 import ResultsStrain from './results/ResultsStrain';
 import { RootState } from '@/reducers';
-import { Strain } from '@/interfaces/strain';
 import StrainFilterSlideOver from '../slideOver/filters/StrainFilterSlideOver';
 import StrainLanding from './landing/StrainLanding';
-import { useRouter } from 'next/router';
+import { searchMulti } from '@/actions/search';
 import { useAxios } from '@/hooks/useAxios';
+import { useRouter } from 'next/router';
 import { useSearchLocation } from '@/hooks/useSearchLocation';
-import { useQueryParam, StringParam, withDefault } from 'next-query-params';
+import { useSelector } from 'react-redux';
 
 export default function SearchStrain() {
   const [query] = useQueryParam('qs', withDefault(StringParam, ''));
@@ -60,6 +60,16 @@ export default function SearchStrain() {
     setFilters(data);
     setUpdate(true);
   }
+  function handleLoadMore() {
+    dispatchSearch(
+      searchMulti({
+        q: query,
+        filters: filters,
+        endpoints: [{ name: 'strains', from: strains.length }],
+        total: 10,
+      })
+    );
+  }
 
   useEffect(() => {
     if (!loading && isReady) {
@@ -71,9 +81,8 @@ export default function SearchStrain() {
   return (
     <div className="bg-gray-50">
       {/* Results list x Landing Page */}
-
       {/* Filter list */}
-      {strains.length > 0 ? (
+      {strains.length && !loading ? (
         <>
           <StrainFilterSlideOver handleFilter={handleFilter} />
 
@@ -88,7 +97,7 @@ export default function SearchStrain() {
         </>
       ) : (
         <>
-          <StrainLanding />
+          <StrainLanding categoryFilter={categoryFilter} />
         </>
       )}
     </div>

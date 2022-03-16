@@ -1,12 +1,12 @@
+import { Post, PostResults } from '@/interfaces/post';
+import { StringParam, useQueryParam, withDefault } from 'next-query-params';
 import { useEffect, useState } from 'react';
 
 import BlogArticleCardSlide from '@/components/blog/BlogArticleCardSlide';
 import BlogArticleSmall from '@/components/blog/BlogArticleCardSmall';
 import NewsFilterSlideOver from '../slideOver/filters/NewsFilterSlideOver';
-import { Post } from '@/interfaces/post';
 import SvgEmptyState from '@/public/assets/icons/iconComponents/EmptyState';
 import { combinedSearchQuery } from '@/actions/search';
-import { useQueryParam, StringParam, withDefault } from 'next-query-params';
 
 export default function SearchNews() {
   const [query] = useQueryParam('qs', withDefault(StringParam, ''));
@@ -18,22 +18,24 @@ export default function SearchNews() {
   });
 
   useEffect(() => {
-    if (update || query) {
-      getBlogs();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [update, query]);
+    getBlogs();
+  }, [query, filters]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   async function getBlogs() {
-    const hits: any = await combinedSearchQuery({
-      q: query,
-      filters: filters,
-      endpoints: ['blogs'],
-      total: 10,
-    });
-    setBlogs(hits);
-    setUpdate(false);
+    dispatchSearch(
+      searchMulti({
+        q: query,
+        filters: filters,
+        endpoints: [
+          {
+            name: 'blogs',
+            geolocate: true,
+          },
+        ],
+        total: 10,
+      })
+    );
   }
 
   function handleFilter(data: any) {
@@ -41,6 +43,23 @@ export default function SearchNews() {
     setUpdate(true);
   }
 
+  function handleLoadMore() {
+    dispatchSearch(
+      searchMulti({
+        q: query,
+        filters: filters,
+
+        endpoints: [
+          {
+            name: 'blogs',
+            from: blogs.length,
+            concat: true,
+          },
+        ],
+        total: 10,
+      })
+    );
+  }
   return (
     <div>
       {blogs && (
@@ -69,9 +88,14 @@ export default function SearchNews() {
                     </span>
                   ))}
                 </div>
-                {/* <button className="py-4 w-full uppercase text-gray-700 text-xs font-bold border-t border-gray-200 tracking-widest">
-                  See more
-                </button> */}
+                <div className="flex justify-center py-10">
+                  <button
+                    onClick={handleLoadMore}
+                    className="bg-green-500 text-white hover:bg-green-600 flex justify-center py-2 px-20 mt-5 border border-green rounded-md shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green"
+                  >
+                    Load More
+                  </button>
+                </div>
               </div>
             </>
           ) : (

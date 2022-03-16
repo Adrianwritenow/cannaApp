@@ -2,6 +2,7 @@ import { AxiosRequestConfig } from 'axios';
 
 export interface IAxiosBatchRequest {
   key: string;
+  concat?: boolean;
 }
 
 export interface IAxiosAction {

@@ -1,5 +1,6 @@
 import { Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
+
 import { AdjustmentsIcon } from '@heroicons/react/solid';
 import CouponSlideOver from '../CouponsSlideOver';
 import DropdownFilter from '../../../components/forms/fields/DropdownFilter';
@@ -9,16 +10,17 @@ import { useRouter } from 'next/router';
 
 export default function ProductFilterSlideOver(props: {
   setFilters: Function;
+  filters: { category: string[]; sort: string[] };
 }) {
-  const { setFilters } = props;
+  const { setFilters, filters: filterProps } = props;
   const router = useRouter();
   const { type, category, sortQuery } = router.query;
-  const [sort, setSort] = useState('Relevance');
+  const [sort, setSort] = useState(filterProps.sort);
   const [open, setOpen] = useState(false);
   const [savedValues, setSavedValues]: any = useState({
-    category: category || '',
+    category: '',
     filters: {},
-    sort: sortQuery || sort,
+    sort: '',
   });
 
   const [filterList, setFilterList]: any = useState([]);
@@ -30,40 +32,48 @@ export default function ProductFilterSlideOver(props: {
   };
 
   useEffect(() => {
-    if (category || sortQuery) {
-      updateFilter({
-        ...savedValues,
-        category: category,
-        sort: sortQuery,
-      });
-    }
-  }, [category, sortQuery, router]);
+    updateFilter({
+      ...savedValues,
+      category: filterProps.category[0],
+      sort: filterProps.sort[0],
+    });
+  }, []);
+
+  useEffect(() => {
+    console.log('BANG', filterList);
+  }, [filterProps.category, filterProps.sort, savedValues]);
 
   function updateFilter(values: any) {
-    // // Force values to array in order to check if they exist in case of multiple values
+    console.log('update');
+    // Force values to array in order to check if they exist in case of multiple values
     const filters: any = {
       sort: [values.sort ? values.sort : ''],
       category: [values.category ? values.category : ''],
     };
 
-    const filter_data: string[] = Object.keys(filters).reduce(function (
-      res,
-      key
-    ) {
-      return res.concat(filters[key]).flat(1);
-    },
-    []);
-    // Remove initial empty values
-    const filterArray = filter_data.filter(function (entry: string) {
-      return entry.trim() != '';
-    });
-    setFilterList(filterArray);
-    setSavedValues(() => ({
-      ...values,
+    setFilters({
       filters,
-    }));
-    // Update Filters
-    setFilters(filters);
+    });
+
+    // const filter_data: string[] = Object.keys(filters).reduce(function (
+    //   res,
+    //   key
+    // ) {
+    //   return res.concat(filters[key]).flat(1);
+    // },
+    // []);
+    // // Remove initial empty values
+    // const filterArray = filter_data.filter(function (entry: string) {
+    //   return entry.trim() != '';
+    // });
+    // setFilterList(filterArray);
+
+    // setSavedValues(() => ({
+    //   ...values,
+    //   filters,
+    // }));
+    // // Update Filters
+    // setFilters(filters);
   }
 
   // Remove filters from list to be rendered and update the form state values

@@ -1,13 +1,13 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { StringParam, useQueryParam, withDefault } from 'next-query-params';
 
 import { Dispensary } from '@/interfaces/dispensary';
 import DispensaryFilterSlideOver from '@/views/slideOver/filters/DispensaryFilterSlideOver';
 import ListingSection from '@/components/sections/ListingSection';
 import SvgEmptyState from '@/public/assets/icons/iconComponents/EmptyState';
-import { combinedSearchQuery } from '@/actions/search';
+import { searchMulti } from '@/actions/search';
 import { useRouter } from 'next/router';
 import { useSearchLocation } from '@/hooks/useSearchLocation';
-import { useQueryParam, StringParam, withDefault } from 'next-query-params';
 
 export default function SearchDispensary() {
   const [query] = useQueryParam('qs', withDefault(StringParam, ''));
@@ -15,8 +15,9 @@ export default function SearchDispensary() {
   const router = useRouter();
   const { isReady } = router;
   const { category } = router.query;
-  const { label, coords } = useSearchLocation();
-  const firstRender = useRef(true);
+  const { coords, label } = useSearchLocation();
+  const [dispatchSearch, { loading }] = useAxios(false);
+  // const firstRender = useRef(true);
 
   const [filters, setFilters] = useState<any>({
     productType: [`${category ? category : ''}`],
@@ -24,6 +25,9 @@ export default function SearchDispensary() {
     amenities: [],
     distance: '',
   });
+
+  const range = filters.distance ? filters.distance[0] : '5mi';
+  const { distance, ...filterData } = filters;
 
   useEffect(() => {
     // Without this the request always runs twice on the initial render since
@@ -41,22 +45,49 @@ export default function SearchDispensary() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query, isReady, filters, coords]);
 
-  async function getDispensaries() {
-    const range = filters.distance ? filters.distance[0] : '5mi';
-    const { distance, ...filterData } = filters;
-    const hits: any = await combinedSearchQuery({
-      q: query ?? '*',
-      filters: filterData,
-      distance: range,
-      coords: coords,
-      endpoints: ['dispenaries'],
-      total: 10,
-    });
-    setDispensaries(hits);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  function getDispensaries() {
+    dispatchSearch(
+      searchMulti({
+        q: query,
+        filters: filterData,
+        distance: range,
+        coords: coords,
+        endpoints: [
+          {
+            name: 'dispenaries',
+            key: 'dispensaries',
+            geolocate: true,
+          },
+        ],
+        total: 10,
+      })
+    );
   }
 
   function handleFilter(data: any) {
     setFilters(data);
+  }
+
+  function handleLoadMore() {
+    dispatchSearch(
+      searchMulti({
+        q: query,
+        filters: filterData,
+        distance: range,
+        coords: coords,
+        endpoints: [
+          {
+            name: 'dispenaries',
+            key: 'dispensaries',
+            from: dispensaries.length,
+            geolocate: true,
+            concat: true,
+          },
+        ],
+        total: 10,
+      })
+    );
   }
 
   return (
@@ -69,7 +100,20 @@ export default function SearchDispensary() {
               listings={dispensaries}
               query={query}
               userCoords={coords}
+              heading={` ${
+                query
+                  ? `${total} results for "${query}"`
+                  : `${total} results near "${label ?? 'you'}"`
+              }`}
             />
+            <div className="flex justify-center py-10">
+              <button
+                onClick={handleLoadMore}
+                className="bg-green-500 text-white hover:bg-green-600 flex justify-center py-2 px-20 mt-5 border border-green rounded-md shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green"
+              >
+                Load More
+              </button>
+            </div>
           </div>
         ) : (
           <div className="w-full flex items-center  flex-wrap justify-center h-full space-y-4 py-14">

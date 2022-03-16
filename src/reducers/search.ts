@@ -63,8 +63,21 @@ const search = (state: any = defaultState, action: any) => {
 
         allResultsResponse.forEach((result: SearchHits, index: number) => {
           const results = result.hits?.hits || [];
+          const total = result.hits.total.value;
+          const concat = action.batchOrder[index].concat;
           const resultSetName = action.batchOrder[index].key;
-          currentListResults[resultSetName] = results;
+          if (concat) {
+            currentListResults[resultSetName] = {
+              results:
+                currentListResults[resultSetName].results.concat(results),
+              total: total,
+            };
+          } else {
+            currentListResults[resultSetName] = {
+              results: results,
+              total: total,
+            };
+          }
         });
 
         return {

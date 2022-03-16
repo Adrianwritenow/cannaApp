@@ -7,25 +7,29 @@ import {
 import { Dialog, Transition } from '@headlessui/react';
 import { Field, Form, Formik } from 'formik';
 import React, { Fragment, useRef, useState } from 'react';
+import { StringParam, useQueryParam, withDefault } from 'next-query-params';
 import { receiveResults, searchMulti } from '@/actions/search';
 import { useDispatch, useSelector } from 'react-redux';
+
+import { DispensaryResults } from '@/interfaces/dispensary';
+import { Feature } from '@/interfaces/feature';
 import Image from 'next/image';
 import LogoText from '@/public/assets/logos/logo-text.png';
+import { ProductResults } from '@/interfaces/product';
 import { RootState } from '@/reducers';
 import { SearchBar } from './SearchBar';
 import SearchDealCard from '@/components/search/SearchDealCard';
 import SearchDispensaryCard from '@/components/search/SearchDispensaryCard';
+import SearchLocationCard from '@/components/search/SearchLocationCard';
 import SearchProductCard from '@/components/search/SearchProductCard';
 import SearchStrainCard from '@/components/search/SearchStrainCard';
+import { StrainResults } from '@/interfaces/strain';
 import Target from '@/public/assets/icons/iconComponents/Target';
-import { useAxios } from '@/hooks/useAxios';
-import { useRouter } from 'next/router';
-import { Feature } from '@/interfaces/feature';
-import SearchLocationCard from '@/components/search/SearchLocationCard';
-import { useQueryParam, StringParam, withDefault } from 'next-query-params';
-import { useSearchFilters } from '@/hooks/useSearchFilters';
-import { useGeocoder } from '@/hooks/useGeocoder';
 import { imageLoader } from '@/helpers/localImageLoader';
+import { useAxios } from '@/hooks/useAxios';
+import { useGeocoder } from '@/hooks/useGeocoder';
+import { useRouter } from 'next/router';
+import { useSearchFilters } from '@/hooks/useSearchFilters';
 
 export default function SearchSlideOver(props: {
   searchRoute?: string;
@@ -53,6 +57,11 @@ export default function SearchSlideOver(props: {
     handleDispatchLocation,
     locationOptions,
   } = useGeocoder(geocoderRef, open);
+  const { results: products }: ProductResults = listResults.products || [];
+  const { results: dispensaries }: DispensaryResults =
+    listResults.dispensaries || [];
+  const { results: strains }: StrainResults = listResults.strains || [];
+  const [searchResults, setSearchResults] = useState([]);
 
   const initialValues = {
     search: query,
@@ -99,10 +108,15 @@ export default function SearchSlideOver(props: {
       searchMulti({
         q,
         coords,
+        distance: '50mi',
         endpoints: [
           { name: 'products' },
           { name: 'coupons', key: 'deals', geolocate: true },
-          { name: 'dispenaries', key: 'dispensaries', geolocate: true },
+          {
+            name: 'dispenaries',
+            key: 'dispensaries',
+            geolocate: true,
+          },
           { name: 'strains' },
           { name: 'blogs' },
         ],
@@ -330,8 +344,8 @@ export default function SearchSlideOver(props: {
                                         </div>
                                       </div>
                                     </Form>
-
-                                    {results.length && focus !== 'location' ? (
+                                    {searchResults.length &&
+                                    focus !== 'location' ? (
                                       <ul className="px-4 desktop:max-w-2xl">
                                         <li>
                                           <button
@@ -351,61 +365,81 @@ export default function SearchSlideOver(props: {
                                           </button>
                                         </li>
 
-                                        {query && (
-                                          <>
-                                            {results.map(
-                                              (result: any, index: number) => {
-                                                switch (true) {
-                                                  case result._id.includes(
-                                                    'strain_entity'
-                                                  ):
-                                                    return (
-                                                      <li
-                                                        key={`result-${index}`}
-                                                        onClick={() => {
-                                                          setOpen(false);
-                                                        }}
-                                                      >
-                                                        <SearchStrainCard
-                                                          data={result}
-                                                        />
-                                                      </li>
-                                                    );
-                                                  case result._id.includes(
-                                                    'dispensary_entity'
-                                                  ):
-                                                    return (
-                                                      <li
-                                                        key={`result-${index}`}
-                                                        onClick={() => {
-                                                          setOpen(false);
-                                                        }}
-                                                      >
-                                                        <SearchDispensaryCard
-                                                          data={result}
-                                                        />
-                                                      </li>
-                                                    );
-                                                  case result._id.includes(
-                                                    'coupon'
-                                                  ):
-                                                    return (
-                                                      <li
-                                                        key={`result-${index}`}
-                                                        onClick={() => {
-                                                          setOpen(false);
-                                                        }}
-                                                      >
-                                                        <SearchDealCard
-                                                          data={result}
-                                                        />
-                                                      </li>
-                                                    );
+                                        {query &&
+                                          searchResults &&
+                                          searchResults.length && (
+                                            <>
+                                              {searchResults?.map(
+                                                (
+                                                  result: any,
+                                                  index: number
+                                                ) => {
+                                                  switch (true) {
+                                                    case result._id.includes(
+                                                      'strain_entity'
+                                                    ):
+                                                      return (
+                                                        <li
+                                                          key={`result-${index}`}
+                                                          onClick={() => {
+                                                            setOpen(false);
+                                                          }}
+                                                        >
+                                                          <SearchStrainCard
+                                                            data={result}
+                                                          />
+                                                        </li>
+                                                      );
+                                                    case result._id.includes(
+                                                      'dispensary_entity'
+                                                    ):
+                                                      return (
+                                                        <li
+                                                          key={`result-${index}`}
+                                                          onClick={() => {
+                                                            setOpen(false);
+                                                          }}
+                                                        >
+                                                          <SearchDispensaryCard
+                                                            data={result}
+                                                          />
+                                                        </li>
+                                                      );
+                                                    case result._id.includes(
+                                                      'product_entity'
+                                                    ):
+                                                      return (
+                                                        <li
+                                                          key={`result-${index}`}
+                                                          onClick={() => {
+                                                            setOpen(false);
+                                                          }}
+                                                        >
+                                                          <SearchProductCard
+                                                            data={result}
+                                                          />
+                                                        </li>
+                                                      );
+                                                    case result._id.includes(
+                                                      'coupon'
+                                                    ):
+                                                      return (
+                                                        <li
+                                                          key={`result-${index}`}
+                                                          onClick={() => {
+                                                            setOpen(false);
+                                                          }}
+                                                        >
+                                                          <SearchDealCard
+                                                            data={result}
+                                                          />
+                                                        </li>
+                                                      );
+                                                  }
                                                 }
-                                              }
-                                            )}
-                                          </>
-                                        )}
+                                              )}
+                                            </>
+                                          )}
                                       </ul>
                                     ) : (
                                       ''

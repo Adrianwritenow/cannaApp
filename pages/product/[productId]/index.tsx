@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { searchMulti } from '@/actions/search';
 
 import AboutSlideOver from '@/components/products/AboutSlideOver';
 import FaqSlideOver from '@/views/slideOver/FaqSlideOver';
@@ -8,13 +7,14 @@ import ImageWithFallback from '@/components/image/ImageWithFallback';
 import { Product } from '@/interfaces/product';
 import ProductResultsSection from '@/components/sections/ProductsResultsSection';
 import ProductReviewsSlideOver from '@/views/slideOver/product/ProductReviewSlideOver';
+import { RootState } from '@/reducers';
 import StarRating from '@/components/rating/StarRating';
 import { formatImageWithFallback } from '@/helpers/formatters';
-import { useRouter } from 'next/router';
 import { reviews } from '@/helpers/mockData';
+import { searchMulti } from '@/actions/search';
 import { useAxios } from '@/hooks/useAxios';
+import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
-import { RootState } from '@/reducers';
 
 export default function ProductDetail() {
   const router = useRouter();

@@ -1,7 +1,7 @@
 import { AxiosError, AxiosResponse } from 'axios';
+import { IAxiosAction, IAxiosBatchRequest } from '@/interfaces/axios';
 
 import { Dispensary } from '@/interfaces/dispensary';
-import { IAxiosAction, IAxiosBatchRequest } from '@/interfaces/axios';
 import { Product } from '@/interfaces/product';
 import { SearchHits } from '@/interfaces/searchHits';
 import bodybuilder from 'bodybuilder';
@@ -342,6 +342,8 @@ interface EndpointProps {
   filters?: any;
   total?: number;
   skipOnEmpty?: boolean;
+  from?: number;
+  concat?: boolean;
 }
 
 // @todo: Use extended EndpointProps.
@@ -353,9 +355,11 @@ export function searchMulti(searchProps: {
   filters?: any;
   total?: number;
   skipOnEmpty?: boolean;
+  from?: number;
   endpoints?: EndpointProps[];
 }): IAxiosAction {
-  const { q, body, coords, distance, filters, total, endpoints } = searchProps;
+  const { q, body, coords, distance, filters, total, endpoints, from } =
+    searchProps;
   const batchOrder: IAxiosBatchRequest[] = [];
   const skipOnEmpty = searchProps.skipOnEmpty || false;
 
@@ -373,15 +377,18 @@ export function searchMulti(searchProps: {
     if (endpointSkipOnEmpty && !endpointQuery) {
       return;
     }
+    let key = api.key || api.name;
+    let concat = api.concat || false;
+    batchOrder.push({ key, concat });
 
     const index = `elasticsearch_index_${SEARCH_INDEX_PREFIX}_${api.name}`;
     const endpointFilters = api.filters || filters;
     const endpointDistance = api.distance || distance;
     const endpointTotal = api.total || total;
     const customBody = api.body || body;
-    let key = api.key || api.name;
     batchOrder.push({ key });
 
+    const endpointFrom = api.from || from;
     const endpointBody =
       customBody ||
       combinedQueryBody({
@@ -390,6 +397,7 @@ export function searchMulti(searchProps: {
         total: endpointTotal,
         filters: endpointFilters,
         coords: !api.geolocate ? undefined : coords,
+        from: endpointFrom,
       });
 
     data += JSON.stringify({ index }) + '\n';

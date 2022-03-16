@@ -1,17 +1,15 @@
-import { searchMulti } from '@/actions/search';
-import { useSelector } from 'react-redux';
+import { StringParam, useQueryParam, withDefault } from 'next-query-params';
 import { useEffect, useState } from 'react';
 
 import ExploreProducts from './explore/ExploreProducts';
-import { Product } from '@/interfaces/product';
 import ProductFilterSlideOver from '../slideOver/filters/ProductFilterSlideOver';
 import ProductResultsGrid from '@/components/products/ProductResultsGrid';
-import ProductResultsSection from '@/components/sections/ProductsResultsSection';
 import { RootState } from '@/reducers';
-import { useRouter } from 'next/router';
+import { searchMulti } from '@/actions/search';
 import { useAxios } from '@/hooks/useAxios';
+import { useRouter } from 'next/router';
 import { useSearchLocation } from '@/hooks/useSearchLocation';
-import { useQueryParam, StringParam, withDefault } from 'next-query-params';
+import { useSelector } from 'react-redux';
 
 export default function SearchShopping() {
   const router = useRouter();
@@ -22,12 +20,11 @@ export default function SearchShopping() {
   const { label: locationLabel } = useSearchLocation();
   const { listResults } = useSelector((root: RootState) => root.search);
   const products: Product[] = listResults.products || [];
-  const sponsored: Product[] = listResults.productsSponsored || [];
-  const queryLabel = query ? query : locationLabel;
+  const sponsLabel = query ? query : locationLabel;
 
   const [filters, setFilters] = useState<any>({
     category: [`${category ? category : ''}`],
-    sort: [`${sortQuery ? sortQuery : ''}`],
+    sort: [`${sortQuery ? sortQuery : 'Relevance'}`],
   });
 
   function getResults() {
@@ -65,31 +62,29 @@ export default function SearchShopping() {
   return (
     <section className="bg-gray/-50">
       <div>
-        <ProductFilterSlideOver setFilters={handleFilter} />
-        {products.length > 0 && (
+        <ProductFilterSlideOver setFilters={handleFilter} filters={filters} />
+
+        {products?.length && !loading ? (
           <div>
             <div className="max-w-7xl mx-auto">
-              {sponsored && sponsored.length > 0 && (
-                <>
-                  <ProductResultsSection
-                    list={sponsored}
-                    sponsored={true}
-                    label={`Shop ${queryLabel}`}
-                    hideButton={true}
-                  />
-                </>
-              )}
               <div className="px-4">
                 <ProductResultsGrid
-                  label={`${products.length} Results for "${queryLabel}"`}
+                  label={`${total} Results for "${query}"`}
                   list={products}
                 />
+                <div className="flex justify-center py-10">
+                  <button
+                    onClick={handleLoadMore}
+                    className="bg-green-500 text-white hover:bg-green-600 flex justify-center py-2 px-20 mt-5 border border-green rounded-md shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green"
+                  >
+                    Load More
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        )}
-        {!loading && !products.length && (
-          <ExploreProducts categoryFilter={categoryFilter} />
+        ) : (
+          <ExploreProducts handleFilter={handleFilter} />
         )}
       </div>
     </section>

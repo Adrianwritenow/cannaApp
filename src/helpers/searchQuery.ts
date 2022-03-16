@@ -7,10 +7,14 @@ export const combinedQueryBody = (searchProps: {
   distance?: string;
   filters?: any;
   total?: number;
+  from?: number;
 }): object => {
-  const { q, coords, distance, filters, total } = searchProps;
+  const { q, coords, distance, filters, total, from } = searchProps;
   const body = bodybuilder().size(total ?? 15);
 
+  if (from) {
+    body.from(from);
+  }
   if (q) {
     body.query('query_string', 'query', q);
   } else if (q == '' || q == '*') {

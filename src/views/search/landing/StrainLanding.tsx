@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { searchMulti } from '@/actions/search';
+import { Strain, StrainResults } from '@/interfaces/strain';
 
 import { ArrowRightIcon } from '@heroicons/react/solid';
 import { Feeling } from '@/interfaces/feeling';
@@ -8,30 +8,28 @@ import { Flavor } from '@/interfaces/flavor';
 import { Flavors } from '@/helpers/flavors';
 import Image from 'next/image';
 import ImageWithFallback from '@/components/image/ImageWithFallback';
-import { Strain } from '@/interfaces/strain';
+import { RootState } from '@/reducers';
 import StrainCard from '@/components/strains/StrainCard';
 import StrainCardSmall from '@/components/strains/StrainCardSmall';
 import SvgHybrid from '@/public/assets/icons/iconComponents/Hybrid';
 import SvgIndica from '@/public/assets/icons/iconComponents/Indica';
 import SvgSativa from '@/public/assets/icons/iconComponents/Sativa';
-import { useSelector } from 'react-redux';
+import { searchMulti } from '@/actions/search';
 import { useAxios } from '@/hooks/useAxios';
-import { RootState } from '@/reducers';
+import { useSelector } from 'react-redux';
 
-export default function StrainLanding() {
+export default function StrainLanding(props: { categoryFilter: Function }) {
   const [clamp, setClamp] = useState(true);
+  const { categoryFilter } = props;
   const [dispatchSearch, { loading }] = useAxios(false);
   const { listResults } = useSelector((root: RootState) => root.search);
-  const popular: Strain[] = listResults.strainsPopular || [];
-  const featuredStrains: Strain[] = listResults.strainsFeatured || [];
-  const featured: Strain | undefined = featuredStrains.length
-    ? featuredStrains[0]
-    : undefined;
+  const { results: popular }: StrainResults = listResults.strainsPopular || [];
+  const { results: featuredStrains }: StrainResults =
+    listResults.strainsFeatured;
 
   function getResults() {
     dispatchSearch(
       searchMulti({
-        q: '',
         endpoints: [
           {
             name: 'strains',
@@ -67,7 +65,6 @@ export default function StrainLanding() {
         endpoints: [
           {
             name: 'strains',
-            key: 'strainsSearch',
             filters: {
               [field]: [value],
             },
@@ -77,17 +74,10 @@ export default function StrainLanding() {
       })
     );
   }
-
-  useEffect(() => {
-    getResults();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   return (
     <div className="max-w-7xl bg-gray-50 pb-5 mx-auto">
       {/* Strain */}
-
-      {featured && popular && (
+      {featuredStrains && featuredStrains.length && popular && popular.length && (
         <>
           <section className="px-4" aria-labelledby="featured-strain-heading">
             <h1 id="featured-strain-heading" className="sr-only">
@@ -101,7 +91,7 @@ export default function StrainLanding() {
               <div className="w-full h-48 relative rounded-lg overflow-hidden">
                 <ImageWithFallback
                   src={'#'}
-                  alt={featured._source.name}
+                  alt={featuredStrains[0]._source.name}
                   layout="fill"
                   objectFit={'cover'}
                 />
@@ -110,10 +100,10 @@ export default function StrainLanding() {
               {/* Strain info */}
               <div className="pt-4 desktop:pt-0 desktop:pl-4">
                 <h1 className="text-xl font-normal text-gray-700">
-                  {featured._source.name}
+                  {featuredStrains[0]._source.name}
                 </h1>
                 <span className="text-gray-500 text-sm font-normal">
-                  {featured._source.type[0]}
+                  {featuredStrains[0]._source.type[0]}
                 </span>
 
                 <div className="mt-4">
@@ -123,7 +113,7 @@ export default function StrainLanding() {
                       clamp ? 'line-clamp-4' : ''
                     }`}
                     dangerouslySetInnerHTML={{
-                      __html: featured._source.description[0],
+                      __html: featuredStrains[0]._source.description[0],
                     }}
                   />
                 </div>

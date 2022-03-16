@@ -58,7 +58,7 @@ export default function SearchType() {
     <div className={bgClass}>
       <div className={wrapperClass}>
         {showMenu && <SearchMenu />}
-        {component}
+        <div className="bg-gray-50">{component}</div>
       </div>
     </div>
   );

@@ -151,8 +151,7 @@ export default function Home() {
                     <span></span>
                     <Link
                       href={{
-                        pathname: '/search',
-                        query: { view: 'dispensaries' },
+                        pathname: '/search/dispensaries',
                       }}
                       passHref
                     >
@@ -163,8 +162,8 @@ export default function Home() {
                     </Link>
                     <Link
                       href={{
-                        pathname: '/search',
-                        query: { category: 'Edible', view: 'shopping' },
+                        pathname: '/search/shopping',
+                        query: { category: 'Edible' },
                       }}
                       passHref
                     >
@@ -175,8 +174,7 @@ export default function Home() {
                     </Link>
                     <Link
                       href={{
-                        pathname: '/search',
-                        query: { view: 'deals' },
+                        pathname: '/search/deals',
                       }}
                       passHref
                     >
@@ -187,8 +185,8 @@ export default function Home() {
                     </Link>
                     <Link
                       href={{
-                        pathname: '/search',
-                        query: { category: 'Budder', view: 'shopping' },
+                        pathname: '/search/shopping',
+                        query: { category: 'Budder' },
                       }}
                       passHref
                     >
@@ -199,8 +197,8 @@ export default function Home() {
                     </Link>
                     <Link
                       href={{
-                        pathname: '/search',
-                        query: { category: 'Fragrances', view: 'shopping' },
+                        pathname: '/search/shopping',
+                        query: { category: 'Fragrances' },
                       }}
                       passHref
                     >
@@ -211,8 +209,8 @@ export default function Home() {
                     </Link>
                     <Link
                       href={{
-                        pathname: '/search',
-                        query: { category: 'Flower', view: 'shopping' },
+                        pathname: '/search/shopping',
+                        query: { category: 'Flower' },
                       }}
                       passHref
                     >

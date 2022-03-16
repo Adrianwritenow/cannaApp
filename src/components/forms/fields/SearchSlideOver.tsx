@@ -25,6 +25,7 @@ import SearchLocationCard from '@/components/search/SearchLocationCard';
 import { useQueryParam, StringParam, withDefault } from 'next-query-params';
 import { useSearchFilters } from '@/hooks/useSearchFilters';
 import { useGeocoder } from '@/hooks/useGeocoder';
+import { imageLoader } from '@/helpers/localImageLoader';
 
 export default function SearchSlideOver(props: {
   searchRoute?: string;
@@ -235,6 +236,7 @@ export default function SearchSlideOver(props: {
                                         <div className="space-x-2 pt-4 flex justify-center items-center pb-4">
                                           <div className="h-6 w-25 relative">
                                             <Image
+                                              loader={imageLoader}
                                               src={LogoText}
                                               alt="Image logo"
                                               layout="intrinsic"

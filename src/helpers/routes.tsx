@@ -29,10 +29,10 @@ export const FooterRoutes = {
   //   { label: 'Contact Sales', href: '#' },
   // ],
   listings: [
-    { label: 'Deals', href: '/search?view=deals' },
-    { label: 'Businesses', href: '/search?view=dispensaries' },
-    { label: 'Strains', href: '/search?view=strains' },
-    { label: 'Products', href: '/search?view=shopping' },
+    { label: 'Deals', href: '/search/deals' },
+    { label: 'Businesses', href: '/search/dispensaries' },
+    { label: 'Strains', href: '/search/strains' },
+    { label: 'Products', href: '/search/shopping' },
   ],
   community: [
     { label: 'Blog', href: '/blog' },

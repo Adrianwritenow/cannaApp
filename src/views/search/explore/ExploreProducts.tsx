@@ -10,6 +10,7 @@ import { categories } from '@/helpers/categories';
 import { useAxios } from '@/hooks/useAxios';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/reducers';
+import { imageLoader } from '@/helpers/localImageLoader';
 
 export default function ExploreProducts(props: { categoryFilter: Function }) {
   const { categoryFilter } = props;
@@ -183,10 +184,9 @@ export default function ExploreProducts(props: { categoryFilter: Function }) {
                 <div className="w-full h-48 rounded-md overflow-hidden">
                   <Link
                     href={{
-                      pathname: '/search',
+                      pathname: '/search/shopping',
                       query: {
                         category: category.label,
-                        view: 'shopping',
                         sortQuery: 'Rating',
                       },
                     }}
@@ -195,6 +195,7 @@ export default function ExploreProducts(props: { categoryFilter: Function }) {
                     <a>
                       <button>
                         <Image
+                          loader={imageLoader}
                           src={category.imgSrc}
                           alt={category.label}
                           layout="fill"
@@ -226,8 +227,8 @@ export default function ExploreProducts(props: { categoryFilter: Function }) {
         <div className="px-4 pt-2 desktop:hidden">
           <Link
             href={{
-              pathname: '/search?category=Flower&view=shopping',
-              query: { view: 'deals', category: 'Flower' },
+              pathname: '/search/shopping',
+              query: { category: 'Flower' },
             }}
             passHref
           >
@@ -241,8 +242,8 @@ export default function ExploreProducts(props: { categoryFilter: Function }) {
         <div className="px-4 pt-2 hidden desktop:block w-full flex">
           <Link
             href={{
-              pathname: '/search',
-              query: { view: 'deals', category: 'Flower' },
+              pathname: '/search/shopping',
+              query: { category: 'Flower' },
             }}
             passHref
           >
@@ -266,8 +267,8 @@ export default function ExploreProducts(props: { categoryFilter: Function }) {
         <div className="px-4 pt-2 desktop:hidden">
           <Link
             href={{
-              pathname: '/search?category=Flower&view=shopping',
-              query: { view: 'deals', category: 'Flower' },
+              pathname: '/search/shopping',
+              query: { category: 'Flower' },
             }}
             passHref
           >
@@ -281,8 +282,8 @@ export default function ExploreProducts(props: { categoryFilter: Function }) {
         <div className="px-4 pt-2 hidden desktop:block w-full flex">
           <Link
             href={{
-              pathname: '/search',
-              query: { view: 'deals', category: 'Flower' },
+              pathname: '/search/shopping',
+              query: { category: 'Flower' },
             }}
             passHref
           >
@@ -306,8 +307,8 @@ export default function ExploreProducts(props: { categoryFilter: Function }) {
         <div className="px-4 pt-2 desktop:hidden">
           <Link
             href={{
-              pathname: '/search?category=Flower&view=shopping',
-              query: { view: 'deals', category: 'Flower' },
+              pathname: '/search/shopping',
+              query: { category: 'Flower' },
             }}
             passHref
           >
@@ -321,8 +322,8 @@ export default function ExploreProducts(props: { categoryFilter: Function }) {
         <div className="px-4 pt-2 hidden desktop:block w-full flex">
           <Link
             href={{
-              pathname: '/search',
-              query: { view: 'deals', category: 'Flower' },
+              pathname: '/search/shopping',
+              query: { category: 'Flower' },
             }}
             passHref
           >
@@ -346,8 +347,8 @@ export default function ExploreProducts(props: { categoryFilter: Function }) {
         <div className="px-4 pt-2 desktop:hidden">
           <Link
             href={{
-              pathname: '/search?category=Flower&view=shopping',
-              query: { view: 'deals', category: 'Flower' },
+              pathname: '/search/shopping',
+              query: { category: 'Flower' },
             }}
             passHref
           >
@@ -361,8 +362,8 @@ export default function ExploreProducts(props: { categoryFilter: Function }) {
         <div className="px-4 pt-2 hidden desktop:block w-full flex">
           <Link
             href={{
-              pathname: '/search',
-              query: { view: 'deals', category: 'Flower' },
+              pathname: '/search/shopping',
+              query: { category: 'Flower' },
             }}
             passHref
           >
@@ -385,8 +386,8 @@ export default function ExploreProducts(props: { categoryFilter: Function }) {
         <div className="px-4 pt-2 desktop:hidden">
           <Link
             href={{
-              pathname: '/search?category=Flower&view=shopping',
-              query: { view: 'deals', category: 'Flower' },
+              pathname: '/search/shopping',
+              query: { category: 'Flower' },
             }}
             passHref
           >
@@ -400,8 +401,8 @@ export default function ExploreProducts(props: { categoryFilter: Function }) {
         <div className="px-4 pt-2 hidden desktop:block w-full flex">
           <Link
             href={{
-              pathname: '/search',
-              query: { view: 'deals', category: 'Flower' },
+              pathname: '/search/shopping',
+              query: { category: 'Flower' },
             }}
             passHref
           >
@@ -424,8 +425,8 @@ export default function ExploreProducts(props: { categoryFilter: Function }) {
         <div className="px-4 pt-2 desktop:hidden">
           <Link
             href={{
-              pathname: '/search?category=Flower&view=shopping',
-              query: { view: 'deals', category: 'Flower' },
+              pathname: '/search/shopping',
+              query: { category: 'Flower' },
             }}
             passHref
           >
@@ -439,8 +440,8 @@ export default function ExploreProducts(props: { categoryFilter: Function }) {
         <div className="px-4 pt-2 hidden desktop:block w-full flex">
           <Link
             href={{
-              pathname: '/search',
-              query: { view: 'deals', category: 'Flower' },
+              pathname: '/search/shopping',
+              query: { category: 'Flower' },
             }}
             passHref
           >
@@ -463,8 +464,8 @@ export default function ExploreProducts(props: { categoryFilter: Function }) {
         <div className="px-4 pt-2 desktop:hidden">
           <Link
             href={{
-              pathname: '/search?category=Flower&view=shopping',
-              query: { view: 'deals', category: 'Flower' },
+              pathname: '/search/shopping',
+              query: { category: 'Flower' },
             }}
             passHref
           >
@@ -478,8 +479,8 @@ export default function ExploreProducts(props: { categoryFilter: Function }) {
         <div className="px-4 pt-2 hidden desktop:block w-full flex">
           <Link
             href={{
-              pathname: '/search',
-              query: { view: 'deals', category: 'Flower' },
+              pathname: '/search/shopping',
+              query: { category: 'Flower' },
             }}
             passHref
           >

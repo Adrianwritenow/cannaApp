@@ -29,10 +29,10 @@ export const FooterRoutes = {
   //   { label: 'Contact Sales', href: '#' },
   // ],
   listings: [
-    { label: 'Deals', href: '/search?view=deals' },
-    { label: 'Businesses', href: '/search?view=dispensaries' },
-    { label: 'Strains', href: '/search?view=strains' },
-    { label: 'Products', href: '/search?view=shopping' },
+    { label: 'Deals', href: '/search/deals' },
+    { label: 'Businesses', href: '/search/dispensaries' },
+    { label: 'Strains', href: '/search/strains' },
+    { label: 'Products', href: '/search/shopping' },
   ],
   community: [
     { label: 'Blog', href: '/blog' },
@@ -103,7 +103,7 @@ export const BottomNavRoutes: Route[] = [
   {
     label: 'Explore',
     icon: <SearchIcon className="w-6 h-6 stroke-1" />,
-    href: '/search',
+    href: '/search/all',
     id: 'explore',
   },
   // {

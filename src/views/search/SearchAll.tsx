@@ -6,15 +6,19 @@ import { RootState } from '@/reducers';
 import SvgEmptyState from '@/public/assets/icons/iconComponents/EmptyState';
 import { searchMulti } from '@/actions/search';
 import { useAxios } from '@/hooks/useAxios';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useSearchLocation } from '@/hooks/useSearchLocation';
 import { useSelector } from 'react-redux';
 import { Strain } from '@/interfaces/strain';
 import { Product } from '@/interfaces/product';
 import { Dispensary } from '@/interfaces/dispensary';
+import { useQueryParam, StringParam, withDefault } from 'next-query-params';
+import { useRouter } from 'next/router';
 
-export default function SearchAll(props: { query: string }) {
-  const { query } = props;
+export default function SearchAll() {
+  const router = useRouter();
+  const { isReady } = router;
+  const [query] = useQueryParam('qs', withDefault(StringParam, ''));
   const { coords: userCoords } = useSearchLocation();
   const [dispatchSearch, { loading }] = useAxios(false);
   const { listResults } = useSelector((root: RootState) => root.search);
@@ -27,7 +31,7 @@ export default function SearchAll(props: { query: string }) {
   const hasProducts = products.length >= 3;
 
   useEffect(() => {
-    if (userCoords.lat && userCoords.lon) {
+    if (isReady && userCoords.lat && userCoords.lon) {
       dispatchSearch(
         searchMulti({
           q: query,
@@ -53,7 +57,7 @@ export default function SearchAll(props: { query: string }) {
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userCoords]);
+  }, [userCoords, query, isReady]);
 
   return (
     <div className="bg-gray-50 max-w-7xl mx-auto">

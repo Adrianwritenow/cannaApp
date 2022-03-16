@@ -7,7 +7,12 @@ module.exports = {
   target: 'serverless',
 
   images: {
-    domains: ['images.unsplash.com', 'tailwindui.com', 'unsplash.com'],
+    domains: [
+      'images.unsplash.com',
+      'tailwindui.com',
+      'unsplash.com',
+      'api-dev.cannapages.com',
+    ],
     loader: 'akamai',
     path: '',
   },

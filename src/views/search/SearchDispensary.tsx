@@ -7,11 +7,13 @@ import SvgEmptyState from '@/public/assets/icons/iconComponents/EmptyState';
 import { combinedSearchQuery } from '@/actions/search';
 import { useRouter } from 'next/router';
 import { useSearchLocation } from '@/hooks/useSearchLocation';
+import { useQueryParam, StringParam, withDefault } from 'next-query-params';
 
-export default function SearchDispensary(props: { query: string }) {
-  const { query } = props;
+export default function SearchDispensary() {
+  const [query] = useQueryParam('qs', withDefault(StringParam, ''));
   const [dispensaries, setDispensaries] = useState<Array<Dispensary>>();
   const router = useRouter();
+  const { isReady } = router;
   const { category } = router.query;
   const { label, coords } = useSearchLocation();
   const firstRender = useRef(true);
@@ -33,9 +35,11 @@ export default function SearchDispensary(props: { query: string }) {
       firstRender.current = false;
       return;
     }
-    getDispensaries();
+    if (isReady) {
+      getDispensaries();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [query, filters, coords]);
+  }, [query, isReady, filters, coords]);
 
   async function getDispensaries() {
     const range = filters.distance ? filters.distance[0] : '5mi';

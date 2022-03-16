@@ -6,22 +6,23 @@ import NewsFilterSlideOver from '../slideOver/filters/NewsFilterSlideOver';
 import { Post } from '@/interfaces/post';
 import SvgEmptyState from '@/public/assets/icons/iconComponents/EmptyState';
 import { combinedSearchQuery } from '@/actions/search';
+import { useQueryParam, StringParam, withDefault } from 'next-query-params';
 
-export default function SearchNews(props: { query: string }) {
-  const { query } = props;
+export default function SearchNews() {
+  const [query] = useQueryParam('qs', withDefault(StringParam, ''));
   const [blogs, setBlogs] = useState<Array<Post>>();
   const [update, setUpdate] = useState(true);
-  const [currentQuery, setCurrentQuery] = useState('');
   const [filters, setFilters] = useState<any>({
     description: [],
     sort: [],
   });
 
   useEffect(() => {
-    if (update || currentQuery !== query) {
+    if (update || query) {
       getBlogs();
     }
-  }, [update, query, currentQuery, getBlogs]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [update, query]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   async function getBlogs() {
@@ -33,13 +34,13 @@ export default function SearchNews(props: { query: string }) {
     });
     setBlogs(hits);
     setUpdate(false);
-    setCurrentQuery(query);
   }
 
   function handleFilter(data: any) {
     setFilters(data);
     setUpdate(true);
   }
+
   return (
     <div>
       {blogs && (

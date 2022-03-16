@@ -6,14 +6,11 @@ import {
 } from '@heroicons/react/solid';
 import { Dialog, Transition } from '@headlessui/react';
 import { Field, Form, Formik } from 'formik';
-import React, { Fragment, useEffect, useRef, useState } from 'react';
-import { getLocationByIP, setLocation } from '@/actions/location';
+import React, { Fragment, useRef, useState } from 'react';
 import { receiveResults, searchMulti } from '@/actions/search';
 import { useDispatch, useSelector } from 'react-redux';
 import Image from 'next/image';
-import { LocationData } from '@/interfaces/locationData';
 import LogoText from '@/public/assets/logos/logo-text.png';
-import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import { RootState } from '@/reducers';
 import { SearchBar } from './SearchBar';
 import SearchDealCard from '@/components/search/SearchDealCard';
@@ -21,33 +18,41 @@ import SearchDispensaryCard from '@/components/search/SearchDispensaryCard';
 import SearchProductCard from '@/components/search/SearchProductCard';
 import SearchStrainCard from '@/components/search/SearchStrainCard';
 import Target from '@/public/assets/icons/iconComponents/Target';
-import mapboxgl from 'mapbox-gl';
 import { useAxios } from '@/hooks/useAxios';
 import { useRouter } from 'next/router';
-import { useSearchLocation } from '@/hooks/useSearchLocation';
-import { FeatureCollection } from 'geojson';
 import { Feature } from '@/interfaces/feature';
 import SearchLocationCard from '@/components/search/SearchLocationCard';
+import { useQueryParam, StringParam, withDefault } from 'next-query-params';
+import { useSearchFilters } from '@/hooks/useSearchFilters';
+import { useGeocoder } from '@/hooks/useGeocoder';
+import { imageLoader } from '@/helpers/localImageLoader';
 
 export default function SearchSlideOver(props: {
   searchRoute?: string;
   root?: boolean;
 }) {
   const { root } = props;
+
+  const router = useRouter();
+  const { type: searchType } = router.query;
+
+  const dispatch = useDispatch();
   const [dispatchSearch] = useAxios(false);
   const [open, setOpen] = useState(false);
+  const locationSearch = useSearchFilters();
+  const [query, setQuery] = useQueryParam('qs', withDefault(StringParam, ''));
   const location = useSelector((root: RootState) => root.location);
-  const [geolocationSet, setGeolocationSet] = useState(false);
-  const [geocodeInitialized, setGeocodeInitialized] = useState(false);
-  const initialLocationCleared = useRef(false);
   const [focus, setFocus] = useState('');
-  const dispatch = useDispatch();
-  const router = useRouter();
-  const { listResults, query } = useSelector((root: RootState) => root.search);
-  const { label, coords } = useSearchLocation();
-  const geocoderRef = useRef<any>(null);
+  const { listResults } = useSelector((root: RootState) => root.search);
   const inputRef = useRef<HTMLInputElement>(null);
-  const [locationOptions, setLocationOptions] = useState<Feature[]>();
+  const geocoderRef = useRef<any>(null);
+  const {
+    geolocationSet,
+    handleClearLocation,
+    handleLocationRequest,
+    handleDispatchLocation,
+    locationOptions,
+  } = useGeocoder(geocoderRef, open);
 
   const initialValues = {
     search: query,
@@ -60,132 +65,16 @@ export default function SearchSlideOver(props: {
     results = results.concat(resultsByList);
   });
 
-  mapboxgl.accessToken = process.env.MAPBOX_ACCESS_TOKEN as string;
-  let geocoder = new MapboxGeocoder({
-    accessToken: mapboxgl.accessToken,
-    types: 'place',
-  });
-
   function handleSubmit(search: any) {
-    if (router.pathname !== '/search' && router.pathname !== '/map') {
-      router.push('/search');
+    const pathPrefix = router.pathname.substring(0, 7);
+    if ('/search' !== pathPrefix) {
+      router.push('/search/all' + locationSearch);
     }
     setOpen(false);
   }
 
-  geocoder.on('results', function (results: FeatureCollection) {
-    setLocationOptions(results.features as unknown as Feature[]);
-  });
-
-  useEffect(() => {
-    // Wait for transition to complete so ref exists
-    setTimeout(() => {
-      if (geocoderRef.current !== null && !geocodeInitialized && open) {
-        geocoder.addTo(geocoderRef.current);
-        // Set input and query to label value
-        geocoder.setInput(label);
-        geocoder.query(label);
-
-        setGeocodeInitialized(true);
-        if (geocoderRef.current.children[0].children[1]) {
-          geocoderRef.current.children[0].children[1].placeholder =
-            'Location...';
-          geocoderRef.current.children[0].children[1].value =
-            initialLocationCleared && label ? label : '';
-        }
-      }
-      if (geolocationSet && geocoderRef.current) {
-        // If geolocater is set use your location value
-        geocoderRef.current.children[0].children[1].value = 'Your Location';
-      }
-    }, 200);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    geocoderRef.current,
-    geocodeInitialized,
-    open,
-    geolocationSet,
-    locationOptions,
-  ]);
-
-  // prevent geocoder from rendering multiple times
-  useEffect(() => {
-    setGeocodeInitialized(false);
-  }, [open]);
-
-  useEffect(() => {}, [focus, open, locationOptions]);
-
-  // Get initial location data based on Client IP
-  useEffect(() => {
-    async function getLocation() {
-      const data: LocationData = await getLocationByIP();
-      dispatch(setLocation(data));
-    }
-
-    if (!Object.keys(location).length && !location.fLo) {
-      getLocation();
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  async function handleLocationRequest() {
-    if (!location.preciseLocationSet) {
-      if (!navigator.geolocation) {
-        alert('Geolocation is not supported by your browser');
-      } else {
-        navigator.geolocation.getCurrentPosition(
-          position => {
-            setGeolocationSet(true);
-            router.pathname === '/map' ? router.push('/map') : '';
-            dispatch(
-              setLocation({
-                city: location.city,
-                state: location.state,
-                lat: position.coords.latitude,
-                lon: position.coords.longitude,
-                preciseLocationSet: true,
-              })
-            );
-            dispatch(
-              receiveResults({
-                searchLocation: {
-                  coords: {
-                    lat: position.coords.latitude,
-                    lon: position.coords.longitude,
-                  },
-                  label: location.city,
-                },
-              })
-            );
-            if (geolocationSet && geocoderRef.current) {
-              geocoderRef.current.children[0].children[1].value =
-                'Your Location';
-            }
-          },
-          err => console.log(err)
-        );
-      }
-    } else {
-      dispatch(
-        receiveResults({
-          searchLocation: {
-            coords: {
-              lat: location.lat,
-              lon: location.lon,
-            },
-            label: location.city,
-          },
-        })
-      );
-      router.pathname === '/map' ? router.push('/map') : '';
-    }
-
-    setGeolocationSet(true);
-  }
-
-  // adds short delay to prevent search from firing until the user has stopped typing
+  // Adds short delay to prevent search from firing until the user has stopped
+  // typing.
   let timeout: ReturnType<typeof setTimeout>;
   function handleSearch(e: any) {
     if (timeout) {
@@ -227,6 +116,7 @@ export default function SearchSlideOver(props: {
         ...resultProps,
       })
     );
+    setQuery(q);
   }
 
   function handleFocus() {
@@ -239,57 +129,19 @@ export default function SearchSlideOver(props: {
     }, 500);
   }
 
-  function handleDispatchLocation(location: Feature) {
-    if (geocoderRef.current.children[0].children[1]) {
-      geocoderRef.current.children[0].children[1].placeholder = 'Location...';
-      geocoderRef.current.children[0].children[1].value = location.place_name;
-    }
-    dispatch(
-      receiveResults({
-        searchLocation: {
-          coords: {
-            lon: location.geometry.coordinates[0],
-            lat: location.geometry.coordinates[1],
-          },
-          label: location.place_name,
-        },
-      })
-    );
-    setGeolocationSet(false);
-  }
-
   function handleClearSearchTerm() {
+    setQuery('');
     dispatch(receiveResults({ data: [], search: '' }));
-  }
-
-  function handleClearLocation() {
-    if (geocoderRef.current.children[0].children[1]) {
-      geocoderRef.current.children[0].children[1].placeholder = 'Location...';
-      geocoderRef.current.children[0].children[1].value = '';
-    }
-    initialLocationCleared.current = true;
-    dispatch(
-      receiveResults({
-        searchLocation: {
-          coords: {
-            lat: null,
-            lon: null,
-          },
-          label: null,
-        },
-      })
-    );
-    setGeolocationSet(false);
   }
 
   return (
     <div className="print:hidden">
       <div className="w-full relative pb-4">
         <div className="flex flex-row border-solid border border-gray-400 text-gray-500 rounded-md focus:outline-none focus:ring-0 shadow-sm items-center justify-center">
-          {router.pathname === '/map' ? (
+          {searchType === 'map' ? (
             <button
               onClick={() => {
-                router.back;
+                router.back();
               }}
             >
               <ArrowLeftIcon className="w-5 h-5 ml-3" />
@@ -384,6 +236,7 @@ export default function SearchSlideOver(props: {
                                         <div className="space-x-2 pt-4 flex justify-center items-center pb-4">
                                           <div className="h-6 w-25 relative">
                                             <Image
+                                              loader={imageLoader}
                                               src={LogoText}
                                               alt="Image logo"
                                               layout="intrinsic"
@@ -484,7 +337,9 @@ export default function SearchSlideOver(props: {
                                           <button
                                             key={`generalSearch`}
                                             onClick={() => {
-                                              router.push('/search');
+                                              router.push(
+                                                '/search/all' + locationSearch
+                                              );
                                               setOpen(false);
                                             }}
                                             className="text-gray-700 w-full flex px-4 py-3"
@@ -581,7 +436,7 @@ export default function SearchSlideOver(props: {
                                           (location: Feature, index: any) => {
                                             return (
                                               <li
-                                                key={`lcoation-result-${index}`}
+                                                key={`location-result-${index}`}
                                                 onClick={() => {
                                                   // setOpen(false);
                                                   handleDispatchLocation(

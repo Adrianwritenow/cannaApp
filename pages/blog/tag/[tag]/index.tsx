@@ -47,7 +47,6 @@ export default function BlogByTag() {
             <BlogArticleCardFeatured post={post} key={post._source.title[0]} />
           ))}
         </div>
-        {blogs}
         <>
           {blogs?.length && (
             <>

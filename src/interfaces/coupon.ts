@@ -34,3 +34,8 @@ export interface DealsState {
   deals: Coupon[] | [];
   featuredDeals: Coupon[] | [];
 }
+
+export interface CouponResults {
+  results: Coupon[];
+  total: number;
+}

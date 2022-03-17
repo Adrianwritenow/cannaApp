@@ -5,6 +5,7 @@ import { Coupon } from '@/interfaces/coupon';
 import DealsFilterSlideOver from '@/views/slideOver/filters/DealsFilterSlideOver';
 import { IAxiosReturn } from '@/interfaces/axios';
 import ListingCard from '@/components/listings/ListingCard';
+import SvgEmptyState from '@/public/assets/icons/iconComponents/EmptyState';
 import { dealsNearMe } from '@/helpers/searchQuery';
 import { formatDealCard } from '@/helpers/formatters';
 import { searchMulti } from '@/actions/search';
@@ -112,11 +113,17 @@ export default function SearchDeals() {
         </div>
 
         {!loading && !currentDeals.length && (
-          <div className="flex justify-center py-10">
-            <h3>
-              No deals found in your area. Try broadening your search
-              {!query ? '' : ' or removing your search query'}.
-            </h3>
+          <div className="w-full flex items-center  flex-wrap justify-center h-full space-y-4 py-14">
+            <SvgEmptyState className="w-40 h-40" />
+            <div className="w-full space-y-3">
+              <h2 className="text-lg text-gray-700 font-semibold text-center w-56 ml-auto mr-auto">
+                Sorry, there are no results for this search.
+              </h2>
+              <p className="text-sm text-gray-500 text-center w-56 ml-auto mr-auto">
+                No deals found in your area. Try broadening your search
+                {!query ? '' : ' or removing your search query'}.{' '}
+              </p>
+            </div>
           </div>
         )}
 

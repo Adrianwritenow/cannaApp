@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
+import { Strain, StrainResults } from '@/interfaces/strain';
 
 import ImageWithFallback from '@/components/image/ImageWithFallback';
 import ProductResultsSection from '@/components/sections/ProductsResultsSection';
 import { RootState } from '@/reducers';
 import { SearchHits } from '@/interfaces/searchHits';
 import { StarIcon } from '@heroicons/react/solid';
-import { Strain } from '@/interfaces/strain';
 import { formatImageWithFallback } from '@/helpers/formatters';
-import { getDocument } from '@/actions/search';
+import { searchMulti } from '@/actions/search';
+import { useAxios } from '@/hooks/useAxios';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 
@@ -21,31 +22,27 @@ export default function StrainDetail() {
   const { results, query } = useSelector((root: RootState) => root.search);
   const [searchLists, setSearchLists] = useState([]);
 
-  const [strain, setStrain] = useState<Strain>();
+  const [dispatchSearch, { loading }] = useAxios(false);
+  const { listResults } = useSelector((root: RootState) => root.search);
+  const { results: strains }: StrainResults = listResults.strains || [];
+  const strain: Strain | undefined = strains?.length ? strains[0] : undefined;
 
   useEffect(() => {
-    getDocument(strainId, 'strains').then((document: SearchHits) => {
-      if (document) {
-        const result = document.hits.hits[0];
-        setStrain(result as unknown as Strain);
-      }
-    });
-
-    let searchListUpdate: any = [];
-
-    results.map((result: any, index: number) => {
-      switch (true) {
-        case result._id.includes('product_entity'):
-          searchListUpdate.push(result);
-          break;
-      }
-    });
-    if (currentQuery !== query) {
-      setSearchLists(searchListUpdate);
-    }
-    setCurrentQuery(query);
+    dispatchSearch(
+      searchMulti({
+        endpoints: [
+          {
+            name: 'strains',
+            filters: {
+              id: [strainId],
+            },
+            total: 1,
+          },
+        ],
+      })
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router]);
+  }, [strainId]);
 
   return (
     <div className="bg-gray-50 max-w-7xl mx-auto">

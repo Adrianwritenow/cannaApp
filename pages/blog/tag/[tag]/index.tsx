@@ -1,11 +1,10 @@
-import { Post, PostResults } from '@/interfaces/post';
-import { combinedSearchQuery, searchMulti } from '@/actions/search';
-import { useEffect, useState } from 'react';
-
 import BlogArticleCardFeatured from '@/components/blog/BlogArticleCardFeatured';
 import BlogArticleCardSmall from '@/components/blog/BlogArticleCardSmall';
+import { PostResults } from '@/interfaces/post';
 import { RootState } from '@/reducers';
+import { searchMulti } from '@/actions/search';
 import { useAxios } from '@/hooks/useAxios';
+import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 

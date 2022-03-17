@@ -12,7 +12,7 @@ import { useRouter } from 'next/router';
 import { useSearchLocation } from '@/hooks/useSearchLocation';
 import { useSelector } from 'react-redux';
 
-export default function SearchDispensary(props: { query: string }) {
+export default function SearchDispensary() {
   const [query] = useQueryParam('qs', withDefault(StringParam, ''));
   const { listResults } = useSelector((root: RootState) => root.search);
   const { results: dispensaries, total }: DispensaryResults =

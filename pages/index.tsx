@@ -228,7 +228,7 @@ export default function Home() {
           <div className="absolute inset-y-0 right-0  w-1/2 z-0">
             <Image src={Map} alt="Map" layout="fill" objectFit={'cover'} />
           </div>
-          <Link href="/map" passHref>
+          <Link href="/search/map" passHref>
             <a className="absolute z-10 flex rounded-full bg-gray-50 shadow p-1 right-0 bottom-0 mb-4 mr-4 focus:outline-none">
               <button className="focus:outline-none">
                 <ArrowsExpandIcon className="w-8 h-8 text-gray-700" />
@@ -243,7 +243,7 @@ export default function Home() {
       {/* Search/Map Section Mobile */}
       <section className="desktop:hidden relative pt-16 desktop:max-w-4xl desktop:rounded-md  desktop:mx-auto desktop:shadow-md mx-auto">
         <Image src={Map} alt="Map" layout="fill" objectFit={'cover'} />
-        <Link href="/map" passHref>
+        <Link href="/search/map" passHref>
           <a className="absolute z-10 flex rounded-full bg-gray-50 shadow p-0.5 right-0 top-0 mt-2 mr-4 focus:outline-none">
             <button className="focus:outline-none">
               <ArrowsExpandIcon className="w-5 h-5 text-gray-700" />

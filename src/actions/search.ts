@@ -252,26 +252,6 @@ export function getDocuments(
   };
 }
 
-export function getFeatured(index: string) {
-  var body = bodybuilder().filter('match', 'featured', true).build();
-  const results = axios({
-    url: `${SEARCH_URL}/elasticsearch_index_${SEARCH_INDEX_PREFIX}_${index}/_search?`,
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    data: body,
-  })
-    .then((res: AxiosResponse) => {
-      return res.data;
-    })
-    .catch((error: AxiosError) => {
-      // dispatch must come before setState
-      console.log('ERR:::', error);
-    });
-  return results;
-}
-
 export function getBusinessProducts(products: number[], filter?: string) {
   var body = bodybuilder().query('terms', 'id', products);
 
@@ -299,36 +279,6 @@ export function getBusinessProducts(products: number[], filter?: string) {
       // dispatch must come before setState
       console.log('ERR:::', error);
     });
-  return results;
-}
-
-export function getPopular(type: string) {
-  var body = {
-    query: {
-      function_score: {
-        query: { match_all: {} },
-        boost: '5',
-        random_score: {},
-        boost_mode: 'multiply',
-      },
-    },
-  };
-
-  const results = axios({
-    url: `${SEARCH_URL}/elasticsearch_index_${SEARCH_INDEX_PREFIX}_${type}/_search?size=15`,
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    data: body,
-  })
-    .then((res: AxiosResponse) => {
-      return res.data;
-    })
-    .catch((error: AxiosError) => {
-      console.log('ERR:::', error);
-    });
-
   return results;
 }
 

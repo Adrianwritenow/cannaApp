@@ -38,6 +38,7 @@ export default function SearchAll() {
         searchMulti({
           q: query,
           coords: userCoords,
+          distance: '50mi',
           endpoints: [
             { name: 'products' },
             { name: 'dispenaries', key: 'dispensaries', geolocate: true },
@@ -78,12 +79,15 @@ export default function SearchAll() {
           )}
           {/* Learn Query Section */}
           {strainsFeatured && strainsFeatured.length > 0 && (
+            <LearnSection strain={strainsFeatured[0]} query={query} />
+          )}
+          {strains && strains.length > 0 && (
             <>
-              <LearnSection strain={strainsFeatured[0]} query={query} />
-              {/* Related Strains Secrtion */}
               <RelatedStrainsSection strains={strains.slice(0, 5)} />
+              {/* Related Strains Secrtion */}
             </>
           )}
+
           {/* Sponsered Listings Section */}
           {/* {dispensariesFeatured && dispensariesFeatured.length > 0 && (
             <ListingSection

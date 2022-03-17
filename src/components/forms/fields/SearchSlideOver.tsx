@@ -30,6 +30,7 @@ import { useAxios } from '@/hooks/useAxios';
 import { useGeocoder } from '@/hooks/useGeocoder';
 import { useRouter } from 'next/router';
 import { useSearchFilters } from '@/hooks/useSearchFilters';
+import { useSearchLocation } from '@/hooks/useSearchLocation';
 
 export default function SearchSlideOver(props: {
   searchRoute?: string;
@@ -45,7 +46,7 @@ export default function SearchSlideOver(props: {
   const [open, setOpen] = useState(false);
   const locationSearch = useSearchFilters();
   const [query, setQuery] = useQueryParam('qs', withDefault(StringParam, ''));
-  const location = useSelector((root: RootState) => root.location);
+  const { label, coords } = useSearchLocation();
   const [focus, setFocus] = useState('');
   const { listResults } = useSelector((root: RootState) => root.search);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -102,13 +103,6 @@ export default function SearchSlideOver(props: {
   }
 
   function executeSearchQuery(q: string, resultProps: any = {}) {
-    let coords = location.city ? location : undefined;
-
-    // Use new location coords if available.
-    if (resultProps?.searchLocation?.coords) {
-      coords = resultProps.searchLocation.coords;
-    }
-
     dispatchSearch(
       searchMulti({
         q,

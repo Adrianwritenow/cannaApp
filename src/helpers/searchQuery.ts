@@ -110,7 +110,7 @@ export const combinedQueryBody = (searchProps: {
    * which is not a problem for our use case
    */
   if (coords?.lat && coords?.lon) {
-    body.filter('geo_distance', {
+    body.orFilter('geo_distance', {
       distance: distance ?? '20000mi',
       coordinates: { lat: coords.lat, lon: coords.lon },
       ignore_unmapped: true,

@@ -16,9 +16,7 @@ export default function DropdownFilter(data: DropdownFilter) {
   const { setter, current, options, label, preface, setFieldValue, id } = data;
   const [open, setOpen] = useState(false);
 
-  useEffect(() => {
-    console.log('XCurrent', current);
-  }, [current]);
+  useEffect(() => {}, [current]);
   return (
     <>
       <div className="">

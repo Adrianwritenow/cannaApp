@@ -27,7 +27,6 @@ export default function SearchNews() {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   function getBlogs() {
-    console.log('filters', filters);
     dispatchSearch(
       searchMulti({
         q: query,
@@ -44,7 +43,6 @@ export default function SearchNews() {
   }
 
   function removeFilter(categoryQuery: string) {
-    console.log('CAT', categoryQuery);
     const updatedDescription = filters.description.filter(
       (filter: string) => filter !== categoryQuery
     );

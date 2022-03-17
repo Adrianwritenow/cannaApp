@@ -89,7 +89,6 @@ export default function NewsFilterSlideOver(props: {
                       <div className="flex">
                         {/* Tab filters rendered */}
                         {Object.keys(filterProps).map((keyName: any, i) => {
-                          console.log('FPPPP', filterProps);
                           return filterProps[keyName].map(
                             (filter: string, index: any) => {
                               if (

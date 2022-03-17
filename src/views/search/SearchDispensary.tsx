@@ -39,7 +39,6 @@ export default function SearchDispensary(props: { query: string }) {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   function getDispensaries() {
-    console.log('filters', filterData);
     dispatchSearch(
       searchMulti({
         q: query,

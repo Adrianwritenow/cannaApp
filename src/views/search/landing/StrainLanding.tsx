@@ -29,7 +29,6 @@ export default function StrainLanding(props: { categoryFilter: Function }) {
 
   useEffect(() => {
     getResults();
-    console.log(listResults);
   }, []);
 
   function getResults() {

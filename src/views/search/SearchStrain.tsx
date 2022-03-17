@@ -68,7 +68,7 @@ export default function SearchStrain() {
     <div className="bg-gray-50">
       {/* Results list x Landing Page */}
       {/* Filter list */}
-      {strains?.length && !loading ? (
+      {strains?.length > 0 && !loading ? (
         <>
           <StrainFilterSlideOver handleFilter={handleFilter} />
 

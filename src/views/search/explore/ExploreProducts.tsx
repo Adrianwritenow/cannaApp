@@ -1,4 +1,5 @@
 import { Product, ProductResults } from '@/interfaces/product';
+import { StringParam, useQueryParam, withDefault } from 'next-query-params';
 
 import { ArrowRightIcon } from '@heroicons/react/outline';
 import Image from 'next/image';
@@ -16,7 +17,7 @@ export default function ExploreProducts(props: { handleFilter: Function }) {
   const { handleFilter } = props;
   const [dispatchSearch] = useAxios(false);
   const { listResults } = useSelector((root: RootState) => root.search);
-
+  const [query, setQuery] = useQueryParam('qs', withDefault(StringParam, ''));
   const { results: fudge }: ProductResults = listResults.fudge || [];
   const { results: accessories }: ProductResults =
     listResults.accessories || [];
@@ -168,13 +169,18 @@ export default function ExploreProducts(props: { handleFilter: Function }) {
   return (
     <div>
       <section className="pt-2  w-full g:mx-auto max-w-7xl mx-auto desktop:border-b-2 border-gray-200 pb-6">
-        <div className="desktop:h-auto justify-center flex-shrink-0">
+        <div className="desktop:h-auto justify-center flex-shrink-0 px-4">
+          {query && (
+            <p className="text-gray-500 pb-3 font-bold">
+              {`No Results were found for "${query}"`}
+            </p>
+          )}
           <h2 id="explore-categories" className="sr-only">
             Explore Categories
           </h2>
           <h2
             id="explore-categories"
-            className="text-gray-700 text-lg desktop:text-2xl font-semibold px-4 py-4"
+            className="text-gray-700 text-lg desktop:text-2xl font-semiboldpy-4"
           >
             Explore Categories
           </h2>

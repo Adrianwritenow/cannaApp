@@ -38,7 +38,7 @@ export default function SearchAll() {
         searchMulti({
           q: query,
           coords: userCoords,
-          distance: '50mis',
+          distance: '50mi',
           endpoints: [
             { name: 'products' },
             { name: 'dispenaries', key: 'dispensaries', geolocate: true },

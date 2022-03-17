@@ -48,7 +48,7 @@ export default function ProductResultsSection(results: Results) {
             {label}
           </h2>
         </div>
-        {list && list.length && (
+        {list && list?.length > 0 && (
           <div
             className={`${
               type === 'COUPON' ? 'pb-6' : ''

@@ -1,15 +1,16 @@
+import { StringParam, useQueryParam, withDefault } from 'next-query-params';
+import { useEffect, useState } from 'react';
+
 import { Coupon } from '@/interfaces/coupon';
-import { dealsNearMe } from '@/helpers/searchQuery';
 import DealsFilterSlideOver from '@/views/slideOver/filters/DealsFilterSlideOver';
-import { formatDealCard } from '@/helpers/formatters';
 import { IAxiosReturn } from '@/interfaces/axios';
 import ListingCard from '@/components/listings/ListingCard';
+import { dealsNearMe } from '@/helpers/searchQuery';
+import { formatDealCard } from '@/helpers/formatters';
 import { searchMulti } from '@/actions/search';
 import { useAxios } from '@/hooks/useAxios';
-import { useEffect, useState } from 'react';
-import { useSearchLocation } from '@/hooks/useSearchLocation';
-import { useQueryParam, StringParam, withDefault } from 'next-query-params';
 import { useRouter } from 'next/router';
+import { useSearchLocation } from '@/hooks/useSearchLocation';
 
 interface FilterBucket {
   key: string;
@@ -83,7 +84,7 @@ export default function SearchDeals() {
   }
 
   useEffect(() => {
-    if (isReady && !loading) {
+    if (isReady) {
       fetchDeals(0);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

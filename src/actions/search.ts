@@ -377,18 +377,16 @@ export function searchMulti(searchProps: {
     if (endpointSkipOnEmpty && !endpointQuery) {
       return;
     }
-    let key = api.key || api.name;
-    let concat = api.concat || false;
-    batchOrder.push({ key, concat });
 
     const index = `elasticsearch_index_${SEARCH_INDEX_PREFIX}_${api.name}`;
     const endpointFilters = api.filters || filters;
     const endpointDistance = api.distance || distance;
     const endpointTotal = api.total || total;
     const customBody = api.body || body;
-    batchOrder.push({ key });
-
     const endpointFrom = api.from || from;
+    let key = api.key || api.name;
+    let concat = api.concat || false;
+    batchOrder.push({ key, concat });
     const endpointBody =
       customBody ||
       combinedQueryBody({

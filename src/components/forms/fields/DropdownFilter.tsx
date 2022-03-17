@@ -14,14 +14,11 @@ interface DropdownFilter {
 
 export default function DropdownFilter(data: DropdownFilter) {
   const { setter, current, options, label, preface, setFieldValue, id } = data;
-
   const [open, setOpen] = useState(false);
-  const [selected, setSelected] = useState(current);
 
   useEffect(() => {
-    setSelected(current);
+    console.log('XCurrent', current);
   }, [current]);
-
   return (
     <>
       <div className="">

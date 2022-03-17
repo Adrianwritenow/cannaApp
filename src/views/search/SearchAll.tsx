@@ -1,13 +1,13 @@
 import { StringParam, useQueryParam, withDefault } from 'next-query-params';
 
-import { Dispensary } from '@/interfaces/dispensary';
+import { DispensaryResults } from '@/interfaces/dispensary';
 import LearnSection from '@/components/sections/LearnSection';
 import ListingSection from '@/components/sections/ListingSection';
-import { Product } from '@/interfaces/product';
+import { ProductResults } from '@/interfaces/product';
 import ProductResultsSection from '@/components/sections/ProductsResultsSection';
 import RelatedStrainsSection from '@/components/sections/RelatedStrainsSection';
 import { RootState } from '@/reducers';
-import { Strain } from '@/interfaces/strain';
+import { StrainResults } from '@/interfaces/strain';
 import SvgEmptyState from '@/public/assets/icons/iconComponents/EmptyState';
 import { searchMulti } from '@/actions/search';
 import { useAxios } from '@/hooks/useAxios';
@@ -20,7 +20,7 @@ export default function SearchAll() {
   const router = useRouter();
   const { isReady } = router;
   const [query] = useQueryParam('qs', withDefault(StringParam, ''));
-  const { coords: userCoords } = useSearchLocation();
+  const { coords: userCoords, label } = useSearchLocation();
   const [dispatchSearch, { loading }] = useAxios(false);
   const { listResults } = useSelector((root: RootState) => root.search);
   const { results: products }: ProductResults = listResults.products || [];

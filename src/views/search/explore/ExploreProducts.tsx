@@ -1,7 +1,8 @@
+import { Product, ProductResults } from '@/interfaces/product';
+
 import { ArrowRightIcon } from '@heroicons/react/outline';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Product } from '@/interfaces/product';
 import ProductResultsSection from '@/components/sections/ProductsResultsSection';
 import { RootState } from '@/reducers';
 import { categories } from '@/helpers/categories';
@@ -15,13 +16,15 @@ export default function ExploreProducts(props: { handleFilter: Function }) {
   const { handleFilter } = props;
   const [dispatchSearch] = useAxios(false);
   const { listResults } = useSelector((root: RootState) => root.search);
-  const fudge: Product[] = listResults.fudge || [];
-  const accessories: Product[] = listResults.accessories || [];
-  const drinks: Product[] = listResults.drinks || [];
-  const papers: Product[] = listResults.papers || [];
-  const preRolls: Product[] = listResults.preRolls || [];
-  const crumble: Product[] = listResults.crumble || [];
-  const candy: Product[] = listResults.candy || [];
+
+  const { results: fudge }: ProductResults = listResults.fudge || [];
+  const { results: accessories }: ProductResults =
+    listResults.accessories || [];
+  const { results: drinks }: ProductResults = listResults.drinks || [];
+  const { results: papers }: ProductResults = listResults.papers || [];
+  const { results: preRolls }: ProductResults = listResults.preRolls || [];
+  const { results: crumble }: ProductResults = listResults.crumble || [];
+  const { results: candy }: ProductResults = listResults.candy || [];
 
   const fudgeFilters = {
     name: 'products',
@@ -181,31 +184,21 @@ export default function ExploreProducts(props: { handleFilter: Function }) {
             <div key={`fd-${index}`}>
               <div className="w-36 flex relative">
                 <div className="w-full h-48 rounded-md overflow-hidden">
-                  <Link
-                    href={{
-                      pathname: '/search/shopping',
-                      query: {
-                        category: category.label,
-                        sortQuery: 'Rating',
-                      },
-                    }}
-                    passHref
-                  >
-                    <a>
-                      <button>
-                        <Image
-                          loader={imageLoader}
-                          src={category.imgSrc}
-                          alt={category.label}
-                          layout="fill"
-                          objectFit={'cover'}
-                          onClick={() => {
-                            categoryFilter(``);
-                          }}
-                        />
-                      </button>
-                    </a>
-                  </Link>
+                  <button>
+                    <Image
+                      loader={imageLoader}
+                      src={category.imgSrc}
+                      alt={category.label}
+                      layout="fill"
+                      objectFit={'cover'}
+                      onClick={() => {
+                        handleFilter({
+                          sort: ['Rating'],
+                          category: [category.label],
+                        });
+                      }}
+                    />
+                  </button>
                 </div>
               </div>
               <p className=" text-center py-2 font-medium text-sm text-gray-700">

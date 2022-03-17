@@ -25,7 +25,12 @@ export default function StrainLanding(props: { categoryFilter: Function }) {
   const { listResults } = useSelector((root: RootState) => root.search);
   const { results: popular }: StrainResults = listResults.strainsPopular || [];
   const { results: featuredStrains }: StrainResults =
-    listResults.strainsFeatured;
+    listResults.strainsFeatured || [];
+
+  useEffect(() => {
+    getResults();
+    console.log(listResults);
+  }, []);
 
   function getResults() {
     dispatchSearch(
@@ -235,7 +240,7 @@ export default function StrainLanding(props: { categoryFilter: Function }) {
                         key={`${feeling.label}-${index}`}
                       >
                         <div className="w-6 h-6 relative overflow-hidden flex-shrink-0">
-                          <Image
+                          <ImageWithFallback
                             src={feeling.src}
                             alt={feeling.label}
                             layout="fill"

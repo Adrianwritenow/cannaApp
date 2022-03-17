@@ -2,101 +2,45 @@ import { Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
 
 import { AdjustmentsIcon } from '@heroicons/react/solid';
-import CouponSlideOver from '../CouponsSlideOver';
 import DropdownFilter from '../../../components/forms/fields/DropdownFilter';
 import FilterProductMenu from '@/components/filter/FilterProductMenu';
 import { Filters } from '../../../helpers/filters';
 import { useRouter } from 'next/router';
 
 export default function ProductFilterSlideOver(props: {
+  removeFilter: Function;
   setFilters: Function;
   filters: { category: string[]; sort: string[] };
 }) {
-  const { setFilters, filters: filterProps } = props;
-  const router = useRouter();
-  const { type, category, sortQuery } = router.query;
+  const { removeFilter, setFilters, filters: filterProps }: any = props;
   const [sort, setSort] = useState(filterProps.sort);
   const [open, setOpen] = useState(false);
   const [savedValues, setSavedValues]: any = useState({
-    category: '',
-    filters: {},
-    sort: '',
+    category: [''],
+    sort: [''],
   });
 
-  const [filterList, setFilterList]: any = useState([]);
-
-  const initialValues: any = {
-    filters: {},
-    category: '',
-    sort: sort,
-  };
-
   useEffect(() => {
-    updateFilter({
-      ...savedValues,
-      category: filterProps.category[0],
-      sort: filterProps.sort[0],
+    setSavedValues({
+      sort: filterProps.sort ? filterProps.sort : [''],
+      category: filterProps.category ? filterProps.category : [''],
     });
-  }, []);
-
-  useEffect(() => {
-    console.log('BANG', filterList);
-  }, [filterProps.category, filterProps.sort, savedValues]);
+  }, [filterProps]);
 
   function updateFilter(values: any) {
-    console.log('update');
-    // Force values to array in order to check if they exist in case of multiple values
+    const category = Array.isArray(values.category)
+      ? values.category
+      : [values.category];
+    const sort = Array.isArray(values.sort) ? values.sort : [values.sort];
+
     const filters: any = {
-      sort: [values.sort ? values.sort : ''],
-      category: [values.category ? values.category : ''],
+      sort: sort,
+      category: category,
     };
-
-    setFilters({
-      filters,
-    });
-
-    // const filter_data: string[] = Object.keys(filters).reduce(function (
-    //   res,
-    //   key
-    // ) {
-    //   return res.concat(filters[key]).flat(1);
-    // },
-    // []);
-    // // Remove initial empty values
-    // const filterArray = filter_data.filter(function (entry: string) {
-    //   return entry.trim() != '';
-    // });
-    // setFilterList(filterArray);
-
-    // setSavedValues(() => ({
-    //   ...values,
-    //   filters,
-    // }));
-    // // Update Filters
-    // setFilters(filters);
+    setFilters(filters);
   }
 
-  // Remove filters from list to be rendered and update the form state values
-  function removeFilter(keyName: string, filter: string) {
-    let stateCopy = Object.assign({}, savedValues);
-    let listCopy = filterList;
-    const isArray =
-      Object.prototype.toString.call(initialValues[keyName]).indexOf('Array') >
-      1;
-
-    if (isArray) {
-      stateCopy[keyName].splice(stateCopy[keyName].indexOf(filter), 1);
-    } else {
-      stateCopy[keyName] = initialValues[keyName];
-      stateCopy.filters[keyName] = [''];
-    }
-
-    listCopy.splice(listCopy.indexOf(filter), 1);
-
-    setFilterList(listCopy);
-    setSavedValues(stateCopy);
-    setFilters(stateCopy.filters);
-  }
+  useEffect(() => {}, [savedValues]);
 
   return (
     <div className="max-w-7xl mx-auto">
@@ -139,26 +83,26 @@ export default function ProductFilterSlideOver(props: {
                           options={Filters.sort.list.map(filter => {
                             return filter.value;
                           })}
-                          current={values.sort}
+                          current={filterProps.sort[0]}
                           label={'Sort by'}
                           setFieldValue={setFieldValue}
                         />
                       </div>
                       <div className="flex">
                         {/* Tab filters rendered */}
-                        {Object.keys(savedValues.filters).map((keyName, i) =>
-                          savedValues.filters[keyName].map(
+                        {Object.keys(filterProps).map((keyName: any, i) =>
+                          filterProps[keyName].map(
                             (filter: string, index: any) => {
                               if (
-                                savedValues.filters[keyName][index] !== '' &&
-                                keyName !== 'sort'
+                                keyName !== 'sort' &&
+                                filterProps[keyName][0]
                               ) {
                                 return (
                                   <button
                                     type="button"
                                     key={`${keyName}_${index}`}
                                     onClick={() => {
-                                      removeFilter(keyName, filter);
+                                      removeFilter();
                                     }}
                                     className="flex rounded-full border-2 border-gray-200 items-center px-4 py-2   text-sm font-medium bg-white text-gray-900 mx-1 w-max"
                                   >

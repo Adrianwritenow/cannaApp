@@ -15,7 +15,6 @@ interface Listings {
 }
 export default function ListingSection(results: Listings) {
   const { listings, sponsored, heading, userCoords } = results;
-  const { label } = useSearchLocation();
 
   return (
     <section id="listing-section" className="max-w-7xl mx-auto">

@@ -1,23 +1,26 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { StringParam, useQueryParam, withDefault } from 'next-query-params';
 
-import { Dispensary } from '@/interfaces/dispensary';
-import DispensaryFilterSlideOver from '@/views/slideOver/filters/DispensaryFilterSlideOver';
-import ListingSection from '@/components/sections/ListingSection';
+import DispensaryFilterSlideOver from '../slideOver/filters/DispensaryFilterSlideOver';
+import { DispensaryResults } from '@/interfaces/dispensary';
+import ListingSection from '../../components/sections/ListingSection';
+import { RootState } from '@/reducers';
 import SvgEmptyState from '@/public/assets/icons/iconComponents/EmptyState';
 import { searchMulti } from '@/actions/search';
+import { useAxios } from '@/hooks/useAxios';
 import { useRouter } from 'next/router';
 import { useSearchLocation } from '@/hooks/useSearchLocation';
+import { useSelector } from 'react-redux';
 
-export default function SearchDispensary() {
+export default function SearchDispensary(props: { query: string }) {
   const [query] = useQueryParam('qs', withDefault(StringParam, ''));
-  const [dispensaries, setDispensaries] = useState<Array<Dispensary>>();
+  const { listResults } = useSelector((root: RootState) => root.search);
+  const { results: dispensaries, total }: DispensaryResults =
+    listResults.dispensaries || [];
   const router = useRouter();
-  const { isReady } = router;
   const { category } = router.query;
   const { coords, label } = useSearchLocation();
   const [dispatchSearch, { loading }] = useAxios(false);
-  // const firstRender = useRef(true);
 
   const [filters, setFilters] = useState<any>({
     productType: [`${category ? category : ''}`],
@@ -30,23 +33,13 @@ export default function SearchDispensary() {
   const { distance, ...filterData } = filters;
 
   useEffect(() => {
-    // Without this the request always runs twice on the initial render since
-    // the `filters` value changes as a side effect from another component.
-    // This is sort of a workaround, ideally we can remove if we can convert
-    // the search request to `useAxios` and check if the request is already
-    // loading.
-    if (firstRender.current) {
-      firstRender.current = false;
-      return;
-    }
-    if (isReady) {
-      getDispensaries();
-    }
+    getDispensaries();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [query, isReady, filters, coords]);
+  }, [query, filters, coords]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   function getDispensaries() {
+    console.log('filters', filterData);
     dispatchSearch(
       searchMulti({
         q: query,

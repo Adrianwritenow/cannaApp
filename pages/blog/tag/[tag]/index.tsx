@@ -41,23 +41,32 @@ export default function BlogByTag() {
           <h2 className="text-2xl tracking-tight font-semibold text-gray-700 sm:text-4xl">
             {tag}
           </h2>
-        </div>
+        </div>{' '}
         <div className=" grid gap-0 desktop:grid-cols-3 desktop:gap-x-5 desktop:gap-y-12">
           {blogs?.map((post, idx) => (
             <BlogArticleCardFeatured post={post} key={post._source.title[0]} />
           ))}
         </div>
-
-        <div className="pt-9">
-          <h2 className="text-xl tracking-tight font-bold text-gray-700  my-6 sm:text-4xl">
-            Latest Stories in {tag}
-          </h2>
-        </div>
-        <div className=" grid gap-0  desktop:grid-cols-3 desktop:gap-x-5 desktop:gap-y-12 divide-y divide-solid">
-          {blogs.slice(5).map((post, idx) => (
-            <BlogArticleCardSmall key={post._source.title[0]} post={post} />
-          ))}
-        </div>
+        {blogs}
+        <>
+          {blogs?.length && (
+            <>
+              <div className="pt-9">
+                <h2 className="text-xl tracking-tight font-bold text-gray-700  my-6 sm:text-4xl">
+                  Latest Stories in {tag}
+                </h2>
+              </div>
+              <div className=" grid gap-0  desktop:grid-cols-3 desktop:gap-x-5 desktop:gap-y-12 divide-y divide-solid">
+                {blogs.slice(5).map((post, idx) => (
+                  <BlogArticleCardSmall
+                    key={post._source.title[0]}
+                    post={post}
+                  />
+                ))}
+              </div>
+            </>
+          )}
+        </>
       </div>
     </div>
   );

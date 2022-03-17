@@ -43,7 +43,7 @@ export default function BlogByTag() {
           </h2>
         </div>
         <div className=" grid gap-0 desktop:grid-cols-3 desktop:gap-x-5 desktop:gap-y-12">
-          {blogs.map((post, idx) => (
+          {blogs?.map((post, idx) => (
             <BlogArticleCardFeatured post={post} key={post._source.title[0]} />
           ))}
         </div>

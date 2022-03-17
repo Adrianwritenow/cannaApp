@@ -1,12 +1,13 @@
-import { combinedSearchQuery, getFeatured } from '@/actions/search';
-import { useEffect, useState } from 'react';
-
 import BlogArticleCardFeatured from '../../src/components/blog/BlogArticleCardFeatured';
 import BlogArticleCardSmall from '../../src/components/blog/BlogArticleCardSmall';
 import Link from 'next/link';
-import { Post } from '@/interfaces/post';
-import { SearchHits } from '@/interfaces/searchHits';
+import { PostResults } from '@/interfaces/post';
+import { RootState } from '@/reducers';
 import moment from 'moment';
+import { searchMulti } from '@/actions/search';
+import { useAxios } from '@/hooks/useAxios';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 const topics = [
   'Arts',
@@ -25,31 +26,34 @@ const topics = [
 
 export default function Blog() {
   const now = moment();
-  const [articles, setArticles] = useState<Array<Post>>();
-  const [featured, setFeatured] = useState<Array<Post>>();
+  const [dispatchSearch, { loading }] = useAxios(false);
+  const { listResults } = useSelector((root: RootState) => root.search);
+  const { results: articles }: PostResults = listResults.blogs || [];
+  const { results: featured }: PostResults = listResults.blogsFeatured || [];
 
   useEffect(() => {
-    async function getResults() {
-      const hits: any = await combinedSearchQuery({
-        q: '*',
-        endpoints: ['blogs'],
-        total: 10,
-      });
-      setArticles(hits);
-    }
+    getResults();
+  }, []);
 
-    async function getFeaturedArticles() {
-      const hits: SearchHits = await getFeatured('blogs');
-      setFeatured(hits.hits.hits as unknown as Post[]);
-    }
+  function getResults() {
+    dispatchSearch(
+      searchMulti({
+        endpoints: [
+          {
+            name: 'blogs',
+            total: 10,
+          },
+          {
+            name: 'blogs',
+            key: 'blogsFeatured',
+            filters: { featured: [true] },
+            total: 10,
+          },
+        ],
+      })
+    );
+  }
 
-    if (!articles) {
-      getResults();
-    }
-    if (!featured) {
-      getFeaturedArticles();
-    }
-  }, [articles, featured]);
   return (
     <div>
       {articles && featured && (

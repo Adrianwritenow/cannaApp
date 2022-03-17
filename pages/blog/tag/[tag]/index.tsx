@@ -1,30 +1,38 @@
+import { Post, PostResults } from '@/interfaces/post';
+import { combinedSearchQuery, searchMulti } from '@/actions/search';
 import { useEffect, useState } from 'react';
 
 import BlogArticleCardFeatured from '@/components/blog/BlogArticleCardFeatured';
 import BlogArticleCardSmall from '@/components/blog/BlogArticleCardSmall';
-import { Post } from '@/interfaces/post';
-import { combinedSearchQuery } from '@/actions/search';
+import { RootState } from '@/reducers';
+import { useAxios } from '@/hooks/useAxios';
 import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
 
 export default function BlogByTag() {
   const router = useRouter();
   const { tag } = router.query;
-  const [blogs, setBlogs] = useState<Array<Post>>([]);
+  const [dispatchSearch, { loading }] = useAxios(false);
+  const { listResults } = useSelector((root: RootState) => root.search);
+  const { results: blogs }: PostResults = listResults.blogs || [];
 
   useEffect(() => {
-    if (!blogs.length && tag) {
-      getBlogs();
-    }
-  }, [blogs.length, getBlogs, router, tag]);
+    getBlogs();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tag]);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  async function getBlogs() {
-    const hits: any = await combinedSearchQuery({
-      q: `${tag}`,
-      endpoints: ['blogs'],
-      total: 10,
-    });
-    setBlogs(hits);
+  function getBlogs() {
+    dispatchSearch(
+      searchMulti({
+        q: `${tag}`,
+        endpoints: [
+          {
+            name: 'blogs',
+            total: 10,
+          },
+        ],
+      })
+    );
   }
 
   return (

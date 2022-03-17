@@ -1,28 +1,31 @@
-import { useEffect } from 'react';
+import { Product, ProductResults } from '@/interfaces/product';
+import { StringParam, useQueryParam, withDefault } from 'next-query-params';
 
 import { ArrowRightIcon } from '@heroicons/react/outline';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Product } from '@/interfaces/product';
 import ProductResultsSection from '@/components/sections/ProductsResultsSection';
-import { searchMulti } from '@/actions/search';
-import { categories } from '@/helpers/categories';
-import { useAxios } from '@/hooks/useAxios';
-import { useSelector } from 'react-redux';
 import { RootState } from '@/reducers';
+import { categories } from '@/helpers/categories';
 import { imageLoader } from '@/helpers/localImageLoader';
+import { searchMulti } from '@/actions/search';
+import { useAxios } from '@/hooks/useAxios';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
-export default function ExploreProducts(props: { categoryFilter: Function }) {
-  const { categoryFilter } = props;
+export default function ExploreProducts(props: { handleFilter: Function }) {
+  const { handleFilter } = props;
   const [dispatchSearch] = useAxios(false);
   const { listResults } = useSelector((root: RootState) => root.search);
-  const fudge: Product[] = listResults.fudge || [];
-  const accessories: Product[] = listResults.accessories || [];
-  const drinks: Product[] = listResults.drinks || [];
-  const papers: Product[] = listResults.papers || [];
-  const preRolls: Product[] = listResults.preRolls || [];
-  const crumble: Product[] = listResults.crumble || [];
-  const candy: Product[] = listResults.candy || [];
+  const [query, setQuery] = useQueryParam('qs', withDefault(StringParam, ''));
+  const { results: fudge }: ProductResults = listResults.fudge || [];
+  const { results: accessories }: ProductResults =
+    listResults.accessories || [];
+  const { results: drinks }: ProductResults = listResults.drinks || [];
+  const { results: papers }: ProductResults = listResults.papers || [];
+  const { results: preRolls }: ProductResults = listResults.preRolls || [];
+  const { results: crumble }: ProductResults = listResults.crumble || [];
+  const { results: candy }: ProductResults = listResults.candy || [];
 
   const fudgeFilters = {
     name: 'products',
@@ -166,13 +169,18 @@ export default function ExploreProducts(props: { categoryFilter: Function }) {
   return (
     <div>
       <section className="pt-2  w-full g:mx-auto max-w-7xl mx-auto desktop:border-b-2 border-gray-200 pb-6">
-        <div className="desktop:h-auto justify-center flex-shrink-0">
+        <div className="desktop:h-auto justify-center flex-shrink-0 px-4">
+          {query && (
+            <p className="text-gray-500 pb-3 font-bold">
+              {`No Results were found for "${query}"`}
+            </p>
+          )}
           <h2 id="explore-categories" className="sr-only">
             Explore Categories
           </h2>
           <h2
             id="explore-categories"
-            className="text-gray-700 text-lg desktop:text-2xl font-semibold px-4 py-4"
+            className="text-gray-700 text-lg desktop:text-2xl font-semiboldpy-4"
           >
             Explore Categories
           </h2>
@@ -182,31 +190,21 @@ export default function ExploreProducts(props: { categoryFilter: Function }) {
             <div key={`fd-${index}`}>
               <div className="w-36 flex relative">
                 <div className="w-full h-48 rounded-md overflow-hidden">
-                  <Link
-                    href={{
-                      pathname: '/search/shopping',
-                      query: {
-                        category: category.label,
-                        sortQuery: 'Rating',
-                      },
-                    }}
-                    passHref
-                  >
-                    <a>
-                      <button>
-                        <Image
-                          loader={imageLoader}
-                          src={category.imgSrc}
-                          alt={category.label}
-                          layout="fill"
-                          objectFit={'cover'}
-                          onClick={() => {
-                            categoryFilter(``);
-                          }}
-                        />
-                      </button>
-                    </a>
-                  </Link>
+                  <button>
+                    <Image
+                      loader={imageLoader}
+                      src={category.imgSrc}
+                      alt={category.label}
+                      layout="fill"
+                      objectFit={'cover'}
+                      onClick={() => {
+                        handleFilter({
+                          sort: ['Rating'],
+                          category: [category.label],
+                        });
+                      }}
+                    />
+                  </button>
                 </div>
               </div>
               <p className=" text-center py-2 font-medium text-sm text-gray-700">

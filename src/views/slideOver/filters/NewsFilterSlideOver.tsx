@@ -6,84 +6,40 @@ import DropdownFilter from '../../../components/forms/fields/DropdownFilter';
 import FilterNewsMenu from '@/components/filter/FilterNewsMenu';
 import { Filters } from '@/helpers/filters';
 
-export default function NewsFilterSlideOver(props: { handleFilter: Function }) {
-  const { handleFilter } = props;
+export default function NewsFilterSlideOver(props: {
+  removeFilter: Function;
+  setFilters: Function;
+  filters: { description: string[]; sort: string[] };
+}) {
+  const { removeFilter, setFilters, filters: filterProps }: any = props;
   const [open, setOpen] = useState(false);
   const [savedValues, setSavedValues]: any = useState({
     description: [],
-    filters: {},
-    sort: 'Relevance',
+    sort: [],
   });
-  const [filterList, setFilterList]: any = useState([]);
   const [sort, setSort] = useState(savedValues.sort);
 
-  const initialValues: any = {
-    description: [],
-    filters: {},
-    sort: 'Relevance',
-  };
+  useEffect(() => {
+    setSavedValues({
+      sort: filterProps.sort ? filterProps.sort : [''],
+      description: filterProps.description ? filterProps.description : [''],
+    });
+  }, [filterProps]);
 
-  // Remove filters from list to be rendered and update the form state values
+  function updateFilter(values: any) {
+    const description = Array.isArray(values.description)
+      ? values.description
+      : [values.description];
+    const sort = Array.isArray(values.sort) ? values.sort : [values.sort];
 
-  function removeFilter(keyName: string, filter: string) {
-    let stateCopy = Object.assign({}, savedValues);
-    let listCopy = filterList;
-    const isArray =
-      Object.prototype.toString.call(initialValues[keyName]).indexOf('Array') >
-      1;
-
-    if (isArray) {
-      stateCopy[keyName].splice(stateCopy[keyName].indexOf(filter), 1);
-    } else {
-      stateCopy[keyName] = initialValues[keyName];
-      stateCopy.filters[keyName] = [''];
-    }
-
-    listCopy.splice(listCopy.indexOf(filter), 1);
-
-    setFilterList(listCopy);
-    setSavedValues(stateCopy);
-    handleFilter(stateCopy.filters);
+    const filters: any = {
+      sort: sort,
+      description: description,
+    };
+    setFilters(filters);
   }
 
-  useEffect(() => {
-    // Force values to array in order to check if they exist in case of multiple values
-    const filters: any = {
-      sort: [savedValues.sort],
-      description: savedValues.description,
-    };
-
-    const filter_data: string[] = Object.keys(filters).reduce(function (
-      res,
-      key
-    ) {
-      return res.concat(filters[key]);
-    },
-    []);
-
-    // Remove initial empty values
-    const filterArray = filter_data.filter(function (entry: string) {
-      return entry.trim() != '';
-    });
-
-    setFilterList(filterArray);
-
-    // Check to see if value is unique if not update
-    const is_same =
-      filterArray.length == filterList.length &&
-      filterArray.every(function (element, index) {
-        return element === filterList[index];
-      });
-
-    if (!is_same) {
-      setSavedValues((prevState: any) => ({
-        ...prevState,
-        filters,
-      }));
-      handleFilter(filters);
-    }
-    setSort(savedValues.sort);
-  }, [savedValues]);
+  useEffect(() => {}, [savedValues]);
 
   return (
     <div className="max-w-7xl mx-auto">
@@ -91,6 +47,8 @@ export default function NewsFilterSlideOver(props: { handleFilter: Function }) {
         initialValues={savedValues}
         onSubmit={() => {}}
         enableReinitialize={true}
+        validate={updateFilter}
+        validateOnChange={true}
       >
         {({ values, setFieldValue }) => {
           return (
@@ -124,27 +82,27 @@ export default function NewsFilterSlideOver(props: { handleFilter: Function }) {
                           options={Filters.sortNews.list.map(filter => {
                             return filter.value;
                           })}
-                          current={sort}
+                          current={filterProps.sort[0]}
                           label={'Sort by'}
                         />
                       </div>
                       <div className="flex">
                         {/* Tab filters rendered */}
-                        {Object.keys(savedValues.filters).map((keyName, i) =>
-                          savedValues.filters[keyName].map(
+                        {Object.keys(filterProps).map((keyName: any, i) => {
+                          return filterProps[keyName].map(
                             (filter: string, index: any) => {
                               if (
-                                savedValues.filters[keyName][index] !== '' &&
-                                keyName !== 'sort'
+                                keyName !== 'sort' &&
+                                filterProps[keyName][index]
                               ) {
                                 return (
                                   <button
                                     type="button"
                                     key={`${keyName}_${index}`}
                                     onClick={() => {
-                                      removeFilter(keyName, filter);
+                                      removeFilter(filter);
                                     }}
-                                    className="flex rounded-full border-2 border-gray-200 items-center px-4 py-2   text-sm font-medium bg-white text-gray-900 mx-1 w-max focus:outline-none"
+                                    className="flex rounded-full border-2 border-gray-200 items-center px-4 py-2   text-sm font-medium bg-white text-gray-900 mx-1 w-max"
                                   >
                                     <span>{filter}</span>
                                     <span className="sr-only">
@@ -154,8 +112,8 @@ export default function NewsFilterSlideOver(props: { handleFilter: Function }) {
                                 );
                               }
                             }
-                          )
-                        )}
+                          );
+                        })}
                       </div>
                     </div>
                   </div>

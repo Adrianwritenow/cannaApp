@@ -62,7 +62,7 @@ export default function FilterGroup(data: Filters) {
                                       <Field
                                         id={`${id}_${index}`}
                                         name={id}
-                                        value={`${filter.value}`}
+                                        value={`[${filter.value}]`}
                                         checked={values?.includes(filter.value)}
                                         type={type}
                                         className={

@@ -1,20 +1,21 @@
+import { Product, ProductResults } from '@/interfaces/product';
 import React, { useEffect } from 'react';
-import { searchMulti } from '@/actions/search';
 
 import AboutSlideOver from '@/components/products/AboutSlideOver';
+import { ArrowLeftIcon } from '@heroicons/react/outline';
 import FaqSlideOver from '@/views/slideOver/FaqSlideOver';
 import ImageSlider from '@/components/slider/ImageSlider';
 import ImageWithFallback from '@/components/image/ImageWithFallback';
-import { Product } from '@/interfaces/product';
 import ProductResultsSection from '@/components/sections/ProductsResultsSection';
 import ProductReviewsSlideOver from '@/views/slideOver/product/ProductReviewSlideOver';
+import { RootState } from '@/reducers';
 import StarRating from '@/components/rating/StarRating';
 import { formatImageWithFallback } from '@/helpers/formatters';
-import { useRouter } from 'next/router';
 import { reviews } from '@/helpers/mockData';
+import { searchMulti } from '@/actions/search';
 import { useAxios } from '@/hooks/useAxios';
+import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
-import { RootState } from '@/reducers';
 
 export default function ProductDetail() {
   const router = useRouter();
@@ -24,15 +25,16 @@ export default function ProductDetail() {
   const [dispatchRelated, { loading: loadingRelated }] = useAxios(false);
   const { listResults } = useSelector((root: RootState) => root.search);
   const relatedKey = `productRelated${productId}`;
-  const related: Product[] = listResults[relatedKey] || [];
+  const { results: related }: ProductResults = listResults[relatedKey] || [];
   const productKey = `productResult${productId}`;
-  const productResult: Product[] = listResults[productKey] || [];
-  const product: Product | undefined = productResult.length
+  const { results: productResult }: ProductResults =
+    listResults[productKey] || [];
+  const product: Product | undefined = productResult?.length
     ? productResult[0]
     : undefined;
 
   useEffect(() => {
-    if (!loadingProduct && productId) {
+    if (productId) {
       dispatchProduct(
         searchMulti({
           endpoints: [
@@ -91,6 +93,12 @@ export default function ProductDetail() {
               layout="fill"
               objectFit={'cover'}
             />
+            <button
+              onClick={() => router.back()}
+              className="bg-white rounded-full  absolute w-10 h-10 flex items-center justify-center left-0 top-0 z-10 m-4 desktop:hidden"
+            >
+              <ArrowLeftIcon className="text-gray-700 w-4" />
+            </button>
           </div>
 
           {/* Product info */}

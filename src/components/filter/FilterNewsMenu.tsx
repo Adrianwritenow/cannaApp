@@ -17,13 +17,7 @@ interface FilterMenuProps {
 }
 
 export default function FilterNewsMenu(props: FilterMenuProps) {
-  const { open, values, setOpen, icon, label, setSavedValues, setFieldValue } =
-    props;
-
-  // Add filters to list to be rendered and update the form state values
-  useEffect(() => {
-    setSavedValues(values);
-  }, [values, setSavedValues]);
+  const { open, values, setOpen, icon, label, setFieldValue } = props;
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -78,14 +72,14 @@ export default function FilterNewsMenu(props: FilterMenuProps) {
                           label={'Sort By'}
                           id={'sort'}
                           type="radio"
-                          values={values.filters.sort}
+                          values={values.sort}
                           setFieldValue={setFieldValue}
                         />
                         <FilterGroup
                           filters={Filters.newsCategories.list}
                           label={'Categories'}
                           id={'description'}
-                          values={values.filters.descriptions}
+                          values={values.descriptions}
                         />
                       </div>
                     </div>

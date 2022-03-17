@@ -7,16 +7,17 @@ interface ResultsProps {
   view: string;
   strains: Strain[];
   query: string;
+  heading?: string;
 }
 
 export default function ResultsStrain(data: ResultsProps) {
-  const { view, strains, query } = data;
+  const { view, strains, query, heading } = data;
 
   return (
     <div className="max-w-7xl mx-auto">
       <div>
         <h2 className="text-xl text-gray-700 font-semibold p-4  desktop:text-2xl">
-          {`${strains.length} Results for ${query}`}
+          {heading}
         </h2>
         {view === 'list' ? (
           <div className=" grid grid-flow-row auto-rows-max desktop:flex desktop:flex-wrap desktop:gap-4">

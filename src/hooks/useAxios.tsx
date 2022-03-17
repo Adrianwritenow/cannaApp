@@ -41,7 +41,7 @@ export function useAxios(
   });
 
   const [state, setState] = useState<IAxiosState>({
-    loading: false,
+    loading: true,
     error: null,
     response: null,
     success: false,

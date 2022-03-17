@@ -22,3 +22,8 @@ export interface Strain {
     type: string;
   };
 }
+
+export interface StrainResults {
+  results: Strain[];
+  total: number;
+}

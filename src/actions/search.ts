@@ -1,7 +1,7 @@
 import { AxiosError, AxiosResponse } from 'axios';
+import { IAxiosAction, IAxiosBatchRequest } from '@/interfaces/axios';
 
 import { Dispensary } from '@/interfaces/dispensary';
-import { IAxiosAction, IAxiosBatchRequest } from '@/interfaces/axios';
 import { Product } from '@/interfaces/product';
 import { SearchHits } from '@/interfaces/searchHits';
 import bodybuilder from 'bodybuilder';
@@ -116,12 +116,12 @@ export async function combinedSearchQuery(searchProps: {
       coordinates: { lat: coords.lat, lon: coords.lon },
     });
 
-    body.sort('_geo_distance', {
-      coordinates: { lat: coords.lat, lon: coords.lon },
-      order: 'asc',
-      unit: 'mi',
-      distance_type: 'plane',
-    });
+    // body.sort('_geo_distance', {
+    //   coordinates: { lat: coords.lat, lon: coords.lon },
+    //   order: 'asc',
+    //   unit: 'mi',
+    //   distance_type: 'plane',
+    // });
   }
 
   // Build the body (JSON payload)
@@ -252,26 +252,6 @@ export function getDocuments(
   };
 }
 
-export function getFeatured(index: string) {
-  var body = bodybuilder().filter('match', 'featured', true).build();
-  const results = axios({
-    url: `${SEARCH_URL}/elasticsearch_index_${SEARCH_INDEX_PREFIX}_${index}/_search?`,
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    data: body,
-  })
-    .then((res: AxiosResponse) => {
-      return res.data;
-    })
-    .catch((error: AxiosError) => {
-      // dispatch must come before setState
-      console.log('ERR:::', error);
-    });
-  return results;
-}
-
 export function getBusinessProducts(products: number[], filter?: string) {
   var body = bodybuilder().query('terms', 'id', products);
 
@@ -302,36 +282,6 @@ export function getBusinessProducts(products: number[], filter?: string) {
   return results;
 }
 
-export function getPopular(type: string) {
-  var body = {
-    query: {
-      function_score: {
-        query: { match_all: {} },
-        boost: '5',
-        random_score: {},
-        boost_mode: 'multiply',
-      },
-    },
-  };
-
-  const results = axios({
-    url: `${SEARCH_URL}/elasticsearch_index_${SEARCH_INDEX_PREFIX}_${type}/_search?size=15`,
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    data: body,
-  })
-    .then((res: AxiosResponse) => {
-      return res.data;
-    })
-    .catch((error: AxiosError) => {
-      console.log('ERR:::', error);
-    });
-
-  return results;
-}
-
 interface EndpointProps {
   name: string;
   q?: string;
@@ -342,6 +292,8 @@ interface EndpointProps {
   filters?: any;
   total?: number;
   skipOnEmpty?: boolean;
+  from?: number;
+  concat?: boolean;
 }
 
 // @todo: Use extended EndpointProps.
@@ -353,9 +305,11 @@ export function searchMulti(searchProps: {
   filters?: any;
   total?: number;
   skipOnEmpty?: boolean;
+  from?: number;
   endpoints?: EndpointProps[];
 }): IAxiosAction {
-  const { q, body, coords, distance, filters, total, endpoints } = searchProps;
+  const { q, body, coords, distance, filters, total, endpoints, from } =
+    searchProps;
   const batchOrder: IAxiosBatchRequest[] = [];
   const skipOnEmpty = searchProps.skipOnEmpty || false;
 
@@ -379,9 +333,10 @@ export function searchMulti(searchProps: {
     const endpointDistance = api.distance || distance;
     const endpointTotal = api.total || total;
     const customBody = api.body || body;
+    const endpointFrom = api.from || from;
     let key = api.key || api.name;
-    batchOrder.push({ key });
-
+    let concat = api.concat || false;
+    batchOrder.push({ key, concat });
     const endpointBody =
       customBody ||
       combinedQueryBody({
@@ -390,6 +345,7 @@ export function searchMulti(searchProps: {
         total: endpointTotal,
         filters: endpointFilters,
         coords: !api.geolocate ? undefined : coords,
+        from: endpointFrom,
       });
 
     data += JSON.stringify({ index }) + '\n';

@@ -1,30 +1,37 @@
-import { useEffect, useState } from 'react';
-
 import BlogArticleCardFeatured from '@/components/blog/BlogArticleCardFeatured';
 import BlogArticleCardSmall from '@/components/blog/BlogArticleCardSmall';
-import { Post } from '@/interfaces/post';
-import { combinedSearchQuery } from '@/actions/search';
+import { PostResults } from '@/interfaces/post';
+import { RootState } from '@/reducers';
+import { searchMulti } from '@/actions/search';
+import { useAxios } from '@/hooks/useAxios';
+import { useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
 
 export default function BlogByTag() {
   const router = useRouter();
   const { tag } = router.query;
-  const [blogs, setBlogs] = useState<Array<Post>>([]);
+  const [dispatchSearch, { loading }] = useAxios(false);
+  const { listResults } = useSelector((root: RootState) => root.search);
+  const { results: blogs }: PostResults = listResults.blogs || [];
 
   useEffect(() => {
-    if (!blogs.length && tag) {
-      getBlogs();
-    }
-  }, [blogs.length, getBlogs, router, tag]);
+    getBlogs();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tag]);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  async function getBlogs() {
-    const hits: any = await combinedSearchQuery({
-      q: `${tag}`,
-      endpoints: ['blogs'],
-      total: 10,
-    });
-    setBlogs(hits);
+  function getBlogs() {
+    dispatchSearch(
+      searchMulti({
+        q: `${tag}`,
+        endpoints: [
+          {
+            name: 'blogs',
+            total: 10,
+          },
+        ],
+      })
+    );
   }
 
   return (
@@ -36,21 +43,29 @@ export default function BlogByTag() {
           </h2>
         </div>
         <div className=" grid gap-0 desktop:grid-cols-3 desktop:gap-x-5 desktop:gap-y-12">
-          {blogs.map((post, idx) => (
+          {blogs?.map((post, idx) => (
             <BlogArticleCardFeatured post={post} key={post._source.title[0]} />
           ))}
         </div>
-
-        <div className="pt-9">
-          <h2 className="text-xl tracking-tight font-bold text-gray-700  my-6 sm:text-4xl">
-            Latest Stories in {tag}
-          </h2>
-        </div>
-        <div className=" grid gap-0  desktop:grid-cols-3 desktop:gap-x-5 desktop:gap-y-12 divide-y divide-solid">
-          {blogs.slice(5).map((post, idx) => (
-            <BlogArticleCardSmall key={post._source.title[0]} post={post} />
-          ))}
-        </div>
+        <>
+          {blogs?.length > 0 && (
+            <>
+              <div className="pt-9">
+                <h2 className="text-xl tracking-tight font-bold text-gray-700  my-6 sm:text-4xl">
+                  Latest Stories in {tag}
+                </h2>
+              </div>
+              <div className=" grid gap-0  desktop:grid-cols-3 desktop:gap-x-5 desktop:gap-y-12 divide-y divide-solid">
+                {blogs.slice(5).map((post, idx) => (
+                  <BlogArticleCardSmall
+                    key={post._source.title[0]}
+                    post={post}
+                  />
+                ))}
+              </div>
+            </>
+          )}
+        </>
       </div>
     </div>
   );

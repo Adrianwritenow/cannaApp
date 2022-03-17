@@ -1,34 +1,36 @@
+import { StringParam, useQueryParam, withDefault } from 'next-query-params';
+
+import { DispensaryResults } from '@/interfaces/dispensary';
 import LearnSection from '@/components/sections/LearnSection';
 import ListingSection from '@/components/sections/ListingSection';
+import { ProductResults } from '@/interfaces/product';
 import ProductResultsSection from '@/components/sections/ProductsResultsSection';
 import RelatedStrainsSection from '@/components/sections/RelatedStrainsSection';
 import { RootState } from '@/reducers';
+import { StrainResults } from '@/interfaces/strain';
 import SvgEmptyState from '@/public/assets/icons/iconComponents/EmptyState';
 import { searchMulti } from '@/actions/search';
 import { useAxios } from '@/hooks/useAxios';
 import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 import { useSearchLocation } from '@/hooks/useSearchLocation';
 import { useSelector } from 'react-redux';
-import { Strain } from '@/interfaces/strain';
-import { Product } from '@/interfaces/product';
-import { Dispensary } from '@/interfaces/dispensary';
-import { useQueryParam, StringParam, withDefault } from 'next-query-params';
-import { useRouter } from 'next/router';
 
 export default function SearchAll() {
   const router = useRouter();
   const { isReady } = router;
   const [query] = useQueryParam('qs', withDefault(StringParam, ''));
-  const { coords: userCoords } = useSearchLocation();
+  const { coords: userCoords, label } = useSearchLocation();
   const [dispatchSearch, { loading }] = useAxios(false);
   const { listResults } = useSelector((root: RootState) => root.search);
-  const products: Product[] = listResults.products || [];
-  const dispensaries: Dispensary[] = listResults.dispensaries || [];
-  const dispensariesFeatured: Dispensary[] =
+  const { results: products }: ProductResults = listResults.products || [];
+  const { results: dispensaries }: DispensaryResults =
+    listResults.dispensaries || [];
+  const { results: dispensariesFeatured }: DispensaryResults =
     listResults.dispensariesFeatured || [];
-  const strainsFeatured: Strain[] = listResults.strainsFeatured || [];
-  const strains: Strain[] = listResults.strains || [];
-  const hasProducts = products.length >= 3;
+  const { results: strainsFeatured }: StrainResults =
+    listResults.strainsFeatured || [];
+  const { results: strains }: StrainResults = listResults.strains || [];
 
   useEffect(() => {
     if (isReady && userCoords.lat && userCoords.lon) {
@@ -62,58 +64,73 @@ export default function SearchAll() {
   return (
     <div className="bg-gray-50 max-w-7xl mx-auto">
       {/* Shop Query Section */}
-      {hasProducts && (
-        <ProductResultsSection
-          list={products}
-          sponsored={false}
-          label={`${query ? 'Shop "' + query + '"' : 'Shop'}`}
-        />
-      )}
-      {/* Learn Query Section */}
-      {strainsFeatured && strainsFeatured.length > 0 && (
-        <>
-          <LearnSection strain={strainsFeatured[0]} query={query} />
-          {/* Related Strains Secrtion */}
-          <RelatedStrainsSection strains={strains.slice(0, 5)} />
-        </>
-      )}
-      {/* Sponsered Listings Section */}
-      {dispensariesFeatured && dispensariesFeatured.length > 0 && (
-        <ListingSection
-          listings={dispensariesFeatured}
-          sponsored={true}
-          query={query}
-          userCoords={userCoords}
-        />
-      )}
-      {dispensaries.length > 0 && (
-        <ListingSection
-          listings={dispensaries}
-          query={query}
-          userCoords={userCoords}
-        />
-      )}
 
-      {!hasProducts && !strains.length && !dispensaries.length && (
-        <div className="w-full flex items-center flex-wrap justify-center h-full space-y-3 py-14">
-          <SvgEmptyState className="w-40 h-40" />
-          {loading ? (
-            <div className="w-full space-y-3">
-              <h2 className="text-lg text-gray-700 font-semibold text-center w-56 ml-auto mr-auto">
-                Searching...
-              </h2>
-            </div>
-          ) : (
-            <div className="w-full space-y-3">
-              <h2 className="text-lg text-gray-700 font-semibold text-center w-56 ml-auto mr-auto">
-                Sorry, there are no results for this search.
-              </h2>
-              <p className="text-sm text-gray-500 text-center w-56 ml-auto mr-auto">
-                Please try again with different or more general keywords.
-              </p>
+      {(strains && strains.length > 0) ||
+      (dispensaries && dispensaries.length > 0) ||
+      (products && products.length > 0) ? (
+        <>
+          {products && products.length > 0 && (
+            <ProductResultsSection
+              list={products}
+              sponsored={false}
+              label={`${query ? 'Shop "' + query + '"' : 'Shop'}`}
+            />
+          )}
+          {/* Learn Query Section */}
+          {strainsFeatured && strainsFeatured.length > 0 && (
+            <>
+              <LearnSection strain={strainsFeatured[0]} query={query} />
+              {/* Related Strains Secrtion */}
+              <RelatedStrainsSection strains={strains.slice(0, 5)} />
+            </>
+          )}
+          {/* Sponsered Listings Section */}
+          {/* {dispensariesFeatured && dispensariesFeatured.length > 0 && (
+            <ListingSection
+              listings={dispensariesFeatured}
+              sponsored={true}
+              query={query}
+              userCoords={userCoords}
+              heading={''}
+            />
+          )} */}
+          {dispensaries && dispensaries.length > 0 && (
+            <ListingSection
+              listings={dispensaries}
+              query={query}
+              userCoords={userCoords}
+              heading={`${
+                query
+                  ? `Results for "${query}"`
+                  : `Results near "${label ?? 'you'}"`
+              }`}
+            />
+          )}
+        </>
+      ) : (
+        <>
+          {!strains?.length && !dispensaries?.length && !products?.length && (
+            <div className="w-full flex items-center flex-wrap justify-center h-full space-y-3 py-14">
+              <SvgEmptyState className="w-40 h-40" />
+              {loading ? (
+                <div className="w-full space-y-3">
+                  <h2 className="text-lg text-gray-700 font-semibold text-center w-56 ml-auto mr-auto">
+                    Searching...
+                  </h2>
+                </div>
+              ) : (
+                <div className="w-full space-y-3">
+                  <h2 className="text-lg text-gray-700 font-semibold text-center w-56 ml-auto mr-auto">
+                    Sorry, there are no results for this search.
+                  </h2>
+                  <p className="text-sm text-gray-500 text-center w-56 ml-auto mr-auto">
+                    Please try again with different or more general keywords.
+                  </p>
+                </div>
+              )}
             </div>
           )}
-        </div>
+        </>
       )}
     </div>
   );

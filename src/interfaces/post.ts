@@ -17,3 +17,8 @@ export interface Post {
     _type: string;
   };
 }
+
+export interface PostResults {
+  results: Post[];
+  total: number;
+}

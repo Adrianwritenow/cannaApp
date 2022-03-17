@@ -4,10 +4,9 @@ import {
   LocationMarkerIcon,
   TagIcon,
 } from '@heroicons/react/solid';
-import { searchMulti, receiveResults } from '@/actions/search';
+import { Post, PostResults } from '@/interfaces/post';
 import { formatDealCard, formatDispensaryCard } from '@/helpers/formatters';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
 
 import Background from '@/public/assets/images/png/fullBloom.png';
 import BlogArticleCardSlide from '@/components/blog/BlogArticleCardSlide';
@@ -15,7 +14,7 @@ import BlogArticleSmall from '@/components/blog/BlogArticleCardSmall';
 import ClaimBusiness from '@/public/assets/images/png/growBusiness.png';
 import { Coupon } from '@/interfaces/coupon';
 import CouponSlideOver from '@/views/slideOver/CouponsSlideOver';
-import { Dispensary } from '@/interfaces/dispensary';
+import { DispensaryResults } from '@/interfaces/dispensary';
 import Image from 'next/image';
 import Link from 'next/link';
 import ListingCard from '@/components/listings/ListingCard';
@@ -23,14 +22,16 @@ import Logo from '@/public/assets/logos/logo.png';
 import LogoText from '@/public/assets/logos/logo-text.png';
 import Map from '@/public/assets/images/png/mapColor.png';
 import NewsletterHero from '@/public/assets/images/png/newsletter/newsletter-hero.png';
-import { Post } from '@/interfaces/post';
-import { Product } from '@/interfaces/product';
+import { ProductResults } from '@/interfaces/product';
 import ProductResultsSection from '@/components/sections/ProductsResultsSection';
 import { RootState } from '@/reducers';
 import SearchSlideOver from '@/components/forms/fields/SearchSlideOver';
 import { destinations } from '@/helpers/destinations';
 import { publications } from '@/helpers/publications';
+import { searchMulti } from '@/actions/search';
+import { setLocation } from '@/actions/location';
 import { useAxios } from '@/hooks/useAxios';
+import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useSearchLocation } from '@/hooks/useSearchLocation';
 
@@ -43,23 +44,23 @@ export default function Home() {
   const { listResults } = useSelector((root: RootState) => root.search);
   const dealsNearMe: Coupon[] = listResults.dealsNearMe || [];
   const dealsFeatured: Coupon[] = listResults.dealsFeatured || [];
-  const products: Product[] = listResults.flowerProducts || [];
-  const dispensaries: Dispensary[] = listResults.dispensaries || [];
-  const blogs: Post[] = listResults.blogs || [];
+  const { results: products }: ProductResults =
+    listResults.flowerProducts || [];
+  const { results: dispensaries }: DispensaryResults =
+    listResults.dispensaries || [];
+  const { results: blogs }: PostResults = listResults.blogs || [];
 
   async function handleDestinationClick(
     coords: { lat: number; lon: number },
     city: string
   ) {
     dispatch(
-      receiveResults({
-        searchLocation: {
-          coords: {
-            lat: coords.lat,
-            lon: coords.lon,
-            city: city,
-          },
-        },
+      setLocation({
+        lat: coords.lat,
+        lon: coords.lon,
+        city: city,
+        state: '',
+        preciseLocationSet: true,
       })
     );
   }
@@ -100,7 +101,7 @@ export default function Home() {
   }
 
   useEffect(() => {
-    if (currentCoords.lat && currentCoords.lon && !loading) {
+    if (currentCoords.lat && currentCoords.lon) {
       getResults(currentCoords.lat, currentCoords.lon);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -163,7 +164,7 @@ export default function Home() {
                     <Link
                       href={{
                         pathname: '/search/shopping',
-                        query: { category: 'Edible' },
+                        query: { category: 'Edibles' },
                       }}
                       passHref
                     >
@@ -227,7 +228,7 @@ export default function Home() {
           <div className="absolute inset-y-0 right-0  w-1/2 z-0">
             <Image src={Map} alt="Map" layout="fill" objectFit={'cover'} />
           </div>
-          <Link href="/map" passHref>
+          <Link href="/search/map" passHref>
             <a className="absolute z-10 flex rounded-full bg-gray-50 shadow p-1 right-0 bottom-0 mb-4 mr-4 focus:outline-none">
               <button className="focus:outline-none">
                 <ArrowsExpandIcon className="w-8 h-8 text-gray-700" />
@@ -242,7 +243,7 @@ export default function Home() {
       {/* Search/Map Section Mobile */}
       <section className="desktop:hidden relative pt-16 desktop:max-w-4xl desktop:rounded-md  desktop:mx-auto desktop:shadow-md mx-auto">
         <Image src={Map} alt="Map" layout="fill" objectFit={'cover'} />
-        <Link href="/map" passHref>
+        <Link href="/search/map" passHref>
           <a className="absolute z-10 flex rounded-full bg-gray-50 shadow p-0.5 right-0 top-0 mt-2 mr-4 focus:outline-none">
             <button className="focus:outline-none">
               <ArrowsExpandIcon className="w-5 h-5 text-gray-700" />
@@ -278,8 +279,7 @@ export default function Home() {
               <span></span>
               <Link
                 href={{
-                  pathname: '/search',
-                  query: { view: 'dispensaries' },
+                  pathname: '/search/dispensaries',
                 }}
                 passHref
               >
@@ -290,8 +290,8 @@ export default function Home() {
               </Link>
               <Link
                 href={{
-                  pathname: '/search',
-                  query: { category: 'Edible', view: 'shopping' },
+                  pathname: '/search/shopping',
+                  query: { category: 'Edible' },
                 }}
                 passHref
               >
@@ -302,8 +302,7 @@ export default function Home() {
               </Link>
               <Link
                 href={{
-                  pathname: '/search',
-                  query: { view: 'deals' },
+                  pathname: '/search/deals',
                 }}
                 passHref
               >
@@ -314,8 +313,8 @@ export default function Home() {
               </Link>
               <Link
                 href={{
-                  pathname: '/search',
-                  query: { category: 'Budder', view: 'shopping' },
+                  pathname: '/search/shopping',
+                  query: { category: 'Budder' },
                 }}
                 passHref
               >
@@ -326,8 +325,8 @@ export default function Home() {
               </Link>
               <Link
                 href={{
-                  pathname: '/search',
-                  query: { category: 'Fragrances', view: 'shopping' },
+                  pathname: '/search/shopping',
+                  query: { category: 'Fragrances' },
                 }}
                 passHref
               >
@@ -338,8 +337,8 @@ export default function Home() {
               </Link>
               <Link
                 href={{
-                  pathname: '/search',
-                  query: { category: 'Flower', view: 'shopping' },
+                  pathname: '/search/shopping',
+                  query: { category: 'Flower' },
                 }}
                 passHref
               >
@@ -430,7 +429,7 @@ export default function Home() {
                       handleDestinationClick(
                         location.coords,
                         location.label
-                      ).then(() => router.push('/map'))
+                      ).then(() => router.push('/search/map'))
                     }
                   >
                     <Image

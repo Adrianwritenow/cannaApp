@@ -1,16 +1,16 @@
+import { Coupon, CouponResults } from '@/interfaces/coupon';
 import { Dialog, Transition } from '@headlessui/react';
+import { Product, ProductResults } from '@/interfaces/product';
 import React, { Fragment, useEffect, useState } from 'react';
-import { searchMulti } from '@/actions/search';
 
 import { ArrowLeftIcon } from '@heroicons/react/outline';
 import { Dispensary } from '@/interfaces/dispensary';
 import FilterMenuTabs from '@/components/filter/FilterMenuTabs';
-import { Product } from '@/interfaces/product';
 import ProductResultsSection from '@/components/sections/ProductsResultsSection';
-import { Coupon } from '@/interfaces/coupon';
-import { useSelector } from 'react-redux';
 import { RootState } from '@/reducers';
+import { searchMulti } from '@/actions/search';
 import { useAxios } from '@/hooks/useAxios';
+import { useSelector } from 'react-redux';
 
 export default function BusinessMenuSlideOver(props: {
   dispensary: Dispensary;
@@ -20,8 +20,9 @@ export default function BusinessMenuSlideOver(props: {
   const [open, setOpen] = useState(false);
   const [dispatchSearch] = useAxios(false);
   const { listResults } = useSelector((root: RootState) => root.search);
-  const products: Product[] = listResults[`businessProducts${bid}`] || [];
-  const coupons: Coupon[] = listResults.businessCoupons || [];
+  const { results: products }: ProductResults =
+    listResults[`businessProducts${bid}`] || [];
+  const { results: coupons }: CouponResults = listResults.businessCoupons || [];
 
   function getResults() {
     const endpoints: any = [
@@ -60,7 +61,7 @@ export default function BusinessMenuSlideOver(props: {
   return (
     <div>
       {/* Need Products related to business */}
-      {products.length || coupons.length ? (
+      {products?.length || coupons?.length ? (
         <ProductResultsSection
           list={products.length ? products.slice(0, 5) : coupons.slice(0, 5)}
           sponsored={false}

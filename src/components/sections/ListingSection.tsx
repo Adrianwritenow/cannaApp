@@ -7,14 +7,14 @@ interface Listings {
   listings: Array<Dispensary>;
   sponsored?: boolean;
   query?: string;
+  heading: string;
   userCoords?: {
     lat: number;
     lon: number;
   };
 }
 export default function ListingSection(results: Listings) {
-  const { listings, sponsored, query, userCoords } = results;
-  const { label } = useSearchLocation();
+  const { listings, sponsored, heading, userCoords } = results;
 
   return (
     <section id="listing-section" className="max-w-7xl mx-auto">
@@ -27,9 +27,7 @@ export default function ListingSection(results: Listings) {
         </div>
       ) : (
         <h2 className="text-xl text-gray-700 font-semibold p-4 pb-0 desktop:text-2xl">
-          {query
-            ? `${listings.length} results for "${query}"`
-            : `${listings.length} results near "${label ?? 'you'}"`}
+          {heading}
         </h2>
       )}
 

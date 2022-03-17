@@ -1,4 +1,5 @@
 import { ArrowLeftIcon, StarIcon } from '@heroicons/react/solid';
+import { Dispensary, DispensaryResults } from '@/interfaces/dispensary';
 import {
   GlobeIcon,
   InformationCircleIcon,
@@ -9,14 +10,12 @@ import {
 } from '@heroicons/react/outline';
 import { IconFacebook, IconInsta } from '@/public/assets/icons/iconComponents';
 import React, { useEffect, useState } from 'react';
-import { searchMulti } from '@/actions/search';
 
 import AboutUsSlideOver from '@/views/slideOver/AboutUsSlideOver';
 import AmenitiesSection from '@/components/sections/AmenitiesSection';
 import BusinessMenuSlideOver from '@/views/slideOver/business/BusinessMenuSlideOver';
 import BusinessReviewSlideOver from '@/views/slideOver/business/BusinessReviewSlideOver';
 import BusinessVerificationSlideOver from '@/views/slideOver/business/BusinessVerifiedSlideOver';
-import { Dispensary } from '@/interfaces/dispensary';
 import FaqSlideOver from '@/views/slideOver/FaqSlideOver';
 import ImageWithFallback from '@/components/image/ImageWithFallback';
 import Link from 'next/link';
@@ -28,11 +27,12 @@ import SocialShare from '@/components/share/SocialShare';
 import SvgIconTwitter from '@/public/assets/icons/iconComponents/IconTwitter';
 import getDistanceFrom from '@/helpers/getDistanceFrom';
 import moment from 'moment-timezone';
-import { useRouter } from 'next/router';
-import { useSelector } from 'react-redux';
-import { useSearchLocation } from '@/hooks/useSearchLocation';
 import { reviews } from '@/helpers/mockData';
+import { searchMulti } from '@/actions/search';
 import { useAxios } from '@/hooks/useAxios';
+import { useRouter } from 'next/router';
+import { useSearchLocation } from '@/hooks/useSearchLocation';
+import { useSelector } from 'react-redux';
 
 export default function BusinessDetail() {
   const router = useRouter();
@@ -43,40 +43,41 @@ export default function BusinessDetail() {
 
   const [dispatchSearch, { loading }] = useAxios(false);
   const { listResults } = useSelector((root: RootState) => root.search);
-  const viewed: Dispensary[] = listResults.dispensariesViewed || [];
-  const dispensaryResult: Dispensary[] = listResults.dispensary || [];
-  const dispensary: Dispensary | undefined = dispensaryResult.length
+  const { results: viewed }: DispensaryResults =
+    listResults.dispensariesViewed || [];
+  const { results: dispensaryResult }: DispensaryResults =
+    listResults.dispensary || [];
+
+  const dispensary: Dispensary | undefined = dispensaryResult?.length
     ? dispensaryResult[0]
     : undefined;
 
   let today = moment.tz(timezone).format('dddd');
 
   useEffect(() => {
-    if (loading || !bid) {
-      return;
-    }
-
-    dispatchSearch(
-      searchMulti({
-        coords,
-        endpoints: [
-          {
-            name: 'dispenaries',
-            key: 'dispensary',
-            filters: {
-              id: [bid],
+    if (bid) {
+      dispatchSearch(
+        searchMulti({
+          coords,
+          endpoints: [
+            {
+              name: 'dispenaries',
+              key: 'dispensary',
+              filters: {
+                id: [bid],
+              },
+              total: 1,
             },
-            total: 1,
-          },
-          {
-            name: 'dispenaries',
-            key: 'dispensariesViewed',
-            geolocate: true,
-            total: 4,
-          },
-        ],
-      })
-    );
+            {
+              name: 'dispenaries',
+              key: 'dispensariesViewed',
+              geolocate: true,
+              total: 4,
+            },
+          ],
+        })
+      );
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [coords, bid]);
 

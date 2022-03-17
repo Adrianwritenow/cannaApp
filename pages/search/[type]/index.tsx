@@ -1,8 +1,8 @@
 import { MapContainer } from '@/components/map/MapContainer';
-import SearchMenu from '@/components/menus/SearchMenu';
 import SearchAll from '@/views/search/SearchAll';
 import SearchDeals from '@/views/search/SearchDeals';
 import SearchDispensary from '@/views/search/SearchDispensary';
+import SearchMenu from '@/components/menus/SearchMenu';
 import SearchNews from '@/views/search/SearchNews';
 import SearchShopping from '@/views/search/SearchShopping';
 import SearchStrain from '@/views/search/SearchStrain';

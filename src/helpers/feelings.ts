@@ -1,63 +1,63 @@
-import aroused from "../../public/assets/images/png/emojis/aroused.png";
-import creative from "../../public/assets/images/png/emojis/creative.png";
-import energetic from "../../public/assets/images/png/emojis/energetic.png";
-import focused from "../../public/assets/images/png/emojis/focused.png";
-import giggly from "../../public/assets/images/png/emojis/giggly.png";
-import happy from "../../public/assets/images/png/emojis/happy.png";
-import hungry from "../../public/assets/images/png/emojis/hungry.png";
-import relaxed from "../../public/assets/images/png/emojis/relaxed.png";
-import sleepy from "../../public/assets/images/png/emojis/sleepy.png";
-import talkative from "../../public/assets/images/png/emojis/talkative.png";
-import tingly from "../../public/assets/images/png/emojis/tingly.png";
-import uplifted from "../../public/assets/images/png/emojis/uplifted.png";
+import aroused from '@/public/assets/images/png/emojis/aroused.png';
+import creative from '@/public/assets/images/png/emojis/creative.png';
+import energetic from '@/public/assets/images/png/emojis/energetic.png';
+import focused from '@/public/assets/images/png/emojis/focused.png';
+import giggly from '@/public/assets/images/png/emojis/giggly.png';
+import happy from '@/public/assets/images/png/emojis/happy.png';
+import hungry from '@/public/assets/images/png/emojis/hungry.png';
+import relaxed from '@/public/assets/images/png/emojis/relaxed.png';
+import sleepy from '@/public/assets/images/png/emojis/sleepy.png';
+import talkative from '@/public/assets/images/png/emojis/talkative.png';
+import tingly from '@/public/assets/images/png/emojis/tingly.png';
+import uplifted from '@/public/assets/images/png/emojis/uplifted.png';
 
 export const Feelings = [
   {
-    label: "Aroused",
+    label: 'Aroused',
     src: aroused,
   },
   {
-    label: "Creative",
+    label: 'Creative',
     src: creative,
   },
   {
-    label: "Energetic",
+    label: 'Energetic',
     src: energetic,
   },
   {
-    label: "Focused",
+    label: 'Focused',
     src: focused,
   },
   {
-    label: "Giggly",
+    label: 'Giggly',
     src: giggly,
   },
   {
-    label: "Happy",
+    label: 'Happy',
     src: happy,
   },
   {
-    label: "Hungry",
+    label: 'Hungry',
     src: hungry,
   },
   {
-    label: "Relaxed",
+    label: 'Relaxed',
     src: relaxed,
   },
   {
-    label: "Sleepy",
+    label: 'Sleepy',
     src: sleepy,
   },
   {
-    label: "Talkative",
+    label: 'Talkative',
     src: talkative,
   },
   {
-    label: "Tingly",
+    label: 'Tingly',
     src: tingly,
   },
   {
-    label: "Uplifted",
+    label: 'Uplifted',
     src: uplifted,
   },
 ];

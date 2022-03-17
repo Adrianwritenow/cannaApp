@@ -1,22 +1,26 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { StringParam, useQueryParam, withDefault } from 'next-query-params';
 
-import { Dispensary } from '@/interfaces/dispensary';
-import DispensaryFilterSlideOver from '@/views/slideOver/filters/DispensaryFilterSlideOver';
-import ListingSection from '@/components/sections/ListingSection';
+import DispensaryFilterSlideOver from '../slideOver/filters/DispensaryFilterSlideOver';
+import { DispensaryResults } from '@/interfaces/dispensary';
+import ListingSection from '../../components/sections/ListingSection';
+import { RootState } from '@/reducers';
 import SvgEmptyState from '@/public/assets/icons/iconComponents/EmptyState';
-import { combinedSearchQuery } from '@/actions/search';
+import { searchMulti } from '@/actions/search';
+import { useAxios } from '@/hooks/useAxios';
 import { useRouter } from 'next/router';
 import { useSearchLocation } from '@/hooks/useSearchLocation';
-import { useQueryParam, StringParam, withDefault } from 'next-query-params';
+import { useSelector } from 'react-redux';
 
 export default function SearchDispensary() {
   const [query] = useQueryParam('qs', withDefault(StringParam, ''));
-  const [dispensaries, setDispensaries] = useState<Array<Dispensary>>();
+  const { listResults } = useSelector((root: RootState) => root.search);
+  const { results: dispensaries, total }: DispensaryResults =
+    listResults.dispensaries || [];
   const router = useRouter();
-  const { isReady } = router;
   const { category } = router.query;
-  const { label, coords } = useSearchLocation();
-  const firstRender = useRef(true);
+  const { coords, label } = useSearchLocation();
+  const [dispatchSearch, { loading }] = useAxios(false);
 
   const [filters, setFilters] = useState<any>({
     productType: [`${category ? category : ''}`],
@@ -25,38 +29,42 @@ export default function SearchDispensary() {
     distance: '',
   });
 
-  useEffect(() => {
-    // Without this the request always runs twice on the initial render since
-    // the `filters` value changes as a side effect from another component.
-    // This is sort of a workaround, ideally we can remove if we can convert
-    // the search request to `useAxios` and check if the request is already
-    // loading.
-    if (firstRender.current) {
-      firstRender.current = false;
-      return;
-    }
-    if (isReady) {
-      getDispensaries();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [query, isReady, filters, coords]);
+  const range = filters.distance ? filters.distance[0] : '5mi';
+  const { distance, ...filterData } = filters;
 
-  async function getDispensaries() {
-    const range = filters.distance ? filters.distance[0] : '5mi';
-    const { distance, ...filterData } = filters;
-    const hits: any = await combinedSearchQuery({
-      q: query ?? '*',
-      filters: filterData,
-      distance: range,
-      coords: coords,
-      endpoints: ['dispenaries'],
-      total: 10,
-    });
-    setDispensaries(hits);
+  useEffect(() => {
+    getDispensaries(0, false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query, filters, coords]);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  function getDispensaries(from: number, concat: boolean) {
+    dispatchSearch(
+      searchMulti({
+        q: query,
+        filters: filterData,
+        distance: range,
+        coords: coords,
+        endpoints: [
+          {
+            name: 'dispenaries',
+            key: 'dispensaries',
+            geolocate: true,
+            concat,
+            from,
+          },
+        ],
+        total: 10,
+      })
+    );
   }
 
   function handleFilter(data: any) {
     setFilters(data);
+  }
+
+  function handleLoadMore() {
+    getDispensaries(dispensaries.length, true);
   }
 
   return (
@@ -69,7 +77,20 @@ export default function SearchDispensary() {
               listings={dispensaries}
               query={query}
               userCoords={coords}
+              heading={` ${
+                query
+                  ? `${total} results for "${query}"`
+                  : `${total} results near "${label ?? 'you'}"`
+              }`}
             />
+            <div className="flex justify-center py-10">
+              <button
+                onClick={handleLoadMore}
+                className="bg-green-500 text-white hover:bg-green-600 flex justify-center py-2 px-20 mt-5 border border-green rounded-md shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green"
+              >
+                Load More
+              </button>
+            </div>
           </div>
         ) : (
           <div className="w-full flex items-center  flex-wrap justify-center h-full space-y-4 py-14">

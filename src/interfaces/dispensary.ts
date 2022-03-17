@@ -40,3 +40,8 @@ export type Dispensary = ResultWithLocationHours & {
     administrative_area: string[];
   };
 };
+
+export interface DispensaryResults {
+  results: Dispensary[];
+  total: number;
+}

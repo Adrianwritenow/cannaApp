@@ -26,3 +26,8 @@ export interface Product {
     _type: string;
   };
 }
+
+export interface ProductResults {
+  results: Product[];
+  total: number;
+}

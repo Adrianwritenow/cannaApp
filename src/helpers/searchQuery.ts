@@ -7,10 +7,14 @@ export const combinedQueryBody = (searchProps: {
   distance?: string;
   filters?: any;
   total?: number;
+  from?: number;
 }): object => {
-  const { q, coords, distance, filters, total } = searchProps;
+  const { q, coords, distance, filters, total, from } = searchProps;
   const body = bodybuilder().size(total ?? 15);
 
+  if (from) {
+    body.from(from);
+  }
   if (q) {
     body.query('query_string', 'query', q);
   } else if (q == '' || q == '*') {
@@ -106,7 +110,7 @@ export const combinedQueryBody = (searchProps: {
    * which is not a problem for our use case
    */
   if (coords?.lat && coords?.lon) {
-    body.orFilter('geo_distance', {
+    body.filter('geo_distance', {
       distance: distance ?? '20000mi',
       coordinates: { lat: coords.lat, lon: coords.lon },
       ignore_unmapped: true,

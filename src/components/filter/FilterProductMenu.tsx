@@ -71,7 +71,7 @@ export default function FilterProductMenu(props: FilterMenuProps) {
                           label={'Sort By'}
                           id={'sort'}
                           type="radio"
-                          values={values.filters.sort}
+                          values={values.sort}
                           setFieldValue={setFieldValue}
                         />
 
@@ -80,7 +80,7 @@ export default function FilterProductMenu(props: FilterMenuProps) {
                           label={'Pipes'}
                           id={'category'}
                           type="radio"
-                          values={values.filters.category}
+                          values={values.category}
                           setFieldValue={setFieldValue}
                         />
                         <FilterGroup
@@ -88,7 +88,7 @@ export default function FilterProductMenu(props: FilterMenuProps) {
                           label={'Type'}
                           id={'category'}
                           type="radio"
-                          values={values.filters.category}
+                          values={values.category}
                           setFieldValue={setFieldValue}
                         />
                         <FilterGroup
@@ -96,7 +96,7 @@ export default function FilterProductMenu(props: FilterMenuProps) {
                           label={'Rigs'}
                           id={'category'}
                           type="radio"
-                          values={values.filters.category}
+                          values={values.category}
                           setFieldValue={setFieldValue}
                         />
                         <FilterGroup
@@ -104,7 +104,7 @@ export default function FilterProductMenu(props: FilterMenuProps) {
                           label={'Vape Pens'}
                           id={'category'}
                           type="radio"
-                          values={values.filters.category}
+                          values={values.category}
                           setFieldValue={setFieldValue}
                         />
                         <FilterGroup
@@ -112,7 +112,7 @@ export default function FilterProductMenu(props: FilterMenuProps) {
                           label={'Flower'}
                           id={'category'}
                           type="radio"
-                          values={values.filters.category}
+                          values={values.category}
                           setFieldValue={setFieldValue}
                         />
                         <FilterGroup
@@ -120,7 +120,7 @@ export default function FilterProductMenu(props: FilterMenuProps) {
                           label={'Concentrates'}
                           id={'category'}
                           type="radio"
-                          values={values.filters.category}
+                          values={values.category}
                           setFieldValue={setFieldValue}
                         />
                         <FilterGroup
@@ -128,7 +128,7 @@ export default function FilterProductMenu(props: FilterMenuProps) {
                           label={'Edibles'}
                           id={'category'}
                           type="radio"
-                          values={values.filters.category}
+                          values={values.category}
                           setFieldValue={setFieldValue}
                         />
                         <FilterGroup
@@ -136,7 +136,7 @@ export default function FilterProductMenu(props: FilterMenuProps) {
                           label={'Personal Care'}
                           id={'category'}
                           type="radio"
-                          values={values.filters.category}
+                          values={values.category}
                           setFieldValue={setFieldValue}
                         />
                         <FilterGroup
@@ -144,7 +144,7 @@ export default function FilterProductMenu(props: FilterMenuProps) {
                           label={'Rolling Papers'}
                           id={'category'}
                           type="radio"
-                          values={values.filters.category}
+                          values={values.category}
                           setFieldValue={setFieldValue}
                         />
                         <FilterGroup
@@ -152,7 +152,7 @@ export default function FilterProductMenu(props: FilterMenuProps) {
                           label={'Grinders'}
                           id={'category'}
                           type="radio"
-                          values={values.filters.category}
+                          values={values.category}
                           setFieldValue={setFieldValue}
                         />
                         <FilterGroup
@@ -160,7 +160,7 @@ export default function FilterProductMenu(props: FilterMenuProps) {
                           label={'Miscellaneous'}
                           id={'category'}
                           type="radio"
-                          values={values.filters.category}
+                          values={values.category}
                           setFieldValue={setFieldValue}
                         />
                       </div>

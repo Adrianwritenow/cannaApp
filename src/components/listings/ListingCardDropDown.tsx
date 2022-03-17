@@ -4,14 +4,14 @@ import React, { useEffect, useState } from 'react';
 import { BookmarkIcon } from '@heroicons/react/outline';
 import { Disclosure } from '@headlessui/react';
 import { DispensaryProps } from '@/interfaces/listing';
-import { formatImageWithFallback } from '@/helpers/formatters';
 import ImageWithFallback from '@/components/image/ImageWithFallback';
 import Link from 'next/link';
 import OpenIndicator from '@/helpers/OpenStatus';
+import { formatImageWithFallback } from '@/helpers/formatters';
 import getDistanceFrom from '@/helpers/getDistanceFrom';
 
 export default function ListingCardDropdown(data: DispensaryProps) {
-  const { listing, amenities, classNames, userCoords } = data;
+  const { listing, classNames, userCoords } = data;
   const [distanceFrom, setDistanceFrom] = useState('');
 
   useEffect(() => {

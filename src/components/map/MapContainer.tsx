@@ -1,26 +1,31 @@
+import { Dispensary, DispensaryResults } from '@/interfaces/dispensary';
 import React, { createContext, useEffect, useRef, useState } from 'react';
-import { combinedSearchQuery, receiveResults } from '@/actions/search';
+import { StringParam, useQueryParam, withDefault } from 'next-query-params';
+import { receiveResults, searchMulti } from '@/actions/search';
 import { useDispatch, useSelector } from 'react-redux';
 
 import BullseyeIcon from '@/public/assets/icons/iconComponents/Bullseye';
-import { Dispensary } from '@/interfaces/dispensary';
 import DispensaryFilterSlideOver from '@/views/slideOver/filters/DispensaryFilterSlideOver';
 import { Map } from './Map';
 import MapResults from './MapResults';
 import { RootState } from '@/reducers';
 import { setLocation } from '@/actions/location';
+import { useAxios } from '@/hooks/useAxios';
 import { useCurrentWidth } from './useCurrentWidth';
-import { useSearchLocation } from '@/hooks/useSearchLocation';
-import { useQueryParam, StringParam, withDefault } from 'next-query-params';
 import { useRouter } from 'next/router';
+import { useSearchLocation } from '@/hooks/useSearchLocation';
 
 export const MapContext = createContext<any>(null);
 
 export function MapContainer() {
   const router = useRouter();
   const { isReady } = router;
+  const [dispatchSearch, { loading }] = useAxios(false);
   const [query] = useQueryParam('qs', withDefault(StringParam, ''));
   const [showMap, setShowMap] = useState(true);
+  const { listResults } = useSelector((root: RootState) => root.search);
+  const { results: locationMatches }: DispensaryResults =
+    listResults.dispensaries || [];
 
   const { state, city, lat, lon, preciseLocationSet } = useSelector(
     (root: RootState) => root.location
@@ -28,12 +33,9 @@ export function MapContainer() {
 
   const dispatch = useDispatch();
   const [showResults, setShowResults] = useState(true);
-  const [locationMatches, setLocationMatches] = useState<Array<Dispensary>>();
   const [activeCard, setActiveCard] = useState<any>(0);
   const [swiper, setSwiper] = useState<any>(null);
-  const [update, setUpdate] = useState(true);
   const { label, coords } = useSearchLocation();
-
   const width = useCurrentWidth();
   const [filters, setFilters] = useState<any>({
     category: [`${query ? query : ''}`],
@@ -43,11 +45,11 @@ export function MapContainer() {
   });
 
   useEffect(() => {
-    if (isReady && (label !== null || update)) {
+    if (isReady && label !== null) {
       getLocationMatches();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [label, isReady, query, lat, lon, update, filters]);
+  }, [label, isReady, query, lat, lon, filters]);
 
   const getLocation = () => {
     if (!preciseLocationSet) {
@@ -99,22 +101,28 @@ export function MapContainer() {
   async function getLocationMatches() {
     const range = filters.distance ? filters.distance[0] : '5mi';
     const { distance, ...filterData } = filters;
-    const hits: any = await combinedSearchQuery({
-      q: query,
-      endpoints: ['dispenaries'],
-      coords: coords ? coords : { lat, lon },
-      filters: filterData,
-      distance: range,
-      total: 10,
-    });
 
-    setLocationMatches(hits);
-    setUpdate(false);
+    dispatchSearch(
+      searchMulti({
+        q: query,
+        filters: filterData,
+        distance: range,
+        coords: coords,
+
+        endpoints: [
+          {
+            name: 'dispenaries',
+            key: 'dispensaries',
+            geolocate: true,
+          },
+        ],
+        total: 10,
+      })
+    );
   }
 
   function handleFilter(data: any) {
     setFilters(data);
-    setUpdate(true);
   }
 
   return (

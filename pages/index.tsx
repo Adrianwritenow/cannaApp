@@ -429,7 +429,7 @@ export default function Home() {
                       handleDestinationClick(
                         location.coords,
                         location.label
-                      ).then(() => router.push('/map'))
+                      ).then(() => router.push('/search/map'))
                     }
                   >
                     <Image

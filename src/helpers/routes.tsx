@@ -103,7 +103,7 @@ export const BottomNavRoutes: Route[] = [
   {
     label: 'Explore',
     icon: <SearchIcon className="w-6 h-6 stroke-1" />,
-    href: '/search',
+    href: '/search/all',
     id: 'explore',
   },
   // {

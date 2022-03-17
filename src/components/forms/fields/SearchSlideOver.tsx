@@ -6,7 +6,7 @@ import {
 } from '@heroicons/react/solid';
 import { Dialog, Transition } from '@headlessui/react';
 import { Field, Form, Formik } from 'formik';
-import React, { Fragment, useRef, useState } from 'react';
+import React, { Fragment, useEffect, useRef, useState } from 'react';
 import { StringParam, useQueryParam, withDefault } from 'next-query-params';
 import { receiveResults, searchMulti } from '@/actions/search';
 import { useDispatch, useSelector } from 'react-redux';
@@ -67,12 +67,15 @@ export default function SearchSlideOver(props: {
     search: query,
   };
 
-  // Flatten search lists.
-  // @todo: Remove this and use list key.
-  let results: any = [];
-  Object.values(listResults).forEach(resultsByList => {
-    results = results.concat(resultsByList);
-  });
+  useEffect(() => {
+    // Flatten search lists.
+    let results: any = [];
+    results = results.concat(dispensaries, products, strains);
+    const sortedResults = results.sort(
+      (a: any, b: any) => b._score || 0 > a._score || 0
+    );
+    setSearchResults(sortedResults);
+  }, [products, strains, dispensaries]);
 
   function handleSubmit(search: any) {
     const pathPrefix = router.pathname.substring(0, 7);

@@ -85,7 +85,7 @@ export default function SearchAll() {
             </>
           )}
           {/* Sponsered Listings Section */}
-          {dispensariesFeatured && dispensariesFeatured.length > 0 && (
+          {/* {dispensariesFeatured && dispensariesFeatured.length > 0 && (
             <ListingSection
               listings={dispensariesFeatured}
               sponsored={true}
@@ -93,7 +93,7 @@ export default function SearchAll() {
               userCoords={userCoords}
               heading={''}
             />
-          )}
+          )} */}
           {dispensaries && dispensaries.length > 0 && (
             <ListingSection
               listings={dispensaries}

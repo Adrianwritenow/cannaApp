@@ -93,7 +93,7 @@ export default function StrainDetail() {
           </section>
         </div>
       </div>
-      {searchLists.length ? (
+      {/* {searchLists.length ? (
         <ProductResultsSection
           list={searchLists}
           sponsored={true}
@@ -103,7 +103,7 @@ export default function StrainDetail() {
         />
       ) : (
         ''
-      )}
+      )} */}
     </div>
   );
 }

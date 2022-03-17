@@ -70,7 +70,6 @@ export default function SearchSlideOver(props: {
 
   useEffect(() => {
     // Flatten search lists.
-    console.log('LOC:::', location);
 
     let results: any = [];
     results = results.concat(dispensaries, products, strains);

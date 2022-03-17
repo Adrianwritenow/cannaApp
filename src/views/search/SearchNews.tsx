@@ -22,11 +22,11 @@ export default function SearchNews() {
   });
 
   useEffect(() => {
-    getBlogs();
+    getBlogs(0, false);
   }, [query, filters]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  function getBlogs() {
+  function getBlogs(from: number, concat: boolean) {
     dispatchSearch(
       searchMulti({
         q: query,
@@ -35,6 +35,8 @@ export default function SearchNews() {
           {
             name: 'blogs',
             geolocate: true,
+            from,
+            concat,
           },
         ],
         total: 10,
@@ -58,21 +60,7 @@ export default function SearchNews() {
   }
 
   function handleLoadMore() {
-    dispatchSearch(
-      searchMulti({
-        q: query,
-        filters: filters,
-
-        endpoints: [
-          {
-            name: 'blogs',
-            from: blogs.length,
-            concat: true,
-          },
-        ],
-        total: 10,
-      })
-    );
+    getBlogs(blogs.length, true);
   }
   return (
     <section className="bg-gray-50">

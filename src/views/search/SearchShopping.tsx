@@ -30,16 +30,16 @@ export default function SearchShopping() {
   });
 
   useEffect(() => {
-    getProducts();
+    getProducts(0, false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters, query]);
 
-  function getProducts() {
+  function getProducts(from: number, concat: boolean) {
     dispatchSearch(
       searchMulti({
         q: query,
         filters: filters,
-        endpoints: [{ name: 'products', key: 'shopping' }],
+        endpoints: [{ name: 'products', key: 'shopping', from, concat }],
         total: 10,
       })
     );
@@ -58,21 +58,7 @@ export default function SearchShopping() {
   }
 
   function handleLoadMore() {
-    dispatchSearch(
-      searchMulti({
-        q: query,
-        filters: filters,
-        endpoints: [
-          {
-            name: 'products',
-            key: 'shopping',
-            from: products.length,
-            concat: true,
-          },
-        ],
-        total: 10,
-      })
-    );
+    getProducts(products.length, true);
   }
   useEffect(() => {}, [loading]);
 

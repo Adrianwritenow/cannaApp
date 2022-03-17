@@ -116,12 +116,12 @@ export async function combinedSearchQuery(searchProps: {
       coordinates: { lat: coords.lat, lon: coords.lon },
     });
 
-    body.sort('_geo_distance', {
-      coordinates: { lat: coords.lat, lon: coords.lon },
-      order: 'asc',
-      unit: 'mi',
-      distance_type: 'plane',
-    });
+    // body.sort('_geo_distance', {
+    //   coordinates: { lat: coords.lat, lon: coords.lon },
+    //   order: 'asc',
+    //   unit: 'mi',
+    //   distance_type: 'plane',
+    // });
   }
 
   // Build the body (JSON payload)

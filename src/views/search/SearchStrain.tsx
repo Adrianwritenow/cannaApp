@@ -34,16 +34,16 @@ export default function SearchStrain() {
   });
 
   useEffect(() => {
-    getStrains();
+    getStrains(0, false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query, filters]);
 
-  function getStrains() {
+  function getStrains(from: number, concat: boolean) {
     dispatchSearch(
       searchMulti({
         q: query,
         filters,
-        endpoints: [{ name: 'strains' }],
+        endpoints: [{ name: 'strains', from, concat }],
         total: 10,
       })
     );
@@ -53,20 +53,7 @@ export default function SearchStrain() {
     setFilters(data);
   }
   function handleLoadMore() {
-    dispatchSearch(
-      searchMulti({
-        q: query,
-        filters: filters,
-        endpoints: [
-          {
-            name: 'strains',
-            from: strains.length,
-            concat: true,
-          },
-        ],
-        total: 10,
-      })
-    );
+    getStrains(strains.length, true);
   }
 
   function categoryFilter(categoryQuery: string) {

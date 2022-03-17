@@ -41,14 +41,14 @@ export default function BlogByTag() {
           <h2 className="text-2xl tracking-tight font-semibold text-gray-700 sm:text-4xl">
             {tag}
           </h2>
-        </div>{' '}
+        </div>
         <div className=" grid gap-0 desktop:grid-cols-3 desktop:gap-x-5 desktop:gap-y-12">
           {blogs?.map((post, idx) => (
             <BlogArticleCardFeatured post={post} key={post._source.title[0]} />
           ))}
         </div>
         <>
-          {blogs?.length && (
+          {blogs?.length > 0 && (
             <>
               <div className="pt-9">
                 <h2 className="text-xl tracking-tight font-bold text-gray-700  my-6 sm:text-4xl">

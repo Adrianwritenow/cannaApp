@@ -33,12 +33,12 @@ export default function SearchDispensary() {
   const { distance, ...filterData } = filters;
 
   useEffect(() => {
-    getDispensaries();
+    getDispensaries(0, false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query, filters, coords]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  function getDispensaries() {
+  function getDispensaries(from: number, concat: boolean) {
     dispatchSearch(
       searchMulti({
         q: query,
@@ -50,6 +50,8 @@ export default function SearchDispensary() {
             name: 'dispenaries',
             key: 'dispensaries',
             geolocate: true,
+            concat,
+            from,
           },
         ],
         total: 10,
@@ -62,24 +64,7 @@ export default function SearchDispensary() {
   }
 
   function handleLoadMore() {
-    dispatchSearch(
-      searchMulti({
-        q: query,
-        filters: filterData,
-        distance: range,
-        coords: coords,
-        endpoints: [
-          {
-            name: 'dispenaries',
-            key: 'dispensaries',
-            from: dispensaries.length,
-            geolocate: true,
-            concat: true,
-          },
-        ],
-        total: 10,
-      })
-    );
+    getDispensaries(dispensaries.length, true);
   }
 
   return (

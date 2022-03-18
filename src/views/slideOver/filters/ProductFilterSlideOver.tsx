@@ -18,12 +18,19 @@ export default function ProductFilterSlideOver(props: {
   const [savedValues, setSavedValues]: any = useState({
     category: [''],
     sort: [''],
+    top_reported_flavors: [''],
   });
 
   useEffect(() => {
     setSavedValues({
       sort: filterProps.sort ? filterProps.sort : [''],
       category: filterProps.category ? filterProps.category : [''],
+      top_reported_flavors: filterProps.top_reported_flavors
+        ? filterProps.top_reported_flavors
+        : [''],
+      top_rated_effects: filterProps.top_rated_effects
+        ? filterProps.top_rated_effects
+        : [''],
     });
   }, [filterProps]);
 
@@ -32,10 +39,18 @@ export default function ProductFilterSlideOver(props: {
       ? values.category
       : [values.category];
     const sort = Array.isArray(values.sort) ? values.sort : [values.sort];
+    const top_reported_flavors = Array.isArray(values.top_reported_flavors)
+      ? values.top_reported_flavors
+      : [values.top_reported_flavors];
+    const top_rated_effects = Array.isArray(values.top_rated_effects)
+      ? values.top_rated_effects
+      : [values.top_rated_effects];
 
     const filters: any = {
       sort: sort,
       category: category,
+      top_reported_flavors: top_reported_flavors,
+      top_rated_effects: top_rated_effects,
     };
     setFilters(filters);
   }
@@ -102,7 +117,7 @@ export default function ProductFilterSlideOver(props: {
                                     type="button"
                                     key={`${keyName}_${index}`}
                                     onClick={() => {
-                                      removeFilter();
+                                      removeFilter(keyName);
                                     }}
                                     className="flex rounded-full border-2 border-gray-200 items-center px-4 py-2   text-sm font-medium bg-white text-gray-900 mx-1 w-max"
                                   >

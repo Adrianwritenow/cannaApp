@@ -74,6 +74,22 @@ export default function FilterProductMenu(props: FilterMenuProps) {
                           values={values.sort}
                           setFieldValue={setFieldValue}
                         />
+                        <FilterGroup
+                          filters={Filters.flavors.list}
+                          label={'Flavors'}
+                          id={'top_reported_flavors'}
+                          type="radio"
+                          values={values.top_reported_flavors}
+                          setFieldValue={setFieldValue}
+                        />
+                        <FilterGroup
+                          filters={Filters.feelings.list}
+                          label={'Effects'}
+                          id={'top_rated_effects'}
+                          type="radio"
+                          values={values.top_rated_effects}
+                          setFieldValue={setFieldValue}
+                        />
 
                         <FilterGroup
                           filters={Filters.pipes.list}

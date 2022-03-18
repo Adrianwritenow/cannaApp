@@ -18,6 +18,7 @@ interface FilterMenuProps {
 export default function FilterProductMenu(props: FilterMenuProps) {
   const { open, values, setOpen, icon, label, setFieldValue } = props;
 
+  console.log(values);
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog
@@ -72,6 +73,22 @@ export default function FilterProductMenu(props: FilterMenuProps) {
                           id={'sort'}
                           type="radio"
                           values={values.sort}
+                          setFieldValue={setFieldValue}
+                        />
+                        <FilterGroup
+                          filters={Filters.flavors.list}
+                          label={'Flavors'}
+                          id={'top_reported_flavors'}
+                          type="radio"
+                          values={values.top_reported_flavors}
+                          setFieldValue={setFieldValue}
+                        />
+                        <FilterGroup
+                          filters={Filters.feelings.list}
+                          label={'Effects'}
+                          id={'top_rated_effects'}
+                          type="radio"
+                          values={values.top_rated_effects}
                           setFieldValue={setFieldValue}
                         />
 

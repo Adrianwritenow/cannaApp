@@ -186,6 +186,31 @@ export default function ProductDetail() {
                       <span className="text-black">Category:&nbsp;</span>
                       {product?._source.category[0]}
                     </p>
+                    {product?._source.top_reported_flavors && (
+                      <p>
+                        <span className="text-black">
+                          Top Reported Flavors:&nbsp;
+                        </span>
+                        {product?._source.top_reported_flavors.map(
+                          (flavor: string) => (
+                            <span>{flavor},&nbsp;</span>
+                          )
+                        )}
+                      </p>
+                    )}
+
+                    {product?._source.top_rated_effects && (
+                      <p>
+                        <span className="text-black">
+                          Top Rated Effectas:&nbsp;
+                        </span>
+                        {product?._source.top_rated_effects.map(
+                          (effect: string) => (
+                            <span>{effect},&nbsp;</span>
+                          )
+                        )}
+                      </p>
+                    )}
                     {/* Need Cannabanoids data */}
 
                     {/* <div className="flex">

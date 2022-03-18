@@ -27,6 +27,8 @@ export default function SearchShopping() {
   const [filters, setFilters] = useState<any>({
     category: [`${category ? category : ''}`],
     sort: [`${sortQuery ? sortQuery : 'Relevance'}`],
+    top_rated_effects: [''],
+    top_reported_flavors: [''],
   });
 
   useEffect(() => {
@@ -45,11 +47,12 @@ export default function SearchShopping() {
     );
   }
 
-  function removeFilter(categoryQuery: string) {
-    handleFilter({
+  function removeFilter(keyname: string) {
+    const updatedFilter = {
       ...filters,
-      category: [''],
-    });
+    };
+    updatedFilter[keyname] = [''];
+    handleFilter(updatedFilter);
   }
 
   function handleFilter(data: any) {

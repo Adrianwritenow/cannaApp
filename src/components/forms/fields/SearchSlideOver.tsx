@@ -46,7 +46,7 @@ export default function SearchSlideOver(props: {
   const [open, setOpen] = useState(false);
   const locationSearch = useSearchFilters();
   const [query, setQuery] = useQueryParam('qs', withDefault(StringParam, ''));
-  const { label, coords } = useSearchLocation();
+  const { coords } = useSearchLocation();
   const [focus, setFocus] = useState('');
   const { listResults } = useSelector((root: RootState) => root.search);
   const inputRef = useRef<HTMLInputElement>(null);

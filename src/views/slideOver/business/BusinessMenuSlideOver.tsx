@@ -1,6 +1,6 @@
-import { Coupon, CouponResults } from '@/interfaces/coupon';
+import { CouponResults } from '@/interfaces/coupon';
 import { Dialog, Transition } from '@headlessui/react';
-import { Product, ProductResults } from '@/interfaces/product';
+import { ProductResults } from '@/interfaces/product';
 import React, { Fragment, useEffect, useState } from 'react';
 
 import { ArrowLeftIcon } from '@heroicons/react/outline';
@@ -63,11 +63,11 @@ export default function BusinessMenuSlideOver(props: {
       {/* Need Products related to business */}
       {products?.length || coupons?.length ? (
         <ProductResultsSection
-          list={products.length ? products.slice(0, 5) : coupons.slice(0, 5)}
+          list={products?.length ? products.slice(0, 5) : coupons.slice(0, 5)}
           sponsored={false}
           label={'Explore our Products'}
           buttonLabel={'See all Products'}
-          type={products.length ? '' : 'COUPON'}
+          type={products?.length ? '' : 'COUPON'}
           stateFunction={setOpen}
         />
       ) : (

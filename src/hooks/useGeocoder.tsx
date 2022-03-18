@@ -15,6 +15,7 @@ import { useSearchFilters } from './useSearchFilters';
 
 export function useGeocoder(geocoderRef: any, open: boolean = false) {
   const router = useRouter();
+  const { isReady } = router;
   const { type: searchType } = router.query;
 
   const dispatch = useDispatch();
@@ -22,6 +23,7 @@ export function useGeocoder(geocoderRef: any, open: boolean = false) {
     qsCoords: StringParam,
     qsLocation: StringParam,
   });
+  const { qsCoords, qsLocation } = query;
   const [geocodeInitialized, setGeocodeInitialized] = useState(false);
   const [geolocationSet, setGeolocationSet] = useState(false);
   const initialLocationCleared = useRef(false);
@@ -192,6 +194,32 @@ export function useGeocoder(geocoderRef: any, open: boolean = false) {
 
   // Get initial location data based on Client IP
   useEffect(() => {
+    if (!isReady) {
+      return;
+    }
+
+    if (qsCoords && qsLocation) {
+      const [lat, lon] = qsCoords.split(',');
+
+      // If we can set a lat/lon return afterwards so the IP lookup below is
+      // skipped.
+      if (lat && lon) {
+        dispatch(
+          setLocation({
+            lat: +lat,
+            lon: +lon,
+            city: qsLocation,
+            state: '',
+            preciseLocationSet: true,
+          })
+        );
+
+        return;
+      }
+    }
+
+    // If we get this far there was no lat/lon in the url so we need to check by
+    // IP address.
     async function getLocation() {
       const data: LocationData = await getLocationByIP();
       dispatch(setLocation(data));
@@ -202,7 +230,7 @@ export function useGeocoder(geocoderRef: any, open: boolean = false) {
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isReady]);
 
   return {
     geolocationSet,

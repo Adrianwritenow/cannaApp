@@ -3,6 +3,7 @@ import { StringParam, useQueryParam, withDefault } from 'next-query-params';
 
 import DispensaryFilterSlideOver from '../slideOver/filters/DispensaryFilterSlideOver';
 import { DispensaryResults } from '@/interfaces/dispensary';
+import { IAxiosReturn } from '@/interfaces/axios';
 import ListingSection from '../../components/sections/ListingSection';
 import { RootState } from '@/reducers';
 import SvgEmptyState from '@/public/assets/icons/iconComponents/EmptyState';
@@ -15,12 +16,13 @@ import { useSelector } from 'react-redux';
 export default function SearchDispensary() {
   const [query] = useQueryParam('qs', withDefault(StringParam, ''));
   const { listResults } = useSelector((root: RootState) => root.search);
-  const { results: dispensaries, total }: DispensaryResults =
+  const { results: dispensaries, total: dispensaryTotal }: DispensaryResults =
     listResults.dispensaries || [];
   const router = useRouter();
   const { category } = router.query;
   const { coords, label } = useSearchLocation();
   const [dispatchSearch, { loading }] = useAxios(false);
+  const [total, setTotal] = useState(0);
 
   const [filters, setFilters] = useState<any>({
     productType: [`${category ? category : ''}`],
@@ -56,7 +58,13 @@ export default function SearchDispensary() {
         ],
         total: 10,
       })
-    );
+    ).then((status: IAxiosReturn) => {
+      if (!status.success) {
+        return;
+      }
+      const searchResponse = status.response.data.responses[0] || {};
+      setTotal(searchResponse.hits?.total.value || 0);
+    });
   }
 
   function handleFilter(data: any) {
@@ -70,7 +78,7 @@ export default function SearchDispensary() {
   return (
     <div className="bg-gray-50">
       <DispensaryFilterSlideOver setFilters={handleFilter} />
-      <div>
+      <div className="pb-4">
         {dispensaries?.length ? (
           <div>
             <ListingSection
@@ -79,18 +87,20 @@ export default function SearchDispensary() {
               userCoords={coords}
               heading={` ${
                 query
-                  ? `${total} results for "${query}"`
-                  : `${total} results near "${label ?? 'you'}"`
+                  ? `${dispensaryTotal} results for "${query}"`
+                  : `${dispensaryTotal} results near "${label ?? 'you'}"`
               }`}
             />
-            <div className="flex justify-center py-10">
-              <button
-                onClick={handleLoadMore}
-                className="bg-green-500 text-white hover:bg-green-600 flex justify-center py-2 px-20 mt-5 border border-green rounded-md shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green"
-              >
-                Load More
-              </button>
-            </div>
+            {total > dispensaries.length && (
+              <div className="flex justify-center py-10">
+                <button
+                  onClick={handleLoadMore}
+                  className="bg-green-500 text-white hover:bg-green-600 flex justify-center py-2 px-20 mt-5 border border-green rounded-md shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green"
+                >
+                  Load More
+                </button>
+              </div>
+            )}
           </div>
         ) : (
           <div className="w-full flex items-center  flex-wrap justify-center h-full space-y-4 py-14">

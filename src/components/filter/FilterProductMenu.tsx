@@ -18,7 +18,6 @@ interface FilterMenuProps {
 export default function FilterProductMenu(props: FilterMenuProps) {
   const { open, values, setOpen, icon, label, setFieldValue } = props;
 
-  console.log(values);
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog

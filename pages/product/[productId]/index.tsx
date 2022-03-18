@@ -193,7 +193,7 @@ export default function ProductDetail() {
                         </span>
                         {product?._source.top_reported_flavors.map(
                           (flavor: string) => (
-                            <span>{flavor},&nbsp;</span>
+                            <span key={`${flavor}`}>{flavor},&nbsp;</span>
                           )
                         )}
                       </p>
@@ -202,11 +202,11 @@ export default function ProductDetail() {
                     {product?._source.top_rated_effects && (
                       <p>
                         <span className="text-black">
-                          Top Rated Effectas:&nbsp;
+                          Top Rated Effects:&nbsp;
                         </span>
                         {product?._source.top_rated_effects.map(
                           (effect: string) => (
-                            <span>{effect},&nbsp;</span>
+                            <span key={`${effect}`}>{effect},&nbsp;</span>
                           )
                         )}
                       </p>
